@@ -15,3 +15,4 @@ I wanted a startpage - here goes
 - Background is animated (boids?)
 - Quote of the day or a photo that changes each day?
 - facebook messengers?
+- have my website control something? my spotify? any home automation/??
