@@ -1,10 +1,7 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import {
-  NiwaResponse, TransformedNiwaData
-} from "../../types/niwa";
+import { NiwaResponse, TransformedNiwaData } from "../../types/niwa";
 
 export default async function handler(
-  req: NextApiRequest,
   res: NextApiResponse
 ) {
   const niwaKey = process.env.NIWA_API_KEY;
@@ -12,14 +9,17 @@ export default async function handler(
   const niwaURL = process.env.NIWA_API_URL;
 
   if (!niwaKey || !niwaSecret || !niwaURL) {
-    res.status(500).send("Missing environment config data");
-    return;
+    return res.status(500).send("Missing environment config data");
   }
 
   try {
     const niwaRes = await fetch(niwaURL + "?lat=-41.2924&long=174.7787", {
       headers: { "Content-Type": "application/json", "x-apikey": niwaKey },
     });
+
+    if (niwaRes.status !== 200) {
+      return res.status(500).json("Bad request to niwa");
+    }
 
     const data = (await niwaRes.json()) as NiwaResponse;
 
@@ -34,14 +34,26 @@ export default async function handler(
 
 const transformNiwaData = (data: NiwaResponse): TransformedNiwaData[] => {
   const timeValuePairs = [] as TransformedNiwaData[];
+  // no way to select what dates you want, have to pull down 3 days of data
+  const valuesTakenFromResponse = 45;
+  const valuesSkippedFromResponse = 10;
 
-  data.products[0].values.slice(0, 35).forEach((val) => {
-    timeValuePairs.push({ name: val.time, sunny: val.value, cloudy: 0 });
-  });
+  data.products[0].values
+    .slice(valuesSkippedFromResponse, valuesTakenFromResponse)
+    .forEach((val) => {
+      timeValuePairs.push({
+        // strip down the time from 2021-12-14T10:00:00.000Z to 10:00
+        name: val.time.slice(11).slice(undefined, 5),
+        sunny: val.value,
+        cloudy: 0,
+      });
+    });
 
-  data.products[1].values.slice(0, 35).forEach((val, idx) => {
-    timeValuePairs[idx].cloudy = val.value;
-  });
+  data.products[1].values
+    .slice(valuesSkippedFromResponse, valuesTakenFromResponse)
+    .forEach((val, idx) => {
+      timeValuePairs[idx].cloudy = val.value;
+    });
 
   console.log(timeValuePairs);
 
