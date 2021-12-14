@@ -2,6 +2,7 @@ import { NextApiRequest, NextApiResponse } from "next";
 import { NiwaResponse, TransformedNiwaData } from "../../types/niwa";
 
 export default async function handler(
+  req: NextApiRequest,
   res: NextApiResponse
 ) {
   const niwaKey = process.env.NIWA_API_KEY;
@@ -35,8 +36,8 @@ export default async function handler(
 const transformNiwaData = (data: NiwaResponse): TransformedNiwaData[] => {
   const timeValuePairs = [] as TransformedNiwaData[];
   // no way to select what dates you want, have to pull down 3 days of data
+  const valuesSkippedFromResponse = 0;
   const valuesTakenFromResponse = 45;
-  const valuesSkippedFromResponse = 10;
 
   data.products[0].values
     .slice(valuesSkippedFromResponse, valuesTakenFromResponse)
