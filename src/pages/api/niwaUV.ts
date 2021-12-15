@@ -42,9 +42,9 @@ const transformNiwaData = (data: NiwaResponse): TransformedNiwaData[] => {
   data.products[0].values
     .slice(valuesSkippedFromResponse, valuesTakenFromResponse)
     .forEach((val) => {
+      const time = new Date(val.time);
       timeValuePairs.push({
-        // strip down the time from 2021-12-14T10:00:00.000Z to 10:00
-        name: val.time.slice(11).slice(undefined, 5),
+        name: time.toLocaleTimeString(),
         sunny: val.value,
         cloudy: 0,
       });

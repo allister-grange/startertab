@@ -17,8 +17,7 @@ const Home: NextPage = () => {
       const data = (await res.json()) as TransformedNiwaData[];
 
       setNiwaData(data);
-    }
-    catch(err) {
+    } catch (err) {
       console.error(err);
     }
   };
@@ -26,20 +25,20 @@ const Home: NextPage = () => {
   return (
     <div className={styles.container}>
       <ColorModeSwitcher />
-      {/* <Center height="100vh" display={"flex"} flexDir="column"> */}
-        <Box>
-          <Heading>First push</Heading>
-        </Box>
-        <Box>
-          <Button onClick={getNiwaData}>Get my data biotch</Button>
-        </Box>
-        <Grid>
-          <GridItem bg="orange" borderRadius="15" w="550px" mt="10" py="5">
-            <Heading fontSize="2xl" ml="10" mb="4">UV Wellington</Heading>
-            <NiwaUvGraph niwaData={niwaData} />
-          </GridItem>
-        </Grid>
-      {/* </Center> */}
+      <Box>
+        <Heading>First push</Heading>
+      </Box>
+      <Box>
+        <Button onClick={getNiwaData}>Get my data biotch</Button>
+      </Box>
+      <Grid p="5">
+        <GridItem bg="orange" borderRadius="15" w="525px" mt="10" py="5">
+          <Heading fontSize="2xl" ml="10" mb="4">
+            UV Wellington
+          </Heading>
+          <NiwaUvGraph niwaData={niwaData} />
+        </GridItem>
+      </Grid>
     </div>
   );
 };
