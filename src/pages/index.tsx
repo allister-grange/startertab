@@ -1,8 +1,9 @@
-import { Box, Button, Center, Heading } from "@chakra-ui/react";
+import { Box, Button, Center, Grid, GridItem, Heading } from "@chakra-ui/react";
 import type { NextPage } from "next";
 import { useState } from "react";
 import { CartesianGrid, XAxis, YAxis, Legend, Bar, BarChart } from "recharts";
 import ColorModeSwitcher from "../components/ColorModeSwitcher";
+import { NiwaUvGraph } from "../components/NiwaUvGraph";
 import styles from "../styles/Home.module.css";
 import { TransformedNiwaData } from "../types/niwa";
 
@@ -25,22 +26,20 @@ const Home: NextPage = () => {
   return (
     <div className={styles.container}>
       <ColorModeSwitcher />
-      <Center height="100vh" display={"flex"} flexDir="column">
+      {/* <Center height="100vh" display={"flex"} flexDir="column"> */}
         <Box>
           <Heading>First push</Heading>
         </Box>
         <Box>
           <Button onClick={getNiwaData}>Get my data biotch</Button>
         </Box>
-        <BarChart width={730} height={250} data={niwaData}>
-          <CartesianGrid strokeDasharray="3 3" />
-          <XAxis dataKey="name" angle={-90} />
-          <YAxis />
-          <Legend />
-          <Bar dataKey="sunny" fill="#8884d8" />
-          <Bar dataKey="cloudy" fill="#82ca9d" />
-        </BarChart>
-      </Center>
+        <Grid>
+          <GridItem bg="orange" borderRadius="15" w="550px" mt="10" py="5">
+            <Heading fontSize="2xl" ml="10" mb="4">UV Wellington</Heading>
+            <NiwaUvGraph niwaData={niwaData} />
+          </GridItem>
+        </Grid>
+      {/* </Center> */}
     </div>
   );
 };
