@@ -1,9 +1,9 @@
-import { Box, Button, Center, Grid, GridItem, Heading } from "@chakra-ui/react";
+import { Box, Button, Grid, GridItem, Heading } from "@chakra-ui/react";
 import type { NextPage } from "next";
 import { useState } from "react";
-import { CartesianGrid, XAxis, YAxis, Legend, Bar, BarChart } from "recharts";
 import ColorModeSwitcher from "../components/ColorModeSwitcher";
 import { NiwaUvGraph } from "../components/NiwaUvGraph";
+import { getApiUrl } from "../helpers/getApiUrl";
 import styles from "../styles/Home.module.css";
 import { TransformedNiwaData } from "../types/niwa";
 
@@ -13,7 +13,7 @@ const Home: NextPage = () => {
 
   const getNiwaData = async () => {
     try {
-      const res = await fetch(process.env.API_URL + "/api/niwaUV");
+      const res = await fetch(getApiUrl() + "/api/niwaUV");
       const data = (await res.json()) as TransformedNiwaData[];
 
       setNiwaData(data);
