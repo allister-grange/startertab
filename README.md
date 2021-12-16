@@ -4,15 +4,16 @@ I wanted a startpage - here goes
 
 ## Desires
 
-- UV index for the day (current, peak for the day, use NIWA)
+- [X] UV index for the day (current, peak for the day, use NIWA)
+  - [] Need to sort out the dates/times
+- A running todo list that I can interact with? (google keep api)
 - How many buses are late for that day or something?
 - Running/swimming/steps stats for that day
 - Heart rate
 - Live location?
-- A running todo list that I can interact with?
-- Gotta be mobile friendly
 - Quick links (lane availability?)
 - Background is animated (boids?)
 - Quote of the day or a photo that changes each day?
 - facebook messengers?
 - have my website control something? my spotify? any home automation/??
+- Gotta be mobile friendly
