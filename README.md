@@ -6,7 +6,7 @@ I wanted a startpage - here goes
 
 - [X] UV index for the day (current, peak for the day, use NIWA)
   - [] Need to sort out the dates/times
-- A running todo list that I can interact with? (google keep api)
+- A running todo list that I can interact with? (google keep api is only for enterprise :( )
 - How many buses are late for that day or something?
 - Running/swimming/steps stats for that day
 - Heart rate

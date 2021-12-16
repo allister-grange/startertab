@@ -3,6 +3,7 @@ import type { NextPage } from "next";
 import Link from "next/link";
 import ColorModeSwitcher from "../components/ColorModeSwitcher";
 import { NiwaUvGraph } from "../components/NiwaUvGraph";
+import { SearchBar } from "../components/SearchBar";
 import { SwimmingPoolTimeTable } from "../components/SwimmingPoolTimeTable";
 import styles from "../styles/Home.module.css";
 
@@ -20,9 +21,11 @@ const Home: NextPage = () => {
         <GridItem bg="orange" colSpan={2} borderRadius="15" w="525px" py="5">
           <NiwaUvGraph />
         </GridItem>
-        <GridItem borderRadius="15" colSpan={2} bg="papayawhip" />
-        <GridItem borderRadius="15" colSpan={4} bg="blue">
+        <GridItem borderRadius="15" colSpan={2} bg="papayawhip">
           <SwimmingPoolTimeTable />
+        </GridItem>
+        <GridItem borderRadius="15" colSpan={4} bg="blue">
+          <SearchBar />
         </GridItem>
       </Grid>
       <Grid p="5"></Grid>
