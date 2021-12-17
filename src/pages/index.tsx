@@ -18,7 +18,7 @@ const Home: NextPage = () => {
         gap={4}
       >
         <GridItem borderRadius="15" rowSpan={2} colSpan={1} bg="tomato" />
-        <GridItem bg="orange" colSpan={2} borderRadius="15" w="525px" py="5">
+        <GridItem bg="orange" colSpan={2} borderRadius="15" py="5">
           <NiwaUvGraph />
         </GridItem>
         <GridItem borderRadius="15" colSpan={2} bg="papayawhip">
