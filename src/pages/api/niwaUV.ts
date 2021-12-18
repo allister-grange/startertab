@@ -35,28 +35,36 @@ export default async function handler(
 
 const transformNiwaData = (data: NiwaResponse): TransformedNiwaData[] => {
   const timeValuePairs = [] as TransformedNiwaData[];
-  // no way to select what dates you want, have to pull down 3 days of data
-  const valuesSkippedFromResponse = 0;
-  const valuesTakenFromResponse = 45;
 
-  data.products[0].values
-    .slice(valuesSkippedFromResponse, valuesTakenFromResponse)
-    .forEach((val) => {
-      const time = new Date(val.time);
-      timeValuePairs.push({
-        name: time.toLocaleTimeString(),
-        sunny: val.value,
-        cloudy: 0,
-      });
+  data.products[0].values.forEach((val) => {
+    timeValuePairs.push({
+      name: val.time,
+      sunny: val.value,
+      cloudy: 0,
     });
+  });
 
-  data.products[1].values
-    .slice(valuesSkippedFromResponse, valuesTakenFromResponse)
-    .forEach((val, idx) => {
-      timeValuePairs[idx].cloudy = val.value;
-    });
+  data.products[1].values.forEach((val, idx) => {
+    timeValuePairs[idx].cloudy = val.value;
+  });
 
-  console.log(timeValuePairs);
+  // no way to select what dates/times you want, have to pull down 3 days of data
+  // we only want to parse the midday values
+  const timeValuePairsFromMidday = timeValuePairs.filter((timeValuePair) => {
+    const date = new Date(timeValuePair.name);
+    const hours = date.getHours();
+    const inNext24Hours =
+      date.getTime() <=
+      new Date(new Date().getTime() + 24 * 60 * 60 * 1000).getTime();
+    return hours >= 6 && hours <= 21 && inNext24Hours;
+  });
 
-  return timeValuePairs;
+  // convert the date to a friendly name for the graph
+  timeValuePairsFromMidday.forEach((val, idx) => {
+    const time = timeValuePairs[idx].name;
+    const date = new Date(time);
+    timeValuePairs[idx].name = date.toLocaleTimeString();
+  });
+
+  return timeValuePairsFromMidday;
 };

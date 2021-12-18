@@ -34,7 +34,7 @@ export const NiwaUvGraph: React.FC<NiwaUvGraphProps> = () => {
   return (
     <div>
       <Heading color="white" fontSize="2xl" ml="10" mb="4">
-        UV Wellington
+        UV Index Wellington
       </Heading>
 
       {niwaData ? (
