@@ -8,14 +8,14 @@ export const SwimmingPoolTimeTable: React.FC<SwimmingPoolTimeTableProps> =
   ({}) => {
     return (
       <Center height="100%" display="flex" flexDir="column">
-        <Heading color="blue">swimming lanes</Heading>
+        <Heading color="#006DFF">swimming lanes</Heading>
         <Box mt="2">
-          <Heading color="blue" fontSize="xl" display="inline-block">
+          <Heading color="#006DFF" fontSize="xl" display="inline-block">
             <Link href="https://wellington.govt.nz/recreation/facilities-and-centres/swimming-pools/keith-spry-pool#facilities">
               keith spry |
             </Link>
           </Heading>
-          <Heading color="blue" fontSize="xl" display="inline-block">
+          <Heading color="#006DFF" fontSize="xl" display="inline-block">
             <Link href="https://wellington.govt.nz/recreation/facilities-and-centres/swimming-pools/freyberg-pool#facilities">
               &nbsp;freyberg
             </Link>
