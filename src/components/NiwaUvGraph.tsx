@@ -6,7 +6,7 @@ import {
   Legend,
   ResponsiveContainer,
   XAxis,
-  YAxis,
+  YAxis
 } from "recharts";
 import { getApiUrl } from "../helpers/getApiUrl";
 import { TransformedNiwaData } from "../types/niwa";
@@ -19,7 +19,7 @@ export const NiwaUvGraph: React.FC<NiwaUvGraphProps> = () => {
   useEffect(() => {
     const getNiwaData = async () => {
       try {
-        const res = await fetch(getApiUrl() + "/api/niwaUV");
+        const res = await fetch("/api/niwaUV");
         const data = (await res.json()) as TransformedNiwaData[];
 
         setNiwaData(data);
@@ -49,7 +49,7 @@ export const NiwaUvGraph: React.FC<NiwaUvGraphProps> = () => {
         </ResponsiveContainer>
       ) : (
         <Center minH="250">
-          <Spinner />
+          <Spinner color="white" />
         </Center>
       )}
     </div>

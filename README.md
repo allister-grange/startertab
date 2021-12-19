@@ -16,4 +16,6 @@ I wanted a startpage - here goes
 - Quote of the day or a photo that changes each day?
 - facebook messengers?
 - have my website control something? my spotify? any home automation/??
+- draw a little bonsai tree
+- have some art pulled from an API?
 - Gotta be mobile friendly
