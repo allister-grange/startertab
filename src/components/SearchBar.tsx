@@ -8,7 +8,7 @@ import { StackOverFlowIcon } from "./StackOverFlowIcon";
 
 export const SearchBar: React.FC = () => {
   const router = useRouter();
-  const [searchTerm, setSearchTerm] = useState("");
+  const [searchTerm, setSearchTerm] = useState<undefined | string>(undefined);
 
   type AppTypes = "google" | "duck" | "stackoverflow";
 
@@ -32,19 +32,20 @@ export const SearchBar: React.FC = () => {
 
   return (
     <Center height="100%">
-      <Button onClick={() => searchClick("duck")}>
+      <Button bg="transparent" onClick={() => searchClick("duck")}>
         <DuckDuckGoIcon w={10} h={10} />
       </Button>
-      <Button onClick={() => searchClick("google")}>
+      <Button bg="transparent" onClick={() => searchClick("google")}>
         <GoogleIcon w={9} h={9} />
       </Button>
-      <Button onClick={() => searchClick("stackoverflow")}>
+      <Button bg="transparent" onClick={() => searchClick("stackoverflow")}>
         <StackOverFlowIcon w={10} h={10} />
       </Button>
       <Input
         width={400}
         bg="white"
         color="#202020"
+        placeholder="search me"
         onChange={(e) => setSearchTerm(e.target.value)}
         value={searchTerm}
       />

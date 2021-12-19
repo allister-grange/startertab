@@ -63,7 +63,7 @@ export const Time: React.FC<TimeProps> = ({}) => {
           type="number"
           value={timerPlaceholder}
           onChange={(e) => setTimerPlaceholder(parseInt(e.target.value))}
-          placeholder="minute timer"
+          placeholder="timer"
           colorScheme="white"
           mb="4"
           mr="1"

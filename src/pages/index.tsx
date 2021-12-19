@@ -13,8 +13,8 @@ const Home: NextPage = () => {
     <div className={styles.container}>
       <ColorModeSwitcher />
       <Grid
-        h="80vh"
-        templateRows="repeat(4, 1fr)"
+        h="100vh"
+        templateRows="repeat(5, 1fr)"
         templateColumns="repeat(5, 1fr)"
         gap={4}
       >
