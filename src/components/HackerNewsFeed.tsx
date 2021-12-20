@@ -26,7 +26,7 @@ export const HackerNewsFeed: React.FC = () => {
       {hackerNewsLinks ? (
         hackerNewsLinks.map((link) => (
           <Box key={link.title} p="2" pr="4">
-            <Link to={link.url}>
+            <Link href={link.url}>
               <Heading fontSize="md">{link.title}</Heading>
             </Link>
           </Box>
