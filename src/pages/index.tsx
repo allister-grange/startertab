@@ -4,6 +4,7 @@ import ColorModeSwitcher from "../components/ColorModeSwitcher";
 import { HackerNewsFeed } from "../components/HackerNewsFeed";
 import { NiwaUvGraph } from "../components/NiwaUvGraph";
 import { SearchBar } from "../components/SearchBar";
+import { StravaGraph } from "../components/StravaGraph";
 import { SwimmingPoolTimeTable } from "../components/SwimmingPoolTimeTable";
 import { Time } from "../components/Time";
 import styles from "../styles/Home.module.css";
@@ -47,7 +48,8 @@ const Home: NextPage = () => {
           <Box>quick link</Box>
         </GridItem>
         <GridItem borderRadius="15" colSpan={1} rowSpan={2} bg="#9AB899">
-          <Box>something tall / running swimming progress?</Box>
+          {/* <Box>something tall / running swimming progress?</Box> */}
+          <StravaGraph />
         </GridItem>
         <GridItem borderRadius="15" colSpan={1} bg="#9AB899">
           <Box>quick link</Box>
