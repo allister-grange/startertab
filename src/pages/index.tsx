@@ -1,7 +1,7 @@
-import { Box, Center, Grid, GridItem, Heading } from "@chakra-ui/react";
+import { Grid, GridItem } from "@chakra-ui/react";
 import type { NextPage } from "next";
-import Link from "next/link";
 import ColorModeSwitcher from "../components/ColorModeSwitcher";
+import { HackerNewsFeed } from "../components/HackerNewsFeed";
 import { NiwaUvGraph } from "../components/NiwaUvGraph";
 import { SearchBar } from "../components/SearchBar";
 import { SwimmingPoolTimeTable } from "../components/SwimmingPoolTimeTable";
@@ -18,7 +18,16 @@ const Home: NextPage = () => {
         templateColumns="repeat(5, 1fr)"
         gap={4}
       >
-        <GridItem borderRadius="15" rowSpan={2} colSpan={1} bg="tomato" />
+        <GridItem
+          borderRadius="15"
+          rowSpan={2}
+          colSpan={1}
+          bg="tomato"
+          overflowY="scroll"
+          className={styles.disableScrollbars}
+        >
+          <HackerNewsFeed />
+        </GridItem>
         <GridItem bg="orange" colSpan={2} borderRadius="15" py="5">
           <NiwaUvGraph />
         </GridItem>
