@@ -6,12 +6,13 @@ I wanted a startpage - here goes
 
 - [X] UV index for the day (current, peak for the day, use NIWA)
   - [] Need to sort out the dates/times
+- Quick links 
+  - [X] swimming lane availability
 - A running todo list that I can interact with? (google keep api is only for enterprise :( )
 - How many buses are late for that day or something?
 - Running/swimming/steps stats for that day
 - Heart rate
 - Live location?
-- Quick links (lane availability?)
 - Background is animated (boids?)
 - Quote of the day or a photo that changes each day?
 - facebook messengers?

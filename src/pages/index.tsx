@@ -1,4 +1,4 @@
-import { Grid, GridItem } from "@chakra-ui/react";
+import { Box, Grid, GridItem } from "@chakra-ui/react";
 import type { NextPage } from "next";
 import ColorModeSwitcher from "../components/ColorModeSwitcher";
 import { HackerNewsFeed } from "../components/HackerNewsFeed";
@@ -39,6 +39,21 @@ const Home: NextPage = () => {
         </GridItem>
         <GridItem borderRadius="15" colSpan={1} bg="#9AB899">
           <Time />
+        </GridItem>
+        <GridItem borderRadius="15" colSpan={2} rowSpan={2} bg="#9AB899">
+          <Box>bonsai</Box>
+        </GridItem>
+        <GridItem borderRadius="15" colSpan={1} rowSpan={1} bg="#9AB899">
+          <Box>quick link</Box>
+        </GridItem>
+        <GridItem borderRadius="15" colSpan={1} rowSpan={2} bg="#9AB899">
+          <Box>something tall / running swimming progress?</Box>
+        </GridItem>
+        <GridItem borderRadius="15" colSpan={1} bg="#9AB899">
+          <Box>quick link</Box>
+        </GridItem>
+        <GridItem borderRadius="15" colSpan={1} bg="#9AB899">
+          <Box>quick link/toggle for light/dark mode?</Box>
         </GridItem>
       </Grid>
     </div>
