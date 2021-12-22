@@ -1,4 +1,9 @@
 import { NextApiRequest, NextApiResponse } from "next";
+import {
+  StravaActivity,
+  StravaGraphData,
+  StravaGraphPoint,
+} from "../../types/strava";
 
 export default async function handler(
   req: NextApiRequest,
@@ -44,7 +49,9 @@ export default async function handler(
 
     const activitiesJson = await activitiesRes.json();
 
-    res.status(200).json(activitiesJson);
+    const formattedStravaData = formatStravaData(activitiesJson);
+
+    res.status(200).json(formattedStravaData);
   } catch (err) {
     console.error(err);
     return res.status(500).json(err);
@@ -56,4 +63,58 @@ const getMonday = (date: Date) => {
   let day = date.getDay(),
     diff = date.getDate() - day + (day == 0 ? -6 : 1); // adjust when day is sunday
   return new Date(date.setDate(diff));
+};
+
+// I want two lots of data (swimming and running)
+const formatStravaData = (data: StravaActivity[]) => {
+  const formattedStravaData = getEmptyStravaData();
+
+  data.forEach((activity) => {
+    if (activity.type === "Run") {
+      formattedStravaData.running.forEach((activityToFind) => {
+        if (
+          activityToFind.day === getDayName(new Date(activity.start_date_local))
+        ) {
+          activityToFind.distance = Math.round((activity.distance / 1000) * 10) / 10;
+        }
+      });
+    } else if (activity.type === "Swim") {
+      formattedStravaData.swimming.forEach((activityToFind) => {
+        if (
+          activityToFind.day === getDayName(new Date(activity.start_date_local))
+        ) {
+          activityToFind.distance = Math.round((activity.distance / 1000) * 10) / 10;
+        }
+      });    }
+  });
+
+  return formattedStravaData;
+};
+
+function getDayName(date: Date) {
+  return date.toLocaleDateString("en-NZ", { weekday: "long" });
+}
+
+const getEmptyStravaData = (): StravaGraphData => {
+  const formattedStravaData: StravaGraphData = {
+    swimming: [] as StravaGraphPoint[],
+    running: [] as StravaGraphPoint[],
+  };
+
+  formattedStravaData.running.push({ day: "Monday", distance: 0 });
+  formattedStravaData.running.push({ day: "Tuesday", distance: 0 });
+  formattedStravaData.running.push({ day: "Wednesday", distance: 0 });
+  formattedStravaData.running.push({ day: "Thursday", distance: 0 });
+  formattedStravaData.running.push({ day: "Friday", distance: 0 });
+  formattedStravaData.running.push({ day: "Saturday", distance: 0 });
+  formattedStravaData.running.push({ day: "Sunday", distance: 0 });
+  formattedStravaData.swimming.push({ day: "Monday", distance: 0 });
+  formattedStravaData.swimming.push({ day: "Tuesday", distance: 0 });
+  formattedStravaData.swimming.push({ day: "Wednesday", distance: 0 });
+  formattedStravaData.swimming.push({ day: "Thursday", distance: 0 });
+  formattedStravaData.swimming.push({ day: "Friday", distance: 0 });
+  formattedStravaData.swimming.push({ day: "Saturday", distance: 0 });
+  formattedStravaData.swimming.push({ day: "Sunday", distance: 0 });
+
+  return formattedStravaData;
 };

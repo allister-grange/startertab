@@ -56,3 +56,13 @@ export interface Map {
   summary_polyline: any
   resource_state: number
 }
+
+export interface StravaGraphPoint {
+  day: string,
+  distance: number
+}
+
+export interface StravaGraphData {
+  swimming: StravaGraphPoint[],
+  running: StravaGraphPoint[]
+}
