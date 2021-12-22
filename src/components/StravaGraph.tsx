@@ -1,26 +1,37 @@
-import { Box, Button } from "@chakra-ui/react";
-import React, { useEffect } from "react";
+import { Box, Button, Center, Spinner } from "@chakra-ui/react";
+import React, { useEffect, useState } from "react";
+import { StravaActivity } from "../types/strava";
 
 export const StravaGraph: React.FC = ({}) => {
-  
-  const makeCallToStravaApi = async () => {
-    try {
-      const res = await fetch(
-        `http://www.strava.com/oauth/authorize?client_id=${process.env.STRAVA_CLIENT}&response_type=code&redirect_uri=http://localhost/exchange_token&approval_prompt=force&scope=activity%3Aread_all`
-      );
+  const [stravaData, setStravaData] = useState<undefined | StravaActivity[]>();
 
-      const data = await res.json();
+  useEffect(() => {
+    const makeCallToStravaApi = async () => {
+      try {
+        const res = await fetch(
+          `/api/strava`
+        );
 
-      console.log(data);
-    } catch (err) {
-      console.error(err);
-    }
-  };
+        const data = await res.json();
 
-  // useEffect(() => {
+        setStravaData(data);
+      } catch (err) {
+        console.error(err);
+      }
+    };
 
-  //   makeCallToStravaApi();
-  // }, []);
+    makeCallToStravaApi();
+  }, []);
 
-  return <Button onClick={makeCallToStravaApi}>authorise with strava</Button>;
+  return (
+    <Box>
+      {stravaData ? (
+        <Box>hellooo</Box>
+      ) : (
+        <Center height="280px">
+          <Spinner />
+        </Center>
+      )}
+    </Box>
+  );
 };

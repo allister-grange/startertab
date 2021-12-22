@@ -1,8 +1,4 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import {
-  HackerNewsApiItem,
-  HackerNewsLinkHolder,
-} from "../../types/hackernews";
 
 export default async function handler(
   req: NextApiRequest,
@@ -36,17 +32,17 @@ export default async function handler(
 
     // get the offset between NZ time and UTC
     const tzoffset = nzTimeZone.getTimezoneOffset() * 60000; // offset in milliseconds
-    const correctedTimeZone = new Date(Date.now() - tzoffset)
+    const correctedTimeZone = new Date(Date.now() - tzoffset);
 
-    const mondayDate = Math.floor(getMonday(correctedTimeZone).getTime() / 1000);
+    const mondayDate = Math.floor(
+      getMonday(correctedTimeZone).getTime() / 1000
+    );
 
     const activitiesRes = await fetch(
       `https://www.strava.com/api/v3/athlete/activities?access_token=${reAuthJson.access_token}&after=${mondayDate}`
     );
 
     const activitiesJson = await activitiesRes.json();
-
-    // console.log(activitiesJson);
 
     res.status(200).json(activitiesJson);
   } catch (err) {

@@ -41,14 +41,13 @@ const Home: NextPage = () => {
         <GridItem borderRadius="15" colSpan={1} bg="#9AB899">
           <Time />
         </GridItem>
-        <GridItem borderRadius="15" colSpan={2} rowSpan={2} bg="#9AB899">
+        <GridItem borderRadius="15" colSpan={1} rowSpan={2} bg="#9AB899">
           <Box>bonsai</Box>
         </GridItem>
         <GridItem borderRadius="15" colSpan={1} rowSpan={1} bg="#9AB899">
           <Box>quick link</Box>
         </GridItem>
-        <GridItem borderRadius="15" colSpan={1} rowSpan={2} bg="#9AB899">
-          {/* <Box>something tall / running swimming progress?</Box> */}
+        <GridItem borderRadius="15" colSpan={2} rowSpan={2} bg="#9AB899">
           <StravaGraph />
         </GridItem>
         <GridItem borderRadius="15" colSpan={1} bg="#9AB899">
