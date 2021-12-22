@@ -53,11 +53,19 @@ const transformNiwaData = (data: NiwaResponse): TransformedNiwaData[] => {
   const timeValuePairsFromMidday = timeValuePairs.filter((timeValuePair) => {
     const date = new Date(timeValuePair.name);
     const hours = date.getHours();
-    const tzOffset = new Date().getTimezoneOffset() * 60000; // offset in milliseconds
-    const localTimeZone = new Date(Date.now() - tzOffset);
+    
+    // get the time in NZ compared to UTC
+    const nzTimeZone = new Date(
+      new Date().toLocaleString("en-US", { timeZone: "Pacific/Auckland" })
+    );
+
+    // get the offset between NZ time and UTC
+    const tzoffset = nzTimeZone.getTimezoneOffset() * 60000; // offset in milliseconds
+    const correctedTimeZone = new Date(Date.now() - tzoffset);
+
     const inNext24Hours =
       date.getTime() <=
-      new Date(localTimeZone.getTime() + 24 * 60 * 60 * 1000).getTime();
+      new Date(correctedTimeZone.getTime() + 24 * 60 * 60 * 1000).getTime();
     return hours >= 6 && hours <= 21 && inNext24Hours;
   });
 
