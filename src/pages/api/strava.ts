@@ -29,14 +29,10 @@ export default async function handler(
 
     const reAuthJson = await reauthouriseRes.json();
 
-    // todo, get this working for NZ timezone
-    const mondayDate = Math.floor(
-      getMonday(
-        new Date(new Date().toLocaleString("en-NZ", { timeZone: "Pacific/Auckland" }))
-      ).getTime() / 1000
-    );
+    const tzOffset = new Date().getTimezoneOffset() * 60000; // offset in milliseconds
+    const localTimeZone = new Date(Date.now() - tzOffset);
 
-    console.log(mondayDate);
+    const mondayDate = Math.floor(getMonday(localTimeZone).getTime() / 1000);
 
     const activitiesRes = await fetch(
       `https://www.strava.com/api/v3/athlete/activities?access_token=${reAuthJson.access_token}&after=${mondayDate}`
