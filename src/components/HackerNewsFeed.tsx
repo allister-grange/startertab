@@ -20,7 +20,7 @@ export const HackerNewsFeed: React.FC = () => {
   }, []);
 
   return (
-    <Box>
+    <Box p="2">
       <Heading p="2" fontSize="xl">Hacker News Feed</Heading>
       <Box w="80%" bg="white" height="1px" ml="2"/>
       {hackerNewsLinks ? (

@@ -1,17 +1,24 @@
-import { Box, Center, Heading, Spinner, Switch, Text } from "@chakra-ui/react";
+import {
+  Box,
+  Center,
+  Heading,
+  Spinner,
+  Switch,
+  Text
+} from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
 import {
-  ResponsiveContainer,
-  BarChart,
-  XAxis,
-  YAxis,
-  Legend,
   Bar,
+  BarChart,
+  Cell, ResponsiveContainer,
+  XAxis,
+  YAxis
 } from "recharts";
-import { StravaActivity, StravaGraphData } from "../types/strava";
+import { StravaGraphData, StravaGraphPoint } from "../types/strava";
 
 export const StravaGraph: React.FC = ({}) => {
   const [stravaData, setStravaData] = useState<undefined | StravaGraphData>();
+  const [showingSwim, setShowingSwim] = useState(false);
 
   useEffect(() => {
     const makeCallToStravaApi = async () => {
@@ -38,7 +45,10 @@ export const StravaGraph: React.FC = ({}) => {
         <Text ml="auto" mr="2">
           run
         </Text>
-        <Switch size="lg" />
+        <Switch
+          size="lg"
+          onChange={() => setShowingSwim((showingSwimming) => !showingSwimming)}
+        />
         <Text mr="80px" ml="2">
           swim
         </Text>
@@ -46,11 +56,31 @@ export const StravaGraph: React.FC = ({}) => {
       {stravaData ? (
         <Box mt="4">
           <ResponsiveContainer width="95%" height={250}>
-            <BarChart data={stravaData.running}>
-              <XAxis dataKey="day" tick={{ fontSize: 8 }} interval={0} />
-              <YAxis />
-              <Legend />
-              <Bar dataKey="distance" fill="white" />
+            <BarChart
+              data={showingSwim ? stravaData.swimming : stravaData.running}
+            >
+              <XAxis
+                label={undefined}
+                dataKey="day"
+                tick={{ fontSize: 12 }}
+                interval={0}
+                stroke="white"
+              />
+              <YAxis stroke="white" />
+              <Bar dataKey="distance" barSize={35}>
+                {stravaData.swimming.map((entry: StravaGraphPoint, index: number) => (
+                  <Cell
+                    key={`cell-${index}`}
+                    stroke={showingSwim ? "#0654A4" : "white"}
+                    strokeWidth={2}
+                    fill={
+                      showingSwim
+                        ? "rgba(6, 84, 164, 0.2)"
+                        : "rgba(255, 255, 255, 0.2)"
+                    }
+                  />
+                ))}
+              </Bar>
             </BarChart>
           </ResponsiveContainer>
         </Box>
