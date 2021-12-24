@@ -59,7 +59,7 @@ export const Time: React.FC<TimeProps> = ({}) => {
       <Box display="flex" flexDir="row">
         <Input
           borderColor="white"
-          color="white"
+          color="blue"
           type="number"
           value={timerPlaceholder}
           onChange={(e) => setTimerPlaceholder(parseInt(e.target.value))}

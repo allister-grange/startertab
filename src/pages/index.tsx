@@ -14,8 +14,8 @@ const Home: NextPage = () => {
     <div className={styles.container}>
       <ColorModeSwitcher />
       <Grid
-        h="100vh"
-        templateRows="repeat(5, 1fr)"
+        h="90vh"
+        templateRows="repeat(4, 1fr)"
         templateColumns="repeat(5, 1fr)"
         gap={4}
       >
@@ -23,37 +23,37 @@ const Home: NextPage = () => {
           borderRadius="15"
           rowSpan={2}
           colSpan={1}
-          bg="tomato"
+          bg="#30A56C"
           overflowY="scroll"
           className={styles.disableScrollbars}
         >
           <HackerNewsFeed />
         </GridItem>
-        <GridItem bg="orange" colSpan={2} borderRadius="15" py="5">
-          <NiwaUvGraph />
+        <GridItem bg="#F76808" colSpan={2} borderRadius="15" py="5">
+          <StravaGraph />
         </GridItem>
         <GridItem borderRadius="15" colSpan={2} bg="papayawhip">
           <SwimmingPoolTimeTable />
         </GridItem>
-        <GridItem borderRadius="15" colSpan={4} rowSpan={1} bg="#006DFF">
+        <GridItem borderRadius="15" colSpan={4} rowSpan={1} bg="#0654A4">
           <SearchBar />
         </GridItem>
         <GridItem borderRadius="15" colSpan={1} bg="#9AB899">
           <Time />
         </GridItem>
-        <GridItem borderRadius="15" colSpan={1} rowSpan={2} bg="#9AB899">
+        <GridItem borderRadius="15" colSpan={1} rowSpan={2} bg="papayawhip">
           <Box>bonsai</Box>
         </GridItem>
-        <GridItem borderRadius="15" colSpan={1} rowSpan={1} bg="#9AB899">
+        <GridItem borderRadius="15" colSpan={1} rowSpan={1} bg="#AB4AB9">
           <Box>quick link</Box>
         </GridItem>
-        <GridItem borderRadius="15" colSpan={2} rowSpan={2} bg="#9AB899">
-          <StravaGraph />
+        <GridItem borderRadius="15" colSpan={2} rowSpan={2} bg="#30A56C">
+          <NiwaUvGraph />
         </GridItem>
-        <GridItem borderRadius="15" colSpan={1} bg="#9AB899">
+        <GridItem borderRadius="15" colSpan={1} bg="#AB4AB9">
           <Box>quick link</Box>
         </GridItem>
-        <GridItem borderRadius="15" colSpan={1} bg="#9AB899">
+        <GridItem borderRadius="15" colSpan={1} bg="#0654A4">
           <Box>quick link/toggle for light/dark mode?</Box>
         </GridItem>
       </Grid>
