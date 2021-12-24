@@ -1,10 +1,10 @@
+import { MoonIcon, SunIcon } from "@chakra-ui/icons";
 import {
-  MoonIcon, SunIcon
-} from "@chakra-ui/icons";
-import {
+  Center,
   IconButton,
-  IconButtonProps, useColorMode,
-  useColorModeValue
+  IconButtonProps,
+  useColorMode,
+  useColorModeValue,
 } from "@chakra-ui/react";
 
 type ColorModeSwitcherProps = Omit<IconButtonProps, "aria-label">;
@@ -13,26 +13,26 @@ const ColorModeSwitcher = (props: ColorModeSwitcherProps) => {
   const { toggleColorMode } = useColorMode();
   const text = useColorModeValue("dark", "light");
   const SwitchIcon = useColorModeValue(MoonIcon, SunIcon);
-  const borderColor = useColorModeValue("purple.600", "purple.200");
+  // const borderColor = useColorModeValue("purple.600", "purple.200");
   const backgroundColor = useColorModeValue("white", "gray.700");
-  const color = useColorModeValue("purple.600", "purple.200");
+  // const color = useColorModeValue("purple.600", "purple.200");
 
   return (
-    <IconButton
-      size="md"
-      fontSize="lg"
-      color={color}
-      borderWidth="1px"
-      borderColor={borderColor}
-      backgroundColor={backgroundColor}
-      onClick={toggleColorMode}
-      icon={<SwitchIcon />}
-      aria-label={`Switch to ${text} mode`}
-      position={"fixed"}
-      top="5"
-      right="5"
-      {...props}
-    />
+    <Center height="100%">
+      <IconButton
+        size="3xl"
+        fontSize="50px"
+        _hover={{background: "transparent"}}
+        _focus={{border: "0px"}}
+        _active={{background: "transparent"}}
+        color="white"
+        backgroundColor={"transparent"}
+        onClick={toggleColorMode}
+        icon={<SwitchIcon />}
+        aria-label={`Switch to ${text} mode`}
+        {...props}
+      />
+    </Center>
   );
 };
 

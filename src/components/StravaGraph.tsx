@@ -85,7 +85,7 @@ export const StravaGraph: React.FC = ({}) => {
           </ResponsiveContainer>
         </Box>
       ) : (
-        <Center height="200px">
+        <Center minHeight="265px">
           <Spinner />
         </Center>
       )}

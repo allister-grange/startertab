@@ -1,5 +1,6 @@
 import { Box, Grid, GridItem } from "@chakra-ui/react";
 import type { NextPage } from "next";
+import Bonsai from "../components/Bonsai";
 import ColorModeSwitcher from "../components/ColorModeSwitcher";
 import { HackerNewsFeed } from "../components/HackerNewsFeed";
 import { NiwaUvGraph } from "../components/NiwaUvGraph";
@@ -12,7 +13,6 @@ import styles from "../styles/Home.module.css";
 const Home: NextPage = () => {
   return (
     <div className={styles.container}>
-      <ColorModeSwitcher />
       <Grid
         h="90vh"
         templateRows="repeat(4, 1fr)"
@@ -42,7 +42,7 @@ const Home: NextPage = () => {
           <Time />
         </GridItem>
         <GridItem borderRadius="15" colSpan={1} rowSpan={2} bg="papayawhip">
-          <Box>bonsai</Box>
+          <Bonsai />
         </GridItem>
         <GridItem borderRadius="15" colSpan={1} rowSpan={1} bg="#AB4AB9">
           <Box>quick link</Box>
@@ -51,7 +51,7 @@ const Home: NextPage = () => {
           <NiwaUvGraph />
         </GridItem>
         <GridItem borderRadius="15" colSpan={1} bg="#AB4AB9">
-          <Box>quick link</Box>
+          <ColorModeSwitcher />
         </GridItem>
         <GridItem borderRadius="15" colSpan={1} bg="#0654A4">
           <Box>quick link/toggle for light/dark mode?</Box>
