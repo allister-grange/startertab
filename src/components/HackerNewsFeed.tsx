@@ -1,5 +1,4 @@
 import { Box, Center, Heading, Link, Spinner } from "@chakra-ui/react";
-import Head from "next/head";
 import React, { useEffect, useState } from "react";
 import { HackerNewsLinkHolder } from "../types/hackernews";
 
@@ -20,9 +19,11 @@ export const HackerNewsFeed: React.FC = () => {
   }, []);
 
   return (
-    <Box p="2">
-      <Heading p="2" fontSize="xl">Hacker News Feed</Heading>
-      <Box w="80%" bg="white" height="1px" ml="2"/>
+    <Box p="2" color="white">
+      <Heading p="2" fontSize="xl">
+        Hacker News Feed
+      </Heading>
+      <Box w="80%" bg="white" height="1px" ml="2" bgColor="gray.200" />
       {hackerNewsLinks ? (
         hackerNewsLinks.map((link) => (
           <Box key={link.title} p="2" pr="4">

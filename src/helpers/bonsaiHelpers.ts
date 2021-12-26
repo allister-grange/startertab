@@ -3,7 +3,7 @@ import { ShootType } from "../types/bonsai";
 export const rows = 24;
 export const cols = 55;
 export const lives = 100;
-export const timeToStep = 50;
+export const timeToStep = 100;
 let maxShoots = 1;
 let shootCooldown = 50;
 
@@ -180,9 +180,9 @@ export const getBonsaiBase = (): string => {
   )}<span style="color: #eaac41">./~~~~~\\.</span>${'<span style="color: #25a003">_</span>'.repeat(
     12
   )}:\n`;
-  base += `\\${"\u00A0".repeat(60)}/\n`;
-  base += `\\${"_".repeat(30)}/\n`;
-  base += `(_)${"\u00A0".repeat(50)}(_)`;
+  base += `\u00A0\\${"\u00A0".repeat(60)}/\n`;
+  base += `\u00A0\u00A0\\${"_".repeat(30)}/\n`;
+  base += `\u00A0\u00A0\u00A0(_)${"\u00A0".repeat(50)}(_)`;
   return base;
 };
 

@@ -1,4 +1,3 @@
-import { AddIcon, ArrowDownIcon, MinusIcon } from "@chakra-ui/icons";
 import { Button, Center, Input } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import React, { useState } from "react";
@@ -45,6 +44,9 @@ export const SearchBar: React.FC = () => {
         width={400}
         bg="white"
         color="#202020"
+        _placeholder={{
+          color: "gray.400",
+        }}
         placeholder="search me"
         onChange={(e) => setSearchTerm(e.target.value)}
         value={searchTerm}

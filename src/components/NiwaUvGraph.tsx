@@ -6,7 +6,7 @@ import {
   Legend,
   ResponsiveContainer,
   XAxis,
-  YAxis
+  YAxis,
 } from "recharts";
 import { getApiUrl } from "../helpers/getApiUrl";
 import { TransformedNiwaData } from "../types/niwa";

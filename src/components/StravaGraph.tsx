@@ -38,7 +38,7 @@ export const StravaGraph: React.FC = ({}) => {
 
   return (
     <Box>
-      <Box display="flex" flexDir="row" mt="2">
+      <Box display="flex" flexDir="row" mt="2" color="white">
         <Heading ml="10" fontSize="2xl">
           Strava Stats
         </Heading>

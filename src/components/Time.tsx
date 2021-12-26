@@ -67,6 +67,9 @@ export const Time: React.FC<TimeProps> = ({}) => {
           colorScheme="white"
           mb="4"
           mr="1"
+          _placeholder={{
+            color: "white",
+          }}
         />
         <Button ml="1" onClick={startTimer}>
           Go
