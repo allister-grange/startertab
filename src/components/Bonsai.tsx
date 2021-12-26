@@ -47,7 +47,15 @@ const Bonsai = (): JSX.Element => {
   }, []);
 
   return (
-    <Box textAlign="center">
+    <Box
+    // display="table-cell"
+      // textAlign="center"
+      pos="absolute"
+      bottom="2"
+      left="5"
+      // right="0"
+      // verticalAlign="bottom"
+    >
       {bonsai.map((line, idx) => {
         const joinedLine = line.join("");
         return (

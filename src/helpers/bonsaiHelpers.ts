@@ -216,7 +216,7 @@ export const grow = (
   newBonsaiGrid[row][col] = char;
 
   shootCooldown += 1;
-// 200 
+// 200 was the old lives, so I halved all values
   if (life < 15) {
     window.setTimeout(() => {
       grow(row, col, life, age, ShootType.dying, tempBonsai, setBonsai);

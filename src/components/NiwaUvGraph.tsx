@@ -38,7 +38,7 @@ export const NiwaUvGraph: React.FC<NiwaUvGraphProps> = () => {
       </Heading>
 
       {niwaData ? (
-        <ResponsiveContainer width="95%" height={250}>
+        <ResponsiveContainer width="95%" height={240}>
           <BarChart data={niwaData}>
             <XAxis dataKey="name" tick={{ fontSize: 8 }} />
             <YAxis />
