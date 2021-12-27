@@ -1,3 +1,4 @@
+import moment from "moment-timezone";
 import { NextApiRequest, NextApiResponse } from "next";
 import {
   StravaActivity,
@@ -39,10 +40,10 @@ export default async function handler(
 
     const reAuthJson = await reauthouriseRes.json();
 
-    const mondayDate = Math.floor(getMondaysDate().getTime() / 1000);
+    const mondayEpoch = getMondaysEpoch();
 
     const activitiesRes = await fetch(
-      `https://www.strava.com/api/v3/athlete/activities?access_token=${reAuthJson.access_token}&after=${mondayDate}`
+      `https://www.strava.com/api/v3/athlete/activities?access_token=${reAuthJson.access_token}&after=${mondayEpoch}`
     );
 
     const activitiesJson: StravaActivity[] = await activitiesRes.json();
@@ -56,35 +57,13 @@ export default async function handler(
   }
 }
 
-const getMondaysDate = (): Date => {
-  // const tzoffset = new Date().getTimezoneOffset() * 60000; // offset in milliseconds
-  // const earlierDate = new Date(Date.now() - tzoffset);
-  const utcTime = new Date();
-  console.log("utcTime", utcTime);
+const getMondaysEpoch = (): number => {
+  let NZ = moment.tz(moment(), "Pacific/Auckland");
+  const startOfWeek = NZ.startOf('isoWeek');
 
-  // get the offset of the local time from UTC
-  const offset = utcTime.getTimezoneOffset();
-  console.log("offset", offset);
+  const startOfWeekEpoch = startOfWeek.unix();
 
-  const timeInNzString = utcTime.toLocaleString("en-US", {
-    timeZone: "Pacific/Auckland",
-  });
-
-  console.log("timeInNzString", timeInNzString);
-  
-  const timeInNZDate = new Date(timeInNzString);
-
-  console.log("timeInNZDate", timeInNZDate);
-  
-  let day = timeInNZDate.getDay(),
-    diff = timeInNZDate.getDate() - day + (day == 0 ? -6 : 1); // adjust when day is sunday
-  timeInNZDate.setDate(diff);
-  timeInNZDate.setHours(0, 0, 0, 0);
-
-  console.log("finished date in ISO", timeInNZDate.toISOString());
-  console.log("finishedDateInEpoch", timeInNZDate.getTime() / 1000);
-
-  return timeInNZDate;
+  return startOfWeekEpoch;
 };
 
 const weekday = [
