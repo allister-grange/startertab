@@ -56,16 +56,61 @@ export default async function handler(
   }
 }
 
-const getMondaysDate = () => {
-  const nzDate = convertTZToNz(new Date());
-  let day = nzDate.getDay(),
-    diff = nzDate.getDate() - day + (day == 0 ? -6 : 1); // adjust when day is sunday
-  let dayOnMonday = new Date(nzDate.setDate(diff));
+const getMondaysDate = (): Date => {
+  const tzoffset = new Date().getTimezoneOffset() * 60000; // offset in milliseconds
+  const earlierDate = new Date(Date.now() - tzoffset);
+
+  let day = earlierDate.getDay(),
+    diff = earlierDate.getDate() - day + (day == 0 ? -6 : 1); // adjust when day is sunday
+  let dayOnMonday = new Date(earlierDate.setDate(diff));
   dayOnMonday.setHours(0, 0, 0, 0);
+
+  console.log(
+    dayOnMonday.toLocaleString("en-US", {
+      timeZone: "Pacific/Auckland",
+    })
+  );
+
   return dayOnMonday;
 };
 
-const weekday = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
+function convertTZToNz(date: Date): Date {
+  return new Date(
+    date.toLocaleString("en-US", {
+      timeZone: "Pacific/Auckland",
+    })
+  );
+}
+
+// const getMondaysDate = (): Date => {
+//   // console.log(new Date());
+//   // // gets time on machine, should come back as NZST
+//   // const nzDate = convertTZToNz(new Date());
+//   // console.log(nzDate);
+
+//   const nzDate = new Date();
+
+//   let day = nzDate.getDay(),
+//     diff = nzDate.getDate() - day + (day == 0 ? -6 : 1); // adjust when day is sunday
+//   let dayOnMonday = new Date(nzDate.setDate(diff));
+//   dayOnMonday.setHours(0, 0, 0, 0);
+
+//   console.log(dayOnMonday.toLocaleString("en-US", {
+//     timeZone: "Pacific/Auckland",
+//   }));
+
+//   return dayOnMonday;
+// };
+
+const weekday = [
+  "Sunday",
+  "Monday",
+  "Tuesday",
+  "Wednesday",
+  "Thursday",
+  "Friday",
+  "Saturday",
+];
 
 // I want two lots of data (swimming and running)
 const formatStravaData = (data: StravaActivity[]) => {
@@ -75,7 +120,8 @@ const formatStravaData = (data: StravaActivity[]) => {
     if (activity.type === "Run") {
       formattedStravaData.running.forEach((activityToFind) => {
         if (
-          activityToFind.day === weekday[new Date(activity.start_date_local).getDay()]
+          activityToFind.day ===
+          weekday[new Date(activity.start_date_local).getDay()]
         ) {
           activityToFind.distance =
             Math.round((activity.distance / 1000) * 10) / 10;
@@ -84,7 +130,8 @@ const formatStravaData = (data: StravaActivity[]) => {
     } else if (activity.type === "Swim") {
       formattedStravaData.swimming.forEach((activityToFind) => {
         if (
-          activityToFind.day === weekday[new Date(activity.start_date_local).getDay()]
+          activityToFind.day ===
+          weekday[new Date(activity.start_date_local).getDay()]
         ) {
           activityToFind.distance =
             Math.round((activity.distance / 1000) * 10) / 10;
@@ -119,11 +166,3 @@ const getEmptyStravaData = (): StravaGraphData => {
 
   return formattedStravaData;
 };
-
-function convertTZToNz(date: string | Date): Date {
-  return new Date(
-    (typeof date === "string" ? new Date(date) : date).toLocaleString("en-US", {
-      timeZone: "Pacific/Auckland",
-    })
-  );
-}
