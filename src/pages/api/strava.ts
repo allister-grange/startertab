@@ -2,7 +2,7 @@ import { NextApiRequest, NextApiResponse } from "next";
 import {
   StravaActivity,
   StravaGraphData,
-  StravaGraphPoint
+  StravaGraphPoint,
 } from "../../types/strava";
 
 export default async function handler(
@@ -41,24 +41,13 @@ export default async function handler(
 
     const mondayDate = Math.floor(getMondaysDate().getTime() / 1000);
 
-    console.log(mondayDate);
-    
-
     const activitiesRes = await fetch(
       `https://www.strava.com/api/v3/athlete/activities?access_token=${reAuthJson.access_token}&after=${mondayDate}`
     );
 
     const activitiesJson: StravaActivity[] = await activitiesRes.json();
 
-    console.log(activitiesJson[0].utc_offset);
-    console.log(activitiesJson[0].start_date_local);
-    console.log(activitiesJson[0].timezone);
-
-    // I get back a time
-
     const formattedStravaData = formatStravaData(activitiesJson);
-
-      
 
     res.status(200).json(formattedStravaData);
   } catch (err) {
@@ -76,6 +65,8 @@ const getMondaysDate = () => {
   return dayOnMonday;
 };
 
+const weekday = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
+
 // I want two lots of data (swimming and running)
 const formatStravaData = (data: StravaActivity[]) => {
   const formattedStravaData = getEmptyStravaData();
@@ -84,7 +75,7 @@ const formatStravaData = (data: StravaActivity[]) => {
     if (activity.type === "Run") {
       formattedStravaData.running.forEach((activityToFind) => {
         if (
-          activityToFind.day === getDayName(new Date(activity.start_date_local))
+          activityToFind.day === weekday[new Date(activity.start_date_local).getDay()]
         ) {
           activityToFind.distance =
             Math.round((activity.distance / 1000) * 10) / 10;
@@ -93,7 +84,7 @@ const formatStravaData = (data: StravaActivity[]) => {
     } else if (activity.type === "Swim") {
       formattedStravaData.swimming.forEach((activityToFind) => {
         if (
-          activityToFind.day === getDayName(new Date(activity.start_date_local))
+          activityToFind.day === weekday[new Date(activity.start_date_local).getDay()]
         ) {
           activityToFind.distance =
             Math.round((activity.distance / 1000) * 10) / 10;
@@ -102,16 +93,8 @@ const formatStravaData = (data: StravaActivity[]) => {
     }
   });
 
-  console.log(formattedStravaData);
-  
-
   return formattedStravaData;
 };
-
-function getDayName(date: Date) {
-  const nzTime = convertTZToNz(date);
-  return nzTime.toLocaleDateString("en-NZ", { weekday: "long" });
-}
 
 const getEmptyStravaData = (): StravaGraphData => {
   const formattedStravaData: StravaGraphData = {
