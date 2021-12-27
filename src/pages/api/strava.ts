@@ -64,22 +64,24 @@ const getMondaysDate = (): Date => {
 
   // get the offset of the local time from UTC
   const offset = utcTime.getTimezoneOffset();
-  console.log(offset);
+  console.log("offset", offset);
 
   const timeInNzString = utcTime.toLocaleString("en-US", {
     timeZone: "Pacific/Auckland",
   });
 
+  console.log("timeInNzString", timeInNzString);
+  
   const timeInNZDate = new Date(timeInNzString);
 
   console.log("timeInNZDate", timeInNZDate);
   
-
   let day = timeInNZDate.getDay(),
     diff = timeInNZDate.getDate() - day + (day == 0 ? -6 : 1); // adjust when day is sunday
   timeInNZDate.setDate(diff);
   timeInNZDate.setHours(0, 0, 0, 0);
 
+  console.log("finished date in ISO", timeInNZDate.toISOString());
   console.log("finishedDateInEpoch", timeInNZDate.getTime() / 1000);
 
   return timeInNZDate;
