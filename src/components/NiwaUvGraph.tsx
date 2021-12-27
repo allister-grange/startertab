@@ -1,4 +1,4 @@
-import { Center, Heading, Spinner } from "@chakra-ui/react";
+import { Center, Heading, Spinner, Text } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
 import {
   Bar,
@@ -6,15 +6,15 @@ import {
   Legend,
   ResponsiveContainer,
   XAxis,
-  YAxis,
+  YAxis
 } from "recharts";
-import { getApiUrl } from "../helpers/getApiUrl";
 import { TransformedNiwaData } from "../types/niwa";
 
 interface NiwaUvGraphProps {}
 
 export const NiwaUvGraph: React.FC<NiwaUvGraphProps> = () => {
   const [niwaData, setNiwaData] = useState<undefined | TransformedNiwaData[]>();
+  const [error, setError] = useState("");
 
   useEffect(() => {
     const getNiwaData = async () => {
@@ -25,6 +25,7 @@ export const NiwaUvGraph: React.FC<NiwaUvGraphProps> = () => {
         setNiwaData(data);
       } catch (err) {
         console.error(err);
+        setError(err as string);
       }
     };
 
@@ -47,6 +48,10 @@ export const NiwaUvGraph: React.FC<NiwaUvGraphProps> = () => {
             <Bar dataKey="cloudy" fill="#1A202C" />
           </BarChart>
         </ResponsiveContainer>
+      ) : error ? (
+        <Center minH="250">
+          <Text>Error loading NIWA api</Text>
+        </Center>
       ) : (
         <Center minH="250">
           <Spinner color="white" />

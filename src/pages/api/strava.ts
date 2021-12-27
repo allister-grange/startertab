@@ -9,6 +9,12 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
+
+  if(!process.env.STRAVA_CLIENT || !process.env.STRAVA_REFRESH_TOKEN || !process.env.STRAVA_SECRET) {
+    res.status(500).json("No environment variables set for Strava API");
+    return;
+  }
+
   const body = JSON.stringify({
     client_id: process.env.STRAVA_CLIENT,
     refresh_token: process.env.STRAVA_REFRESH_TOKEN,

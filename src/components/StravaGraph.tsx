@@ -1,24 +1,19 @@
-import {
-  Box,
-  Center,
-  Heading,
-  Spinner,
-  Switch,
-  Text
-} from "@chakra-ui/react";
+import { Box, Center, Heading, Spinner, Switch, Text } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
 import {
   Bar,
   BarChart,
-  Cell, ResponsiveContainer,
+  Cell,
+  ResponsiveContainer,
   XAxis,
-  YAxis
+  YAxis,
 } from "recharts";
 import { StravaGraphData, StravaGraphPoint } from "../types/strava";
 
 export const StravaGraph: React.FC = ({}) => {
   const [stravaData, setStravaData] = useState<undefined | StravaGraphData>();
   const [showingSwim, setShowingSwim] = useState(false);
+  const [error, setError] = useState("");
 
   useEffect(() => {
     const makeCallToStravaApi = async () => {
@@ -30,6 +25,7 @@ export const StravaGraph: React.FC = ({}) => {
         setStravaData(data);
       } catch (err) {
         console.error(err);
+        setError(err as string);
       }
     };
 
@@ -40,7 +36,7 @@ export const StravaGraph: React.FC = ({}) => {
     <Box>
       <Box display="flex" flexDir="row" mt="2" color="white">
         <Heading ml="10" fontSize="2xl">
-          Strava Stats 
+          Strava Stats
         </Heading>
         <Text ml="auto" mr="2">
           run
@@ -68,22 +64,28 @@ export const StravaGraph: React.FC = ({}) => {
               />
               <YAxis stroke="white" />
               <Bar dataKey="distance" barSize={35}>
-                {stravaData.swimming.map((entry: StravaGraphPoint, index: number) => (
-                  <Cell
-                    key={`cell-${index}`}
-                    stroke={showingSwim ? "#0654A4" : "white"}
-                    strokeWidth={2}
-                    fill={
-                      showingSwim
-                        ? "rgba(6, 84, 164, 0.2)"
-                        : "rgba(255, 255, 255, 0.2)"
-                    }
-                  />
-                ))}
+                {stravaData.swimming.map(
+                  (entry: StravaGraphPoint, index: number) => (
+                    <Cell
+                      key={`cell-${index}`}
+                      stroke={showingSwim ? "#0654A4" : "white"}
+                      strokeWidth={2}
+                      fill={
+                        showingSwim
+                          ? "rgba(6, 84, 164, 0.2)"
+                          : "rgba(255, 255, 255, 0.2)"
+                      }
+                    />
+                  )
+                )}
               </Bar>
             </BarChart>
           </ResponsiveContainer>
         </Box>
+      ) : error ? (
+        <Center minHeight="265px">
+          <Text>Error calling Strava API</Text>
+        </Center>
       ) : (
         <Center minHeight="265px">
           <Spinner />
