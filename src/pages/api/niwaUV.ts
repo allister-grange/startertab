@@ -56,7 +56,7 @@ const transformNiwaData = (data: NiwaResponse): TransformedNiwaData[] => {
     timeValuePairs[idx].time = convertTZToNz(date).toTimeString().split(" ")[0];
   });
   // only need the first 24 hours
-  return timeValuePairs.slice(0, 48);
+  return timeValuePairs.slice(0, 96);
 };
 
 function convertTZToNz(date: string | Date): Date {
