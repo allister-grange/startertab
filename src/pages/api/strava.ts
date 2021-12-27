@@ -41,13 +41,24 @@ export default async function handler(
 
     const mondayDate = Math.floor(getMondaysDate().getTime() / 1000);
 
+    console.log(mondayDate);
+    
+
     const activitiesRes = await fetch(
       `https://www.strava.com/api/v3/athlete/activities?access_token=${reAuthJson.access_token}&after=${mondayDate}`
     );
 
-    const activitiesJson = await activitiesRes.json();
+    const activitiesJson: StravaActivity[] = await activitiesRes.json();
+
+    console.log(activitiesJson[0].utc_offset);
+    console.log(activitiesJson[0].start_date_local);
+    console.log(activitiesJson[0].timezone);
+
+    // I get back a time
 
     const formattedStravaData = formatStravaData(activitiesJson);
+
+      
 
     res.status(200).json(formattedStravaData);
   } catch (err) {
@@ -91,11 +102,15 @@ const formatStravaData = (data: StravaActivity[]) => {
     }
   });
 
+  console.log(formattedStravaData);
+  
+
   return formattedStravaData;
 };
 
 function getDayName(date: Date) {
-  return date.toLocaleDateString("en-NZ", { weekday: "long" });
+  const nzTime = convertTZToNz(date);
+  return nzTime.toLocaleDateString("en-NZ", { weekday: "long" });
 }
 
 const getEmptyStravaData = (): StravaGraphData => {
