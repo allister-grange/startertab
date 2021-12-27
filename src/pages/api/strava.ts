@@ -65,42 +65,8 @@ const getMondaysDate = (): Date => {
   let dayOnMonday = new Date(earlierDate.setDate(diff));
   dayOnMonday.setHours(0, 0, 0, 0);
 
-  console.log(
-    dayOnMonday.toLocaleString("en-US", {
-      timeZone: "Pacific/Auckland",
-    })
-  );
-
   return dayOnMonday;
 };
-
-function convertTZToNz(date: Date): Date {
-  return new Date(
-    date.toLocaleString("en-US", {
-      timeZone: "Pacific/Auckland",
-    })
-  );
-}
-
-// const getMondaysDate = (): Date => {
-//   // console.log(new Date());
-//   // // gets time on machine, should come back as NZST
-//   // const nzDate = convertTZToNz(new Date());
-//   // console.log(nzDate);
-
-//   const nzDate = new Date();
-
-//   let day = nzDate.getDay(),
-//     diff = nzDate.getDate() - day + (day == 0 ? -6 : 1); // adjust when day is sunday
-//   let dayOnMonday = new Date(nzDate.setDate(diff));
-//   dayOnMonday.setHours(0, 0, 0, 0);
-
-//   console.log(dayOnMonday.toLocaleString("en-US", {
-//     timeZone: "Pacific/Auckland",
-//   }));
-
-//   return dayOnMonday;
-// };
 
 const weekday = [
   "Sunday",
