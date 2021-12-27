@@ -11,7 +11,7 @@ export interface ValuesEntity {
   value: number;
 }
 export interface TransformedNiwaData {
-  name: string;
+  time: string;
   cloudy: number;
   sunny: number;
 }

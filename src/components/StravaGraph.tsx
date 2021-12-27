@@ -84,11 +84,11 @@ export const StravaGraph: React.FC = ({}) => {
         </Box>
       ) : error ? (
         <Center minHeight="265px">
-          <Text>Error calling Strava API</Text>
+          <Text color="white">Error calling Strava API</Text>
         </Center>
       ) : (
         <Center minHeight="265px">
-          <Spinner />
+          <Spinner color="white" />
         </Center>
       )}
     </Box>

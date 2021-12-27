@@ -38,7 +38,7 @@ const transformNiwaData = (data: NiwaResponse): TransformedNiwaData[] => {
 
   data.products[0].values.forEach((val) => {
     timeValuePairs.push({
-      name: val.time,
+      time: val.time,
       sunny: val.value,
       cloudy: 0,
     });
@@ -48,33 +48,21 @@ const transformNiwaData = (data: NiwaResponse): TransformedNiwaData[] => {
     timeValuePairs[idx].cloudy = val.value;
   });
 
-  // no way to select what dates/times you want, have to pull down 3 days of data
-  // we only want to parse the midday values
-  const timeValuePairsFromMidday = timeValuePairs.filter((timeValuePair) => {
-    const date = new Date(timeValuePair.name);
-    const hours = date.getHours();
-    
-    // get the time in NZ compared to UTC
-    const nzTimeZone = new Date(
-      new Date().toLocaleString("en-US", { timeZone: "Pacific/Auckland" })
-    );
-
-    // get the offset between NZ time and UTC
-    const tzoffset = nzTimeZone.getTimezoneOffset() * 60000; // offset in milliseconds
-    const correctedTimeZone = new Date(Date.now() - tzoffset);
-
-    const inNext24Hours =
-      date.getTime() <=
-      new Date(correctedTimeZone.getTime() + 24 * 60 * 60 * 1000).getTime();
-    return hours >= 6 && hours <= 21 && inNext24Hours;
-  });
-
   // convert the date to a friendly name for the graph
-  timeValuePairsFromMidday.forEach((val, idx) => {
-    const time = timeValuePairs[idx].name;
+  timeValuePairs.forEach((val, idx) => {
+    const time = timeValuePairs[idx].time;
     const date = new Date(time);
-    timeValuePairs[idx].name = date.toLocaleTimeString();
+    // need this to be the NZ local time
+    timeValuePairs[idx].time = convertTZToNz(date).toTimeString().split(" ")[0];
   });
-
-  return timeValuePairsFromMidday;
+  // only need the first 24 hours
+  return timeValuePairs.slice(0, 48);
 };
+
+function convertTZToNz(date: string | Date): Date {
+  return new Date(
+    (typeof date === "string" ? new Date(date) : date).toLocaleString("en-US", {
+      timeZone: "Pacific/Auckland",
+    })
+  );
+}

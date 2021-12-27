@@ -33,7 +33,7 @@ export const HackerNewsFeed: React.FC = () => {
           </Box>
         ))
       ) : (
-        <Center minH="450px">
+        <Center minH="300px">
           <Spinner color="white" />
         </Center>
       )}
