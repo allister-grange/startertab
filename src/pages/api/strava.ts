@@ -57,19 +57,29 @@ export default async function handler(
 }
 
 const getMondaysDate = (): Date => {
-  const tzoffset = new Date().getTimezoneOffset() * 60000; // offset in milliseconds
-  const earlierDate = new Date(Date.now() - tzoffset);
+  // const tzoffset = new Date().getTimezoneOffset() * 60000; // offset in milliseconds
+  // const earlierDate = new Date(Date.now() - tzoffset);
+  const utcTime = new Date();
+  console.log("utcTime", utcTime);
 
-  console.log("earlierDate", earlierDate);
-  
-  let day = earlierDate.getDay(),
-    diff = earlierDate.getDate() - day + (day == 0 ? -6 : 1); // adjust when day is sunday
-  earlierDate.setDate(diff);
-  earlierDate.setHours(0, 0, 0, 0);
+  // get the offset of the local time from UTC
+  const offset = utcTime.getTimezoneOffset();
+  console.log(offset);
 
-  console.log("finishedDateInEpoch", earlierDate.getTime() / 1000);
-    
-  return earlierDate;
+  const timeInNzString = utcTime.toLocaleString("en-US", {
+    timeZone: "Pacific/Auckland",
+  });
+
+  const timeInNZDate = new Date(timeInNzString);
+
+  let day = timeInNZDate.getDay(),
+    diff = timeInNZDate.getDate() - day + (day == 0 ? -6 : 1); // adjust when day is sunday
+  timeInNZDate.setDate(diff);
+  timeInNZDate.setHours(0, 0, 0, 0);
+
+  console.log("finishedDateInEpoch", timeInNZDate.getTime() / 1000);
+
+  return new Date();
 };
 
 const weekday = [
