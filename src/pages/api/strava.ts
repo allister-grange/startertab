@@ -72,6 +72,9 @@ const getMondaysDate = (): Date => {
 
   const timeInNZDate = new Date(timeInNzString);
 
+  console.log("timeInNZDate", timeInNZDate);
+  
+
   let day = timeInNZDate.getDay(),
     diff = timeInNZDate.getDate() - day + (day == 0 ? -6 : 1); // adjust when day is sunday
   timeInNZDate.setDate(diff);
@@ -79,7 +82,7 @@ const getMondaysDate = (): Date => {
 
   console.log("finishedDateInEpoch", timeInNZDate.getTime() / 1000);
 
-  return new Date();
+  return timeInNZDate;
 };
 
 const weekday = [
