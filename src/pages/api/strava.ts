@@ -60,12 +60,16 @@ const getMondaysDate = (): Date => {
   const tzoffset = new Date().getTimezoneOffset() * 60000; // offset in milliseconds
   const earlierDate = new Date(Date.now() - tzoffset);
 
+  console.log("earlierDate", earlierDate);
+  
   let day = earlierDate.getDay(),
     diff = earlierDate.getDate() - day + (day == 0 ? -6 : 1); // adjust when day is sunday
-  let dayOnMonday = new Date(earlierDate.setDate(diff));
-  dayOnMonday.setHours(0, 0, 0, 0);
+  earlierDate.setDate(diff);
+  earlierDate.setHours(0, 0, 0, 0);
 
-  return dayOnMonday;
+  console.log("finishedDateInEpoch", earlierDate.getTime() / 1000);
+    
+  return earlierDate;
 };
 
 const weekday = [
