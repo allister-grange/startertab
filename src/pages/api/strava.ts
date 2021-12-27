@@ -2,15 +2,18 @@ import { NextApiRequest, NextApiResponse } from "next";
 import {
   StravaActivity,
   StravaGraphData,
-  StravaGraphPoint,
+  StravaGraphPoint
 } from "../../types/strava";
 
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-
-  if(!process.env.STRAVA_CLIENT || !process.env.STRAVA_REFRESH_TOKEN || !process.env.STRAVA_SECRET) {
+  if (
+    !process.env.STRAVA_CLIENT ||
+    !process.env.STRAVA_REFRESH_TOKEN ||
+    !process.env.STRAVA_SECRET
+  ) {
     res.status(500).json("No environment variables set for Strava API");
     return;
   }
@@ -36,18 +39,7 @@ export default async function handler(
 
     const reAuthJson = await reauthouriseRes.json();
 
-    // get the time in NZ compared to UTC
-    const nzTimeZone = new Date(
-      new Date().toLocaleString("en-US", { timeZone: "Pacific/Auckland" })
-    );
-
-    // get the offset between NZ time and UTC
-    const tzoffset = nzTimeZone.getTimezoneOffset() * 60000; // offset in milliseconds
-    const correctedTimeZone = new Date(Date.now() - tzoffset);
-
-    const mondayDate = Math.floor(
-      getMonday(correctedTimeZone).getTime() / 1000
-    );
+    const mondayDate = Math.floor(getMondaysDate().getTime() / 1000);
 
     const activitiesRes = await fetch(
       `https://www.strava.com/api/v3/athlete/activities?access_token=${reAuthJson.access_token}&after=${mondayDate}`
@@ -64,11 +56,13 @@ export default async function handler(
   }
 }
 
-const getMonday = (date: Date) => {
-  date = new Date(date);
-  let day = date.getDay(),
-    diff = date.getDate() - day + (day == 0 ? -6 : 1); // adjust when day is sunday
-  return new Date(date.setDate(diff));
+const getMondaysDate = () => {
+  const nzDate = convertTZToNz(new Date());
+  let day = nzDate.getDay(),
+    diff = nzDate.getDate() - day + (day == 0 ? -6 : 1); // adjust when day is sunday
+  let dayOnMonday = new Date(nzDate.setDate(diff));
+  dayOnMonday.setHours(0, 0, 0, 0);
+  return dayOnMonday;
 };
 
 // I want two lots of data (swimming and running)
@@ -81,7 +75,8 @@ const formatStravaData = (data: StravaActivity[]) => {
         if (
           activityToFind.day === getDayName(new Date(activity.start_date_local))
         ) {
-          activityToFind.distance = Math.round((activity.distance / 1000) * 10) / 10;
+          activityToFind.distance =
+            Math.round((activity.distance / 1000) * 10) / 10;
         }
       });
     } else if (activity.type === "Swim") {
@@ -89,9 +84,11 @@ const formatStravaData = (data: StravaActivity[]) => {
         if (
           activityToFind.day === getDayName(new Date(activity.start_date_local))
         ) {
-          activityToFind.distance = Math.round((activity.distance / 1000) * 10) / 10;
+          activityToFind.distance =
+            Math.round((activity.distance / 1000) * 10) / 10;
         }
-      });    }
+      });
+    }
   });
 
   return formattedStravaData;
@@ -124,3 +121,11 @@ const getEmptyStravaData = (): StravaGraphData => {
 
   return formattedStravaData;
 };
+
+function convertTZToNz(date: string | Date): Date {
+  return new Date(
+    (typeof date === "string" ? new Date(date) : date).toLocaleString("en-US", {
+      timeZone: "Pacific/Auckland",
+    })
+  );
+}
