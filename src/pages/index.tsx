@@ -35,10 +35,16 @@ const Home: NextPage = () => {
         <GridItem borderRadius="15" colSpan={2} bg="papayawhip">
           <SwimmingPoolTimeTable />
         </GridItem>
-        <GridItem borderRadius="15" colSpan={4} rowSpan={1} bg="#0654A4" minH="60px">
+        <GridItem
+          borderRadius="15"
+          colSpan={4}
+          rowSpan={1}
+          bg="#0654A4"
+          minH="60px"
+        >
           <SearchBar />
         </GridItem>
-        <GridItem borderRadius="15" colSpan={1} bg="#9AB899">
+        <GridItem borderRadius="15" colSpan={1} bg="#F76808">
           <Time />
         </GridItem>
         <GridItem
@@ -48,11 +54,12 @@ const Home: NextPage = () => {
           bg="papayawhip"
           pos="relative"
           overflow="hidden"
+          maxH="380px"
         >
           <Bonsai />
         </GridItem>
         <GridItem borderRadius="15" colSpan={1} rowSpan={1} bg="#AB4AB9">
-          <Box>quick link</Box>
+          {/* <Box>quick link</Box> */}
         </GridItem>
         <GridItem
           borderRadius="15"
@@ -61,14 +68,16 @@ const Home: NextPage = () => {
           bg="#30A56C"
           overflow="hidden"
           minH="310px"
+          maxH="350px"
         >
           <NiwaUvGraph />
         </GridItem>
-        <GridItem borderRadius="15" colSpan={1} bg="#AB4AB9">
+        <GridItem borderRadius="15" colSpan={1} bg="#AB4AB9"
+        maxH="200px">
           <ColorModeSwitcher />
         </GridItem>
         <GridItem borderRadius="15" colSpan={1} bg="#0654A4">
-          <Box>quick link/toggle for light/dark mode?</Box>
+          {/* <Box>quick link/toggle for light/dark mode?</Box> */}
         </GridItem>
       </Grid>
     </div>

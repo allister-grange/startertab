@@ -40,7 +40,7 @@ export const StravaGraph: React.FC = ({}) => {
     <Box>
       <Box display="flex" flexDir="row" mt="2" color="white">
         <Heading ml="10" fontSize="2xl">
-          Strava Stats
+          Strava Stats 
         </Heading>
         <Text ml="auto" mr="2">
           run

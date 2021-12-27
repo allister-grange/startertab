@@ -71,7 +71,7 @@ export const Time: React.FC<TimeProps> = ({}) => {
             color: "white",
           }}
         />
-        <Button ml="1" onClick={startTimer}>
+        <Button ml="1" border="1px" bg="transparent" onClick={startTimer}>
           Go
         </Button>
       </Box>
