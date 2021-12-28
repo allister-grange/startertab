@@ -21,7 +21,9 @@ export const HackerNewsFeed: React.FC = () => {
   return (
     <Box p="2" color="white">
       <Heading p="2" fontSize="xl">
-        Hacker News Feed
+        <Link href="https://news.ycombinator.com/ask">
+          Hacker News Feed
+        </Link>
       </Heading>
       <Box w="80%" bg="white" height="1px" ml="2" bgColor="gray.200" />
       {hackerNewsLinks ? (
