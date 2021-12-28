@@ -2,6 +2,7 @@ import moment from "moment-timezone";
 import { NextApiRequest, NextApiResponse } from "next";
 import {
   StravaActivity,
+  StravaCombinedGraphData,
   StravaGraphData,
   StravaGraphPoint,
 } from "../../types/strava";
@@ -59,7 +60,7 @@ export default async function handler(
 
 const getMondaysEpoch = (): number => {
   let NZ = moment.tz(moment(), "Pacific/Auckland");
-  const startOfWeek = NZ.startOf('isoWeek');
+  const startOfWeek = NZ.startOf("isoWeek");
 
   const startOfWeekEpoch = startOfWeek.unix();
 
@@ -91,6 +92,14 @@ const formatStravaData = (data: StravaActivity[]) => {
             Math.round((activity.distance / 1000) * 10) / 10;
         }
       });
+      formattedStravaData.combinedData.forEach((activityToFind) => {
+        if (
+          activityToFind.day ===
+          weekday[new Date(activity.start_date_local).getDay()]
+        ) {
+          activityToFind.run = Math.round((activity.distance / 1000) * 10) / 10;
+        }
+      });
     } else if (activity.type === "Swim") {
       formattedStravaData.swimming.forEach((activityToFind) => {
         if (
@@ -99,6 +108,14 @@ const formatStravaData = (data: StravaActivity[]) => {
         ) {
           activityToFind.distance =
             Math.round((activity.distance / 1000) * 10) / 10;
+        }
+      });
+      formattedStravaData.combinedData.forEach((activityToFind) => {
+        if (
+          activityToFind.day ===
+          weekday[new Date(activity.start_date_local).getDay()]
+        ) {
+          activityToFind.swim = Math.round((activity.distance / 1000) * 10) / 10;
         }
       });
     }
@@ -111,6 +128,7 @@ const getEmptyStravaData = (): StravaGraphData => {
   const formattedStravaData: StravaGraphData = {
     swimming: [] as StravaGraphPoint[],
     running: [] as StravaGraphPoint[],
+    combinedData: [] as StravaCombinedGraphData[],
   };
 
   formattedStravaData.running.push({ day: "Monday", distance: 0 });
@@ -127,6 +145,13 @@ const getEmptyStravaData = (): StravaGraphData => {
   formattedStravaData.swimming.push({ day: "Friday", distance: 0 });
   formattedStravaData.swimming.push({ day: "Saturday", distance: 0 });
   formattedStravaData.swimming.push({ day: "Sunday", distance: 0 });
+  formattedStravaData.combinedData.push({ day: "Monday", run: 0, swim: 0 });
+  formattedStravaData.combinedData.push({ day: "Tuesday", run: 0, swim: 0 });
+  formattedStravaData.combinedData.push({ day: "Wednesday", run: 0, swim: 0 });
+  formattedStravaData.combinedData.push({ day: "Thursday", run: 0, swim: 0 });
+  formattedStravaData.combinedData.push({ day: "Friday", run: 0, swim: 0 });
+  formattedStravaData.combinedData.push({ day: "Saturday", run: 0, swim: 0 });
+  formattedStravaData.combinedData.push({ day: "Sunday", run: 0, swim: 0 });
 
   return formattedStravaData;
 };

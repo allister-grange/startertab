@@ -64,5 +64,12 @@ export interface StravaGraphPoint {
 
 export interface StravaGraphData {
   swimming: StravaGraphPoint[],
-  running: StravaGraphPoint[]
+  running: StravaGraphPoint[],
+  combinedData: StravaCombinedGraphData[],
+}
+
+export interface StravaCombinedGraphData {
+  day: string,
+  swim: number,
+  run: number
 }

@@ -1,5 +1,5 @@
 import { Box, Center, Heading, Spinner, Switch, Text } from "@chakra-ui/react";
-import React, { useEffect, useState } from "react";
+import React, { ChangeEvent, useEffect, useState } from "react";
 import {
   Bar,
   BarChart,
@@ -12,7 +12,7 @@ import { StravaGraphData, StravaGraphPoint } from "../types/strava";
 
 export const StravaGraph: React.FC = ({}) => {
   const [stravaData, setStravaData] = useState<undefined | StravaGraphData>();
-  const [showingSwim, setShowingSwim] = useState(false);
+  const [showingSwim, setShowingSwim] = useState<Boolean | undefined>();
   const [error, setError] = useState("");
 
   useEffect(() => {
@@ -43,7 +43,13 @@ export const StravaGraph: React.FC = ({}) => {
         </Text>
         <Switch
           size="lg"
-          onChange={() => setShowingSwim((showingSwimming) => !showingSwimming)}
+          onChange={() => {
+            if (showingSwim === undefined) {
+              setShowingSwim(true);
+            } else {
+              setShowingSwim((showingSwim) => !showingSwim);
+            }
+          }}
         />
         <Text mr="80px" ml="2">
           swim
@@ -52,9 +58,7 @@ export const StravaGraph: React.FC = ({}) => {
       {stravaData ? (
         <Box mt="4">
           <ResponsiveContainer width="95%" height={250}>
-            <BarChart
-              data={showingSwim ? stravaData.swimming : stravaData.running}
-            >
+            <BarChart data={stravaData.combinedData}>
               <XAxis
                 label={undefined}
                 dataKey="day"
@@ -63,22 +67,62 @@ export const StravaGraph: React.FC = ({}) => {
                 stroke="white"
               />
               <YAxis stroke="white" />
-              <Bar dataKey="distance" barSize={35}>
-                {stravaData.swimming.map(
-                  (entry: StravaGraphPoint, index: number) => (
-                    <Cell
-                      key={`cell-${index}`}
-                      stroke={showingSwim ? "#0654A4" : "white"}
-                      strokeWidth={2}
-                      fill={
-                        showingSwim
-                          ? "rgba(6, 84, 164, 0.2)"
-                          : "rgba(255, 255, 255, 0.2)"
-                      }
-                    />
-                  )
-                )}
-              </Bar>
+              {showingSwim === true && (
+                <Bar dataKey="swim" barSize={35}>
+                  {stravaData.swimming.map(
+                    (entry: StravaGraphPoint, index: number) => (
+                      <Cell
+                        key={`cell-${index}`}
+                        stroke={"#0654A4"}
+                        strokeWidth={2}
+                        fill={"rgba(6, 84, 164, 0.2)"}
+                      />
+                    )
+                  )}
+                </Bar>
+              )}
+              {showingSwim === false && (
+                <Bar dataKey="run" barSize={35}>
+                  {stravaData.swimming.map(
+                    (entry: StravaGraphPoint, index: number) => (
+                      <Cell
+                        key={`cell-${index}`}
+                        stroke={"white"}
+                        strokeWidth={2}
+                        fill={"rgba(255, 255, 255, 0.2)"}
+                      />
+                    )
+                  )}
+                </Bar>
+              )}
+              {showingSwim === undefined && (
+                <>
+                  <Bar dataKey="run" barSize={35}>
+                    {stravaData.swimming.map(
+                      (entry: StravaGraphPoint, index: number) => (
+                        <Cell
+                          key={`cell-${index}`}
+                          stroke={"white"}
+                          strokeWidth={2}
+                          fill={"rgba(255, 255, 255, 0.2)"}
+                        />
+                      )
+                    )}
+                  </Bar>
+                  <Bar dataKey="swim" barSize={35}>
+                    {stravaData.swimming.map(
+                      (entry: StravaGraphPoint, index: number) => (
+                        <Cell
+                          key={`cell-${index}`}
+                          stroke={"#0654A4"}
+                          strokeWidth={2}
+                          fill={"rgba(6, 84, 164, 0.2)"}
+                        />
+                      )
+                    )}
+                  </Bar>
+                </>
+              )}
             </BarChart>
           </ResponsiveContainer>
         </Box>
