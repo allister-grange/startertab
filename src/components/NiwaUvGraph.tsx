@@ -6,32 +6,15 @@ import {
   Legend,
   ResponsiveContainer,
   XAxis,
-  YAxis
+  YAxis,
 } from "recharts";
 import { TransformedNiwaData } from "../types/niwa";
 
-interface NiwaUvGraphProps {}
+interface NiwaUvGraphProps {
+  niwaData: TransformedNiwaData[];
+}
 
-export const NiwaUvGraph: React.FC<NiwaUvGraphProps> = () => {
-  const [niwaData, setNiwaData] = useState<undefined | TransformedNiwaData[]>();
-  const [error, setError] = useState("");
-
-  useEffect(() => {
-    const getNiwaData = async () => {
-      try {
-        const res = await fetch("/api/niwaUV");
-        const data = (await res.json()) as TransformedNiwaData[];
-
-        setNiwaData(data);
-      } catch (err) {
-        console.error(err);
-        setError(err as string);
-      }
-    };
-
-    getNiwaData();
-  }, []);
-
+export const NiwaUvGraph: React.FC<NiwaUvGraphProps> = ({ niwaData }) => {
   return (
     <div>
       <Heading color="white" fontSize="2xl" ml="10" mb="5" mt="2">
@@ -48,10 +31,6 @@ export const NiwaUvGraph: React.FC<NiwaUvGraphProps> = () => {
             <Bar dataKey="cloudy" fill="#1A202C" />
           </BarChart>
         </ResponsiveContainer>
-      ) : error ? (
-        <Center minH="250">
-          <Text>Error loading NIWA api</Text>
-        </Center>
       ) : (
         <Center minH="250">
           <Spinner color="white" />

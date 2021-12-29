@@ -4,22 +4,33 @@ import {
   StravaActivity,
   StravaCombinedGraphData,
   StravaGraphData,
-  StravaGraphPoint,
+  StravaGraphPoint
 } from "../../types/strava";
 
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
+
+  try {
+    const stravaData = await getStravaData();
+    res.status(200).json(stravaData);
+  }
+  catch (err) {
+    res.status(500).json(err);
+  }
+
+}
+
+export const getStravaData = async() => {
   if (
     !process.env.STRAVA_CLIENT ||
     !process.env.STRAVA_REFRESH_TOKEN ||
     !process.env.STRAVA_SECRET
   ) {
-    res.status(500).json("No environment variables set for Strava API");
-    return;
+    throw new Error("No environment variables set for Strava API");
   }
-
+  
   const body = JSON.stringify({
     client_id: process.env.STRAVA_CLIENT,
     refresh_token: process.env.STRAVA_REFRESH_TOKEN,
@@ -30,7 +41,7 @@ export default async function handler(
   const headers = {
     Accept: "application/json, text/plain",
     "Content-Type": "application/json",
-  };
+  };  
 
   try {
     const reauthouriseRes = await fetch("https://www.strava.com/oauth/token", {
@@ -51,11 +62,11 @@ export default async function handler(
 
     const formattedStravaData = formatStravaData(activitiesJson);
 
-    res.status(200).json(formattedStravaData);
+    return formattedStravaData;
   } catch (err) {
-    console.error(err);
-    return res.status(500).json(err);
+    throw new Error(err as string);
   }
+
 }
 
 const getMondaysEpoch = (): number => {

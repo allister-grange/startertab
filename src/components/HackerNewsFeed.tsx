@@ -2,28 +2,15 @@ import { Box, Center, Heading, Link, Spinner } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
 import { HackerNewsLinkHolder } from "../types/hackernews";
 
-export const HackerNewsFeed: React.FC = () => {
-  const [hackerNewsLinks, setHackerNewsLinks] = useState<
-    undefined | HackerNewsLinkHolder[]
-  >();
+type PageProps = {
+  hackerNewsLinks: HackerNewsLinkHolder[];
+};
 
-  useEffect(() => {
-    const fetchHackerNewsLinks = async () => {
-      const linksRes = await fetch("/api/hackerNews");
-      const links = await linksRes.json();
-
-      setHackerNewsLinks(links);
-    };
-
-    fetchHackerNewsLinks();
-  }, []);
-
+export const HackerNewsFeed: React.FC<PageProps> = ({ hackerNewsLinks }) => {
   return (
     <Box p="2" color="white">
       <Heading p="2" fontSize="xl">
-        <Link href="https://news.ycombinator.com/ask">
-          Hacker News Feed
-        </Link>
+        <Link href="https://news.ycombinator.com/ask">Hacker News Feed</Link>
       </Heading>
       <Box w="80%" bg="white" height="1px" ml="2" bgColor="gray.200" />
       {hackerNewsLinks ? (

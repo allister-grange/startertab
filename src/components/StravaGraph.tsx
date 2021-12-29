@@ -1,5 +1,5 @@
 import { Box, Center, Heading, Spinner, Switch, Text } from "@chakra-ui/react";
-import React, { ChangeEvent, useEffect, useState } from "react";
+import React, { useState } from "react";
 import {
   Bar,
   BarChart,
@@ -10,27 +10,14 @@ import {
 } from "recharts";
 import { StravaGraphData, StravaGraphPoint } from "../types/strava";
 
-export const StravaGraph: React.FC = ({}) => {
-  const [stravaData, setStravaData] = useState<undefined | StravaGraphData>();
+type PageProps = {
+  stravaData: StravaGraphData;
+};
+
+export const StravaGraph: React.FC<PageProps> = ({ stravaData }) => {
+  // const [stravaData, setStravaData] = useState<undefined | StravaGraphData>();
   const [showingSwim, setShowingSwim] = useState<Boolean | undefined>();
-  const [error, setError] = useState("");
-
-  useEffect(() => {
-    const makeCallToStravaApi = async () => {
-      try {
-        const res = await fetch(`/api/strava`);
-
-        const data = await res.json();
-
-        setStravaData(data);
-      } catch (err) {
-        console.error(err);
-        setError(err as string);
-      }
-    };
-
-    makeCallToStravaApi();
-  }, []);
+  // const [error, setError] = useState("");
 
   return (
     <Box>
@@ -126,10 +113,6 @@ export const StravaGraph: React.FC = ({}) => {
             </BarChart>
           </ResponsiveContainer>
         </Box>
-      ) : error ? (
-        <Center minHeight="265px">
-          <Text color="white">Error calling Strava API</Text>
-        </Center>
       ) : (
         <Center minHeight="265px">
           <Spinner color="white" />

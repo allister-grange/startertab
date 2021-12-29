@@ -5,12 +5,21 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
+  try {
+    const data = await getNiwaData();
+    res.status(200).json(data);
+  } catch (err) {
+    res.status(500).send(err);
+  }
+}
+
+export const getNiwaData = async () => {
   const niwaKey = process.env.NIWA_API_KEY;
   const niwaSecret = process.env.NIWA_API_SECRET;
   const niwaURL = process.env.NIWA_API_URL;
 
   if (!niwaKey || !niwaSecret || !niwaURL) {
-    return res.status(500).send("Missing environment config data");
+    throw new Error("Missing environment config data");
   }
 
   try {
@@ -19,19 +28,18 @@ export default async function handler(
     });
 
     if (niwaRes.status !== 200) {
-      return res.status(500).json("Bad request to niwa");
+      throw new Error("Bad request to niwa");
     }
 
     const data = (await niwaRes.json()) as NiwaResponse;
 
     const transformedData = transformNiwaData(data);
 
-    res.status(200).json(transformedData);
+    return transformedData;
   } catch (err) {
-    console.error(err);
-    return res.status(500).json(err);
+    throw new Error(err as string);
   }
-}
+};
 
 const transformNiwaData = (data: NiwaResponse): TransformedNiwaData[] => {
   const timeValuePairs = [] as TransformedNiwaData[];

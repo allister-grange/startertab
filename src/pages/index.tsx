@@ -1,5 +1,5 @@
-import { Box, Grid, GridItem } from "@chakra-ui/react";
-import type { NextPage } from "next";
+import { Grid, GridItem } from "@chakra-ui/react";
+import type { GetStaticProps, NextPage } from "next";
 import Bonsai from "../components/Bonsai";
 import ColorModeSwitcher from "../components/ColorModeSwitcher";
 import { HackerNewsFeed } from "../components/HackerNewsFeed";
@@ -9,8 +9,20 @@ import { StravaGraph } from "../components/StravaGraph";
 import { SwimmingPoolTimeTable } from "../components/SwimmingPoolTimeTable";
 import { Time } from "../components/Time";
 import styles from "../styles/Home.module.css";
+import { HackerNewsLinkHolder } from "../types/hackernews";
+import { TransformedNiwaData } from "../types/niwa";
+import { StravaGraphData } from "../types/strava";
+import { getHackerNewsData } from "./api/hackerNews";
+import { getNiwaData } from "./api/niwaUV";
+import { getStravaData } from "./api/strava";
 
-const Home: NextPage = () => {
+type PageProps = {
+  stravaData: StravaGraphData,
+  niwaData: TransformedNiwaData[],
+  hackerNewsLinks: HackerNewsLinkHolder[],
+}
+
+const Home: NextPage<PageProps> = ({ stravaData, niwaData, hackerNewsLinks }) => {
   return (
     <div className={styles.container}>
       <Grid
@@ -27,10 +39,10 @@ const Home: NextPage = () => {
           overflowY="scroll"
           className={styles.disableScrollbars}
         >
-          <HackerNewsFeed />
+          <HackerNewsFeed hackerNewsLinks={hackerNewsLinks}/>
         </GridItem>
         <GridItem bg="#F76808" colSpan={2} borderRadius="15" py="5">
-          <StravaGraph />
+          <StravaGraph stravaData={stravaData} />
         </GridItem>
         <GridItem borderRadius="15" colSpan={2} bg="papayawhip">
           <SwimmingPoolTimeTable />
@@ -70,10 +82,9 @@ const Home: NextPage = () => {
           minH="310px"
           maxH="350px"
         >
-          <NiwaUvGraph />
+          <NiwaUvGraph niwaData={niwaData}/>
         </GridItem>
-        <GridItem borderRadius="15" colSpan={1} bg="#AB4AB9"
-        maxH="200px">
+        <GridItem borderRadius="15" colSpan={1} bg="#AB4AB9" maxH="200px">
           <ColorModeSwitcher />
         </GridItem>
         <GridItem borderRadius="15" colSpan={1} bg="#0654A4">
@@ -82,6 +93,14 @@ const Home: NextPage = () => {
       </Grid>
     </div>
   );
+};
+
+export const getStaticProps: GetStaticProps = async (context) => {
+  const stravaData = await getStravaData();
+  const niwaData = await getNiwaData();
+  const hackerNewsLinks = await getHackerNewsData();
+
+  return { props: { stravaData, niwaData, hackerNewsLinks }, revalidate: 600 };
 };
 
 export default Home;
