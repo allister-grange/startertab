@@ -31,6 +31,7 @@ const Home: NextPage<PageProps> = ({ stravaData, niwaData, hackerNewsLinks }) =>
         templateColumns="repeat(5, 1fr)"
         gap={4}
         maxW="1500px"
+        maxH="760px"
         marginX={"auto"}
       >
         <GridItem
@@ -43,7 +44,7 @@ const Home: NextPage<PageProps> = ({ stravaData, niwaData, hackerNewsLinks }) =>
         >
           <HackerNewsFeed hackerNewsLinks={hackerNewsLinks}/>
         </GridItem>
-        <GridItem rowSpan={4} bg="#E89C4B" colSpan={2} borderRadius="15" py="5">
+        <GridItem rowSpan={4} bg="#E89C4B" colSpan={2} borderRadius="15" py="5" maxH="330px">
           <StravaGraph stravaData={stravaData} />
         </GridItem>
         <GridItem borderRadius="15" colSpan={1} rowSpan={2} bg="#9AB899">
@@ -89,7 +90,7 @@ const Home: NextPage<PageProps> = ({ stravaData, niwaData, hackerNewsLinks }) =>
           bg="#E89C4B"
           overflow="hidden"
           minH="310px"
-          maxH="320px"
+          maxH="330px"
         >
           <NiwaUvGraph niwaData={niwaData}/>
         </GridItem>
