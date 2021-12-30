@@ -1,4 +1,4 @@
-import { Box, Center, Heading, Spinner, Switch, Text } from "@chakra-ui/react";
+import { Box, Center, Heading, Spinner, Switch, Text, useColorModeValue } from "@chakra-ui/react";
 import React, { useState } from "react";
 import {
   Bar,
@@ -16,10 +16,11 @@ type PageProps = {
 
 export const StravaGraph: React.FC<PageProps> = ({ stravaData }) => {
   const [showingSwim, setShowingSwim] = useState<Boolean | undefined>();
+  const color = useColorModeValue("white", "#222222");
 
   return (
     <Box>
-      <Box display="flex" flexDir="row" mt="2" color="#222834">
+      <Box display="flex" flexDir="row" mt="2" color={color}>
         <Heading ml="10" fontSize="2xl">
           Strava Stats
         </Heading>
@@ -49,9 +50,9 @@ export const StravaGraph: React.FC<PageProps> = ({ stravaData }) => {
                 dataKey="day"
                 tick={{ fontSize: 12 }}
                 interval={0}
-                stroke="#1A202C"
+                stroke={color}
               />
-              <YAxis stroke="#1A202C" />
+              <YAxis stroke={color} />
               {showingSwim === true && (
                 <Bar dataKey="swim" barSize={35}>
                   {stravaData.swimming.map(

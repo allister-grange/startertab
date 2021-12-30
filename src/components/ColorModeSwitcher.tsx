@@ -13,9 +13,7 @@ const ColorModeSwitcher = (props: ColorModeSwitcherProps) => {
   const { toggleColorMode } = useColorMode();
   const text = useColorModeValue("dark", "light");
   const SwitchIcon = useColorModeValue(MoonIcon, SunIcon);
-  // const borderColor = useColorModeValue("purple.600", "purple.200");
-  const backgroundColor = useColorModeValue("white", "gray.700");
-  // const color = useColorModeValue("purple.600", "purple.200");
+  const color = useColorModeValue("white", "#222222");
 
   return (
     <Center height="100%">
@@ -25,7 +23,7 @@ const ColorModeSwitcher = (props: ColorModeSwitcherProps) => {
         _hover={{background: "transparent"}}
         _focus={{border: "0px"}}
         _active={{background: "transparent"}}
-        color="#222834"
+        color={color}
         backgroundColor={"transparent"}
         onClick={toggleColorMode}
         icon={<SwitchIcon />}

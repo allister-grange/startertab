@@ -1,5 +1,5 @@
-import { Box, Center, Heading, Link, Spinner } from "@chakra-ui/react";
-import React, { useEffect, useState } from "react";
+import { Box, Center, Heading, Link, Spinner, useColorModeValue } from "@chakra-ui/react";
+import React from "react";
 import { HackerNewsLinkHolder } from "../types/hackernews";
 
 type PageProps = {
@@ -8,7 +8,7 @@ type PageProps = {
 
 export const HackerNewsFeed: React.FC<PageProps> = ({ hackerNewsLinks }) => {
   return (
-    <Box p="2" color="#222834">
+    <Box p="2" color={useColorModeValue("white", "#222222")}>
       <Heading p="2" fontSize="xl">
         <Link href="https://news.ycombinator.com/ask">Hacker News Feed</Link>
       </Heading>

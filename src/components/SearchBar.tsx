@@ -1,19 +1,28 @@
-import { Button, Center, Input } from "@chakra-ui/react";
+import {
+  Button,
+  Center,
+  Input,
+  useColorMode,
+  useColorModeValue,
+} from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import React, { useState } from "react";
-import { DuckDuckGoIcon } from "./DuckDuckGoIcon";
-import { GoogleIcon } from "./GoogleIcon";
-import { StackOverFlowIcon } from "./StackOverFlowIcon";
+import { DuckDuckGoDarkIcon } from "./icons/DuckDuckGoDarkIcon";
+import { DuckDuckGoLightIcon } from "./icons/DuckDuckGoLightIcon";
+import { GoogleDarkIcon } from "./icons/GoogleDarkIcon";
+import { GoogleLightIcon } from "./icons/GoogleDarkLightIcon";
+import { StackOverFlowDarkIcon } from "./icons/StackOverFlowDarkIcon";
+import { StackOverFlowLightIcon } from "./icons/StackOverFlowLightIcon";
 
 export const SearchBar: React.FC = () => {
   const router = useRouter();
   const [searchTerm, setSearchTerm] = useState<undefined | string>(undefined);
+  const color = useColorModeValue("white", "#222222");
+  const { colorMode } = useColorMode();
 
   type AppTypes = "google" | "duck" | "stackoverflow";
 
   const searchClick = (app: AppTypes) => {
-    console.log(app);
-
     switch (app) {
       case "google":
         router.push(`https://google.com/search?q=${searchTerm}`);
@@ -32,20 +41,31 @@ export const SearchBar: React.FC = () => {
   return (
     <Center height="100%">
       <Button bg="transparent" onClick={() => searchClick("duck")}>
-        <DuckDuckGoIcon w={10} h={10} />
+        {colorMode === "light" ? (
+          <DuckDuckGoLightIcon w={10} h={10} />
+        ) : (
+          <DuckDuckGoDarkIcon w={10} h={10} />
+        )}
       </Button>
       <Button bg="transparent" onClick={() => searchClick("google")}>
-        <GoogleIcon w={9} h={9} />
+        {colorMode === "light" ? (
+          <GoogleLightIcon w={9} h={9} />
+        ) : (
+          <GoogleDarkIcon w={9} h={9} />
+        )}
       </Button>
       <Button bg="transparent" onClick={() => searchClick("stackoverflow")}>
-        <StackOverFlowIcon w={10} h={10} />
+        {colorMode === "light" ? (
+          <StackOverFlowLightIcon w={10} h={10} />
+        ) : (
+          <StackOverFlowDarkIcon w={10} h={10} />
+        )}
       </Button>
       <Input
         width={400}
-        // bg="white"
-        color="#202020"
+        color={color}
         _placeholder={{
-          color: "#1A202C",
+          color: color,
         }}
         _focus={{
           border: "0",

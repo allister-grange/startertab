@@ -1,4 +1,4 @@
-import { Box, Button, Center, Heading, Input } from "@chakra-ui/react";
+import { Box, Button, Center, Heading, Input, useColorModeValue } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
 
 interface TimeProps {}
@@ -9,6 +9,7 @@ export const Time: React.FC<TimeProps> = ({}) => {
     undefined
   );
   const [timer, setTimer] = useState<undefined | number>(undefined);
+  const color = useColorModeValue("white", "#222222");
 
   const updateTime = () => {
     setTime(new Date().toTimeString().replace(/.*(\d{2}:\d{2}:\d{2}).*/, "$1"));
@@ -52,15 +53,14 @@ export const Time: React.FC<TimeProps> = ({}) => {
       p="4"
       alignItems="center"
       justifyContent="center"
-      color="#222834"
+      color={color}
     >
       <Heading marginX="auto">
         {timer ? getMinutesAndSeconds(timer) : time}
       </Heading>
       <Box display="flex" flexDir="row">
         <Input
-          borderColor="#222834"
-          color="blue"
+          borderColor={color}
           type="number"
           value={timerPlaceholder}
           onChange={(e) => setTimerPlaceholder(parseInt(e.target.value))}
@@ -69,7 +69,7 @@ export const Time: React.FC<TimeProps> = ({}) => {
           mb="4"
           mr="1"
           _placeholder={{
-            color: "#222834",
+            color: color,
           }}
         />
         <Button ml="1" border="1px" bg="transparent" onClick={startTimer}>
