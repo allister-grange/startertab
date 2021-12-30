@@ -30,6 +30,8 @@ const Home: NextPage<PageProps> = ({ stravaData, niwaData, hackerNewsLinks }) =>
         templateRows="repeat(9, 1fr)"
         templateColumns="repeat(5, 1fr)"
         gap={4}
+        maxW="1500px"
+        marginX={"auto"}
       >
         <GridItem
           borderRadius="15"
@@ -91,7 +93,7 @@ const Home: NextPage<PageProps> = ({ stravaData, niwaData, hackerNewsLinks }) =>
         >
           <NiwaUvGraph niwaData={niwaData}/>
         </GridItem>
-        <GridItem borderRadius="15" colSpan={1} rowSpan={2} bg="#65abc1" maxH="200px">
+        <GridItem borderRadius="15" colSpan={1} rowSpan={2} bg="#65abc1" >
           <ColorModeSwitcher />
         </GridItem>
         <GridItem borderRadius="15" colSpan={1} rowSpan={2} bg="#65abc1">

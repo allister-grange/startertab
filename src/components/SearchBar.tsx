@@ -42,11 +42,19 @@ export const SearchBar: React.FC = () => {
       </Button>
       <Input
         width={400}
-        bg="white"
+        // bg="white"
         color="#202020"
         _placeholder={{
-          color: "gray.400",
+          color: "#1A202C",
         }}
+        _focus={{
+          border: "0",
+          borderBottom: "1px",
+        }}
+        border="0"
+        borderBottom="1px"
+        borderRadius="0"
+        background="transparent"
         placeholder="search me"
         onChange={(e) => setSearchTerm(e.target.value)}
         value={searchTerm}

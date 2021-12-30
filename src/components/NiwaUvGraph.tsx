@@ -16,7 +16,7 @@ interface NiwaUvGraphProps {
 
 export const NiwaUvGraph: React.FC<NiwaUvGraphProps> = ({ niwaData }) => {
   return (
-    <Box pt="2" color="#222834">
+    <Box pt="2" color="#222834" pr="4">
       <Heading fontSize="2xl" ml="5" mb="5" mt="2">
         UV Index Wellington
       </Heading>
@@ -24,9 +24,8 @@ export const NiwaUvGraph: React.FC<NiwaUvGraphProps> = ({ niwaData }) => {
       {niwaData ? (
         <ResponsiveContainer width="100%" height={240}>
           <BarChart data={niwaData}>
-            <XAxis dataKey="time" tick={{ fontSize: 8 }} />
-            <YAxis />
-            <Legend />
+            <XAxis dataKey="time" tick={{ fontSize: 8 }} stroke="#1A202C"/>
+            <YAxis stroke="#1A202C" />
             <Bar dataKey="sunny" fill="white" />
             <Bar dataKey="cloudy" fill="#1A202C" />
           </BarChart>

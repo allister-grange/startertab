@@ -42,16 +42,16 @@ export const StravaGraph: React.FC<PageProps> = ({ stravaData }) => {
       </Box>
       {stravaData ? (
         <Box mt="4">
-          <ResponsiveContainer width="95%" height={250}>
+          <ResponsiveContainer width="95%" height={240}>
             <BarChart data={stravaData.combinedData}>
               <XAxis
                 label={undefined}
                 dataKey="day"
                 tick={{ fontSize: 12 }}
                 interval={0}
-                stroke="white"
+                stroke="#1A202C"
               />
-              <YAxis stroke="white" />
+              <YAxis stroke="#1A202C" />
               {showingSwim === true && (
                 <Bar dataKey="swim" barSize={35}>
                   {stravaData.swimming.map(
