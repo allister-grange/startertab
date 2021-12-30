@@ -1,4 +1,4 @@
-import { Center, Heading, Spinner, Text } from "@chakra-ui/react";
+import { Box, Center, Heading, Spinner, Text } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
 import {
   Bar,
@@ -16,13 +16,13 @@ interface NiwaUvGraphProps {
 
 export const NiwaUvGraph: React.FC<NiwaUvGraphProps> = ({ niwaData }) => {
   return (
-    <div>
-      <Heading color="white" fontSize="2xl" ml="10" mb="5" mt="2">
+    <Box pt="2" color="#222834">
+      <Heading fontSize="2xl" ml="5" mb="5" mt="2">
         UV Index Wellington
       </Heading>
 
       {niwaData ? (
-        <ResponsiveContainer width="95%" height={240}>
+        <ResponsiveContainer width="100%" height={240}>
           <BarChart data={niwaData}>
             <XAxis dataKey="time" tick={{ fontSize: 8 }} />
             <YAxis />
@@ -32,10 +32,10 @@ export const NiwaUvGraph: React.FC<NiwaUvGraphProps> = ({ niwaData }) => {
           </BarChart>
         </ResponsiveContainer>
       ) : (
-        <Center minH="250">
+        <Center minH="250px">
           <Spinner color="white" />
         </Center>
       )}
-    </div>
+    </Box>
   );
 };

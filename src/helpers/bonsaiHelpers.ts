@@ -140,24 +140,24 @@ export const chooseNextChar = (
 
   switch (shootType) {
     case ShootType.trunk:
-      if (dx === 0) char = '<span style="color: #b5781c">/~</span>';
-      else if (dy < 0) char = '<span style="color: #d8952f">\\|</span>';
-      else if (dy === 0) char = '<span style="color: #b5781c">/|\\</span>';
-      else if (dy > 0) char = '<span style="color: #d8952f">/|</span>';
+      if (dx === 0) char = '<span style="color: papayawhip">/~</span>';
+      else if (dy < 0) char = '<span style="color: papayawhip">\\|</span>';
+      else if (dy === 0) char = '<span style="color: papayawhip">/|\\</span>';
+      else if (dy > 0) char = '<span style="color: papayawhip">/|</span>';
       break;
     case ShootType.shootLeft:
-      if (dx > 0) char = '<span style="color: #eaac41">\\</span>';
-      else if (dx === 0) char = '<span style="color: #b5781c">\\~</span>';
-      else if (dy < 0) char = '<span style="color: #eaac41">\\|</span>';
-      else if (dy === 0) char = '<span style="color: #b5781c">/|</span>';
-      else if (dy > 0) char = '<span style="color: #eaac41">/</span>';
+      if (dx > 0) char = '<span style="color: white">\\</span>';
+      else if (dx === 0) char = '<span style="color: papayawhip">\\~</span>';
+      else if (dy < 0) char = '<span style="color: white">\\|</span>';
+      else if (dy === 0) char = '<span style="color: papayawhip">/|</span>';
+      else if (dy > 0) char = '<span style="color: white">/</span>';
       break;
     case ShootType.shootRight:
-      if (dx > 0) char = '<span style="color: #eaac41">/</span>';
-      else if (dx === 0) char = '<span style="color: #d8952f">~/</span>';
-      else if (dy < 0) char = '<span style="color: #eaac41">\\|</span>';
-      else if (dy === 0) char = '<span style="color: #875f19">/|</span>';
-      else if (dy > 0) char = '<span style="color: #eaac41">/</span>';
+      if (dx > 0) char = '<span style="color: white">/</span>';
+      else if (dx === 0) char = '<span style="color: papayawhip">~/</span>';
+      else if (dy < 0) char = '<span style="color: white">\\|</span>';
+      else if (dy === 0) char = '<span style="color: papayawhip">/|</span>';
+      else if (dy > 0) char = '<span style="color: white">/</span>';
       break;
     case ShootType.dying:
       char = '<span style="color: #6fc458">&</span>';
@@ -177,7 +177,7 @@ export const getBonsaiBase = (): string => {
 
   base += `:${'<span style="color: #25a003">_</span>'.repeat(
     12
-  )}<span style="color: #eaac41">./~~~~~\\.</span>${'<span style="color: #25a003">_</span>'.repeat(
+  )}<span style="color: white">./~~~~~\\.</span>${'<span style="color: #25a003">_</span>'.repeat(
     12
   )}:\n`;
   base += `\u00A0\\${"\u00A0".repeat(60)}/\n`;

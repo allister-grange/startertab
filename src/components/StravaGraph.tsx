@@ -15,13 +15,11 @@ type PageProps = {
 };
 
 export const StravaGraph: React.FC<PageProps> = ({ stravaData }) => {
-  // const [stravaData, setStravaData] = useState<undefined | StravaGraphData>();
   const [showingSwim, setShowingSwim] = useState<Boolean | undefined>();
-  // const [error, setError] = useState("");
 
   return (
     <Box>
-      <Box display="flex" flexDir="row" mt="2" color="white">
+      <Box display="flex" flexDir="row" mt="2" color="#222834">
         <Heading ml="10" fontSize="2xl">
           Strava Stats
         </Heading>

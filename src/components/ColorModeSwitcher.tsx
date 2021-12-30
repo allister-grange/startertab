@@ -25,7 +25,7 @@ const ColorModeSwitcher = (props: ColorModeSwitcherProps) => {
         _hover={{background: "transparent"}}
         _focus={{border: "0px"}}
         _active={{background: "transparent"}}
-        color="white"
+        color="#222834"
         backgroundColor={"transparent"}
         onClick={toggleColorMode}
         icon={<SwitchIcon />}

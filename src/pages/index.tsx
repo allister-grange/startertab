@@ -1,20 +1,20 @@
 import { Grid, GridItem } from "@chakra-ui/react";
 import type { GetStaticProps, NextPage } from "next";
-import Bonsai from "../components/Bonsai";
-import ColorModeSwitcher from "../components/ColorModeSwitcher";
-import { HackerNewsFeed } from "../components/HackerNewsFeed";
-import { NiwaUvGraph } from "../components/NiwaUvGraph";
-import { SearchBar } from "../components/SearchBar";
-import { StravaGraph } from "../components/StravaGraph";
-import { SwimmingPoolTimeTable } from "../components/SwimmingPoolTimeTable";
-import { Time } from "../components/Time";
-import styles from "../styles/Home.module.css";
-import { HackerNewsLinkHolder } from "../types/hackernews";
-import { TransformedNiwaData } from "../types/niwa";
-import { StravaGraphData } from "../types/strava";
-import { getHackerNewsData } from "./api/hackerNews";
-import { getNiwaData } from "./api/niwaUV";
-import { getStravaData } from "./api/strava";
+import Bonsai from "@/components/Bonsai";
+import ColorModeSwitcher from "@/components/ColorModeSwitcher";
+import { HackerNewsFeed } from "@/components/HackerNewsFeed";
+import { NiwaUvGraph } from "@/components/NiwaUvGraph";
+import { SearchBar } from "@/components/SearchBar";
+import { StravaGraph } from "@/components/StravaGraph";
+import { SwimmingPoolTimeTable } from "@/components/SwimmingPoolTimeTable";
+import { Time } from "@/components/Time";
+import styles from "@/styles/Home.module.css";
+import { HackerNewsLinkHolder } from "@/types/hackernews";
+import { TransformedNiwaData } from "@/types/niwa";
+import { StravaGraphData } from "@/types/strava";
+import { getHackerNewsData } from "@/pages/api/hackerNews";
+import { getNiwaData } from "@/pages/api/niwaUV";
+import { getStravaData } from "@/pages/api/strava";
 
 type PageProps = {
   stravaData: StravaGraphData,
@@ -27,68 +27,76 @@ const Home: NextPage<PageProps> = ({ stravaData, niwaData, hackerNewsLinks }) =>
     <div className={styles.container}>
       <Grid
         h="90vh"
-        templateRows="repeat(4, 1fr)"
+        templateRows="repeat(9, 1fr)"
         templateColumns="repeat(5, 1fr)"
         gap={4}
       >
         <GridItem
           borderRadius="15"
-          rowSpan={2}
+          rowSpan={5}
           colSpan={1}
-          bg="#30A56C"
+          bg="#65abc1"
           overflowY="scroll"
           className={styles.disableScrollbars}
         >
           <HackerNewsFeed hackerNewsLinks={hackerNewsLinks}/>
         </GridItem>
-        <GridItem bg="#F76808" colSpan={2} borderRadius="15" py="5">
+        <GridItem rowSpan={4} bg="#E89C4B" colSpan={2} borderRadius="15" py="5">
           <StravaGraph stravaData={stravaData} />
         </GridItem>
-        <GridItem borderRadius="15" colSpan={2} bg="papayawhip">
+        <GridItem borderRadius="15" colSpan={1} rowSpan={2} bg="#9AB899">
+        </GridItem>
+        <GridItem borderRadius="15" colSpan={1} rowSpan={2} bg="#65abc1">
           <SwimmingPoolTimeTable />
+        </GridItem>
+        <GridItem borderRadius="15" colSpan={1} rowSpan={2} bg="#65abc1">
+          <SwimmingPoolTimeTable />
+        </GridItem>
+        <GridItem borderRadius="15" colSpan={1} rowSpan={2} bg="#9AB899">
         </GridItem>
         <GridItem
           borderRadius="15"
-          colSpan={4}
+          colSpan={3}
           rowSpan={1}
-          bg="#0654A4"
+          bg="#F06808"
           minH="60px"
         >
           <SearchBar />
         </GridItem>
-        <GridItem borderRadius="15" colSpan={1} bg="#F76808">
+        <GridItem rowSpan={2} borderRadius="15" colSpan={1} bg="#E89C4B">
           <Time />
         </GridItem>
         <GridItem
           borderRadius="15"
           colSpan={1}
-          rowSpan={2}
-          bg="papayawhip"
+          rowSpan={4}
+          bg="#E89C4B"
           pos="relative"
           overflow="hidden"
           maxH="380px"
+          minW="250px"
         >
           <Bonsai />
         </GridItem>
-        <GridItem borderRadius="15" colSpan={1} rowSpan={1} bg="#AB4AB9">
-          {/* <Box>quick link</Box> */}
+        <GridItem borderRadius="15" colSpan={1} rowSpan={2} bg="#9AB899">
         </GridItem>
         <GridItem
           borderRadius="15"
           colSpan={2}
-          rowSpan={2}
-          bg="#30A56C"
+          rowSpan={4}
+          bg="#E89C4B"
           overflow="hidden"
           minH="310px"
-          maxH="350px"
+          maxH="320px"
         >
           <NiwaUvGraph niwaData={niwaData}/>
         </GridItem>
-        <GridItem borderRadius="15" colSpan={1} bg="#AB4AB9" maxH="200px">
+        <GridItem borderRadius="15" colSpan={1} rowSpan={2} bg="#65abc1" maxH="200px">
           <ColorModeSwitcher />
         </GridItem>
-        <GridItem borderRadius="15" colSpan={1} bg="#0654A4">
-          {/* <Box>quick link/toggle for light/dark mode?</Box> */}
+        <GridItem borderRadius="15" colSpan={1} rowSpan={2} bg="#65abc1">
+        </GridItem>
+        <GridItem borderRadius="15" colSpan={1} rowSpan={1} bg="#9AB899">
         </GridItem>
       </Grid>
     </div>

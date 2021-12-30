@@ -52,13 +52,14 @@ export const Time: React.FC<TimeProps> = ({}) => {
       p="4"
       alignItems="center"
       justifyContent="center"
+      color="#222834"
     >
-      <Heading color="white" marginX="auto">
+      <Heading marginX="auto">
         {timer ? getMinutesAndSeconds(timer) : time}
       </Heading>
       <Box display="flex" flexDir="row">
         <Input
-          borderColor="white"
+          borderColor="#222834"
           color="blue"
           type="number"
           value={timerPlaceholder}
@@ -68,7 +69,7 @@ export const Time: React.FC<TimeProps> = ({}) => {
           mb="4"
           mr="1"
           _placeholder={{
-            color: "white",
+            color: "#222834",
           }}
         />
         <Button ml="1" border="1px" bg="transparent" onClick={startTimer}>

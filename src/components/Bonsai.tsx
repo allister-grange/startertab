@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
-import { getBonsaiBase, grow } from "../helpers/bonsaiHelpers";
-import * as BONSAI from "../helpers/bonsaiHelpers";
-import { ShootType } from "../types/bonsai";
+import { getBonsaiBase, grow } from "@/helpers/bonsaiHelpers";
+import * as BONSAI from "@/helpers/bonsaiHelpers";
+import { ShootType } from "@/types/bonsai";
 import { Box, Text } from "@chakra-ui/react";
 
 const Bonsai = (): JSX.Element => {
@@ -48,13 +48,9 @@ const Bonsai = (): JSX.Element => {
 
   return (
     <Box
-    // display="table-cell"
-      // textAlign="center"
       pos="absolute"
       bottom="2"
       left="5"
-      // right="0"
-      // verticalAlign="bottom"
     >
       {bonsai.map((line, idx) => {
         const joinedLine = line.join("");

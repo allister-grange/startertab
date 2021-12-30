@@ -8,7 +8,7 @@ type PageProps = {
 
 export const HackerNewsFeed: React.FC<PageProps> = ({ hackerNewsLinks }) => {
   return (
-    <Box p="2" color="white">
+    <Box p="2" color="#222834">
       <Heading p="2" fontSize="xl">
         <Link href="https://news.ycombinator.com/ask">Hacker News Feed</Link>
       </Heading>
