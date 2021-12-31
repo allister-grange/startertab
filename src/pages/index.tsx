@@ -1,4 +1,4 @@
-import { Grid, GridItem } from "@chakra-ui/react";
+import { Center, Grid, GridItem } from "@chakra-ui/react";
 import type { GetStaticProps, NextPage } from "next";
 import Bonsai from "@/components/Bonsai";
 import ColorModeSwitcher from "@/components/ColorModeSwitcher";
@@ -15,6 +15,8 @@ import { StravaGraphData } from "@/types/strava";
 import { getHackerNewsData } from "@/pages/api/hackerNews";
 import { getNiwaData } from "@/pages/api/niwaUV";
 import { getStravaData } from "@/pages/api/strava";
+import { WindIconDark } from "@/components/icons/WindIconDark";
+import { WindFinderLinks } from "@/components/WindFinderLinks";
 
 type PageProps = {
   stravaData: StravaGraphData,
@@ -44,13 +46,13 @@ const Home: NextPage<PageProps> = ({ stravaData, niwaData, hackerNewsLinks }) =>
         >
           <HackerNewsFeed hackerNewsLinks={hackerNewsLinks}/>
         </GridItem>
-        <GridItem rowSpan={4} bg="#E89C4B" colSpan={2} borderRadius="15" py="5" maxH="330px">
+        <GridItem rowSpan={4} bg="#E89C4B" colSpan={2} borderRadius="15" py="5" minH="330px" maxH="330px">
           <StravaGraph stravaData={stravaData} />
         </GridItem>
         <GridItem borderRadius="15" colSpan={1} rowSpan={2} bg="#9AB899">
         </GridItem>
         <GridItem borderRadius="15" colSpan={1} rowSpan={2} bg="#65abc1">
-          <SwimmingPoolTimeTable />
+          <WindFinderLinks />
         </GridItem>
         <GridItem borderRadius="15" colSpan={1} rowSpan={2} bg="#65abc1">
           <SwimmingPoolTimeTable />
