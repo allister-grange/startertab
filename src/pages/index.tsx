@@ -69,10 +69,22 @@ const Home: NextPage<PageProps> = ({
           rowSpan={2}
           bg="#9AB899"
         ></GridItem>
-        <GridItem borderRadius="15" colSpan={1} rowSpan={2} bg="#65abc1">
+        <GridItem
+          borderRadius="15"
+          colSpan={1}
+          rowSpan={2}
+          bg="#65abc1"
+          minW="200px"
+        >
           <WindFinderLinks />
         </GridItem>
-        <GridItem borderRadius="15" colSpan={1} rowSpan={2} bg="#65abc1">
+        <GridItem
+          borderRadius="15"
+          colSpan={1}
+          rowSpan={2}
+          bg="#65abc1"
+          minWidth="200px"
+        >
           <SwimmingPoolTimeTable />
         </GridItem>
         <GridItem
@@ -90,7 +102,13 @@ const Home: NextPage<PageProps> = ({
         >
           <SearchBar />
         </GridItem>
-        <GridItem rowSpan={2} borderRadius="15" colSpan={1} bg="#E89C4B">
+        <GridItem
+          rowSpan={2}
+          borderRadius="15"
+          colSpan={1}
+          bg="#E89C4B"
+          minW="200px"
+        >
           <Time />
         </GridItem>
         <GridItem
@@ -122,7 +140,13 @@ const Home: NextPage<PageProps> = ({
         >
           <NiwaUvGraph niwaData={niwaData} />
         </GridItem>
-        <GridItem borderRadius="15" colSpan={1} rowSpan={2} bg="#65abc1">
+        <GridItem
+          borderRadius="15"
+          colSpan={1}
+          rowSpan={2}
+          bg="#65abc1"
+          minW="200px"
+        >
           <ColorModeSwitcher />
         </GridItem>
         <GridItem
