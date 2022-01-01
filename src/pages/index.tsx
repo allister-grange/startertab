@@ -19,12 +19,16 @@ import { WindIconDark } from "@/components/icons/WindIconDark";
 import { WindFinderLinks } from "@/components/WindFinderLinks";
 
 type PageProps = {
-  stravaData: StravaGraphData,
-  niwaData: TransformedNiwaData[],
-  hackerNewsLinks: HackerNewsLinkHolder[],
-}
+  stravaData: StravaGraphData;
+  niwaData: TransformedNiwaData[];
+  hackerNewsLinks: HackerNewsLinkHolder[];
+};
 
-const Home: NextPage<PageProps> = ({ stravaData, niwaData, hackerNewsLinks }) => {
+const Home: NextPage<PageProps> = ({
+  stravaData,
+  niwaData,
+  hackerNewsLinks,
+}) => {
   return (
     <Box h="100vh" display="flex" alignItems="center">
       <Grid
@@ -45,21 +49,38 @@ const Home: NextPage<PageProps> = ({ stravaData, niwaData, hackerNewsLinks }) =>
           overflowY="scroll"
           className={styles.disableScrollbars}
         >
-          <HackerNewsFeed hackerNewsLinks={hackerNewsLinks}/>
+          <HackerNewsFeed hackerNewsLinks={hackerNewsLinks} />
         </GridItem>
-        <GridItem rowSpan={4} bg="#E89C4B" colSpan={2} borderRadius="15" py="5" minH="330px" maxH="330px">
+        <GridItem
+          rowSpan={4}
+          bg="#E89C4B"
+          colSpan={2}
+          borderRadius="15"
+          py="5"
+          minH="330px"
+          maxH="330px"
+          minW="530px"
+        >
           <StravaGraph stravaData={stravaData} />
         </GridItem>
-        <GridItem borderRadius="15" colSpan={1} rowSpan={2} bg="#9AB899">
-        </GridItem>
+        <GridItem
+          borderRadius="15"
+          colSpan={1}
+          rowSpan={2}
+          bg="#9AB899"
+        ></GridItem>
         <GridItem borderRadius="15" colSpan={1} rowSpan={2} bg="#65abc1">
           <WindFinderLinks />
         </GridItem>
         <GridItem borderRadius="15" colSpan={1} rowSpan={2} bg="#65abc1">
           <SwimmingPoolTimeTable />
         </GridItem>
-        <GridItem borderRadius="15" colSpan={1} rowSpan={2} bg="#9AB899">
-        </GridItem>
+        <GridItem
+          borderRadius="15"
+          colSpan={1}
+          rowSpan={2}
+          bg="#9AB899"
+        ></GridItem>
         <GridItem
           borderRadius="15"
           colSpan={3}
@@ -84,8 +105,12 @@ const Home: NextPage<PageProps> = ({ stravaData, niwaData, hackerNewsLinks }) =>
         >
           <Bonsai />
         </GridItem>
-        <GridItem borderRadius="15" colSpan={1} rowSpan={2} bg="#9AB899">
-        </GridItem>
+        <GridItem
+          borderRadius="15"
+          colSpan={1}
+          rowSpan={2}
+          bg="#9AB899"
+        ></GridItem>
         <GridItem
           borderRadius="15"
           colSpan={2}
@@ -95,15 +120,23 @@ const Home: NextPage<PageProps> = ({ stravaData, niwaData, hackerNewsLinks }) =>
           minH="310px"
           maxH="330px"
         >
-          <NiwaUvGraph niwaData={niwaData}/>
-        </GridItem>
-        <GridItem borderRadius="15" colSpan={1} rowSpan={2} bg="#65abc1" >
-          <ColorModeSwitcher />
+          <NiwaUvGraph niwaData={niwaData} />
         </GridItem>
         <GridItem borderRadius="15" colSpan={1} rowSpan={2} bg="#65abc1">
+          <ColorModeSwitcher />
         </GridItem>
-        <GridItem borderRadius="15" colSpan={1} rowSpan={1} bg="#9AB899">
-        </GridItem>
+        <GridItem
+          borderRadius="15"
+          colSpan={1}
+          rowSpan={2}
+          bg="#65abc1"
+        ></GridItem>
+        <GridItem
+          borderRadius="15"
+          colSpan={1}
+          rowSpan={1}
+          bg="#9AB899"
+        ></GridItem>
       </Grid>
     </Box>
   );
