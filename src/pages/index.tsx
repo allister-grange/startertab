@@ -1,4 +1,4 @@
-import { Center, Grid, GridItem } from "@chakra-ui/react";
+import { Box, Center, Grid, GridItem } from "@chakra-ui/react";
 import type { GetStaticProps, NextPage } from "next";
 import Bonsai from "@/components/Bonsai";
 import ColorModeSwitcher from "@/components/ColorModeSwitcher";
@@ -26,15 +26,16 @@ type PageProps = {
 
 const Home: NextPage<PageProps> = ({ stravaData, niwaData, hackerNewsLinks }) => {
   return (
-    <div className={styles.container}>
+    <Box h="100vh" display="flex" alignItems="center">
       <Grid
-        h="90vh"
+        h="100%"
         templateRows="repeat(9, 1fr)"
         templateColumns="repeat(5, 1fr)"
         gap={4}
         maxW="1500px"
         maxH="760px"
-        marginX={"auto"}
+        marginX="auto"
+        p="4"
       >
         <GridItem
           borderRadius="15"
@@ -104,7 +105,7 @@ const Home: NextPage<PageProps> = ({ stravaData, niwaData, hackerNewsLinks }) =>
         <GridItem borderRadius="15" colSpan={1} rowSpan={1} bg="#9AB899">
         </GridItem>
       </Grid>
-    </div>
+    </Box>
   );
 };
 

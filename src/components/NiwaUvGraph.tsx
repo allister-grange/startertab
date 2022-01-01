@@ -20,8 +20,8 @@ export const NiwaUvGraph: React.FC<NiwaUvGraphProps> = ({ niwaData }) => {
 
   return (
     <Box pt="2" color={color} pr="4">
-      <Heading fontSize="2xl" ml="5" mb="5" mt="2">
-        UV Index Wellington
+      <Heading fontSize="2xl" ml="8" mb="5" mt="2">
+        UV Index
       </Heading>
 
       {niwaData ? (
