@@ -167,6 +167,8 @@ const Home: NextPage<PageProps> = ({
 };
 
 export const getStaticProps: GetStaticProps = async (context) => {
+
+  // need to send these off as a string of promises
   const stravaData = await getStravaData();
   const niwaData = await getNiwaData();
   const hackerNewsLinks = await getHackerNewsData();
