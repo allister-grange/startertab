@@ -17,17 +17,22 @@ import { getNiwaData } from "@/pages/api/niwaUV";
 import { getStravaData } from "@/pages/api/strava";
 import { WindIconDark } from "@/components/icons/WindIconDark";
 import { WindFinderLinks } from "@/components/WindFinderLinks";
+import { getWeatherData } from "./api/weather";
+import { WeatherData } from "@/types/weather";
+import { WeatherTile } from "@/components/WeatherTile";
 
 type PageProps = {
   stravaData: StravaGraphData;
   niwaData: TransformedNiwaData[];
   hackerNewsLinks: HackerNewsLinkHolder[];
+  weatherData: WeatherData;
 };
 
 const Home: NextPage<PageProps> = ({
   stravaData,
   niwaData,
   hackerNewsLinks,
+  weatherData
 }) => {
   return (
     <Box h="100vh" display="flex" alignItems="center">
@@ -154,7 +159,9 @@ const Home: NextPage<PageProps> = ({
           colSpan={1}
           rowSpan={2}
           bg="#65abc1"
-        ></GridItem>
+        >
+          <WeatherTile weatherData={weatherData}/>
+        </GridItem>
         <GridItem
           borderRadius="15"
           colSpan={1}
@@ -167,13 +174,13 @@ const Home: NextPage<PageProps> = ({
 };
 
 export const getStaticProps: GetStaticProps = async (context) => {
-
-  // need to send these off as a string of promises
+  // need to send these off as a string of promises so they run in parallel
   const stravaData = await getStravaData();
   const niwaData = await getNiwaData();
   const hackerNewsLinks = await getHackerNewsData();
+  const weatherData = await getWeatherData();
 
-  return { props: { stravaData, niwaData, hackerNewsLinks }, revalidate: 600 };
+  return { props: { stravaData, niwaData, hackerNewsLinks, weatherData }, revalidate: 600 };
 };
 
 export default Home;
