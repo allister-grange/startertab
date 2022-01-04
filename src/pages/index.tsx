@@ -24,15 +24,15 @@ import { WeatherTile } from "@/components/WeatherTile";
 type PageProps = {
   stravaData: StravaGraphData;
   niwaData: TransformedNiwaData[];
-  hackerNewsLinks: HackerNewsLinkHolder[];
+  hackerNewsData: HackerNewsLinkHolder[];
   weatherData: WeatherData;
 };
 
 const Home: NextPage<PageProps> = ({
   stravaData,
   niwaData,
-  hackerNewsLinks,
-  weatherData
+  hackerNewsData,
+  weatherData,
 }) => {
   return (
     <Box h="100vh" display="flex" alignItems="center">
@@ -54,7 +54,7 @@ const Home: NextPage<PageProps> = ({
           overflowY="scroll"
           className={styles.disableScrollbars}
         >
-          <HackerNewsFeed hackerNewsLinks={hackerNewsLinks} />
+          <HackerNewsFeed hackerNewsData={hackerNewsData} />
         </GridItem>
         <GridItem
           rowSpan={4}
@@ -154,13 +154,8 @@ const Home: NextPage<PageProps> = ({
         >
           <ColorModeSwitcher />
         </GridItem>
-        <GridItem
-          borderRadius="15"
-          colSpan={1}
-          rowSpan={2}
-          bg="#65abc1"
-        >
-          <WeatherTile weatherData={weatherData}/>
+        <GridItem borderRadius="15" colSpan={1} rowSpan={2} bg="#65abc1">
+          <WeatherTile weatherData={weatherData} />
         </GridItem>
         <GridItem
           borderRadius="15"
@@ -174,13 +169,15 @@ const Home: NextPage<PageProps> = ({
 };
 
 export const getStaticProps: GetStaticProps = async (context) => {
-  // need to send these off as a string of promises so they run in parallel
-  const stravaData = await getStravaData();
-  const niwaData = await getNiwaData();
-  const hackerNewsLinks = await getHackerNewsData();
-  const weatherData = await getWeatherData();
+  
+  const [stravaData, niwaData, hackerNewsData, weatherData] = await Promise.all(
+    [getStravaData(), getNiwaData(), getHackerNewsData(), getWeatherData()]
+  );
 
-  return { props: { stravaData, niwaData, hackerNewsLinks, weatherData }, revalidate: 600 };
+  return {
+    props: { stravaData, niwaData, hackerNewsData, weatherData },
+    revalidate: 600,
+  };
 };
 
 export default Home;
