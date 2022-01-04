@@ -219,20 +219,20 @@ export const grow = (
 // 200 was the old lives, so I halved all values
   if (life < 15) {
     window.setTimeout(() => {
-      grow(row, col, life, age, ShootType.dying, tempBonsai, setBonsai);
-    }, timeToStep);
-  } else if (life < 25) {
-    window.setTimeout(() => {
       grow(row, col, life, age, ShootType.dead, tempBonsai, setBonsai);
+    }, timeToStep);
+  } else if (life < 35) {
+    window.setTimeout(() => {
+      grow(row, col, life, age, ShootType.dying, tempBonsai, setBonsai);
     }, timeToStep);
   } else {
     if (age === 20) {
       maxShoots -= 1;
-      grow(row, col, 45, age, ShootType.shootRight, newBonsaiGrid, setBonsai);
+      grow(row, col, 50, age, ShootType.shootRight, newBonsaiGrid, setBonsai);
     } else if (age === 45) {
-      grow(row, col, 45, age, ShootType.shootLeft, newBonsaiGrid, setBonsai);
+      grow(row, col, 50, age, ShootType.shootLeft, newBonsaiGrid, setBonsai);
     } else if (age === 70) {
-      grow(row, col, 45, age, ShootType.shootRight, newBonsaiGrid, setBonsai);
+      grow(row, col, 50, age, ShootType.shootRight, newBonsaiGrid, setBonsai);
     }
 
     window.setTimeout(() => {
