@@ -15,7 +15,6 @@ import { StravaGraphData } from "@/types/strava";
 import { getHackerNewsData } from "@/pages/api/hackerNews";
 import { getNiwaData } from "@/pages/api/niwaUV";
 import { getStravaData } from "@/pages/api/strava";
-import { WindIconDark } from "@/components/icons/WindIconDark";
 import { WindFinderLinks } from "@/components/WindFinderLinks";
 import { getWeatherData } from "./api/weather";
 import { WeatherData } from "@/types/weather";
@@ -62,7 +61,7 @@ const Home: NextPage<PageProps> = ({
           colSpan={2}
           borderRadius="15"
           py="5"
-          minH="330px"
+          minH="300px"
           maxH="330px"
           minW="530px"
         >

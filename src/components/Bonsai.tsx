@@ -47,34 +47,33 @@ const Bonsai = (): JSX.Element => {
   }, []);
 
   return (
-    <Box
-      pos="absolute"
-      bottom="2"
-      left="5"
-    >
-      {bonsai.map((line, idx) => {
-        const joinedLine = line.join("");
-        return (
-          <Text
-            lineHeight={"11px"}
-            fontSize="xs"
-            key={idx}
-            dangerouslySetInnerHTML={{ __html: joinedLine }}
-          />
-        );
-      })}
-      {getBonsaiBase()
-        .split("\n")
-        .map((val, idx) => (
-          <Text
-            color="black"
-            lineHeight={"12px"}
-            fontSize="xs"
-            key={idx}
-            dangerouslySetInnerHTML={{ __html: val }}
-          />
-        ))}
-    </Box>
+    <>
+      <Box pos="absolute" bottom="3.5rem" >
+        {bonsai.map((line, idx) => {
+          const joinedLine = line.join("");
+          return (
+            <Text
+              lineHeight={"0.75rem"}
+              key={idx}
+              dangerouslySetInnerHTML={{ __html: joinedLine }}
+            />
+          );
+        })}
+      </Box>
+      <Box pos="absolute" bottom="2" left="85">
+        {getBonsaiBase()
+          .split("\n")
+          .map((val, idx) => (
+            <Text
+              color="black"
+              lineHeight="0.8rem"
+              fontSize="0.8rem"
+              key={idx}
+              dangerouslySetInnerHTML={{ __html: val }}
+            />
+          ))}
+      </Box>
+    </>
   );
 };
 

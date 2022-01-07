@@ -176,13 +176,13 @@ export const getBonsaiBase = (): string => {
   let base = "";
 
   base += `:${'<span style="color: #25a003">_</span>'.repeat(
-    12
+    2
   )}<span style="color: white">./~~~~~\\.</span>${'<span style="color: #25a003">_</span>'.repeat(
-    12
+    2
   )}:\n`;
-  base += `\u00A0\\${"\u00A0".repeat(60)}/\n`;
-  base += `\u00A0\u00A0\\${"_".repeat(30)}/\n`;
-  base += `\u00A0\u00A0\u00A0(_)${"\u00A0".repeat(50)}(_)`;
+  base += `\\${"\u00A0".repeat(23)}/\n`;
+  base += `\u00A0\\${"_".repeat(11)}/\n`;
+  base += `\u00A0\u00A0\u00A0(_)${"\u00A0".repeat(11)}(_)`;
   return base;
 };
 
