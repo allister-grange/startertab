@@ -1,9 +1,11 @@
 import { MoonIcon, SunIcon } from "@chakra-ui/icons";
 import {
   Button,
-  Center, IconButtonProps,
+  Center,
+  Heading,
+  IconButtonProps,
   useColorMode,
-  useColorModeValue
+  useColorModeValue,
 } from "@chakra-ui/react";
 
 type ColorModeSwitcherProps = Omit<IconButtonProps, "aria-label">;
@@ -16,7 +18,6 @@ const ColorModeSwitcher = (props: ColorModeSwitcherProps) => {
   return (
     <Center height="100%">
       <Button
-        fontSize="2xl"
         _hover={{ background: "transparent" }}
         _focus={{ border: "0px" }}
         _active={{ background: "transparent" }}
@@ -24,7 +25,7 @@ const ColorModeSwitcher = (props: ColorModeSwitcherProps) => {
         onClick={toggleColorMode}
         color={color}
       >
-        make me {text}
+        <Heading fontSize="2xl">make me {text}</Heading>
       </Button>
     </Center>
   );

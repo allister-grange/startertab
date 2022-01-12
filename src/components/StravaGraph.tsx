@@ -1,4 +1,12 @@
-import { Box, Center, Heading, Spinner, Switch, Text, useColorModeValue } from "@chakra-ui/react";
+import {
+  Box,
+  Center,
+  Heading,
+  Spinner,
+  Switch,
+  Text,
+  useColorModeValue,
+} from "@chakra-ui/react";
 import React, { useState } from "react";
 import {
   Bar,
@@ -21,7 +29,7 @@ export const StravaGraph: React.FC<PageProps> = ({ stravaData }) => {
   return (
     <Box>
       <Box display="flex" flexDir="row" mt="2" color={color}>
-        <Heading ml="10" fontSize="2xl">
+        <Heading fontSize="2xl" ml="10">
           Strava Stats
         </Heading>
         <Text ml="auto" mr="2">

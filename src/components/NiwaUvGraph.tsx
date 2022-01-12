@@ -7,8 +7,6 @@ import {
 } from "@chakra-ui/react";
 import React from "react";
 import {
-  Bar,
-  BarChart,
   Line,
   LineChart,
   ResponsiveContainer,
