@@ -63,8 +63,6 @@ export const getSpotifyNowPlayingData =
 
     const data = await res.json();
 
-    console.log("data", data);
-
     return {
       playing: data.is_playing,
       songTitle: data.item.name,
