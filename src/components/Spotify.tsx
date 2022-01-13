@@ -113,7 +113,7 @@ export const Spotify: React.FC = ({}) => {
     <Center color={color} height="100%" p="4">
       <Flex dir="row">
         {songName ? (
-          <Link href={link}>
+          <Link href={link} mb="6">
             <Heading fontSize="xl">
               {songName} - {artistName}{" "}
             </Heading>
