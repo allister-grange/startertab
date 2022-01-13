@@ -12,17 +12,46 @@ const TOP_TRACKS_ENDPOINT = `https://api.spotify.com/v1/me/top/tracks?time_range
 const TOP_ARTISTS_ENDPOINT = `https://api.spotify.com/v1/me/top/artists?time_range=medium_term&limit=3`;
 const RECENTLY_PLAYED_ENDPOINT = `https://api.spotify.com/v1/me/player/recently-played?limit=10`;
 const TOKEN_ENDPOINT = `https://accounts.spotify.com/api/token`;
+const NEXT_SONG_ENDPOINT = `https://api.spotify.com/v1/me/player/next`;
+const PREVIOUS_SONG_ENDPOINT = `https://api.spotify.com/v1/me/player/previous`;
+const PAUSE_SONG_ENDPOINT = `https://api.spotify.com/v1/me/player/pause`;
+const PLAY_SONG_ENDPOINT = `https://api.spotify.com/v1/me/player/play`;
 
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  try {
-    const stravaData = await getSpotifyNowPlayingData();
+  if (req.method === "POST") {
+    try {
+      let {
+        query: { forward, pause },
+      } = req;
 
-    res.status(200).json(stravaData);
-  } catch (err) {
-    res.status(500).json(err);
+      if (forward !== undefined) {
+        const forwardBool = forward === "true" ? true : false;
+        await changeSongSpotify(forwardBool);
+
+        res.status(200).json({ success: true });
+      } else if (pause !== undefined) {
+        const pauseBool = pause === "true" ? true : false;
+        await pausePlaySongSpotify(pauseBool);
+
+        res.status(200).json({ success: true });
+      }
+    } catch (err) {
+      res.status(500).json(err);
+    }
+  } else if (req.method === "GET") {
+    try {
+      const stravaData = await getSpotifyNowPlayingData();
+
+      res.status(200).json(stravaData);
+    } catch (err) {
+      res.status(500).json(err);
+    }
+  } else {
+    res.setHeader("Allow", ["GET", "POST"]);
+    return res.status(405).json({ success: false });
   }
 }
 
@@ -70,6 +99,42 @@ export const getSpotifyNowPlayingData =
       link: data.item.external_urls.spotify,
     };
   };
+
+export const changeSongSpotify = async (forward: boolean) => {
+  const { access_token: accessToken } = await getAccessToken();
+
+  const endpointUrl = forward ? NEXT_SONG_ENDPOINT : PREVIOUS_SONG_ENDPOINT;
+
+  const res = await fetch(endpointUrl, {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+      "Content-Type": "application/json",
+    },
+  });
+
+  if (res.status !== 200) {
+    throw new Error("Failed to change spotify song");
+  }
+};
+
+export const pausePlaySongSpotify = async (pause: boolean) => {
+  const { access_token: accessToken } = await getAccessToken();
+
+  const endpointUrl = pause ? PAUSE_SONG_ENDPOINT : PLAY_SONG_ENDPOINT;
+
+  const res = await fetch(endpointUrl, {
+    method: "PUT",
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+      "Content-Type": "application/json",
+    },
+  });
+
+  if (res.status !== 200) {
+    throw new Error("Failed to pause/play spotify song");
+  }
+};
 
 export const getSpotifyData = async () => {
   const { accessToken } = await getAccessToken();
