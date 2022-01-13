@@ -180,8 +180,8 @@ export const getBonsaiBase = (): string => {
   )}<code style="color: white">./~~~~~\\.</code>${'<code style="color: #25a003">_</code>'.repeat(
     2
   )}:\n`;
-  base += `<code>\\${"\u00A0".repeat(12)}/\n<code>`;
-  base += `<code>\u00A0\\${"_".repeat(10)}/\n</<code>`;
+  base += `<code>\\${"\u00A0".repeat(12)}/\n</code>`;
+  base += `<code>\u00A0\\${"_".repeat(10)}/\n</code>`;
   base += `<code>\u00A0\u00A0(_)${"\u00A0".repeat(4)}(_)</code>`;
   return base;
 };
