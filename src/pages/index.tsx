@@ -17,7 +17,6 @@ import styles from "@/styles/Home.module.css";
 import {
   HackerNewsLinkHolder,
   StravaGraphData,
-  TransformedNiwaData,
   UvGraphData,
   WeatherData,
 } from "@/types";
@@ -66,7 +65,6 @@ const Home: NextPage<PageProps> = ({
           bg="#E89C4B"
           colSpan={2}
           borderRadius="15"
-          py="5"
           minH="300px"
           maxH="330px"
           minW="530px"

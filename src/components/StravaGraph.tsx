@@ -25,11 +25,12 @@ type PageProps = {
 export const StravaGraph: React.FC<PageProps> = ({ stravaData }) => {
   const [showingSwim, setShowingSwim] = useState<Boolean | undefined>();
   const color = useColorModeValue("white", "#222222");
+  const runBoxColor = useColorModeValue("rgba(255, 255, 255, 0.2)", "rgba(255, 255, 255, 0.1)");
 
   return (
-    <Box>
-      <Box display="flex" flexDir="row" mt="2" color={color}>
-        <Heading fontSize="2xl" ml="10">
+    <Box p="6">
+      <Box display="flex" flexDir="row" color={color}>
+        <Heading fontSize="2xl">
           Strava Stats
         </Heading>
         <Text ml="auto" mr="2">
@@ -50,8 +51,8 @@ export const StravaGraph: React.FC<PageProps> = ({ stravaData }) => {
         </Text>
       </Box>
       {stravaData ? (
-        <Box mt="4">
-          <ResponsiveContainer width="95%" height={240}>
+        <Box mt="4" ml="-10">
+          <ResponsiveContainer width="100%" height={240}>
             <BarChart data={stravaData.combinedData}>
               <XAxis
                 label={undefined}
@@ -81,9 +82,9 @@ export const StravaGraph: React.FC<PageProps> = ({ stravaData }) => {
                     (entry: StravaGraphPoint, index: number) => (
                       <Cell
                         key={`cell-${index}`}
-                        stroke={"white"}
+                        stroke={color}
                         strokeWidth={2}
-                        fill={"rgba(255, 255, 255, 0.2)"}
+                        fill={runBoxColor}
                       />
                     )
                   )}
@@ -96,9 +97,9 @@ export const StravaGraph: React.FC<PageProps> = ({ stravaData }) => {
                       (entry: StravaGraphPoint, index: number) => (
                         <Cell
                           key={`cell-${index}`}
-                          stroke={"white"}
+                          stroke={color}
                           strokeWidth={2}
-                          fill={"rgba(255, 255, 255, 0.2)"}
+                          fill={runBoxColor}
                         />
                       )
                     )}

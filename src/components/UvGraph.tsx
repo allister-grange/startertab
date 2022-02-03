@@ -23,17 +23,18 @@ export const UvGraph: React.FC<UvGraphProps> = ({ uvData }) => {
   const color = useColorModeValue("white", "#222222");
 
   return (
-    <Box pt="2" color={color} pr="4">
-      <Heading fontSize="2xl" ml="8" mb="5" mt="2">
+    <Box p="6" color={color} >
+      <Heading fontSize="2xl" >
         UV Index
       </Heading>
 
+      <Box mt="4" ml="-10">
       {uvData ? (
         <ResponsiveContainer width="100%" height={240}>
           <LineChart data={uvData}>
             <XAxis dataKey="time" tick={{ fontSize: 8 }} stroke={color} />
             <YAxis stroke={color} />
-            <Line dataKey="value" stroke="white"type="basis"  strokeWidth={2} width={5} dot={false} />
+            <Line dataKey="value" stroke={color} type="basis"  strokeWidth={2} width={5} dot={false} />
           </LineChart>
         </ResponsiveContainer>
       ) : (
@@ -41,6 +42,7 @@ export const UvGraph: React.FC<UvGraphProps> = ({ uvData }) => {
           <Spinner color="white" />
         </Center>
       )}
+      </Box>
     </Box>
   );
 };
