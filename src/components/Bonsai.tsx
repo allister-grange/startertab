@@ -4,7 +4,7 @@ import * as BONSAI from "@/helpers/bonsaiHelpers";
 import { ShootType } from "@/types/bonsai";
 import { Box, Text } from "@chakra-ui/react";
 
-const Bonsai = (): JSX.Element => {
+export const Bonsai = (): JSX.Element => {
   const getEmptyBonsai = (): string[][] => {
     const arrayOfSpaces = [];
     for (let i = 0; i < BONSAI.rows; i += 1) {
@@ -76,5 +76,3 @@ const Bonsai = (): JSX.Element => {
     </>
   );
 };
-
-export default Bonsai;

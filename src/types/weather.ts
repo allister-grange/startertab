@@ -134,3 +134,8 @@ export interface HourEntity {
   gust_kph: number;
   uv: number;
 }
+
+export interface UvGraphData {
+  value: number,
+  time: string
+}

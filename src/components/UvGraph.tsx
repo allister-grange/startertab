@@ -1,3 +1,4 @@
+import { UvGraphData } from "@/types";
 import {
   Box,
   Center,
@@ -13,13 +14,12 @@ import {
   XAxis,
   YAxis,
 } from "recharts";
-import { TransformedNiwaData } from "../types/niwa";
 
-interface NiwaUvGraphProps {
-  niwaData: TransformedNiwaData[];
+interface UvGraphProps {
+  uvData: UvGraphData[];
 }
 
-export const NiwaUvGraph: React.FC<NiwaUvGraphProps> = ({ niwaData }) => {
+export const UvGraph: React.FC<UvGraphProps> = ({ uvData }) => {
   const color = useColorModeValue("white", "#222222");
 
   return (
@@ -28,13 +28,12 @@ export const NiwaUvGraph: React.FC<NiwaUvGraphProps> = ({ niwaData }) => {
         UV Index
       </Heading>
 
-      {niwaData ? (
+      {uvData ? (
         <ResponsiveContainer width="100%" height={240}>
-          <LineChart data={niwaData}>
+          <LineChart data={uvData}>
             <XAxis dataKey="time" tick={{ fontSize: 8 }} stroke={color} />
             <YAxis stroke={color} />
-            <Line dataKey="sunny" stroke="white" strokeWidth={2} width={5} dot={false} />
-            <Line dataKey="cloudy" stroke="gray" strokeWidth={2} dot={false} />
+            <Line dataKey="value" stroke="white"type="basis"  strokeWidth={2} width={5} dot={false} />
           </LineChart>
         </ResponsiveContainer>
       ) : (

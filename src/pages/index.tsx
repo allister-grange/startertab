@@ -1,38 +1,41 @@
-import { Box, Center, Grid, GridItem } from "@chakra-ui/react";
-import type { GetStaticProps, NextPage } from "next";
-import Bonsai from "@/components/Bonsai";
+import {
+  HackerNewsFeed,
+  StravaGraph,
+  WindFinderLinks,
+  SwimmingPoolTimeTable,
+  SearchBar,
+  Time,
+  Spotify,
+  WeatherTile,
+  Bonsai,
+  UvGraph
+} from "@/components";
 import ColorModeSwitcher from "@/components/ColorModeSwitcher";
-import { HackerNewsFeed } from "@/components/HackerNewsFeed";
-import { NiwaUvGraph } from "@/components/NiwaUvGraph";
-import { SearchBar } from "@/components/SearchBar";
-import { StravaGraph } from "@/components/StravaGraph";
-import { SwimmingPoolTimeTable } from "@/components/SwimmingPoolTimeTable";
-import { Time } from "@/components/Time";
-import styles from "@/styles/Home.module.css";
-import { HackerNewsLinkHolder } from "@/types/hackernews";
-import { TransformedNiwaData } from "@/types/niwa";
-import { StravaGraphData } from "@/types/strava";
 import { getHackerNewsData } from "@/pages/api/hackerNews";
-import { getNiwaData } from "@/pages/api/niwaUV";
 import { getStravaData } from "@/pages/api/strava";
-import { WindFinderLinks } from "@/components/WindFinderLinks";
-import { getWeatherData } from "./api/weather";
-import { WeatherData } from "@/types/weather";
-import { WeatherTile } from "@/components/WeatherTile";
+import styles from "@/styles/Home.module.css";
+import {
+  HackerNewsLinkHolder,
+  StravaGraphData,
+  TransformedNiwaData,
+  UvGraphData,
+  WeatherData,
+} from "@/types";
+import { Box, Grid, GridItem } from "@chakra-ui/react";
+import type { GetStaticProps, NextPage } from "next";
 import { getSpotifyNowPlayingData } from "./api/spotify";
-import { Spotify } from "@/components/Spotify";
-import { NowPlayingSpotifyData } from "@/types/spotify";
+import { getUVData, getWeatherConditions } from "./api/weather";
 
 type PageProps = {
   stravaData: StravaGraphData;
-  niwaData: TransformedNiwaData[];
+  uvData: UvGraphData[];
   hackerNewsData: HackerNewsLinkHolder[];
   weatherData: WeatherData;
 };
 
 const Home: NextPage<PageProps> = ({
   stravaData,
-  niwaData,
+  uvData,
   hackerNewsData,
   weatherData,
 }) => {
@@ -130,7 +133,13 @@ const Home: NextPage<PageProps> = ({
         >
           <Bonsai />
         </GridItem>
-        <GridItem borderRadius="15" colSpan={1} rowSpan={2} bg="#9AB899" pos="relative">
+        <GridItem
+          borderRadius="15"
+          colSpan={1}
+          rowSpan={2}
+          bg="#9AB899"
+          pos="relative"
+        >
           <Spotify />
         </GridItem>
         <GridItem
@@ -142,7 +151,7 @@ const Home: NextPage<PageProps> = ({
           minH="310px"
           maxH="330px"
         >
-          <NiwaUvGraph niwaData={niwaData} />
+          <UvGraph uvData={uvData} />
         </GridItem>
         <GridItem
           borderRadius="15"
@@ -168,17 +177,18 @@ const Home: NextPage<PageProps> = ({
 };
 
 export const getStaticProps: GetStaticProps = async (context) => {
-  const [stravaData, niwaData, hackerNewsData, weatherData] =
-    await Promise.all([
+  const [stravaData, uvData, hackerNewsData, weatherData] = await Promise.all(
+    [
       getStravaData(),
-      getNiwaData(),
+      getUVData(),
       getHackerNewsData(),
-      getWeatherData(),
+      getWeatherConditions(),
       getSpotifyNowPlayingData(),
-    ]);
+    ]
+  );
 
   return {
-    props: { stravaData, niwaData, hackerNewsData, weatherData },
+    props: { stravaData, uvData, hackerNewsData, weatherData },
     revalidate: 600,
   };
 };

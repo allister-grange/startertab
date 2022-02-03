@@ -25,6 +25,7 @@ export const WeatherTile: React.FC<WeatherTileProps> = ({ weatherData }) => {
   const color = useColorModeValue("white", "#222222");
 
   let icon;
+
   switch (weatherData.condition) {
     case "cloudy":
       icon = <WiCloud size="70" />;
