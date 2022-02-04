@@ -9,3 +9,4 @@ export * from "./SwimmingPoolTimeTable";
 export * from "./Time";
 export * from "./WeatherTile";
 export * from "./WindFinderLinks";
+export * from "./RedditFeed";

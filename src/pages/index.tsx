@@ -8,7 +8,8 @@ import {
   Spotify,
   WeatherTile,
   Bonsai,
-  UvGraph
+  UvGraph,
+  RedditFeed,
 } from "@/components";
 import ColorModeSwitcher from "@/components/ColorModeSwitcher";
 import { getHackerNewsData } from "@/pages/api/hackerNews";
@@ -71,20 +72,19 @@ const Home: NextPage<PageProps> = ({
         >
           <StravaGraph stravaData={stravaData} />
         </GridItem>
-        <GridItem
-          borderRadius="15"
-          colSpan={1}
-          rowSpan={2}
-          bg="#9AB899"
-        ></GridItem>
-        <GridItem
-          borderRadius="15"
-          colSpan={1}
-          rowSpan={2}
-          bg="#65abc1"
-          minW="200px"
-        >
+        <GridItem borderRadius="15" colSpan={1} rowSpan={2} bg="#9AB899">
           <WindFinderLinks />
+        </GridItem>
+        <GridItem
+          borderRadius="15"
+          colSpan={1}
+          rowSpan={5}
+          bg="#65abc1"
+          minW="220px"
+          overflowY="scroll"
+          className={styles.disableScrollbars}
+        >
+          <RedditFeed />
         </GridItem>
         <GridItem
           borderRadius="15"
@@ -97,27 +97,12 @@ const Home: NextPage<PageProps> = ({
         </GridItem>
         <GridItem
           borderRadius="15"
-          colSpan={1}
-          rowSpan={2}
-          bg="#9AB899"
-        ></GridItem>
-        <GridItem
-          borderRadius="15"
           colSpan={3}
           rowSpan={1}
           bg="#F06808"
           minH="60px"
         >
           <SearchBar />
-        </GridItem>
-        <GridItem
-          rowSpan={2}
-          borderRadius="15"
-          colSpan={1}
-          bg="#E89C4B"
-          minW="200px"
-        >
-          <Time />
         </GridItem>
         <GridItem
           borderRadius="15"
@@ -132,13 +117,13 @@ const Home: NextPage<PageProps> = ({
           <Bonsai />
         </GridItem>
         <GridItem
+          rowSpan={2}
           borderRadius="15"
           colSpan={1}
-          rowSpan={2}
-          bg="#9AB899"
-          pos="relative"
+          bg="#65abc1"
+          minW="200px"
         >
-          <Spotify />
+          <WeatherTile weatherData={weatherData} />
         </GridItem>
         <GridItem
           borderRadius="15"
@@ -155,35 +140,36 @@ const Home: NextPage<PageProps> = ({
           borderRadius="15"
           colSpan={1}
           rowSpan={2}
-          bg="#65abc1"
-          minW="200px"
+          bg="#9AB899"
+          pos="relative"
         >
-          <ColorModeSwitcher />
-        </GridItem>
-        <GridItem borderRadius="15" colSpan={1} rowSpan={2} bg="#65abc1">
-          <WeatherTile weatherData={weatherData} />
+          <Time />
         </GridItem>
         <GridItem
           borderRadius="15"
           colSpan={1}
-          rowSpan={1}
+          rowSpan={2}
           bg="#9AB899"
-        ></GridItem>
+          minW="200px"
+        >
+          <Spotify />
+        </GridItem>
+        <GridItem borderRadius="15" colSpan={1} rowSpan={2} bg="#65abc1">
+          <ColorModeSwitcher />
+        </GridItem>
       </Grid>
     </Box>
   );
 };
 
 export const getStaticProps: GetStaticProps = async (context) => {
-  const [stravaData, uvData, hackerNewsData, weatherData] = await Promise.all(
-    [
-      getStravaData(),
-      getUVData(),
-      getHackerNewsData(),
-      getWeatherConditions(),
-      getSpotifyNowPlayingData(),
-    ]
-  );
+  const [stravaData, uvData, hackerNewsData, weatherData] = await Promise.all([
+    getStravaData(),
+    getUVData(),
+    getHackerNewsData(),
+    getWeatherConditions(),
+    getSpotifyNowPlayingData(),
+  ]);
 
   return {
     props: { stravaData, uvData, hackerNewsData, weatherData },
