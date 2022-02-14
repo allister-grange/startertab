@@ -122,6 +122,7 @@ export const RedditFeed: React.FC<RedditFeedProps> = () => {
         <form onSubmit={handleSubredditSubmit}>
           <Input
             height="20px"
+            padding="4"
             mt="2"
             width="90%"
             onSubmit={changeSubredditFeed}

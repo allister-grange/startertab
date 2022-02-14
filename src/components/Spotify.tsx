@@ -110,7 +110,7 @@ export const Spotify: React.FC = ({}) => {
   );
 
   return (
-    <Center color={color} height="100%" p="4">
+    <Center color={color} height="100%" p="4" position="relative">
       <Flex dir="row">
         {songName ? (
           <Link href={link} mb="6">
@@ -126,6 +126,7 @@ export const Spotify: React.FC = ({}) => {
             <>
               <Button
                 variant="unstyled"
+                mr="-2"
                 _focus={{ borderWidth: 0 }}
                 onClick={() => {
                   skipSong(false);
@@ -159,6 +160,7 @@ export const Spotify: React.FC = ({}) => {
                 </Button>
               )}
               <Button
+                ml="-2"
                 variant="unstyled"
                 _focus={{ borderWidth: 0 }}
                 onClick={() => skipSong(true)}
