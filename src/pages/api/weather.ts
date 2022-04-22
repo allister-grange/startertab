@@ -1,4 +1,3 @@
-import { TransformedNiwaData } from "@/types";
 import {
   UvGraphData,
   WeatherCondition,

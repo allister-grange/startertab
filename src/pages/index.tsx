@@ -10,7 +10,7 @@ import {
   Bonsai,
   UvGraph,
   RedditFeed,
-} from "@/components";
+} from "@/components/tiles";
 import ColorModeSwitcher from "@/components/ColorModeSwitcher";
 import { getHackerNewsData } from "@/pages/api/hackerNews";
 import { getStravaData } from "@/pages/api/strava";

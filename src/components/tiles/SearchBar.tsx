@@ -7,12 +7,14 @@ import {
 } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import React, { useState } from "react";
-import { DuckDuckGoDarkIcon } from "./icons/DuckDuckGoDarkIcon";
-import { DuckDuckGoLightIcon } from "./icons/DuckDuckGoLightIcon";
-import { GoogleDarkIcon } from "./icons/GoogleDarkIcon";
-import { GoogleLightIcon } from "./icons/GoogleDarkLightIcon";
-import { StackOverFlowDarkIcon } from "./icons/StackOverFlowDarkIcon";
-import { StackOverFlowLightIcon } from "./icons/StackOverFlowLightIcon";
+import {
+  DuckDuckGoDarkIcon,
+  DuckDuckGoLightIcon,
+  GoogleDarkIcon,
+  GoogleLightIcon,
+  StackOverFlowDarkIcon,
+  StackOverFlowLightIcon,
+} from "@/components/icons";
 
 export const SearchBar: React.FC = () => {
   const router = useRouter();

@@ -7,7 +7,7 @@ import {
   useColorModeValue,
 } from "@chakra-ui/react";
 import React from "react";
-import { HackerNewsLinkHolder } from "../types/hackernews";
+import { HackerNewsLinkHolder } from "@/types/hackernews";
 
 type PageProps = {
   hackerNewsData: HackerNewsLinkHolder[];

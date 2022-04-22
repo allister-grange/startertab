@@ -1,5 +1,4 @@
 export * from "./Bonsai";
-export * from "./ColorModeSwitcher";
 export * from "./HackerNewsFeed";
 export * from "./UvGraph";
 export * from "./SearchBar";
