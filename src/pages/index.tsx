@@ -11,7 +11,7 @@ import {
   UvGraph,
   RedditFeed,
 } from "@/components/tiles";
-import ColorModeSwitcher from "@/components/ColorModeSwitcher";
+import ColorModeSwitcher from "@/components/ui/ColorModeSwitcher";
 import { getHackerNewsData } from "@/pages/api/hackerNews";
 import { getStravaData } from "@/pages/api/strava";
 import styles from "@/styles/Home.module.css";
@@ -21,10 +21,12 @@ import {
   UvGraphData,
   WeatherData,
 } from "@/types";
-import { Box, Grid, GridItem } from "@chakra-ui/react";
+import { Box, Grid, GridItem, useDisclosure } from "@chakra-ui/react";
 import type { GetStaticProps, NextPage } from "next";
-import { getSpotifyNowPlayingData } from "./api/spotify";
-import { getUVData, getWeatherConditions } from "./api/weather";
+import { getSpotifyNowPlayingData } from "@/pages/api/spotify";
+import { getUVData, getWeatherConditions } from "@/pages/api/weather";
+import { SettingsToggle } from "@/components/ui/SettingsToggle";
+import { SettingsModal } from "@/components/SettingsModal";
 
 type PageProps = {
   stravaData: StravaGraphData;
@@ -39,6 +41,8 @@ const Home: NextPage<PageProps> = ({
   hackerNewsData,
   weatherData,
 }) => {
+  const { isOpen, onOpen, onClose } = useDisclosure();
+
   return (
     <Box h="100vh" display="flex" alignItems="center">
       <Grid
@@ -158,6 +162,8 @@ const Home: NextPage<PageProps> = ({
           <ColorModeSwitcher />
         </GridItem>
       </Grid>
+      <SettingsToggle onOpen={onOpen} />
+      <SettingsModal onClose={onClose} isOpen={isOpen} />
     </Box>
   );
 };
