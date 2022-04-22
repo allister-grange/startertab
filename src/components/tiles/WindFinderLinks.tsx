@@ -1,7 +1,7 @@
 import { Center, Link, useColorModeValue } from "@chakra-ui/react";
 import React from "react";
-import { WindIconDark } from "./icons/WindIconDark";
-import { WindIconLight } from "./icons/WindIconLight";
+import { WindIconDark } from "@/components/icons/WindIconDark";
+import { WindIconLight } from "@/components/icons/WindIconLight";
 
 interface WindFinderLinksProps {}
 
