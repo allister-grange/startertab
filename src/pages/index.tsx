@@ -18,6 +18,7 @@ import styles from "@/styles/Home.module.css";
 import {
   HackerNewsLinkHolder,
   StravaGraphData,
+  UserSettings,
   UvGraphData,
   WeatherData,
 } from "@/types";
@@ -27,6 +28,8 @@ import { getSpotifyNowPlayingData } from "@/pages/api/spotify";
 import { getUVData, getWeatherConditions } from "@/pages/api/weather";
 import { SettingsToggle } from "@/components/ui/SettingsToggle";
 import { SettingsSideBar } from "@/components/sidebar/SettingsSidebar";
+import { useEffect } from "react";
+import { useLocalStorage } from "@/helpers/useLocalStorage";
 
 type PageProps = {
   stravaData: StravaGraphData;
@@ -43,6 +46,15 @@ const Home: NextPage<PageProps> = ({
 }) => {
   // Sidebar hook
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const [settings, setSettings] = useLocalStorage("userSettings", {} as UserSettings);
+
+  // TODO might need to more this somewhere to make sure it happens before SSR
+  useEffect(() => {
+    console.log("I am in the main page " + settings.lightThemeBackgroundColor);
+    
+    document.body.style.backgroundColor = settings.lightThemeBackgroundColor;
+  }, [settings.lightThemeBackgroundColor])
+
 
   return (
     <Box h="100vh" display="flex" alignItems="center" >

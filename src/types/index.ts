@@ -6,3 +6,4 @@ export * from './strava';
 export * from './strava';
 export * from './reddit';
 export * from './weather';
+export * from './settings';
