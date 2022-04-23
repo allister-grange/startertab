@@ -1,10 +1,11 @@
 export type Option = {
-  title: string,
-  subTitle: string,
-  localStorageId: string
-}
+  title: string;
+  subTitle: string;
+  localStorageId: string;
+  default: string;
+};
 
 export type UserSettings = {
-  darkThemeBackgroundColor: string,
-  lightThemeBackgroundColor: string
-}
+  darkThemeBackgroundColor: string;
+  lightThemeBackgroundColor: string;
+};

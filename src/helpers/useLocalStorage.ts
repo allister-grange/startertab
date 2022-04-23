@@ -1,13 +1,14 @@
-import React, { Dispatch, SetStateAction } from "react";
+import React from "react";
 import { UserSettings } from "@/types/settings";
+import { defaultSettings } from "./settingsHelpers";
 
 export function useLocalStorage(
-  key: string,
-  initialValue: UserSettings
+  key: string
 ): [UserSettings, (value: UserSettings) => void] {
   const [storedValue, setStoredValue] = React.useState<UserSettings>(() => {
     if (typeof window === "undefined") {
-      return initialValue;
+      // TODO this may ruin SSR in the future
+      return defaultSettings;
     }
     try {
       // Get from local storage by key
@@ -15,14 +16,13 @@ export function useLocalStorage(
 
       if (item) {
         console.log("Found " + key + " in local storage " + item);
-
         return JSON.parse(item) as UserSettings;
       }
 
-      return initialValue;
+      return defaultSettings;
     } catch (error) {
-      console.log(error);
-      return initialValue;
+      console.error("Could not read from local storage" + error);
+      return defaultSettings;
     }
   });
 

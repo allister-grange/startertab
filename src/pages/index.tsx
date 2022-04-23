@@ -1,35 +1,40 @@
+import { SettingsSideBar } from "@/components/sidebar/SettingsSidebar";
 import {
-  HackerNewsFeed,
-  StravaGraph,
-  WindFinderLinks,
-  SwimmingPoolTimeTable,
-  SearchBar,
-  Time,
-  Spotify,
-  WeatherTile,
   Bonsai,
-  UvGraph,
+  HackerNewsFeed,
   RedditFeed,
+  SearchBar,
+  Spotify,
+  StravaGraph,
+  SwimmingPoolTimeTable,
+  Time,
+  UvGraph,
+  WeatherTile,
+  WindFinderLinks,
 } from "@/components/tiles";
 import ColorModeSwitcher from "@/components/ui/ColorModeSwitcher";
+import { SettingsToggle } from "@/components/ui/SettingsToggle";
+import { useLocalStorage } from "@/helpers/useLocalStorage";
 import { getHackerNewsData } from "@/pages/api/hackerNews";
+import { getSpotifyNowPlayingData } from "@/pages/api/spotify";
 import { getStravaData } from "@/pages/api/strava";
+import { getUVData, getWeatherConditions } from "@/pages/api/weather";
 import styles from "@/styles/Home.module.css";
 import {
   HackerNewsLinkHolder,
   StravaGraphData,
-  UserSettings,
   UvGraphData,
   WeatherData,
 } from "@/types";
-import { Box, Grid, GridItem, useDisclosure } from "@chakra-ui/react";
+import {
+  Box,
+  Grid,
+  GridItem,
+  useColorMode,
+  useDisclosure,
+} from "@chakra-ui/react";
 import type { GetStaticProps, NextPage } from "next";
-import { getSpotifyNowPlayingData } from "@/pages/api/spotify";
-import { getUVData, getWeatherConditions } from "@/pages/api/weather";
-import { SettingsToggle } from "@/components/ui/SettingsToggle";
-import { SettingsSideBar } from "@/components/sidebar/SettingsSidebar";
 import { useEffect } from "react";
-import { useLocalStorage } from "@/helpers/useLocalStorage";
 
 type PageProps = {
   stravaData: StravaGraphData;
@@ -46,18 +51,26 @@ const Home: NextPage<PageProps> = ({
 }) => {
   // Sidebar hook
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const [settings, setSettings] = useLocalStorage("userSettings", {} as UserSettings);
+  const [settings] = useLocalStorage("userSettings");
+  const { colorMode } = useColorMode();
 
   // TODO might need to more this somewhere to make sure it happens before SSR
   useEffect(() => {
-    console.log("I am in the main page " + settings.lightThemeBackgroundColor);
-    
-    document.body.style.backgroundColor = settings.lightThemeBackgroundColor;
-  }, [settings.lightThemeBackgroundColor])
+    console.log("called", settings.lightThemeBackgroundColor);
 
+    colorMode === "light"
+      ? (document.body.style.backgroundColor =
+          settings.lightThemeBackgroundColor)
+      : (document.body.style.backgroundColor =
+          settings.darkThemeBackgroundColor);
+  }, [
+    colorMode,
+    settings.lightThemeBackgroundColor,
+    settings.darkThemeBackgroundColor,
+  ]);
 
   return (
-    <Box h="100vh" display="flex" alignItems="center" >
+    <Box h="100vh" display="flex" alignItems="center">
       <SettingsSideBar onClose={onClose} isOpen={isOpen} />
       <Grid
         h="100%"

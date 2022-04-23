@@ -16,12 +16,8 @@ export const ColorSettingOption: React.FC<ColorSettingOptionProps> = ({
 }) => {
   const { title, subTitle, localStorageId } = option;
 
-  // get from storage in the future
-  const [settings, setSettings] = useLocalStorage(
-    "userSettings",
-    {} as UserSettings
-  );
-  const [colorForStorage, setColorForStorage] = useState("");
+  const [settings, setSettings] = useLocalStorage("userSettings");
+  const [colorForStorage, setColorForStorage] = useState<string | undefined>();
 
   const onColorChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setColorForStorage(e.target.value);
@@ -44,6 +40,13 @@ export const ColorSettingOption: React.FC<ColorSettingOptionProps> = ({
     };
   }, [colorForStorage, localStorageId, setSettings, settings]);
 
+  // reset an option back to it's default
+  const resetToDefault = () => {
+    setColorForStorage(option.default);
+    setSettings({...settings, [localStorageId]: option.default});
+    document.body.style.backgroundColor = option.default;
+  }
+
   return (
     <Box key={localStorageId} my="2">
       <Text fontSize="md" color={textColor}>
@@ -51,7 +54,7 @@ export const ColorSettingOption: React.FC<ColorSettingOptionProps> = ({
       </Text>
       <Text fontSize="xs" color={subTextColor}>
         {subTitle}
-        <span>&nbsp;reset to default</span>
+        <span onClick={resetToDefault}>&nbsp;reset to default</span>
       </Text>
       <Flex dir="row" mt="1">
         <Input

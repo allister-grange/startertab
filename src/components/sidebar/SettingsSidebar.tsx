@@ -1,15 +1,10 @@
+import { SideBarTitle } from "@/components/sidebar/SideBarTitle";
+import { sideBarOptions } from "@/helpers/settingsHelpers";
 import {
   Box,
-  BoxProps,
-  Button,
-  useColorModeValue,
-  Text,
-  Input,
-  Flex,
+  BoxProps, useColorModeValue
 } from "@chakra-ui/react";
 import React from "react";
-import { SideBarTitle } from "@/components/sidebar/SideBarTitle";
-import { Option } from "@/types";
 import { ColorSettingOption } from "./ColorSettingOption";
 
 interface SettingsSideBarProps {
@@ -24,18 +19,6 @@ export const SettingsSideBar: React.FC<SettingsSideBarProps> = ({
   const backgroundColor = useColorModeValue("gray.100", "#33393D");
   const textColor = useColorModeValue("#303030", "#fff");
   const subTextColor = useColorModeValue("#606060", "#ddd");
-  const options: Option[] = [
-    {
-      title: "Light theme background color",
-      subTitle: "Controls the light theme background color of the main page",
-      localStorageId: "lightThemeBackgroundColor",
-    },
-    {
-      title: "Dark theme background color",
-      subTitle: "Controls the dark theme background color of the main page",
-      localStorageId: "darkThemeBackgroundColor",
-    },
-  ];
 
   return isOpen ? (
     <Box
@@ -51,12 +34,11 @@ export const SettingsSideBar: React.FC<SettingsSideBarProps> = ({
         width="100%"
         bg={backgroundColor}
         onClose={() => onClose}
-        // display={{ base: "none", md: "block" }}
       >
         <SideBarTitle onClose={onClose} textColor={textColor} />
         <Box p="3">
           <ul>
-            {options.map((option) => (
+            {sideBarOptions.map((option) => (
               <li key={option.localStorageId}>
                 <ColorSettingOption
                   option={option}
