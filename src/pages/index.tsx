@@ -26,7 +26,7 @@ import type { GetStaticProps, NextPage } from "next";
 import { getSpotifyNowPlayingData } from "@/pages/api/spotify";
 import { getUVData, getWeatherConditions } from "@/pages/api/weather";
 import { SettingsToggle } from "@/components/ui/SettingsToggle";
-import { SettingsModal } from "@/components/SettingsModal";
+import { SettingsSideBar } from "@/components/sidebar/SettingsSidebar";
 
 type PageProps = {
   stravaData: StravaGraphData;
@@ -41,10 +41,12 @@ const Home: NextPage<PageProps> = ({
   hackerNewsData,
   weatherData,
 }) => {
+  // Sidebar hook
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   return (
-    <Box h="100vh" display="flex" alignItems="center">
+    <Box h="100vh" display="flex" alignItems="center" >
+      <SettingsSideBar onClose={onClose} isOpen={isOpen} />
       <Grid
         h="100%"
         templateRows="repeat(9, 1fr)"
@@ -163,7 +165,6 @@ const Home: NextPage<PageProps> = ({
         </GridItem>
       </Grid>
       <SettingsToggle onOpen={onOpen} />
-      <SettingsModal onClose={onClose} isOpen={isOpen} />
     </Box>
   );
 };
