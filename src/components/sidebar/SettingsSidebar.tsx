@@ -35,7 +35,7 @@ export const SettingsSideBar: React.FC<SettingsSideBarProps> = ({
 
   // will change the appearance of the site, but not what's stored in localStorage
   const changeSetting = (key: string, value: string) => {
-    let newSettings = { ...settingsToSave };
+    let newSettings = cloneDeep(settingsToSave);
     const themeToChange = newSettings.themes.find(
       (theme) => theme.themeName === colorMode
     );
@@ -62,11 +62,13 @@ export const SettingsSideBar: React.FC<SettingsSideBarProps> = ({
     if (!theme) {
       throw new Error("No change named " + colorMode);
     }
+    // reset settings
+    setSettingsToSave(cloneDeep(settings));
     applyTheme(theme);
   };
 
   const resetOptionToDefault = (option: Option) => {
-    let newSettings = { ...settingsToSave };
+    let newSettings = cloneDeep(settingsToSave);
     const themeToChange = newSettings.themes.find(
       (theme) => theme.themeName === colorMode
     );
@@ -84,7 +86,6 @@ export const SettingsSideBar: React.FC<SettingsSideBarProps> = ({
       defaultSetting;
     setSettingsToSave(newSettings);
     applyTheme(themeToChange);
-    // set the background colors etc to what is in setSettingsToSave
   };
 
   const applyTheme = (theme: ThemeSettings) => {
