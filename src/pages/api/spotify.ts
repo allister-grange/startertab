@@ -92,6 +92,16 @@ export const getSpotifyNowPlayingData =
 
     const data = await res.json();
 
+    // if a podcast is playing
+    if(data.currently_playing_type === "episode") {
+      return {
+        playing: false,
+        songArtist: undefined,
+        songTitle: undefined,
+        link: undefined,
+      };
+    }
+    
     return {
       playing: data.is_playing,
       songTitle: data.item.name,

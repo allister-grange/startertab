@@ -1,14 +1,14 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
+import { Option } from "@/types";
 import { Box, Flex, Input, Text } from "@chakra-ui/react";
-import { Option, UserSettings } from "@/types";
-import { useLocalStorage } from "@/helpers/useLocalStorage";
 
 interface ColorSettingOptionProps {
   option: Option;
   textColor: string;
   subTextColor: string;
-  initialValue: string;
+  value: string;
   changeSetting: (key: string, value: string) => void;
+  resetOptionToDefault: (option: Option) => void;
 }
 
 export const ColorSettingOption: React.FC<ColorSettingOptionProps> = ({
@@ -16,19 +16,13 @@ export const ColorSettingOption: React.FC<ColorSettingOptionProps> = ({
   textColor,
   subTextColor,
   changeSetting,
-  initialValue
+  value,
+  resetOptionToDefault,
 }) => {
   const { title, subTitle, localStorageId } = option;
 
   const onColorChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    document.body.style.backgroundColor = e.target.value;
     changeSetting(option.localStorageId, e.target.value);
-  };
-
-  // TODO reset an option back to it's default
-  const resetToDefault = () => {
-    // changeSetting(option.localStorageId, option.default);
-    // document.body.style.backgroundColor = option.default;
   };
 
   return (
@@ -38,21 +32,23 @@ export const ColorSettingOption: React.FC<ColorSettingOptionProps> = ({
       </Text>
       <Text fontSize="xs" color={subTextColor}>
         {subTitle}
-        <span onClick={resetToDefault}>&nbsp;reset to default</span>
+        <span style={{cursor: "pointer"}} onClick={() => resetOptionToDefault(option)}>
+          .&nbsp;Reset to default.
+        </span>
       </Text>
       <Flex dir="row" mt="1">
         <Input
           marginLeft="auto"
           display="block"
           flex="1 0 80%"
-          value={initialValue}
+          value={value}
           size="sm"
           onChange={onColorChange}
         />
         <Input
           size="sm"
           type="color"
-          value={initialValue}
+          value={value}
           onChange={onColorChange}
         />
       </Flex>

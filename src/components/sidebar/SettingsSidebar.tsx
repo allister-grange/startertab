@@ -1,6 +1,10 @@
+import { ColorSettingOption } from "@/components/sidebar/ColorSettingOption";
 import { SideBarTitle } from "@/components/sidebar/SideBarTitle";
+import { ThemeToChangeSelector } from "@/components/sidebar/ThemeToChangeSelector";
 import { sideBarOptions } from "@/helpers/settingsHelpers";
 import { useLocalStorage } from "@/helpers/useLocalStorage";
+import { Option } from "@/types";
+import { ThemeSettings } from "@/types/settings";
 import {
   Box,
   BoxProps,
@@ -8,9 +12,7 @@ import {
   useColorModeValue,
 } from "@chakra-ui/react";
 import React, { useState } from "react";
-import { ColorSettingOption } from "@/components/sidebar/ColorSettingOption";
-import { ThemeToChangeSelector } from "@/components/sidebar/ThemeToChangeSelector";
-import { ThemeSettings } from "@/types/settings";
+import cloneDeep from "lodash.clonedeep";
 
 interface SettingsSideBarProps {
   isOpen: boolean;
@@ -22,32 +24,77 @@ export const SettingsSideBar: React.FC<SettingsSideBarProps> = ({
   onClose,
 }) => {
   const [settings, setSettings] = useLocalStorage("userSettings");
-  const [settingsToSave, setSettingsToSave] = useState(settings);
+  const [settingsToSave, setSettingsToSave] = useState(() =>
+    cloneDeep(settings)
+  );
   const { colorMode } = useColorMode();
 
   const backgroundColor = useColorModeValue("gray.100", "#33393D");
   const textColor = useColorModeValue("#303030", "#fff");
   const subTextColor = useColorModeValue("#606060", "#ddd");
 
+  // will change the appearance of the site, but not what's stored in localStorage
   const changeSetting = (key: string, value: string) => {
-    let newSettings = {...settings};
+    let newSettings = { ...settingsToSave };
     const themeToChange = newSettings.themes.find(
       (theme) => theme.themeName === colorMode
     );
-    themeToChange![key as keyof ThemeSettings] = value;
+    if (!themeToChange) {
+      throw new Error("No change named " + colorMode);
+    }
+    themeToChange[key as keyof ThemeSettings] = value;
+    applyTheme(themeToChange);
     setSettingsToSave(newSettings);
   };
 
+  // apply the in memory settings into localStorage
   const onSaveHandler = () => {
-    setSettings(settingsToSave);
+    const permanentSettings = cloneDeep(settingsToSave);
+    setSettings(permanentSettings);
   };
 
+  // reset the background, colors etc back to what is in the userSettings before changes
   const onExitHandler = () => {
     onClose();
-    // reset the background, colors etc back to what is in the userSettings
+    const theme = settings.themes.find(
+      (theme) => theme.themeName === colorMode
+    );
+    if (!theme) {
+      throw new Error("No change named " + colorMode);
+    }
+    applyTheme(theme);
   };
 
-  const currentThemeSettings = settings.themes.find((theme) => theme.themeName === colorMode);
+  const resetOptionToDefault = (option: Option) => {
+    let newSettings = { ...settingsToSave };
+    const themeToChange = newSettings.themes.find(
+      (theme) => theme.themeName === colorMode
+    );
+    if (colorMode !== "dark" && colorMode !== "light") {
+      throw new Error(
+        "You have only coded two themes Allister, you'll have to handle this a different way if you're adding more in"
+      );
+    }
+    if (!themeToChange) {
+      throw new Error("No change named " + colorMode);
+    }
+    const defaultSetting =
+      colorMode === "dark" ? option.darkDefault : option.lightDefault;
+    themeToChange[option.localStorageId as keyof ThemeSettings] =
+      defaultSetting;
+    setSettingsToSave(newSettings);
+    applyTheme(themeToChange);
+    // set the background colors etc to what is in setSettingsToSave
+  };
+
+  const applyTheme = (theme: ThemeSettings) => {
+    document.body.style.backgroundColor = theme.backgroundColor;
+    // document.body.style.color = theme.textColor;
+  };
+
+  const currentThemeSettings = settingsToSave.themes.find(
+    (theme) => theme.themeName === colorMode
+  );
 
   return isOpen ? (
     <Box
@@ -80,7 +127,8 @@ export const SettingsSideBar: React.FC<SettingsSideBarProps> = ({
                   changeSetting={changeSetting}
                   textColor={textColor}
                   subTextColor={subTextColor}
-                  initialValue={currentThemeSettings?.backgroundColor!}
+                  value={currentThemeSettings?.backgroundColor!}
+                  resetOptionToDefault={resetOptionToDefault}
                 />
                 <hr />
               </li>

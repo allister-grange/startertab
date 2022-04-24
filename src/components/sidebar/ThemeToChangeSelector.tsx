@@ -18,6 +18,7 @@ export const ThemeToChangeSelector: React.FC<
             onChange={() =>
               setColorMode(colorMode === "light" ? "dark" : "light")
             }
+            isChecked={colorMode === "dark"}
             colorScheme="whiteAlpha"
           />
         }{" "}

@@ -62,8 +62,6 @@ export const RedditFeed: React.FC<RedditFeedProps> = () => {
     subReddit: string
   ): Promise<RedditDataHolder[]> => {
     try {
-      console.log("fetching..", subReddit);
-
       const res = await fetch(
         `https://www.reddit.com/r/${subReddit}/top.json?limit=20&t=day`
       );
