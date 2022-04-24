@@ -56,18 +56,12 @@ const Home: NextPage<PageProps> = ({
 
   // TODO might need to more this somewhere to make sure it happens before SSR
   useEffect(() => {
-    console.log("called", settings.lightThemeBackgroundColor);
+    const currentTheme = settings.themes.find(
+      (theme) => theme.themeName === colorMode
+    );
 
-    colorMode === "light"
-      ? (document.body.style.backgroundColor =
-          settings.lightThemeBackgroundColor)
-      : (document.body.style.backgroundColor =
-          settings.darkThemeBackgroundColor);
-  }, [
-    colorMode,
-    settings.lightThemeBackgroundColor,
-    settings.darkThemeBackgroundColor,
-  ]);
+    document.body.style.backgroundColor = currentTheme?.backgroundColor!;
+  }, [colorMode, settings]);
 
   return (
     <Box h="100vh" display="flex" alignItems="center">

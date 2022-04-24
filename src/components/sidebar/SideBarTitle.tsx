@@ -2,11 +2,16 @@ import { Box, Button, Text, useColorModeValue } from "@chakra-ui/react";
 import React from "react";
 
 interface SideBarTitleProps {
-  onClose: () => void;
   textColor: string;
+  onSaveHandler: () => void;
+  onExitHandler: () => void;
 }
 
-export const SideBarTitle: React.FC<SideBarTitleProps> = ({onClose, textColor}) => {
+export const SideBarTitle: React.FC<SideBarTitleProps> = ({
+  textColor,
+  onSaveHandler,
+  onExitHandler
+}) => {
   const backgroundColor = useColorModeValue("gray.200", "#66727a");
 
   return (
@@ -17,11 +22,11 @@ export const SideBarTitle: React.FC<SideBarTitleProps> = ({onClose, textColor}) 
       bgColor={backgroundColor}
       py="3"
     >
-      <Button onClick={onClose} bg="gray.400">
+      <Button onClick={onExitHandler} bg="gray.400">
         Exit
       </Button>
       <Text color={textColor}>Preferences</Text>
-      <Button onClick={onClose} bg="gray.400">
+      <Button onClick={onSaveHandler} bg="gray.400">
         Save
       </Button>
     </Box>

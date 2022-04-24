@@ -7,45 +7,29 @@ interface ColorSettingOptionProps {
   option: Option;
   textColor: string;
   subTextColor: string;
+  initialValue: string;
+  changeSetting: (key: string, value: string) => void;
 }
 
 export const ColorSettingOption: React.FC<ColorSettingOptionProps> = ({
   option,
   textColor,
   subTextColor,
+  changeSetting,
+  initialValue
 }) => {
   const { title, subTitle, localStorageId } = option;
 
-  const [settings, setSettings] = useLocalStorage("userSettings");
-  const [colorForStorage, setColorForStorage] = useState<string | undefined>();
-
   const onColorChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setColorForStorage(e.target.value);
     document.body.style.backgroundColor = e.target.value;
+    changeSetting(option.localStorageId, e.target.value);
   };
 
-  // only want to set the color in localStorage after .5 seconds of no input
-  useEffect(() => {
-    if (!colorForStorage) {
-      return;
-    }
-
-    const timeoutIdentifier = setTimeout(() => {
-      let newSettings = { ...settings, [localStorageId]: colorForStorage };
-      setSettings(newSettings as UserSettings);
-    }, 500);
-
-    return () => {
-      clearTimeout(timeoutIdentifier);
-    };
-  }, [colorForStorage, localStorageId, setSettings, settings]);
-
-  // reset an option back to it's default
+  // TODO reset an option back to it's default
   const resetToDefault = () => {
-    setColorForStorage(option.default);
-    setSettings({...settings, [localStorageId]: option.default});
-    document.body.style.backgroundColor = option.default;
-  }
+    // changeSetting(option.localStorageId, option.default);
+    // document.body.style.backgroundColor = option.default;
+  };
 
   return (
     <Box key={localStorageId} my="2">
@@ -61,14 +45,14 @@ export const ColorSettingOption: React.FC<ColorSettingOptionProps> = ({
           marginLeft="auto"
           display="block"
           flex="1 0 80%"
-          value={settings[localStorageId]}
+          value={initialValue}
           size="sm"
           onChange={onColorChange}
         />
         <Input
           size="sm"
           type="color"
-          value={settings[localStorageId]}
+          value={initialValue}
           onChange={onColorChange}
         />
       </Flex>
