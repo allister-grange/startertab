@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Option } from "@/types";
 import { Box, Flex, Input, Text } from "@chakra-ui/react";
 
@@ -20,18 +20,22 @@ export const ColorSettingOption: React.FC<ColorSettingOptionProps> = ({
   resetOptionToDefault,
 }) => {
   const { title, subTitle, localStorageId } = option;
-  const [inputValue, setInputValue] = useState(() => value);
+  const [inputValue, setInputValue] = useState(value);
 
   const onColorChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInputValue(e.target.value);
   };
 
   useEffect(() => {
-    if(value === inputValue) {
+    setInputValue(value);
+  }, [value])
+
+  useEffect(() => {
+    if (value === inputValue) {
       return;
     }
     const timeoutIdentifier = setTimeout(() => {
-      console.log("Calling change setting");
+      console.log("Calling change setting", option.localStorageId, inputValue);
       changeSetting(option.localStorageId, inputValue);
     }, 500);
 
@@ -41,7 +45,6 @@ export const ColorSettingOption: React.FC<ColorSettingOptionProps> = ({
       // this is for performance with the color picker
       clearTimeout(timeoutIdentifier);
     };
-
   }, [changeSetting, inputValue, option.localStorageId, value]);
 
   return (

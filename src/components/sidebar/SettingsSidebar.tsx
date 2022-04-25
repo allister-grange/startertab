@@ -77,23 +77,9 @@ export const SettingsSideBar: React.FC<SettingsSideBarProps> = ({
   };
 
   const resetOptionToDefault = (option: Option) => {
-    let newSettings = cloneDeep(settingsToSave);
-    const themeToChange = newSettings.themes.find(
-      (theme) => theme.themeName === colorMode
-    );
-    if (colorMode !== "dark" && colorMode !== "light") {
-      throw new Error(
-        "You have only coded two themes Allister, you'll have to handle this a different way if you're adding more in"
-      );
-    }
-    if (!themeToChange) {
-      throw new Error("No change named " + colorMode);
-    }
     const defaultSetting =
       colorMode === "dark" ? option.darkDefault : option.lightDefault;
-    themeToChange[option.localStorageId as keyof ThemeSettings] =
-      defaultSetting;
-    setSettingsToSave(newSettings);
+    changeSetting(option.localStorageId, defaultSetting)
   };
 
   const currentThemeSettings = settingsToSave.themes.find(
