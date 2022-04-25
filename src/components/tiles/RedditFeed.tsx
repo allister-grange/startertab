@@ -17,7 +17,7 @@ export const RedditFeed: React.FC<RedditFeedProps> = () => {
   const [redditData, setRedditData] = useState<
     RedditDataHolder[] | undefined
   >();
-  const textColor = useColorModeValue("white", "#222222");
+  const textColor = "var(--text-color-tile-5)"
   const underlineColor = useColorModeValue("gray.200", "gray.700");
 
   useEffect(() => {

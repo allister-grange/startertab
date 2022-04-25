@@ -14,7 +14,7 @@ type PageProps = {
 };
 
 export const HackerNewsFeed: React.FC<PageProps> = ({ hackerNewsData }) => {
-  const textColor = useColorModeValue("white", "#222222");
+  const textColor = "var(--text-color-tile-1)";
   const underlineColor = useColorModeValue("gray.200", "gray.700");
 
   return (

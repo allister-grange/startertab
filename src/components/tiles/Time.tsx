@@ -9,7 +9,7 @@ export const Time: React.FC<TimeProps> = ({}) => {
     undefined
   );
   const [timer, setTimer] = useState<undefined | number>(undefined);
-  const color = useColorModeValue("white", "#222222");
+  const color = "var(--text-color-tile-11)";
 
   const updateTime = () => {
     setTime(new Date().toTimeString().replace(/.*(\d{2}:\d{2}:\d{2}).*/, "$1"));

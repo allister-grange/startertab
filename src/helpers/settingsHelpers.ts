@@ -50,6 +50,54 @@ export const applyTheme = (theme: ThemeSettings) => {
     "--bg-color-tile-12",
     theme.tile12BackgroundColor
   );
+  document.documentElement.style.setProperty(
+    "--text-color-tile-1",
+    theme.tile1TextColor
+  );
+  document.documentElement.style.setProperty(
+    "--text-color-tile-2",
+    theme.tile2TextColor
+  );
+  document.documentElement.style.setProperty(
+    "--text-color-tile-3",
+    theme.tile3TextColor
+  );
+  document.documentElement.style.setProperty(
+    "--text-color-tile-4",
+    theme.tile4TextColor
+  );
+  document.documentElement.style.setProperty(
+    "--text-color-tile-5",
+    theme.tile5TextColor
+  );
+  document.documentElement.style.setProperty(
+    "--text-color-tile-6",
+    theme.tile6TextColor
+  );
+  document.documentElement.style.setProperty(
+    "--text-color-tile-7",
+    theme.tile7TextColor
+  );
+  document.documentElement.style.setProperty(
+    "--text-color-tile-8",
+    theme.tile8TextColor
+  );
+  document.documentElement.style.setProperty(
+    "--text-color-tile-9",
+    theme.tile9TextColor
+  );
+  document.documentElement.style.setProperty(
+    "--text-color-tile-10",
+    theme.tile10TextColor
+  );
+  document.documentElement.style.setProperty(
+    "--text-color-tile-11",
+    theme.tile11TextColor
+  );
+  document.documentElement.style.setProperty(
+    "--text-color-tile-12",
+    theme.tile12TextColor
+  );
 };
 
 
@@ -69,11 +117,25 @@ export const sideBarOptions: Option[] = [
     darkDefault: "#65abc1",
   },
   {
+    title: "HackerNews text color",
+    subTitle: "Text color of the HackerNews tile",
+    localStorageId: "tile1TextColor",
+    lightDefault: "#ffffff",
+    darkDefault: "#222222",
+  },
+  {
     title: "Strava tile background color",
     subTitle: "Background color of the Strava tile",
     localStorageId: "tile2BackgroundColor",
     lightDefault: "#E89C4B",
     darkDefault: "#E89C4B",
+  },
+  {
+    title: "Strava tile text color",
+    subTitle: "Text color of the Strava tile",
+    localStorageId: "tile2TextColor",
+    lightDefault: "#ffffff",
+    darkDefault: "#222222",
   },
   {
     title: "Wind tile background color",
@@ -83,11 +145,25 @@ export const sideBarOptions: Option[] = [
     darkDefault: "#9AB899",
   },
   {
+    title: "Wind tile text color",
+    subTitle: "Text color of the wind tile",
+    localStorageId: "tile3TextColor",
+    lightDefault: "#ffffff",
+    darkDefault: "#222222",
+  },
+  {
     title: "Swimming lane booking tile background color",
     subTitle: "Background color of the swimming lane tile",
     localStorageId: "tile4BackgroundColor",
     lightDefault: "#65abc1",
     darkDefault: "#65abc1",
+  },
+  {
+    title: "Swimming lane booking text color",
+    subTitle: "Text color of the swimming lane tile",
+    localStorageId: "tile4TextColor",
+    lightDefault: "#ffffff",
+    darkDefault: "#222222",
   },
   {
     title: "Reddit feed tile background color",
@@ -97,11 +173,25 @@ export const sideBarOptions: Option[] = [
     darkDefault: "#E89C4B",
   },
   {
+    title: "Reddit feed tile text color",
+    subTitle: "Text color of the reddit tile",
+    localStorageId: "tile5TextColor",
+    lightDefault: "#ffffff",
+    darkDefault: "#222222",
+  },
+  {
     title: "Search tile background color",
     subTitle: "Background color of the first tile",
     localStorageId: "tile6BackgroundColor",
     lightDefault: "#F06808",
     darkDefault: "#F06808",
+  },
+  {
+    title: "Search tile text color",
+    subTitle: "text color of the search tile",
+    localStorageId: "tile6TextColor",
+    lightDefault: "#ffffff",
+    darkDefault: "#222222",
   },
   {
     title: "Bonsai background color",
@@ -111,11 +201,25 @@ export const sideBarOptions: Option[] = [
     darkDefault: "#E89C4B",
   },
   {
+    title: "Bonsai text color",
+    subTitle: "Text color of the bonsai tile",
+    localStorageId: "tile7TextColor",
+    lightDefault: "#ffffff",
+    darkDefault: "#222222",
+  },
+  {
     title: "Weather tile background color",
     subTitle: "Background color of the weather tile",
     localStorageId: "tile8BackgroundColor",
     lightDefault: "#65abc1",
     darkDefault: "#65abc1",
+  },
+  {
+    title: "Weather tile text color",
+    subTitle: "Text color of the weather tile",
+    localStorageId: "tile8TextColor",
+    lightDefault: "#ffffff",
+    darkDefault: "#222222",
   },
   {
     title: "Spotify tile background color",
@@ -125,11 +229,25 @@ export const sideBarOptions: Option[] = [
     darkDefault: "#9AB899",
   },
   {
+    title: "Spotify tile text color",
+    subTitle: "Text color of the spotify tile",
+    localStorageId: "tile9TextColor",
+    lightDefault: "#ffffff",
+    darkDefault: "#222222",
+  },
+  {
     title: "UvIndex Tile background color",
     subTitle: "Background color of the UV tile",
     localStorageId: "tile10BackgroundColor",
     lightDefault: "#E89C4B",
     darkDefault: "#E89C4B",
+  },
+  {
+    title: "UvIndex Tile text color",
+    subTitle: "Text color of the UV tile",
+    localStorageId: "tile10TextColor",
+    lightDefault: "#ffffff",
+    darkDefault: "#222222",
   },
   {
     title: "Clock tile background color",
@@ -139,11 +257,25 @@ export const sideBarOptions: Option[] = [
     darkDefault: "#9AB899",
   },
   {
+    title: "Clock tile text color",
+    subTitle: "Text color of the clock tile",
+    localStorageId: "tile11TextColor",
+    lightDefault: "#ffffff",
+    darkDefault: "#222222",
+  },
+  {
     title: "Theme changer tile background color",
     subTitle: "Background color of the theme changer tile",
     localStorageId: "tile12BackgroundColor",
     lightDefault: "#65abc1",
     darkDefault: "#65abc1",
+  },
+  {
+    title: "Theme changer tile text color",
+    subTitle: "Text color of the theme changer tile",
+    localStorageId: "tile12TextColor",
+    lightDefault: "#ffffff",
+    darkDefault: "#222222",
   },
 ];
 
@@ -165,6 +297,18 @@ export const defaultSettings: UserSettings = {
       tile10BackgroundColor: "#E89C4B",
       tile11BackgroundColor: "#9AB899",
       tile12BackgroundColor: "#65abc1",
+      tile1TextColor: "#222222",
+      tile2TextColor: "#222222",
+      tile3TextColor: "#222222",
+      tile4TextColor: "#222222",
+      tile5TextColor: "#222222",
+      tile6TextColor: "#222222",
+      tile7TextColor: "#222222",
+      tile8TextColor: "#222222",
+      tile9TextColor: "#222222",
+      tile10TextColor: "#222222",
+      tile11TextColor: "#222222",
+      tile12TextColor: "#222222",
     },
     {
       themeName: "light",
@@ -182,6 +326,18 @@ export const defaultSettings: UserSettings = {
       tile10BackgroundColor: "#E89C4B",
       tile11BackgroundColor: "#9AB899",
       tile12BackgroundColor: "#65abc1",
+      tile1TextColor: "#ffffff",
+      tile2TextColor: "#ffffff",
+      tile3TextColor: "#ffffff",
+      tile4TextColor: "#ffffff",
+      tile5TextColor: "#ffffff",
+      tile6TextColor: "#ffffff",
+      tile7TextColor: "#ffffff",
+      tile8TextColor: "#ffffff",
+      tile9TextColor: "#ffffff",
+      tile10TextColor: "#ffffff",
+      tile11TextColor: "#ffffff",
+      tile12TextColor: "#ffffff",
     },
   ],
 };
