@@ -4,6 +4,9 @@ body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
     Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+  width: 100%;
+  height: 100%;
+  position: fixed;
 }
 
 a {
@@ -13,4 +16,19 @@ a {
 
 * {
   box-sizing: border-box;
+}
+
+:root {
+  --bg-color-tile-1: #65abc1;
+  --bg-color-tile-2: #E89C4B;
+  --bg-color-tile-3: #9AB899;
+  --bg-color-tile-4: #65abc1;
+  --bg-color-tile-5: #E89C4B;
+  --bg-color-tile-6: #F06808;
+  --bg-color-tile-7: #E89C4B;
+  --bg-color-tile-8: #65abc1;
+  --bg-color-tile-9: #9AB899;
+  --bg-color-tile-10: #E89C4B;
+  --bg-color-tile-11: #9AB899;
+  --bg-color-tile-12: #65abc1;
 }

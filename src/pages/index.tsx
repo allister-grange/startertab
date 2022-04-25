@@ -14,7 +14,6 @@ import {
 } from "@/components/tiles";
 import ColorModeSwitcher from "@/components/ui/ColorModeSwitcher";
 import { SettingsToggle } from "@/components/ui/SettingsToggle";
-import { useLocalStorage } from "@/helpers/useLocalStorage";
 import { getHackerNewsData } from "@/pages/api/hackerNews";
 import { getSpotifyNowPlayingData } from "@/pages/api/spotify";
 import { getStravaData } from "@/pages/api/strava";
@@ -26,15 +25,8 @@ import {
   UvGraphData,
   WeatherData,
 } from "@/types";
-import {
-  Box,
-  Grid,
-  GridItem,
-  useColorMode,
-  useDisclosure,
-} from "@chakra-ui/react";
+import { Box, Grid, GridItem, useDisclosure } from "@chakra-ui/react";
 import type { GetStaticProps, NextPage } from "next";
-import { useEffect } from "react";
 
 type PageProps = {
   stravaData: StravaGraphData;
@@ -51,20 +43,9 @@ const Home: NextPage<PageProps> = ({
 }) => {
   // Sidebar hook
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const [settings] = useLocalStorage("userSettings");
-  const { colorMode } = useColorMode();
-
-  // TODO might need to more this somewhere to make sure it happens before SSR
-  useEffect(() => {
-    const currentTheme = settings.themes.find(
-      (theme) => theme.themeName === colorMode
-    );
-
-    document.body.style.backgroundColor = currentTheme?.backgroundColor!;
-  }, [colorMode, settings]);
 
   return (
-    <Box h="100vh" display="flex" alignItems="center">
+    <Box h="100vh" display="flex" alignItems="center" overflow="auto">
       <SettingsSideBar onClose={onClose} isOpen={isOpen} />
       <Grid
         h="100%"
@@ -80,7 +61,7 @@ const Home: NextPage<PageProps> = ({
           borderRadius="15"
           rowSpan={5}
           colSpan={1}
-          bg="#65abc1"
+          bg="var(--bg-color-tile-1)"
           overflowY="scroll"
           className={styles.disableScrollbars}
         >
@@ -88,7 +69,7 @@ const Home: NextPage<PageProps> = ({
         </GridItem>
         <GridItem
           rowSpan={4}
-          bg="#E89C4B"
+          bg="var(--bg-color-tile-2)"
           colSpan={2}
           borderRadius="15"
           minH="300px"
@@ -97,14 +78,19 @@ const Home: NextPage<PageProps> = ({
         >
           <StravaGraph stravaData={stravaData} />
         </GridItem>
-        <GridItem borderRadius="15" colSpan={1} rowSpan={2} bg="#9AB899">
+        <GridItem
+          borderRadius="15"
+          colSpan={1}
+          rowSpan={2}
+          bg="var(--bg-color-tile-3)"
+        >
           <WindFinderLinks />
         </GridItem>
         <GridItem
           borderRadius="15"
           colSpan={1}
           rowSpan={5}
-          bg="#E89C4B"
+          bg="var(--bg-color-tile-5)"
           minW="220px"
           overflowY="scroll"
           className={styles.disableScrollbars}
@@ -115,7 +101,7 @@ const Home: NextPage<PageProps> = ({
           borderRadius="15"
           colSpan={1}
           rowSpan={2}
-          bg="#65abc1"
+          bg="var(--bg-color-tile-4)"
           minWidth="200px"
         >
           <SwimmingPoolTimeTable />
@@ -124,7 +110,7 @@ const Home: NextPage<PageProps> = ({
           borderRadius="15"
           colSpan={3}
           rowSpan={1}
-          bg="#F06808"
+          bg="var(--bg-color-tile-6)"
           minH="60px"
         >
           <SearchBar />
@@ -133,7 +119,7 @@ const Home: NextPage<PageProps> = ({
           borderRadius="15"
           colSpan={1}
           rowSpan={4}
-          bg="#E89C4B"
+          bg="var(--bg-color-tile-7)"
           pos="relative"
           overflow="hidden"
           maxH="380px"
@@ -145,7 +131,7 @@ const Home: NextPage<PageProps> = ({
           rowSpan={2}
           borderRadius="15"
           colSpan={1}
-          bg="#65abc1"
+          bg="var(--bg-color-tile-8)"
           minW="200px"
         >
           <WeatherTile weatherData={weatherData} />
@@ -154,7 +140,7 @@ const Home: NextPage<PageProps> = ({
           borderRadius="15"
           colSpan={2}
           rowSpan={4}
-          bg="#E89C4B"
+          bg="var(--bg-color-tile-10)"
           overflow="hidden"
           minH="310px"
           maxH="330px"
@@ -165,7 +151,7 @@ const Home: NextPage<PageProps> = ({
           borderRadius="15"
           colSpan={1}
           rowSpan={2}
-          bg="#9AB899"
+          bg="var(--bg-color-tile-11)"
           pos="relative"
         >
           <Time />
@@ -174,16 +160,21 @@ const Home: NextPage<PageProps> = ({
           borderRadius="15"
           colSpan={1}
           rowSpan={2}
-          bg="#9AB899"
+          bg="var(--bg-color-tile-9)"
           minW="200px"
         >
           <Spotify />
         </GridItem>
-        <GridItem borderRadius="15" colSpan={1} rowSpan={2} bg="#65abc1">
+        <GridItem
+          borderRadius="15"
+          colSpan={1}
+          rowSpan={2}
+          bg="var(--bg-color-tile-12)"
+        >
           <ColorModeSwitcher />
         </GridItem>
       </Grid>
-      <SettingsToggle onOpen={onOpen} />
+      {!isOpen && <SettingsToggle onOpen={onOpen} />}
     </Box>
   );
 };

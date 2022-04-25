@@ -1,8 +1,7 @@
-import "../styles/globals.css";
+import { ChakraProvider, extendTheme, ThemeConfig } from "@chakra-ui/react";
 import type { AppProps } from "next/app";
 import Head from "next/head";
-
-import { ChakraProvider, extendTheme, ThemeConfig } from "@chakra-ui/react";
+import "../styles/globals.css";
 
 const config: ThemeConfig = {
   initialColorMode: "dark",

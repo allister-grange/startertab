@@ -5,12 +5,6 @@ export type Option = {
   lightDefault: string;
   darkDefault: string;
 };
-// export type Option = {
-//   title: string;
-//   subTitle: string;
-//   localStorageId: string;
-//   default: string;
-// };
 
 export type Themes = "dark" | "light";
 
@@ -18,10 +12,20 @@ export type ThemeSettings = {
   themeName: string;
   backgroundColor: string;
   textColor: string;
-  hackerNewsFeedBackgroundColor: string;
+  tile1BackgroundColor: string;
+  tile2BackgroundColor: string;
+  tile3BackgroundColor: string;
+  tile4BackgroundColor: string;
+  tile5BackgroundColor: string;
+  tile6BackgroundColor: string;
+  tile7BackgroundColor: string;
+  tile8BackgroundColor: string;
+  tile9BackgroundColor: string;
+  tile10BackgroundColor: string;
+  tile11BackgroundColor: string;
+  tile12BackgroundColor: string;
 }
 
-// could be an array of themes 
 export type UserSettings = {
   themes: ThemeSettings[],
 };

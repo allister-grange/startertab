@@ -1,17 +1,12 @@
 import { ColorSettingOption } from "@/components/sidebar/ColorSettingOption";
 import { SideBarTitle } from "@/components/sidebar/SideBarTitle";
 import { ThemeToChangeSelector } from "@/components/sidebar/ThemeToChangeSelector";
-import { sideBarOptions } from "@/helpers/settingsHelpers";
+import { applyTheme, sideBarOptions } from "@/helpers/settingsHelpers";
 import { useLocalStorage } from "@/helpers/useLocalStorage";
 import { Option } from "@/types";
 import { ThemeSettings } from "@/types/settings";
-import {
-  Box,
-  BoxProps,
-  useColorMode,
-  useColorModeValue,
-} from "@chakra-ui/react";
-import React, { useState } from "react";
+import { Box, useColorMode, useColorModeValue } from "@chakra-ui/react";
+import React, { useCallback, useEffect, useState } from "react";
 import cloneDeep from "lodash.clonedeep";
 
 interface SettingsSideBarProps {
@@ -33,19 +28,34 @@ export const SettingsSideBar: React.FC<SettingsSideBarProps> = ({
   const textColor = useColorModeValue("#303030", "#fff");
   const subTextColor = useColorModeValue("#606060", "#ddd");
 
-  // will change the appearance of the site, but not what's stored in localStorage
-  const changeSetting = (key: string, value: string) => {
-    let newSettings = cloneDeep(settingsToSave);
-    const themeToChange = newSettings.themes.find(
+  useEffect(() => {
+    const themeToChange = settingsToSave.themes.find(
       (theme) => theme.themeName === colorMode
     );
+
     if (!themeToChange) {
       throw new Error("No change named " + colorMode);
     }
-    themeToChange[key as keyof ThemeSettings] = value;
+
     applyTheme(themeToChange);
-    setSettingsToSave(newSettings);
-  };
+  }, [settingsToSave, colorMode]);
+
+  // // will change the appearance of the site, but not what's stored in localStorage
+  const changeSetting = useCallback(
+    (key: string, value: string) => {
+      console.log(`changeSettings ${key}:${value}`);
+      let newSettings = cloneDeep(settingsToSave);
+      const themeToChange = newSettings.themes.find(
+        (theme) => theme.themeName === colorMode
+      );
+      if (!themeToChange) {
+        throw new Error("No change named " + colorMode);
+      }
+      themeToChange[key as keyof ThemeSettings] = value;
+      setSettingsToSave(newSettings);
+    },
+    [colorMode, settingsToSave]
+  );
 
   // apply the in memory settings into localStorage
   const onSaveHandler = () => {
@@ -64,7 +74,6 @@ export const SettingsSideBar: React.FC<SettingsSideBarProps> = ({
     }
     // reset settings
     setSettingsToSave(cloneDeep(settings));
-    applyTheme(theme);
   };
 
   const resetOptionToDefault = (option: Option) => {
@@ -85,12 +94,6 @@ export const SettingsSideBar: React.FC<SettingsSideBarProps> = ({
     themeToChange[option.localStorageId as keyof ThemeSettings] =
       defaultSetting;
     setSettingsToSave(newSettings);
-    applyTheme(themeToChange);
-  };
-
-  const applyTheme = (theme: ThemeSettings) => {
-    document.body.style.backgroundColor = theme.backgroundColor;
-    // document.body.style.color = theme.textColor;
   };
 
   const currentThemeSettings = settingsToSave.themes.find(
@@ -105,42 +108,37 @@ export const SettingsSideBar: React.FC<SettingsSideBarProps> = ({
       transition={"width 0.3s ease-in-out"}
       zIndex="10"
       bg={backgroundColor}
+      overflowY="scroll"
+      onClose={() => onClose}
     >
-      <Box
-        height="100%"
-        width="100%"
-        bg={backgroundColor}
-        onClose={() => onClose}
-      >
-        <SideBarTitle
-          textColor={textColor}
-          onSaveHandler={onSaveHandler}
-          onExitHandler={onExitHandler}
-        />
-        <Box p="3">
-          <ThemeToChangeSelector />
-          <hr />
-          <ul>
-            {sideBarOptions.map((option) => (
-              <li key={option.localStorageId}>
-                <ColorSettingOption
-                  option={option}
-                  changeSetting={changeSetting}
-                  textColor={textColor}
-                  subTextColor={subTextColor}
-                  value={currentThemeSettings?.backgroundColor!}
-                  resetOptionToDefault={resetOptionToDefault}
-                />
-                <hr />
-              </li>
-            ))}
-          </ul>
-        </Box>
+      <SideBarTitle
+        textColor={textColor}
+        onSaveHandler={onSaveHandler}
+        onExitHandler={onExitHandler}
+      />
+      <Box p="3">
+        <ThemeToChangeSelector />
+        <hr />
+        <ul style={{ listStyle: "none" }}>
+          {sideBarOptions.map((option) => (
+            <li key={option.localStorageId}>
+              <ColorSettingOption
+                option={option}
+                changeSetting={changeSetting}
+                textColor={textColor}
+                subTextColor={subTextColor}
+                value={
+                  currentThemeSettings![
+                    option.localStorageId as keyof ThemeSettings
+                  ]
+                }
+                resetOptionToDefault={resetOptionToDefault}
+              />
+              <hr />
+            </li>
+          ))}
+        </ul>
       </Box>
     </Box>
   ) : null;
 };
-
-interface SidebarProps extends BoxProps {
-  onClose: () => void;
-}
