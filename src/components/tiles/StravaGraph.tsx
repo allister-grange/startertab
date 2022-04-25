@@ -16,7 +16,7 @@ import {
   XAxis,
   YAxis,
 } from "recharts";
-import { StravaGraphData, StravaGraphPoint } from "../types/strava";
+import { StravaGraphData, StravaGraphPoint } from "@/types/strava";
 
 type PageProps = {
   stravaData: StravaGraphData;
