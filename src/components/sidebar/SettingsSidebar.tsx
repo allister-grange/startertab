@@ -109,7 +109,7 @@ export const SettingsSideBar: React.FC<SettingsSideBarProps> = ({
       transition={"width 0.3s ease-in-out"}
       zIndex="10"
       bg={backgroundColor}
-      overflowY="scroll"
+      overflowY="auto"
     >
       <SideBarTitle
         textColor={textColor}
