@@ -1,4 +1,4 @@
-import { Box, Button, Center, Heading, Input, useColorModeValue } from "@chakra-ui/react";
+import { Box, Button, Heading, Input, useColorModeValue } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
 
 interface TimeProps {}
@@ -9,7 +9,7 @@ export const Time: React.FC<TimeProps> = ({}) => {
     undefined
   );
   const [timer, setTimer] = useState<undefined | number>(undefined);
-  const color = useColorModeValue("white", "#222222");
+  const color = "var(--text-color-tile-11)";
 
   const updateTime = () => {
     setTime(new Date().toTimeString().replace(/.*(\d{2}:\d{2}:\d{2}).*/, "$1"));

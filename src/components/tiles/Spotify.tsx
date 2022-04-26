@@ -1,16 +1,9 @@
 import { NowPlayingSpotifyData } from "@/types/spotify";
 import {
-  ArrowBackIcon,
-  ArrowDownIcon,
-  ArrowForwardIcon,
-  ArrowUpIcon,
-} from "@chakra-ui/icons";
-import {
   Button,
   Center,
   Flex,
   Heading,
-  IconButton,
   Link,
   useColorModeValue,
 } from "@chakra-ui/react";
@@ -53,7 +46,7 @@ export const Spotify: React.FC = ({}) => {
     }
   };
 
-  const color = useColorModeValue("white", "#222222");
+  const color = "var(--text-color-tile-9)";
 
   const PauseIcon = (
     <svg

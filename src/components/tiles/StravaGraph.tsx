@@ -16,7 +16,7 @@ import {
   XAxis,
   YAxis,
 } from "recharts";
-import { StravaGraphData, StravaGraphPoint } from "../types/strava";
+import { StravaGraphData, StravaGraphPoint } from "@/types/strava";
 
 type PageProps = {
   stravaData: StravaGraphData;
@@ -24,7 +24,7 @@ type PageProps = {
 
 export const StravaGraph: React.FC<PageProps> = ({ stravaData }) => {
   const [showingSwim, setShowingSwim] = useState<Boolean | undefined>();
-  const color = useColorModeValue("white", "#222222");
+  const color = "var(--text-color-tile-2)";
   const runBoxColor = useColorModeValue("rgba(255, 255, 255, 0.2)", "rgba(255, 255, 255, 0.1)");
 
   return (

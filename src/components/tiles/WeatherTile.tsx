@@ -22,7 +22,7 @@ interface WeatherTileProps {
 
 export const WeatherTile: React.FC<WeatherTileProps> = ({ weatherData }) => {
   const { toggleColorMode } = useColorMode();
-  const color = useColorModeValue("white", "#222222");
+  const color = "var(--text-color-tile-8)";
 
   let icon;
 

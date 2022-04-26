@@ -3,24 +3,19 @@ import {
   Center,
   Input,
   useColorMode,
-  useColorModeValue,
 } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import React, { useState } from "react";
 import {
-  DuckDuckGoDarkIcon,
-  DuckDuckGoLightIcon,
-  GoogleDarkIcon,
-  GoogleLightIcon,
-  StackOverFlowDarkIcon,
-  StackOverFlowLightIcon,
+  DuckDuckGoIcon,
+  GoogleIcon,
+  StackOverFlowIcon,
 } from "@/components/icons";
 
 export const SearchBar: React.FC = () => {
   const router = useRouter();
   const [searchTerm, setSearchTerm] = useState<undefined | string>(undefined);
-  const color = useColorModeValue("white", "#222222");
-  const { colorMode } = useColorMode();
+  const color = "var(--text-color-tile-6)";
 
   type AppTypes = "google" | "duck" | "stackoverflow";
 
@@ -43,25 +38,13 @@ export const SearchBar: React.FC = () => {
   return (
     <Center height="100%">
       <Button bg="transparent" onClick={() => searchClick("duck")}>
-        {colorMode === "light" ? (
-          <DuckDuckGoLightIcon w={10} h={10} />
-        ) : (
-          <DuckDuckGoDarkIcon w={10} h={10} />
-        )}
+        <DuckDuckGoIcon w={10} h={10} />
       </Button>
       <Button bg="transparent" onClick={() => searchClick("google")}>
-        {colorMode === "light" ? (
-          <GoogleLightIcon w={9} h={9} />
-        ) : (
-          <GoogleDarkIcon w={9} h={9} />
-        )}
+        <GoogleIcon w={9} h={9} />
       </Button>
       <Button bg="transparent" onClick={() => searchClick("stackoverflow")}>
-        {colorMode === "light" ? (
-          <StackOverFlowLightIcon w={10} h={10} />
-        ) : (
-          <StackOverFlowDarkIcon w={10} h={10} />
-        )}
+        <StackOverFlowIcon w={10} h={10} />
       </Button>
       <Input
         width={400}
