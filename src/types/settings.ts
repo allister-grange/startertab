@@ -4,7 +4,22 @@ export type Option = {
   localStorageId: string;
   lightDefault: string;
   darkDefault: string;
+  tileGroup?: TileGroup;
 };
+
+export type TileGroup =
+  | "HackerNews Tile"
+  | "Strava Tile"
+  | "Bonsai Tile"
+  | "Weather Tile"
+  | "Spotify Tile"
+  | "Wind Tile"
+  | "Swimming Tile"
+  | "Search Tile"
+  | "Reddit Tile"
+  | "Clock Tile"
+  | "Theme Changer Tile"
+  | "UV Tile";
 
 export type Themes = "dark" | "light";
 
@@ -36,8 +51,12 @@ export type ThemeSettings = {
   tile10TextColor: string;
   tile11TextColor: string;
   tile12TextColor: string;
-}
+};
 
 export type UserSettings = {
-  themes: ThemeSettings[],
+  themes: ThemeSettings[];
 };
+
+export type SortedOption = {
+  [key in TileGroup]: Option[];
+} 

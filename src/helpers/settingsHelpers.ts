@@ -1,4 +1,4 @@
-import { Option, ThemeSettings, UserSettings } from "@/types/settings";
+import { Option, SortedOption, ThemeSettings, TileGroup, UserSettings } from "@/types/settings";
 
 export const applyTheme = (theme: ThemeSettings) => {
   document.body.style.backgroundColor = theme.backgroundColor;
@@ -100,7 +100,6 @@ export const applyTheme = (theme: ThemeSettings) => {
   );
 };
 
-
 export const sideBarOptions: Option[] = [
   {
     title: "Background color",
@@ -115,6 +114,7 @@ export const sideBarOptions: Option[] = [
     localStorageId: "tile1BackgroundColor",
     lightDefault: "#65abc1",
     darkDefault: "#65abc1",
+    tileGroup: "HackerNews Tile",
   },
   {
     title: "HackerNews text color",
@@ -122,6 +122,7 @@ export const sideBarOptions: Option[] = [
     localStorageId: "tile1TextColor",
     lightDefault: "#ffffff",
     darkDefault: "#222222",
+    tileGroup: "HackerNews Tile",
   },
   {
     title: "Strava tile background color",
@@ -129,6 +130,7 @@ export const sideBarOptions: Option[] = [
     localStorageId: "tile2BackgroundColor",
     lightDefault: "#E89C4B",
     darkDefault: "#E89C4B",
+    tileGroup: "Strava Tile",
   },
   {
     title: "Strava tile text color",
@@ -136,6 +138,7 @@ export const sideBarOptions: Option[] = [
     localStorageId: "tile2TextColor",
     lightDefault: "#ffffff",
     darkDefault: "#222222",
+    tileGroup: "Strava Tile",
   },
   {
     title: "Wind tile background color",
@@ -143,6 +146,7 @@ export const sideBarOptions: Option[] = [
     localStorageId: "tile3BackgroundColor",
     lightDefault: "#9AB899",
     darkDefault: "#9AB899",
+    tileGroup: "Wind Tile",
   },
   {
     title: "Wind tile text color",
@@ -150,6 +154,7 @@ export const sideBarOptions: Option[] = [
     localStorageId: "tile3TextColor",
     lightDefault: "#ffffff",
     darkDefault: "#222222",
+    tileGroup: "Wind Tile",
   },
   {
     title: "Swimming lane booking tile background color",
@@ -157,6 +162,7 @@ export const sideBarOptions: Option[] = [
     localStorageId: "tile4BackgroundColor",
     lightDefault: "#65abc1",
     darkDefault: "#65abc1",
+    tileGroup: "Swimming Tile",
   },
   {
     title: "Swimming lane booking text color",
@@ -164,6 +170,7 @@ export const sideBarOptions: Option[] = [
     localStorageId: "tile4TextColor",
     lightDefault: "#ffffff",
     darkDefault: "#222222",
+    tileGroup: "Swimming Tile",
   },
   {
     title: "Reddit feed tile background color",
@@ -171,6 +178,7 @@ export const sideBarOptions: Option[] = [
     localStorageId: "tile5BackgroundColor",
     lightDefault: "#E89C4B",
     darkDefault: "#E89C4B",
+    tileGroup: "Reddit Tile",
   },
   {
     title: "Reddit feed tile text color",
@@ -178,6 +186,7 @@ export const sideBarOptions: Option[] = [
     localStorageId: "tile5TextColor",
     lightDefault: "#ffffff",
     darkDefault: "#222222",
+    tileGroup: "Reddit Tile",
   },
   {
     title: "Search tile background color",
@@ -185,6 +194,7 @@ export const sideBarOptions: Option[] = [
     localStorageId: "tile6BackgroundColor",
     lightDefault: "#F06808",
     darkDefault: "#F06808",
+    tileGroup: "Search Tile",
   },
   {
     title: "Search tile text color",
@@ -192,6 +202,7 @@ export const sideBarOptions: Option[] = [
     localStorageId: "tile6TextColor",
     lightDefault: "#ffffff",
     darkDefault: "#222222",
+    tileGroup: "Search Tile",
   },
   {
     title: "Bonsai background color",
@@ -199,6 +210,7 @@ export const sideBarOptions: Option[] = [
     localStorageId: "tile7BackgroundColor",
     lightDefault: "#E89C4B",
     darkDefault: "#E89C4B",
+    tileGroup: "Bonsai Tile",
   },
   {
     title: "Bonsai text color",
@@ -206,6 +218,7 @@ export const sideBarOptions: Option[] = [
     localStorageId: "tile7TextColor",
     lightDefault: "#ffffff",
     darkDefault: "#222222",
+    tileGroup: "Bonsai Tile",
   },
   {
     title: "Weather tile background color",
@@ -213,6 +226,7 @@ export const sideBarOptions: Option[] = [
     localStorageId: "tile8BackgroundColor",
     lightDefault: "#65abc1",
     darkDefault: "#65abc1",
+    tileGroup: "Weather Tile",
   },
   {
     title: "Weather tile text color",
@@ -220,6 +234,7 @@ export const sideBarOptions: Option[] = [
     localStorageId: "tile8TextColor",
     lightDefault: "#ffffff",
     darkDefault: "#222222",
+    tileGroup: "Weather Tile",
   },
   {
     title: "Spotify tile background color",
@@ -227,6 +242,7 @@ export const sideBarOptions: Option[] = [
     localStorageId: "tile9BackgroundColor",
     lightDefault: "#9AB899",
     darkDefault: "#9AB899",
+    tileGroup: "Spotify Tile",
   },
   {
     title: "Spotify tile text color",
@@ -234,6 +250,7 @@ export const sideBarOptions: Option[] = [
     localStorageId: "tile9TextColor",
     lightDefault: "#ffffff",
     darkDefault: "#222222",
+    tileGroup: "Spotify Tile",
   },
   {
     title: "UvIndex Tile background color",
@@ -241,6 +258,7 @@ export const sideBarOptions: Option[] = [
     localStorageId: "tile10BackgroundColor",
     lightDefault: "#E89C4B",
     darkDefault: "#E89C4B",
+    tileGroup: "UV Tile",
   },
   {
     title: "UvIndex Tile text color",
@@ -248,6 +266,7 @@ export const sideBarOptions: Option[] = [
     localStorageId: "tile10TextColor",
     lightDefault: "#ffffff",
     darkDefault: "#222222",
+    tileGroup: "UV Tile",
   },
   {
     title: "Clock tile background color",
@@ -255,6 +274,7 @@ export const sideBarOptions: Option[] = [
     localStorageId: "tile11BackgroundColor",
     lightDefault: "#9AB899",
     darkDefault: "#9AB899",
+    tileGroup: "Clock Tile",
   },
   {
     title: "Clock tile text color",
@@ -262,6 +282,7 @@ export const sideBarOptions: Option[] = [
     localStorageId: "tile11TextColor",
     lightDefault: "#ffffff",
     darkDefault: "#222222",
+    tileGroup: "Clock Tile",
   },
   {
     title: "Theme changer tile background color",
@@ -269,6 +290,7 @@ export const sideBarOptions: Option[] = [
     localStorageId: "tile12BackgroundColor",
     lightDefault: "#65abc1",
     darkDefault: "#65abc1",
+    tileGroup: "Theme Changer Tile",
   },
   {
     title: "Theme changer tile text color",
@@ -276,6 +298,7 @@ export const sideBarOptions: Option[] = [
     localStorageId: "tile12TextColor",
     lightDefault: "#ffffff",
     darkDefault: "#222222",
+    tileGroup: "Theme Changer Tile",
   },
 ];
 
@@ -340,4 +363,26 @@ export const defaultSettings: UserSettings = {
       tile12TextColor: "#ffffff",
     },
   ],
+};
+
+export const sortOptionsIntoTileGroups = (options: Option[]): Map<TileGroup, Option[]> => {
+  // I want a hashtable of key: array of options
+  const optionsInTileGroups: any = {};
+
+  options.forEach((option) => {
+    // push into beginning bit?
+    if (!option.tileGroup) {
+      return;
+    }
+    if (!(option.tileGroup in optionsInTileGroups)) {
+      optionsInTileGroups[option.tileGroup] = [option];
+    } else {
+      optionsInTileGroups[option.tileGroup] = [
+        ...optionsInTileGroups[option.tileGroup],
+        option,
+      ];
+    }
+  });
+
+  return optionsInTileGroups;
 };

@@ -1,11 +1,24 @@
 import { ColorSettingOption } from "@/components/sidebar/ColorSettingOption";
 import { SideBarTitle } from "@/components/sidebar/SideBarTitle";
 import { ThemeToChangeSelector } from "@/components/sidebar/ThemeToChangeSelector";
-import { applyTheme, sideBarOptions } from "@/helpers/settingsHelpers";
+import {
+  applyTheme,
+  sideBarOptions,
+  sortOptionsIntoTileGroups,
+} from "@/helpers/settingsHelpers";
 import { useLocalStorage } from "@/helpers/useLocalStorage";
 import { Option } from "@/types";
 import { ThemeSettings } from "@/types/settings";
-import { Box, useColorMode, useColorModeValue } from "@chakra-ui/react";
+import {
+  Accordion,
+  AccordionButton,
+  AccordionIcon,
+  AccordionItem,
+  AccordionPanel,
+  Box,
+  useColorMode,
+  useColorModeValue,
+} from "@chakra-ui/react";
 import React, { useCallback, useEffect, useState } from "react";
 import cloneDeep from "lodash.clonedeep";
 
@@ -79,12 +92,14 @@ export const SettingsSideBar: React.FC<SettingsSideBarProps> = ({
   const resetOptionToDefault = (option: Option) => {
     const defaultSetting =
       colorMode === "dark" ? option.darkDefault : option.lightDefault;
-    changeSetting(option.localStorageId, defaultSetting)
+    changeSetting(option.localStorageId, defaultSetting);
   };
 
   const currentThemeSettings = settingsToSave.themes.find(
     (theme) => theme.themeName === colorMode
   );
+
+  const sortedOptions = sortOptionsIntoTileGroups(sideBarOptions);
 
   return isOpen ? (
     <Box
@@ -95,7 +110,6 @@ export const SettingsSideBar: React.FC<SettingsSideBarProps> = ({
       zIndex="10"
       bg={backgroundColor}
       overflowY="scroll"
-      onClose={() => onClose}
     >
       <SideBarTitle
         textColor={textColor}
@@ -105,25 +119,58 @@ export const SettingsSideBar: React.FC<SettingsSideBarProps> = ({
       <Box p="3">
         <ThemeToChangeSelector />
         <hr />
-        <ul style={{ listStyle: "none" }}>
-          {sideBarOptions.map((option) => (
-            <li key={option.localStorageId}>
-              <ColorSettingOption
-                option={option}
-                changeSetting={changeSetting}
-                textColor={textColor}
-                subTextColor={subTextColor}
-                value={
-                  currentThemeSettings![
-                    option.localStorageId as keyof ThemeSettings
-                  ]
-                }
-                resetOptionToDefault={resetOptionToDefault}
-              />
-              <hr />
-            </li>
-          ))}
-        </ul>
+
+        <ColorSettingOption
+          option={sideBarOptions[0]}
+          changeSetting={changeSetting}
+          textColor={textColor}
+          subTextColor={subTextColor}
+          value={
+            currentThemeSettings![
+              sideBarOptions[0].localStorageId as keyof ThemeSettings
+            ]
+          }
+          resetOptionToDefault={resetOptionToDefault}
+        />
+        <hr />
+        <Box mt="4" />
+        <Accordion allowMultiple>
+          {Object.entries(sortedOptions).map((tileGroup) => {
+            return (
+              <AccordionItem key={tileGroup[0]} p="0">
+                <h2>
+                  <AccordionButton
+                    _expanded={{ backdropFilter: "brightness(0.95)" }}
+                  >
+                    <Box flex="1" textAlign="left">
+                      {tileGroup[0]}
+                    </Box>
+                    <AccordionIcon />
+                  </AccordionButton>
+                </h2>
+                {tileGroup[1].map((option: Option) => {
+                  return (
+                    <AccordionPanel pb={4} p="2" key={option.localStorageId}>
+                      <ColorSettingOption
+                        option={option}
+                        changeSetting={changeSetting}
+                        textColor={textColor}
+                        subTextColor={subTextColor}
+                        value={
+                          currentThemeSettings![
+                            option.localStorageId as keyof ThemeSettings
+                          ]
+                        }
+                        resetOptionToDefault={resetOptionToDefault}
+                      />
+                      <hr />
+                    </AccordionPanel>
+                  );
+                })}
+              </AccordionItem>
+            );
+          })}
+        </Accordion>
       </Box>
     </Box>
   ) : null;
