@@ -1,8 +1,16 @@
-import React, { useEffect, useRef, useState } from "react";
 import { Option } from "@/types";
-import { Box, Flex, Input, Text } from "@chakra-ui/react";
+import {
+  Box,
+  BoxProps,
+  Center,
+  Collapse,
+  Flex,
+  Input, Text
+} from "@chakra-ui/react";
+import React, { useEffect, useState } from "react";
+import { HexColorPicker } from "react-colorful";
 
-interface ColorSettingOptionProps {
+interface ColorSettingOptionProps extends BoxProps {
   option: Option;
   textColor: string;
   subTextColor: string;
@@ -21,21 +29,24 @@ export const ColorSettingOption: React.FC<ColorSettingOptionProps> = ({
 }) => {
   const { title, subTitle, localStorageId } = option;
   const [inputValue, setInputValue] = useState(value);
+  const [showingColorPicker, setShowingColorPicker] = useState(false);
 
-  const onColorChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const onColorPickerChange = (color: string) => {
+    setInputValue(color);
+  };
+  const onColorInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInputValue(e.target.value);
   };
 
   useEffect(() => {
     setInputValue(value);
-  }, [value])
+  }, [value]);
 
   useEffect(() => {
     if (value === inputValue) {
       return;
     }
     const timeoutIdentifier = setTimeout(() => {
-      console.log("Calling change setting", option.localStorageId, inputValue);
       changeSetting(option.localStorageId, inputValue);
     }, 500);
 
@@ -61,22 +72,51 @@ export const ColorSettingOption: React.FC<ColorSettingOptionProps> = ({
           .&nbsp;Reset to default.
         </span>
       </Text>
-      <Flex dir="row" mt="1">
-        <Input
-          marginLeft="auto"
-          display="block"
-          flex="1 0 80%"
-          value={inputValue}
-          size="sm"
-          onChange={onColorChange}
-        />
-        <Input
-          size="sm"
-          type="color"
-          value={inputValue}
-          onChange={onColorChange}
-        />
-      </Flex>
+      <Box display="flex" flexDir="column" mt="1">
+        <Flex>
+          <Input
+            marginLeft="auto"
+            display="block"
+            flex="1 1 70%"
+            value={inputValue}
+            size="sm"
+            onChange={onColorInputChange}
+            height="8"
+            onFocus={() => setShowingColorPicker(true)}
+          />
+          <Center
+            height="32px"
+            width="50px"
+            border="1px solid"
+            borderColor="inherit"
+            _hover={{ cursor: "pointer" }}
+            onClick={() =>
+              setShowingColorPicker((showingColor) => !showingColor)
+            }
+          >
+            <Box
+              height="20px"
+              width="20px"
+              borderRadius="4px"
+              border="1px solid"
+              borderColor="inherit"
+              bg={inputValue}
+            />
+          </Center>
+        </Flex>
+        <Collapse in={showingColorPicker}>
+          <HexColorPicker
+            color={inputValue}
+            onChange={onColorPickerChange}
+            style={{
+              width: "auto",
+              height: "120px",
+              marginTop: "10px",
+              marginBottom: "5px",
+            }}
+          />
+        </Collapse>
+      </Box>
     </Box>
   );
 };

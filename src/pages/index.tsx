@@ -22,11 +22,13 @@ import styles from "@/styles/Home.module.css";
 import {
   HackerNewsLinkHolder,
   StravaGraphData,
+  TileGroup,
   UvGraphData,
   WeatherData,
 } from "@/types";
 import { Box, Grid, GridItem, useDisclosure } from "@chakra-ui/react";
 import type { GetStaticProps, NextPage } from "next";
+import { useState } from "react";
 
 type PageProps = {
   stravaData: StravaGraphData;
@@ -43,10 +45,16 @@ const Home: NextPage<PageProps> = ({
 }) => {
   // Sidebar hook
   const { isOpen, onOpen, onClose } = useDisclosure();
+  // to highlight what tile you are looking to edit from the sidebar
+  const [optionHovered, setOptionHovered] = useState<undefined | TileGroup>();
 
   return (
     <Box h="100vh" display="flex" alignItems="center" overflow="auto">
-      <SettingsSideBar onClose={onClose} isOpen={isOpen} />
+      <SettingsSideBar
+        onClose={onClose}
+        isOpen={isOpen}
+        setOptionHovered={setOptionHovered}
+      />
       <Grid
         h="100%"
         templateRows="repeat(9, 1fr)"
@@ -64,6 +72,9 @@ const Home: NextPage<PageProps> = ({
           bg="var(--bg-color-tile-1)"
           overflowY="scroll"
           className={styles.disableScrollbars}
+          outline={optionHovered === "HackerNews Tile" ? "2px solid white" : ""}
+          style={optionHovered === "HackerNews Tile" ? {transform: "scale(1.05)"} : {}}
+          transition=".3s ease-in-out"
         >
           <HackerNewsFeed hackerNewsData={hackerNewsData} />
         </GridItem>
@@ -75,6 +86,9 @@ const Home: NextPage<PageProps> = ({
           minH="300px"
           maxH="330px"
           minW="530px"
+          outline={optionHovered === "Strava Tile" ? "2px solid white" : ""}
+          style={optionHovered === "Strava Tile" ? {transform: "scale(1.05)"} : {}}
+          transition=".3s ease-in-out"
         >
           <StravaGraph stravaData={stravaData} />
         </GridItem>
@@ -83,6 +97,9 @@ const Home: NextPage<PageProps> = ({
           colSpan={1}
           rowSpan={2}
           bg="var(--bg-color-tile-3)"
+          outline={optionHovered === "Wind Tile" ? "2px solid white" : ""}
+          style={optionHovered === "Wind Tile" ? {transform: "scale(1.05)"} : {}}
+          transition=".3s ease-in-out"
         >
           <WindFinderLinks />
         </GridItem>
@@ -94,6 +111,9 @@ const Home: NextPage<PageProps> = ({
           minW="220px"
           overflowY="scroll"
           className={styles.disableScrollbars}
+          outline={optionHovered === "Reddit Tile" ? "2px solid white" : ""}
+          style={optionHovered === "Reddit Tile" ? {transform: "scale(1.05)"} : {}}
+          transition=".3s ease-in-out"
         >
           <RedditFeed />
         </GridItem>
@@ -103,6 +123,9 @@ const Home: NextPage<PageProps> = ({
           rowSpan={2}
           bg="var(--bg-color-tile-4)"
           minWidth="200px"
+          outline={optionHovered === "Swimming Tile" ? "2px solid white" : ""}
+          style={optionHovered === "Swimming Tile" ? {transform: "scale(1.05)"} : {}}
+          transition=".3s ease-in-out"
         >
           <SwimmingPoolTimeTable />
         </GridItem>
@@ -112,6 +135,9 @@ const Home: NextPage<PageProps> = ({
           rowSpan={1}
           bg="var(--bg-color-tile-6)"
           minH="60px"
+          outline={optionHovered === "Search Tile" ? "2px solid white" : ""}
+          style={optionHovered === "Search Tile" ? {transform: "scale(1.05)"} : {}}
+          transition=".3s ease-in-out"
         >
           <SearchBar />
         </GridItem>
@@ -124,6 +150,9 @@ const Home: NextPage<PageProps> = ({
           overflow="hidden"
           maxH="380px"
           minW="250px"
+          outline={optionHovered === "Bonsai Tile" ? "2px solid white" : ""}
+          style={optionHovered === "Bonsai Tile" ? {transform: "scale(1.05)"} : {}}
+          transition=".3s ease-in-out"
         >
           <Bonsai />
         </GridItem>
@@ -133,6 +162,9 @@ const Home: NextPage<PageProps> = ({
           colSpan={1}
           bg="var(--bg-color-tile-8)"
           minW="200px"
+          outline={optionHovered === "Weather Tile" ? "2px solid white" : ""}
+          style={optionHovered === "Weather Tile" ? {transform: "scale(1.05)"} : {}}
+          transition=".3s ease-in-out"
         >
           <WeatherTile weatherData={weatherData} />
         </GridItem>
@@ -144,6 +176,9 @@ const Home: NextPage<PageProps> = ({
           overflow="hidden"
           minH="310px"
           maxH="330px"
+          outline={optionHovered === "UV Tile" ? "2px solid white" : ""}
+          style={optionHovered === "UV Tile" ? {transform: "scale(1.05)"} : {}}
+          transition=".3s ease-in-out"
         >
           <UvGraph uvData={uvData} />
         </GridItem>
@@ -153,6 +188,9 @@ const Home: NextPage<PageProps> = ({
           rowSpan={2}
           bg="var(--bg-color-tile-11)"
           pos="relative"
+          outline={optionHovered === "Clock Tile" ? "2px solid white" : ""}
+          style={optionHovered === "Clock Tile" ? {transform: "scale(1.05)"} : {}}
+          transition=".3s ease-in-out"
         >
           <Time />
         </GridItem>
@@ -162,6 +200,9 @@ const Home: NextPage<PageProps> = ({
           rowSpan={2}
           bg="var(--bg-color-tile-9)"
           minW="200px"
+          outline={optionHovered === "Spotify Tile" ? "2px solid white" : ""}
+          style={optionHovered === "Spotify Tile" ? {transform: "scale(1.05)"} : {}}
+          transition=".3s ease-in-out"
         >
           <Spotify />
         </GridItem>
@@ -170,6 +211,9 @@ const Home: NextPage<PageProps> = ({
           colSpan={1}
           rowSpan={2}
           bg="var(--bg-color-tile-12)"
+          outline={optionHovered === "Theme Changer Tile" ? "2px solid white" : ""}
+          style={optionHovered === "Theme Changer Tile" ? {transform: "scale(1.05)"}: {}}
+          transition=".3s ease-in-out"
         >
           <ColorModeSwitcher />
         </GridItem>
