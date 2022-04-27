@@ -8,7 +8,7 @@ import {
 } from "@/helpers/settingsHelpers";
 import { useLocalStorage } from "@/helpers/useLocalStorage";
 import { Option } from "@/types";
-import { ThemeSettings } from "@/types/settings";
+import { ThemeSettings, TileGroup } from "@/types/settings";
 import {
   Accordion,
   AccordionButton,
@@ -19,17 +19,19 @@ import {
   useColorMode,
   useColorModeValue,
 } from "@chakra-ui/react";
-import React, { useCallback, useEffect, useState } from "react";
+import React, { SetStateAction, useCallback, useEffect, useState } from "react";
 import cloneDeep from "lodash.clonedeep";
 
 interface SettingsSideBarProps {
   isOpen: boolean;
   onClose: () => void;
+  setOptionHovered: React.Dispatch<SetStateAction<TileGroup | undefined>>;
 }
 
 export const SettingsSideBar: React.FC<SettingsSideBarProps> = ({
   isOpen,
   onClose,
+  setOptionHovered,
 }) => {
   const [settings, setSettings] = useLocalStorage("userSettings");
   const [settingsToSave, setSettingsToSave] = useState(() =>
@@ -87,6 +89,7 @@ export const SettingsSideBar: React.FC<SettingsSideBarProps> = ({
     }
     // reset settings
     setSettingsToSave(cloneDeep(settings));
+    setOptionHovered(undefined);
   };
 
   const resetOptionToDefault = (option: Option) => {
@@ -137,7 +140,12 @@ export const SettingsSideBar: React.FC<SettingsSideBarProps> = ({
         <Accordion allowMultiple>
           {Object.entries(sortedOptions).map((tileGroup) => {
             return (
-              <AccordionItem key={tileGroup[0]} p="0">
+              <AccordionItem
+                key={tileGroup[0]}
+                p="0"
+                onMouseEnter={() => setOptionHovered(tileGroup[0] as TileGroup)}
+                onMouseLeave={() => setOptionHovered(undefined)}
+              >
                 <h2>
                   <AccordionButton
                     _expanded={{ backdropFilter: "brightness(0.95)" }}
