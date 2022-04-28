@@ -28,6 +28,18 @@ interface SettingsSideBarProps {
   setOptionHovered: React.Dispatch<SetStateAction<TileGroup | undefined>>;
 }
 
+const openStyle = {
+  opacity: 1,
+  minWidth: "300px",
+  transform: "translateX(0px)"
+};
+
+const closedStyle = {
+  opacity: 0,
+  minWidth: 0,
+  transform: "translateX(-200px)"
+};
+
 export const SettingsSideBar: React.FC<SettingsSideBarProps> = ({
   isOpen,
   onClose,
@@ -103,16 +115,19 @@ export const SettingsSideBar: React.FC<SettingsSideBarProps> = ({
   );
 
   const sortedOptions = sortOptionsIntoTileGroups(sideBarOptions);
+  console.log(isOpen);
+  
 
-  return isOpen ? (
+  return (
     <Box
       minWidth={300}
       width={300}
       height="100%"
-      transition={"width 0.3s ease-in-out"}
+      transition={"all 0.3s ease-in-out"}
       zIndex="10"
       bg={backgroundColor}
       overflowY="auto"
+      style={isOpen ? openStyle : closedStyle}
     >
       <SideBarTitle
         textColor={textColor}
@@ -181,5 +196,5 @@ export const SettingsSideBar: React.FC<SettingsSideBarProps> = ({
         </Accordion>
       </Box>
     </Box>
-  ) : null;
+  );
 };
