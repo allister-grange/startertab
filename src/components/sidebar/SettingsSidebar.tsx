@@ -18,6 +18,8 @@ import {
   Box,
   useColorMode,
   useColorModeValue,
+  Text,
+  Button,
 } from "@chakra-ui/react";
 import React, { SetStateAction, useCallback, useEffect, useState } from "react";
 import cloneDeep from "lodash.clonedeep";
@@ -30,14 +32,14 @@ interface SettingsSideBarProps {
 
 const openStyle = {
   opacity: 1,
-  minWidth: "300px",
-  transform: "translateX(0px)"
+  minWidth: "320px",
+  transform: "translateX(0px)",
 };
 
 const closedStyle = {
   opacity: 0,
   minWidth: 0,
-  transform: "translateX(-200px)"
+  transform: "translateX(-200px)",
 };
 
 export const SettingsSideBar: React.FC<SettingsSideBarProps> = ({
@@ -71,17 +73,19 @@ export const SettingsSideBar: React.FC<SettingsSideBarProps> = ({
   const changeSetting = useCallback(
     (key: string, value: string) => {
       console.log(`changeSettings ${key}:${value}`);
-      let newSettings = cloneDeep(settingsToSave);
-      const themeToChange = newSettings.themes.find(
-        (theme) => theme.themeName === colorMode
-      );
-      if (!themeToChange) {
-        throw new Error("No change named " + colorMode);
-      }
-      themeToChange[key as keyof ThemeSettings] = value;
-      setSettingsToSave(newSettings);
+      setSettingsToSave((settingsToSave) => {
+        let newSettings = cloneDeep(settingsToSave);
+        const themeToChange = newSettings.themes.find(
+          (theme) => theme.themeName === colorMode
+        );
+        if (!themeToChange) {
+          throw new Error("No change named " + colorMode);
+        }
+        themeToChange[key as keyof ThemeSettings] = value;
+        return newSettings;
+      });
     },
-    [colorMode, settingsToSave]
+    [colorMode]
   );
 
   // apply the in memory settings into localStorage
@@ -110,13 +114,30 @@ export const SettingsSideBar: React.FC<SettingsSideBarProps> = ({
     changeSetting(option.localStorageId, defaultSetting);
   };
 
+  const resetAllSettingsToDefault = () => {
+    const currentTheme = settings.themes.find(
+      (theme) => theme.themeName === colorMode
+    );
+
+    if (!currentTheme) {
+      throw new Error("No theme found for " + colorMode);
+    }
+
+    sideBarOptions.forEach((option) => {
+      const defaultSetting =
+        currentTheme.themeName === "dark"
+          ? option.darkDefault
+          : option.lightDefault;
+
+      changeSetting(option.localStorageId, defaultSetting);
+    });
+  };
+
   const currentThemeSettings = settingsToSave.themes.find(
     (theme) => theme.themeName === colorMode
   );
 
   const sortedOptions = sortOptionsIntoTileGroups(sideBarOptions);
-  console.log(isOpen);
-  
 
   return (
     <Box
@@ -136,6 +157,14 @@ export const SettingsSideBar: React.FC<SettingsSideBarProps> = ({
       />
       <Box p="3">
         <ThemeToChangeSelector />
+        <Box mb="4">
+          <Button display="block" onClick={resetAllSettingsToDefault}>
+            <Text fontSize="sm" color={textColor}>
+              Reset all colors back to default
+            </Text>
+          </Button>
+        </Box>
+
         <hr />
 
         <ColorSettingOption
@@ -150,7 +179,7 @@ export const SettingsSideBar: React.FC<SettingsSideBarProps> = ({
           }
           resetOptionToDefault={resetOptionToDefault}
         />
-        <hr />
+
         <Box mt="4" />
         <Accordion allowMultiple>
           {Object.entries(sortedOptions).map((tileGroup) => {
