@@ -7,102 +7,102 @@ import {
 } from "@/types/settings";
 
 export const applyTheme = (theme: ThemeSettings) => {
-  document.body.style.backgroundColor = theme.backgroundColor;
+  document.body.style.backgroundColor = theme.globalSettings.backgroundColor;
   document.documentElement.style.setProperty(
     "--bg-color-tile-1",
-    theme.tile1BackgroundColor
+    theme.tile1.backgroundColor
   );
   document.documentElement.style.setProperty(
     "--bg-color-tile-2",
-    theme.tile2BackgroundColor
+    theme.tile2.backgroundColor
   );
   document.documentElement.style.setProperty(
     "--bg-color-tile-3",
-    theme.tile3BackgroundColor
+    theme.tile3.backgroundColor
   );
   document.documentElement.style.setProperty(
     "--bg-color-tile-4",
-    theme.tile4BackgroundColor
+    theme.tile4.backgroundColor
   );
   document.documentElement.style.setProperty(
     "--bg-color-tile-5",
-    theme.tile5BackgroundColor
+    theme.tile5.backgroundColor
   );
   document.documentElement.style.setProperty(
     "--bg-color-tile-6",
-    theme.tile6BackgroundColor
+    theme.tile6.backgroundColor
   );
   document.documentElement.style.setProperty(
     "--bg-color-tile-7",
-    theme.tile7BackgroundColor
+    theme.tile7.backgroundColor
   );
   document.documentElement.style.setProperty(
     "--bg-color-tile-8",
-    theme.tile8BackgroundColor
+    theme.tile8.backgroundColor
   );
   document.documentElement.style.setProperty(
     "--bg-color-tile-9",
-    theme.tile9BackgroundColor
+    theme.tile9.backgroundColor
   );
   document.documentElement.style.setProperty(
     "--bg-color-tile-10",
-    theme.tile10BackgroundColor
+    theme.tile10.backgroundColor
   );
   document.documentElement.style.setProperty(
     "--bg-color-tile-11",
-    theme.tile11BackgroundColor
+    theme.tile11.backgroundColor
   );
   document.documentElement.style.setProperty(
     "--bg-color-tile-12",
-    theme.tile12BackgroundColor
+    theme.tile12.backgroundColor
   );
   document.documentElement.style.setProperty(
     "--text-color-tile-1",
-    theme.tile1TextColor
+    theme.tile1.textColor
   );
   document.documentElement.style.setProperty(
     "--text-color-tile-2",
-    theme.tile2TextColor
+    theme.tile2.textColor
   );
   document.documentElement.style.setProperty(
     "--text-color-tile-3",
-    theme.tile3TextColor
+    theme.tile3.textColor
   );
   document.documentElement.style.setProperty(
     "--text-color-tile-4",
-    theme.tile4TextColor
+    theme.tile4.textColor
   );
   document.documentElement.style.setProperty(
     "--text-color-tile-5",
-    theme.tile5TextColor
+    theme.tile5.textColor
   );
   document.documentElement.style.setProperty(
     "--text-color-tile-6",
-    theme.tile6TextColor
+    theme.tile6.textColor
   );
   document.documentElement.style.setProperty(
     "--text-color-tile-7",
-    theme.tile7TextColor
+    theme.tile7.textColor
   );
   document.documentElement.style.setProperty(
     "--text-color-tile-8",
-    theme.tile8TextColor
+    theme.tile8.textColor
   );
   document.documentElement.style.setProperty(
     "--text-color-tile-9",
-    theme.tile9TextColor
+    theme.tile9.textColor
   );
   document.documentElement.style.setProperty(
     "--text-color-tile-10",
-    theme.tile10TextColor
+    theme.tile10.textColor
   );
   document.documentElement.style.setProperty(
     "--text-color-tile-11",
-    theme.tile11TextColor
+    theme.tile11.textColor
   );
   document.documentElement.style.setProperty(
     "--text-color-tile-12",
-    theme.tile12TextColor
+    theme.tile12.textColor
   );
 };
 
@@ -114,96 +114,107 @@ export const sideBarOptions: Option[] = [
     lightDefault: "#ffffff",
     darkDefault: "#1B202B",
     type: "ColorPicker",
+    tileId: "globalSettings"
   },
   {
     title: "HackerNews background color",
     subTitle: "Background color of the HackerNews tile",
-    localStorageId: "tile1BackgroundColor",
+    localStorageId: "backgroundColor",
     lightDefault: "#65abc1",
     darkDefault: "#65abc1",
     tileGroup: "HackerNews Tile",
     type: "ColorPicker",
+    tileId: "tile1",
   },
   {
     title: "HackerNews text color",
     subTitle: "Text color of the HackerNews tile",
-    localStorageId: "tile1TextColor",
+    localStorageId: "textColor",
     lightDefault: "#ffffff",
     darkDefault: "#222222",
     tileGroup: "HackerNews Tile",
     type: "ColorPicker",
+    tileId: "tile1",
   },
   {
     title: "Strava tile background color",
     subTitle: "Background color of the Strava tile",
-    localStorageId: "tile2BackgroundColor",
+    localStorageId: "backgroundColor",
     lightDefault: "#E89C4B",
     darkDefault: "#E89C4B",
     tileGroup: "Strava Tile",
     type: "ColorPicker",
+    tileId: "tile2",
   },
   {
     title: "Strava tile text color",
     subTitle: "Text color of the Strava tile",
-    localStorageId: "tile2TextColor",
+    localStorageId: "textColor",
     lightDefault: "#ffffff",
     darkDefault: "#222222",
     tileGroup: "Strava Tile",
     type: "ColorPicker",
+    tileId: "tile2",
   },
   {
     title: "Wind tile background color",
     subTitle: "Background color of the wind tile",
-    localStorageId: "tile3BackgroundColor",
+    localStorageId: "backgroundColor",
     lightDefault: "#9AB899",
     darkDefault: "#9AB899",
     tileGroup: "Wind Tile",
     type: "ColorPicker",
+    tileId: "tile3",
   },
   {
     title: "Wind tile text color",
     subTitle: "Text color of the wind tile",
-    localStorageId: "tile3TextColor",
+    localStorageId: "textColor",
     lightDefault: "#ffffff",
     darkDefault: "#222222",
     tileGroup: "Wind Tile",
     type: "ColorPicker",
+    tileId: "tile3",
   },
   {
     title: "Swimming lane booking tile background color",
     subTitle: "Background color of the swimming lane tile",
-    localStorageId: "tile4BackgroundColor",
+    localStorageId: "backgroundColor",
     lightDefault: "#65abc1",
     darkDefault: "#65abc1",
     tileGroup: "Swimming Tile",
     type: "ColorPicker",
+    tileId: "tile4",
   },
   {
     title: "Swimming lane booking text color",
     subTitle: "Text color of the swimming lane tile",
-    localStorageId: "tile4TextColor",
+    localStorageId: "textColor",
     lightDefault: "#ffffff",
     darkDefault: "#222222",
     tileGroup: "Swimming Tile",
     type: "ColorPicker",
+    tileId: "tile4",
   },
   {
     title: "Reddit feed tile background color",
     subTitle: "Background color of the reddit tile",
-    localStorageId: "tile5BackgroundColor",
+    localStorageId: "backgroundColor",
     lightDefault: "#E89C4B",
     darkDefault: "#E89C4B",
     tileGroup: "Reddit Tile",
     type: "ColorPicker",
+    tileId: "tile5",
   },
   {
     title: "Reddit feed tile text color",
     subTitle: "Text color of the reddit tile",
-    localStorageId: "tile5TextColor",
+    localStorageId: "textColor",
     lightDefault: "#ffffff",
     darkDefault: "#222222",
     tileGroup: "Reddit Tile",
     type: "ColorPicker",
+    tileId: "tile5",
   },
   {
     title: "Reddit feed subreddit",
@@ -211,132 +222,147 @@ export const sideBarOptions: Option[] = [
     localStorageId: "subReddit",
     tileGroup: "Reddit Tile",
     type: "SubRedditPicker",
+    tileId: "tile5",
   },
   {
     title: "Search tile background color",
     subTitle: "Background color of the first tile",
-    localStorageId: "tile6BackgroundColor",
+    localStorageId: "backgroundColor",
     lightDefault: "#F06808",
     darkDefault: "#F06808",
     tileGroup: "Search Tile",
     type: "ColorPicker",
+    tileId: "tile6",
   },
   {
     title: "Search tile text color",
     subTitle: "text color of the search tile",
-    localStorageId: "tile6TextColor",
+    localStorageId: "textColor",
     lightDefault: "#ffffff",
     darkDefault: "#222222",
     tileGroup: "Search Tile",
     type: "ColorPicker",
+    tileId: "tile6",
   },
   {
     title: "Bonsai background color",
     subTitle: "Background color of the bonsai tile",
-    localStorageId: "tile7BackgroundColor",
+    localStorageId: "backgroundColor",
     lightDefault: "#E89C4B",
     darkDefault: "#E89C4B",
     tileGroup: "Bonsai Tile",
     type: "ColorPicker",
+    tileId: "tile7",
   },
   {
     title: "Bonsai text color",
     subTitle: "Text color of the bonsai tile",
-    localStorageId: "tile7TextColor",
+    localStorageId: "textColor",
     lightDefault: "#ffffff",
     darkDefault: "#222222",
     tileGroup: "Bonsai Tile",
     type: "ColorPicker",
+    tileId: "tile7",
   },
   {
     title: "Weather tile background color",
     subTitle: "Background color of the weather tile",
-    localStorageId: "tile8BackgroundColor",
+    localStorageId: "backgroundColor",
     lightDefault: "#65abc1",
     darkDefault: "#65abc1",
     tileGroup: "Weather Tile",
     type: "ColorPicker",
+    tileId: "tile8",
   },
   {
     title: "Weather tile text color",
     subTitle: "Text color of the weather tile",
-    localStorageId: "tile8TextColor",
+    localStorageId: "textColor",
     lightDefault: "#ffffff",
     darkDefault: "#222222",
     tileGroup: "Weather Tile",
     type: "ColorPicker",
+    tileId: "tile8",
   },
   {
     title: "Spotify tile background color",
     subTitle: "Background color of the spotify tile",
-    localStorageId: "tile9BackgroundColor",
+    localStorageId: "backgroundColor",
     lightDefault: "#9AB899",
     darkDefault: "#9AB899",
     tileGroup: "Spotify Tile",
     type: "ColorPicker",
+    tileId: "tile9",
   },
   {
     title: "Spotify tile text color",
     subTitle: "Text color of the spotify tile",
-    localStorageId: "tile9TextColor",
+    localStorageId: "textColor",
     lightDefault: "#ffffff",
     darkDefault: "#222222",
     tileGroup: "Spotify Tile",
     type: "ColorPicker",
+    tileId: "tile9",
   },
   {
     title: "UvIndex Tile background color",
     subTitle: "Background color of the UV tile",
-    localStorageId: "tile10BackgroundColor",
+    localStorageId: "backgroundColor",
     lightDefault: "#E89C4B",
     darkDefault: "#E89C4B",
     tileGroup: "UV Tile",
     type: "ColorPicker",
+    tileId: "tile10",
   },
   {
     title: "UvIndex Tile text color",
     subTitle: "Text color of the UV tile",
-    localStorageId: "tile10TextColor",
+    localStorageId: "textColor",
     lightDefault: "#ffffff",
     darkDefault: "#222222",
     tileGroup: "UV Tile",
     type: "ColorPicker",
+    tileId: "tile10",
   },
   {
     title: "Clock tile background color",
     subTitle: "Background color of the clock tile",
-    localStorageId: "tile11BackgroundColor",
+    localStorageId: "backgroundColor",
     lightDefault: "#9AB899",
     darkDefault: "#9AB899",
     tileGroup: "Clock Tile",
     type: "ColorPicker",
+    tileId: "tile11",
   },
   {
     title: "Clock tile text color",
     subTitle: "Text color of the clock tile",
-    localStorageId: "tile11TextColor",
+    localStorageId: "textColor",
     lightDefault: "#ffffff",
     darkDefault: "#222222",
     tileGroup: "Clock Tile",
     type: "ColorPicker",
+    tileId: "tile11",
   },
   {
     title: "Theme changer tile background color",
     subTitle: "Background color of the theme changer tile",
-    localStorageId: "tile12BackgroundColor",
+    localStorageId: "backgroundColor",
     lightDefault: "#65abc1",
     darkDefault: "#65abc1",
     tileGroup: "Theme Changer Tile",
     type: "ColorPicker",
+    tileId: "tile12",
   },
   {
     title: "Theme changer tile text color",
     subTitle: "Text color of the theme changer tile",
-    localStorageId: "tile12TextColor",
+    localStorageId: "textColor",
     lightDefault: "#ffffff",
     darkDefault: "#222222",
     tileGroup: "Theme Changer Tile",
     type: "ColorPicker",
+    tileId: "tile12",
   },
 ];
 
@@ -344,61 +370,113 @@ export const defaultSettings: UserSettings = {
   themes: [
     {
       themeName: "dark",
-      backgroundColor: "#1B202B",
-      textColor: "#222222",
-      tile1BackgroundColor: "#65abc1",
-      tile2BackgroundColor: "#E89C4B",
-      tile3BackgroundColor: "#9AB899",
-      tile4BackgroundColor: "#65abc1",
-      tile5BackgroundColor: "#E89C4B",
-      tile6BackgroundColor: "#F06808",
-      tile7BackgroundColor: "#E89C4B",
-      tile8BackgroundColor: "#65abc1",
-      tile9BackgroundColor: "#9AB899",
-      tile10BackgroundColor: "#E89C4B",
-      tile11BackgroundColor: "#9AB899",
-      tile12BackgroundColor: "#65abc1",
-      tile1TextColor: "#222222",
-      tile2TextColor: "#222222",
-      tile3TextColor: "#222222",
-      tile4TextColor: "#222222",
-      tile5TextColor: "#222222",
-      tile6TextColor: "#222222",
-      tile7TextColor: "#222222",
-      tile8TextColor: "#222222",
-      tile9TextColor: "#222222",
-      tile10TextColor: "#222222",
-      tile11TextColor: "#222222",
-      tile12TextColor: "#222222",
+      globalSettings: {
+        backgroundColor: "#1B202B",
+        textColor: "#222222",
+      },
+      tile1: {
+        backgroundColor: "#65abc1",
+        textColor: "#222222",
+      },
+      tile2: {
+        backgroundColor: "#E89C4B",
+        textColor: "#222222",
+      },
+      tile3: {
+        backgroundColor: "#9AB899",
+        textColor: "#222222",
+      },
+      tile4: {
+        backgroundColor: "#65abc1",
+        textColor: "#222222",
+      },
+      tile5: {
+        backgroundColor: "#E89C4B",
+        textColor: "#222222",
+      },
+      tile6: {
+        backgroundColor: "#F06808",
+        textColor: "#222222",
+      },
+      tile7: {
+        backgroundColor: "#E89C4B",
+        textColor: "#222222",
+      },
+      tile8: {
+        backgroundColor: "#65abc1",
+        textColor: "#222222",
+      },
+      tile9: {
+        backgroundColor: "#9AB899",
+        textColor: "#222222",
+      },
+      tile10: {
+        backgroundColor: "#E89C4B",
+        textColor: "#222222",
+      },
+      tile11: {
+        backgroundColor: "#9AB899",
+        textColor: "#222222",
+      },
+      tile12: {
+        backgroundColor: "#65abc1",
+        textColor: "#222222",
+      },
     },
     {
       themeName: "light",
-      backgroundColor: "#ffffff",
-      textColor: "#ffffff",
-      tile1BackgroundColor: "#65abc1",
-      tile2BackgroundColor: "#E89C4B",
-      tile3BackgroundColor: "#9AB899",
-      tile4BackgroundColor: "#65abc1",
-      tile5BackgroundColor: "#E89C4B",
-      tile6BackgroundColor: "#F06808",
-      tile7BackgroundColor: "#E89C4B",
-      tile8BackgroundColor: "#65abc1",
-      tile9BackgroundColor: "#9AB899",
-      tile10BackgroundColor: "#E89C4B",
-      tile11BackgroundColor: "#9AB899",
-      tile12BackgroundColor: "#65abc1",
-      tile1TextColor: "#ffffff",
-      tile2TextColor: "#ffffff",
-      tile3TextColor: "#ffffff",
-      tile4TextColor: "#ffffff",
-      tile5TextColor: "#ffffff",
-      tile6TextColor: "#ffffff",
-      tile7TextColor: "#ffffff",
-      tile8TextColor: "#ffffff",
-      tile9TextColor: "#ffffff",
-      tile10TextColor: "#ffffff",
-      tile11TextColor: "#ffffff",
-      tile12TextColor: "#ffffff",
+      globalSettings: {
+        backgroundColor: "#ffffff",
+        textColor: "#ffffff",
+      },
+      tile1: {
+        backgroundColor: "#65abc1",
+        textColor: "#ffffff",
+      },
+      tile2: {
+        backgroundColor: "#E89C4B",
+        textColor: "#ffffff",
+      },
+      tile3: {
+        backgroundColor: "#9AB899",
+        textColor: "#ffffff",
+      },
+      tile4: {
+        backgroundColor: "#65abc1",
+        textColor: "#ffffff",
+      },
+      tile5: {
+        backgroundColor: "#E89C4B",
+        textColor: "#ffffff",
+      },
+      tile6: {
+        backgroundColor: "#F06808",
+        textColor: "#ffffff",
+      },
+      tile7: {
+        backgroundColor: "#E89C4B",
+        textColor: "#ffffff",
+      },
+      tile8: {
+        backgroundColor: "#65abc1",
+        textColor: "#ffffff",
+      },
+      tile9: {
+        backgroundColor: "#9AB899",
+        textColor: "#ffffff",
+      },
+      tile10: {
+        backgroundColor: "#E89C4B",
+        textColor: "#ffffff",
+      },
+      tile11: {
+        backgroundColor: "#9AB899",
+        textColor: "#ffffff",
+      },
+      tile12: {
+        backgroundColor: "#65abc1",
+        textColor: "#ffffff",
+      },
     },
   ],
 };
@@ -432,7 +510,7 @@ export const getDefaultSettingForOption = (
   currentThemeName: string
 ): string => {
   let defaultSetting =
-  currentThemeName === "dark" ? option.darkDefault : option.lightDefault;
+    currentThemeName === "dark" ? option.darkDefault : option.lightDefault;
 
   // if there's no light/dark default there should be a regular default settings
   if (!defaultSetting) {

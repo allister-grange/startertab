@@ -9,7 +9,12 @@ import {
 } from "@/helpers/settingsHelpers";
 import { useLocalStorage } from "@/helpers/useLocalStorage";
 import { Option } from "@/types";
-import { ThemeSettings, TileGroup } from "@/types/settings";
+import {
+  ThemeSettings,
+  TileGroup,
+  TileId,
+  TileSettings,
+} from "@/types/settings";
 import {
   Accordion,
   AccordionButton,
@@ -21,7 +26,6 @@ import {
   useColorModeValue,
   Text,
   Button,
-  ColorMode,
   Heading,
 } from "@chakra-ui/react";
 import React, { SetStateAction, useCallback, useEffect, useState } from "react";
@@ -75,7 +79,7 @@ export const SettingsSideBar: React.FC<SettingsSideBarProps> = ({
 
   // // will change the appearance of the site, but not what's stored in localStorage
   const changeSetting = useCallback(
-    (key: string, value: string) => {
+    (key: string, value: string, tileId: TileId) => {
       console.log(`changeSettings ${key}:${value}`);
       setSettingsToSave((settingsToSave) => {
         let newSettings = cloneDeep(settingsToSave);
@@ -85,7 +89,9 @@ export const SettingsSideBar: React.FC<SettingsSideBarProps> = ({
         if (!themeToChange) {
           throw new Error("No change named " + colorMode);
         }
-        themeToChange[key as keyof ThemeSettings] = value;
+
+        themeToChange[tileId][key as keyof TileSettings] = value;
+
         return newSettings;
       });
     },
@@ -114,7 +120,7 @@ export const SettingsSideBar: React.FC<SettingsSideBarProps> = ({
 
   const resetOptionToDefault = (option: Option) => {
     const defaultSetting = getDefaultSettingForOption(option, colorMode);
-    changeSetting(option.localStorageId, defaultSetting);
+    changeSetting(option.localStorageId, defaultSetting, option.tileId);
   };
 
   const resetAllSettingsToDefault = () => {
@@ -131,7 +137,7 @@ export const SettingsSideBar: React.FC<SettingsSideBarProps> = ({
         option,
         currentTheme.themeName
       );
-      changeSetting(option.localStorageId, defaultSetting);
+      changeSetting(option.localStorageId, defaultSetting, option.tileId);
     });
   };
 
@@ -175,9 +181,12 @@ export const SettingsSideBar: React.FC<SettingsSideBarProps> = ({
           textColor={textColor}
           subTextColor={subTextColor}
           value={
-            currentThemeSettings![
-              sideBarOptions[0].localStorageId as keyof ThemeSettings
-            ]
+            // currentThemeSettings![
+            //   sideBarOptions[0].localStorageId as keyof ThemeSettings
+            // ]
+            currentThemeSettings![sideBarOptions[0].tileId!][
+              sideBarOptions[0].localStorageId as keyof TileSettings
+            ]!
           }
           resetOptionToDefault={resetOptionToDefault}
         />
@@ -212,9 +221,9 @@ export const SettingsSideBar: React.FC<SettingsSideBarProps> = ({
                           textColor={textColor}
                           subTextColor={subTextColor}
                           value={
-                            currentThemeSettings![
-                              option.localStorageId as keyof ThemeSettings
-                            ]
+                            currentThemeSettings![option.tileId!][
+                              option.localStorageId as keyof TileSettings
+                            ]!
                           }
                           resetOptionToDefault={resetOptionToDefault}
                         />

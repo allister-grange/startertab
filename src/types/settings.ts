@@ -7,6 +7,7 @@ export type Option = {
   defaultSetting?: string;
   tileGroup?: TileGroup;
   type: OptionType;
+  tileId: TileId;
 };
 
 export type OptionType = "ColorPicker" | "SubRedditPicker";
@@ -27,41 +28,50 @@ export type TileGroup =
 
 export type Themes = "dark" | "light";
 
-export type ThemeSettings = {
-  themeName: string;
+export type TileSettings = {
+  subReddit?: string;
+  twitterFeedURL?: string;
+  stravaToken?: string;
   backgroundColor: string;
   textColor: string;
-  tile1BackgroundColor: string;
-  tile2BackgroundColor: string;
-  tile3BackgroundColor: string;
-  tile4BackgroundColor: string;
-  tile5BackgroundColor: string;
-  tile6BackgroundColor: string;
-  tile7BackgroundColor: string;
-  tile8BackgroundColor: string;
-  tile9BackgroundColor: string;
-  tile10BackgroundColor: string;
-  tile11BackgroundColor: string;
-  tile12BackgroundColor: string;
-  tile1TextColor: string;
-  tile2TextColor: string;
-  tile3TextColor: string;
-  tile4TextColor: string;
-  tile5TextColor: string;
-  tile6TextColor: string;
-  tile7TextColor: string;
-  tile8TextColor: string;
-  tile9TextColor: string;
-  tile10TextColor: string;
-  tile11TextColor: string;
-  tile12TextColor: string;
+};
+
+export type ThemeSettings = {
+  themeName: string;
+  globalSettings: TileSettings;
+  tile1: TileSettings;
+  tile2: TileSettings;
+  tile3: TileSettings;
+  tile4: TileSettings;
+  tile5: TileSettings;
+  tile6: TileSettings;
+  tile7: TileSettings;
+  tile8: TileSettings;
+  tile9: TileSettings;
+  tile10: TileSettings;
+  tile11: TileSettings;
+  tile12: TileSettings;
 };
 
 export type UserSettings = {
   themes: ThemeSettings[];
-  subReddit?: string;
 };
 
 export type SortedOption = {
   [key in TileGroup]: Option[];
 };
+
+export type TileId =
+  | "tile1"
+  | "tile2"
+  | "tile3"
+  | "tile4"
+  | "tile5"
+  | "tile6"
+  | "tile7"
+  | "tile8"
+  | "tile9"
+  | "tile10"
+  | "tile11"
+  | "tile12"
+  | "globalSettings";
