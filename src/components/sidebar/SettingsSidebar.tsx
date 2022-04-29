@@ -3,6 +3,7 @@ import { SideBarTitle } from "@/components/sidebar/SideBarTitle";
 import { ThemeToChangeSelector } from "@/components/sidebar/ThemeToChangeSelector";
 import {
   applyTheme,
+  getDefaultSettingForOption,
   sideBarOptions,
   sortOptionsIntoTileGroups,
 } from "@/helpers/settingsHelpers";
@@ -20,6 +21,8 @@ import {
   useColorModeValue,
   Text,
   Button,
+  ColorMode,
+  Heading,
 } from "@chakra-ui/react";
 import React, { SetStateAction, useCallback, useEffect, useState } from "react";
 import cloneDeep from "lodash.clonedeep";
@@ -39,7 +42,8 @@ const openStyle = {
 const closedStyle = {
   opacity: 0,
   minWidth: 0,
-  transform: "translateX(-200px)",
+  transform: "translateX(-320px)",
+  width: 0,
 };
 
 export const SettingsSideBar: React.FC<SettingsSideBarProps> = ({
@@ -109,8 +113,7 @@ export const SettingsSideBar: React.FC<SettingsSideBarProps> = ({
   };
 
   const resetOptionToDefault = (option: Option) => {
-    const defaultSetting =
-      colorMode === "dark" ? option.darkDefault : option.lightDefault;
+    const defaultSetting = getDefaultSettingForOption(option, colorMode);
     changeSetting(option.localStorageId, defaultSetting);
   };
 
@@ -124,11 +127,10 @@ export const SettingsSideBar: React.FC<SettingsSideBarProps> = ({
     }
 
     sideBarOptions.forEach((option) => {
-      const defaultSetting =
-        currentTheme.themeName === "dark"
-          ? option.darkDefault
-          : option.lightDefault;
-
+      const defaultSetting = getDefaultSettingForOption(
+        option,
+        currentTheme.themeName
+      );
       changeSetting(option.localStorageId, defaultSetting);
     });
   };
@@ -202,19 +204,24 @@ export const SettingsSideBar: React.FC<SettingsSideBarProps> = ({
                 </h2>
                 {tileGroup[1].map((option: Option) => {
                   return (
-                    <AccordionPanel pb={4} p="2" key={option.localStorageId}>
-                      <ColorSettingOption
-                        option={option}
-                        changeSetting={changeSetting}
-                        textColor={textColor}
-                        subTextColor={subTextColor}
-                        value={
-                          currentThemeSettings![
-                            option.localStorageId as keyof ThemeSettings
-                          ]
-                        }
-                        resetOptionToDefault={resetOptionToDefault}
-                      />
+                    <AccordionPanel p="2" key={option.localStorageId}>
+                      {option.type === "ColorPicker" ? (
+                        <ColorSettingOption
+                          option={option}
+                          changeSetting={changeSetting}
+                          textColor={textColor}
+                          subTextColor={subTextColor}
+                          value={
+                            currentThemeSettings![
+                              option.localStorageId as keyof ThemeSettings
+                            ]
+                          }
+                          resetOptionToDefault={resetOptionToDefault}
+                        />
+                      ) : (
+                        <Heading>Other one</Heading>
+                      )}
+                      <Box mt="6" />
                       <hr />
                     </AccordionPanel>
                   );

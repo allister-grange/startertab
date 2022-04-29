@@ -1,3 +1,4 @@
+import { useLocalStorage } from "@/helpers/useLocalStorage";
 import { RedditAPIResponse, RedditDataHolder } from "@/types";
 import {
   Box,
@@ -6,56 +7,75 @@ import {
   Input,
   Link,
   Spinner,
+  Text,
   useColorModeValue,
 } from "@chakra-ui/react";
-import React, { useEffect, useState } from "react";
+import cloneDeep from "lodash.clonedeep";
+import React, { useCallback, useEffect, useState } from "react";
 
 interface RedditFeedProps {}
 
+type Status = "loading" | "resolved" | "typing" | "waitingForInput";
+type State = {
+  status: Status;
+  data?: RedditDataHolder[];
+  error?: unknown;
+};
+
 export const RedditFeed: React.FC<RedditFeedProps> = () => {
-  const [subReddit, setSubReddit] = useState<string | undefined>();
-  const [redditData, setRedditData] = useState<
-    RedditDataHolder[] | undefined
-  >();
-  const textColor = "var(--text-color-tile-5)"
+  const [settings, setSettings] = useLocalStorage("userSettings");
+  const [subReddit, setSubReddit] = useState<string | undefined>(
+    settings.subReddit
+  );
+  const [state, setState] = useState<State>({
+    status: "waitingForInput",
+  });
+
+  const textColor = "var(--text-color-tile-5)";
   const underlineColor = useColorModeValue("gray.200", "gray.700");
 
-  useEffect(() => {
-    const reddit = async () => {
-      // strips quotes
-      const subRedditFromStorage = localStorage
-        .getItem("subReddit")
-        ?.replace(/["]+/g, "");
-      if (subRedditFromStorage) {
-        setSubReddit(subRedditFromStorage);
-        const data = await getRedditData(subRedditFromStorage);
-        setRedditData(data);
-      } else {
-        // default subreddit
-        setSubReddit("wellington");
-        const data = await getRedditData("wellington");
-        setRedditData(data);
-      }
-    };
+  const { data, status, error } = state;
 
-    reddit();
-  }, []);
+  const loadRedditData = useCallback(
+    async (subReddit: string) => {
+      setState({ ...state, status: "loading" });
+      try {
+        const data = await getRedditData(subReddit);
+        setState({ ...state, status: "resolved", data });
+      } catch (error) {
+        setState({ ...state, error });
+      }
+    },
+    [state]
+  );
+
+  useEffect(() => {
+    // only want this to run on first load
+    if (state.data || state.error) {
+      return;
+    }
+
+    if (state.status === "waitingForInput" && subReddit) {
+      loadRedditData(subReddit);
+    }
+  }, [loadRedditData, state, subReddit]);
 
   const handleSubredditInput = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setState({ ...state, status: "typing" });
     setSubReddit(e.target.value);
   };
 
   const handleSubredditSubmit = (e: React.SyntheticEvent) => {
     e.preventDefault();
-    changeSubredditFeed();
+    changeSubredditFeedInStorage();
   };
 
-  const changeSubredditFeed = async () => {
-    localStorage.setItem("subReddit", JSON.stringify(subReddit));
-    console.log("chancing", subReddit);
+  const changeSubredditFeedInStorage = async () => {
+    let newSettings = cloneDeep(settings);
+    newSettings.subReddit = subReddit;
+    setSettings(newSettings);
 
-    const data = await getRedditData(subReddit!);
-    setRedditData(data);
+    loadRedditData(subReddit!);
   };
 
   const getRedditData = async (
@@ -67,22 +87,46 @@ export const RedditFeed: React.FC<RedditFeedProps> = () => {
       );
       const redditData = (await res.json()) as RedditAPIResponse;
 
-      const toReturn: RedditDataHolder[] = redditData.data.children.map(
-        (child) => {
-          return {
-            url: child.data.url,
-            title: child.data.title,
-          };
-        }
+      const formattedData: RedditDataHolder[] = redditData.data.children.map(
+        (child) => ({
+          url: child.data.url,
+          title: child.data.title,
+        })
       );
 
-      return toReturn;
+      return formattedData;
     } catch (err) {
-      console.error(err);
+      throw new Error();
     }
-
-    return [];
   };
+
+  let display;
+
+  if (status === "loading") {
+    display = (
+      <Center minH="300px">
+        <Spinner color="var(--text-color-tile-5)" />
+      </Center>
+    );
+  } else if (status === "resolved" && data) {
+    display = data.map((link) => (
+      <>
+        <Box key={link.title} p="2" pr="4">
+          <Link href={link.url}>
+            <Heading fontSize="md" fontWeight="normal">
+              {link.title}
+            </Heading>
+          </Link>
+        </Box>
+      </>
+    ));
+  } else if (error) {
+    display = (
+      <Text p="4">
+        There was an error fetching reddit data, please try again later!
+      </Text>
+    );
+  }
 
   return (
     <Box p="2" color={textColor}>
@@ -90,32 +134,20 @@ export const RedditFeed: React.FC<RedditFeedProps> = () => {
         <Link href="https://reddit.com">Reddit Feed</Link>
       </Heading>
       <Box w="80%" bg="white" height="1px" ml="2" bgColor={underlineColor} />
-      {redditData ? (
-        redditData.map((link) => (
-          <Box key={link.title} p="2" pr="4">
-            <Link href={link.url}>
-              <Heading fontSize="md" fontWeight="normal">
-                {link.title}
-              </Heading>
-            </Link>
-          </Box>
-        ))
-      ) : (
-        <Center minH="300px">
-          <Spinner color="white" />
-        </Center>
+      {display}
+      {status === "resolved" && (
+        <Box
+          w="80%"
+          bg="white"
+          height="1px"
+          ml="2"
+          mt="2"
+          bgColor={underlineColor}
+        />
       )}
-      <Box
-        w="80%"
-        bg="white"
-        height="1px"
-        ml="2"
-        mt="2"
-        bgColor={underlineColor}
-      />
       <Box mt="3" p="2">
         <Heading fontSize="md" fontWeight="bold">
-          Change subreddit?
+          {!data ? "Choose a subreddit" : "Change subreddit?"}
         </Heading>
         <form onSubmit={handleSubredditSubmit}>
           <Input
@@ -123,9 +155,10 @@ export const RedditFeed: React.FC<RedditFeedProps> = () => {
             padding="4"
             mt="2"
             width="90%"
-            onSubmit={changeSubredditFeed}
+            onSubmit={changeSubredditFeedInStorage}
             value={subReddit}
             onChange={handleSubredditInput}
+            borderColor={underlineColor}
           />
         </form>
       </Box>

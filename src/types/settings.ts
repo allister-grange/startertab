@@ -2,10 +2,14 @@ export type Option = {
   title: string;
   subTitle: string;
   localStorageId: string;
-  lightDefault: string;
-  darkDefault: string;
+  lightDefault?: string;
+  darkDefault?: string;
+  defaultSetting?: string;
   tileGroup?: TileGroup;
+  type: OptionType;
 };
+
+export type OptionType = "ColorPicker" | "SubRedditPicker";
 
 export type TileGroup =
   | "HackerNews Tile"
@@ -55,8 +59,9 @@ export type ThemeSettings = {
 
 export type UserSettings = {
   themes: ThemeSettings[];
+  subReddit?: string;
 };
 
 export type SortedOption = {
   [key in TileGroup]: Option[];
-} 
+};
