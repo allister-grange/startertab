@@ -12,6 +12,7 @@ import {
   WeatherTile,
   WindFinderLinks,
 } from "@/components/tiles";
+import { TileContainer } from "@/components/tiles/TileContainer";
 import ColorModeSwitcher from "@/components/ui/ColorModeSwitcher";
 import { SettingsToggle } from "@/components/ui/SettingsToggle";
 import { getHackerNewsData } from "@/pages/api/hackerNews";
@@ -115,7 +116,8 @@ const Home: NextPage<PageProps> = ({
           style={optionHovered === "Reddit Tile" ? {transform: "scale(1.05)"} : {}}
           transition=".3s ease-in-out"
         >
-          <RedditFeed />
+          {/* <RedditFeed /> */}
+          <TileContainer tileId={"tile5"}/>
         </GridItem>
         <GridItem
           borderRadius="15"

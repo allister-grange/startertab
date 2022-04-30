@@ -6,11 +6,13 @@ export type Option = {
   darkDefault?: string;
   defaultSetting?: string;
   tileGroup?: TileGroup;
-  type: OptionType;
+  optionType: OptionType;
   tileId: TileId;
 };
 
 export type OptionType = "ColorPicker" | "SubRedditPicker";
+
+export type TileType = "Reddit Feed" | "None";
 
 export type TileGroup =
   | "HackerNews Tile"
@@ -34,6 +36,7 @@ export type TileSettings = {
   stravaToken?: string;
   backgroundColor: string;
   textColor: string;
+  tileType: TileType;
 };
 
 export type ThemeSettings = {

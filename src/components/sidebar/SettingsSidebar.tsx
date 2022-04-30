@@ -5,11 +5,11 @@ import { ThemeToChangeSelector } from "@/components/sidebar/ThemeToChangeSelecto
 import { SettingsContext } from "@/context/UserSettingsContext";
 import {
   applyTheme,
+  getCurrentTheme,
   getDefaultSettingForOption,
   sideBarOptions,
   sortOptionsIntoTileGroups,
 } from "@/helpers/settingsHelpers";
-import { useLocalStorage } from "@/helpers/useLocalStorage";
 import { Option } from "@/types";
 import {
   TileGroup,
@@ -93,15 +93,9 @@ export const SettingsSideBar: React.FC<SettingsSideBarProps> = ({
       console.log(`changeSettings ${key}:${value}`);
       setSettingsToSave((settingsToSave) => {
         let newSettings = cloneDeep(settingsToSave);
-        const themeToChange = newSettings.themes.find(
-          (theme) => theme.themeName === colorMode
-        );
-        if (!themeToChange) {
-          throw new Error("No change named " + colorMode);
-        }
-
-        themeToChange[tileId][key as keyof TileSettings] = value;
-
+        const themeToChange = getCurrentTheme(newSettings, colorMode);
+        // Need to cast this for the one use case of changing the type of tile to display
+        themeToChange[tileId][key as keyof TileSettings] = value as any;
         return newSettings;
       });
     },

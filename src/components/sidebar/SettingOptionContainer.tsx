@@ -23,7 +23,7 @@ export const SettingOptionContainer: React.FC<SettingOptionContainerProps> = ({
 }) => {
   let optionToDisplay;
 
-  switch (option.type) {
+  switch (option.optionType) {
     case "ColorPicker":
       optionToDisplay = (
         <ColorPicker

@@ -1,5 +1,11 @@
 import { SettingsContext } from "@/context/UserSettingsContext";
-import { RedditAPIResponse, RedditDataHolder, UserSettingsContextInterface } from "@/types";
+import { getCurrentTheme } from "@/helpers/settingsHelpers";
+import {
+  RedditAPIResponse,
+  RedditDataHolder,
+  TileId,
+  UserSettingsContextInterface,
+} from "@/types";
 import {
   Box,
   Center,
@@ -8,27 +14,33 @@ import {
   Link,
   Spinner,
   Text,
-  useColorModeValue
+  useColorMode,
+  useColorModeValue,
 } from "@chakra-ui/react";
 import cloneDeep from "lodash.clonedeep";
 import React, { useCallback, useContext, useEffect, useState } from "react";
 
-interface RedditFeedProps {}
+interface RedditFeedProps {
+  tileId: TileId;
+}
 
-type Status = "loading" | "resolved" | "typing" | "waitingForInput";
+type Status = "loading" | "resolved" | "reload" | "waitingForInput";
 type State = {
   status: Status;
   data?: RedditDataHolder[];
   error?: unknown;
+  inputSubreddit?: string;
 };
 
-export const RedditFeed: React.FC<RedditFeedProps> = () => {
+export const RedditFeed: React.FC<RedditFeedProps> = ({ tileId }) => {
   const { settings, setSettings } = useContext(
     SettingsContext
   ) as UserSettingsContextInterface;
-  const [subReddit, setSubReddit] = useState<string | undefined>(
-    settings.subReddit
-  );
+  const { colorMode } = useColorMode();
+  const [subReddit, setSubReddit] = useState<string | undefined>(() => {
+    const theme = getCurrentTheme(settings, colorMode);
+    return theme[tileId].subReddit;
+  });
   const [state, setState] = useState<State>({
     status: "waitingForInput",
   });
@@ -52,8 +64,24 @@ export const RedditFeed: React.FC<RedditFeedProps> = () => {
   );
 
   useEffect(() => {
+    const currentTheme = getCurrentTheme(settings, colorMode);
+    const subRedditInStorage = currentTheme[tileId].subReddit;
+
+    if (!subRedditInStorage) {
+      return;
+    }
+
+    setSubReddit(subRedditInStorage);
+    setState((state) => {
+      return { ...state, status: "reload" };
+    });
+  }, [colorMode, settings, subReddit, tileId]);
+
+  useEffect(() => {
     // only want this to run on first load
-    if (state.data || state.error) {
+    if (state.status === "reload" && subReddit) {
+      loadRedditData(subReddit);
+    } else if (state.data || state.error) {
       return;
     }
 
@@ -63,8 +91,7 @@ export const RedditFeed: React.FC<RedditFeedProps> = () => {
   }, [loadRedditData, state, subReddit]);
 
   const handleSubredditInput = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setState({ ...state, status: "typing" });
-    setSubReddit(e.target.value);
+    setState({ ...state, inputSubreddit: e.target.value });
   };
 
   const handleSubredditSubmit = (e: React.SyntheticEvent) => {
@@ -74,10 +101,12 @@ export const RedditFeed: React.FC<RedditFeedProps> = () => {
 
   const changeSubredditFeedInStorage = async () => {
     let newSettings = cloneDeep(settings);
-    newSettings.subReddit = subReddit;
+
+    const theme = getCurrentTheme(newSettings, colorMode);
+    theme[tileId].subReddit = state.inputSubreddit;
     setSettings(newSettings);
 
-    loadRedditData(subReddit!);
+    loadRedditData(state.inputSubreddit!);
   };
 
   const getRedditData = async (
@@ -158,7 +187,7 @@ export const RedditFeed: React.FC<RedditFeedProps> = () => {
             mt="2"
             width="90%"
             onSubmit={changeSubredditFeedInStorage}
-            value={subReddit}
+            value={state.inputSubreddit}
             onChange={handleSubredditInput}
             borderColor={underlineColor}
           />
