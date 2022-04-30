@@ -1,6 +1,8 @@
-import { ColorSettingOption } from "@/components/sidebar/ColorSettingOption";
+import { ColorPicker } from "@/components/sidebar/ColorPicker";
+import { SettingOptionContainer } from "@/components/sidebar/SettingOptionContainer";
 import { SideBarTitle } from "@/components/sidebar/SideBarTitle";
 import { ThemeToChangeSelector } from "@/components/sidebar/ThemeToChangeSelector";
+import { SettingsContext } from "@/context/UserSettingsContext";
 import {
   applyTheme,
   getDefaultSettingForOption,
@@ -10,10 +12,10 @@ import {
 import { useLocalStorage } from "@/helpers/useLocalStorage";
 import { Option } from "@/types";
 import {
-  ThemeSettings,
   TileGroup,
   TileId,
   TileSettings,
+  UserSettingsContextInterface,
 } from "@/types/settings";
 import {
   Accordion,
@@ -22,14 +24,19 @@ import {
   AccordionItem,
   AccordionPanel,
   Box,
+  Button,
+  Text,
   useColorMode,
   useColorModeValue,
-  Text,
-  Button,
-  Heading,
 } from "@chakra-ui/react";
-import React, { SetStateAction, useCallback, useEffect, useState } from "react";
 import cloneDeep from "lodash.clonedeep";
+import React, {
+  SetStateAction,
+  useCallback,
+  useContext,
+  useEffect,
+  useState,
+} from "react";
 
 interface SettingsSideBarProps {
   isOpen: boolean;
@@ -55,7 +62,10 @@ export const SettingsSideBar: React.FC<SettingsSideBarProps> = ({
   onClose,
   setOptionHovered,
 }) => {
-  const [settings, setSettings] = useLocalStorage("userSettings");
+  const { settings, setSettings } = useContext(
+    SettingsContext
+  ) as UserSettingsContextInterface;
+
   const [settingsToSave, setSettingsToSave] = useState(() =>
     cloneDeep(settings)
   );
@@ -175,15 +185,12 @@ export const SettingsSideBar: React.FC<SettingsSideBarProps> = ({
 
         <hr />
 
-        <ColorSettingOption
+        <ColorPicker
           option={sideBarOptions[0]}
           changeSetting={changeSetting}
           textColor={textColor}
           subTextColor={subTextColor}
           value={
-            // currentThemeSettings![
-            //   sideBarOptions[0].localStorageId as keyof ThemeSettings
-            // ]
             currentThemeSettings![sideBarOptions[0].tileId!][
               sideBarOptions[0].localStorageId as keyof TileSettings
             ]!
@@ -214,22 +221,18 @@ export const SettingsSideBar: React.FC<SettingsSideBarProps> = ({
                 {tileGroup[1].map((option: Option) => {
                   return (
                     <AccordionPanel p="2" key={option.localStorageId}>
-                      {option.type === "ColorPicker" ? (
-                        <ColorSettingOption
-                          option={option}
-                          changeSetting={changeSetting}
-                          textColor={textColor}
-                          subTextColor={subTextColor}
-                          value={
-                            currentThemeSettings![option.tileId!][
-                              option.localStorageId as keyof TileSettings
-                            ]!
-                          }
-                          resetOptionToDefault={resetOptionToDefault}
-                        />
-                      ) : (
-                        <Heading>Other one</Heading>
-                      )}
+                      <SettingOptionContainer
+                        option={option}
+                        changeSetting={changeSetting}
+                        textColor={textColor}
+                        subTextColor={subTextColor}
+                        resetOptionToDefault={resetOptionToDefault}
+                        value={
+                          currentThemeSettings![option.tileId!][
+                            option.localStorageId as keyof TileSettings
+                          ]!
+                        }
+                      />
                       <Box mt="6" />
                       <hr />
                     </AccordionPanel>

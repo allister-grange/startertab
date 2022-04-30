@@ -75,3 +75,8 @@ export type TileId =
   | "tile11"
   | "tile12"
   | "globalSettings";
+
+export interface UserSettingsContextInterface {
+  settings: UserSettings;
+  setSettings: (value: UserSettings) => void;
+}

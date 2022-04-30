@@ -1,5 +1,5 @@
-import { useLocalStorage } from "@/helpers/useLocalStorage";
-import { RedditAPIResponse, RedditDataHolder } from "@/types";
+import { SettingsContext } from "@/context/UserSettingsContext";
+import { RedditAPIResponse, RedditDataHolder, UserSettingsContextInterface } from "@/types";
 import {
   Box,
   Center,
@@ -8,10 +8,10 @@ import {
   Link,
   Spinner,
   Text,
-  useColorModeValue,
+  useColorModeValue
 } from "@chakra-ui/react";
 import cloneDeep from "lodash.clonedeep";
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useContext, useEffect, useState } from "react";
 
 interface RedditFeedProps {}
 
@@ -23,7 +23,9 @@ type State = {
 };
 
 export const RedditFeed: React.FC<RedditFeedProps> = () => {
-  const [settings, setSettings] = useLocalStorage("userSettings");
+  const { settings, setSettings } = useContext(
+    SettingsContext
+  ) as UserSettingsContextInterface;
   const [subReddit, setSubReddit] = useState<string | undefined>(
     settings.subReddit
   );

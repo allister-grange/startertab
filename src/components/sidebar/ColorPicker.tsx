@@ -10,7 +10,7 @@ import {
 import React, { useEffect, useState } from "react";
 import { HexColorPicker } from "react-colorful";
 
-interface ColorSettingOptionProps extends BoxProps {
+interface ColorPickerProps extends BoxProps {
   option: Option;
   textColor: string;
   subTextColor: string;
@@ -19,7 +19,7 @@ interface ColorSettingOptionProps extends BoxProps {
   resetOptionToDefault: (option: Option) => void;
 }
 
-export const ColorSettingOption: React.FC<ColorSettingOptionProps> = ({
+export const ColorPicker: React.FC<ColorPickerProps> = ({
   option,
   textColor,
   subTextColor,

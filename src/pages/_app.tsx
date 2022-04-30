@@ -1,3 +1,5 @@
+import SettingsContext from "@/context/UserSettingsContext";
+import { useLocalStorage } from "@/helpers/useLocalStorage";
 import { ChakraProvider, extendTheme, ThemeConfig } from "@chakra-ui/react";
 import type { AppProps } from "next/app";
 import Head from "next/head";
@@ -16,7 +18,9 @@ function MyApp({ Component, pageProps }: AppProps) {
       <Head>
         <title>New Page</title>
       </Head>
-      <Component {...pageProps} />
+      <SettingsContext>
+        <Component {...pageProps} />
+      </SettingsContext>
     </ChakraProvider>
   );
 }
