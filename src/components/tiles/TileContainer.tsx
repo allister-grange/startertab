@@ -1,15 +1,24 @@
-import { SettingsContext } from "@/context/UserSettingsContext";
-import { sideBarOptions } from "@/helpers/settingsHelpers";
-import { ThemeSettings, TileId, UserSettingsContextInterface } from "@/types";
-import { Heading, useColorMode } from "@chakra-ui/react";
-import React, { useContext } from "react";
 import { RedditFeed } from "@/components/tiles";
+import { SettingsContext } from "@/context/UserSettingsContext";
+import {
+  HackerNewsLinkHolder,
+  TileId,
+  UserSettingsContextInterface,
+} from "@/types";
+import { Center, Heading, useColorMode } from "@chakra-ui/react";
+import React, { useContext } from "react";
+import { HackerNewsFeed } from "@/components/tiles/HackerNewsFeed";
+import NoSSR from 'react-no-ssr';
 
 interface TileContainerProps {
   tileId: TileId;
+  hackerNewsData: HackerNewsLinkHolder[];
 }
 
-export const TileContainer: React.FC<TileContainerProps> = ({ tileId }) => {
+export const TileContainer: React.FC<TileContainerProps> = ({
+  tileId,
+  hackerNewsData,
+}) => {
   const { settings } = useContext(
     SettingsContext
   ) as UserSettingsContextInterface;
@@ -25,26 +34,24 @@ export const TileContainer: React.FC<TileContainerProps> = ({ tileId }) => {
 
   switch (tileType) {
     case "Reddit Feed":
-      tileToRender = <RedditFeed tileId={tileId}/>;
+      tileToRender = <RedditFeed tileId={tileId} />;
+      break;
+    case "Hacker News Feed":
+      tileToRender = <HackerNewsFeed hackerNewsData={hackerNewsData} />;
       break;
 
     default:
-      tileToRender = <Heading>{`Could not find tile with tile`}</Heading>;
+      tileToRender = (
+        <Center height="100%" p="4">
+          <Heading size="md">{`Could not find tile with tile name of ${tileType}`}</Heading>
+        </Center>
+      );
   }
 
-  console.log(tileType);
-
   return (
-    /**
-     *
-     * Each tile will need to determine it's type
-     *
-     * if(settings[tileId].type === "reddit")
-     * {
-     *  render RedditTile props: tileId so you can pull in the settings for that tile
-     * }
-     *
-     */
-    tileToRender
+    // SSR screws up the styles of the divs, TODO look into this later
+    <NoSSR>
+      {tileToRender}
+    </NoSSR>
   );
 };

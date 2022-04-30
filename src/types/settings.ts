@@ -10,9 +10,9 @@ export type Option = {
   tileId: TileId;
 };
 
-export type OptionType = "ColorPicker" | "SubRedditPicker";
+export type OptionType = "ColorPicker" | "SubRedditPicker" | "TypePicker";
 
-export type TileType = "Reddit Feed" | "None";
+export type TileType = "Reddit Feed" | "Hacker News Feed" | "None";
 
 export type TileGroup =
   | "HackerNews Tile"

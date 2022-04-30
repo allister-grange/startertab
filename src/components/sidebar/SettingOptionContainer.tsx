@@ -3,6 +3,7 @@ import { SubRedditPicker } from "@/components/sidebar/SubRedditPicker";
 import { Option, TileId } from "@/types";
 import { Text } from "@chakra-ui/react";
 import React from "react";
+import { TypePicker } from "./TypePicker";
 
 interface SettingOptionContainerProps {
   option: Option;
@@ -39,6 +40,18 @@ export const SettingOptionContainer: React.FC<SettingOptionContainerProps> = ({
     case "SubRedditPicker":
       optionToDisplay = (
         <SubRedditPicker
+          option={option}
+          changeSetting={changeSetting}
+          textColor={textColor}
+          subTextColor={subTextColor}
+          value={value}
+          resetOptionToDefault={resetOptionToDefault}
+        />
+      );
+      break;
+    case "TypePicker":
+      optionToDisplay = (
+        <TypePicker
           option={option}
           changeSetting={changeSetting}
           textColor={textColor}

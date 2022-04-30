@@ -6,12 +6,13 @@ import {
   Collapse,
   Flex,
   Input,
+  Select,
   Text,
 } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
 import { HexColorPicker } from "react-colorful";
 
-interface SubRedditPickerProps extends BoxProps {
+interface TypePickerProps extends BoxProps {
   option: Option;
   textColor: string;
   subTextColor: string;
@@ -20,7 +21,7 @@ interface SubRedditPickerProps extends BoxProps {
   resetOptionToDefault: (option: Option) => void;
 }
 
-export const SubRedditPicker: React.FC<SubRedditPickerProps> = ({
+export const TypePicker: React.FC<TypePickerProps> = ({
   option,
   textColor,
   subTextColor,
@@ -31,7 +32,7 @@ export const SubRedditPicker: React.FC<SubRedditPickerProps> = ({
   const { title, subTitle, localStorageId } = option;
   const [inputValue, setInputValue] = useState(value);
 
-  const onSubRedditInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const onTypeSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setInputValue(e.target.value);
   };
 
@@ -39,20 +40,12 @@ export const SubRedditPicker: React.FC<SubRedditPickerProps> = ({
     setInputValue(value);
   }, [value]);
 
-  // will set the subreddit in the in memory copy of the settings
-  // to then be staged into the localStorage, need the timeout for 
-  // performance reasons (only refresh every half a second)
   useEffect(() => {
     if (value === inputValue) {
       return;
     }
-    const timeoutIdentifier = setTimeout(() => {      
-      changeSetting(option.localStorageId, inputValue, option.tileId);
-    }, 500);
-
-    return () => {
-      clearTimeout(timeoutIdentifier);
-    };
+    
+    changeSetting(option.localStorageId, inputValue, option.tileId);
   }, [changeSetting, inputValue, option.localStorageId, option.tileId, value]);
 
   return (
@@ -70,14 +63,15 @@ export const SubRedditPicker: React.FC<SubRedditPickerProps> = ({
         </span>
       </Text>
       <Box display="flex" flexDir="column" mt="1">
-        <Input
-          marginLeft="auto"
-          display="block"
-          value={inputValue}
+        <Select
+          placeholder="Select option"
           size="sm"
-          onChange={onSubRedditInputChange}
-          height="8"
-        />
+          onChange={onTypeSelectChange}
+          value={inputValue}
+        >
+          <option value="Reddit Feed">Reddit Feed</option>
+          <option value="Hacker News Feed">Hacker News Feed</option>
+        </Select>
       </Box>
     </Box>
   );

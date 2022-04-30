@@ -77,7 +77,8 @@ const Home: NextPage<PageProps> = ({
           style={optionHovered === "HackerNews Tile" ? {transform: "scale(1.05)"} : {}}
           transition=".3s ease-in-out"
         >
-          <HackerNewsFeed hackerNewsData={hackerNewsData} />
+          <TileContainer tileId={"tile1"} hackerNewsData={hackerNewsData}/>
+          {/* <HackerNewsFeed hackerNewsData={hackerNewsData} /> */}
         </GridItem>
         <GridItem
           rowSpan={4}
@@ -116,8 +117,7 @@ const Home: NextPage<PageProps> = ({
           style={optionHovered === "Reddit Tile" ? {transform: "scale(1.05)"} : {}}
           transition=".3s ease-in-out"
         >
-          {/* <RedditFeed /> */}
-          <TileContainer tileId={"tile5"}/>
+          <TileContainer tileId={"tile5"} hackerNewsData={hackerNewsData}/>
         </GridItem>
         <GridItem
           borderRadius="15"
