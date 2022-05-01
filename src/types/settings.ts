@@ -82,4 +82,6 @@ export type TileId =
 export interface UserSettingsContextInterface {
   settings: UserSettings;
   setSettings: (value: UserSettings) => void;
+  inMemorySettings: UserSettings;
+  setInMemorySettings: (React.Dispatch<React.SetStateAction<UserSettings>>)
 }

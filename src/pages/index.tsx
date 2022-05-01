@@ -1,8 +1,6 @@
 import { SettingsSideBar } from "@/components/sidebar/SettingsSidebar";
 import {
   Bonsai,
-  HackerNewsFeed,
-  RedditFeed,
   SearchBar,
   Spotify,
   StravaGraph,
@@ -15,6 +13,7 @@ import {
 import { TileContainer } from "@/components/tiles/TileContainer";
 import ColorModeSwitcher from "@/components/ui/ColorModeSwitcher";
 import { SettingsToggle } from "@/components/ui/SettingsToggle";
+import { SettingsContext } from "@/context/UserSettingsContext";
 import { getHackerNewsData } from "@/pages/api/hackerNews";
 import { getSpotifyNowPlayingData } from "@/pages/api/spotify";
 import { getStravaData } from "@/pages/api/strava";
@@ -24,12 +23,14 @@ import {
   HackerNewsLinkHolder,
   StravaGraphData,
   TileGroup,
+  UserSettingsContextInterface,
   UvGraphData,
   WeatherData,
 } from "@/types";
 import { Box, Grid, GridItem, useDisclosure } from "@chakra-ui/react";
+import cloneDeep from "lodash.clonedeep";
 import type { GetStaticProps, NextPage } from "next";
-import { useState } from "react";
+import { useContext, useState } from "react";
 
 type PageProps = {
   stravaData: StravaGraphData;
@@ -48,6 +49,13 @@ const Home: NextPage<PageProps> = ({
   const { isOpen, onOpen, onClose } = useDisclosure();
   // to highlight what tile you are looking to edit from the sidebar
   const [optionHovered, setOptionHovered] = useState<undefined | TileGroup>();
+  const { settings, setSettings } = useContext(
+    SettingsContext
+  ) as UserSettingsContextInterface;
+
+  const [inMemorySettings, setInMemorySettings] = useState(() =>
+    cloneDeep(settings)
+  );
 
   return (
     <Box h="100vh" display="flex" alignItems="center" overflow="auto">
@@ -55,6 +63,10 @@ const Home: NextPage<PageProps> = ({
         onClose={onClose}
         isOpen={isOpen}
         setOptionHovered={setOptionHovered}
+        settings={settings}
+        inMemorySettings={inMemorySettings}
+        setSettings={setSettings}
+        setInMemorySettings={setInMemorySettings}
       />
       <Grid
         h="100%"
@@ -74,10 +86,18 @@ const Home: NextPage<PageProps> = ({
           overflowY="scroll"
           className={styles.disableScrollbars}
           outline={optionHovered === "HackerNews Tile" ? "2px solid white" : ""}
-          style={optionHovered === "HackerNews Tile" ? {transform: "scale(1.05)"} : {}}
+          style={
+            optionHovered === "HackerNews Tile"
+              ? { transform: "scale(1.05)" }
+              : {}
+          }
           transition=".3s ease-in-out"
         >
-          <TileContainer tileId={"tile1"} hackerNewsData={hackerNewsData}/>
+          <TileContainer
+            tileId={"tile1"}
+            hackerNewsData={hackerNewsData}
+            settings={inMemorySettings}
+          />
           {/* <HackerNewsFeed hackerNewsData={hackerNewsData} /> */}
         </GridItem>
         <GridItem
@@ -89,7 +109,9 @@ const Home: NextPage<PageProps> = ({
           maxH="330px"
           minW="530px"
           outline={optionHovered === "Strava Tile" ? "2px solid white" : ""}
-          style={optionHovered === "Strava Tile" ? {transform: "scale(1.05)"} : {}}
+          style={
+            optionHovered === "Strava Tile" ? { transform: "scale(1.05)" } : {}
+          }
           transition=".3s ease-in-out"
         >
           <StravaGraph stravaData={stravaData} />
@@ -100,7 +122,9 @@ const Home: NextPage<PageProps> = ({
           rowSpan={2}
           bg="var(--bg-color-tile-3)"
           outline={optionHovered === "Wind Tile" ? "2px solid white" : ""}
-          style={optionHovered === "Wind Tile" ? {transform: "scale(1.05)"} : {}}
+          style={
+            optionHovered === "Wind Tile" ? { transform: "scale(1.05)" } : {}
+          }
           transition=".3s ease-in-out"
         >
           <WindFinderLinks />
@@ -114,10 +138,16 @@ const Home: NextPage<PageProps> = ({
           overflowY="scroll"
           className={styles.disableScrollbars}
           outline={optionHovered === "Reddit Tile" ? "2px solid white" : ""}
-          style={optionHovered === "Reddit Tile" ? {transform: "scale(1.05)"} : {}}
+          style={
+            optionHovered === "Reddit Tile" ? { transform: "scale(1.05)" } : {}
+          }
           transition=".3s ease-in-out"
         >
-          <TileContainer tileId={"tile5"} hackerNewsData={hackerNewsData}/>
+          <TileContainer
+            tileId={"tile5"}
+            hackerNewsData={hackerNewsData}
+            settings={inMemorySettings}
+          />
         </GridItem>
         <GridItem
           borderRadius="15"
@@ -126,7 +156,11 @@ const Home: NextPage<PageProps> = ({
           bg="var(--bg-color-tile-4)"
           minWidth="200px"
           outline={optionHovered === "Swimming Tile" ? "2px solid white" : ""}
-          style={optionHovered === "Swimming Tile" ? {transform: "scale(1.05)"} : {}}
+          style={
+            optionHovered === "Swimming Tile"
+              ? { transform: "scale(1.05)" }
+              : {}
+          }
           transition=".3s ease-in-out"
         >
           <SwimmingPoolTimeTable />
@@ -138,7 +172,9 @@ const Home: NextPage<PageProps> = ({
           bg="var(--bg-color-tile-6)"
           minH="60px"
           outline={optionHovered === "Search Tile" ? "2px solid white" : ""}
-          style={optionHovered === "Search Tile" ? {transform: "scale(1.05)"} : {}}
+          style={
+            optionHovered === "Search Tile" ? { transform: "scale(1.05)" } : {}
+          }
           transition=".3s ease-in-out"
         >
           <SearchBar />
@@ -153,7 +189,9 @@ const Home: NextPage<PageProps> = ({
           maxH="380px"
           minW="250px"
           outline={optionHovered === "Bonsai Tile" ? "2px solid white" : ""}
-          style={optionHovered === "Bonsai Tile" ? {transform: "scale(1.05)"} : {}}
+          style={
+            optionHovered === "Bonsai Tile" ? { transform: "scale(1.05)" } : {}
+          }
           transition=".3s ease-in-out"
         >
           <Bonsai />
@@ -165,7 +203,9 @@ const Home: NextPage<PageProps> = ({
           bg="var(--bg-color-tile-8)"
           minW="200px"
           outline={optionHovered === "Weather Tile" ? "2px solid white" : ""}
-          style={optionHovered === "Weather Tile" ? {transform: "scale(1.05)"} : {}}
+          style={
+            optionHovered === "Weather Tile" ? { transform: "scale(1.05)" } : {}
+          }
           transition=".3s ease-in-out"
         >
           <WeatherTile weatherData={weatherData} />
@@ -179,7 +219,9 @@ const Home: NextPage<PageProps> = ({
           minH="310px"
           maxH="330px"
           outline={optionHovered === "UV Tile" ? "2px solid white" : ""}
-          style={optionHovered === "UV Tile" ? {transform: "scale(1.05)"} : {}}
+          style={
+            optionHovered === "UV Tile" ? { transform: "scale(1.05)" } : {}
+          }
           transition=".3s ease-in-out"
         >
           <UvGraph uvData={uvData} />
@@ -191,7 +233,9 @@ const Home: NextPage<PageProps> = ({
           bg="var(--bg-color-tile-11)"
           pos="relative"
           outline={optionHovered === "Clock Tile" ? "2px solid white" : ""}
-          style={optionHovered === "Clock Tile" ? {transform: "scale(1.05)"} : {}}
+          style={
+            optionHovered === "Clock Tile" ? { transform: "scale(1.05)" } : {}
+          }
           transition=".3s ease-in-out"
         >
           <Time />
@@ -203,7 +247,9 @@ const Home: NextPage<PageProps> = ({
           bg="var(--bg-color-tile-9)"
           minW="200px"
           outline={optionHovered === "Spotify Tile" ? "2px solid white" : ""}
-          style={optionHovered === "Spotify Tile" ? {transform: "scale(1.05)"} : {}}
+          style={
+            optionHovered === "Spotify Tile" ? { transform: "scale(1.05)" } : {}
+          }
           transition=".3s ease-in-out"
         >
           <Spotify />
@@ -213,8 +259,14 @@ const Home: NextPage<PageProps> = ({
           colSpan={1}
           rowSpan={2}
           bg="var(--bg-color-tile-12)"
-          outline={optionHovered === "Theme Changer Tile" ? "2px solid white" : ""}
-          style={optionHovered === "Theme Changer Tile" ? {transform: "scale(1.05)"}: {}}
+          outline={
+            optionHovered === "Theme Changer Tile" ? "2px solid white" : ""
+          }
+          style={
+            optionHovered === "Theme Changer Tile"
+              ? { transform: "scale(1.05)" }
+              : {}
+          }
           transition=".3s ease-in-out"
         >
           <ColorModeSwitcher />

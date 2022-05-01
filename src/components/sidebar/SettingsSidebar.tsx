@@ -2,7 +2,6 @@ import { ColorPicker } from "@/components/sidebar/ColorPicker";
 import { SettingOptionContainer } from "@/components/sidebar/SettingOptionContainer";
 import { SideBarTitle } from "@/components/sidebar/SideBarTitle";
 import { ThemeToChangeSelector } from "@/components/sidebar/ThemeToChangeSelector";
-import { SettingsContext } from "@/context/UserSettingsContext";
 import {
   applyTheme,
   getCurrentTheme,
@@ -15,7 +14,7 @@ import {
   TileGroup,
   TileId,
   TileSettings,
-  UserSettingsContextInterface,
+  UserSettings,
 } from "@/types/settings";
 import {
   Accordion,
@@ -30,18 +29,16 @@ import {
   useColorModeValue,
 } from "@chakra-ui/react";
 import cloneDeep from "lodash.clonedeep";
-import React, {
-  SetStateAction,
-  useCallback,
-  useContext,
-  useEffect,
-  useState,
-} from "react";
+import React, { Dispatch, SetStateAction, useCallback, useEffect } from "react";
 
 interface SettingsSideBarProps {
   isOpen: boolean;
   onClose: () => void;
   setOptionHovered: React.Dispatch<SetStateAction<TileGroup | undefined>>;
+  settings: UserSettings;
+  inMemorySettings: UserSettings;
+  setSettings: (value: UserSettings) => void;
+  setInMemorySettings: Dispatch<SetStateAction<UserSettings>>;
 }
 
 const openStyle = {
@@ -61,14 +58,11 @@ export const SettingsSideBar: React.FC<SettingsSideBarProps> = ({
   isOpen,
   onClose,
   setOptionHovered,
+  settings,
+  inMemorySettings,
+  setSettings,
+  setInMemorySettings,
 }) => {
-  const { settings, setSettings } = useContext(
-    SettingsContext
-  ) as UserSettingsContextInterface;
-
-  const [inMemorySettings, setInMemorySettings] = useState(() =>
-    cloneDeep(settings)
-  );
   const { colorMode } = useColorMode();
 
   const backgroundColor = useColorModeValue("gray.100", "#33393D");
@@ -76,7 +70,6 @@ export const SettingsSideBar: React.FC<SettingsSideBarProps> = ({
   const subTextColor = useColorModeValue("#606060", "#ddd");
 
   useEffect(() => {
-    
     const themeToChange = getCurrentTheme(inMemorySettings, colorMode);
 
     applyTheme(themeToChange);
@@ -94,7 +87,7 @@ export const SettingsSideBar: React.FC<SettingsSideBarProps> = ({
         return newSettings;
       });
     },
-    [colorMode]
+    [colorMode, setInMemorySettings]
   );
 
   // apply the in memory settings into localStorage

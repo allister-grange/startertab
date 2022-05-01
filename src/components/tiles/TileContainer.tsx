@@ -1,33 +1,25 @@
 import { RedditFeed } from "@/components/tiles";
-import { SettingsContext } from "@/context/UserSettingsContext";
-import {
-  HackerNewsLinkHolder,
-  TileId,
-  UserSettingsContextInterface,
-} from "@/types";
-import { Center, Heading, useColorMode } from "@chakra-ui/react";
-import React, { useContext } from "react";
 import { HackerNewsFeed } from "@/components/tiles/HackerNewsFeed";
-import NoSSR from 'react-no-ssr';
+import { getCurrentTheme } from "@/helpers/settingsHelpers";
+import { HackerNewsLinkHolder, TileId, UserSettings } from "@/types";
+import { Center, Heading, useColorMode } from "@chakra-ui/react";
+import React from "react";
+import NoSSR from "react-no-ssr";
 
 interface TileContainerProps {
   tileId: TileId;
   hackerNewsData: HackerNewsLinkHolder[];
+  settings: UserSettings;
 }
 
 export const TileContainer: React.FC<TileContainerProps> = ({
   tileId,
   hackerNewsData,
+  settings,
 }) => {
-  const { settings } = useContext(
-    SettingsContext
-  ) as UserSettingsContextInterface;
-
   const { colorMode } = useColorMode();
 
-  const currentTheme = settings.themes.find(
-    (theme) => theme.themeName === colorMode
-  )!;
+  const currentTheme = getCurrentTheme(settings, colorMode);
 
   const tileType = currentTheme[tileId].tileType;
   let tileToRender;
@@ -50,8 +42,6 @@ export const TileContainer: React.FC<TileContainerProps> = ({
 
   return (
     // SSR screws up the styles of the divs, TODO look into this later
-    <NoSSR>
-      {tileToRender}
-    </NoSSR>
+    <NoSSR>{tileToRender}</NoSSR>
   );
 };

@@ -7,9 +7,10 @@ export const SettingsContext =
 
 const UserSettingsProvider: React.FC<React.ReactNode> = ({ children }) => {
   const [settings, setSettings] = useLocalStorage("userSettings");
+  const [inMemorySettings, setInMemorySettings] = React.useState(() => settings);
 
   return (
-    <SettingsContext.Provider value={{ settings, setSettings }}>
+    <SettingsContext.Provider value={{ settings, setSettings, inMemorySettings, setInMemorySettings }}>
       {children}
     </SettingsContext.Provider>
   );
