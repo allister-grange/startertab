@@ -66,7 +66,7 @@ export const SettingsSideBar: React.FC<SettingsSideBarProps> = ({
     SettingsContext
   ) as UserSettingsContextInterface;
 
-  const [settingsToSave, setSettingsToSave] = useState(() =>
+  const [inMemorySettings, setInMemorySettings] = useState(() =>
     cloneDeep(settings)
   );
   const { colorMode } = useColorMode();
@@ -76,23 +76,18 @@ export const SettingsSideBar: React.FC<SettingsSideBarProps> = ({
   const subTextColor = useColorModeValue("#606060", "#ddd");
 
   useEffect(() => {
-    const themeToChange = settingsToSave.themes.find(
-      (theme) => theme.themeName === colorMode
-    );
-
-    if (!themeToChange) {
-      throw new Error("No change named " + colorMode);
-    }
+    
+    const themeToChange = getCurrentTheme(inMemorySettings, colorMode);
 
     applyTheme(themeToChange);
-  }, [settingsToSave, colorMode]);
+  }, [inMemorySettings, colorMode]);
 
   // // will change the appearance of the site, but not what's stored in localStorage
   const changeSetting = useCallback(
     (key: string, value: string, tileId: TileId) => {
       console.log(`changeSettings ${key}:${value}`);
-      setSettingsToSave((settingsToSave) => {
-        let newSettings = cloneDeep(settingsToSave);
+      setInMemorySettings((inMemorySettings) => {
+        let newSettings = cloneDeep(inMemorySettings);
         const themeToChange = getCurrentTheme(newSettings, colorMode);
         // Need to cast this for the one use case of changing the type of tile to display
         themeToChange[tileId][key as keyof TileSettings] = value as any;
@@ -104,21 +99,15 @@ export const SettingsSideBar: React.FC<SettingsSideBarProps> = ({
 
   // apply the in memory settings into localStorage
   const onSaveHandler = () => {
-    const permanentSettings = cloneDeep(settingsToSave);
+    const permanentSettings = cloneDeep(inMemorySettings);
     setSettings(permanentSettings);
   };
 
   // reset the background, colors etc back to what is in the userSettings before changes
   const onExitHandler = () => {
     onClose();
-    const theme = settings.themes.find(
-      (theme) => theme.themeName === colorMode
-    );
-    if (!theme) {
-      throw new Error("No change named " + colorMode);
-    }
     // reset settings
-    setSettingsToSave(cloneDeep(settings));
+    setInMemorySettings(cloneDeep(settings));
     setOptionHovered(undefined);
   };
 
@@ -128,13 +117,7 @@ export const SettingsSideBar: React.FC<SettingsSideBarProps> = ({
   };
 
   const resetAllSettingsToDefault = () => {
-    const currentTheme = settings.themes.find(
-      (theme) => theme.themeName === colorMode
-    );
-
-    if (!currentTheme) {
-      throw new Error("No theme found for " + colorMode);
-    }
+    const currentTheme = getCurrentTheme(settings, colorMode);
 
     sideBarOptions.forEach((option) => {
       const defaultSetting = getDefaultSettingForOption(
@@ -145,7 +128,7 @@ export const SettingsSideBar: React.FC<SettingsSideBarProps> = ({
     });
   };
 
-  const currentThemeSettings = settingsToSave.themes.find(
+  const currentThemeSettings = inMemorySettings.themes.find(
     (theme) => theme.themeName === colorMode
   );
 
