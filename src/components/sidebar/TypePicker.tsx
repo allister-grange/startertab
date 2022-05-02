@@ -31,6 +31,10 @@ export const TypePicker: React.FC<TypePickerProps> = ({
   }, [value]);
 
   useEffect(() => {
+    if (inputValue === "None") {
+      return;
+    }
+
     changeSetting(option.localStorageId, inputValue, option.tileId);
   }, [changeSetting, inputValue, option.localStorageId, option.tileId]);
 

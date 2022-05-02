@@ -22,6 +22,7 @@ export const TileContainer: React.FC<TileContainerProps> = ({
   const currentTheme = getCurrentTheme(settings, colorMode);
 
   const tileType = currentTheme[tileId].tileType;
+  
   let tileToRender;
 
   switch (tileType) {
@@ -35,7 +36,10 @@ export const TileContainer: React.FC<TileContainerProps> = ({
     default:
       tileToRender = (
         <Center height="100%" p="4">
-          <Heading size="md">{`Give me a tile type in the settings ✌️`}</Heading>
+          <Heading
+            size="md"
+            color={"var(--text-color-tile-1)"}
+          >{`Give me a tile type in the settings ✌️`}</Heading>
         </Center>
       );
   }

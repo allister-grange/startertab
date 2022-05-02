@@ -180,7 +180,7 @@ export const SettingsSideBar: React.FC<SettingsSideBarProps> = ({
               >
                 <h2>
                   <AccordionButton
-                    _expanded={{ backdropFilter: "brightness(0.95)" }}
+                    _expanded={{ backdropFilter: "brightness(0.90)" }}
                   >
                     <Box flex="1" textAlign="left">
                       {tileGroup[0]}
@@ -190,9 +190,10 @@ export const SettingsSideBar: React.FC<SettingsSideBarProps> = ({
                 </h2>
                 {tileGroup[1].map((option: Option) => {
                   return (
-                    <AccordionPanel p="2" key={option.localStorageId}>
                       <SettingOptionContainer
+                      key={option.localStorageId}
                         option={option}
+                        tileType={currentThemeSettings![option.tileId].tileType}
                         changeSetting={changeSetting}
                         textColor={textColor}
                         subTextColor={subTextColor}
@@ -203,9 +204,6 @@ export const SettingsSideBar: React.FC<SettingsSideBarProps> = ({
                           ]!
                         }
                       />
-                      <Box mt="6" />
-                      <hr />
-                    </AccordionPanel>
                   );
                 })}
               </AccordionItem>

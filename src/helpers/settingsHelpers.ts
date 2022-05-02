@@ -131,6 +131,14 @@ export const sideBarOptions: Option[] = [
     tileId: "tile1",
   },
   {
+    title: "Reddit feed subreddit",
+    subTitle: "Subreddit you want to see the posts from",
+    localStorageId: "subReddit",
+    tileGroup: "HackerNews Tile",
+    optionType: "SubRedditPicker",
+    tileId: "tile1",
+  },
+  {
     title: "Type of tile",
     subTitle: "Choose what you want this tile to display",
     localStorageId: "tileType",
@@ -225,6 +233,15 @@ export const sideBarOptions: Option[] = [
     localStorageId: "subReddit",
     tileGroup: "Reddit Tile",
     optionType: "SubRedditPicker",
+    tileId: "tile5",
+  },
+  {
+    title: "Type of tile",
+    subTitle: "Choose what you want this tile to display",
+    localStorageId: "tileType",
+    defaultSetting: "Reddit Feed",
+    tileGroup: "Reddit Tile",
+    optionType: "TypePicker",
     tileId: "tile5",
   },
   {
@@ -381,7 +398,7 @@ export const defaultSettings: UserSettings = {
       tile1: {
         backgroundColor: "#65abc1",
         textColor: "#222222",
-        tileType: "None",
+        tileType: "Hacker News Feed",
       },
       tile2: {
         backgroundColor: "#E89C4B",

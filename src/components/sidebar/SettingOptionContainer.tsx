@@ -1,7 +1,7 @@
 import { ColorPicker } from "@/components/sidebar/ColorPicker";
 import { SubRedditPicker } from "@/components/sidebar/SubRedditPicker";
-import { Option, TileId } from "@/types";
-import { Text } from "@chakra-ui/react";
+import { Option, TileId, TileType } from "@/types";
+import { AccordionPanel, Box, Text } from "@chakra-ui/react";
 import React from "react";
 import { TypePicker } from "./TypePicker";
 
@@ -12,6 +12,7 @@ interface SettingOptionContainerProps {
   changeSetting: (key: string, value: string, tileId: TileId) => void;
   resetOptionToDefault: (option: Option) => void;
   value: string;
+  tileType: TileType;
 }
 
 export const SettingOptionContainer: React.FC<SettingOptionContainerProps> = ({
@@ -20,6 +21,7 @@ export const SettingOptionContainer: React.FC<SettingOptionContainerProps> = ({
   subTextColor,
   changeSetting,
   resetOptionToDefault,
+  tileType,
   value,
 }) => {
   let optionToDisplay;
@@ -38,16 +40,19 @@ export const SettingOptionContainer: React.FC<SettingOptionContainerProps> = ({
       );
       break;
     case "SubRedditPicker":
-      optionToDisplay = (
-        <SubRedditPicker
-          option={option}
-          changeSetting={changeSetting}
-          textColor={textColor}
-          subTextColor={subTextColor}
-          value={value}
-          resetOptionToDefault={resetOptionToDefault}
-        />
-      );
+      if (tileType === "Reddit Feed") {
+        optionToDisplay = (
+          <SubRedditPicker
+            option={option}
+            changeSetting={changeSetting}
+            textColor={textColor}
+            subTextColor={subTextColor}
+            value={value}
+            resetOptionToDefault={resetOptionToDefault}
+          />
+        );
+        break;
+      }
       break;
     case "TypePicker":
       optionToDisplay = (
@@ -64,5 +69,17 @@ export const SettingOptionContainer: React.FC<SettingOptionContainerProps> = ({
     default:
       optionToDisplay = <Text>No option built for this type of tile yet</Text>;
   }
-  return optionToDisplay;
+  return (
+    <>
+      {optionToDisplay ? (
+        <AccordionPanel p="2">
+          {optionToDisplay}
+          <Box mt="6" />
+          <hr />{" "}
+        </AccordionPanel>
+      ) : (
+        <></>
+      )}
+    </>
+  );
 };
