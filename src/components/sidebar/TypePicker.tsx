@@ -1,16 +1,6 @@
 import { Option, TileId } from "@/types";
-import {
-  Box,
-  BoxProps,
-  Center,
-  Collapse,
-  Flex,
-  Input,
-  Select,
-  Text,
-} from "@chakra-ui/react";
+import { Box, BoxProps, Select, Text } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
-import { HexColorPicker } from "react-colorful";
 
 interface TypePickerProps extends BoxProps {
   option: Option;
@@ -41,12 +31,8 @@ export const TypePicker: React.FC<TypePickerProps> = ({
   }, [value]);
 
   useEffect(() => {
-    if (value === inputValue) {
-      return;
-    }
-    
     changeSetting(option.localStorageId, inputValue, option.tileId);
-  }, [changeSetting, inputValue, option.localStorageId, option.tileId, value]);
+  }, [changeSetting, inputValue, option.localStorageId, option.tileId]);
 
   return (
     <Box key={localStorageId} my="2">
