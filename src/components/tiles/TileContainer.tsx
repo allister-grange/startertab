@@ -35,7 +35,7 @@ export const TileContainer: React.FC<TileContainerProps> = ({
     default:
       tileToRender = (
         <Center height="100%" p="4">
-          <Heading size="md">{`Could not find tile with tile name of ${tileType}`}</Heading>
+          <Heading size="md">{`Give me a tile type in the settings ✌️`}</Heading>
         </Center>
       );
   }

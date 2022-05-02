@@ -63,6 +63,7 @@ export const RedditFeed: React.FC<RedditFeedProps> = ({ tileId }) => {
     [state]
   );
 
+  // when a setting in changed in storage
   useEffect(() => {
     const currentTheme = getCurrentTheme(settings, colorMode);
     const subRedditInStorage = currentTheme[tileId].subReddit;
@@ -70,6 +71,12 @@ export const RedditFeed: React.FC<RedditFeedProps> = ({ tileId }) => {
     if (!subRedditInStorage) {
       return;
     }
+
+    if(subRedditInStorage === subReddit) {
+      return;
+    }
+
+    console.log("made it here " + subReddit);
 
     setSubReddit(subRedditInStorage);
     setState((state) => {
@@ -99,7 +106,7 @@ export const RedditFeed: React.FC<RedditFeedProps> = ({ tileId }) => {
     changeSubredditFeedInStorage();
   };
 
-  const changeSubredditFeedInStorage = async () => {
+  const changeSubredditFeedInStorage = useCallback(async () => {
     let newSettings = cloneDeep(settings);
 
     const theme = getCurrentTheme(newSettings, colorMode);
@@ -107,7 +114,7 @@ export const RedditFeed: React.FC<RedditFeedProps> = ({ tileId }) => {
     setSettings(newSettings);
 
     loadRedditData(state.inputSubreddit!);
-  };
+  }, [colorMode, loadRedditData, setSettings, settings, state.inputSubreddit, tileId]);
 
   const getRedditData = async (
     subReddit: string
@@ -135,14 +142,14 @@ export const RedditFeed: React.FC<RedditFeedProps> = ({ tileId }) => {
 
   if (status === "loading") {
     display = (
-      <Center minH="300px">
+      <Center mt="4">
         <Spinner color="var(--text-color-tile-5)" />
       </Center>
     );
   } else if (status === "resolved" && data) {
     display = data.map((link) => (
       <>
-        <Box key={link.title} p="2" pr="4">
+        <Box key={link.title} p="2" pt="4" pr="4">
           <Link href={link.url}>
             <Heading fontSize="md" fontWeight="normal">
               {link.title}
