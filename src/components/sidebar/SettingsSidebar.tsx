@@ -9,6 +9,7 @@ import {
   sideBarOptions,
   sortOptionsIntoTileGroups,
 } from "@/helpers/settingsHelpers";
+import styles from "@/styles/Home.module.css";
 import { Option } from "@/types";
 import {
   TileGroup,
@@ -21,16 +22,21 @@ import {
   AccordionButton,
   AccordionIcon,
   AccordionItem,
-  AccordionPanel,
   Box,
   Button,
+  ExpandedIndex,
   Text,
   useColorMode,
   useColorModeValue,
 } from "@chakra-ui/react";
 import cloneDeep from "lodash.clonedeep";
-import React, { Dispatch, SetStateAction, useCallback, useEffect } from "react";
-import styles from "@/styles/Home.module.css";
+import React, {
+  Dispatch,
+  SetStateAction,
+  useCallback,
+  useLayoutEffect,
+  useState,
+} from "react";
 
 interface SettingsSideBarProps {
   isOpen: boolean;
@@ -65,12 +71,13 @@ export const SettingsSideBar: React.FC<SettingsSideBarProps> = ({
   setInMemorySettings,
 }) => {
   const { colorMode } = useColorMode();
+  const [accordionIndex, setAccordionIndex] = useState<ExpandedIndex>([]);
 
   const backgroundColor = useColorModeValue("gray.100", "#33393D");
   const textColor = useColorModeValue("#303030", "#fff");
   const subTextColor = useColorModeValue("#606060", "#ddd");
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     const themeToChange = getCurrentTheme(inMemorySettings, colorMode);
 
     applyTheme(themeToChange);
@@ -103,6 +110,7 @@ export const SettingsSideBar: React.FC<SettingsSideBarProps> = ({
     // reset settings
     setInMemorySettings(cloneDeep(settings));
     setOptionHovered(undefined);
+    setAccordionIndex([]);
   };
 
   const resetOptionToDefault = (option: Option) => {
@@ -127,6 +135,10 @@ export const SettingsSideBar: React.FC<SettingsSideBarProps> = ({
   );
 
   const sortedOptions = sortOptionsIntoTileGroups(sideBarOptions);
+
+  const onAccordionChange = (expandedIndex: ExpandedIndex) => {
+    setAccordionIndex(expandedIndex);
+  };
 
   return (
     <Box
@@ -171,7 +183,11 @@ export const SettingsSideBar: React.FC<SettingsSideBarProps> = ({
         />
 
         <Box mt="4" />
-        <Accordion allowMultiple>
+        <Accordion
+          allowMultiple
+          onChange={onAccordionChange}
+          index={accordionIndex}
+        >
           {Object.entries(sortedOptions).map((tileGroup) => {
             return (
               <AccordionItem
