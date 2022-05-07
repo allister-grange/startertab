@@ -20,7 +20,7 @@ interface UvGraphProps {
 }
 
 export const UvGraph: React.FC<UvGraphProps> = ({ uvData }) => {
-  const color = "var(--text-color-tile-10)";
+  const color = "var(--text-color-tile10)";
 
   return (
     <Box p="6" color={color} >

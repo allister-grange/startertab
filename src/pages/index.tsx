@@ -3,12 +3,9 @@ import {
   Bonsai,
   SearchBar,
   Spotify,
-  StravaGraph,
-  SwimmingPoolTimeTable,
-  Time,
+  StravaGraph, Time,
   UvGraph,
-  WeatherTile,
-  WindFinderLinks,
+  WeatherTile
 } from "@/components/tiles";
 import { TileContainer } from "@/components/tiles/TileContainer";
 import ColorModeSwitcher from "@/components/ui/ColorModeSwitcher";
@@ -25,7 +22,7 @@ import {
   TileGroup,
   UserSettingsContextInterface,
   UvGraphData,
-  WeatherData,
+  WeatherData
 } from "@/types";
 import { Box, Grid, GridItem, useDisclosure } from "@chakra-ui/react";
 import cloneDeep from "lodash.clonedeep";
@@ -82,7 +79,7 @@ const Home: NextPage<PageProps> = ({
           borderRadius="15"
           rowSpan={5}
           colSpan={1}
-          bg="var(--bg-color-tile-1)"
+          bg="var(--bg-color-tile1)"
           overflowY="scroll"
           className={styles.disableScrollbars}
           outline={optionHovered === "HackerNews Tile" ? "2px solid white" : ""}
@@ -98,11 +95,10 @@ const Home: NextPage<PageProps> = ({
             hackerNewsData={hackerNewsData}
             settings={inMemorySettings}
           />
-          {/* <HackerNewsFeed hackerNewsData={hackerNewsData} /> */}
         </GridItem>
         <GridItem
           rowSpan={4}
-          bg="var(--bg-color-tile-2)"
+          bg="var(--bg-color-tile2)"
           colSpan={2}
           borderRadius="15"
           minH="300px"
@@ -119,21 +115,25 @@ const Home: NextPage<PageProps> = ({
         <GridItem
           borderRadius="15"
           colSpan={1}
-          rowSpan={2}
-          bg="var(--bg-color-tile-3)"
-          outline={optionHovered === "Wind Tile" ? "2px solid white" : ""}
-          style={
-            optionHovered === "Wind Tile" ? { transform: "scale(1.05)" } : {}
-          }
+          rowSpan={4}
+          overflowY="scroll"
+          className={styles.disableScrollbars}
+          bg="var(--bg-color-tile3)"
+          outline={optionHovered === "Tile 3" ? "2px solid white" : ""}
+          style={optionHovered === "Tile 3" ? { transform: "scale(1.05)" } : {}}
           transition=".3s ease-in-out"
         >
-          <WindFinderLinks />
+          <TileContainer
+            tileId={"tile3"}
+            hackerNewsData={hackerNewsData}
+            settings={inMemorySettings}
+          />
         </GridItem>
         <GridItem
           borderRadius="15"
           colSpan={1}
           rowSpan={5}
-          bg="var(--bg-color-tile-5)"
+          bg="var(--bg-color-tile5)"
           minW="220px"
           overflowY="scroll"
           className={styles.disableScrollbars}
@@ -151,25 +151,9 @@ const Home: NextPage<PageProps> = ({
         </GridItem>
         <GridItem
           borderRadius="15"
-          colSpan={1}
-          rowSpan={2}
-          bg="var(--bg-color-tile-4)"
-          minWidth="200px"
-          outline={optionHovered === "Swimming Tile" ? "2px solid white" : ""}
-          style={
-            optionHovered === "Swimming Tile"
-              ? { transform: "scale(1.05)" }
-              : {}
-          }
-          transition=".3s ease-in-out"
-        >
-          <SwimmingPoolTimeTable />
-        </GridItem>
-        <GridItem
-          borderRadius="15"
           colSpan={3}
           rowSpan={1}
-          bg="var(--bg-color-tile-6)"
+          bg="var(--bg-color-tile6)"
           minH="60px"
           outline={optionHovered === "Search Tile" ? "2px solid white" : ""}
           style={
@@ -183,7 +167,7 @@ const Home: NextPage<PageProps> = ({
           borderRadius="15"
           colSpan={1}
           rowSpan={4}
-          bg="var(--bg-color-tile-7)"
+          bg="var(--bg-color-tile7)"
           pos="relative"
           overflow="hidden"
           maxH="380px"
@@ -200,7 +184,7 @@ const Home: NextPage<PageProps> = ({
           rowSpan={2}
           borderRadius="15"
           colSpan={1}
-          bg="var(--bg-color-tile-8)"
+          bg="var(--bg-color-tile8)"
           minW="200px"
           outline={optionHovered === "Weather Tile" ? "2px solid white" : ""}
           style={
@@ -214,7 +198,7 @@ const Home: NextPage<PageProps> = ({
           borderRadius="15"
           colSpan={2}
           rowSpan={4}
-          bg="var(--bg-color-tile-10)"
+          bg="var(--bg-color-tile10)"
           overflow="hidden"
           minH="310px"
           maxH="330px"
@@ -230,7 +214,7 @@ const Home: NextPage<PageProps> = ({
           borderRadius="15"
           colSpan={1}
           rowSpan={2}
-          bg="var(--bg-color-tile-11)"
+          bg="var(--bg-color-tile11)"
           pos="relative"
           outline={optionHovered === "Clock Tile" ? "2px solid white" : ""}
           style={
@@ -244,7 +228,7 @@ const Home: NextPage<PageProps> = ({
           borderRadius="15"
           colSpan={1}
           rowSpan={2}
-          bg="var(--bg-color-tile-9)"
+          bg="var(--bg-color-tile9)"
           minW="200px"
           outline={optionHovered === "Spotify Tile" ? "2px solid white" : ""}
           style={
@@ -258,7 +242,7 @@ const Home: NextPage<PageProps> = ({
           borderRadius="15"
           colSpan={1}
           rowSpan={2}
-          bg="var(--bg-color-tile-12)"
+          bg="var(--bg-color-tile12)"
           outline={
             optionHovered === "Theme Changer Tile" ? "2px solid white" : ""
           }

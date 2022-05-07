@@ -24,7 +24,7 @@ type PageProps = {
 
 export const StravaGraph: React.FC<PageProps> = ({ stravaData }) => {
   const [showingSwim, setShowingSwim] = useState<Boolean | undefined>();
-  const color = "var(--text-color-tile-2)";
+  const color = "var(--text-color-tile2)";
   const runBoxColor = useColorModeValue("rgba(255, 255, 255, 0.2)", "rgba(255, 255, 255, 0.1)");
 
   return (

@@ -3,99 +3,99 @@ import { Option, ThemeSettings, TileGroup, UserSettings } from "@/types";
 export const applyTheme = (theme: ThemeSettings) => {
   document.body.style.backgroundColor = theme.globalSettings.backgroundColor;
   document.documentElement.style.setProperty(
-    "--bg-color-tile-1",
+    "--bg-color-tile1",
     theme.tile1.backgroundColor
   );
   document.documentElement.style.setProperty(
-    "--bg-color-tile-2",
+    "--bg-color-tile2",
     theme.tile2.backgroundColor
   );
   document.documentElement.style.setProperty(
-    "--bg-color-tile-3",
+    "--bg-color-tile3",
     theme.tile3.backgroundColor
   );
   document.documentElement.style.setProperty(
-    "--bg-color-tile-4",
+    "--bg-color-tile4",
     theme.tile4.backgroundColor
   );
   document.documentElement.style.setProperty(
-    "--bg-color-tile-5",
+    "--bg-color-tile5",
     theme.tile5.backgroundColor
   );
   document.documentElement.style.setProperty(
-    "--bg-color-tile-6",
+    "--bg-color-tile6",
     theme.tile6.backgroundColor
   );
   document.documentElement.style.setProperty(
-    "--bg-color-tile-7",
+    "--bg-color-tile7",
     theme.tile7.backgroundColor
   );
   document.documentElement.style.setProperty(
-    "--bg-color-tile-8",
+    "--bg-color-tile8",
     theme.tile8.backgroundColor
   );
   document.documentElement.style.setProperty(
-    "--bg-color-tile-9",
+    "--bg-color-tile9",
     theme.tile9.backgroundColor
   );
   document.documentElement.style.setProperty(
-    "--bg-color-tile-10",
+    "--bg-color-tile10",
     theme.tile10.backgroundColor
   );
   document.documentElement.style.setProperty(
-    "--bg-color-tile-11",
+    "--bg-color-tile11",
     theme.tile11.backgroundColor
   );
   document.documentElement.style.setProperty(
-    "--bg-color-tile-12",
+    "--bg-color-tile12",
     theme.tile12.backgroundColor
   );
   document.documentElement.style.setProperty(
-    "--text-color-tile-1",
+    "--text-color-tile1",
     theme.tile1.textColor
   );
   document.documentElement.style.setProperty(
-    "--text-color-tile-2",
+    "--text-color-tile2",
     theme.tile2.textColor
   );
   document.documentElement.style.setProperty(
-    "--text-color-tile-3",
+    "--text-color-tile3",
     theme.tile3.textColor
   );
   document.documentElement.style.setProperty(
-    "--text-color-tile-4",
+    "--text-color-tile4",
     theme.tile4.textColor
   );
   document.documentElement.style.setProperty(
-    "--text-color-tile-5",
+    "--text-color-tile5",
     theme.tile5.textColor
   );
   document.documentElement.style.setProperty(
-    "--text-color-tile-6",
+    "--text-color-tile6",
     theme.tile6.textColor
   );
   document.documentElement.style.setProperty(
-    "--text-color-tile-7",
+    "--text-color-tile7",
     theme.tile7.textColor
   );
   document.documentElement.style.setProperty(
-    "--text-color-tile-8",
+    "--text-color-tile8",
     theme.tile8.textColor
   );
   document.documentElement.style.setProperty(
-    "--text-color-tile-9",
+    "--text-color-tile9",
     theme.tile9.textColor
   );
   document.documentElement.style.setProperty(
-    "--text-color-tile-10",
+    "--text-color-tile10",
     theme.tile10.textColor
   );
   document.documentElement.style.setProperty(
-    "--text-color-tile-11",
+    "--text-color-tile11",
     theme.tile11.textColor
   );
   document.documentElement.style.setProperty(
-    "--text-color-tile-12",
+    "--text-color-tile12",
     theme.tile12.textColor
   );
 };
@@ -173,7 +173,7 @@ export const sideBarOptions: Option[] = [
     localStorageId: "backgroundColor",
     lightDefault: "#9AB899",
     darkDefault: "#9AB899",
-    tileGroup: "Wind Tile",
+    tileGroup: "Tile 3",
     optionType: "ColorPicker",
     tileId: "tile3",
   },
@@ -183,8 +183,25 @@ export const sideBarOptions: Option[] = [
     localStorageId: "textColor",
     lightDefault: "#ffffff",
     darkDefault: "#222222",
-    tileGroup: "Wind Tile",
+    tileGroup: "Tile 3",
     optionType: "ColorPicker",
+    tileId: "tile3",
+  },
+  {
+    title: "Reddit feed subreddit",
+    subTitle: "Subreddit you want to see the posts from",
+    localStorageId: "subReddit",
+    tileGroup: "Tile 3",
+    optionType: "SubRedditPicker",
+    tileId: "tile3",
+  },
+  {
+    title: "Type of tile",
+    subTitle: "Choose what you want this tile to display",
+    localStorageId: "tileType",
+    defaultSetting: "None",
+    tileGroup: "Tile 3",
+    optionType: "TypePicker",
     tileId: "tile3",
   },
   {

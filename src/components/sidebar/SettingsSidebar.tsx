@@ -30,6 +30,7 @@ import {
 } from "@chakra-ui/react";
 import cloneDeep from "lodash.clonedeep";
 import React, { Dispatch, SetStateAction, useCallback, useEffect } from "react";
+import styles from "@/styles/Home.module.css";
 
 interface SettingsSideBarProps {
   isOpen: boolean;
@@ -137,6 +138,7 @@ export const SettingsSideBar: React.FC<SettingsSideBarProps> = ({
       bg={backgroundColor}
       overflowY="auto"
       style={isOpen ? openStyle : closedStyle}
+      className={styles.disableScrollbars}
     >
       <SideBarTitle
         textColor={textColor}
@@ -148,7 +150,7 @@ export const SettingsSideBar: React.FC<SettingsSideBarProps> = ({
         <Box mb="4">
           <Button display="block" onClick={resetAllSettingsToDefault}>
             <Text fontSize="sm" color={textColor}>
-              Reset all colors back to default
+              Reset all settings back to default
             </Text>
           </Button>
         </Box>
@@ -190,20 +192,20 @@ export const SettingsSideBar: React.FC<SettingsSideBarProps> = ({
                 </h2>
                 {tileGroup[1].map((option: Option) => {
                   return (
-                      <SettingOptionContainer
+                    <SettingOptionContainer
                       key={option.localStorageId}
-                        option={option}
-                        tileType={currentThemeSettings![option.tileId].tileType}
-                        changeSetting={changeSetting}
-                        textColor={textColor}
-                        subTextColor={subTextColor}
-                        resetOptionToDefault={resetOptionToDefault}
-                        value={
-                          currentThemeSettings![option.tileId!][
-                            option.localStorageId as keyof TileSettings
-                          ]!
-                        }
-                      />
+                      option={option}
+                      tileType={currentThemeSettings![option.tileId].tileType}
+                      changeSetting={changeSetting}
+                      textColor={textColor}
+                      subTextColor={subTextColor}
+                      resetOptionToDefault={resetOptionToDefault}
+                      value={
+                        currentThemeSettings![option.tileId!][
+                          option.localStorageId as keyof TileSettings
+                        ]!
+                      }
+                    />
                   );
                 })}
               </AccordionItem>

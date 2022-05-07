@@ -20,7 +20,7 @@ export type TileGroup =
   | "Bonsai Tile"
   | "Weather Tile"
   | "Spotify Tile"
-  | "Wind Tile"
+  | "Tile 3"
   | "Swimming Tile"
   | "Search Tile"
   | "Reddit Tile"

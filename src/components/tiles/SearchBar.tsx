@@ -15,7 +15,7 @@ import {
 export const SearchBar: React.FC = () => {
   const router = useRouter();
   const [searchTerm, setSearchTerm] = useState<undefined | string>(undefined);
-  const color = "var(--text-color-tile-6)";
+  const color = "var(--text-color-tile6)";
 
   type AppTypes = "google" | "duck" | "stackoverflow";
 

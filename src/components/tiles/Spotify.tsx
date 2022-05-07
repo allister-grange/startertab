@@ -46,7 +46,7 @@ export const Spotify: React.FC = ({}) => {
     }
   };
 
-  const color = "var(--text-color-tile-9)";
+  const color = "var(--text-color-tile9)";
 
   const PauseIcon = (
     <svg
