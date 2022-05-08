@@ -7,7 +7,7 @@ import {
   getCurrentTheme,
   getDefaultSettingForOption,
   sideBarOptions,
-  sortOptionsIntoTileGroups,
+  sortOptionsIntoTileGroups
 } from "@/helpers/settingsHelpers";
 import styles from "@/styles/Home.module.css";
 import { Option } from "@/types";
@@ -15,7 +15,7 @@ import {
   TileGroup,
   TileId,
   TileSettings,
-  UserSettings,
+  UserSettings
 } from "@/types/settings";
 import {
   Accordion,
@@ -27,7 +27,7 @@ import {
   ExpandedIndex,
   Text,
   useColorMode,
-  useColorModeValue,
+  useColorModeValue
 } from "@chakra-ui/react";
 import cloneDeep from "lodash.clonedeep";
 import React, {
@@ -35,7 +35,7 @@ import React, {
   SetStateAction,
   useCallback,
   useLayoutEffect,
-  useState,
+  useState
 } from "react";
 
 interface SettingsSideBarProps {

@@ -21,22 +21,26 @@ export const TypePicker: React.FC<TypePickerProps> = ({
 }) => {
   const { title, subTitle, localStorageId } = option;
   const [inputValue, setInputValue] = useState(value);
+  const [previousValue, setPreviousValue] = useState(value);
 
   const onTypeSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setInputValue(e.target.value);
   };
 
-  useEffect(() => {
-    setInputValue(value);
-  }, [value]);
-
+  // I want to prioritize value, but if input value also changes, then use that 
   useEffect(() => {
     if (inputValue === "None") {
       return;
     }
 
-    changeSetting(option.localStorageId, inputValue, option.tileId);
-  }, [changeSetting, inputValue, option.localStorageId, option.tileId]);
+    if(previousValue !== inputValue) {
+      changeSetting(option.localStorageId, inputValue, option.tileId);
+      setPreviousValue(inputValue);
+      return;
+    }
+
+    changeSetting(option.localStorageId, value, option.tileId);
+  }, [changeSetting, inputValue, option.localStorageId, option.tileId, previousValue, value]);
 
   return (
     <Box key={localStorageId} my="2">

@@ -15,7 +15,6 @@ import {
   Spinner,
   Text,
   useColorMode,
-  useColorModeValue,
 } from "@chakra-ui/react";
 import cloneDeep from "lodash.clonedeep";
 import React, { useCallback, useContext, useEffect, useState } from "react";
@@ -46,7 +45,7 @@ export const RedditFeed: React.FC<RedditFeedProps> = ({ tileId }) => {
   });
 
   const textColor = `var(--text-color-${tileId})`;
-  const underlineColor = useColorModeValue("gray.200", "gray.700");
+  const underlineColor = textColor;
 
   const { data, status, error } = state;
 
@@ -202,7 +201,7 @@ export const RedditFeed: React.FC<RedditFeedProps> = ({ tileId }) => {
           }
         >
           {data ? `r/${subReddit}` : "Reddit Feed"}
-        </Link>{" "}
+        </Link>
       </Heading>
       <Box w="80%" bg="white" height="1px" ml="2" bgColor={underlineColor} />
       {display}

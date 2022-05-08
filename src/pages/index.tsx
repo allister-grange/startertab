@@ -122,6 +122,7 @@ const Home: NextPage<PageProps> = ({
           outline={optionHovered === "Tile 3" ? "2px solid white" : ""}
           style={optionHovered === "Tile 3" ? { transform: "scale(1.05)" } : {}}
           transition=".3s ease-in-out"
+          minW="230px"
         >
           <TileContainer
             tileId={"tile3"}
