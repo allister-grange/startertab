@@ -82,9 +82,9 @@ const Home: NextPage<PageProps> = ({
           bg="var(--bg-color-tile1)"
           overflowY="scroll"
           className={styles.disableScrollbars}
-          outline={optionHovered === "HackerNews Tile" ? "2px solid white" : ""}
+          outline={optionHovered === "Tile 1" ? "2px solid white" : ""}
           style={
-            optionHovered === "HackerNews Tile"
+            optionHovered === "Tile 1"
               ? { transform: "scale(1.05)" }
               : {}
           }
@@ -104,9 +104,9 @@ const Home: NextPage<PageProps> = ({
           minH="300px"
           maxH="330px"
           minW="530px"
-          outline={optionHovered === "Strava Tile" ? "2px solid white" : ""}
+          outline={optionHovered === "Tile 2" ? "2px solid white" : ""}
           style={
-            optionHovered === "Strava Tile" ? { transform: "scale(1.05)" } : {}
+            optionHovered === "Tile 2" ? { transform: "scale(1.05)" } : {}
           }
           transition=".3s ease-in-out"
         >
@@ -138,9 +138,9 @@ const Home: NextPage<PageProps> = ({
           minW="220px"
           overflowY="scroll"
           className={styles.disableScrollbars}
-          outline={optionHovered === "Reddit Tile" ? "2px solid white" : ""}
+          outline={optionHovered === "Tile 4" ? "2px solid white" : ""}
           style={
-            optionHovered === "Reddit Tile" ? { transform: "scale(1.05)" } : {}
+            optionHovered === "Tile 4" ? { transform: "scale(1.05)" } : {}
           }
           transition=".3s ease-in-out"
         >
@@ -156,9 +156,9 @@ const Home: NextPage<PageProps> = ({
           rowSpan={1}
           bg="var(--bg-color-tile6)"
           minH="60px"
-          outline={optionHovered === "Search Tile" ? "2px solid white" : ""}
+          outline={optionHovered === "Tile 5" ? "2px solid white" : ""}
           style={
-            optionHovered === "Search Tile" ? { transform: "scale(1.05)" } : {}
+            optionHovered === "Tile 5" ? { transform: "scale(1.05)" } : {}
           }
           transition=".3s ease-in-out"
         >
@@ -173,9 +173,9 @@ const Home: NextPage<PageProps> = ({
           overflow="hidden"
           maxH="380px"
           minW="250px"
-          outline={optionHovered === "Bonsai Tile" ? "2px solid white" : ""}
+          outline={optionHovered === "Tile 6" ? "2px solid white" : ""}
           style={
-            optionHovered === "Bonsai Tile" ? { transform: "scale(1.05)" } : {}
+            optionHovered === "Tile 6" ? { transform: "scale(1.05)" } : {}
           }
           transition=".3s ease-in-out"
         >
@@ -187,9 +187,9 @@ const Home: NextPage<PageProps> = ({
           colSpan={1}
           bg="var(--bg-color-tile8)"
           minW="200px"
-          outline={optionHovered === "Weather Tile" ? "2px solid white" : ""}
+          outline={optionHovered === "Tile 7" ? "2px solid white" : ""}
           style={
-            optionHovered === "Weather Tile" ? { transform: "scale(1.05)" } : {}
+            optionHovered === "Tile 7" ? { transform: "scale(1.05)" } : {}
           }
           transition=".3s ease-in-out"
         >
@@ -203,9 +203,9 @@ const Home: NextPage<PageProps> = ({
           overflow="hidden"
           minH="310px"
           maxH="330px"
-          outline={optionHovered === "UV Tile" ? "2px solid white" : ""}
+          outline={optionHovered === "Tile 9" ? "2px solid white" : ""}
           style={
-            optionHovered === "UV Tile" ? { transform: "scale(1.05)" } : {}
+            optionHovered === "Tile 9" ? { transform: "scale(1.05)" } : {}
           }
           transition=".3s ease-in-out"
         >
@@ -217,9 +217,9 @@ const Home: NextPage<PageProps> = ({
           rowSpan={2}
           bg="var(--bg-color-tile11)"
           pos="relative"
-          outline={optionHovered === "Clock Tile" ? "2px solid white" : ""}
+          outline={optionHovered === "Tile 10" ? "2px solid white" : ""}
           style={
-            optionHovered === "Clock Tile" ? { transform: "scale(1.05)" } : {}
+            optionHovered === "Tile 10" ? { transform: "scale(1.05)" } : {}
           }
           transition=".3s ease-in-out"
         >
@@ -231,9 +231,9 @@ const Home: NextPage<PageProps> = ({
           rowSpan={2}
           bg="var(--bg-color-tile9)"
           minW="200px"
-          outline={optionHovered === "Spotify Tile" ? "2px solid white" : ""}
+          outline={optionHovered === "Tile 8" ? "2px solid white" : ""}
           style={
-            optionHovered === "Spotify Tile" ? { transform: "scale(1.05)" } : {}
+            optionHovered === "Tile 8" ? { transform: "scale(1.05)" } : {}
           }
           transition=".3s ease-in-out"
         >
@@ -245,10 +245,10 @@ const Home: NextPage<PageProps> = ({
           rowSpan={2}
           bg="var(--bg-color-tile12)"
           outline={
-            optionHovered === "Theme Changer Tile" ? "2px solid white" : ""
+            optionHovered === "Tile 11" ? "2px solid white" : ""
           }
           style={
-            optionHovered === "Theme Changer Tile"
+            optionHovered === "Tile 11"
               ? { transform: "scale(1.05)" }
               : {}
           }

@@ -15,18 +15,18 @@ export type OptionType = "ColorPicker" | "SubRedditPicker" | "TypePicker";
 export type TileType = "Reddit Feed" | "Hacker News Feed" | "None";
 
 export type TileGroup =
-  | "HackerNews Tile"
-  | "Strava Tile"
-  | "Bonsai Tile"
-  | "Weather Tile"
-  | "Spotify Tile"
+  | "Tile 1"
+  | "Tile 2"
   | "Tile 3"
-  | "Swimming Tile"
-  | "Search Tile"
-  | "Reddit Tile"
-  | "Clock Tile"
-  | "Theme Changer Tile"
-  | "UV Tile";
+  | "Tile 4"
+  | "Tile 5"
+  | "Tile 6"
+  | "Tile 7"
+  | "Tile 8"
+  | "Tile 9"
+  | "Tile 10"
+  | "Tile 11"
+  | "Tile 12";
 
 export type Themes = "dark" | "light";
 
