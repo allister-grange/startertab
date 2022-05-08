@@ -47,10 +47,6 @@ export const applyTheme = (theme: ThemeSettings) => {
     theme.tile11.backgroundColor
   );
   document.documentElement.style.setProperty(
-    "--bg-color-tile12",
-    theme.tile12.backgroundColor
-  );
-  document.documentElement.style.setProperty(
     "--text-color-tile1",
     theme.tile1.textColor
   );
@@ -93,10 +89,6 @@ export const applyTheme = (theme: ThemeSettings) => {
   document.documentElement.style.setProperty(
     "--text-color-tile11",
     theme.tile11.textColor
-  );
-  document.documentElement.style.setProperty(
-    "--text-color-tile12",
-    theme.tile12.textColor
   );
 };
 
@@ -212,7 +204,7 @@ export const sideBarOptions: Option[] = [
     darkDefault: "#E89C4B",
     tileGroup: "Tile 4",
     optionType: "ColorPicker",
-    tileId: "tile5",
+    tileId: "tile4",
   },
   {
     title: "Text color",
@@ -222,7 +214,7 @@ export const sideBarOptions: Option[] = [
     darkDefault: "#222222",
     tileGroup: "Tile 4",
     optionType: "ColorPicker",
-    tileId: "tile5",
+    tileId: "tile4",
   },
   {
     title: "Reddit feed subreddit",
@@ -230,7 +222,7 @@ export const sideBarOptions: Option[] = [
     localStorageId: "subReddit",
     tileGroup: "Tile 4",
     optionType: "SubRedditPicker",
-    tileId: "tile5",
+    tileId: "tile4",
   },
   {
     title: "Type of tile",
@@ -239,7 +231,7 @@ export const sideBarOptions: Option[] = [
     defaultSetting: "Reddit Feed",
     tileGroup: "Tile 4",
     optionType: "TypePicker",
-    tileId: "tile5",
+    tileId: "tile4",
   },
   {
     title: "Background color",
@@ -249,7 +241,7 @@ export const sideBarOptions: Option[] = [
     darkDefault: "#F06808",
     tileGroup: "Tile 5",
     optionType: "ColorPicker",
-    tileId: "tile6",
+    tileId: "tile5",
   },
   {
     title: "Text color",
@@ -259,15 +251,35 @@ export const sideBarOptions: Option[] = [
     darkDefault: "#222222",
     tileGroup: "Tile 5",
     optionType: "ColorPicker",
+    tileId: "tile5",
+  },
+  {
+    title: "Background color",
+    subTitle: "Background color of the tile",
+    localStorageId: "backgroundColor",
+    lightDefault: "#E89C4B",
+    darkDefault: "#E89C4B",
+    tileGroup: "Tile 6",
+    optionType: "ColorPicker",
+    tileId: "tile6",
+  },
+  {
+    title: "Text color",
+    subTitle: "Text color of the tile",
+    localStorageId: "textColor",
+    lightDefault: "#ffffff",
+    darkDefault: "#222222",
+    tileGroup: "Tile 6",
+    optionType: "ColorPicker",
     tileId: "tile6",
   },
   {
     title: "Background color",
     subTitle: "Background color of the tile",
     localStorageId: "backgroundColor",
-    lightDefault: "#E89C4B",
-    darkDefault: "#E89C4B",
-    tileGroup: "Tile 6",
+    lightDefault: "#65abc1",
+    darkDefault: "#65abc1",
+    tileGroup: "Tile 7",
     optionType: "ColorPicker",
     tileId: "tile7",
   },
@@ -277,29 +289,9 @@ export const sideBarOptions: Option[] = [
     localStorageId: "textColor",
     lightDefault: "#ffffff",
     darkDefault: "#222222",
-    tileGroup: "Tile 6",
+    tileGroup: "Tile 7",
     optionType: "ColorPicker",
     tileId: "tile7",
-  },
-  {
-    title: "Background color",
-    subTitle: "Background color of the tile",
-    localStorageId: "backgroundColor",
-    lightDefault: "#65abc1",
-    darkDefault: "#65abc1",
-    tileGroup: "Tile 7",
-    optionType: "ColorPicker",
-    tileId: "tile8",
-  },
-  {
-    title: "Text color",
-    subTitle: "Text color of the tile",
-    localStorageId: "textColor",
-    lightDefault: "#ffffff",
-    darkDefault: "#222222",
-    tileGroup: "Tile 7",
-    optionType: "ColorPicker",
-    tileId: "tile8",
   },
   {
     title: "Background color",
@@ -309,7 +301,7 @@ export const sideBarOptions: Option[] = [
     darkDefault: "#9AB899",
     tileGroup: "Tile 8",
     optionType: "ColorPicker",
-    tileId: "tile9",
+    tileId: "tile8",
   },
   {
     title: "Text color",
@@ -319,7 +311,7 @@ export const sideBarOptions: Option[] = [
     darkDefault: "#222222",
     tileGroup: "Tile 8",
     optionType: "ColorPicker",
-    tileId: "tile9",
+    tileId: "tile8",
   },
   {
     title: "Background color",
@@ -329,7 +321,7 @@ export const sideBarOptions: Option[] = [
     darkDefault: "#E89C4B",
     tileGroup: "Tile 9",
     optionType: "ColorPicker",
-    tileId: "tile10",
+    tileId: "tile9",
   },
   {
     title: "Text color",
@@ -339,7 +331,7 @@ export const sideBarOptions: Option[] = [
     darkDefault: "#222222",
     tileGroup: "Tile 9",
     optionType: "ColorPicker",
-    tileId: "tile10",
+    tileId: "tile9",
   },
   {
     title: "Background color",
@@ -349,7 +341,7 @@ export const sideBarOptions: Option[] = [
     darkDefault: "#9AB899",
     tileGroup: "Tile 10",
     optionType: "ColorPicker",
-    tileId: "tile11",
+    tileId: "tile10",
   },
   {
     title: "Text color",
@@ -359,7 +351,7 @@ export const sideBarOptions: Option[] = [
     darkDefault: "#222222",
     tileGroup: "Tile 10",
     optionType: "ColorPicker",
-    tileId: "tile11",
+    tileId: "tile10",
   },
   {
     title: "Background color",
@@ -369,7 +361,7 @@ export const sideBarOptions: Option[] = [
     darkDefault: "#65abc1",
     tileGroup: "Tile 11",
     optionType: "ColorPicker",
-    tileId: "tile12",
+    tileId: "tile11",
   },
   {
     title: "Text color",
@@ -379,7 +371,7 @@ export const sideBarOptions: Option[] = [
     darkDefault: "#222222",
     tileGroup: "Tile 11",
     optionType: "ColorPicker",
-    tileId: "tile12",
+    tileId: "tile11",
   },
 ];
 
@@ -408,37 +400,37 @@ export const defaultSettings: UserSettings = {
         tileType: "None",
       },
       tile4: {
-        backgroundColor: "#65abc1",
-        textColor: "#222222",
-        tileType: "None",
-      },
-      tile5: {
         backgroundColor: "#E89C4B",
         textColor: "#222222",
         tileType: "Reddit Feed",
       },
-      tile6: {
+      tile5: {
         backgroundColor: "#F06808",
         textColor: "#222222",
         tileType: "None",
       },
-      tile7: {
+      tile6: {
         backgroundColor: "#E89C4B",
         textColor: "#222222",
         tileType: "None",
       },
-      tile8: {
+      tile7: {
         backgroundColor: "#65abc1",
         textColor: "#222222",
         tileType: "None",
       },
-      tile9: {
+      tile8: {
         backgroundColor: "#9AB899",
         textColor: "#222222",
         tileType: "None",
       },
-      tile10: {
+      tile9: {
         backgroundColor: "#E89C4B",
+        textColor: "#222222",
+        tileType: "None",
+      },
+      tile10: {
+        backgroundColor: "#9AB899",
         textColor: "#222222",
         tileType: "None",
       },
@@ -446,12 +438,7 @@ export const defaultSettings: UserSettings = {
         backgroundColor: "#9AB899",
         textColor: "#222222",
         tileType: "None",
-      },
-      tile12: {
-        backgroundColor: "#65abc1",
-        textColor: "#222222",
-        tileType: "None",
-      },
+      }
     },
     {
       themeName: "light",
@@ -514,12 +501,7 @@ export const defaultSettings: UserSettings = {
         backgroundColor: "#9AB899",
         textColor: "#ffffff",
         tileType: "None",
-      },
-      tile12: {
-        backgroundColor: "#65abc1",
-        textColor: "#ffffff",
-        tileType: "None",
-      },
+      }
     },
   ],
 };

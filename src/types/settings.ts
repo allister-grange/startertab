@@ -25,8 +25,7 @@ export type TileGroup =
   | "Tile 8"
   | "Tile 9"
   | "Tile 10"
-  | "Tile 11"
-  | "Tile 12";
+  | "Tile 11";
 
 export type Themes = "dark" | "light";
 
@@ -53,7 +52,6 @@ export type ThemeSettings = {
   tile9: TileSettings;
   tile10: TileSettings;
   tile11: TileSettings;
-  tile12: TileSettings;
 };
 
 export type UserSettings = {
@@ -76,7 +74,6 @@ export type TileId =
   | "tile9"
   | "tile10"
   | "tile11"
-  | "tile12"
   | "globalSettings";
 
 export interface UserSettingsContextInterface {

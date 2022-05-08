@@ -7,15 +7,16 @@ import {
   getCurrentTheme,
   getDefaultSettingForOption,
   sideBarOptions,
-  sortOptionsIntoTileGroups
+  sortOptionsIntoTileGroups,
 } from "@/helpers/settingsHelpers";
 import styles from "@/styles/Home.module.css";
 import { Option } from "@/types";
 import {
+  ThemeSettings,
   TileGroup,
   TileId,
   TileSettings,
-  UserSettings
+  UserSettings,
 } from "@/types/settings";
 import {
   Accordion,
@@ -27,7 +28,7 @@ import {
   ExpandedIndex,
   Text,
   useColorMode,
-  useColorModeValue
+  useColorModeValue,
 } from "@chakra-ui/react";
 import cloneDeep from "lodash.clonedeep";
 import React, {
@@ -35,7 +36,7 @@ import React, {
   SetStateAction,
   useCallback,
   useLayoutEffect,
-  useState
+  useState,
 } from "react";
 
 interface SettingsSideBarProps {
@@ -140,6 +141,25 @@ export const SettingsSideBar: React.FC<SettingsSideBarProps> = ({
     setAccordionIndex(expandedIndex);
   };
 
+  const getOptionTitle = (tileId: keyof ThemeSettings): string => {
+    const tileToSearch = tileId
+      .toLowerCase()
+      .replace(" ", "") as keyof ThemeSettings;
+
+    if (currentThemeSettings === undefined) {
+      return tileId;
+    }
+
+    const optionTitle = (currentThemeSettings[tileToSearch] as TileSettings)
+      .tileType;
+
+    if (optionTitle === "None") {
+      return tileId;
+    }
+
+    return optionTitle;
+  };
+
   return (
     <Box
       minWidth={300}
@@ -201,7 +221,7 @@ export const SettingsSideBar: React.FC<SettingsSideBarProps> = ({
                     _expanded={{ backdropFilter: "brightness(0.90)" }}
                   >
                     <Box flex="1" textAlign="left">
-                      {tileGroup[0]}
+                      {getOptionTitle(tileGroup[0] as keyof ThemeSettings)}
                     </Box>
                     <AccordionIcon />
                   </AccordionButton>
