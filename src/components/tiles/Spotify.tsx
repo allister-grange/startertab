@@ -1,15 +1,19 @@
+import { TileId } from "@/types";
 import { NowPlayingSpotifyData } from "@/types/spotify";
 import {
   Button,
   Center,
   Flex,
   Heading,
-  Link,
-  useColorModeValue,
+  Link
 } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
 
-export const Spotify: React.FC = ({}) => {
+type SpotifyProps = {
+  tileId: TileId;
+}
+
+export const Spotify: React.FC<SpotifyProps> = ({tileId}) => {
   const [songPlaying, setSongPlaying] = useState(false);
   const [songName, setSongName] = useState<string | undefined>();
   const [artistName, setArtistName] = useState<string | undefined>();
@@ -46,7 +50,7 @@ export const Spotify: React.FC = ({}) => {
     }
   };
 
-  const color = "var(--text-color-tile9)";
+  const color = `var(--text-color-${tileId})`;
 
   const PauseIcon = (
     <svg

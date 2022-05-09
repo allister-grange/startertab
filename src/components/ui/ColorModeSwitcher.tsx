@@ -1,3 +1,4 @@
+import { TileId } from "@/types";
 import {
   Button,
   Center,
@@ -6,13 +7,16 @@ import {
   useColorMode,
   useColorModeValue,
 } from "@chakra-ui/react";
+import React from "react";
 
-type ColorModeSwitcherProps = Omit<IconButtonProps, "aria-label">;
+type ColorModeSwitcherProps = {
+  tileId: TileId;
+}
 
-const ColorModeSwitcher = (props: ColorModeSwitcherProps) => {
+const ColorModeSwitcher: React.FC<ColorModeSwitcherProps> = ({tileId}) => {
   const { toggleColorMode } = useColorMode();
   const text = useColorModeValue("dark", "light");
-  const color = useColorModeValue("white", "#222222");
+  const color = `var(--text-color-${tileId})`;
 
   return (
     <Center height="100%">

@@ -5,27 +5,23 @@ export type Option = {
   lightDefault?: string;
   darkDefault?: string;
   defaultSetting?: string;
-  tileGroup?: TileGroup;
   optionType: OptionType;
   tileId: TileId;
 };
 
 export type OptionType = "ColorPicker" | "SubRedditPicker" | "TypePicker";
 
-export type TileType = "Reddit Feed" | "Hacker News Feed" | "None";
-
-export type TileGroup =
-  | "Tile 1"
-  | "Tile 2"
-  | "Tile 3"
-  | "Tile 4"
-  | "Tile 5"
-  | "Tile 6"
-  | "Tile 7"
-  | "Tile 8"
-  | "Tile 9"
-  | "Tile 10"
-  | "Tile 11";
+export type TileType =
+  | "Reddit Feed"
+  | "Hacker News Feed"
+  | "Strava Graph"
+  | "Search Bar"
+  | "Bonsai"
+  | "Weather"
+  | "UV Graph"
+  | "Theme Picker"
+  | "Spotify" | "Time"
+  | "None";
 
 export type Themes = "dark" | "light";
 
@@ -59,7 +55,7 @@ export type UserSettings = {
 };
 
 export type SortedOption = {
-  [key in TileGroup]: Option[];
+  [key in TileId]: Option[];
 };
 
 export type TileId =
@@ -80,5 +76,5 @@ export interface UserSettingsContextInterface {
   settings: UserSettings;
   setSettings: (value: UserSettings) => void;
   inMemorySettings: UserSettings;
-  setInMemorySettings: (React.Dispatch<React.SetStateAction<UserSettings>>)
+  setInMemorySettings: React.Dispatch<React.SetStateAction<UserSettings>>;
 }

@@ -1,20 +1,21 @@
+import { TileId } from "@/types";
+import { HackerNewsLinkHolder } from "@/types/hackernews";
 import {
   Box,
   Center,
   Heading,
   Link,
-  Spinner,
-  useColorModeValue,
+  Spinner
 } from "@chakra-ui/react";
 import React from "react";
-import { HackerNewsLinkHolder } from "@/types/hackernews";
 
 type PageProps = {
   hackerNewsData: HackerNewsLinkHolder[];
+  tileId: TileId;
 };
 
-export const HackerNewsFeed: React.FC<PageProps> = ({ hackerNewsData }) => {
-  const textColor = "var(--text-color-tile1)";
+export const HackerNewsFeed: React.FC<PageProps> = ({ hackerNewsData, tileId }) => {
+  const textColor = `var(--text-color-${tileId})`;
   const underlineColor = textColor;
 
   return (

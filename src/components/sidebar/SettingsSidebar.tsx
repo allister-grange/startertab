@@ -13,7 +13,6 @@ import styles from "@/styles/Home.module.css";
 import { Option } from "@/types";
 import {
   ThemeSettings,
-  TileGroup,
   TileId,
   TileSettings,
   UserSettings,
@@ -42,7 +41,7 @@ import React, {
 interface SettingsSideBarProps {
   isOpen: boolean;
   onClose: () => void;
-  setOptionHovered: React.Dispatch<SetStateAction<TileGroup | undefined>>;
+  setOptionHovered: React.Dispatch<SetStateAction<TileId | undefined>>;
   settings: UserSettings;
   inMemorySettings: UserSettings;
   setSettings: (value: UserSettings) => void;
@@ -150,14 +149,17 @@ export const SettingsSideBar: React.FC<SettingsSideBarProps> = ({
       return tileId;
     }
 
-    const optionTitle = (currentThemeSettings[tileToSearch] as TileSettings)
-      .tileType;
+    const optionTitle = currentThemeSettings[tileToSearch] as TileSettings;
 
-    if (optionTitle === "None") {
-      return tileId;
+    if (optionTitle) {
+      if (optionTitle.tileType === "None") {
+        return "No type";
+      }
+      return optionTitle.tileType;
     }
 
-    return optionTitle;
+    // catch here for the settings with no tile associated with them
+    return "Global Settings";
   };
 
   return (
@@ -213,7 +215,7 @@ export const SettingsSideBar: React.FC<SettingsSideBarProps> = ({
               <AccordionItem
                 key={tileGroup[0]}
                 p="0"
-                onMouseEnter={() => setOptionHovered(tileGroup[0] as TileGroup)}
+                onMouseEnter={() => setOptionHovered(tileGroup[0] as TileId)}
                 onMouseLeave={() => setOptionHovered(undefined)}
               >
                 <h2>

@@ -1,15 +1,18 @@
-import { Box, Button, Heading, Input, useColorModeValue } from "@chakra-ui/react";
+import { TileId } from "@/types";
+import { Box, Button, Heading, Input } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
 
-interface TimeProps {}
+interface TimeProps {
+  tileId: TileId;
+}
 
-export const Time: React.FC<TimeProps> = ({}) => {
+export const Time: React.FC<TimeProps> = ({tileId}) => {
   const [time, setTime] = useState("");
   const [timerPlaceholder, setTimerPlaceholder] = useState<undefined | number>(
     undefined
   );
   const [timer, setTimer] = useState<undefined | number>(undefined);
-  const color = "var(--text-color-tile11)";
+  const color = `var(--text-color-${tileId})`;
 
   const updateTime = () => {
     setTime(new Date().toTimeString().replace(/.*(\d{2}:\d{2}:\d{2}).*/, "$1"));

@@ -1,10 +1,9 @@
-import { UvGraphData } from "@/types";
+import { TileId, UvGraphData } from "@/types";
 import {
   Box,
   Center,
   Heading,
   Spinner,
-  useColorModeValue,
 } from "@chakra-ui/react";
 import React from "react";
 import {
@@ -17,10 +16,11 @@ import {
 
 interface UvGraphProps {
   uvData: UvGraphData[];
+  tileId: TileId;
 }
 
-export const UvGraph: React.FC<UvGraphProps> = ({ uvData }) => {
-  const color = "var(--text-color-tile10)";
+export const UvGraph: React.FC<UvGraphProps> = ({ uvData, tileId }) => {
+  const color = `var(--text-color-${tileId})`;
 
   return (
     <Box p="6" color={color} >
