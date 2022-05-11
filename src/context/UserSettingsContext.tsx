@@ -5,12 +5,20 @@ import * as React from "react";
 export const SettingsContext =
   React.createContext<UserSettingsContextInterface | null>(null);
 
-const UserSettingsProvider: React.FC<React.ReactNode> = ({ children }) => {
+interface Props {
+  children: React.ReactNode;
+}
+
+const UserSettingsProvider: React.FC<Props> = ({ children }) => {
   const [settings, setSettings] = useLocalStorage("userSettings");
-  const [inMemorySettings, setInMemorySettings] = React.useState(() => settings);
+  const [inMemorySettings, setInMemorySettings] = React.useState(
+    () => settings
+  );
 
   return (
-    <SettingsContext.Provider value={{ settings, setSettings, inMemorySettings, setInMemorySettings }}>
+    <SettingsContext.Provider
+      value={{ settings, setSettings, inMemorySettings, setInMemorySettings }}
+    >
       {children}
     </SettingsContext.Provider>
   );

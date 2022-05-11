@@ -1,5 +1,4 @@
 import SettingsContext from "@/context/UserSettingsContext";
-import { useLocalStorage } from "@/helpers/useLocalStorage";
 import { ChakraProvider, extendTheme, ThemeConfig } from "@chakra-ui/react";
 import type { AppProps } from "next/app";
 import Head from "next/head";
