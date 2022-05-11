@@ -3,6 +3,7 @@ import { SubRedditPicker } from "@/components/sidebar/SubRedditPicker";
 import { Option, TileId, TileType } from "@/types";
 import { AccordionPanel, Box, Text } from "@chakra-ui/react";
 import React from "react";
+import { DropShadowInput } from "./DropShadowInput";
 import { TypePicker } from "./TypePicker";
 
 interface SettingOptionContainerProps {
@@ -66,6 +67,19 @@ export const SettingOptionContainer: React.FC<SettingOptionContainerProps> = ({
         />
       );
       break;
+    case "DropShadowInput":
+      optionToDisplay = (
+        <DropShadowInput
+          option={option}
+          changeSetting={changeSetting}
+          textColor={textColor}
+          subTextColor={subTextColor}
+          value={value}
+          resetOptionToDefault={resetOptionToDefault}
+        />
+      );
+      break;
+
     default:
       optionToDisplay = <Text>No option built for this type of tile yet</Text>;
   }

@@ -83,9 +83,9 @@ export const SettingsSideBar: React.FC<SettingsSideBarProps> = ({
     applyTheme(themeToChange);
   }, [inMemorySettings, colorMode]);
 
-  // // will change the appearance of the site, but not what's stored in localStorage
+  // will change the appearance of the site, but not what's stored in localStorage
   const changeSetting = useCallback(
-    (key: string, value: string, tileId: TileId) => {
+    (key: string, value: string, tileId: TileId) => {      
       console.log(`changeSettings ${key}:${value}`);
       setInMemorySettings((inMemorySettings) => {
         let newSettings = cloneDeep(inMemorySettings);
@@ -189,9 +189,9 @@ export const SettingsSideBar: React.FC<SettingsSideBarProps> = ({
           </Button>
         </Box>
 
-        <hr />
+        {/* <hr /> */}
 
-        <ColorPicker
+        {/* <ColorPicker
           option={sideBarOptions[0]}
           changeSetting={changeSetting}
           textColor={textColor}
@@ -202,7 +202,7 @@ export const SettingsSideBar: React.FC<SettingsSideBarProps> = ({
             ]!
           }
           resetOptionToDefault={resetOptionToDefault}
-        />
+        /> */}
 
         <Box mt="4" />
         <Accordion

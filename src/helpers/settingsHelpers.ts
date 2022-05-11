@@ -103,6 +103,15 @@ export const sideBarOptions: Option[] = [
     tileId: "globalSettings",
   },
   {
+    title: "Drop shadow",
+    subTitle: "Controls the drop shadow of all the tiles",
+    localStorageId: "dropShadow",
+    lightDefault: "",
+    darkDefault: "",
+    optionType: "DropShadowInput",
+    tileId: "globalSettings",
+  },
+  {
     title: "Background color",
     subTitle: "Background color of the tile",
     localStorageId: "backgroundColor",
@@ -355,6 +364,7 @@ export const defaultSettings: UserSettings = {
         backgroundColor: "#1B202B",
         textColor: "#222222",
         tileType: "None",
+        dropShadow: "",
       },
       tile1: {
         backgroundColor: "#65abc1",
@@ -418,6 +428,7 @@ export const defaultSettings: UserSettings = {
         backgroundColor: "#ffffff",
         textColor: "#ffffff",
         tileType: "None",
+        dropShadow: "",
       },
       tile1: {
         backgroundColor: "#65abc1",

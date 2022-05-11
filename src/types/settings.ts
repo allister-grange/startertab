@@ -9,7 +9,11 @@ export type Option = {
   tileId: TileId;
 };
 
-export type OptionType = "ColorPicker" | "SubRedditPicker" | "TypePicker";
+export type OptionType =
+  | "ColorPicker"
+  | "SubRedditPicker"
+  | "TypePicker"
+  | "DropShadowInput";
 
 export type TileType =
   | "Reddit Feed"
@@ -20,7 +24,8 @@ export type TileType =
   | "Weather"
   | "UV Graph"
   | "Theme Picker"
-  | "Spotify" | "Time"
+  | "Spotify"
+  | "Time"
   | "None";
 
 export type Themes = "dark" | "light";
@@ -32,6 +37,7 @@ export type TileSettings = {
   backgroundColor: string;
   textColor: string;
   tileType: TileType;
+  dropShadow?: string;
 };
 
 export type ThemeSettings = {
