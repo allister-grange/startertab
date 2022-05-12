@@ -75,8 +75,6 @@ export const RedditFeed: React.FC<RedditFeedProps> = ({ tileId }) => {
       return;
     }
 
-    console.log("made it here " + subReddit);
-
     setSubReddit(subRedditInStorage);
     setState((state) => {
       return { ...state, status: "reload" };

@@ -319,6 +319,14 @@ export const sideBarOptions: Option[] = [
     tileId: "tile9",
   },
   {
+    title: "Tile Type",
+    subTitle: "Type of tile you want to display",
+    localStorageId: "tileType",
+    defaultSetting: "Todo List",
+    optionType: "LargeTileTypePicker",
+    tileId: "tile9",
+  },
+  {
     title: "Background color",
     subTitle: "Background color of the tile",
     localStorageId: "backgroundColor",
@@ -409,7 +417,7 @@ export const defaultSettings: UserSettings = {
       tile9: {
         backgroundColor: "#E89C4B",
         textColor: "#222222",
-        tileType: "UV Graph",
+        tileType: "Todo List",
       },
       tile10: {
         backgroundColor: "#9AB899",
@@ -473,7 +481,7 @@ export const defaultSettings: UserSettings = {
       tile9: {
         backgroundColor: "#9AB899",
         textColor: "#ffffff",
-        tileType: "UV Graph",
+        tileType: "Todo List",
       },
       tile10: {
         backgroundColor: "#E89C4B",

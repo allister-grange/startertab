@@ -21,6 +21,7 @@ import {
 import { Center, Heading, useColorMode } from "@chakra-ui/react";
 import React from "react";
 import NoSSR from "react-no-ssr";
+import { TodoList } from "../tiles/TodoList";
 import ColorModeSwitcher from "../ui/ColorModeSwitcher";
 
 interface TileContainerProps {
@@ -80,6 +81,9 @@ export const TileContainer: React.FC<TileContainerProps> = ({
       break;
     case "Theme Picker":
       tileToRender = <ColorModeSwitcher tileId={tileId}/>
+      break;
+    case "Todo List":
+      tileToRender = <TodoList tileId={tileId}/>
       break;
     default:
       tileToRender = (

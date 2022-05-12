@@ -13,7 +13,8 @@ export type OptionType =
   | "ColorPicker"
   | "SubRedditPicker"
   | "TypePicker"
-  | "DropShadowInput";
+  | "DropShadowInput"
+  | "LargeTileTypePicker";
 
 export type TileType =
   | "Reddit Feed"
@@ -26,6 +27,7 @@ export type TileType =
   | "Theme Picker"
   | "Spotify"
   | "Time"
+  | "Todo List"
   | "None";
 
 export type Themes = "dark" | "light";

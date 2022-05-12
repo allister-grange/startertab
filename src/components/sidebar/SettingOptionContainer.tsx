@@ -4,6 +4,7 @@ import { Option, TileId, TileType } from "@/types";
 import { AccordionPanel, Box, Text } from "@chakra-ui/react";
 import React from "react";
 import { DropShadowInput } from "./DropShadowInput";
+import { LargeTileTypePicker } from "./LargeTileTypePicker";
 import { TypePicker } from "./TypePicker";
 
 interface SettingOptionContainerProps {
@@ -58,6 +59,18 @@ export const SettingOptionContainer: React.FC<SettingOptionContainerProps> = ({
     case "TypePicker":
       optionToDisplay = (
         <TypePicker
+          option={option}
+          changeSetting={changeSetting}
+          textColor={textColor}
+          subTextColor={subTextColor}
+          value={value}
+          resetOptionToDefault={resetOptionToDefault}
+        />
+      );
+      break;
+    case "LargeTileTypePicker":
+      optionToDisplay = (
+        <LargeTileTypePicker
           option={option}
           changeSetting={changeSetting}
           textColor={textColor}
