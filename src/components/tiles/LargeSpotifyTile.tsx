@@ -147,14 +147,16 @@ export const LargeSpotifyTile: React.FC<LargeSpotifyTileProps> = ({
         pl="4"
         justifyContent="center"
       >
-        <Link href={link} mb="7">
-          <Heading fontSize="2xl">
-            {songTitle}
-          </Heading>
-          <Heading fontSize="xl" opacity={0.7}>
-            {songArtist}
-          </Heading>
-        </Link>
+        {!songTitle ? (
+          <Heading fontSize="2xl">Play some music dawg</Heading>
+        ) : (
+          <Link href={link} mb="7">
+            <Heading fontSize="2xl">{songTitle}</Heading>
+            <Heading fontSize="xl" opacity={0.7}>
+              {songArtist}
+            </Heading>
+          </Link>
+        )}
         {songTitle && (
           <Box
             mt="3"
@@ -162,7 +164,7 @@ export const LargeSpotifyTile: React.FC<LargeSpotifyTileProps> = ({
             bgColor="rgba(255,255,255,0.1)"
             border="1px solid rgba(255,255,255,0.1)"
             backdropFilter="blur(30px)"
-            _hover={{backgroundColor:"rgba(255,255,255,0.2)"}}
+            _hover={{ backgroundColor: "rgba(255,255,255,0.2)" }}
           >
             <Button
               variant="unstyled"

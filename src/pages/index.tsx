@@ -3,7 +3,7 @@ import { SettingsSideBar } from "@/components/sidebar/SettingsSidebar";
 import { SettingsToggle } from "@/components/ui/SettingsToggle";
 import { SettingsContext } from "@/context/UserSettingsContext";
 import { getHackerNewsData } from "@/pages/api/hackerNews";
-import { getSpotifyNowPlayingData } from "@/pages/api/spotify";
+import { getSpotifyStatus } from "@/pages/api/spotify";
 import { getStravaData } from "@/pages/api/strava";
 import { getUVData, getWeatherConditions } from "@/pages/api/weather";
 import {
@@ -74,7 +74,7 @@ export const getStaticProps: GetStaticProps = async (context) => {
     getUVData(),
     getHackerNewsData(),
     getWeatherConditions(),
-    getSpotifyNowPlayingData(),
+    getSpotifyStatus(),
   ]);
 
   return {

@@ -1,33 +1,29 @@
 import { TileId } from "@/types";
 import { NowPlayingSpotifyData } from "@/types/spotify";
-import {
-  Button,
-  Center,
-  Flex,
-  Heading,
-  Link
-} from "@chakra-ui/react";
+import { Box, Button, Center, Flex, Heading, Link } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
 
 type SpotifyProps = {
   tileId: TileId;
-}
+};
 
-export const Spotify: React.FC<SpotifyProps> = ({tileId}) => {
-  const [songPlaying, setSongPlaying] = useState(false);
-  const [songName, setSongName] = useState<string | undefined>();
-  const [artistName, setArtistName] = useState<string | undefined>();
-  const [link, setLink] = useState<string | undefined>();
+export const Spotify: React.FC<SpotifyProps> = ({ tileId }) => {
+  const [spotifyData, setSpotifyData] = useState<NowPlayingSpotifyData>({
+    playing: false,
+    songTitle: undefined,
+    songArtist: undefined,
+    link: undefined,
+    albumImageUrl: undefined,
+  });
+
+  const { songArtist, songTitle, playing, link, albumImageUrl } = spotifyData;
 
   useEffect(() => {
     const fetchCurrentSong = async () => {
       const res = await fetch("/api/spotify");
       const data = (await res.json()) as NowPlayingSpotifyData;
 
-      setSongPlaying(data.playing);
-      setSongName(data.songTitle);
-      setArtistName(data.songArtist);
-      setLink(data.link);
+      setSpotifyData(data);
     };
 
     fetchCurrentSong();
@@ -37,6 +33,9 @@ export const Spotify: React.FC<SpotifyProps> = ({tileId}) => {
   const skipSong = async (forward: boolean) => {
     try {
       await fetch(`/api/spotify?forward=${forward}`, { method: "POST" });
+      const res = await fetch("/api/spotify");
+      const data = (await res.json()) as NowPlayingSpotifyData;
+      setSpotifyData(data);
     } catch (err) {
       console.error(err);
     }
@@ -44,9 +43,11 @@ export const Spotify: React.FC<SpotifyProps> = ({tileId}) => {
 
   const pausePlaySong = async (pause: boolean) => {
     try {
+      setSpotifyData({ ...spotifyData, playing: !pause });
       await fetch(`/api/spotify?pause=${pause}`, { method: "POST" });
     } catch (err) {
       console.error(err);
+      setSpotifyData({ ...spotifyData, playing: pause });
     }
   };
 
@@ -106,39 +107,74 @@ export const Spotify: React.FC<SpotifyProps> = ({tileId}) => {
     </svg>
   );
 
+  const SpotifyLogo = (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      height="18"
+      width="18"
+      version="1.1"
+      viewBox="0 0 168 168"
+    >
+      <path
+        fill={color}
+        d="m83.996 0.277c-46.249 0-83.743 37.493-83.743 83.742 0 46.251 37.494 83.741 83.743 83.741 46.254 0 83.744-37.49 83.744-83.741 0-46.246-37.49-83.738-83.745-83.738l0.001-0.004zm38.404 120.78c-1.5 2.46-4.72 3.24-7.18 1.73-19.662-12.01-44.414-14.73-73.564-8.07-2.809 0.64-5.609-1.12-6.249-3.93-0.643-2.81 1.11-5.61 3.926-6.25 31.9-7.291 59.263-4.15 81.337 9.34 2.46 1.51 3.24 4.72 1.73 7.18zm10.25-22.805c-1.89 3.075-5.91 4.045-8.98 2.155-22.51-13.839-56.823-17.846-83.448-9.764-3.453 1.043-7.1-0.903-8.148-4.35-1.04-3.453 0.907-7.093 4.354-8.143 30.413-9.228 68.222-4.758 94.072 11.127 3.07 1.89 4.04 5.91 2.15 8.976v-0.001zm0.88-23.744c-26.99-16.031-71.52-17.505-97.289-9.684-4.138 1.255-8.514-1.081-9.768-5.219-1.254-4.14 1.08-8.513 5.221-9.771 29.581-8.98 78.756-7.245 109.83 11.202 3.73 2.209 4.95 7.016 2.74 10.733-2.2 3.722-7.02 4.949-10.73 2.739z"
+      />
+    </svg>
+  );
+
   return (
-    <Center color={color} height="100%" p="4" position="relative">
-      <Flex dir="row">
-        {songName ? (
-          <Link href={link} mb="6">
-            <Heading fontSize="xl">
-              {songName} - {artistName}{" "}
+    <Box color={color} height="100%" p="4" position="relative">
+      <Link
+        fontSize="md"
+        pos="absolute"
+        color={color}
+        href="https://spotify.com"
+        height="24px"
+        left="2"
+        top="2"
+      >
+        {SpotifyLogo}
+      </Link>
+      <Flex dir="row" pl="6" pt="2">
+        {songTitle ? (
+          <Link href={link} mb="6" >
+            <Heading fontSize="xl">{songTitle}</Heading>
+            <Heading display="inline" fontSize="md" opacity="0.7">
+              {songArtist}
             </Heading>
           </Link>
         ) : (
           <Heading fontSize="2xl">Not Playing</Heading>
         )}
-        <Flex pos="absolute" bottom="2" right="4" dir="row" alignItems="center">
-          {songName && (
-            <>
+        <Flex pos="absolute" bottom="3" left="10" dir="row" alignItems="center">
+          {songTitle && (
+            <Box
+              borderRadius="15"
+              bgColor="rgba(255,255,255,0.1)"
+              border="1px solid rgba(255,255,255,0.1)"
+              backdropFilter="blur(5px)"
+              _hover={{ backgroundColor: "rgba(255,255,255,0.2)" }}
+            >
               <Button
                 variant="unstyled"
                 mr="-2"
                 _focus={{ borderWidth: 0 }}
+                transition={"all .2s"}
+                _hover={{ transform: "scale(1.1)" }}
                 onClick={() => {
                   skipSong(false);
-                  setSongPlaying(true);
                 }}
               >
                 {SkipLeft}
               </Button>
-              {songPlaying ? (
+              {playing ? (
                 <Button
                   variant="unstyled"
                   _focus={{ borderWidth: 0 }}
+                  transition={"all .2s"}
+                  _hover={{ transform: "scale(1.1)" }}  
                   onClick={() => {
                     pausePlaySong(true);
-                    setSongPlaying(false);
                   }}
                   aria-label="Pause spotify"
                 >
@@ -148,9 +184,10 @@ export const Spotify: React.FC<SpotifyProps> = ({tileId}) => {
                 <Button
                   variant="unstyled"
                   _focus={{ borderWidth: 0 }}
+                  transition={"all .2s"}
+                  _hover={{ transform: "scale(1.1)" }}  
                   onClick={() => {
                     pausePlaySong(false);
-                    setSongPlaying(true);
                   }}
                 >
                   {PlayIcon}
@@ -160,17 +197,16 @@ export const Spotify: React.FC<SpotifyProps> = ({tileId}) => {
                 ml="-2"
                 variant="unstyled"
                 _focus={{ borderWidth: 0 }}
+                transition={"all .2s"}
+                _hover={{ transform: "scale(1.1)" }}
                 onClick={() => skipSong(true)}
               >
                 {SkipRight}
               </Button>
-            </>
+            </Box>
           )}
-          <Heading fontSize="md" color="#e2e2e2">
-            Spotify
-          </Heading>
         </Flex>
       </Flex>
-    </Center>
+    </Box>
   );
 };
