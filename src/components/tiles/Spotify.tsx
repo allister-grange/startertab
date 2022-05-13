@@ -1,7 +1,16 @@
 import { TileId } from "@/types";
 import { NowPlayingSpotifyData } from "@/types/spotify";
-import { Box, Button, Center, Flex, Heading, Link } from "@chakra-ui/react";
+import {
+  Box,
+  Button,
+  Center,
+  Flex,
+  Heading,
+  Link,
+  Spinner,
+} from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
+import { MusicControlButton } from "../ui/MusicControlButton";
 
 type SpotifyProps = {
   tileId: TileId;
@@ -14,20 +23,22 @@ export const Spotify: React.FC<SpotifyProps> = ({ tileId }) => {
     songArtist: undefined,
     link: undefined,
     albumImageUrl: undefined,
+    playable: false,
   });
 
-  const { songArtist, songTitle, playing, link } = spotifyData;
+  const { songArtist, songTitle, playing, link, playable } = spotifyData;
 
   useEffect(() => {
     const fetchCurrentSong = async () => {
       const res = await fetch("/api/spotify");
-      const data = (await res.json()) as NowPlayingSpotifyData;
+      let data = (await res.json()) as NowPlayingSpotifyData;
 
       setSpotifyData(data);
     };
 
     fetchCurrentSong();
-    setInterval(fetchCurrentSong, 10000);
+    const interval = setInterval(fetchCurrentSong, 10000);
+    return () => clearInterval(interval);
   }, []);
 
   const skipSong = async (forward: boolean) => {
@@ -176,67 +187,44 @@ export const Spotify: React.FC<SpotifyProps> = ({ tileId }) => {
             </Heading>
           </Link>
         ) : (
-          <Heading fontSize="2xl">Not Playing</Heading>
+          <Spinner color={color} size="md" mt="2" />
         )}
         <Flex pos="absolute" bottom="3" left="10" dir="row" alignItems="center">
-          {songTitle && (
-            <Box
-              borderRadius="15"
-              bgColor="rgba(255,255,255,0.1)"
-              border="1px solid rgba(255,255,255,0.1)"
-              backdropFilter="blur(5px)"
-              _hover={{ backgroundColor: "rgba(255,255,255,0.2)" }}
+          <Box
+            borderRadius="15"
+            bgColor="rgba(255,255,255,0.1)"
+            border="1px solid rgba(255,255,255,0.1)"
+            backdropFilter="blur(5px)"
+            _hover={{ backgroundColor: "rgba(255,255,255,0.2)" }}
+          >
+            <MusicControlButton
+              onClickHandler={() => skipSong(false)}
+              playable={playable}
             >
-              <Button
-                variant="unstyled"
-                mr="-2"
-                _focus={{ borderWidth: 0 }}
-                transition={"all .2s"}
-                _hover={{ transform: "scale(1.1)" }}
-                onClick={() => {
-                  skipSong(false);
-                }}
+              {SkipLeft}
+            </MusicControlButton>
+            {playing ? (
+              <MusicControlButton
+                onClickHandler={() => pausePlaySong(true)}
+                playable={playable}
               >
-                {SkipLeft}
-              </Button>
-              {playing ? (
-                <Button
-                  variant="unstyled"
-                  _focus={{ borderWidth: 0 }}
-                  transition={"all .2s"}
-                  _hover={{ transform: "scale(1.1)" }}
-                  onClick={() => {
-                    pausePlaySong(true);
-                  }}
-                  aria-label="Pause spotify"
-                >
-                  {PauseIcon}
-                </Button>
-              ) : (
-                <Button
-                  variant="unstyled"
-                  _focus={{ borderWidth: 0 }}
-                  transition={"all .2s"}
-                  _hover={{ transform: "scale(1.1)" }}
-                  onClick={() => {
-                    pausePlaySong(false);
-                  }}
-                >
-                  {PlayIcon}
-                </Button>
-              )}
-              <Button
-                ml="-2"
-                variant="unstyled"
-                _focus={{ borderWidth: 0 }}
-                transition={"all .2s"}
-                _hover={{ transform: "scale(1.1)" }}
-                onClick={() => skipSong(true)}
+                {PauseIcon}
+              </MusicControlButton>
+            ) : (
+              <MusicControlButton
+                onClickHandler={() => pausePlaySong(false)}
+                playable={playable}
               >
-                {SkipRight}
-              </Button>
-            </Box>
-          )}
+                {PlayIcon}
+              </MusicControlButton>
+            )}
+            <MusicControlButton
+              onClickHandler={() => skipSong(true)}
+              playable={playable}
+            >
+              {SkipRight}
+            </MusicControlButton>
+          </Box>
         </Flex>
       </Flex>
     </Box>

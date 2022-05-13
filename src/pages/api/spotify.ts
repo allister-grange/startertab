@@ -7,9 +7,8 @@ const clientSecret = process.env.SPOTIFY_CLIENT_SECRET;
 const refreshToken = process.env.SPOTIFY_REFRESH_TOKEN;
 
 const basic = Buffer.from(`${clientId}:${clientSecret}`).toString(`base64`);
-const TOP_TRACKS_ENDPOINT = `https://api.spotify.com/v1/me/top/tracks?time_range=medium_term&limit=10`;
-const TOP_ARTISTS_ENDPOINT = `https://api.spotify.com/v1/me/top/artists?time_range=medium_term&limit=3`;
-const RECENTLY_PLAYED_ENDPOINT = `https://api.spotify.com/v1/me/player`;
+const STATUS_ENDPOINT = `https://api.spotify.com/v1/me/player`;
+const RECENTLY_PLAYED_ENDPOINT = `https://api.spotify.com/v1/me/player/recently-played`;
 const TOKEN_ENDPOINT = `https://accounts.spotify.com/api/token`;
 const NEXT_SONG_ENDPOINT = `https://api.spotify.com/v1/me/player/next`;
 const PREVIOUS_SONG_ENDPOINT = `https://api.spotify.com/v1/me/player/previous`;
@@ -74,46 +73,97 @@ const getAccessToken = async () => {
   }
 };
 
-export const getSpotifyStatus =
-  async (): Promise<NowPlayingSpotifyData> => {
-    const { access_token: accessToken } = await getAccessToken();
+export const getSpotifyStatus = async (): Promise<NowPlayingSpotifyData> => {
+  const { access_token: accessToken } = await getAccessToken();
 
-    const res = await fetch(RECENTLY_PLAYED_ENDPOINT, {
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-      },
-    });
-    if (res.status !== 200) {
-      return {
-        playing: false,
-        songArtist: undefined,
-        songTitle: undefined,
-        link: undefined,
-        albumImageUrl: undefined,
-      };
-    }
+  const res = await fetch(STATUS_ENDPOINT, {
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+    },
+  });
 
-    const data = await res.json();
+  if (res.status === 204) {
+    const data = await getRecentlyPlayed();
+    return data;
+  }
 
-    // if a podcast is playing
-    if (data.currently_playing_type === "episode") {
-      return {
-        playing: false,
-        songArtist: undefined,
-        songTitle: undefined,
-        link: undefined,
-        albumImageUrl: undefined,
-      };
-    }
-
+  if (res.status !== 200) {
     return {
-      playing: data.is_playing,
-      songTitle: data.item.name,
-      songArtist: data.item.artists[0].name,
-      link: data.item.external_urls.spotify,
-      albumImageUrl: data.item.album.images[0].url,
+      playing: false,
+      songArtist: undefined,
+      songTitle: undefined,
+      link: undefined,
+      albumImageUrl: undefined,
+      playable: false,
     };
+  }
+
+  const data = await res.json();
+
+  // if a podcast is playing
+  if (data.currently_playing_type === "episode") {
+    return {
+      playing: false,
+      songArtist: undefined,
+      songTitle: undefined,
+      link: undefined,
+      albumImageUrl: undefined,
+      playable: false,
+    };
+  }
+
+  return {
+    playing: data.is_playing,
+    songTitle: data.item.name,
+    songArtist: data.item.artists[0].name,
+    link: data.item.external_urls.spotify,
+    albumImageUrl: data.item.album.images[0].url,
+    playable: true,
   };
+};
+
+export const getRecentlyPlayed = async (): Promise<NowPlayingSpotifyData> => {
+  const { access_token: accessToken } = await getAccessToken();
+
+  const res = await fetch(RECENTLY_PLAYED_ENDPOINT, {
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+    },
+  });
+  if (res.status !== 200) {
+    return {
+      playing: false,
+      songArtist: undefined,
+      songTitle: undefined,
+      link: undefined,
+      albumImageUrl: undefined,
+      playable: false,
+    };
+  }
+
+  const data = await res.json();
+
+  // if a podcast is playing
+  if (data.items[0].track.type === "episode") {
+    return {
+      playing: false,
+      songArtist: undefined,
+      songTitle: undefined,
+      link: undefined,
+      albumImageUrl: undefined,
+      playable: false,
+    };
+  }
+
+  return {
+    playing: false,
+    songTitle: data.items[0].track.name,
+    songArtist: data.items[0].track.artists[0].name,
+    link: data.items[0].track.external_urls.spotify,
+    albumImageUrl: data.items[0].track.album.images[0].url,
+    playable: false,
+  };
+};
 
 export const changeSongSpotify = async (forward: boolean) => {
   const { access_token: accessToken } = await getAccessToken();
@@ -138,8 +188,6 @@ export const pausePlaySongSpotify = async (pause: boolean) => {
 
   const endpointUrl = pause ? PAUSE_SONG_ENDPOINT : PLAY_SONG_ENDPOINT;
 
-  console.log(endpointUrl);
-
   try {
     const res = await fetch(endpointUrl, {
       method: "PUT",
@@ -149,40 +197,12 @@ export const pausePlaySongSpotify = async (pause: boolean) => {
       },
     });
 
-    console.log(res);
-
     if (res.status !== 204) {
       throw new Error("Failed to pause/play spotify song " + res.statusText);
     }
 
     return res;
   } catch (err) {
-    console.log(err);
-
     throw new Error("Failed to pause/play spotify song " + err);
   }
-};
-
-export const getSpotifyData = async () => {
-  const { accessToken } = await getAccessToken();
-
-  const responseTracks = await fetch(TOP_TRACKS_ENDPOINT, {
-    headers: {
-      Authorization: `Bearer ${accessToken}`,
-    },
-  });
-
-  const responseArtists = await fetch(TOP_ARTISTS_ENDPOINT, {
-    headers: {
-      Authorization: `Bearer ${accessToken}`,
-    },
-  });
-
-  const responseRecently = await fetch(RECENTLY_PLAYED_ENDPOINT, {
-    headers: {
-      Authorization: `Bearer ${accessToken}`,
-    },
-  });
-
-  return { responseArtists, responseRecently, responseTracks };
 };
