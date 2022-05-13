@@ -28,6 +28,7 @@ export type TileType =
   | "Spotify"
   | "Time"
   | "Todo List"
+  | "Large Spotify Tile"
   | "None";
 
 export type Themes = "dark" | "light";

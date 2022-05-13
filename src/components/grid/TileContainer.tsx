@@ -21,6 +21,7 @@ import {
 import { Center, Heading, useColorMode } from "@chakra-ui/react";
 import React from "react";
 import NoSSR from "react-no-ssr";
+import { LargeSpotifyTile } from "../tiles/LargeSpotifyTile";
 import { TodoList } from "../tiles/TodoList";
 import ColorModeSwitcher from "../ui/ColorModeSwitcher";
 
@@ -84,6 +85,9 @@ export const TileContainer: React.FC<TileContainerProps> = ({
       break;
     case "Todo List":
       tileToRender = <TodoList tileId={tileId}/>
+      break;
+    case "Large Spotify Tile":
+      tileToRender = <LargeSpotifyTile tileId={tileId}/>
       break;
     default:
       tileToRender = (

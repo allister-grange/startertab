@@ -322,7 +322,7 @@ export const sideBarOptions: Option[] = [
     title: "Tile Type",
     subTitle: "Type of tile you want to display",
     localStorageId: "tileType",
-    defaultSetting: "Todo List",
+    defaultSetting: "Large Spotify Tile",
     optionType: "LargeTileTypePicker",
     tileId: "tile9",
   },
@@ -417,7 +417,7 @@ export const defaultSettings: UserSettings = {
       tile9: {
         backgroundColor: "#E89C4B",
         textColor: "#222222",
-        tileType: "Todo List",
+        tileType: "Large Spotify Tile",
       },
       tile10: {
         backgroundColor: "#9AB899",
@@ -481,7 +481,7 @@ export const defaultSettings: UserSettings = {
       tile9: {
         backgroundColor: "#9AB899",
         textColor: "#ffffff",
-        tileType: "Todo List",
+        tileType: "Large Spotify Tile",
       },
       tile10: {
         backgroundColor: "#E89C4B",

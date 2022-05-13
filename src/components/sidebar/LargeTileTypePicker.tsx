@@ -47,7 +47,7 @@ export const LargeTileTypePicker: React.FC<LargeTileTypePickerProps> = ({
           value={value}
         >
           <option value="UV Graph">UV Graph</option>
-          <option value="Todo List">Todo List</option>
+          <option value="Large Spotify Tile">Large Spotify Tile</option>
         </Select>
       </Box>
     </Box>
