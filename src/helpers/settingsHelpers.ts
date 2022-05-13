@@ -412,7 +412,7 @@ export const defaultSettings: UserSettings = {
       tile8: {
         backgroundColor: "#9AB899",
         textColor: "#222222",
-        tileType: "Spotify",
+        tileType: "None",
       },
       tile9: {
         backgroundColor: "#E89C4B",
@@ -476,7 +476,7 @@ export const defaultSettings: UserSettings = {
       tile8: {
         backgroundColor: "#65abc1",
         textColor: "#ffffff",
-        tileType: "Spotify",
+        tileType: "None",
       },
       tile9: {
         backgroundColor: "#9AB899",
