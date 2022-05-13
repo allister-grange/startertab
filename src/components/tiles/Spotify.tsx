@@ -16,7 +16,7 @@ export const Spotify: React.FC<SpotifyProps> = ({ tileId }) => {
     albumImageUrl: undefined,
   });
 
-  const { songArtist, songTitle, playing, link, albumImageUrl } = spotifyData;
+  const { songArtist, songTitle, playing, link } = spotifyData;
 
   useEffect(() => {
     const fetchCurrentSong = async () => {
@@ -122,6 +122,34 @@ export const Spotify: React.FC<SpotifyProps> = ({ tileId }) => {
     </svg>
   );
 
+  const getFontSize = (songTitle: string): string => {
+    let fontSizeForTitle = "xl";
+
+    if (songTitle.length <= 13) {
+      fontSizeForTitle = "2xl";
+    } else if (songTitle.length <= 18) {
+      fontSizeForTitle = "xl";
+    } else if (songTitle.length <= 24) {
+      fontSizeForTitle = "md";
+    } else if (songTitle.length >= 30) {
+      fontSizeForTitle = "sm";
+    }
+
+    return fontSizeForTitle;
+  };
+
+  const getArtistFontSize = (artistName: string): string => {
+    let fontSizeForArtist = "lg";
+
+    if (artistName.length <= 14) {
+      fontSizeForArtist = "md";
+    } else if (artistName.length >= 16) {
+      fontSizeForArtist = "sm";
+    }
+
+    return fontSizeForArtist;
+  };
+
   return (
     <Box color={color} height="100%" p="4" position="relative">
       <Link
@@ -136,10 +164,14 @@ export const Spotify: React.FC<SpotifyProps> = ({ tileId }) => {
         {SpotifyLogo}
       </Link>
       <Flex dir="row" pl="6" pt="2">
-        {songTitle ? (
-          <Link href={link} mb="6" >
-            <Heading fontSize="xl">{songTitle}</Heading>
-            <Heading display="inline" fontSize="md" opacity="0.7">
+        {songTitle && songArtist ? (
+          <Link href={link} mb="6">
+            <Heading fontSize={getFontSize(songTitle)}>{songTitle}</Heading>
+            <Heading
+              display="inline"
+              fontSize={getArtistFontSize(songArtist)}
+              opacity="0.7"
+            >
               {songArtist}
             </Heading>
           </Link>
@@ -172,7 +204,7 @@ export const Spotify: React.FC<SpotifyProps> = ({ tileId }) => {
                   variant="unstyled"
                   _focus={{ borderWidth: 0 }}
                   transition={"all .2s"}
-                  _hover={{ transform: "scale(1.1)" }}  
+                  _hover={{ transform: "scale(1.1)" }}
                   onClick={() => {
                     pausePlaySong(true);
                   }}
@@ -185,7 +217,7 @@ export const Spotify: React.FC<SpotifyProps> = ({ tileId }) => {
                   variant="unstyled"
                   _focus={{ borderWidth: 0 }}
                   transition={"all .2s"}
-                  _hover={{ transform: "scale(1.1)" }}  
+                  _hover={{ transform: "scale(1.1)" }}
                   onClick={() => {
                     pausePlaySong(false);
                   }}
