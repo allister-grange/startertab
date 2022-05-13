@@ -128,6 +128,22 @@ export const LargeSpotifyTile: React.FC<LargeSpotifyTileProps> = ({
     </svg>
   );
 
+  const getFontSize = (songTitle: string): string => {
+    let fontSizeForTitle = "xl";
+
+    if (songTitle.length <= 18) {
+      fontSizeForTitle = "3xl";
+    } else if (songTitle.length <= 40) {
+      fontSizeForTitle = "2xl";
+    } else if (songTitle.length <= 60) {
+      fontSizeForTitle = "xl";
+    } else if (songTitle.length <= 70) {
+      fontSizeForTitle = "md";
+    }
+
+    return fontSizeForTitle;
+  };
+
   return (
     <Flex color={color} height="100%" p="4" pos="relative">
       <Link
@@ -145,13 +161,16 @@ export const LargeSpotifyTile: React.FC<LargeSpotifyTileProps> = ({
         display="flex"
         alignItems="flex-start"
         pl="4"
+        pr="2"
         justifyContent="center"
       >
         {!songTitle ? (
-          <Heading fontSize="2xl">Play some music dawg</Heading>
+          <Heading width="80%" display="inline-block" fontSize="2xl">
+            Play some music dawg
+          </Heading>
         ) : (
           <Link href={link} mb="7">
-            <Heading fontSize="2xl">{songTitle}</Heading>
+            <Heading fontSize={getFontSize(songTitle)}>{songTitle}</Heading>
             <Heading fontSize="xl" opacity={0.7}>
               {songArtist}
             </Heading>
