@@ -6,7 +6,6 @@ import {
   IconButton,
   Text,
   useColorMode,
-  useColorModeValue,
 } from "@chakra-ui/react";
 import {
   WiCloud,
@@ -15,14 +14,16 @@ import {
   WiRain,
 } from "react-icons/wi";
 import React from "react";
+import { TileId } from "@/types";
 
 interface WeatherTileProps {
   weatherData: WeatherData;
+  tileId: TileId;
 }
 
-export const WeatherTile: React.FC<WeatherTileProps> = ({ weatherData }) => {
+export const WeatherTile: React.FC<WeatherTileProps> = ({ weatherData, tileId }) => {
   const { toggleColorMode } = useColorMode();
-  const color = "var(--text-color-tile-8)";
+  const color = `var(--text-color-${tileId})`;
 
   let icon;
 

@@ -7,10 +7,9 @@ const clientSecret = process.env.SPOTIFY_CLIENT_SECRET;
 const refreshToken = process.env.SPOTIFY_REFRESH_TOKEN;
 
 const basic = Buffer.from(`${clientId}:${clientSecret}`).toString(`base64`);
-const NOW_PLAYING_ENDPOINT = `https://api.spotify.com/v1/me/player/currently-playing`;
 const TOP_TRACKS_ENDPOINT = `https://api.spotify.com/v1/me/top/tracks?time_range=medium_term&limit=10`;
 const TOP_ARTISTS_ENDPOINT = `https://api.spotify.com/v1/me/top/artists?time_range=medium_term&limit=3`;
-const RECENTLY_PLAYED_ENDPOINT = `https://api.spotify.com/v1/me/player/recently-played?limit=10`;
+const RECENTLY_PLAYED_ENDPOINT = `https://api.spotify.com/v1/me/player`;
 const TOKEN_ENDPOINT = `https://accounts.spotify.com/api/token`;
 const NEXT_SONG_ENDPOINT = `https://api.spotify.com/v1/me/player/next`;
 const PREVIOUS_SONG_ENDPOINT = `https://api.spotify.com/v1/me/player/previous`;
@@ -43,9 +42,9 @@ export default async function handler(
     }
   } else if (req.method === "GET") {
     try {
-      const stravaData = await getSpotifyNowPlayingData();
+      const spotifyData = await getSpotifyStatus();
 
-      res.status(200).json(stravaData);
+      res.status(200).json(spotifyData);
     } catch (err) {
       res.status(500).json(err);
     }
@@ -56,57 +55,63 @@ export default async function handler(
 }
 
 const getAccessToken = async () => {
-  const response = await fetch(TOKEN_ENDPOINT, {
-    method: `POST`,
-    headers: {
-      Authorization: `Basic ${basic}`,
-      "Content-Type": `application/x-www-form-urlencoded`,
-    },
-    body: querystring.stringify({
-      grant_type: `refresh_token`,
-      refresh_token: refreshToken,
-    }),
-  });
+  try {
+    const response = await fetch(TOKEN_ENDPOINT, {
+      method: `POST`,
+      headers: {
+        Authorization: `Basic ${basic}`,
+        "Content-Type": `application/x-www-form-urlencoded`,
+      },
+      body: querystring.stringify({
+        grant_type: `refresh_token`,
+        refresh_token: refreshToken,
+      }),
+    });
 
-  return response.json();
+    return response.json();
+  } catch (err) {
+    throw new Error("Error fetching access token " + err);
+  }
 };
 
-export const getSpotifyNowPlayingData =
+export const getSpotifyStatus =
   async (): Promise<NowPlayingSpotifyData> => {
     const { access_token: accessToken } = await getAccessToken();
 
-    const res = await fetch(NOW_PLAYING_ENDPOINT, {
+    const res = await fetch(RECENTLY_PLAYED_ENDPOINT, {
       headers: {
         Authorization: `Bearer ${accessToken}`,
       },
     });
-
     if (res.status !== 200) {
       return {
         playing: false,
         songArtist: undefined,
         songTitle: undefined,
         link: undefined,
+        albumImageUrl: undefined,
       };
     }
 
     const data = await res.json();
 
     // if a podcast is playing
-    if(data.currently_playing_type === "episode") {
+    if (data.currently_playing_type === "episode") {
       return {
         playing: false,
         songArtist: undefined,
         songTitle: undefined,
         link: undefined,
+        albumImageUrl: undefined,
       };
     }
-    
+
     return {
       playing: data.is_playing,
       songTitle: data.item.name,
       songArtist: data.item.artists[0].name,
       link: data.item.external_urls.spotify,
+      albumImageUrl: data.item.album.images[0].url,
     };
   };
 
@@ -123,7 +128,7 @@ export const changeSongSpotify = async (forward: boolean) => {
     },
   });
 
-  if (res.status !== 200) {
+  if (res.status !== 204) {
     throw new Error("Failed to change spotify song");
   }
 };
@@ -133,16 +138,28 @@ export const pausePlaySongSpotify = async (pause: boolean) => {
 
   const endpointUrl = pause ? PAUSE_SONG_ENDPOINT : PLAY_SONG_ENDPOINT;
 
-  const res = await fetch(endpointUrl, {
-    method: "PUT",
-    headers: {
-      Authorization: `Bearer ${accessToken}`,
-      "Content-Type": "application/json",
-    },
-  });
+  console.log(endpointUrl);
 
-  if (res.status !== 200) {
-    throw new Error("Failed to pause/play spotify song");
+  try {
+    const res = await fetch(endpointUrl, {
+      method: "PUT",
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+        "Content-Type": "application/json",
+      },
+    });
+
+    console.log(res);
+
+    if (res.status !== 204) {
+      throw new Error("Failed to pause/play spotify song " + res.statusText);
+    }
+
+    return res;
+  } catch (err) {
+    console.log(err);
+
+    throw new Error("Failed to pause/play spotify song " + err);
   }
 };
 

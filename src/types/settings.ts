@@ -2,55 +2,61 @@ export type Option = {
   title: string;
   subTitle: string;
   localStorageId: string;
-  lightDefault: string;
-  darkDefault: string;
-  tileGroup?: TileGroup;
+  lightDefault?: string;
+  darkDefault?: string;
+  defaultSetting?: string;
+  optionType: OptionType;
+  tileId: TileId;
 };
 
-export type TileGroup =
-  | "HackerNews Tile"
-  | "Strava Tile"
-  | "Bonsai Tile"
-  | "Weather Tile"
-  | "Spotify Tile"
-  | "Wind Tile"
-  | "Swimming Tile"
-  | "Search Tile"
-  | "Reddit Tile"
-  | "Clock Tile"
-  | "Theme Changer Tile"
-  | "UV Tile";
+export type OptionType =
+  | "ColorPicker"
+  | "SubRedditPicker"
+  | "TypePicker"
+  | "DropShadowInput"
+  | "LargeTileTypePicker";
+
+export type TileType =
+  | "Reddit Feed"
+  | "Hacker News Feed"
+  | "Strava Graph"
+  | "Search Bar"
+  | "Bonsai"
+  | "Weather"
+  | "UV Graph"
+  | "Theme Picker"
+  | "Spotify"
+  | "Time"
+  | "Todo List"
+  | "Large Spotify Tile"
+  | "None";
 
 export type Themes = "dark" | "light";
 
-export type ThemeSettings = {
-  themeName: string;
+export type TileSettings = {
+  subReddit?: string;
+  twitterFeedURL?: string;
+  stravaToken?: string;
   backgroundColor: string;
   textColor: string;
-  tile1BackgroundColor: string;
-  tile2BackgroundColor: string;
-  tile3BackgroundColor: string;
-  tile4BackgroundColor: string;
-  tile5BackgroundColor: string;
-  tile6BackgroundColor: string;
-  tile7BackgroundColor: string;
-  tile8BackgroundColor: string;
-  tile9BackgroundColor: string;
-  tile10BackgroundColor: string;
-  tile11BackgroundColor: string;
-  tile12BackgroundColor: string;
-  tile1TextColor: string;
-  tile2TextColor: string;
-  tile3TextColor: string;
-  tile4TextColor: string;
-  tile5TextColor: string;
-  tile6TextColor: string;
-  tile7TextColor: string;
-  tile8TextColor: string;
-  tile9TextColor: string;
-  tile10TextColor: string;
-  tile11TextColor: string;
-  tile12TextColor: string;
+  tileType: TileType;
+  dropShadow?: string;
+};
+
+export type ThemeSettings = {
+  themeName: string;
+  globalSettings: TileSettings;
+  tile1: TileSettings;
+  tile2: TileSettings;
+  tile3: TileSettings;
+  tile4: TileSettings;
+  tile5: TileSettings;
+  tile6: TileSettings;
+  tile7: TileSettings;
+  tile8: TileSettings;
+  tile9: TileSettings;
+  tile10: TileSettings;
+  tile11: TileSettings;
 };
 
 export type UserSettings = {
@@ -58,5 +64,26 @@ export type UserSettings = {
 };
 
 export type SortedOption = {
-  [key in TileGroup]: Option[];
-} 
+  [key in TileId]: Option[];
+};
+
+export type TileId =
+  | "tile1"
+  | "tile2"
+  | "tile3"
+  | "tile4"
+  | "tile5"
+  | "tile6"
+  | "tile7"
+  | "tile8"
+  | "tile9"
+  | "tile10"
+  | "tile11"
+  | "globalSettings";
+
+export interface UserSettingsContextInterface {
+  settings: UserSettings;
+  setSettings: (value: UserSettings) => void;
+  inMemorySettings: UserSettings;
+  setInMemorySettings: React.Dispatch<React.SetStateAction<UserSettings>>;
+}

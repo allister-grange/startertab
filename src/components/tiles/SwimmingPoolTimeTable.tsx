@@ -6,7 +6,7 @@ interface SwimmingPoolTimeTableProps {}
 
 export const SwimmingPoolTimeTable: React.FC<SwimmingPoolTimeTableProps> =
   ({}) => {
-    const color = "var(--text-color-tile-4)";
+    const color = "var(--text-color-tile4)";
 
     return (
       <Center height="100%" display="flex" flexDir="column" color={color} textAlign='center'>

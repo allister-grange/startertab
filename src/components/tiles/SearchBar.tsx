@@ -11,11 +11,16 @@ import {
   GoogleIcon,
   StackOverFlowIcon,
 } from "@/components/icons";
+import { TileId } from "@/types";
 
-export const SearchBar: React.FC = () => {
+type SearchBarProps ={
+  tileId: TileId;
+}
+
+export const SearchBar: React.FC<SearchBarProps> = ({tileId}) => {
   const router = useRouter();
   const [searchTerm, setSearchTerm] = useState<undefined | string>(undefined);
-  const color = "var(--text-color-tile-6)";
+  const color = `var(--text-color-${tileId})`;
 
   type AppTypes = "google" | "duck" | "stackoverflow";
 
@@ -38,13 +43,13 @@ export const SearchBar: React.FC = () => {
   return (
     <Center height="100%">
       <Button bg="transparent" onClick={() => searchClick("duck")}>
-        <DuckDuckGoIcon w={10} h={10} />
+        <DuckDuckGoIcon w={10} h={10} fill={color}/>
       </Button>
       <Button bg="transparent" onClick={() => searchClick("google")}>
-        <GoogleIcon w={9} h={9} />
+        <GoogleIcon w={9} h={9} fill={color}/>
       </Button>
       <Button bg="transparent" onClick={() => searchClick("stackoverflow")}>
-        <StackOverFlowIcon w={10} h={10} />
+        <StackOverFlowIcon w={10} h={10} fill={color}/>
       </Button>
       <Input
         width={400}

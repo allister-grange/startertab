@@ -21,12 +21,14 @@
     "react-colorful": "^5.5.1",
     "react-dom": "17.0.2",
     "react-icons": "^4.3.1",
+    "react-no-ssr": "^1.1.0",
     "recharts": "2.1.6"
   },
   "devDependencies": {
     "@types/lodash.clonedeep": "^4.5.7",
     "@types/node": "16.11.12",
-    "@types/react": "17.0.37",
+    "@types/react": "18.0.1",
+    "@types/react-no-ssr": "^1.1.3",
     "eslint": "8.4.1",
     "eslint-config-next": "12.0.7",
     "typescript": "4.5.3"

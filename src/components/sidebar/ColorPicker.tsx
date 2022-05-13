@@ -1,4 +1,4 @@
-import { Option } from "@/types";
+import { Option, TileId } from "@/types";
 import {
   Box,
   BoxProps,
@@ -10,16 +10,16 @@ import {
 import React, { useEffect, useState } from "react";
 import { HexColorPicker } from "react-colorful";
 
-interface ColorSettingOptionProps extends BoxProps {
+interface ColorPickerProps extends BoxProps {
   option: Option;
   textColor: string;
   subTextColor: string;
   value: string;
-  changeSetting: (key: string, value: string) => void;
+  changeSetting: (key: string, value: string, tileId: TileId) => void;
   resetOptionToDefault: (option: Option) => void;
 }
 
-export const ColorSettingOption: React.FC<ColorSettingOptionProps> = ({
+export const ColorPicker: React.FC<ColorPickerProps> = ({
   option,
   textColor,
   subTextColor,
@@ -47,7 +47,7 @@ export const ColorSettingOption: React.FC<ColorSettingOptionProps> = ({
       return;
     }
     const timeoutIdentifier = setTimeout(() => {
-      changeSetting(option.localStorageId, inputValue);
+      changeSetting(option.localStorageId, inputValue, option.tileId);
     }, 500);
 
     return () => {

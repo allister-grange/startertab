@@ -1,118 +1,178 @@
-import { ColorSettingOption } from "@/components/sidebar/ColorSettingOption";
+import { ColorPicker } from "@/components/sidebar/ColorPicker";
+import { SettingOptionContainer } from "@/components/sidebar/SettingOptionContainer";
 import { SideBarTitle } from "@/components/sidebar/SideBarTitle";
 import { ThemeToChangeSelector } from "@/components/sidebar/ThemeToChangeSelector";
 import {
   applyTheme,
+  getCurrentTheme,
+  getDefaultSettingForOption,
   sideBarOptions,
   sortOptionsIntoTileGroups,
 } from "@/helpers/settingsHelpers";
-import { useLocalStorage } from "@/helpers/useLocalStorage";
+import styles from "@/styles/Home.module.css";
 import { Option } from "@/types";
-import { ThemeSettings, TileGroup } from "@/types/settings";
+import {
+  ThemeSettings,
+  TileId,
+  TileSettings,
+  UserSettings,
+} from "@/types/settings";
 import {
   Accordion,
   AccordionButton,
   AccordionIcon,
   AccordionItem,
-  AccordionPanel,
   Box,
+  Button,
+  ExpandedIndex,
+  Text,
   useColorMode,
   useColorModeValue,
 } from "@chakra-ui/react";
-import React, { SetStateAction, useCallback, useEffect, useState } from "react";
 import cloneDeep from "lodash.clonedeep";
+import React, {
+  Dispatch,
+  SetStateAction,
+  useCallback,
+  useLayoutEffect,
+  useState,
+} from "react";
 
 interface SettingsSideBarProps {
   isOpen: boolean;
   onClose: () => void;
-  setOptionHovered: React.Dispatch<SetStateAction<TileGroup | undefined>>;
+  setOptionHovered: React.Dispatch<SetStateAction<TileId | undefined>>;
+  settings: UserSettings;
+  inMemorySettings: UserSettings;
+  setSettings: (value: UserSettings) => void;
+  setInMemorySettings: Dispatch<SetStateAction<UserSettings>>;
 }
+
+const openStyle = {
+  opacity: 1,
+  minWidth: "320px",
+  transform: "translateX(0px)",
+};
+
+const closedStyle = {
+  opacity: 0,
+  minWidth: 0,
+  transform: "translateX(-320px)",
+  width: 0,
+};
 
 export const SettingsSideBar: React.FC<SettingsSideBarProps> = ({
   isOpen,
   onClose,
   setOptionHovered,
+  settings,
+  inMemorySettings,
+  setSettings,
+  setInMemorySettings,
 }) => {
-  const [settings, setSettings] = useLocalStorage("userSettings");
-  const [settingsToSave, setSettingsToSave] = useState(() =>
-    cloneDeep(settings)
-  );
   const { colorMode } = useColorMode();
+  const [accordionIndex, setAccordionIndex] = useState<ExpandedIndex>([]);
 
   const backgroundColor = useColorModeValue("gray.100", "#33393D");
   const textColor = useColorModeValue("#303030", "#fff");
   const subTextColor = useColorModeValue("#606060", "#ddd");
 
-  useEffect(() => {
-    const themeToChange = settingsToSave.themes.find(
-      (theme) => theme.themeName === colorMode
-    );
-
-    if (!themeToChange) {
-      throw new Error("No change named " + colorMode);
-    }
+  useLayoutEffect(() => {
+    const themeToChange = getCurrentTheme(inMemorySettings, colorMode);
 
     applyTheme(themeToChange);
-  }, [settingsToSave, colorMode]);
+  }, [inMemorySettings, colorMode]);
 
-  // // will change the appearance of the site, but not what's stored in localStorage
+  // will change the appearance of the site, but not what's stored in localStorage
   const changeSetting = useCallback(
-    (key: string, value: string) => {
+    (key: string, value: string, tileId: TileId) => {      
       console.log(`changeSettings ${key}:${value}`);
-      let newSettings = cloneDeep(settingsToSave);
-      const themeToChange = newSettings.themes.find(
-        (theme) => theme.themeName === colorMode
-      );
-      if (!themeToChange) {
-        throw new Error("No change named " + colorMode);
-      }
-      themeToChange[key as keyof ThemeSettings] = value;
-      setSettingsToSave(newSettings);
+      setInMemorySettings((inMemorySettings) => {
+        let newSettings = cloneDeep(inMemorySettings);
+        const themeToChange = getCurrentTheme(newSettings, colorMode);
+        // Need to cast this for the one use case of changing the type of tile to display
+        themeToChange[tileId][key as keyof TileSettings] = value as any;
+        return newSettings;
+      });
     },
-    [colorMode, settingsToSave]
+    [colorMode, setInMemorySettings]
   );
 
   // apply the in memory settings into localStorage
   const onSaveHandler = () => {
-    const permanentSettings = cloneDeep(settingsToSave);
+    const permanentSettings = cloneDeep(inMemorySettings);
     setSettings(permanentSettings);
   };
 
   // reset the background, colors etc back to what is in the userSettings before changes
   const onExitHandler = () => {
     onClose();
-    const theme = settings.themes.find(
-      (theme) => theme.themeName === colorMode
-    );
-    if (!theme) {
-      throw new Error("No change named " + colorMode);
-    }
     // reset settings
-    setSettingsToSave(cloneDeep(settings));
+    setInMemorySettings(cloneDeep(settings));
     setOptionHovered(undefined);
+    setAccordionIndex([]);
   };
 
   const resetOptionToDefault = (option: Option) => {
-    const defaultSetting =
-      colorMode === "dark" ? option.darkDefault : option.lightDefault;
-    changeSetting(option.localStorageId, defaultSetting);
+    const defaultSetting = getDefaultSettingForOption(option, colorMode);
+    changeSetting(option.localStorageId, defaultSetting, option.tileId);
   };
 
-  const currentThemeSettings = settingsToSave.themes.find(
+  const resetAllSettingsToDefault = () => {
+    const currentTheme = getCurrentTheme(settings, colorMode);
+
+    sideBarOptions.forEach((option) => {
+      const defaultSetting = getDefaultSettingForOption(
+        option,
+        currentTheme.themeName
+      );
+      changeSetting(option.localStorageId, defaultSetting, option.tileId);
+    });
+  };
+
+  const currentThemeSettings = inMemorySettings.themes.find(
     (theme) => theme.themeName === colorMode
   );
 
   const sortedOptions = sortOptionsIntoTileGroups(sideBarOptions);
 
-  return isOpen ? (
+  const onAccordionChange = (expandedIndex: ExpandedIndex) => {
+    setAccordionIndex(expandedIndex);
+  };
+
+  const getOptionTitle = (tileId: keyof ThemeSettings): string => {
+    const tileToSearch = tileId
+      .toLowerCase()
+      .replace(" ", "") as keyof ThemeSettings;
+
+    if (currentThemeSettings === undefined) {
+      return tileId;
+    }
+
+    const optionTitle = currentThemeSettings[tileToSearch] as TileSettings;
+
+    if (optionTitle) {
+      if (optionTitle.tileType === "None") {
+        return "No type";
+      }
+      return optionTitle.tileType;
+    }
+
+    // catch here for the settings with no tile associated with them
+    return "Global Settings";
+  };
+
+  return (
     <Box
       minWidth={300}
       width={300}
       height="100%"
-      transition={"width 0.3s ease-in-out"}
+      transition={"all 0.3s ease-in-out"}
       zIndex="10"
       bg={backgroundColor}
       overflowY="auto"
+      style={isOpen ? openStyle : closedStyle}
+      className={styles.disableScrollbars}
     >
       <SideBarTitle
         textColor={textColor}
@@ -121,58 +181,69 @@ export const SettingsSideBar: React.FC<SettingsSideBarProps> = ({
       />
       <Box p="3">
         <ThemeToChangeSelector />
-        <hr />
+        <Box mb="4">
+          <Button display="block" onClick={resetAllSettingsToDefault}>
+            <Text fontSize="sm" color={textColor}>
+              Reset all settings back to default
+            </Text>
+          </Button>
+        </Box>
 
-        <ColorSettingOption
+        {/* <hr /> */}
+
+        {/* <ColorPicker
           option={sideBarOptions[0]}
           changeSetting={changeSetting}
           textColor={textColor}
           subTextColor={subTextColor}
           value={
-            currentThemeSettings![
-              sideBarOptions[0].localStorageId as keyof ThemeSettings
-            ]
+            currentThemeSettings![sideBarOptions[0].tileId!][
+              sideBarOptions[0].localStorageId as keyof TileSettings
+            ]!
           }
           resetOptionToDefault={resetOptionToDefault}
-        />
-        <hr />
+        /> */}
+
         <Box mt="4" />
-        <Accordion allowMultiple>
+        <Accordion
+          allowMultiple
+          onChange={onAccordionChange}
+          index={accordionIndex}
+        >
           {Object.entries(sortedOptions).map((tileGroup) => {
             return (
               <AccordionItem
                 key={tileGroup[0]}
                 p="0"
-                onMouseEnter={() => setOptionHovered(tileGroup[0] as TileGroup)}
+                onMouseEnter={() => setOptionHovered(tileGroup[0] as TileId)}
                 onMouseLeave={() => setOptionHovered(undefined)}
               >
                 <h2>
                   <AccordionButton
-                    _expanded={{ backdropFilter: "brightness(0.95)" }}
+                    _expanded={{ backdropFilter: "brightness(0.90)" }}
                   >
                     <Box flex="1" textAlign="left">
-                      {tileGroup[0]}
+                      {getOptionTitle(tileGroup[0] as keyof ThemeSettings)}
                     </Box>
                     <AccordionIcon />
                   </AccordionButton>
                 </h2>
                 {tileGroup[1].map((option: Option) => {
                   return (
-                    <AccordionPanel pb={4} p="2" key={option.localStorageId}>
-                      <ColorSettingOption
-                        option={option}
-                        changeSetting={changeSetting}
-                        textColor={textColor}
-                        subTextColor={subTextColor}
-                        value={
-                          currentThemeSettings![
-                            option.localStorageId as keyof ThemeSettings
-                          ]
-                        }
-                        resetOptionToDefault={resetOptionToDefault}
-                      />
-                      <hr />
-                    </AccordionPanel>
+                    <SettingOptionContainer
+                      key={option.localStorageId}
+                      option={option}
+                      tileType={currentThemeSettings![option.tileId].tileType}
+                      changeSetting={changeSetting}
+                      textColor={textColor}
+                      subTextColor={subTextColor}
+                      resetOptionToDefault={resetOptionToDefault}
+                      value={
+                        currentThemeSettings![option.tileId!][
+                          option.localStorageId as keyof TileSettings
+                        ]!
+                      }
+                    />
                   );
                 })}
               </AccordionItem>
@@ -181,5 +252,5 @@ export const SettingsSideBar: React.FC<SettingsSideBarProps> = ({
         </Accordion>
       </Box>
     </Box>
-  ) : null;
+  );
 };

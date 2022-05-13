@@ -3,8 +3,13 @@ import { getBonsaiBase, grow } from "@/helpers/bonsaiHelpers";
 import * as BONSAI from "@/helpers/bonsaiHelpers";
 import { ShootType } from "@/types/bonsai";
 import { Box, Text } from "@chakra-ui/react";
+import { TileId } from "@/types";
 
-export const Bonsai = (): JSX.Element => {
+type BonsaiProps = {
+  tileId: TileId;
+}
+
+export const Bonsai: React.FC<BonsaiProps> = ({tileId}): JSX.Element => {
   const getEmptyBonsai = (): string[][] => {
     const arrayOfSpaces = [];
     for (let i = 0; i < BONSAI.rows; i += 1) {

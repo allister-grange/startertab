@@ -1,13 +1,22 @@
-import { TileId } from "@/types";
-import { NowPlayingSpotifyData } from "@/types/spotify";
-import { Box, Button, Center, Flex, Heading, Link } from "@chakra-ui/react";
+import { NowPlayingSpotifyData, TileId } from "@/types";
+import {
+  Box,
+  Button,
+  Center,
+  Flex,
+  Heading,
+  Img,
+  Link,
+} from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
 
-type SpotifyProps = {
+interface LargeSpotifyTileProps {
   tileId: TileId;
-};
+}
 
-export const Spotify: React.FC<SpotifyProps> = ({ tileId }) => {
+export const LargeSpotifyTile: React.FC<LargeSpotifyTileProps> = ({
+  tileId,
+}) => {
   const [spotifyData, setSpotifyData] = useState<NowPlayingSpotifyData>({
     playing: false,
     songTitle: undefined,
@@ -55,9 +64,8 @@ export const Spotify: React.FC<SpotifyProps> = ({ tileId }) => {
 
   const PauseIcon = (
     <svg
-      role="img"
-      height="24"
-      width="24"
+      height="30"
+      width="30"
       viewBox="0 0 16 16"
       className="Svg-sc-1bi12j5-0 hDgDGI"
       fill={color}
@@ -72,9 +80,8 @@ export const Spotify: React.FC<SpotifyProps> = ({ tileId }) => {
     <svg
       fill={color}
       style={{ margin: "auto" }}
-      role="img"
-      height="18"
-      width="18"
+      height="20"
+      width="20"
       viewBox="0 0 16 16"
     >
       <path d="M11 3v4.119L3 2.5v11l8-4.619V13h2V3z"></path>
@@ -85,9 +92,8 @@ export const Spotify: React.FC<SpotifyProps> = ({ tileId }) => {
     <svg
       fill={color}
       style={{ margin: "auto" }}
-      role="img"
-      height="18"
-      width="18"
+      height="20"
+      width="20"
       viewBox="0 0 16 16"
     >
       <path d="M13 2.5L5 7.119V3H3v10h2V8.881l8 4.619z"></path>
@@ -110,8 +116,8 @@ export const Spotify: React.FC<SpotifyProps> = ({ tileId }) => {
   const SpotifyLogo = (
     <svg
       xmlns="http://www.w3.org/2000/svg"
-      height="18"
-      width="18"
+      height="24"
+      width="24"
       version="1.1"
       viewBox="0 0 168 168"
     >
@@ -123,90 +129,102 @@ export const Spotify: React.FC<SpotifyProps> = ({ tileId }) => {
   );
 
   return (
-    <Box color={color} height="100%" p="4" position="relative">
+    <Flex color={color} height="100%" p="4" pos="relative">
       <Link
         fontSize="md"
         pos="absolute"
         color={color}
         href="https://spotify.com"
         height="24px"
-        left="2"
-        top="2"
       >
         {SpotifyLogo}
       </Link>
-      <Flex dir="row" pl="6" pt="2">
-        {songTitle ? (
-          <Link href={link} mb="6" >
-            <Heading fontSize="xl">{songTitle}</Heading>
-            <Heading display="inline" fontSize="md" opacity="0.7">
+      <Flex
+        flexDir="column"
+        flex="0 0 50%"
+        display="flex"
+        alignItems="flex-start"
+        pl="4"
+        justifyContent="center"
+      >
+        {!songTitle ? (
+          <Heading fontSize="2xl">Play some music dawg</Heading>
+        ) : (
+          <Link href={link} mb="7">
+            <Heading fontSize="2xl">{songTitle}</Heading>
+            <Heading fontSize="xl" opacity={0.7}>
               {songArtist}
             </Heading>
           </Link>
-        ) : (
-          <Heading fontSize="2xl">Not Playing</Heading>
         )}
-        <Flex pos="absolute" bottom="3" left="10" dir="row" alignItems="center">
-          {songTitle && (
-            <Box
-              borderRadius="15"
-              bgColor="rgba(255,255,255,0.1)"
-              border="1px solid rgba(255,255,255,0.1)"
-              backdropFilter="blur(5px)"
-              _hover={{ backgroundColor: "rgba(255,255,255,0.2)" }}
+        {songTitle && (
+          <Box
+            mt="3"
+            borderRadius="15"
+            bgColor="rgba(255,255,255,0.1)"
+            border="1px solid rgba(255,255,255,0.1)"
+            backdropFilter="blur(30px)"
+            _hover={{ backgroundColor: "rgba(255,255,255,0.2)" }}
+          >
+            <Button
+              variant="unstyled"
+              mr="-1"
+              transition={"all .2s"}
+              _hover={{ transform: "scale(1.1)" }}
+              _focus={{ borderWidth: 0 }}
+              onClick={() => {
+                skipSong(false);
+              }}
             >
+              {SkipLeft}
+            </Button>
+            {playing ? (
               <Button
                 variant="unstyled"
-                mr="-2"
                 _focus={{ borderWidth: 0 }}
                 transition={"all .2s"}
                 _hover={{ transform: "scale(1.1)" }}
                 onClick={() => {
-                  skipSong(false);
+                  pausePlaySong(true);
                 }}
+                aria-label="Pause spotify"
               >
-                {SkipLeft}
+                {PauseIcon}
               </Button>
-              {playing ? (
-                <Button
-                  variant="unstyled"
-                  _focus={{ borderWidth: 0 }}
-                  transition={"all .2s"}
-                  _hover={{ transform: "scale(1.1)" }}  
-                  onClick={() => {
-                    pausePlaySong(true);
-                  }}
-                  aria-label="Pause spotify"
-                >
-                  {PauseIcon}
-                </Button>
-              ) : (
-                <Button
-                  variant="unstyled"
-                  _focus={{ borderWidth: 0 }}
-                  transition={"all .2s"}
-                  _hover={{ transform: "scale(1.1)" }}  
-                  onClick={() => {
-                    pausePlaySong(false);
-                  }}
-                >
-                  {PlayIcon}
-                </Button>
-              )}
+            ) : (
               <Button
-                ml="-2"
                 variant="unstyled"
                 _focus={{ borderWidth: 0 }}
                 transition={"all .2s"}
                 _hover={{ transform: "scale(1.1)" }}
-                onClick={() => skipSong(true)}
+                onClick={() => {
+                  pausePlaySong(false);
+                }}
               >
-                {SkipRight}
+                {PlayIcon}
               </Button>
-            </Box>
-          )}
-        </Flex>
+            )}
+            <Button
+              ml="-1"
+              variant="unstyled"
+              _focus={{ borderWidth: 0 }}
+              transition={"all .2s"}
+              _hover={{ transform: "scale(1.1)" }}
+              onClick={() => skipSong(true)}
+            >
+              {SkipRight}
+            </Button>
+          </Box>
+        )}
       </Flex>
-    </Box>
+
+      <Center pr="4">
+        <Img
+          boxShadow={"4px 4px 10px rgba(0,0,0,.4)"}
+          borderRadius="15"
+          src={albumImageUrl}
+        />
+      </Center>
+    </Flex>
   );
 };

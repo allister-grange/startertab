@@ -3,4 +3,5 @@ export type NowPlayingSpotifyData = {
   songArtist: string | undefined;
   playing: boolean;
   link: string | undefined;
+  albumImageUrl: string | undefined;
 } 
