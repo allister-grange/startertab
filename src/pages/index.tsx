@@ -3,9 +3,8 @@ import { SettingsSideBar } from "@/components/sidebar/SettingsSidebar";
 import { SettingsToggle } from "@/components/ui/SettingsToggle";
 import { SettingsContext } from "@/context/UserSettingsContext";
 import { getHackerNewsData } from "@/pages/api/hackerNews";
-import { getSpotifyStatus } from "@/pages/api/spotify";
 import { getStravaData } from "@/pages/api/strava";
-import { getUVData, getWeatherConditions } from "@/pages/api/weather";
+import { getUVData } from "@/pages/api/weather";
 import {
   HackerNewsLinkHolder,
   StravaGraphData,
@@ -69,16 +68,14 @@ const Home: NextPage<PageProps> = ({
 };
 
 export const getStaticProps: GetStaticProps = async (context) => {
-  const [stravaData, uvData, hackerNewsData, weatherData] = await Promise.all([
+  const [stravaData, uvData, hackerNewsData] = await Promise.all([
     getStravaData(),
     getUVData(),
     getHackerNewsData(),
-    getWeatherConditions(),
-    getSpotifyStatus(),
   ]);
 
   return {
-    props: { stravaData, uvData, hackerNewsData, weatherData },
+    props: { stravaData, uvData, hackerNewsData },
     revalidate: 600,
   };
 };

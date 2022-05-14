@@ -283,6 +283,15 @@ export const sideBarOptions: Option[] = [
     tileId: "tile7",
   },
   {
+    title: "City for weather",
+    subTitle: "Name of the city you want the weather for",
+    localStorageId: "cityForWeather",
+    lightDefault: "",
+    darkDefault: "",
+    optionType: "CityInput",
+    tileId: "tile7",
+  },
+  {
     title: "Background color",
     subTitle: "Background color of the tile",
     localStorageId: "backgroundColor",

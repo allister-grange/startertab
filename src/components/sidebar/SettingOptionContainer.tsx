@@ -3,6 +3,7 @@ import { SubRedditPicker } from "@/components/sidebar/SubRedditPicker";
 import { Option, TileId, TileType } from "@/types";
 import { AccordionPanel, Box, Text } from "@chakra-ui/react";
 import React from "react";
+import { CityInput } from "./CityInput";
 import { DropShadowInput } from "./DropShadowInput";
 import { LargeTileTypePicker } from "./LargeTileTypePicker";
 import { TypePicker } from "./TypePicker";
@@ -91,6 +92,20 @@ export const SettingOptionContainer: React.FC<SettingOptionContainerProps> = ({
           resetOptionToDefault={resetOptionToDefault}
         />
       );
+      break;
+    case "CityInput":
+      if (tileType === "Weather") {
+        optionToDisplay = (
+          <CityInput
+            option={option}
+            changeSetting={changeSetting}
+            textColor={textColor}
+            subTextColor={subTextColor}
+            value={value}
+            resetOptionToDefault={resetOptionToDefault}
+          />
+        );
+      }
       break;
 
     default:

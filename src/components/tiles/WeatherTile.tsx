@@ -4,6 +4,7 @@ import {
   Center,
   Heading,
   IconButton,
+  Spinner,
   Text,
   useColorMode,
 } from "@chakra-ui/react";
@@ -13,17 +14,50 @@ import {
   WiDaySunnyOvercast,
   WiRain,
 } from "react-icons/wi";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { TileId } from "@/types";
 
 interface WeatherTileProps {
-  weatherData: WeatherData;
   tileId: TileId;
+  city?: string;
 }
 
-export const WeatherTile: React.FC<WeatherTileProps> = ({ weatherData, tileId }) => {
+export const WeatherTile: React.FC<WeatherTileProps> = ({ city, tileId }) => {
   const { toggleColorMode } = useColorMode();
   const color = `var(--text-color-${tileId})`;
+  const [weatherData, setWeatherData] = useState<WeatherData | undefined>();
+
+  useEffect(() => {
+    const fetchWeatherData = async () => {
+      try {
+        const res = await fetch(`/api/weather?city=${city}`);
+        let data = (await res.json()) as WeatherData;
+
+        setWeatherData(data);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    fetchWeatherData();
+  }, [city]);
+
+  if (!weatherData) {
+    return (
+      <Center height="100%">
+        <Spinner size="md" color={color} />
+      </Center>
+    );
+  } else if (!weatherData.condition) {
+    return (
+      <Center height="100%" p="8">
+        <Heading size="sm" color={color}>
+          Couldn&apos;t get the weather from the API, check your city name in
+          the settings
+        </Heading>
+      </Center>
+    );
+  }
 
   let icon;
 
@@ -43,7 +77,10 @@ export const WeatherTile: React.FC<WeatherTileProps> = ({ weatherData, tileId })
   }
 
   return (
-    <Center color={color} height="100%">
+    <Center color={color} height="100%" pos="relative">
+      <Text size="xs" opacity="0.4" pos="absolute" bottom="2" right="2">
+        {city}
+      </Text>
       <IconButton
         aria-label={`Switch color themes`}
         _hover={{ background: "transparent" }}

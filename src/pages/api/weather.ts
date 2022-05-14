@@ -11,14 +11,26 @@ export default async function handler(
   res: NextApiResponse
 ) {
   try {
-    const data = await getWeatherConditions();
+    if (
+      !req.query.city ||
+      req.query.city === "undefined" ||
+      req.query.city === ""
+    ) {
+      console.log("here");
+      
+      res.status(404);
+    }
+
+    console.log("pop" + req.query.city);
+
+    const data = await getWeatherConditions(req.query.city as string);
     res.status(200).json(data);
   } catch (err) {
     res.status(500).send(err);
   }
 }
 
-export const getWeatherConditions = async () => {
+export const getWeatherConditions = async (city: string) => {
   const weatherAPIToken = process.env.WEATHERAPI_TOKEN;
 
   if (!weatherAPIToken) {
@@ -26,14 +38,14 @@ export const getWeatherConditions = async () => {
   }
 
   try {
-    const weatherUrl = `https://api.weatherapi.com/v1/forecast.json?key=${weatherAPIToken}&q=Wellington&days=1&aqi=no&alerts=no`;
+    const weatherUrl = `https://api.weatherapi.com/v1/forecast.json?key=${weatherAPIToken}&q=${city}&days=1&aqi=no&alerts=no`;
 
     const weatherRes = await fetch(weatherUrl, {
       headers: { "Content-Type": "application/json" },
     });
 
     if (weatherRes.status !== 200) {
-      throw new Error("Bad request to niwa");
+      throw new Error("Bad request to weather api");
     }
 
     const data = (await weatherRes.json()) as WeatherResponse;
@@ -74,7 +86,7 @@ export const getWeatherConditions = async () => {
   }
 };
 
-export const getUVData = async (): Promise<UvGraphData[]>=> {
+export const getUVData = async (): Promise<UvGraphData[]> => {
   const weatherAPIToken = process.env.WEATHERAPI_TOKEN;
 
   if (!weatherAPIToken) {
@@ -97,13 +109,12 @@ export const getUVData = async (): Promise<UvGraphData[]>=> {
     data.forecast.forecastday![0].hour!.forEach((hour) => {
       uvData.push({
         value: hour.uv,
-        time: hour.time.split(" ")[1]
-      })
-    })
+        time: hour.time.split(" ")[1],
+      });
+    });
 
     return uvData;
   } catch (err) {
     throw new Error(err as string);
   }
 };
-

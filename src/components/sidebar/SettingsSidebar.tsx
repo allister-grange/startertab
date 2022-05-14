@@ -1,4 +1,3 @@
-import { ColorPicker } from "@/components/sidebar/ColorPicker";
 import { SettingOptionContainer } from "@/components/sidebar/SettingOptionContainer";
 import { SideBarTitle } from "@/components/sidebar/SideBarTitle";
 import { ThemeToChangeSelector } from "@/components/sidebar/ThemeToChangeSelector";
@@ -7,7 +6,7 @@ import {
   getCurrentTheme,
   getDefaultSettingForOption,
   sideBarOptions,
-  sortOptionsIntoTileGroups,
+  sortOptionsIntoTileGroups
 } from "@/helpers/settingsHelpers";
 import styles from "@/styles/Home.module.css";
 import { Option } from "@/types";
@@ -15,7 +14,7 @@ import {
   ThemeSettings,
   TileId,
   TileSettings,
-  UserSettings,
+  UserSettings
 } from "@/types/settings";
 import {
   Accordion,
@@ -27,7 +26,7 @@ import {
   ExpandedIndex,
   Text,
   useColorMode,
-  useColorModeValue,
+  useColorModeValue
 } from "@chakra-ui/react";
 import cloneDeep from "lodash.clonedeep";
 import React, {
@@ -35,7 +34,7 @@ import React, {
   SetStateAction,
   useCallback,
   useLayoutEffect,
-  useState,
+  useState
 } from "react";
 
 interface SettingsSideBarProps {
@@ -85,7 +84,7 @@ export const SettingsSideBar: React.FC<SettingsSideBarProps> = ({
 
   // will change the appearance of the site, but not what's stored in localStorage
   const changeSetting = useCallback(
-    (key: string, value: string, tileId: TileId) => {      
+    (key: string, value: string, tileId: TileId) => {
       console.log(`changeSettings ${key}:${value}`);
       setInMemorySettings((inMemorySettings) => {
         let newSettings = cloneDeep(inMemorySettings);
@@ -188,22 +187,6 @@ export const SettingsSideBar: React.FC<SettingsSideBarProps> = ({
             </Text>
           </Button>
         </Box>
-
-        {/* <hr /> */}
-
-        {/* <ColorPicker
-          option={sideBarOptions[0]}
-          changeSetting={changeSetting}
-          textColor={textColor}
-          subTextColor={subTextColor}
-          value={
-            currentThemeSettings![sideBarOptions[0].tileId!][
-              sideBarOptions[0].localStorageId as keyof TileSettings
-            ]!
-          }
-          resetOptionToDefault={resetOptionToDefault}
-        /> */}
-
         <Box mt="4" />
         <Accordion
           allowMultiple

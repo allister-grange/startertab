@@ -1,12 +1,9 @@
 import { Option, TileId } from "@/types";
-import {
-  Box,
-  BoxProps, Input,
-  Text
-} from "@chakra-ui/react";
+import { Box, BoxProps, Input, Text } from "@chakra-ui/react";
+import { title } from "process";
 import React, { useEffect, useState } from "react";
 
-interface SubRedditPickerProps extends BoxProps {
+interface CityInputProps extends BoxProps {
   option: Option;
   textColor: string;
   subTextColor: string;
@@ -15,7 +12,7 @@ interface SubRedditPickerProps extends BoxProps {
   resetOptionToDefault: (option: Option) => void;
 }
 
-export const SubRedditPicker: React.FC<SubRedditPickerProps> = ({
+export const CityInput: React.FC<CityInputProps> = ({
   option,
   textColor,
   subTextColor,
@@ -26,7 +23,7 @@ export const SubRedditPicker: React.FC<SubRedditPickerProps> = ({
   const { title, subTitle, localStorageId } = option;
   const [inputValue, setInputValue] = useState(value);
 
-  const onSubRedditInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const onCityNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInputValue(e.target.value);
   };
 
@@ -43,7 +40,7 @@ export const SubRedditPicker: React.FC<SubRedditPickerProps> = ({
     }
     const timeoutIdentifier = setTimeout(() => {      
       changeSetting(option.localStorageId, inputValue, option.tileId);
-    }, 500);
+    }, 800);
 
     return () => {
       clearTimeout(timeoutIdentifier);
@@ -70,7 +67,7 @@ export const SubRedditPicker: React.FC<SubRedditPickerProps> = ({
           display="block"
           value={inputValue}
           size="sm"
-          onChange={onSubRedditInputChange}
+          onChange={onCityNameChange}
           height="8"
         />
       </Box>

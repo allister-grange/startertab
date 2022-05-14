@@ -14,7 +14,8 @@ export type OptionType =
   | "SubRedditPicker"
   | "TypePicker"
   | "DropShadowInput"
-  | "LargeTileTypePicker";
+  | "LargeTileTypePicker"
+  | "CityInput";
 
 export type TileType =
   | "Reddit Feed"
@@ -41,6 +42,7 @@ export type TileSettings = {
   textColor: string;
   tileType: TileType;
   dropShadow?: string;
+  cityForWeather?: string;
 };
 
 export type ThemeSettings = {

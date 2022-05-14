@@ -56,7 +56,7 @@ export const ColorPicker: React.FC<ColorPickerProps> = ({
       // this is for performance with the color picker
       clearTimeout(timeoutIdentifier);
     };
-  }, [changeSetting, inputValue, option.localStorageId, value]);
+  }, [changeSetting, inputValue, option.localStorageId, option.tileId, value]);
 
   return (
     <Box key={localStorageId} my="2">
