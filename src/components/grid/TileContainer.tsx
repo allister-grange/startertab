@@ -69,7 +69,7 @@ export const TileContainer: React.FC<TileContainerProps> = ({
       tileToRender = <Bonsai tileId={tileId} />;
       break;
     case "Weather":
-      tileToRender = <WeatherTile weatherData={weatherData} tileId={tileId} />;
+      tileToRender = <WeatherTile city={currentTheme[tileId].cityForWeather} tileId={tileId} />;
       break;
     case "Spotify":
       tileToRender = <Spotify tileId={tileId} />;
@@ -91,7 +91,7 @@ export const TileContainer: React.FC<TileContainerProps> = ({
       break;
     default:
       tileToRender = (
-        <Center height="100%" p="4">
+        <Center height="100%" p="10">
           <Heading
             size="md"
             color={`var(--text-color-${tileId})`}
