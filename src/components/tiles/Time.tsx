@@ -1,6 +1,6 @@
 import { TileId } from "@/types";
 import { Box, Button, Heading, Input } from "@chakra-ui/react";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 
 interface TimeProps {
   tileId: TileId;
@@ -12,6 +12,7 @@ export const Time: React.FC<TimeProps> = ({tileId}) => {
     undefined
   );
   const [timer, setTimer] = useState<undefined | number>(undefined);
+  const intervalRef = useRef<NodeJS.Timer | undefined>();
   const color = `var(--text-color-${tileId})`;
 
   const updateTime = () => {
@@ -26,6 +27,7 @@ export const Time: React.FC<TimeProps> = ({tileId}) => {
     if (timer === 0) {
       alert("timer over!!");
       setTimer(undefined);
+      clearInterval(intervalRef.current!);
     }
   }, [timer]);
 
@@ -34,8 +36,12 @@ export const Time: React.FC<TimeProps> = ({tileId}) => {
   };
 
   const startTimer = () => {
+    if(intervalRef.current) {
+      clearInterval(intervalRef.current);
+    }
     setTimer(timerPlaceholder! * 60);
-    setInterval(tickTimer, 1000);
+    const interval = setInterval(tickTimer, 1000);
+    intervalRef.current = interval;
   };
 
   const getMinutesAndSeconds = (time: number) => {
