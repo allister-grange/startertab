@@ -82,7 +82,7 @@ export const TileContainer: React.FC<TileContainerProps> = ({
       tileToRender = <ColorModeSwitcher tileId={tileId}/>
       break;
     case "Todo List":
-      tileToRender = <TodoList tileId={tileId}/>
+      tileToRender = <TodoList tileId={tileId} />
       break;
     case "Large Spotify Tile":
       tileToRender = <LargeSpotifyTile tileId={tileId}/>
