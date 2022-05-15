@@ -14,7 +14,7 @@ interface SettingOptionContainerProps {
   subTextColor: string;
   changeSetting: (key: string, value: string, tileId: TileId) => void;
   resetOptionToDefault: (option: Option) => void;
-  value: string;
+  value: any;
   tileType: TileType;
 }
 

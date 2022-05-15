@@ -1,22 +1,37 @@
-import { TileId, TodoObject } from "@/types";
+import { SettingsContext } from "@/context/UserSettingsContext";
+import { getCurrentTheme } from "@/helpers/settingsHelpers";
+import { TileId, TodoObject, UserSettingsContextInterface } from "@/types";
 import {
   CheckIcon,
   ChevronDownIcon,
-  ChevronRightIcon, EditIcon, SmallCloseIcon
+  ChevronRightIcon,
+  EditIcon,
+  SmallCloseIcon,
 } from "@chakra-ui/icons";
-import { Box, Flex, Heading, Input, Text } from "@chakra-ui/react";
-import React, { useState } from "react";
+import {
+  Box,
+  Flex,
+  Heading,
+  Input,
+  Text,
+  useColorMode,
+} from "@chakra-ui/react";
+import cloneDeep from "lodash.clonedeep";
+import React, { useContext, useState } from "react";
 
 export interface TodoListProps {
   tileId: TileId;
-  todoList: TodoObject[];
+  todoList: TodoObject[] | undefined;
 }
 
 export const TodoList: React.FC<TodoListProps> = ({ tileId, todoList }) => {
   const color = `var(--text-color-${tileId})`;
 
-  // todo switch to local storage
-  const [todos, setTodos] = useState<TodoObject[]>([]);
+  const { settings, setSettings } = useContext(
+    SettingsContext
+  ) as UserSettingsContextInterface;
+  const { colorMode } = useColorMode();
+  const [todos, setTodos] = useState<TodoObject[]>(todoList ? todoList : []);
   const [inputValue, setInputValue] = useState("");
   const [showingDelete, setShowingDelete] = useState<TodoObject | undefined>();
   const [showingCompletedItems, setShowingCompletedItems] = useState(false);
@@ -31,10 +46,18 @@ export const TodoList: React.FC<TodoListProps> = ({ tileId, todoList }) => {
     }
   };
 
+  const updateSettingsWithTodo = (todos: TodoObject[]) => {
+    const newSettings = cloneDeep(settings);
+    const currentTheme = getCurrentTheme(newSettings, colorMode);
+
+    currentTheme[tileId].todoList = todos;
+    setSettings(newSettings);
+  };
+
   const handleTodoTicked = (todo: TodoObject) => {
     const todosToUpdates = [...todos];
     const todoInState = todosToUpdates.find(
-      (todoToFind) => todoToFind.title === todo.title
+      (todoToFind) => todoToFind.date === todo.date
     );
 
     if (!todoInState) {
@@ -42,21 +65,24 @@ export const TodoList: React.FC<TodoListProps> = ({ tileId, todoList }) => {
     }
 
     todoInState.done = !todoInState.done;
+
     setTodos(todosToUpdates);
+    updateSettingsWithTodo(todosToUpdates);
   };
 
   const handleTodoDelete = (todo: TodoObject) => {
-    const todosToUpdates = [...todos];
-    const todoInStateIndex = todosToUpdates.findIndex(
-      (todoToFind) => todoToFind.title === todo.title
+    const newTodos = [...todos];
+    const todoInStateIndex = newTodos.findIndex(
+      (todoToFind) => todoToFind.date === todo.date
     );
 
     if (todoInStateIndex === -1) {
       return;
     }
 
-    todosToUpdates.splice(todoInStateIndex, 1);
-    setTodos(todosToUpdates);
+    newTodos.splice(todoInStateIndex, 1);
+    setTodos(newTodos);
+    updateSettingsWithTodo(newTodos);
   };
 
   const handleInputIconClick = () => {
@@ -64,8 +90,9 @@ export const TodoList: React.FC<TodoListProps> = ({ tileId, todoList }) => {
       return;
     }
     let newTodos = [...todos];
-    newTodos.push({ done: false, title: inputValue });
+    newTodos.push({ done: false, title: inputValue, date: Date.now() });
     setTodos(newTodos);
+    updateSettingsWithTodo(newTodos);
     setInputValue("");
   };
 

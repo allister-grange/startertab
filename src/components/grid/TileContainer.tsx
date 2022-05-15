@@ -16,7 +16,6 @@ import {
   TileId,
   UserSettings,
   UvGraphData,
-  WeatherData,
 } from "@/types";
 import { Center, Heading, useColorMode } from "@chakra-ui/react";
 import React from "react";
@@ -82,7 +81,7 @@ export const TileContainer: React.FC<TileContainerProps> = ({
       tileToRender = <ColorModeSwitcher tileId={tileId}/>
       break;
     case "Todo List":
-      tileToRender = <TodoList tileId={tileId} />
+      tileToRender = <TodoList tileId={tileId} todoList={currentTheme[tileId].todoList}/>
       break;
     case "Large Spotify Tile":
       tileToRender = <LargeSpotifyTile tileId={tileId}/>
