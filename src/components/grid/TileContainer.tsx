@@ -30,7 +30,6 @@ interface TileContainerProps {
   hackerNewsData: HackerNewsLinkHolder[];
   settings: UserSettings;
   stravaData: StravaGraphData;
-  weatherData: WeatherData;
   uvData: UvGraphData[];
 }
 
@@ -39,7 +38,6 @@ export const TileContainer: React.FC<TileContainerProps> = ({
   hackerNewsData,
   settings,
   stravaData,
-  weatherData,
   uvData
 }) => {
   const { colorMode } = useColorMode();

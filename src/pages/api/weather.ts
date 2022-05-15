@@ -16,12 +16,8 @@ export default async function handler(
       req.query.city === "undefined" ||
       req.query.city === ""
     ) {
-      console.log("here");
-      
       res.status(404);
     }
-
-    console.log("pop" + req.query.city);
 
     const data = await getWeatherConditions(req.query.city as string);
     res.status(200).json(data);

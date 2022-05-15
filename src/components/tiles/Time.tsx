@@ -6,7 +6,7 @@ interface TimeProps {
   tileId: TileId;
 }
 
-export const Time: React.FC<TimeProps> = ({tileId}) => {
+export const Time: React.FC<TimeProps> = ({ tileId }) => {
   const [time, setTime] = useState("");
   const [timerPlaceholder, setTimerPlaceholder] = useState<undefined | number>(
     undefined
@@ -32,11 +32,15 @@ export const Time: React.FC<TimeProps> = ({tileId}) => {
   }, [timer]);
 
   const tickTimer = () => {
-    setTimer((prevTimer) => prevTimer! - 1);
+    setTimer((prevTimer) => 
+    {
+      document.title = getMinutesAndSeconds(prevTimer!);
+      return prevTimer! - 1;
+    });
   };
 
   const startTimer = () => {
-    if(intervalRef.current) {
+    if (intervalRef.current) {
       clearInterval(intervalRef.current);
     }
     setTimer(timerPlaceholder! * 60);
