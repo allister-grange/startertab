@@ -1,16 +1,4 @@
-import { Grid } from "@chakra-ui/react";
-import React from "react";
-import {
-  StravaGraph,
-  SearchBar,
-  Bonsai,
-  WeatherTile,
-  UvGraph,
-  Time,
-  Spotify,
-} from "@/components/tiles";
-import { TileContainer } from "@/components/grid/TileContainer";
-import ColorModeSwitcher from "@/components/ui/ColorModeSwitcher";
+import { Tile } from "@/components/grid/Tile";
 import styles from "@/styles/Home.module.css";
 import {
   HackerNewsLinkHolder,
@@ -18,9 +6,10 @@ import {
   TileId,
   UserSettings,
   UvGraphData,
-  WeatherData,
+  WeatherData
 } from "@/types";
-import { Tile } from "@/components/grid/Tile";
+import { Grid } from "@chakra-ui/react";
+import React from "react";
 
 interface TileGridProps {
   stravaData: StravaGraphData;
@@ -61,7 +50,6 @@ export const TileGrid: React.FC<TileGridProps> = ({
         stravaData={stravaData}
         uvData={uvData}
         hackerNewsData={hackerNewsData}
-        weatherData={weatherData}
       />
       <Tile
         rowSpan={4}
@@ -75,7 +63,6 @@ export const TileGrid: React.FC<TileGridProps> = ({
         stravaData={stravaData}
         uvData={uvData}
         hackerNewsData={hackerNewsData}
-        weatherData={weatherData}
       />
       <Tile
         colSpan={1}
@@ -88,7 +75,6 @@ export const TileGrid: React.FC<TileGridProps> = ({
         stravaData={stravaData}
         uvData={uvData}
         hackerNewsData={hackerNewsData}
-        weatherData={weatherData}
       />
       <Tile
         colSpan={1}
@@ -101,7 +87,6 @@ export const TileGrid: React.FC<TileGridProps> = ({
         stravaData={stravaData}
         uvData={uvData}
         hackerNewsData={hackerNewsData}
-        weatherData={weatherData}
       >
       </Tile>
       <Tile
@@ -114,7 +99,6 @@ export const TileGrid: React.FC<TileGridProps> = ({
         stravaData={stravaData}
         uvData={uvData}
         hackerNewsData={hackerNewsData}
-        weatherData={weatherData}
       >
       </Tile>
       <Tile
@@ -129,7 +113,6 @@ export const TileGrid: React.FC<TileGridProps> = ({
         stravaData={stravaData}
         uvData={uvData}
         hackerNewsData={hackerNewsData}
-        weatherData={weatherData}
       >
       </Tile>
       <Tile
@@ -141,7 +124,6 @@ export const TileGrid: React.FC<TileGridProps> = ({
         stravaData={stravaData}
         uvData={uvData}
         hackerNewsData={hackerNewsData}
-        weatherData={weatherData}
       >
       </Tile>
       <Tile
@@ -156,7 +138,6 @@ export const TileGrid: React.FC<TileGridProps> = ({
         stravaData={stravaData}
         uvData={uvData}
         hackerNewsData={hackerNewsData}
-        weatherData={weatherData}
       >
       </Tile>
       <Tile
@@ -169,7 +150,6 @@ export const TileGrid: React.FC<TileGridProps> = ({
         stravaData={stravaData}
         uvData={uvData}
         hackerNewsData={hackerNewsData}
-        weatherData={weatherData}
       >
       </Tile>
       <Tile
@@ -181,7 +161,6 @@ export const TileGrid: React.FC<TileGridProps> = ({
         stravaData={stravaData}
         uvData={uvData}
         hackerNewsData={hackerNewsData}
-        weatherData={weatherData}
       >
       </Tile>
       <Tile
@@ -193,7 +172,6 @@ export const TileGrid: React.FC<TileGridProps> = ({
         stravaData={stravaData}
         uvData={uvData}
         hackerNewsData={hackerNewsData}
-        weatherData={weatherData}
       >
       </Tile>
     </Grid>

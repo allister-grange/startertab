@@ -5,10 +5,10 @@ import {
   TileId,
   UserSettings,
   UvGraphData,
-  WeatherData,
+  WeatherData
 } from "@/types";
 import { GridItem, GridItemProps, useColorMode } from "@chakra-ui/react";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { TileContainer } from "./TileContainer";
 
 interface TileProps extends GridItemProps {
@@ -17,7 +17,6 @@ interface TileProps extends GridItemProps {
   stravaData: StravaGraphData;
   uvData: UvGraphData[];
   hackerNewsData: HackerNewsLinkHolder[];
-  weatherData: WeatherData;
   inMemorySettings: UserSettings;
 }
 
@@ -27,22 +26,25 @@ export const Tile: React.FC<TileProps> = ({
   hackerNewsData,
   inMemorySettings,
   stravaData,
-  weatherData,
   uvData,
   children,
   ...props
 }) => {
   const { colorMode } = useColorMode();
-  const theme = getCurrentTheme(inMemorySettings, colorMode);
-  
+  const [shadow, setShadow] = useState<string | undefined>();
+
+  useEffect(() => {
+    const theme = getCurrentTheme(inMemorySettings, colorMode);
+    setShadow(theme.globalSettings.dropShadow);
+  }, [colorMode, inMemorySettings]);
+
   return (
     <GridItem
       borderRadius="15"
       transition=".3s ease-in-out"
       minW="230px"
       outline={optionHovered === tileId ? "2px solid white" : ""}
-      // border="2px solid black"
-      shadow={theme.globalSettings.dropShadow}
+      shadow={shadow}
       style={optionHovered === tileId ? { transform: "scale(1.05)" } : {}}
       bg={`var(--bg-color-${tileId})`}
       {...props}
@@ -52,7 +54,6 @@ export const Tile: React.FC<TileProps> = ({
         hackerNewsData={hackerNewsData}
         settings={inMemorySettings}
         stravaData={stravaData}
-        weatherData={weatherData}
         uvData={uvData}
       />
     </GridItem>

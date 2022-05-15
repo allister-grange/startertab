@@ -16,7 +16,6 @@ import {
   TileId,
   UserSettings,
   UvGraphData,
-  WeatherData,
 } from "@/types";
 import { Center, Heading, useColorMode } from "@chakra-ui/react";
 import React from "react";
@@ -30,7 +29,6 @@ interface TileContainerProps {
   hackerNewsData: HackerNewsLinkHolder[];
   settings: UserSettings;
   stravaData: StravaGraphData;
-  weatherData: WeatherData;
   uvData: UvGraphData[];
 }
 
@@ -39,7 +37,6 @@ export const TileContainer: React.FC<TileContainerProps> = ({
   hackerNewsData,
   settings,
   stravaData,
-  weatherData,
   uvData
 }) => {
   const { colorMode } = useColorMode();
@@ -69,7 +66,7 @@ export const TileContainer: React.FC<TileContainerProps> = ({
       tileToRender = <Bonsai tileId={tileId} />;
       break;
     case "Weather":
-      tileToRender = <WeatherTile weatherData={weatherData} tileId={tileId} />;
+      tileToRender = <WeatherTile city={currentTheme[tileId].cityForWeather} tileId={tileId} />;
       break;
     case "Spotify":
       tileToRender = <Spotify tileId={tileId} />;
@@ -84,14 +81,14 @@ export const TileContainer: React.FC<TileContainerProps> = ({
       tileToRender = <ColorModeSwitcher tileId={tileId}/>
       break;
     case "Todo List":
-      tileToRender = <TodoList tileId={tileId}/>
+      tileToRender = <TodoList tileId={tileId} todoList={currentTheme[tileId].todoList}/>
       break;
     case "Large Spotify Tile":
       tileToRender = <LargeSpotifyTile tileId={tileId}/>
       break;
     default:
       tileToRender = (
-        <Center height="100%" p="4">
+        <Center height="100%" p="10">
           <Heading
             size="md"
             color={`var(--text-color-${tileId})`}

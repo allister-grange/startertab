@@ -1,3 +1,5 @@
+import { TodoObject } from "./tiles";
+
 export type Option = {
   title: string;
   subTitle: string;
@@ -14,7 +16,8 @@ export type OptionType =
   | "SubRedditPicker"
   | "TypePicker"
   | "DropShadowInput"
-  | "LargeTileTypePicker";
+  | "LargeTileTypePicker"
+  | "CityInput";
 
 export type TileType =
   | "Reddit Feed"
@@ -41,6 +44,8 @@ export type TileSettings = {
   textColor: string;
   tileType: TileType;
   dropShadow?: string;
+  cityForWeather?: string;
+  todoList?: TodoObject[];
 };
 
 export type ThemeSettings = {
