@@ -20,6 +20,15 @@ export const sideBarOptions: Option[] = [
     tileId: "globalSettings",
   },
   {
+    title: "Border",
+    subTitle: "Controls the border of all the tiles",
+    localStorageId: "tileBorder",
+    lightDefault: "",
+    darkDefault: "",
+    optionType: "BorderSelect",
+    tileId: "globalSettings",
+  },
+  {
     title: "Background color",
     subTitle: "Background color of the tile",
     localStorageId: "backgroundColor",

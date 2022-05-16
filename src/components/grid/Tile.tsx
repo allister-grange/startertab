@@ -32,10 +32,12 @@ export const Tile: React.FC<TileProps> = ({
 }) => {
   const { colorMode } = useColorMode();
   const [shadow, setShadow] = useState<string | undefined>();
+  const [border, setBorder] = useState<string | undefined>();
 
   useEffect(() => {
     const theme = getCurrentTheme(inMemorySettings, colorMode);
     setShadow(theme.globalSettings.dropShadow);
+    setBorder(theme.globalSettings.tileBorder);
   }, [colorMode, inMemorySettings]);
 
   return (
@@ -45,6 +47,7 @@ export const Tile: React.FC<TileProps> = ({
       minW="230px"
       outline={optionHovered === tileId ? "2px solid white" : ""}
       shadow={shadow}
+      border={border}
       style={optionHovered === tileId ? { transform: "scale(1.05)" } : {}}
       bg={`var(--bg-color-${tileId})`}
       pos="relative"
