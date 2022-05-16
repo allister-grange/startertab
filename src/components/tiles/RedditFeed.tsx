@@ -174,11 +174,8 @@ export const RedditFeed: React.FC<RedditFeedProps> = ({ tileId }) => {
     <Box p="2" color={textColor} position="relative">
       <Box
         position="absolute"
-        right="-10"
+        right="4"
         top="3"
-        color="white"
-        width="20"
-        height="20"
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"

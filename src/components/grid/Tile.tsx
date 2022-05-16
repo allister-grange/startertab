@@ -47,6 +47,7 @@ export const Tile: React.FC<TileProps> = ({
       shadow={shadow}
       style={optionHovered === tileId ? { transform: "scale(1.05)" } : {}}
       bg={`var(--bg-color-${tileId})`}
+      pos="relative"
       {...props}
     >
       <TileContainer

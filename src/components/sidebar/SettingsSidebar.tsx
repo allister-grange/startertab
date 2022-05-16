@@ -5,9 +5,9 @@ import {
   applyTheme,
   getCurrentTheme,
   getDefaultSettingForOption,
-  sideBarOptions,
   sortOptionsIntoTileGroups
 } from "@/helpers/settingsHelpers";
+import { sideBarOptions } from "@/helpers/sideBarOptions";
 import styles from "@/styles/Home.module.css";
 import { Option } from "@/types";
 import {
