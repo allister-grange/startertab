@@ -32,8 +32,7 @@ export const Time: React.FC<TimeProps> = ({ tileId }) => {
   }, [timer]);
 
   const tickTimer = () => {
-    setTimer((prevTimer) => 
-    {
+    setTimer((prevTimer) => {
       document.title = getMinutesAndSeconds(prevTimer!);
       return prevTimer! - 1;
     });
@@ -68,10 +67,10 @@ export const Time: React.FC<TimeProps> = ({ tileId }) => {
       justifyContent="center"
       color={color}
     >
-      <Heading marginX="auto">
+      <Heading marginX="auto" mb="2">
         {timer ? getMinutesAndSeconds(timer) : time}
       </Heading>
-      <Box display="flex" flexDir="row">
+      <Box display="flex" flexDir="row" height="10">
         <Input
           borderColor={color}
           type="number"
@@ -84,9 +83,21 @@ export const Time: React.FC<TimeProps> = ({ tileId }) => {
           _placeholder={{
             color: color,
           }}
+          borderRadius="7"
+          size="sm"
+          _focus={{
+            borderColor:{color}
+          }}
         />
-        <Button ml="1" border="1px" bg="transparent" onClick={startTimer}>
-          Go
+        <Button
+          borderRadius="7"
+          size="sm"
+          ml="1"
+          border="1px"
+          bg="transparent"
+          onClick={startTimer}
+        >
+          go
         </Button>
       </Box>
     </Box>

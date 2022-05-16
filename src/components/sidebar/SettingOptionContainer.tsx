@@ -5,7 +5,6 @@ import { AccordionPanel, Box, Text } from "@chakra-ui/react";
 import React from "react";
 import { CityInput } from "./CityInput";
 import { DropShadowInput } from "./DropShadowInput";
-import { LargeTileTypePicker } from "./LargeTileTypePicker";
 import { TypePicker } from "./TypePicker";
 
 interface SettingOptionContainerProps {
@@ -57,7 +56,33 @@ export const SettingOptionContainer: React.FC<SettingOptionContainerProps> = ({
         break;
       }
       break;
-    case "TypePicker":
+    case "SmallTileTypePicker":
+      optionToDisplay = (
+        <TypePicker
+          option={option}
+          changeSetting={changeSetting}
+          textColor={textColor}
+          subTextColor={subTextColor}
+          value={value}
+          resetOptionToDefault={resetOptionToDefault} 
+          sizeOfTileForTypes={option.optionType}          
+        />
+      );
+      break;
+    case "MediumTileTypePicker":
+      optionToDisplay = (
+        <TypePicker
+          option={option}
+          changeSetting={changeSetting}
+          textColor={textColor}
+          subTextColor={subTextColor}
+          value={value}
+          resetOptionToDefault={resetOptionToDefault} 
+          sizeOfTileForTypes={option.optionType}          
+        />
+      );
+      break;
+    case "LargeTileTypePicker":
       optionToDisplay = (
         <TypePicker
           option={option}
@@ -66,18 +91,7 @@ export const SettingOptionContainer: React.FC<SettingOptionContainerProps> = ({
           subTextColor={subTextColor}
           value={value}
           resetOptionToDefault={resetOptionToDefault}
-        />
-      );
-      break;
-    case "LargeTileTypePicker":
-      optionToDisplay = (
-        <LargeTileTypePicker
-          option={option}
-          changeSetting={changeSetting}
-          textColor={textColor}
-          subTextColor={subTextColor}
-          value={value}
-          resetOptionToDefault={resetOptionToDefault}
+          sizeOfTileForTypes={option.optionType}          
         />
       );
       break;
@@ -111,17 +125,11 @@ export const SettingOptionContainer: React.FC<SettingOptionContainerProps> = ({
     default:
       optionToDisplay = <Text>No option built for this type of tile yet</Text>;
   }
-  return (
-    <>
-      {optionToDisplay ? (
-        <AccordionPanel p="2">
-          {optionToDisplay}
-          <Box mt="6" />
-          <hr />{" "}
-        </AccordionPanel>
-      ) : (
-        <></>
-      )}
-    </>
-  );
+  return optionToDisplay ? (
+    <AccordionPanel p="2">
+      {optionToDisplay}
+      <Box mt="6" />
+      <hr />{" "}
+    </AccordionPanel>
+  ) : null;
 };

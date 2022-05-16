@@ -7,7 +7,7 @@ const clientSecret = process.env.SPOTIFY_CLIENT_SECRET;
 const refreshToken = process.env.SPOTIFY_REFRESH_TOKEN;
 
 const basic = Buffer.from(`${clientId}:${clientSecret}`).toString(`base64`);
-const STATUS_ENDPOINT = `https://api.spotify.com/v1/me/player`;
+const STATUS_ENDPOINT = `https://api.spotify.com/v1/me/player?additional_types=episode,track`;
 const RECENTLY_PLAYED_ENDPOINT = `https://api.spotify.com/v1/me/player/recently-played`;
 const TOKEN_ENDPOINT = `https://accounts.spotify.com/api/token`;
 const NEXT_SONG_ENDPOINT = `https://api.spotify.com/v1/me/player/next`;
@@ -42,7 +42,7 @@ export default async function handler(
   } else if (req.method === "GET") {
     try {
       const spotifyData = await getSpotifyStatus();
-
+      
       res.status(200).json(spotifyData);
     } catch (err) {
       res.status(500).json(err);
@@ -101,14 +101,14 @@ export const getSpotifyStatus = async (): Promise<NowPlayingSpotifyData> => {
   const data = await res.json();
 
   // if a podcast is playing
-  if (data.currently_playing_type === "episode") {
+  if (data.currently_playing_type === "episode") {    
     return {
-      playing: false,
-      songArtist: undefined,
-      songTitle: undefined,
-      link: undefined,
-      albumImageUrl: undefined,
-      playable: false,
+      playing: data.is_playing,
+      songArtist: data.item.show.name,
+      songTitle: data.item.name,
+      link: data.item.show.href,
+      albumImageUrl: data.item.images[0].url,
+      playable: true,
     };
   }
 
@@ -147,11 +147,11 @@ export const getRecentlyPlayed = async (): Promise<NowPlayingSpotifyData> => {
   if (data.items[0].track.type === "episode") {
     return {
       playing: false,
-      songArtist: undefined,
-      songTitle: undefined,
-      link: undefined,
-      albumImageUrl: undefined,
-      playable: false,
+      songTitle: data.items[1].track.name,
+      songArtist: data.items[1].track.artists[0].name,
+      link: data.items[1].track.external_urls.spotify,
+      albumImageUrl: data.items[1].track.album.images[0].url,
+        playable: false,
     };
   }
 

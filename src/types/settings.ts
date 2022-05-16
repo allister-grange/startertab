@@ -14,9 +14,10 @@ export type Option = {
 export type OptionType =
   | "ColorPicker"
   | "SubRedditPicker"
-  | "TypePicker"
+  | "MediumTileTypePicker"
   | "DropShadowInput"
   | "LargeTileTypePicker"
+  | "SmallTileTypePicker"
   | "CityInput";
 
 export type TileType =

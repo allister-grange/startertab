@@ -159,6 +159,7 @@ export const LargeSpotifyTile: React.FC<LargeSpotifyTileProps> = ({
         color={color}
         href="https://spotify.com"
         height="24px"
+        opacity="0.7"
       >
         {SpotifyLogo}
       </Link>

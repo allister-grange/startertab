@@ -48,12 +48,19 @@ export const WeatherTile: React.FC<WeatherTileProps> = ({ city, tileId }) => {
         <Spinner size="md" color={color} />
       </Center>
     );
+  } else if (!city || city === "") {
+    return (
+      <Center height="100%" p="8">
+        <Heading size="sm" color={color}>
+          Check your city name in the settings
+        </Heading>
+      </Center>
+    );
   } else if (!weatherData.condition) {
     return (
       <Center height="100%" p="8">
         <Heading size="sm" color={color}>
-          Couldn&apos;t get the weather from the API, check your city name in
-          the settings
+          Couldn&apos;t get the weather from the API
         </Heading>
       </Center>
     );
