@@ -28,12 +28,13 @@ export const Time: React.FC<TimeProps> = ({ tileId }) => {
       alert("timer over!!");
       setTimer(undefined);
       clearInterval(intervalRef.current!);
+      document.title = "Timer finished!"
     }
   }, [timer]);
 
   const tickTimer = () => {
     setTimer((prevTimer) => {
-      document.title = getMinutesAndSeconds(prevTimer!);
+      document.title = getMinutesAndSeconds(prevTimer! - 1);
       return prevTimer! - 1;
     });
   };
@@ -43,6 +44,8 @@ export const Time: React.FC<TimeProps> = ({ tileId }) => {
       clearInterval(intervalRef.current);
     }
     setTimer(timerPlaceholder! * 60);
+    setTimer(timerPlaceholder! * 60);
+    document.title = getMinutesAndSeconds(timerPlaceholder! * 60);
     const interval = setInterval(tickTimer, 1000);
     intervalRef.current = interval;
   };

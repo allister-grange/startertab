@@ -1,5 +1,4 @@
 import { TileGrid } from "@/components/grid/TileGrid";
-import { SettingsSideBar } from "@/components/sidebar/SettingsSidebar";
 import { SettingsToggle } from "@/components/ui/SettingsToggle";
 import { SettingsContext } from "@/context/UserSettingsContext";
 import { getHackerNewsData } from "@/pages/api/hackerNews";
@@ -16,7 +15,11 @@ import {
 import { Box, useDisclosure } from "@chakra-ui/react";
 import cloneDeep from "lodash.clonedeep";
 import type { GetStaticProps, NextPage } from "next";
+import dynamic from "next/dynamic";
 import { useContext, useState } from "react";
+const SettingsSideBar = dynamic(
+  () => import("@/components/sidebar/SettingsSidebar")
+);
 
 type PageProps = {
   stravaData: StravaGraphData;
@@ -53,6 +56,7 @@ const Home: NextPage<PageProps> = ({
         inMemorySettings={inMemorySettings}
         setSettings={setSettings}
         setInMemorySettings={setInMemorySettings}
+        optionHovered={optionHovered}
       />
       <TileGrid
         optionHovered={optionHovered}

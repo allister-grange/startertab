@@ -29,6 +29,9 @@ export const TypePicker: React.FC<TypePickerProps> = ({
 
   let options;
 
+  // console.log("loaded in");
+  
+
   switch (sizeOfTileForTypes) {
     case "SmallTileTypePicker":
       options = (

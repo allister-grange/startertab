@@ -146,3 +146,5 @@ export const SettingOptionContainer: React.FC<SettingOptionContainerProps> = ({
     </AccordionPanel>
   ) : null;
 };
+
+export default SettingOptionContainer;
