@@ -27,10 +27,7 @@ export const TypePicker: React.FC<TypePickerProps> = ({
     changeSetting(option.localStorageId, e.target.value, option.tileId);
   };
 
-  let options;
-
-  // console.log("loaded in");
-  
+  let options;  
 
   switch (sizeOfTileForTypes) {
     case "SmallTileTypePicker":

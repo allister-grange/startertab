@@ -56,7 +56,6 @@ const Home: NextPage<PageProps> = ({
         inMemorySettings={inMemorySettings}
         setSettings={setSettings}
         setInMemorySettings={setInMemorySettings}
-        optionHovered={optionHovered}
       />
       <TileGrid
         optionHovered={optionHovered}

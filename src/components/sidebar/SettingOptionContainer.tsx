@@ -147,4 +147,4 @@ export const SettingOptionContainer: React.FC<SettingOptionContainerProps> = ({
   ) : null;
 };
 
-export default SettingOptionContainer;
+export default React.memo(SettingOptionContainer);

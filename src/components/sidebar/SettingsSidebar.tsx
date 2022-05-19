@@ -29,7 +29,6 @@ import {
   useColorModeValue,
 } from "@chakra-ui/react";
 import cloneDeep from "lodash.clonedeep";
-import dynamic from "next/dynamic";
 import React, {
   Dispatch,
   SetStateAction,
@@ -51,7 +50,6 @@ interface SettingsSideBarProps {
   inMemorySettings: UserSettings;
   setSettings: (value: UserSettings) => void;
   setInMemorySettings: Dispatch<SetStateAction<UserSettings>>;
-  optionHovered: TileId | undefined;
 }
 
 const openStyle = {
@@ -75,7 +73,6 @@ const SettingsSideBar: React.FC<SettingsSideBarProps> = ({
   inMemorySettings,
   setSettings,
   setInMemorySettings,
-  optionHovered,
 }) => {
   const { colorMode } = useColorMode();
   const [accordionIndex, setAccordionIndex] = useState<ExpandedIndex>([]);
@@ -120,10 +117,10 @@ const SettingsSideBar: React.FC<SettingsSideBarProps> = ({
     setAccordionIndex([]);
   };
 
-  const resetOptionToDefault = (option: Option) => {
+  const resetOptionToDefault = React.useCallback(() => (option: Option) => {
     const defaultSetting = getDefaultSettingForOption(option, colorMode);
     changeSetting(option.localStorageId, defaultSetting, option.tileId);
-  };
+  }, [changeSetting, colorMode]);
 
   const resetAllSettingsToDefault = () => {
     const currentTheme = getCurrentTheme(settings, colorMode);
