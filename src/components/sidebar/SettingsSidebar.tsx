@@ -65,6 +65,11 @@ const closedStyle = {
   width: 0,
 };
 
+const randomHexValue = (): string => {
+  let n = (Math.random() * 0xfffff * 1000000).toString(16);
+  return '#' + n.slice(0, 6);
+};
+
 const SettingsSideBar: React.FC<SettingsSideBarProps> = ({
   isOpen,
   onClose,
@@ -134,6 +139,17 @@ const SettingsSideBar: React.FC<SettingsSideBarProps> = ({
     });
   };
 
+  const randomizeAllColorValues = () => {
+    const currentTheme = getCurrentTheme(settings, colorMode);
+
+    sideBarOptions.forEach((option) => {
+      if(option.localStorageId.toLowerCase().includes('color')) {
+        const newColorSetting = randomHexValue();
+        changeSetting(option.localStorageId, newColorSetting, option.tileId);
+      }
+    });
+  };
+
   const currentThemeSettings = React.useMemo(
     () =>
       inMemorySettings.themes.find((theme) => theme.themeName === colorMode),
@@ -191,6 +207,14 @@ const SettingsSideBar: React.FC<SettingsSideBarProps> = ({
           <Button display="block" onClick={resetAllSettingsToDefault}>
             <Text fontSize="sm" color={textColor}>
               Reset all settings back to default
+            </Text>
+          </Button>
+        </Box>
+        <Box mt="4" />
+        <Box mb="4">
+          <Button display="block" onClick={randomizeAllColorValues}>
+            <Text fontSize="sm" color={textColor}>
+              Randomize all color values
             </Text>
           </Button>
         </Box>
