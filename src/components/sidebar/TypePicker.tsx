@@ -27,7 +27,7 @@ export const TypePicker: React.FC<TypePickerProps> = ({
     changeSetting(option.localStorageId, e.target.value, option.tileId);
   };
 
-  let options;
+  let options;  
 
   switch (sizeOfTileForTypes) {
     case "SmallTileTypePicker":

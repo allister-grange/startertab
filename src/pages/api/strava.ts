@@ -11,18 +11,15 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-
   try {
     const stravaData = await getStravaData();
     res.status(200).json(stravaData);
-  }
-  catch (err) {
+  } catch (err) {
     res.status(500).json(err);
   }
-
 }
 
-export const getStravaData = async() => {
+export const getStravaData = async () => {
   if (
     !process.env.STRAVA_CLIENT ||
     !process.env.STRAVA_REFRESH_TOKEN ||
@@ -30,7 +27,7 @@ export const getStravaData = async() => {
   ) {
     throw new Error("No environment variables set for Strava API");
   }
-  
+
   const body = JSON.stringify({
     client_id: process.env.STRAVA_CLIENT,
     refresh_token: process.env.STRAVA_REFRESH_TOKEN,
@@ -41,7 +38,7 @@ export const getStravaData = async() => {
   const headers = {
     Accept: "application/json, text/plain",
     "Content-Type": "application/json",
-  };  
+  };
 
   try {
     const reauthouriseRes = await fetch("https://www.strava.com/oauth/token", {
@@ -66,8 +63,7 @@ export const getStravaData = async() => {
   } catch (err) {
     throw new Error(err as string);
   }
-
-}
+};
 
 const getMonsEpoch = (): number => {
   let NZ = moment.tz(moment(), "Pacific/Auckland");
@@ -78,15 +74,7 @@ const getMonsEpoch = (): number => {
   return startOfWeekEpoch;
 };
 
-const weekday = [
-  "Sun",
-  "Mon",
-  "Tues",
-  "Wed",
-  "Thur",
-  "Fri",
-  "Sat",
-];
+const weekday = ["Sun", "Mon", "Tues", "Wed", "Thur", "Fri", "Sat"];
 
 // I want two lots of data (swimming and running)
 const formatStravaData = (data: StravaActivity[]) => {
@@ -96,8 +84,7 @@ const formatStravaData = (data: StravaActivity[]) => {
     if (activity.type === "Run") {
       formattedStravaData.running.forEach((activityToFind) => {
         if (
-          activityToFind.day ===
-          weekday[new Date(activity.start_date_local).getDay()]
+          activityToFind.day === weekday[new Date(activity.start_date).getDay()]
         ) {
           activityToFind.distance =
             Math.round((activity.distance / 1000) * 10) / 10;
@@ -105,8 +92,7 @@ const formatStravaData = (data: StravaActivity[]) => {
       });
       formattedStravaData.combinedData.forEach((activityToFind) => {
         if (
-          activityToFind.day ===
-          weekday[new Date(activity.start_date_local).getDay()]
+          activityToFind.day === weekday[new Date(activity.start_date).getDay()]
         ) {
           activityToFind.run = Math.round((activity.distance / 1000) * 10) / 10;
         }
@@ -114,8 +100,7 @@ const formatStravaData = (data: StravaActivity[]) => {
     } else if (activity.type === "Swim") {
       formattedStravaData.swimming.forEach((activityToFind) => {
         if (
-          activityToFind.day ===
-          weekday[new Date(activity.start_date_local).getDay()]
+          activityToFind.day === weekday[new Date(activity.start_date).getDay()]
         ) {
           activityToFind.distance =
             Math.round((activity.distance / 1000) * 10) / 10;
@@ -123,10 +108,10 @@ const formatStravaData = (data: StravaActivity[]) => {
       });
       formattedStravaData.combinedData.forEach((activityToFind) => {
         if (
-          activityToFind.day ===
-          weekday[new Date(activity.start_date_local).getDay()]
+          activityToFind.day === weekday[new Date(activity.start_date).getDay()]
         ) {
-          activityToFind.swim = Math.round((activity.distance / 1000) * 10) / 10;
+          activityToFind.swim =
+            Math.round((activity.distance / 1000) * 10) / 10;
         }
       });
     }

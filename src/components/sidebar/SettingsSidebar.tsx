@@ -1,11 +1,11 @@
-import { SettingOptionContainer } from "@/components/sidebar/SettingOptionContainer";
+import SettingOptionContainer from "@/components/sidebar/SettingOptionContainer";
 import { SideBarTitle } from "@/components/sidebar/SideBarTitle";
 import { ThemeToChangeSelector } from "@/components/sidebar/ThemeToChangeSelector";
 import {
   applyTheme,
   getCurrentTheme,
   getDefaultSettingForOption,
-  sortOptionsIntoTileGroups
+  sortOptionsIntoTileGroups,
 } from "@/helpers/settingsHelpers";
 import { sideBarOptions } from "@/helpers/sideBarOptions";
 import styles from "@/styles/Home.module.css";
@@ -14,7 +14,7 @@ import {
   ThemeSettings,
   TileId,
   TileSettings,
-  UserSettings
+  UserSettings,
 } from "@/types/settings";
 import {
   Accordion,
@@ -26,7 +26,7 @@ import {
   ExpandedIndex,
   Text,
   useColorMode,
-  useColorModeValue
+  useColorModeValue,
 } from "@chakra-ui/react";
 import cloneDeep from "lodash.clonedeep";
 import React, {
@@ -34,8 +34,13 @@ import React, {
   SetStateAction,
   useCallback,
   useLayoutEffect,
-  useState
+  useState,
 } from "react";
+
+// waiting on issue from https://github.com/chakra-ui/chakra-ui/issues/5842
+// const loadSettingOptionContainer = () =>
+//   import("@/components/sidebar/SettingOptionContainer");
+// const SettingOptionContainer = React.lazy(loadSettingOptionContainer);
 
 interface SettingsSideBarProps {
   isOpen: boolean;
@@ -60,7 +65,12 @@ const closedStyle = {
   width: 0,
 };
 
-export const SettingsSideBar: React.FC<SettingsSideBarProps> = ({
+const randomHexValue = (): string => {
+  let n = (Math.random() * 0xfffff * 1000000).toString(16);
+  return '#' + n.slice(0, 6);
+};
+
+const SettingsSideBar: React.FC<SettingsSideBarProps> = ({
   isOpen,
   onClose,
   setOptionHovered,
@@ -112,10 +122,10 @@ export const SettingsSideBar: React.FC<SettingsSideBarProps> = ({
     setAccordionIndex([]);
   };
 
-  const resetOptionToDefault = (option: Option) => {
+  const resetOptionToDefault = React.useCallback(() => (option: Option) => {
     const defaultSetting = getDefaultSettingForOption(option, colorMode);
     changeSetting(option.localStorageId, defaultSetting, option.tileId);
-  };
+  }, [changeSetting, colorMode]);
 
   const resetAllSettingsToDefault = () => {
     const currentTheme = getCurrentTheme(settings, colorMode);
@@ -129,8 +139,21 @@ export const SettingsSideBar: React.FC<SettingsSideBarProps> = ({
     });
   };
 
-  const currentThemeSettings = inMemorySettings.themes.find(
-    (theme) => theme.themeName === colorMode
+  const randomizeAllColorValues = () => {
+    const currentTheme = getCurrentTheme(settings, colorMode);
+
+    sideBarOptions.forEach((option) => {
+      if(option.localStorageId.toLowerCase().includes('color')) {
+        const newColorSetting = randomHexValue();
+        changeSetting(option.localStorageId, newColorSetting, option.tileId);
+      }
+    });
+  };
+
+  const currentThemeSettings = React.useMemo(
+    () =>
+      inMemorySettings.themes.find((theme) => theme.themeName === colorMode),
+    [colorMode, inMemorySettings.themes]
   );
 
   const sortedOptions = sortOptionsIntoTileGroups(sideBarOptions);
@@ -166,7 +189,7 @@ export const SettingsSideBar: React.FC<SettingsSideBarProps> = ({
       minWidth={300}
       width={300}
       height="100%"
-      transition={"all 0.3s ease-in-out"}
+      transition={"all 0.4s ease-in-out"}
       zIndex="10"
       bg={backgroundColor}
       overflowY="auto"
@@ -188,18 +211,28 @@ export const SettingsSideBar: React.FC<SettingsSideBarProps> = ({
           </Button>
         </Box>
         <Box mt="4" />
+        <Box mb="4">
+          <Button display="block" onClick={randomizeAllColorValues}>
+            <Text fontSize="sm" color={textColor}>
+              Randomize all color values
+            </Text>
+          </Button>
+        </Box>
+        <Box mt="4" />
         <Accordion
           allowMultiple
           onChange={onAccordionChange}
           index={accordionIndex}
         >
-          {Object.entries(sortedOptions).map((tileGroup) => {
+          {Object.entries(sortedOptions).map((tileGroup, index) => {
             return (
               <AccordionItem
                 key={tileGroup[0]}
                 p="0"
                 onMouseEnter={() => setOptionHovered(tileGroup[0] as TileId)}
+                onFocus={() => setOptionHovered(tileGroup[0] as TileId)}
                 onMouseLeave={() => setOptionHovered(undefined)}
+                onBlur={() => setOptionHovered(undefined)}
               >
                 <h2>
                   <AccordionButton
@@ -212,21 +245,24 @@ export const SettingsSideBar: React.FC<SettingsSideBarProps> = ({
                   </AccordionButton>
                 </h2>
                 {tileGroup[1].map((option: Option) => {
+                  // eager loading the options for performance
                   return (
-                    <SettingOptionContainer
-                      key={option.localStorageId}
-                      option={option}
-                      tileType={currentThemeSettings![option.tileId].tileType}
-                      changeSetting={changeSetting}
-                      textColor={textColor}
-                      subTextColor={subTextColor}
-                      resetOptionToDefault={resetOptionToDefault}
-                      value={
-                        currentThemeSettings![option.tileId!][
-                          option.localStorageId as keyof TileSettings
-                        ]!
-                      }
-                    />
+                    // <React.Suspense key={option.localStorageId} fallback={<></>}>
+                      <SettingOptionContainer
+                        key={option.localStorageId}
+                        option={option}
+                        tileType={currentThemeSettings![option.tileId].tileType}
+                        changeSetting={changeSetting}
+                        textColor={textColor}
+                        subTextColor={subTextColor}
+                        resetOptionToDefault={resetOptionToDefault}
+                        value={
+                          currentThemeSettings![option.tileId!][
+                            option.localStorageId as keyof TileSettings
+                          ]!
+                        }
+                      />
+                    // </React.Suspense>
                   );
                 })}
               </AccordionItem>
@@ -237,3 +273,5 @@ export const SettingsSideBar: React.FC<SettingsSideBarProps> = ({
     </Box>
   );
 };
+
+export default React.memo(SettingsSideBar);

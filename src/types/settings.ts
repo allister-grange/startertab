@@ -18,6 +18,7 @@ export type OptionType =
   | "DropShadowInput"
   | "LargeTileTypePicker"
   | "SmallTileTypePicker"
+  | "BorderSelect"
   | "CityInput";
 
 export type TileType =
@@ -47,6 +48,7 @@ export type TileSettings = {
   dropShadow?: string;
   cityForWeather?: string;
   todoList?: TodoObject[];
+  tileBorder?: string;
 };
 
 export type ThemeSettings = {

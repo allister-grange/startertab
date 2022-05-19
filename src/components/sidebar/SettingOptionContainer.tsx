@@ -3,8 +3,9 @@ import { SubRedditPicker } from "@/components/sidebar/SubRedditPicker";
 import { Option, TileId, TileType } from "@/types";
 import { AccordionPanel, Box, Text } from "@chakra-ui/react";
 import React from "react";
+import { BorderSelect } from "./BorderSelect";
 import { CityInput } from "./CityInput";
-import { DropShadowInput } from "./DropShadowInput";
+import { DropShadowSelect } from "./DropShadowSelect";
 import { TypePicker } from "./TypePicker";
 
 interface SettingOptionContainerProps {
@@ -64,8 +65,8 @@ export const SettingOptionContainer: React.FC<SettingOptionContainerProps> = ({
           textColor={textColor}
           subTextColor={subTextColor}
           value={value}
-          resetOptionToDefault={resetOptionToDefault} 
-          sizeOfTileForTypes={option.optionType}          
+          resetOptionToDefault={resetOptionToDefault}
+          sizeOfTileForTypes={option.optionType}
         />
       );
       break;
@@ -77,8 +78,8 @@ export const SettingOptionContainer: React.FC<SettingOptionContainerProps> = ({
           textColor={textColor}
           subTextColor={subTextColor}
           value={value}
-          resetOptionToDefault={resetOptionToDefault} 
-          sizeOfTileForTypes={option.optionType}          
+          resetOptionToDefault={resetOptionToDefault}
+          sizeOfTileForTypes={option.optionType}
         />
       );
       break;
@@ -91,13 +92,13 @@ export const SettingOptionContainer: React.FC<SettingOptionContainerProps> = ({
           subTextColor={subTextColor}
           value={value}
           resetOptionToDefault={resetOptionToDefault}
-          sizeOfTileForTypes={option.optionType}          
+          sizeOfTileForTypes={option.optionType}
         />
       );
       break;
     case "DropShadowInput":
       optionToDisplay = (
-        <DropShadowInput
+        <DropShadowSelect
           option={option}
           changeSetting={changeSetting}
           textColor={textColor}
@@ -121,6 +122,18 @@ export const SettingOptionContainer: React.FC<SettingOptionContainerProps> = ({
         );
       }
       break;
+    case "BorderSelect":
+      optionToDisplay = (
+        <BorderSelect
+          option={option}
+          changeSetting={changeSetting}
+          textColor={textColor}
+          subTextColor={subTextColor}
+          value={value}
+          resetOptionToDefault={resetOptionToDefault}
+        />
+      );
+      break;
 
     default:
       optionToDisplay = <Text>No option built for this type of tile yet</Text>;
@@ -133,3 +146,5 @@ export const SettingOptionContainer: React.FC<SettingOptionContainerProps> = ({
     </AccordionPanel>
   ) : null;
 };
+
+export default React.memo(SettingOptionContainer);

@@ -1,8 +1,8 @@
-import { Option, TileId } from "@/types";
-import { Box, BoxProps, Select, Text } from "@chakra-ui/react";
+import { TileId, Option } from "@/types";
+import { Box, Select, Text } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
 
-interface LargeTileTypePickerProps extends BoxProps {
+interface BorderSelectProps {
   option: Option;
   textColor: string;
   subTextColor: string;
@@ -11,7 +11,7 @@ interface LargeTileTypePickerProps extends BoxProps {
   resetOptionToDefault: (option: Option) => void;
 }
 
-export const LargeTileTypePicker: React.FC<LargeTileTypePickerProps> = ({
+export const BorderSelect: React.FC<BorderSelectProps> = ({
   option,
   textColor,
   subTextColor,
@@ -46,9 +46,16 @@ export const LargeTileTypePicker: React.FC<LargeTileTypePickerProps> = ({
           onChange={onTypeSelectChange}
           value={value}
         >
-          <option value="Strava Graph">Strava Graph</option>
-          <option value="UV Graph">UV Graph</option>
-          <option value="Large Spotify Tile">Large Spotify Tile</option>
+          <option value="">No border</option>
+          <option value="1px solid black">
+            Small border
+          </option>
+          <option value="2px solid black">
+            Medium border
+          </option>
+          <option value="3px solid black">
+            Large border
+          </option>
         </Select>
       </Box>
     </Box>
