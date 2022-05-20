@@ -12,7 +12,7 @@ import React, { useEffect, useState } from "react";
 import { TileContainer } from "./TileContainer";
 
 interface TileProps extends GridItemProps {
-  optionHovered: TileId | undefined;
+  optionHovered: boolean;
   tileId: TileId;
   stravaData: StravaGraphData;
   uvData: UvGraphData[];
@@ -20,7 +20,7 @@ interface TileProps extends GridItemProps {
   inMemorySettings: UserSettings;
 }
 
-export const Tile: React.FC<TileProps> = ({
+const Tile: React.FC<TileProps> = ({
   tileId,
   optionHovered,
   hackerNewsData,
@@ -45,10 +45,10 @@ export const Tile: React.FC<TileProps> = ({
       borderRadius="15"
       transition=".3s ease-in-out"
       minW="230px"
-      outline={optionHovered === tileId ? "2px solid white" : ""}
+      outline={optionHovered ? "2px solid white" : ""}
       shadow={shadow}
       border={border}
-      style={optionHovered === tileId ? { transform: "scale(1.05)" } : {}}
+      style={optionHovered ? { transform: "scale(1.05)" } : {}}
       bg={`var(--bg-color-${tileId})`}
       pos="relative"
       {...props}
@@ -63,3 +63,5 @@ export const Tile: React.FC<TileProps> = ({
     </GridItem>
   );
 };
+
+export default React.memo(Tile);

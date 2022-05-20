@@ -34,6 +34,8 @@ export type TileType =
   | "Time"
   | "Todo List"
   | "Large Spotify Tile"
+  | "Small Stock Tile"
+  | "Large Stock Tile"
   | "None";
 
 export type Themes = "dark" | "light";
@@ -49,6 +51,7 @@ export type TileSettings = {
   cityForWeather?: string;
   todoList?: TodoObject[];
   tileBorder?: string;
+  stockNames?: string[];
 };
 
 export type ThemeSettings = {

@@ -20,9 +20,10 @@ import {
 import { Center, Heading, useColorMode } from "@chakra-ui/react";
 import React from "react";
 import NoSSR from "react-no-ssr";
-import { LargeSpotifyTile } from "../tiles/LargeSpotifyTile";
-import { TodoList } from "../tiles/TodoList";
-import ColorModeSwitcher from "../ui/ColorModeSwitcher";
+import { LargeSpotifyTile } from "@/components/tiles/LargeSpotifyTile";
+import { SmallStockTile } from "@/components/tiles/SmallStockTile";
+import { TodoList } from "@/components/tiles/TodoList";
+import ColorModeSwitcher from "@/components/ui/ColorModeSwitcher";
 
 interface TileContainerProps {
   tileId: TileId;
@@ -37,7 +38,7 @@ export const TileContainer: React.FC<TileContainerProps> = ({
   hackerNewsData,
   settings,
   stravaData,
-  uvData
+  uvData,
 }) => {
   const { colorMode } = useColorMode();
 
@@ -66,25 +67,35 @@ export const TileContainer: React.FC<TileContainerProps> = ({
       tileToRender = <Bonsai tileId={tileId} />;
       break;
     case "Weather":
-      tileToRender = <WeatherTile city={currentTheme[tileId].cityForWeather} tileId={tileId} />;
+      tileToRender = (
+        <WeatherTile
+          city={currentTheme[tileId].cityForWeather}
+          tileId={tileId}
+        />
+      );
       break;
     case "Spotify":
       tileToRender = <Spotify tileId={tileId} />;
       break;
     case "UV Graph":
-      tileToRender = <UvGraph uvData={uvData} tileId={tileId}/>
+      tileToRender = <UvGraph uvData={uvData} tileId={tileId} />;
       break;
     case "Time":
-      tileToRender = <Time tileId={tileId}/>
+      tileToRender = <Time tileId={tileId} />;
       break;
     case "Theme Picker":
-      tileToRender = <ColorModeSwitcher tileId={tileId}/>
+      tileToRender = <ColorModeSwitcher tileId={tileId} />;
       break;
     case "Todo List":
-      tileToRender = <TodoList tileId={tileId} todoList={currentTheme[tileId].todoList}/>
+      tileToRender = (
+        <TodoList tileId={tileId} todoList={currentTheme[tileId].todoList} />
+      );
       break;
     case "Large Spotify Tile":
-      tileToRender = <LargeSpotifyTile tileId={tileId}/>
+      tileToRender = <LargeSpotifyTile tileId={tileId} />;
+      break;
+    case "Small Stock Tile":
+      tileToRender = <SmallStockTile tileId={tileId} />;
       break;
     default:
       tileToRender = (

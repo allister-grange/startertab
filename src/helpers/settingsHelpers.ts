@@ -115,7 +115,7 @@ export const defaultSettings: UserSettings = {
       tile3: {
         backgroundColor: "#9AB899",
         textColor: "#222222",
-        tileType: "None",
+        tileType: "Todo List",
       },
       tile4: {
         backgroundColor: "#E89C4B",
@@ -140,7 +140,7 @@ export const defaultSettings: UserSettings = {
       tile8: {
         backgroundColor: "#9AB899",
         textColor: "#222222",
-        tileType: "None",
+        tileType: "Small Stock Tile",
       },
       tile9: {
         backgroundColor: "#E89C4B",
@@ -179,7 +179,7 @@ export const defaultSettings: UserSettings = {
       tile3: {
         backgroundColor: "#9AB899",
         textColor: "#ffffff",
-        tileType: "None",
+        tileType: "Todo List",
       },
       tile4: {
         backgroundColor: "#65abc1",
@@ -204,7 +204,7 @@ export const defaultSettings: UserSettings = {
       tile8: {
         backgroundColor: "#65abc1",
         textColor: "#ffffff",
-        tileType: "None",
+        tileType: "Small Stock Tile",
       },
       tile9: {
         backgroundColor: "#9AB899",

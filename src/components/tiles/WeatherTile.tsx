@@ -31,14 +31,18 @@ export const WeatherTile: React.FC<WeatherTileProps> = ({ city, tileId }) => {
   useEffect(() => {
     const fetchWeatherData = async () => {
       try {
-        const res = await fetch(`/api/weather?city=${city}`);
-        let data = (await res.json());
+        if (!city || city === "") {
+          setError(`Check your city name in the settings 🔎`);
+          return;
+        }
 
-        if(Object.keys(data).length === 0) {
+        const res = await fetch(`/api/weather?city=${city}`);
+        let data = await res.json();
+
+        if (Object.keys(data).length === 0) {
           setError(`There's no such city as "${city}"`);
           return;
         }
-        
 
         setWeatherData(data);
         setError("");
@@ -60,19 +64,11 @@ export const WeatherTile: React.FC<WeatherTileProps> = ({ city, tileId }) => {
       </Center>
     );
   }
-  
+
   if (!weatherData) {
     return (
       <Center height="100%">
         <Spinner size="md" color={color} />
-      </Center>
-    );
-  } else if (!city || city === "") {
-    return (
-      <Center height="100%" p="8">
-        <Heading size="sm" color={color}>
-          Check your city name in the settings
-        </Heading>
       </Center>
     );
   }

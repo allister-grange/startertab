@@ -16,7 +16,7 @@ export default async function handler(
       req.query.city === "undefined" ||
       req.query.city === ""
     ) {
-      res.status(404);
+      res.status(204).send("Can't find empty city");
     }
 
     const data = await getWeatherConditions(req.query.city as string);
