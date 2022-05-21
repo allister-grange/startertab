@@ -3,7 +3,6 @@ import {
   RedditFeed,
   SearchBar,
   Spotify,
-  StravaGraph,
   Time,
   UvGraph,
   WeatherTile,
@@ -24,6 +23,7 @@ import { LargeSpotifyTile } from "@/components/tiles/LargeSpotifyTile";
 import { SmallStockTile } from "@/components/tiles/SmallStockTile";
 import { TodoList } from "@/components/tiles/TodoList";
 import ColorModeSwitcher from "@/components/ui/ColorModeSwitcher";
+import StravaGraph from "@/components/tiles/StravaGraph";
 
 interface TileContainerProps {
   tileId: TileId;

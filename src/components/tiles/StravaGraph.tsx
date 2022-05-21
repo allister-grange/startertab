@@ -24,7 +24,7 @@ type PageProps = {
   tileId: TileId;
 };
 
-export const StravaGraph: React.FC<PageProps> = ({ stravaData, tileId }) => {
+const StravaGraph: React.FC<PageProps> = ({ stravaData, tileId }) => {
   const [showingSwim, setShowingSwim] = useState<Boolean | undefined>();
   const color = `var(--text-color-${tileId})`;
   const runBoxColor = useColorModeValue("rgba(255, 255, 255, 0.2)", "rgba(255, 255, 255, 0.1)");
@@ -131,3 +131,5 @@ export const StravaGraph: React.FC<PageProps> = ({ stravaData, tileId }) => {
     </Box>
   );
 };
+
+export default React.memo(StravaGraph);
