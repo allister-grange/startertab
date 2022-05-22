@@ -13,10 +13,22 @@ export default async function handler(
       req.query.stocks === "undefined" ||
       req.query.stocks === ""
     ) {
-      res.status(404);
+      res
+        .status(404)
+        .send("Please provide stock tickers to call this API with");
+        return;
     }
 
     const stockData = await getStockTickerInfo(req.query.stocks as string);
+
+    console.log(stockData[0]!.d);
+
+    // API sends back a object even when the stock ticker doesn't exist -_-
+    if (stockData[0]!.d === null) {
+      res.status(404).send(`Couldn't find ticker with name req.query.stocks`);
+      return;
+    }
+
     res.status(200).json(stockData);
   } catch (err) {
     res.status(500).json(err);
@@ -43,6 +55,7 @@ export const getStockTickerInfo = async (
         );
 
         const data = (await res.json()) as FinnhubStockResponse;
+
         data.ticker = stockName;
         stockTickers.push(data);
       })
