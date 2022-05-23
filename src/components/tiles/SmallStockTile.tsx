@@ -27,7 +27,6 @@ type State = {
   status: Status;
   data?: StockTickers;
   error?: unknown;
-  inputSubreddit?: string;
 };
 
 export const SmallStockTile: React.FC<SmallStockTileProps> = ({ tileId }) => {
