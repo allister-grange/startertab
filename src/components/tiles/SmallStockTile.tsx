@@ -66,6 +66,11 @@ export const SmallStockTile: React.FC<SmallStockTileProps> = ({ tileId }) => {
       }
     };
 
+    if (!stockNames) {
+      setState((state) => ({ ...state, status: "waitingForInput" }));
+      return;
+    }
+
     getStocks();
   }, [stockNames]);
 
@@ -131,8 +136,7 @@ export const SmallStockTile: React.FC<SmallStockTileProps> = ({ tileId }) => {
   } else if (state.status === "rejected") {
     toDisplay = (
       <Text>
-        Sorry, that stock doesn&apos;t exist, or my API is broken 😔&nbsp;(ps, try
-        capitals)
+        Sorry, that stock doesn&apos;t exist 😔&nbsp;(ps, try capitals)
       </Text>
     );
   }
