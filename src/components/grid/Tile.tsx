@@ -7,6 +7,7 @@ import {
   UvGraphData,
   WeatherData
 } from "@/types";
+import styles from "@/styles/Home.module.css";
 import { GridItem, GridItemProps, useColorMode } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
 import { TileContainer } from "./TileContainer";
@@ -51,6 +52,8 @@ const Tile: React.FC<TileProps> = ({
       style={optionHovered ? { transform: "scale(1.05)" } : {}}
       bg={`var(--bg-color-${tileId})`}
       pos="relative"
+      overflowY="scroll"
+      className={styles.disableScrollbars}
       {...props}
     >
       <TileContainer

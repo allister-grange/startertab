@@ -6,7 +6,7 @@ import {
   ChevronDownIcon,
   ChevronRightIcon,
   EditIcon,
-  SmallCloseIcon,
+  SmallCloseIcon
 } from "@chakra-ui/icons";
 import {
   Box,
@@ -14,7 +14,7 @@ import {
   Heading,
   Input,
   Text,
-  useColorMode,
+  useColorMode
 } from "@chakra-ui/react";
 import cloneDeep from "lodash.clonedeep";
 import React, { useContext, useState } from "react";
@@ -31,7 +31,9 @@ export const TodoList: React.FC<TodoListProps> = ({ tileId, todoList }) => {
     SettingsContext
   ) as UserSettingsContextInterface;
   const { colorMode } = useColorMode();
-  const [todos, setTodos] = useState<TodoObject[]>(todoList ? todoList : []);
+  const [todos, setTodos] = useState<TodoObject[]>(
+    todoList ? todoList : [{ date: 0, done: false, title: "Add some todos ✔️" }]
+  );
   const [inputValue, setInputValue] = useState("");
   const [showingDelete, setShowingDelete] = useState<TodoObject | undefined>();
   const [showingCompletedItems, setShowingCompletedItems] = useState(false);
@@ -100,18 +102,12 @@ export const TodoList: React.FC<TodoListProps> = ({ tileId, todoList }) => {
   const unfinishedTodos = todos.filter((todo) => todo.done === false);
 
   return (
-    <Flex
-      color={color}
-      flexDir="column"
-      p="4"
-      pt="4"
-      height="100%"
-      pos="relative"
-    >
-      <Heading bottom="2" right="3" pos="absolute" opacity="0.6" size="sm">
+    <Box color={color} p="4" pt="4" height="100%">
+      <Heading fontSize="xl" fontWeight="bold">
         Todo
       </Heading>
-      <Flex minWidth="50%" flexDir="column">
+      <Box w="80%" height="1px" bgColor={color} mt="2" />
+      <Flex minWidth="50%" flexDir="column" mt="4">
         <Box>
           <ol>
             {unfinishedTodos.map((todo) => (
@@ -200,6 +196,7 @@ export const TodoList: React.FC<TodoListProps> = ({ tileId, todoList }) => {
                       color={color}
                       opacity="0.6"
                       ml="auto"
+                      onClick={() => handleTodoDelete(todo)}
                     />
                   </Flex>
                 </li>
@@ -208,6 +205,6 @@ export const TodoList: React.FC<TodoListProps> = ({ tileId, todoList }) => {
           </Box>
         ) : null}
       </Flex>
-    </Flex>
+    </Box>
   );
 };

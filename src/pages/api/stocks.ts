@@ -21,8 +21,6 @@ export default async function handler(
 
     const stockData = await getStockTickerInfo(req.query.stocks as string);
 
-    console.log(stockData[0]!.d);
-
     // API sends back a object even when the stock ticker doesn't exist -_-
     if (stockData[0]!.d === null) {
       res.status(404).send(`Couldn't find ticker with name req.query.stocks`);

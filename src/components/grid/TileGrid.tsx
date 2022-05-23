@@ -1,5 +1,4 @@
 import Tile from "@/components/grid/Tile";
-import styles from "@/styles/Home.module.css";
 import {
   HackerNewsLinkHolder,
   StravaGraphData,
@@ -15,7 +14,6 @@ interface TileGridProps {
   stravaData: StravaGraphData;
   uvData: UvGraphData[];
   hackerNewsData: HackerNewsLinkHolder[];
-  weatherData: WeatherData;
   inMemorySettings: UserSettings;
   optionHovered?: TileId;
 }
@@ -25,7 +23,6 @@ export const TileGrid: React.FC<TileGridProps> = ({
   hackerNewsData,
   inMemorySettings,
   stravaData,
-  weatherData,
   uvData,
 }) => {
   return (
@@ -42,8 +39,6 @@ export const TileGrid: React.FC<TileGridProps> = ({
       <Tile
         rowSpan={5}
         colSpan={1}
-        overflowY="scroll"
-        className={styles.disableScrollbars}
         tileId={"tile1"}
         optionHovered={optionHovered === "tile1"}
         inMemorySettings={inMemorySettings}
@@ -67,8 +62,6 @@ export const TileGrid: React.FC<TileGridProps> = ({
       <Tile
         colSpan={1}
         rowSpan={4}
-        overflowY="scroll"
-        className={styles.disableScrollbars}
         tileId={"tile3"}
         optionHovered={optionHovered === "tile3"}
         inMemorySettings={inMemorySettings}
@@ -79,8 +72,6 @@ export const TileGrid: React.FC<TileGridProps> = ({
       <Tile
         colSpan={1}
         rowSpan={5}
-        overflowY="scroll"
-        className={styles.disableScrollbars}
         tileId={"tile4"}
         optionHovered={optionHovered === "tile4"}
         inMemorySettings={inMemorySettings}
