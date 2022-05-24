@@ -5,47 +5,48 @@ import {
   Spotify,
   Time,
   UvGraph,
-  WeatherTile,
+  WeatherTile
 } from "@/components/tiles";
 import { HackerNewsFeed } from "@/components/tiles/HackerNewsFeed";
-import { getCurrentTheme } from "@/helpers/settingsHelpers";
+import { LargeSpotifyTile } from "@/components/tiles/LargeSpotifyTile";
+import { SmallStockTile } from "@/components/tiles/SmallStockTile";
+import StravaGraph from "@/components/tiles/StravaGraph";
+import { TodoList } from "@/components/tiles/TodoList";
+import ColorModeSwitcher from "@/components/ui/ColorModeSwitcher";
 import {
   HackerNewsLinkHolder,
   StravaGraphData,
   TileId,
+  TileType,
+  TodoObject,
   UserSettings,
-  UvGraphData,
+  UvGraphData
 } from "@/types";
-import { Center, Heading, useColorMode } from "@chakra-ui/react";
+import { Center, Heading } from "@chakra-ui/react";
 import React from "react";
 import NoSSR from "react-no-ssr";
-import { LargeSpotifyTile } from "@/components/tiles/LargeSpotifyTile";
-import { SmallStockTile } from "@/components/tiles/SmallStockTile";
-import { TodoList } from "@/components/tiles/TodoList";
-import ColorModeSwitcher from "@/components/ui/ColorModeSwitcher";
-import StravaGraph from "@/components/tiles/StravaGraph";
 
 interface TileContainerProps {
   tileId: TileId;
   hackerNewsData: HackerNewsLinkHolder[];
-  settings: UserSettings;
   stravaData: StravaGraphData;
   uvData: UvGraphData[];
+  tileType: TileType;
+  city?: string;
+  stockName?: string;
+  todoList?: TodoObject[];
 }
 
-export const TileContainer: React.FC<TileContainerProps> = ({
+const TileContainer: React.FC<TileContainerProps> = ({
   tileId,
   hackerNewsData,
-  settings,
   stravaData,
   uvData,
+  tileType,
+  city,
+  stockName,
+  todoList
 }) => {
-  const { colorMode } = useColorMode();
-
-  const currentTheme = getCurrentTheme(settings, colorMode);
-
-  const tileType = currentTheme[tileId].tileType;
-
   let tileToRender;
 
   switch (tileType) {
@@ -69,7 +70,7 @@ export const TileContainer: React.FC<TileContainerProps> = ({
     case "Weather":
       tileToRender = (
         <WeatherTile
-          city={currentTheme[tileId].cityForWeather}
+          city={city}
           tileId={tileId}
         />
       );
@@ -88,14 +89,14 @@ export const TileContainer: React.FC<TileContainerProps> = ({
       break;
     case "Todo List":
       tileToRender = (
-        <TodoList tileId={tileId} todoList={currentTheme[tileId].todoList} />
+        <TodoList tileId={tileId} todoList={todoList} />
       );
       break;
     case "Large Spotify Tile":
       tileToRender = <LargeSpotifyTile tileId={tileId} />;
       break;
     case "Small Stock Tile":
-      tileToRender = <SmallStockTile tileId={tileId} stockNameFromSettings={currentTheme[tileId].stockName}/>;
+      tileToRender = <SmallStockTile tileId={tileId} stockNameFromSettings={stockName}/>;
       break;
     default:
       tileToRender = (
@@ -113,3 +114,5 @@ export const TileContainer: React.FC<TileContainerProps> = ({
     <NoSSR>{tileToRender}</NoSSR>
   );
 };
+
+export default React.memo(TileContainer);
