@@ -3,10 +3,11 @@ import { SubRedditPicker } from "@/components/sidebar/SubRedditPicker";
 import { Option, TileId, TileType } from "@/types";
 import { AccordionPanel, Box, Text } from "@chakra-ui/react";
 import React from "react";
-import { BorderSelect } from "./BorderSelect";
-import { CityInput } from "./CityInput";
-import { DropShadowSelect } from "./DropShadowSelect";
-import { TypePicker } from "./TypePicker";
+import { BorderSelect } from "@/components/sidebar/BorderSelect";
+import { CityInput } from "@/components/sidebar/CityInput";
+import { DropShadowSelect } from "@/components/sidebar/DropShadowSelect";
+import { SmallStockInput } from "@/components/sidebar/SmallStockInput";
+import { TypePicker } from "@/components/sidebar/TypePicker";
 
 interface SettingOptionContainerProps {
   option: Option;
@@ -112,6 +113,20 @@ export const SettingOptionContainer: React.FC<SettingOptionContainerProps> = ({
       if (tileType === "Weather") {
         optionToDisplay = (
           <CityInput
+            option={option}
+            changeSetting={changeSetting}
+            textColor={textColor}
+            subTextColor={subTextColor}
+            value={value}
+            resetOptionToDefault={resetOptionToDefault}
+          />
+        );
+      }
+      break;
+    case "SmallStockInput":
+      if (tileType === "Small Stock Tile") {
+        optionToDisplay = (
+          <SmallStockInput
             option={option}
             changeSetting={changeSetting}
             textColor={textColor}

@@ -95,7 +95,7 @@ export const TileContainer: React.FC<TileContainerProps> = ({
       tileToRender = <LargeSpotifyTile tileId={tileId} />;
       break;
     case "Small Stock Tile":
-      tileToRender = <SmallStockTile tileId={tileId} />;
+      tileToRender = <SmallStockTile tileId={tileId} stockNameFromSettings={currentTheme[tileId].stockName}/>;
       break;
     default:
       tileToRender = (

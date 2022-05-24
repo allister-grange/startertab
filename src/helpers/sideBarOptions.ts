@@ -231,6 +231,14 @@ export const sideBarOptions: Option[] = [
     tileId: "tile7",
   },
   {
+    title: "Stock ticker",
+    subTitle: "Ticker that you want to see the stock info for, in capitals",
+    localStorageId: "stockName",
+    defaultSetting: "AAPL",
+    optionType: "SmallStockInput",
+    tileId: "tile7",
+  },
+  {
     title: "Type of tile",
     subTitle: "Choose what you want this tile to display",
     localStorageId: "tileType",
@@ -262,6 +270,14 @@ export const sideBarOptions: Option[] = [
     localStorageId: "cityForWeather",
     defaultSetting: "Wellington",
     optionType: "CityInput",
+    tileId: "tile8",
+  },
+  {
+    title: "Stock ticker",
+    subTitle: "Ticker that you want to see the stock info for, in capitals",
+    localStorageId: "stockName",
+    defaultSetting: "AAPL",
+    optionType: "SmallStockInput",
     tileId: "tile8",
   },
   {
@@ -325,6 +341,14 @@ export const sideBarOptions: Option[] = [
     tileId: "tile10",
   },
   {
+    title: "Stock ticker",
+    subTitle: "Ticker that you want to see the stock info for, in capitals",
+    localStorageId: "stockName",
+    defaultSetting: "AAPL",
+    optionType: "SmallStockInput",
+    tileId: "tile10",
+  },
+  {
     title: "Type of tile",
     subTitle: "Choose what you want this tile to display",
     localStorageId: "tileType",
@@ -356,6 +380,14 @@ export const sideBarOptions: Option[] = [
     localStorageId: "cityForWeather",
     defaultSetting: "Wellington",
     optionType: "CityInput",
+    tileId: "tile11",
+  },
+  {
+    title: "Stock ticker",
+    subTitle: "Ticker that you want to see the stock info for, in capitals",
+    localStorageId: "stockName",
+    defaultSetting: "AAPL",
+    optionType: "SmallStockInput",
     tileId: "tile11",
   },
   {

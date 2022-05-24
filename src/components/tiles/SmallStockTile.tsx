@@ -20,6 +20,7 @@ import React, { useContext, useEffect, useState } from "react";
 
 interface SmallStockTileProps {
   tileId: TileId;
+  stockNameFromSettings?: string;
 }
 
 type Status = "loading" | "resolved" | "waitingForInput" | "rejected";
@@ -29,15 +30,18 @@ type State = {
   error?: unknown;
 };
 
-export const SmallStockTile: React.FC<SmallStockTileProps> = ({ tileId }) => {
+export const SmallStockTile: React.FC<SmallStockTileProps> = ({
+  tileId,
+  stockNameFromSettings,
+}) => {
   const color = `var(--text-color-${tileId})`;
   const { settings, setSettings } = useContext(
     SettingsContext
   ) as UserSettingsContextInterface;
   const { colorMode } = useColorMode();
-  const [stockNames, setStockNames] = useState<string[] | undefined>(() => {
+  const [stockName, setStockName] = useState<string | undefined>(() => {
     const theme = getCurrentTheme(settings, colorMode);
-    return theme[tileId].stockNames;
+    return theme[tileId].stockName;
   });
   const [stockInput, setStockInput] = useState<string>("");
   const [state, setState] = useState<State>({
@@ -52,7 +56,7 @@ export const SmallStockTile: React.FC<SmallStockTileProps> = ({ tileId }) => {
       }));
 
       try {
-        const res = await fetch(`/api/stocks?stocks=${stockNames}`);
+        const res = await fetch(`/api/stocks?stocks=${stockName}`);
         const data = (await res.json()) as StockTickers;
 
         setState((state) => ({ ...state, status: "resolved", data }));
@@ -65,24 +69,41 @@ export const SmallStockTile: React.FC<SmallStockTileProps> = ({ tileId }) => {
       }
     };
 
-    if (!stockNames) {
+    if (!stockName) {
       setState((state) => ({ ...state, status: "waitingForInput" }));
       return;
     }
 
     getStocks();
-  }, [stockNames]);
+  }, [stockName]);
 
   const handleSubmitStockName = (e: React.FormEvent) => {
     e.preventDefault();
-    setStockNames([stockInput]);
+    setStockName(stockInput);
 
     let newSettings = cloneDeep(settings);
     const theme = getCurrentTheme(newSettings, colorMode);
-    theme[tileId].stockNames = [stockInput];
+    theme[tileId].stockName = stockInput;
 
     setSettings(newSettings);
   };
+
+  console.log(" pooo " + stockNameFromSettings);
+  
+  // for when the city is updated by the sidebar
+  useEffect(() => {
+    // the person changing the input on the tile takes precedence
+    if (state.status === "waitingForInput") {
+      return;
+    }
+
+    if (stockNameFromSettings != stockName && stockNameFromSettings) {
+      setStockName(stockNameFromSettings);
+      setStockInput(stockNameFromSettings);
+    }
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [stockNameFromSettings]);
 
   let toDisplay;
 

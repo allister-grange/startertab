@@ -19,6 +19,7 @@ export type OptionType =
   | "LargeTileTypePicker"
   | "SmallTileTypePicker"
   | "BorderSelect"
+  | "SmallStockInput"
   | "CityInput";
 
 export type TileType =
@@ -51,7 +52,7 @@ export type TileSettings = {
   cityForWeather?: string;
   todoList?: TodoObject[];
   tileBorder?: string;
-  stockNames?: string[];
+  stockName?: string;
 };
 
 export type ThemeSettings = {

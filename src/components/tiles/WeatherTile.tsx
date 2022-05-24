@@ -93,7 +93,7 @@ export const WeatherTile: React.FC<WeatherTileProps> = ({ city, tileId }) => {
     fetchWeatherData();
   }, [cityName]);
 
-  // // for when the city is updated by the sidebar
+  // for when the city is updated by the sidebar
   useEffect(() => {
     // the person changing the input on the tile takes precedence
     if (state.status === "waitingForInput") {
