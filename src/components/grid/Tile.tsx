@@ -1,18 +1,18 @@
 import { getCurrentTheme } from "@/helpers/settingsHelpers";
+import styles from "@/styles/Home.module.css";
 import {
   HackerNewsLinkHolder,
   StravaGraphData,
   TileId,
   UserSettings,
   UvGraphData,
-  WeatherData
 } from "@/types";
 import { GridItem, GridItemProps, useColorMode } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
-import { TileContainer } from "./TileContainer";
+import TileContainer from "@/components/grid/TileContainer";
 
 interface TileProps extends GridItemProps {
-  optionHovered: TileId | undefined;
+  optionHovered: boolean;
   tileId: TileId;
   stravaData: StravaGraphData;
   uvData: UvGraphData[];
@@ -20,7 +20,7 @@ interface TileProps extends GridItemProps {
   inMemorySettings: UserSettings;
 }
 
-export const Tile: React.FC<TileProps> = ({
+const Tile: React.FC<TileProps> = ({
   tileId,
   optionHovered,
   hackerNewsData,
@@ -33,33 +33,45 @@ export const Tile: React.FC<TileProps> = ({
   const { colorMode } = useColorMode();
   const [shadow, setShadow] = useState<string | undefined>();
   const [border, setBorder] = useState<string | undefined>();
+  const theme = getCurrentTheme(inMemorySettings, colorMode);
 
   useEffect(() => {
-    const theme = getCurrentTheme(inMemorySettings, colorMode);
     setShadow(theme.globalSettings.dropShadow);
     setBorder(theme.globalSettings.tileBorder);
-  }, [colorMode, inMemorySettings]);
+  }, [
+    colorMode,
+    inMemorySettings,
+    theme.globalSettings.dropShadow,
+    theme.globalSettings.tileBorder,
+  ]);
 
   return (
     <GridItem
       borderRadius="15"
       transition=".3s ease-in-out"
       minW="230px"
-      outline={optionHovered === tileId ? "2px solid white" : ""}
+      outline={optionHovered ? "2px solid white" : ""}
       shadow={shadow}
       border={border}
-      style={optionHovered === tileId ? { transform: "scale(1.05)" } : {}}
+      style={optionHovered ? { transform: "scale(1.05)" } : {}}
       bg={`var(--bg-color-${tileId})`}
       pos="relative"
+      overflowY="scroll"
+      className={styles.disableScrollbars}
       {...props}
     >
       <TileContainer
         tileId={tileId}
         hackerNewsData={hackerNewsData}
-        settings={inMemorySettings}
         stravaData={stravaData}
         uvData={uvData}
+        city={theme[tileId].cityForWeather}
+        stockName={theme[tileId].stockName}
+        todoList={theme[tileId].todoList}
+        tileType={theme[tileId].tileType}
       />
     </GridItem>
   );
 };
+
+export default React.memo(Tile);

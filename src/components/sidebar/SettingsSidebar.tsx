@@ -36,11 +36,7 @@ import React, {
   useLayoutEffect,
   useState,
 } from "react";
-
-// waiting on issue from https://github.com/chakra-ui/chakra-ui/issues/5842
-// const loadSettingOptionContainer = () =>
-//   import("@/components/sidebar/SettingOptionContainer");
-// const SettingOptionContainer = React.lazy(loadSettingOptionContainer);
+import NoSSR from "react-no-ssr";
 
 interface SettingsSideBarProps {
   isOpen: boolean;
@@ -67,7 +63,7 @@ const closedStyle = {
 
 const randomHexValue = (): string => {
   let n = (Math.random() * 0xfffff * 1000000).toString(16);
-  return '#' + n.slice(0, 6);
+  return "#" + n.slice(0, 6);
 };
 
 const SettingsSideBar: React.FC<SettingsSideBarProps> = ({
@@ -122,10 +118,13 @@ const SettingsSideBar: React.FC<SettingsSideBarProps> = ({
     setAccordionIndex([]);
   };
 
-  const resetOptionToDefault = React.useCallback(() => (option: Option) => {
-    const defaultSetting = getDefaultSettingForOption(option, colorMode);
-    changeSetting(option.localStorageId, defaultSetting, option.tileId);
-  }, [changeSetting, colorMode]);
+  const resetOptionToDefault = React.useCallback(
+    () => (option: Option) => {
+      const defaultSetting = getDefaultSettingForOption(option, colorMode);
+      changeSetting(option.localStorageId, defaultSetting, option.tileId);
+    },
+    [changeSetting, colorMode]
+  );
 
   const resetAllSettingsToDefault = () => {
     const currentTheme = getCurrentTheme(settings, colorMode);
@@ -140,10 +139,8 @@ const SettingsSideBar: React.FC<SettingsSideBarProps> = ({
   };
 
   const randomizeAllColorValues = () => {
-    const currentTheme = getCurrentTheme(settings, colorMode);
-
     sideBarOptions.forEach((option) => {
-      if(option.localStorageId.toLowerCase().includes('color')) {
+      if (option.localStorageId.toLowerCase().includes("color")) {
         const newColorSetting = randomHexValue();
         changeSetting(option.localStorageId, newColorSetting, option.tileId);
       }
@@ -224,30 +221,30 @@ const SettingsSideBar: React.FC<SettingsSideBarProps> = ({
           onChange={onAccordionChange}
           index={accordionIndex}
         >
-          {Object.entries(sortedOptions).map((tileGroup, index) => {
-            return (
-              <AccordionItem
-                key={tileGroup[0]}
-                p="0"
-                onMouseEnter={() => setOptionHovered(tileGroup[0] as TileId)}
-                onFocus={() => setOptionHovered(tileGroup[0] as TileId)}
-                onMouseLeave={() => setOptionHovered(undefined)}
-                onBlur={() => setOptionHovered(undefined)}
-              >
-                <h2>
-                  <AccordionButton
-                    _expanded={{ backdropFilter: "brightness(0.90)" }}
-                  >
-                    <Box flex="1" textAlign="left">
-                      {getOptionTitle(tileGroup[0] as keyof ThemeSettings)}
-                    </Box>
-                    <AccordionIcon />
-                  </AccordionButton>
-                </h2>
-                {tileGroup[1].map((option: Option) => {
-                  // eager loading the options for performance
-                  return (
-                    // <React.Suspense key={option.localStorageId} fallback={<></>}>
+          <NoSSR>
+            {Object.entries(sortedOptions).map((tileGroup, index) => {
+              return (
+                <AccordionItem
+                  key={tileGroup[0]}
+                  p="0"
+                  onMouseEnter={() => setOptionHovered(tileGroup[0] as TileId)}
+                  onFocus={() => setOptionHovered(tileGroup[0] as TileId)}
+                  onMouseLeave={() => setOptionHovered(undefined)}
+                  onBlur={() => setOptionHovered(undefined)}
+                >
+                  <h2>
+                    <AccordionButton
+                      _expanded={{ backdropFilter: "brightness(0.90)" }}
+                    >
+                      <Box flex="1" textAlign="left">
+                        {getOptionTitle(tileGroup[0] as keyof ThemeSettings)}
+                      </Box>
+                      <AccordionIcon />
+                    </AccordionButton>
+                  </h2>
+                  {tileGroup[1].map((option: Option) => {
+                    // eager loading the options for performance
+                    return (
                       <SettingOptionContainer
                         key={option.localStorageId}
                         option={option}
@@ -262,12 +259,12 @@ const SettingsSideBar: React.FC<SettingsSideBarProps> = ({
                           ]!
                         }
                       />
-                    // </React.Suspense>
-                  );
-                })}
-              </AccordionItem>
-            );
-          })}
+                    );
+                  })}
+                </AccordionItem>
+              );
+            })}
+          </NoSSR>
         </Accordion>
       </Box>
     </Box>

@@ -25,14 +25,12 @@ type PageProps = {
   stravaData: StravaGraphData;
   uvData: UvGraphData[];
   hackerNewsData: HackerNewsLinkHolder[];
-  weatherData: WeatherData;
 };
 
 const Home: NextPage<PageProps> = ({
   stravaData,
   uvData,
   hackerNewsData,
-  weatherData,
 }) => {
   // Sidebar hook
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -63,7 +61,6 @@ const Home: NextPage<PageProps> = ({
         stravaData={stravaData}
         uvData={uvData}
         hackerNewsData={hackerNewsData}
-        weatherData={weatherData}
       />
       {!isOpen && <SettingsToggle onOpen={onOpen} />}
     </Box>

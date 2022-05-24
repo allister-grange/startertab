@@ -1,5 +1,4 @@
-import { Tile } from "@/components/grid/Tile";
-import styles from "@/styles/Home.module.css";
+import Tile from "@/components/grid/Tile";
 import {
   HackerNewsLinkHolder,
   StravaGraphData,
@@ -15,7 +14,6 @@ interface TileGridProps {
   stravaData: StravaGraphData;
   uvData: UvGraphData[];
   hackerNewsData: HackerNewsLinkHolder[];
-  weatherData: WeatherData;
   inMemorySettings: UserSettings;
   optionHovered?: TileId;
 }
@@ -25,7 +23,6 @@ export const TileGrid: React.FC<TileGridProps> = ({
   hackerNewsData,
   inMemorySettings,
   stravaData,
-  weatherData,
   uvData,
 }) => {
   return (
@@ -42,10 +39,8 @@ export const TileGrid: React.FC<TileGridProps> = ({
       <Tile
         rowSpan={5}
         colSpan={1}
-        overflowY="scroll"
-        className={styles.disableScrollbars}
         tileId={"tile1"}
-        optionHovered={optionHovered}
+        optionHovered={optionHovered === "tile1"}
         inMemorySettings={inMemorySettings}
         stravaData={stravaData}
         uvData={uvData}
@@ -58,7 +53,7 @@ export const TileGrid: React.FC<TileGridProps> = ({
         maxH="330px"
         minW="530px"
         tileId={"tile2"}
-        optionHovered={optionHovered}
+        optionHovered={optionHovered === "tile2"}
         inMemorySettings={inMemorySettings}
         stravaData={stravaData}
         uvData={uvData}
@@ -67,10 +62,8 @@ export const TileGrid: React.FC<TileGridProps> = ({
       <Tile
         colSpan={1}
         rowSpan={4}
-        overflowY="scroll"
-        className={styles.disableScrollbars}
         tileId={"tile3"}
-        optionHovered={optionHovered}
+        optionHovered={optionHovered === "tile3"}
         inMemorySettings={inMemorySettings}
         stravaData={stravaData}
         uvData={uvData}
@@ -79,10 +72,8 @@ export const TileGrid: React.FC<TileGridProps> = ({
       <Tile
         colSpan={1}
         rowSpan={5}
-        overflowY="scroll"
-        className={styles.disableScrollbars}
         tileId={"tile4"}
-        optionHovered={optionHovered}
+        optionHovered={optionHovered === "tile4"}
         inMemorySettings={inMemorySettings}
         stravaData={stravaData}
         uvData={uvData}
@@ -94,7 +85,7 @@ export const TileGrid: React.FC<TileGridProps> = ({
         rowSpan={1}
         minH="60px"
         tileId={"tile5"}
-        optionHovered={optionHovered}
+        optionHovered={optionHovered === "tile5"}
         inMemorySettings={inMemorySettings}
         stravaData={stravaData}
         uvData={uvData}
@@ -108,7 +99,7 @@ export const TileGrid: React.FC<TileGridProps> = ({
         overflow="hidden"
         maxH="380px"
         tileId={"tile6"}
-        optionHovered={optionHovered}
+        optionHovered={optionHovered === "tile6"}
         inMemorySettings={inMemorySettings}
         stravaData={stravaData}
         uvData={uvData}
@@ -119,7 +110,7 @@ export const TileGrid: React.FC<TileGridProps> = ({
         rowSpan={2}
         colSpan={1}
         tileId={"tile7"}
-        optionHovered={optionHovered}
+        optionHovered={optionHovered === "tile7"}
         inMemorySettings={inMemorySettings}
         stravaData={stravaData}
         uvData={uvData}
@@ -132,7 +123,7 @@ export const TileGrid: React.FC<TileGridProps> = ({
         overflow="hidden"
         minH="310px"
         maxH="330px"
-        optionHovered={optionHovered}
+        optionHovered={optionHovered === "tile9"}
         tileId={"tile9"}
         inMemorySettings={inMemorySettings}
         stravaData={stravaData}
@@ -145,7 +136,7 @@ export const TileGrid: React.FC<TileGridProps> = ({
         rowSpan={2}
         pos="relative"
         tileId={"tile10"}
-        optionHovered={optionHovered}
+        optionHovered={optionHovered === "tile10"}
         inMemorySettings={inMemorySettings}
         stravaData={stravaData}
         uvData={uvData}
@@ -156,7 +147,7 @@ export const TileGrid: React.FC<TileGridProps> = ({
         colSpan={1}
         rowSpan={2}
         tileId={"tile8"}
-        optionHovered={optionHovered}
+        optionHovered={optionHovered === "tile8"}
         inMemorySettings={inMemorySettings}
         stravaData={stravaData}
         uvData={uvData}
@@ -167,7 +158,7 @@ export const TileGrid: React.FC<TileGridProps> = ({
         colSpan={1}
         rowSpan={2}
         tileId={"tile11"}
-        optionHovered={optionHovered}
+        optionHovered={optionHovered === "tile11"}
         inMemorySettings={inMemorySettings}
         stravaData={stravaData}
         uvData={uvData}
