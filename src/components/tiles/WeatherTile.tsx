@@ -54,8 +54,6 @@ export const WeatherTile: React.FC<WeatherTileProps> = ({ city, tileId }) => {
 
   useEffect(() => {
     const fetchWeatherData = async () => {
-      console.log("fetching weather data!");
-
       try {
         const res = await fetch(`/api/weather?city=${cityName}`);
         let data = await res.json();

@@ -5,15 +5,15 @@ interface SideBarTitleProps {
   textColor: string;
   onSaveHandler: () => void;
   onExitHandler: () => void;
+  backgroundColor: string;
 }
 
 export const SideBarTitle: React.FC<SideBarTitleProps> = ({
   textColor,
   onSaveHandler,
-  onExitHandler
+  onExitHandler,
+  backgroundColor,
 }) => {
-  const backgroundColor = useColorModeValue("gray.200", "#66727a");
-
   return (
     <Box
       display="flex"
@@ -21,12 +21,25 @@ export const SideBarTitle: React.FC<SideBarTitleProps> = ({
       alignItems="center"
       bgColor={backgroundColor}
       py="3"
+      borderBottom={`1px solid ${textColor}`}
     >
-      <Button onClick={onExitHandler} bg="gray.400">
+      <Button
+        onClick={onExitHandler}
+        bg="gray.400"
+        background="transparent"
+        border={`1px solid ${textColor}`}
+        color={textColor}
+      >
         Exit
       </Button>
       <Text color={textColor}>Preferences</Text>
-      <Button onClick={onSaveHandler} bg="gray.400">
+      <Button
+        onClick={onSaveHandler}
+        bg="gray.400"
+        background="transparent"
+        border={`1px solid ${textColor}`}
+        color={textColor}
+      >
         Save
       </Button>
     </Box>

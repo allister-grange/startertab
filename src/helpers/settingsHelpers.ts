@@ -1,7 +1,7 @@
 import { Option, ThemeSettings, TileId, UserSettings } from "@/types";
 
 export const applyTheme = (theme: ThemeSettings) => {
-  document.body.style.backgroundColor = theme.globalSettings.backgroundColor;
+  document.body.style.background = theme.globalSettings.backgroundColor;
   document.documentElement.style.setProperty(
     "--bg-color-tile1",
     theme.tile1.backgroundColor
@@ -92,139 +92,6 @@ export const applyTheme = (theme: ThemeSettings) => {
   );
 };
 
-export const defaultSettings: UserSettings = {
-  themes: [
-    {
-      themeName: "dark",
-      globalSettings: {
-        backgroundColor: "#1B202B",
-        textColor: "#222222",
-        tileType: "None",
-        dropShadow: "",
-      },
-      tile1: {
-        backgroundColor: "#65abc1",
-        textColor: "#222222",
-        tileType: "Hacker News Feed",
-      },
-      tile2: {
-        backgroundColor: "#E89C4B",
-        textColor: "#222222",
-        tileType: "Strava Graph",
-      },
-      tile3: {
-        backgroundColor: "#9AB899",
-        textColor: "#222222",
-        tileType: "Todo List",
-      },
-      tile4: {
-        backgroundColor: "#E89C4B",
-        textColor: "#222222",
-        tileType: "Reddit Feed",
-      },
-      tile5: {
-        backgroundColor: "#F06808",
-        textColor: "#222222",
-        tileType: "Search Bar",
-      },
-      tile6: {
-        backgroundColor: "#E89C4B",
-        textColor: "#222222",
-        tileType: "Bonsai",
-      },
-      tile7: {
-        backgroundColor: "#65abc1",
-        textColor: "#222222",
-        tileType: "Weather",
-      },
-      tile8: {
-        backgroundColor: "#9AB899",
-        textColor: "#222222",
-        tileType: "Small Stock Tile",
-      },
-      tile9: {
-        backgroundColor: "#E89C4B",
-        textColor: "#222222",
-        tileType: "Large Spotify Tile",
-      },
-      tile10: {
-        backgroundColor: "#9AB899",
-        textColor: "#222222",
-        tileType: "Time",
-      },
-      tile11: {
-        backgroundColor: "#65abc1",
-        textColor: "#222222",
-        tileType: "Theme Picker",
-      }
-    },
-    {
-      themeName: "light",
-      globalSettings: {
-        backgroundColor: "#ffffff",
-        textColor: "#ffffff",
-        tileType: "None",
-        dropShadow: "",
-      },
-      tile1: {
-        backgroundColor: "#65abc1",
-        textColor: "#ffffff",
-        tileType: "Hacker News Feed",
-      },
-      tile2: {
-        backgroundColor: "#E89C4B",
-        textColor: "#ffffff",
-        tileType: "Strava Graph",
-      },
-      tile3: {
-        backgroundColor: "#9AB899",
-        textColor: "#ffffff",
-        tileType: "Todo List",
-      },
-      tile4: {
-        backgroundColor: "#65abc1",
-        textColor: "#ffffff",
-        tileType: "Reddit Feed",
-      },
-      tile5: {
-        backgroundColor: "#E89C4B",
-        textColor: "#ffffff",
-        tileType: "Search Bar",
-      },
-      tile6: {
-        backgroundColor: "#F06808",
-        textColor: "#ffffff",
-        tileType: "Bonsai",
-      },
-      tile7: {
-        backgroundColor: "#E89C4B",
-        textColor: "#ffffff",
-        tileType: "Weather",
-      },
-      tile8: {
-        backgroundColor: "#65abc1",
-        textColor: "#ffffff",
-        tileType: "Small Stock Tile",
-      },
-      tile9: {
-        backgroundColor: "#9AB899",
-        textColor: "#ffffff",
-        tileType: "Large Spotify Tile",
-      },
-      tile10: {
-        backgroundColor: "#E89C4B",
-        textColor: "#ffffff",
-        tileType: "Time",
-      },
-      tile11: {
-        backgroundColor: "#65abc1",
-        textColor: "#ffffff",
-        tileType: "Theme Picker",
-      }
-    },
-  ],
-};
-
 export const sortOptionsIntoTileGroups = (
   options: Option[]
 ): Map<TileId, Option[]> => {
@@ -245,6 +112,12 @@ export const sortOptionsIntoTileGroups = (
   });
 
   return optionsInTileGroups;
+};
+
+export const getThemeNames = (settings: UserSettings): string[] => {
+  const themeNames: string[] = [];
+  settings.themes.forEach((theme) => themeNames.push(theme.themeName));
+  return themeNames;
 };
 
 export const getDefaultSettingForOption = (

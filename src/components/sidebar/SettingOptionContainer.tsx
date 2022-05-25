@@ -32,6 +32,9 @@ export const SettingOptionContainer: React.FC<SettingOptionContainerProps> = ({
 
   switch (option.optionType) {
     case "ColorPicker":
+      if(tileType !== "Bonsai" && option.localStorageId.includes("bonsai")) {
+        break;
+      }
       optionToDisplay = (
         <ColorPicker
           option={option}
@@ -55,7 +58,6 @@ export const SettingOptionContainer: React.FC<SettingOptionContainerProps> = ({
             resetOptionToDefault={resetOptionToDefault}
           />
         );
-        break;
       }
       break;
     case "SmallTileTypePicker":

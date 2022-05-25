@@ -45,6 +45,7 @@ export const BorderSelect: React.FC<BorderSelectProps> = ({
           size="sm"
           onChange={onTypeSelectChange}
           value={value}
+          color={textColor}
         >
           <option value="">No border</option>
           <option value="1px solid black">

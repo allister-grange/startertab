@@ -84,6 +84,7 @@ export const TypePicker: React.FC<TypePickerProps> = ({
           size="sm"
           onChange={onTypeSelectChange}
           value={value}
+          color={textColor}
         >
           {options}
         </Select>

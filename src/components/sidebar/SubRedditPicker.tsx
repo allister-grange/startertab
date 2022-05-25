@@ -72,6 +72,7 @@ export const SubRedditPicker: React.FC<SubRedditPickerProps> = ({
           size="sm"
           onChange={onSubRedditInputChange}
           height="8"
+          color={textColor}
         />
       </Box>
     </Box>

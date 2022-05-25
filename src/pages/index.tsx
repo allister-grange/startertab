@@ -1,6 +1,7 @@
 import { TileGrid } from "@/components/grid/TileGrid";
 import { SettingsToggle } from "@/components/ui/SettingsToggle";
 import { SettingsContext } from "@/context/UserSettingsContext";
+import { getCurrentTheme } from "@/helpers/settingsHelpers";
 import { getHackerNewsData } from "@/pages/api/hackerNews";
 import { getStravaData } from "@/pages/api/strava";
 import { getUVData } from "@/pages/api/weather";
@@ -10,9 +11,9 @@ import {
   TileId,
   UserSettingsContextInterface,
   UvGraphData,
-  WeatherData
+  WeatherData,
 } from "@/types";
-import { Box, useDisclosure } from "@chakra-ui/react";
+import { Box, useColorMode, useDisclosure } from "@chakra-ui/react";
 import cloneDeep from "lodash.clonedeep";
 import type { GetStaticProps, NextPage } from "next";
 import dynamic from "next/dynamic";
@@ -27,11 +28,7 @@ type PageProps = {
   hackerNewsData: HackerNewsLinkHolder[];
 };
 
-const Home: NextPage<PageProps> = ({
-  stravaData,
-  uvData,
-  hackerNewsData,
-}) => {
+const Home: NextPage<PageProps> = ({ stravaData, uvData, hackerNewsData }) => {
   // Sidebar hook
   const { isOpen, onOpen, onClose } = useDisclosure();
   // to highlight what tile you are looking to edit from the sidebar
@@ -43,6 +40,8 @@ const Home: NextPage<PageProps> = ({
   const [inMemorySettings, setInMemorySettings] = useState(() =>
     cloneDeep(settings)
   );
+
+  const { colorMode } = useColorMode();
 
   return (
     <Box h="100vh" display="flex" alignItems="center" overflow="auto">
@@ -62,7 +61,12 @@ const Home: NextPage<PageProps> = ({
         uvData={uvData}
         hackerNewsData={hackerNewsData}
       />
-      {!isOpen && <SettingsToggle onOpen={onOpen} />}
+      {!isOpen && (
+        <SettingsToggle
+          onOpen={onOpen}
+          color={getCurrentTheme(settings, colorMode).globalSettings.textColor}
+        />
+      )}
     </Box>
   );
 };

@@ -53,6 +53,11 @@ export type TileSettings = {
   todoList?: TodoObject[];
   tileBorder?: string;
   stockName?: string;
+  subTextColor?: string;
+  colorPrimary?: string;
+  colorSecondary?: string;
+  bonsaiBaseColor?: string;
+  bonsaiTrunkColor?: string;
 };
 
 export type ThemeSettings = {

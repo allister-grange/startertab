@@ -32,13 +32,13 @@ export const CityInput: React.FC<CityInputProps> = ({
   }, [value]);
 
   // will set the subreddit in the in memory copy of the settings
-  // to then be staged into the localStorage, need the timeout for 
+  // to then be staged into the localStorage, need the timeout for
   // performance reasons (only refresh every half a second)
   useEffect(() => {
     if (value === inputValue) {
       return;
     }
-    const timeoutIdentifier = setTimeout(() => {      
+    const timeoutIdentifier = setTimeout(() => {
       changeSetting(option.localStorageId, inputValue, option.tileId);
     }, 800);
 
@@ -63,12 +63,14 @@ export const CityInput: React.FC<CityInputProps> = ({
       </Text>
       <Box display="flex" flexDir="column" mt="1">
         <Input
+          color={textColor}
           marginLeft="auto"
           display="block"
           value={inputValue}
           size="sm"
           onChange={onCityNameChange}
           height="8"
+          placeholder="City name"
         />
       </Box>
     </Box>

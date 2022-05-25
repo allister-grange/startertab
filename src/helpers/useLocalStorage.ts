@@ -1,6 +1,6 @@
 import React from "react";
 import { UserSettings } from "@/types/settings";
-import { defaultSettings } from "./settingsHelpers";
+import { defaultSettings } from "@/helpers/themes";
 
 export function useLocalStorage(
   key: string
