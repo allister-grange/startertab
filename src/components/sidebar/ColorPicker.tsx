@@ -30,7 +30,7 @@ export const ColorPicker: React.FC<ColorPickerProps> = ({
   const { title, subTitle, localStorageId } = option;
   const [inputValue, setInputValue] = useState(value);
   const [showingColorPicker, setShowingColorPicker] = useState(false);
-
+  
   const onColorPickerChange = (color: string) => {
     setInputValue(color);
   };
@@ -83,6 +83,7 @@ export const ColorPicker: React.FC<ColorPickerProps> = ({
             onChange={onColorInputChange}
             height="8"
             onFocus={() => setShowingColorPicker(true)}
+            color={textColor}
           />
           <Center
             height="32px"

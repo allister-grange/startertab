@@ -5,6 +5,7 @@ import {
   applyTheme,
   getCurrentTheme,
   getDefaultSettingForOption,
+  getThemeNames,
   sortOptionsIntoTileGroups,
 } from "@/helpers/settingsHelpers";
 import { sideBarOptions } from "@/helpers/sideBarOptions";
@@ -76,11 +77,14 @@ const SettingsSideBar: React.FC<SettingsSideBarProps> = ({
   setInMemorySettings,
 }) => {
   const { colorMode } = useColorMode();
+
   const [accordionIndex, setAccordionIndex] = useState<ExpandedIndex>([]);
 
-  const backgroundColor = useColorModeValue("gray.100", "#33393D");
-  const textColor = useColorModeValue("#303030", "#fff");
-  const subTextColor = useColorModeValue("#606060", "#ddd");
+  const currentThemeSettings = React.useMemo(
+    () =>
+      inMemorySettings.themes.find((theme) => theme.themeName === colorMode),
+    [colorMode, inMemorySettings.themes]
+  );
 
   useLayoutEffect(() => {
     const themeToChange = getCurrentTheme(inMemorySettings, colorMode);
@@ -147,12 +151,6 @@ const SettingsSideBar: React.FC<SettingsSideBarProps> = ({
     });
   };
 
-  const currentThemeSettings = React.useMemo(
-    () =>
-      inMemorySettings.themes.find((theme) => theme.themeName === colorMode),
-    [colorMode, inMemorySettings.themes]
-  );
-
   const sortedOptions = sortOptionsIntoTileGroups(sideBarOptions);
 
   const onAccordionChange = (expandedIndex: ExpandedIndex) => {
@@ -181,6 +179,19 @@ const SettingsSideBar: React.FC<SettingsSideBarProps> = ({
     return "Global Settings";
   };
 
+  if (!currentThemeSettings) {
+    return <></>;
+  }
+
+  const backgroundColor = currentThemeSettings?.globalSettings.colorPrimary!;
+  const textColor = currentThemeSettings?.globalSettings.textColor;
+  const subTextColor = currentThemeSettings?.globalSettings.subTextColor!;
+  const borderColor = currentThemeSettings?.globalSettings.colorSecondary!;
+  
+  // const backgroundColor = useColorModeValue("gray.100", "#33393D");
+  // const textColor = useColorModeValue("#303030", "#fff");
+  // const subTextColor = useColorModeValue("#606060", "#ddd");
+
   return (
     <Box
       minWidth={300}
@@ -195,13 +206,22 @@ const SettingsSideBar: React.FC<SettingsSideBarProps> = ({
     >
       <SideBarTitle
         textColor={textColor}
+        backgroundColor={backgroundColor}
         onSaveHandler={onSaveHandler}
         onExitHandler={onExitHandler}
       />
       <Box p="3">
-        <ThemeToChangeSelector />
+        <ThemeToChangeSelector
+          textColor={textColor}
+          themes={getThemeNames(settings)}
+        />
         <Box mb="4">
-          <Button display="block" onClick={resetAllSettingsToDefault}>
+          <Button
+            display="block"
+            onClick={resetAllSettingsToDefault}
+            background="transparent"
+            border={`1px solid ${textColor}`}
+          >
             <Text fontSize="sm" color={textColor}>
               Reset all settings back to default
             </Text>
@@ -209,7 +229,12 @@ const SettingsSideBar: React.FC<SettingsSideBarProps> = ({
         </Box>
         <Box mt="4" />
         <Box mb="4">
-          <Button display="block" onClick={randomizeAllColorValues}>
+          <Button
+            display="block"
+            onClick={randomizeAllColorValues}
+            background="transparent"
+            border={`1px solid ${textColor}`}
+          >
             <Text fontSize="sm" color={textColor}>
               Randomize all color values
             </Text>
@@ -231,10 +256,12 @@ const SettingsSideBar: React.FC<SettingsSideBarProps> = ({
                   onFocus={() => setOptionHovered(tileGroup[0] as TileId)}
                   onMouseLeave={() => setOptionHovered(undefined)}
                   onBlur={() => setOptionHovered(undefined)}
+                  borderColor={borderColor}
                 >
                   <h2>
                     <AccordionButton
                       _expanded={{ backdropFilter: "brightness(0.90)" }}
+                      color={textColor}
                     >
                       <Box flex="1" textAlign="left">
                         {getOptionTitle(tileGroup[0] as keyof ThemeSettings)}
@@ -256,7 +283,7 @@ const SettingsSideBar: React.FC<SettingsSideBarProps> = ({
                         value={
                           currentThemeSettings![option.tileId!][
                             option.localStorageId as keyof TileSettings
-                          ]!
+                          ]
                         }
                       />
                     );

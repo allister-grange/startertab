@@ -1,13 +1,10 @@
 import { TileId } from "@/types";
 import { NowPlayingSpotifyData } from "@/types/spotify";
 import {
-  Box,
-  Button,
-  Center,
-  Flex,
+  Box, Flex,
   Heading,
   Link,
-  Spinner,
+  Spinner
 } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
 import { MusicControlButton } from "../ui/MusicControlButton";

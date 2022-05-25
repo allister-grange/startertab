@@ -45,6 +45,7 @@ export const DropShadowSelect: React.FC<DropShadowSelectProps> = ({
           size="sm"
           onChange={onTypeSelectChange}
           value={value}
+          color={textColor}
         >
           <option value="">No shadow</option>
           <option value="2px 2px 6px rgba(0,0,0,.3)">

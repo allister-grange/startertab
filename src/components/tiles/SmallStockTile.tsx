@@ -87,9 +87,7 @@ export const SmallStockTile: React.FC<SmallStockTileProps> = ({
 
     setSettings(newSettings);
   };
-
-  console.log(" pooo " + stockNameFromSettings);
-  
+    
   // for when the city is updated by the sidebar
   useEffect(() => {
     // the person changing the input on the tile takes precedence

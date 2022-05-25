@@ -54,7 +54,7 @@ const Tile: React.FC<TileProps> = ({
       shadow={shadow}
       border={border}
       style={optionHovered ? { transform: "scale(1.05)" } : {}}
-      bg={`var(--bg-color-${tileId})`}
+      background={`var(--bg-color-${tileId})`}
       pos="relative"
       overflowY="scroll"
       className={styles.disableScrollbars}
@@ -69,6 +69,8 @@ const Tile: React.FC<TileProps> = ({
         stockName={theme[tileId].stockName}
         todoList={theme[tileId].todoList}
         tileType={theme[tileId].tileType}
+        bonsaiBaseColor={theme[tileId].bonsaiBaseColor}
+        bonsaiTrunkColor={theme[tileId].bonsaiTrunkColor}
       />
     </GridItem>
   );

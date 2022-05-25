@@ -3,13 +3,16 @@ import { getBonsaiBase, grow } from "@/helpers/bonsaiHelpers";
 import * as BONSAI from "@/helpers/bonsaiHelpers";
 import { ShootType } from "@/types/bonsai";
 import { Box, Text } from "@chakra-ui/react";
-import { TileId } from "@/types";
 
 type BonsaiProps = {
-  tileId: TileId;
-}
+  baseColor?: string;
+  trunkColor?: string;
+};
 
-export const Bonsai: React.FC<BonsaiProps> = ({tileId}): JSX.Element => {
+export const Bonsai: React.FC<BonsaiProps> = ({
+  baseColor,
+  trunkColor,
+}): JSX.Element => {
   const getEmptyBonsai = (): string[][] => {
     const arrayOfSpaces = [];
     for (let i = 0; i < BONSAI.rows; i += 1) {
@@ -53,11 +56,12 @@ export const Bonsai: React.FC<BonsaiProps> = ({tileId}): JSX.Element => {
 
   return (
     <>
-      <Box pos="absolute" bottom="3.5rem" >
+      <Box pos="absolute" bottom="3.5rem">
         {bonsai.map((line, idx) => {
           const joinedLine = line.join("");
           return (
             <Text
+              color={trunkColor}
               lineHeight={"0.75rem"}
               key={idx}
               dangerouslySetInnerHTML={{ __html: joinedLine }}
@@ -65,12 +69,12 @@ export const Bonsai: React.FC<BonsaiProps> = ({tileId}): JSX.Element => {
           );
         })}
       </Box>
-      <Box pos="absolute" bottom="2" left="85">
+      <Box pos="absolute" bottom="2" left="61">
         {getBonsaiBase()
           .split("\n")
           .map((val, idx) => (
             <Text
-              color="black"
+              color={baseColor}
               lineHeight="0.8rem"
               fontSize="0.8rem"
               key={idx}

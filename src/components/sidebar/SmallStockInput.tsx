@@ -23,9 +23,6 @@ export const SmallStockInput: React.FC<SmallStockInputProps> = ({
   const { title, subTitle, localStorageId } = option;
   const [inputValue, setInputValue] = useState(() => value);
 
-  console.log(value);
-  
-
   const onStockNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInputValue(e.target.value);
   };
@@ -72,6 +69,7 @@ export const SmallStockInput: React.FC<SmallStockInputProps> = ({
           size="sm"
           onChange={onStockNameChange}
           height="8"
+          color={textColor}
         />
       </Box>
     </Box>
