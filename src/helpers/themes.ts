@@ -209,7 +209,7 @@ export const defaultSettings: UserSettings = {
       },
     },
     {
-      themeName: "#000",
+      themeName: "black",
       globalSettings: {
         backgroundColor: "#000",
         textColor: "#fff",
