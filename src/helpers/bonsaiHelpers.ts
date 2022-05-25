@@ -140,24 +140,24 @@ export const chooseNextChar = (
 
   switch (shootType) {
     case ShootType.trunk:
-      if (dx === 0) char = '<span style="color: papayawhip">/~</span>';
-      else if (dy < 0) char = '<span style="color: papayawhip">\\|</span>';
-      else if (dy === 0) char = '<span style="color: papayawhip">/|\\</span>';
-      else if (dy > 0) char = '<span style="color: papayawhip">/|</span>';
+      if (dx === 0) char = '<span">/~</span>';
+      else if (dy < 0) char = '<span">\\|</span>';
+      else if (dy === 0) char = '<span">/|\\</span>';
+      else if (dy > 0) char = '<span">/|</span>';
       break;
     case ShootType.shootLeft:
-      if (dx > 0) char = '<span style="color: white">\\</span>';
-      else if (dx === 0) char = '<span style="color: papayawhip">\\~</span>';
-      else if (dy < 0) char = '<span style="color: white">\\|</span>';
-      else if (dy === 0) char = '<span style="color: papayawhip">/|</span>';
-      else if (dy > 0) char = '<span style="color: white">/</span>';
+      if (dx > 0) char = '<span>\\</span>';
+      else if (dx === 0) char = '<span">\\~</span>';
+      else if (dy < 0) char = '<span>\\|</span>';
+      else if (dy === 0) char = '<span">/|</span>';
+      else if (dy > 0) char = '<span>/</span>';
       break;
     case ShootType.shootRight:
-      if (dx > 0) char = '<span style="color: white">/</span>';
-      else if (dx === 0) char = '<span style="color: papayawhip">~/</span>';
-      else if (dy < 0) char = '<span style="color: white">\\|</span>';
-      else if (dy === 0) char = '<span style="color: papayawhip">/|</span>';
-      else if (dy > 0) char = '<span style="color: white">/</span>';
+      if (dx > 0) char = '<span>/</span>';
+      else if (dx === 0) char = '<span">~/</span>';
+      else if (dy < 0) char = '<span>\\|</span>';
+      else if (dy === 0) char = '<span">/|</span>';
+      else if (dy > 0) char = '<span>/</span>';
       break;
     case ShootType.dying:
       char = '<span style="color: #6fc458">&</span>';

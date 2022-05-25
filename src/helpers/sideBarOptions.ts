@@ -1,4 +1,4 @@
-import {Option} from "@/types";
+import { Option } from "@/types";
 
 export const sideBarOptions: Option[] = [
   {
@@ -43,6 +43,22 @@ export const sideBarOptions: Option[] = [
     localStorageId: "textColor",
     lightDefault: "#ffffff",
     darkDefault: "#222222",
+    optionType: "ColorPicker",
+    tileId: "tile1",
+  },
+  {
+    title: "Bonsai base color",
+    subTitle: "Color of the bonsai base",
+    localStorageId: "bonsaiBaseColor",
+    defaultSetting: "#222222",
+    optionType: "ColorPicker",
+    tileId: "tile1",
+  },
+  {
+    title: "Bonsai truck color",
+    subTitle: "Color of the bonsai trunk",
+    localStorageId: "bonsaiTrunkColor",
+    defaultSetting: "#fff",
     optionType: "ColorPicker",
     tileId: "tile1",
   },
@@ -106,6 +122,22 @@ export const sideBarOptions: Option[] = [
     tileId: "tile3",
   },
   {
+    title: "Bonsai base color",
+    subTitle: "Color of the bonsai base",
+    localStorageId: "bonsaiBaseColor",
+    defaultSetting: "#222222",
+    optionType: "ColorPicker",
+    tileId: "tile3",
+  },
+  {
+    title: "Bonsai truck color",
+    subTitle: "Color of the bonsai trunk",
+    localStorageId: "bonsaiTrunkColor",
+    defaultSetting: "#fff",
+    optionType: "ColorPicker",
+    tileId: "tile3",
+  },
+  {
     title: "Reddit feed subreddit",
     subTitle: "Subreddit you want to see the posts from",
     localStorageId: "subReddit",
@@ -135,6 +167,22 @@ export const sideBarOptions: Option[] = [
     localStorageId: "textColor",
     lightDefault: "#ffffff",
     darkDefault: "#222222",
+    optionType: "ColorPicker",
+    tileId: "tile4",
+  },
+  {
+    title: "Bonsai base color",
+    subTitle: "Color of the bonsai base",
+    localStorageId: "bonsaiBaseColor",
+    defaultSetting: "#222222",
+    optionType: "ColorPicker",
+    tileId: "tile4",
+  },
+  {
+    title: "Bonsai truck color",
+    subTitle: "Color of the bonsai trunk",
+    localStorageId: "bonsaiTrunkColor",
+    defaultSetting: "#fff",
     optionType: "ColorPicker",
     tileId: "tile4",
   },
@@ -186,6 +234,22 @@ export const sideBarOptions: Option[] = [
     localStorageId: "textColor",
     lightDefault: "#ffffff",
     darkDefault: "#222222",
+    optionType: "ColorPicker",
+    tileId: "tile6",
+  },
+  {
+    title: "Bonsai base color",
+    subTitle: "Color of the bonsai base",
+    localStorageId: "bonsaiBaseColor",
+    defaultSetting: "#222222",
+    optionType: "ColorPicker",
+    tileId: "tile6",
+  },
+  {
+    title: "Bonsai truck color",
+    subTitle: "Color of the bonsai trunk",
+    localStorageId: "bonsaiTrunkColor",
+    defaultSetting: "#fff",
     optionType: "ColorPicker",
     tileId: "tile6",
   },

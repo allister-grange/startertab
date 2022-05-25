@@ -19,7 +19,6 @@ import {
   TileId,
   TileType,
   TodoObject,
-  UserSettings,
   UvGraphData
 } from "@/types";
 import { Center, Heading } from "@chakra-ui/react";
@@ -35,6 +34,8 @@ interface TileContainerProps {
   city?: string;
   stockName?: string;
   todoList?: TodoObject[];
+  bonsaiBaseColor?: string;
+  bonsaiTrunkColor?: string;
 }
 
 const TileContainer: React.FC<TileContainerProps> = ({
@@ -45,7 +46,9 @@ const TileContainer: React.FC<TileContainerProps> = ({
   tileType,
   city,
   stockName,
-  todoList
+  todoList,
+  bonsaiBaseColor,
+  bonsaiTrunkColor
 }) => {
   let tileToRender;
 
@@ -65,7 +68,7 @@ const TileContainer: React.FC<TileContainerProps> = ({
       tileToRender = <SearchBar tileId={tileId} />;
       break;
     case "Bonsai":
-      tileToRender = <Bonsai tileId={tileId} />;
+      tileToRender = <Bonsai baseColor={bonsaiBaseColor} trunkColor={bonsaiTrunkColor}/>;
       break;
     case "Weather":
       tileToRender = (
