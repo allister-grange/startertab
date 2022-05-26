@@ -7,6 +7,7 @@ import {
   Text,
   useColorMode,
 } from "@chakra-ui/react";
+import { setCookies } from 'cookies-next';
 
 interface ThemeToChangeSelectorProps {
   themes: string[];
@@ -19,24 +20,8 @@ export const ThemeToChangeSelector: React.FC<ThemeToChangeSelectorProps> = ({
 }) => {
   const { colorMode, setColorMode } = useColorMode();
 
-  const setLocalStorageTheme = (colorMode: string) => {
-    localStorage.setItem("colorMode", colorMode);
-  };
-
   const onThemeSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     setColorMode(e.target.value);
-    switch (e.target.value) {
-      case "black":
-      case "dark":
-        setLocalStorageTheme("dark");
-        break;
-      case "white":
-      case "light":
-        setLocalStorageTheme("light");
-        break;
-      default:
-        setLocalStorageTheme("dark");
-    }
   };
 
   return (
