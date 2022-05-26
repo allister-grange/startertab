@@ -6,7 +6,7 @@ import {
   getCurrentTheme,
   getDefaultSettingForOption,
   getThemeNames,
-  sortOptionsIntoTileGroups,
+  sortOptionsIntoTileGroups
 } from "@/helpers/settingsHelpers";
 import { sideBarOptions } from "@/helpers/sideBarOptions";
 import styles from "@/styles/Home.module.css";
@@ -15,7 +15,7 @@ import {
   ThemeSettings,
   TileId,
   TileSettings,
-  UserSettings,
+  UserSettings
 } from "@/types/settings";
 import {
   Accordion,
@@ -26,16 +26,15 @@ import {
   Button,
   ExpandedIndex,
   Text,
-  useColorMode,
-  useColorModeValue,
+  useColorMode
 } from "@chakra-ui/react";
 import cloneDeep from "lodash.clonedeep";
 import React, {
   Dispatch,
   SetStateAction,
   useCallback,
-  useLayoutEffect,
-  useState,
+  useEffect,
+  useState
 } from "react";
 import NoSSR from "react-no-ssr";
 
@@ -86,7 +85,7 @@ const SettingsSideBar: React.FC<SettingsSideBarProps> = ({
     [colorMode, inMemorySettings.themes]
   );
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     const themeToChange = getCurrentTheme(inMemorySettings, colorMode);
 
     applyTheme(themeToChange);
@@ -123,7 +122,7 @@ const SettingsSideBar: React.FC<SettingsSideBarProps> = ({
   };
 
   const resetOptionToDefault = React.useCallback(
-    () => (option: Option) => {
+    (option: Option) => {
       const defaultSetting = getDefaultSettingForOption(option, colorMode);
       changeSetting(option.localStorageId, defaultSetting, option.tileId);
     },
@@ -131,13 +130,8 @@ const SettingsSideBar: React.FC<SettingsSideBarProps> = ({
   );
 
   const resetAllSettingsToDefault = () => {
-    const currentTheme = getCurrentTheme(settings, colorMode);
-
     sideBarOptions.forEach((option) => {
-      const defaultSetting = getDefaultSettingForOption(
-        option,
-        currentTheme.themeName
-      );
+      const defaultSetting = getDefaultSettingForOption(option, colorMode);
       changeSetting(option.localStorageId, defaultSetting, option.tileId);
     });
   };
@@ -187,7 +181,7 @@ const SettingsSideBar: React.FC<SettingsSideBarProps> = ({
   const textColor = currentThemeSettings?.globalSettings.textColor;
   const subTextColor = currentThemeSettings?.globalSettings.subTextColor!;
   const borderColor = currentThemeSettings?.globalSettings.colorSecondary!;
-  
+
   // const backgroundColor = useColorModeValue("gray.100", "#33393D");
   // const textColor = useColorModeValue("#303030", "#fff");
   // const subTextColor = useColorModeValue("#606060", "#ddd");

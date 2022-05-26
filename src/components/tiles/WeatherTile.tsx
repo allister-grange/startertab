@@ -16,7 +16,6 @@ import {
   useColorMode,
 } from "@chakra-ui/react";
 import cloneDeep from "lodash.clonedeep";
-import error from "next/error";
 import React, { useContext, useEffect, useState } from "react";
 import {
   WiCloud,
@@ -49,7 +48,7 @@ export const WeatherTile: React.FC<WeatherTileProps> = ({ city, tileId }) => {
   });
   const [cityInput, setCityInput] = useState<string>("");
   const [state, setState] = useState<State>({
-    status: "waitingForInput",
+    status: city ? "loading" : "waitingForInput",
   });
 
   useEffect(() => {

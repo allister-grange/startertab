@@ -1,19 +1,21 @@
 import SettingsContext from "@/context/UserSettingsContext";
-import { ChakraProvider, extendTheme, ThemeConfig } from "@chakra-ui/react";
-import type { AppProps } from "next/app";
+import { ChakraProvider, cookieStorageManager } from "@chakra-ui/react";
+import App, { AppContext, AppInitialProps, AppProps } from "next/app";
 import Head from "next/head";
 import "../styles/globals.css";
 
-const config: ThemeConfig = {
-  initialColorMode: "dark",
-  useSystemColorMode: false,
-};
+type MyAppProps = { cookies: string };
 
-const theme = extendTheme({ config });
+export function MyApp({
+  Component,
+  pageProps,
+  cookies,
+}: AppProps & MyAppProps) {
+  // pulls the colorMode from the cookies so that SSR can produce the correct theme
+  const colorModeManager = cookieStorageManager(cookies.toString());
 
-function MyApp({ Component, pageProps }: AppProps) {
   return (
-    <ChakraProvider theme={theme}>
+    <ChakraProvider colorModeManager={colorModeManager}>
       <Head>
         <title>New Page</title>
       </Head>
@@ -23,5 +25,16 @@ function MyApp({ Component, pageProps }: AppProps) {
     </ChakraProvider>
   );
 }
+
+MyApp.getInitialProps = async (
+  context: AppContext
+): Promise<MyAppProps & AppInitialProps> => {
+  const ctx = await App.getInitialProps(context);
+
+  const { req } = context.ctx;
+  const cookies = req?.headers.cookie!;
+
+  return { ...ctx, cookies };
+};
 
 export default MyApp;

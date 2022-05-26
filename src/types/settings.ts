@@ -4,9 +4,6 @@ export type Option = {
   title: string;
   subTitle: string;
   localStorageId: string;
-  lightDefault?: string;
-  darkDefault?: string;
-  defaultSetting?: string;
   optionType: OptionType;
   tileId: TileId;
 };

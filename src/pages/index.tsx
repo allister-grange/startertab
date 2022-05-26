@@ -11,7 +11,6 @@ import {
   TileId,
   UserSettingsContextInterface,
   UvGraphData,
-  WeatherData,
 } from "@/types";
 import { Box, useColorMode, useDisclosure } from "@chakra-ui/react";
 import cloneDeep from "lodash.clonedeep";

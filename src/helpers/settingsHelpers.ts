@@ -1,4 +1,11 @@
-import { Option, ThemeSettings, TileId, UserSettings } from "@/types";
+import {
+  Option,
+  ThemeSettings,
+  TileId,
+  TileSettings,
+  UserSettings,
+} from "@/types";
+import { defaultSettings } from "./themes";
 
 export const applyTheme = (theme: ThemeSettings) => {
   document.body.style.background = theme.globalSettings.backgroundColor;
@@ -124,15 +131,19 @@ export const getDefaultSettingForOption = (
   option: Option,
   currentThemeName: string
 ): string => {
-  let defaultSetting =
-    currentThemeName === "dark" ? option.darkDefault : option.lightDefault;
+  const defaultTheme = defaultSettings.themes.find(
+    (theme) => theme.themeName === currentThemeName
+  );
 
-  // if there's no light/dark default there should be a regular default settings
-  if (!defaultSetting) {
-    defaultSetting = option.defaultSetting;
+  if (!defaultTheme) {
+    throw new Error(
+      `Theme name ${currentThemeName} doesn't appear in defaultSettings`
+    );
   }
 
-  return defaultSetting ? defaultSetting : "";
+  return defaultTheme[option.tileId][
+    option.localStorageId as keyof TileSettings
+  ] as string;
 };
 
 export const getCurrentTheme = (

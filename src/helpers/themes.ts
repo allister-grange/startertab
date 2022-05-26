@@ -12,7 +12,7 @@ export const defaultSettings: UserSettings = {
         dropShadow: "",
         tileBorder: "",
         colorPrimary: "#33393D",
-        colorSecondary: "#666"
+        colorSecondary: "#666",
       },
       tile1: {
         backgroundColor: "#65abc1",
@@ -80,7 +80,7 @@ export const defaultSettings: UserSettings = {
         tileType: "None",
         dropShadow: "",
         tileBorder: "",
-        colorPrimary: "#eeeeee"
+        colorPrimary: "#eeeeee",
       },
       tile1: {
         backgroundColor: "#65abc1",
@@ -148,7 +148,7 @@ export const defaultSettings: UserSettings = {
         tileType: "None",
         dropShadow: "",
         tileBorder: "1px solid #000",
-        colorPrimary: "#eeeeee"
+        colorPrimary: "#eeeeee",
       },
       tile1: {
         backgroundColor: "#ffffff",
@@ -209,7 +209,7 @@ export const defaultSettings: UserSettings = {
       },
     },
     {
-      themeName: "#000",
+      themeName: "black",
       globalSettings: {
         backgroundColor: "#000",
         textColor: "#fff",
@@ -278,14 +278,84 @@ export const defaultSettings: UserSettings = {
       },
     },
     {
-      themeName: "glassmorphism",
+      themeName: "glassmorphism light",
       globalSettings: {
         backgroundColor: "linear-gradient(160deg, #0093E9 0%, #80D0C7 100%)",
         textColor: "#222222",
         tileType: "None",
         dropShadow: "0 4px 30px rgba(0, 0, 0, 0.1)",
         tileBorder: "1px solid rgba(255, 255, 255, 0.3)",
-        colorPrimary: "#eeeeee"
+        colorPrimary: "#eeeeee",
+      },
+      tile1: {
+        backgroundColor: "rgba(255, 255, 255, 0.2)",
+        textColor: "#222222",
+        tileType: "Hacker News Feed",
+      },
+      tile2: {
+        backgroundColor: "rgba(255, 255, 255, 0.2)",
+        textColor: "#222222",
+        tileType: "Strava Graph",
+      },
+      tile3: {
+        backgroundColor: "rgba(255, 255, 255, 0.2)",
+        textColor: "#222222",
+        tileType: "Todo List",
+      },
+      tile4: {
+        backgroundColor: "rgba(255, 255, 255, 0.2)",
+        textColor: "#222222",
+        tileType: "Reddit Feed",
+      },
+      tile5: {
+        backgroundColor: "rgba(255, 255, 255, 0.2)",
+        textColor: "#222222",
+        tileType: "Search Bar",
+      },
+      tile6: {
+        backgroundColor: "rgba(255, 255, 255, 0.2)",
+        textColor: "#222222",
+        tileType: "Bonsai",
+        bonsaiTrunkColor: "#fff",
+        bonsaiBaseColor: "#000",
+      },
+      tile7: {
+        backgroundColor: "rgba(255, 255, 255, 0.2)",
+        textColor: "#222222",
+        tileType: "Weather",
+      },
+      tile8: {
+        backgroundColor: "rgba(255, 255, 255, 0.2)",
+        textColor: "#222222",
+        tileType: "Small Stock Tile",
+      },
+      tile9: {
+        backgroundColor: "rgba(255, 255, 255, 0.2)",
+        textColor: "#222222",
+        tileType: "Large Spotify Tile",
+      },
+      tile10: {
+        backgroundColor: "rgba(255, 255, 255, 0.2)",
+        textColor: "#222222",
+        tileType: "Time",
+      },
+      tile11: {
+        backgroundColor: "rgba(255, 255, 255, 0.2)",
+        textColor: "#222222",
+        tileType: "Theme Picker",
+      },
+    },
+    {
+      themeName: "glassmorphism dark",
+      globalSettings: {
+        backgroundColor: "linear-gradient(160deg, black 0%, #80D0C7 100%)",
+        textColor: "#fff",
+        tileType: "None",
+        dropShadow: "0 4px 30px rgba(0, 0, 0, 0.1)",
+        tileBorder: "1px solid rgba(255, 255, 255, 0.3)",
+        colorPrimary: "#33393D",
+        subTextColor: "#ddd",
+        colorSecondary: "#666",
       },
       tile1: {
         backgroundColor: "rgba(255, 255, 255, 0.2)",
