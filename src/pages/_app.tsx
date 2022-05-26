@@ -17,8 +17,6 @@ export function MyApp({
       ? cookieStorageManager(cookies)
       : localStorageManager
 
-  console.log(colorModeManager.get());
-
   return (
     <ChakraProvider colorModeManager={colorModeManager}>
       <Head>
@@ -36,12 +34,17 @@ MyApp.getInitialProps = async (
 ): Promise<MyAppProps & AppInitialProps> => {
   const ctx = await App.getInitialProps(context);
 
-  const { req } = context.ctx;
+  const { req, res } = context.ctx;
 
   let cookies = '';
   if(req) {
     cookies = req.headers.cookie ?? '';
-  }
+  }    
+  
+  if (res) {
+    // caching on Vercel was stopping the custom theme color being set
+    res.setHeader('Cache-Control', 'no-store');
+}
 
   return { ...ctx, cookies };
 };
