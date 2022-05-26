@@ -31,10 +31,11 @@ export const TileGrid: React.FC<TileGridProps> = ({
       templateRows="repeat(9, 1fr)"
       templateColumns="repeat(5, 1fr)"
       gap={4}
-      maxW="1500px"
       maxH="760px"
       marginX="auto"
       p="4"
+      py="8"
+      maxWidth={{'2xl': "1500px", 'xl': "1320px"}}
     >
       <Tile
         rowSpan={5}
