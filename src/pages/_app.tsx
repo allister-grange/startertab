@@ -1,8 +1,13 @@
 import SettingsContext from "@/context/UserSettingsContext";
-import { ChakraProvider, cookieStorageManager, localStorageManager } from "@chakra-ui/react";
+import {
+  ChakraProvider,
+  cookieStorageManager,
+  localStorageManager,
+} from "@chakra-ui/react";
 import App, { AppContext, AppInitialProps, AppProps } from "next/app";
 import Head from "next/head";
 import "../styles/globals.css";
+import { setCookies } from "cookies-next";
 
 type MyAppProps = { cookies?: string };
 
@@ -13,9 +18,9 @@ export function MyApp({
 }: AppProps & MyAppProps) {
   // pulls the colorMode from the cookies so that SSR can produce the correct theme
   const colorModeManager =
-    typeof cookies === 'string'
+    typeof cookies === "string"
       ? cookieStorageManager(cookies)
-      : localStorageManager
+      : localStorageManager;
 
   return (
     <ChakraProvider colorModeManager={colorModeManager}>
@@ -36,15 +41,16 @@ MyApp.getInitialProps = async (
 
   const { req, res } = context.ctx;
 
-  let cookies = '';
-  if(req) {
-    cookies = req.headers.cookie ?? '';
-  }    
-  
+  setCookies("_vercel_no_cache", "1", { req, res });
+
+  let cookies = "";
+  if (req) {
+    cookies = req.headers.cookie ?? "";
+  }
+
   if (res) {
-    // caching on Vercel was stopping the custom theme color being set
-    res.setHeader('Cache-Control', 'no-store');
-}
+    res.setHeader("Cache-Control", "no-store");
+  }
 
   return { ...ctx, cookies };
 };
