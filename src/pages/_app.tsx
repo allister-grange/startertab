@@ -4,7 +4,7 @@ import App, { AppContext, AppInitialProps, AppProps } from "next/app";
 import Head from "next/head";
 import "../styles/globals.css";
 
-type MyAppProps = { cookies: string };
+type MyAppProps = { cookies?: string };
 
 export function MyApp({
   Component,
@@ -12,7 +12,9 @@ export function MyApp({
   cookies,
 }: AppProps & MyAppProps) {
   // pulls the colorMode from the cookies so that SSR can produce the correct theme
-  const colorModeManager = cookieStorageManager(cookies.toString());
+  const colorModeManager = cookies
+    ? cookieStorageManager(cookies.toString())
+    : cookieStorageManager();
 
   return (
     <ChakraProvider colorModeManager={colorModeManager}>
@@ -32,7 +34,7 @@ MyApp.getInitialProps = async (
   const ctx = await App.getInitialProps(context);
 
   const { req } = context.ctx;
-  const cookies = req?.headers.cookie!;
+  const cookies = req?.headers.cookie;
 
   return { ...ctx, cookies };
 };
