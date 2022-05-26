@@ -153,7 +153,7 @@ export const RedditFeed: React.FC<RedditFeedProps> = ({ tileId }) => {
   } else if (status === "resolved" && data) {
     display = data.map((link) => (
       <>
-        <Box key={link.title} p="2" pt="4" pr="4">
+        <Box key={link.url} p="2" pt="4" pr="4">
           <Link href={link.url}>
             <Heading fontSize="md" fontWeight="normal">
               {link.title}

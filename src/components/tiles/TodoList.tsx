@@ -155,9 +155,11 @@ export const TodoList: React.FC<TodoListProps> = ({ tileId, todoList }) => {
           <Input
             size="sm"
             value={inputValue}
+            borderColor={color}
             onChange={onInputChange}
             onKeyDown={onKeyPress}
             _focus={{ borderColor: color }}
+            _hover={{ borderColor: color }}
           />
         </Flex>
         <Flex
