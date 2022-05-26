@@ -10,11 +10,11 @@ import {
   StravaGraphData,
   TileId,
   UserSettingsContextInterface,
-  UvGraphData,
+  UvGraphData
 } from "@/types";
 import { Box, useColorMode, useDisclosure } from "@chakra-ui/react";
 import cloneDeep from "lodash.clonedeep";
-import type { GetStaticProps, NextPage } from "next";
+import type { GetServerSideProps, NextPage } from "next";
 import dynamic from "next/dynamic";
 import { useContext, useState } from "react";
 const SettingsSideBar = dynamic(
@@ -70,7 +70,7 @@ const Home: NextPage<PageProps> = ({ stravaData, uvData, hackerNewsData }) => {
   );
 };
 
-export const getStaticProps: GetStaticProps = async (context) => {
+export const getServerSideProps: GetServerSideProps = async () => {
   const [stravaData, uvData, hackerNewsData] = await Promise.all([
     getStravaData(),
     getUVData(),
