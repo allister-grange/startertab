@@ -5,7 +5,6 @@ import {
   TileId,
   UserSettings,
   UvGraphData,
-  WeatherData
 } from "@/types";
 import { Grid } from "@chakra-ui/react";
 import React from "react";
@@ -59,6 +58,7 @@ export const TileGrid: React.FC<TileGridProps> = ({
         stravaData={stravaData}
         uvData={uvData}
         hackerNewsData={hackerNewsData}
+        overflow="hidden"
       />
       <Tile
         colSpan={1}

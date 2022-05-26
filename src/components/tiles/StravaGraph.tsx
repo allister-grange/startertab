@@ -27,14 +27,15 @@ type PageProps = {
 const StravaGraph: React.FC<PageProps> = ({ stravaData, tileId }) => {
   const [showingSwim, setShowingSwim] = useState<Boolean | undefined>();
   const color = `var(--text-color-${tileId})`;
-  const runBoxColor = useColorModeValue("rgba(255, 255, 255, 0.2)", "rgba(255, 255, 255, 0.1)");
+  const runBoxColor = useColorModeValue(
+    "rgba(255, 255, 255, 0.2)",
+    "rgba(255, 255, 255, 0.1)"
+  );
 
   return (
     <Box p="6">
       <Box display="flex" flexDir="row" color={color}>
-        <Heading fontSize="2xl">
-          Strava Stats
-        </Heading>
+        <Heading fontSize="2xl">Strava Stats</Heading>
         <Text ml="auto" mr="2">
           run
         </Text>
@@ -54,7 +55,7 @@ const StravaGraph: React.FC<PageProps> = ({ stravaData, tileId }) => {
       </Box>
       {stravaData ? (
         <Box mt="4" ml="-10">
-          <ResponsiveContainer width="100%" height={240}>
+          <ResponsiveContainer width="97%" height={230}>
             <BarChart data={stravaData.combinedData}>
               <XAxis
                 label={undefined}
