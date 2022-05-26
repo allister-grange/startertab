@@ -1,5 +1,5 @@
 import SettingsContext from "@/context/UserSettingsContext";
-import { ChakraProvider, cookieStorageManager } from "@chakra-ui/react";
+import { ChakraProvider, cookieStorageManager, localStorageManager } from "@chakra-ui/react";
 import App, { AppContext, AppInitialProps, AppProps } from "next/app";
 import Head from "next/head";
 import "../styles/globals.css";
@@ -12,9 +12,12 @@ export function MyApp({
   cookies,
 }: AppProps & MyAppProps) {
   // pulls the colorMode from the cookies so that SSR can produce the correct theme
-  const colorModeManager = cookies
-    ? cookieStorageManager(cookies.toString())
-    : cookieStorageManager();
+  const colorModeManager =
+    typeof cookies === 'string'
+      ? cookieStorageManager(cookies)
+      : localStorageManager
+
+  console.log(colorModeManager.get());
 
   return (
     <ChakraProvider colorModeManager={colorModeManager}>
@@ -34,7 +37,11 @@ MyApp.getInitialProps = async (
   const ctx = await App.getInitialProps(context);
 
   const { req } = context.ctx;
-  const cookies = req?.headers.cookie;
+
+  let cookies = '';
+  if(req) {
+    cookies = req.headers.cookie ?? '';
+  }
 
   return { ...ctx, cookies };
 };
