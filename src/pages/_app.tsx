@@ -7,7 +7,6 @@ import {
 import App, { AppContext, AppInitialProps, AppProps } from "next/app";
 import Head from "next/head";
 import "../styles/globals.css";
-import { setCookies } from "cookies-next";
 
 type MyAppProps = { cookies?: string };
 
@@ -22,6 +21,10 @@ export function MyApp({
       ? cookieStorageManager(cookies)
       : localStorageManager;
 
+      console.log("whhyyy" + colorModeManager.get());
+      console.log("whhyyy" + cookies);
+      console.log(typeof cookies === "string");
+      
   return (
     <ChakraProvider colorModeManager={colorModeManager}>
       <Head>
@@ -40,8 +43,6 @@ MyApp.getInitialProps = async (
   const ctx = await App.getInitialProps(context);
 
   const { req, res } = context.ctx;
-
-  setCookies("_vercel_no_cache", "1", { req, res });
 
   let cookies = "";
   if (req) {

@@ -10,7 +10,7 @@ import {
   StravaGraphData,
   TileId,
   UserSettingsContextInterface,
-  UvGraphData
+  UvGraphData,
 } from "@/types";
 import { Box, useColorMode, useDisclosure } from "@chakra-ui/react";
 import cloneDeep from "lodash.clonedeep";
@@ -79,7 +79,6 @@ export const getServerSideProps: GetServerSideProps = async () => {
 
   return {
     props: { stravaData, uvData, hackerNewsData },
-    revalidate: 600,
   };
 };
 
