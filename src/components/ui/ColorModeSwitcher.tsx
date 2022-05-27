@@ -51,6 +51,10 @@ const ColorModeSwitcher: React.FC = () => {
           bg="linear-gradient(90deg, black 50%, #2E4C49 50%);"
           onClick={() => setColorMode("glassmorphism dark")}
         />
+        <ThemePickerBubble
+          bg="linear-gradient(90deg, white 50%, #f882ff 50%);"
+          onClick={() => setColorMode("CMYK")}
+        />
       </Flex>
     </Flex>
   );
