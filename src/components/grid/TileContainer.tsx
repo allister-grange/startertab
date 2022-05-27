@@ -88,7 +88,7 @@ const TileContainer: React.FC<TileContainerProps> = ({
       tileToRender = <Time tileId={tileId} />;
       break;
     case "Theme Picker":
-      tileToRender = <ColorModeSwitcher tileId={tileId} />;
+      tileToRender = <ColorModeSwitcher />;
       break;
     case "Todo List":
       tileToRender = (
