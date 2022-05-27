@@ -70,7 +70,7 @@ export const Bonsai: React.FC<BonsaiProps> = ({
         })}
       </Box>
       <Box pos="absolute" bottom="2" left="61">
-        {getBonsaiBase(trunkColor)
+        {getBonsaiBase(trunkColor, baseColor)
           .split("\n")
           .map((val, idx) => (
             <Text
