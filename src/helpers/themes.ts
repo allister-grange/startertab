@@ -415,5 +415,73 @@ export const defaultSettings: UserSettings = {
         tileType: "Theme Picker",
       },
     },
+    {
+      themeName: "CMYK",
+      globalSettings: {
+        backgroundColor: "white",
+        textColor: "#222222",
+        tileType: "None",
+        dropShadow: "0 4px 30px rgba(0, 0, 0, 0.1)",
+        tileBorder: "1px solid rgba(255, 255, 255, 0.3)",
+        colorPrimary: "#eeeeee",
+      },
+      tile1: {
+        backgroundColor: "#81F8FF",
+        textColor: "#222222",
+        tileType: "Hacker News Feed",
+      },
+      tile2: {
+        backgroundColor: "rgba(255, 255, 255, 0.2)",
+        textColor: "#222222",
+        tileType: "Strava Graph",
+      },
+      tile3: {
+        backgroundColor: "#ffff82",
+        textColor: "#222222",
+        tileType: "Todo List",
+      },
+      tile4: {
+        backgroundColor: "#f882ff",
+        textColor: "#222222",
+        tileType: "Reddit Feed",
+      },
+      tile5: {
+        backgroundColor: "#81F8FF",
+        textColor: "#222222",
+        tileType: "Search Bar",
+      },
+      tile6: {
+        backgroundColor: "#ffff82",
+        textColor: "#222222",
+        tileType: "Bonsai",
+        bonsaiTrunkColor: "#222",
+        bonsaiBaseColor: "#000",
+      },
+      tile7: {
+        backgroundColor: "#f882ff",
+        textColor: "#222222",
+        tileType: "Weather",
+      },
+      tile8: {
+        backgroundColor: "rgba(255, 255, 255, 0.2)",
+        textColor: "#222222",
+        tileType: "Small Stock Tile",
+      },
+      tile9: {
+        backgroundColor: "#81F8FF",
+        textColor: "#222222",
+        tileType: "Large Spotify Tile",
+      },
+      tile10: {
+        backgroundColor: "rgba(255, 255, 255, 0.2)",
+        textColor: "#222222",
+        tileType: "Time",
+      },
+      tile11: {
+        backgroundColor: "#f882ff",
+        textColor: "#222222",
+        tileType: "Theme Picker",
+      },
+    },
   ],
 };

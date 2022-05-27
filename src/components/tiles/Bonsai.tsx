@@ -56,7 +56,7 @@ export const Bonsai: React.FC<BonsaiProps> = ({
 
   return (
     <>
-      <Box pos="absolute" bottom="3.5rem">
+      <Box pos="absolute" bottom="3.7rem">
         {bonsai.map((line, idx) => {
           const joinedLine = line.join("");
           return (
@@ -70,7 +70,7 @@ export const Bonsai: React.FC<BonsaiProps> = ({
         })}
       </Box>
       <Box pos="absolute" bottom="2" left="61">
-        {getBonsaiBase()
+        {getBonsaiBase(trunkColor)
           .split("\n")
           .map((val, idx) => (
             <Text
