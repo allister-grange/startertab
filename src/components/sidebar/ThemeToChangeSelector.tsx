@@ -7,7 +7,6 @@ import {
   Text,
   useColorMode,
 } from "@chakra-ui/react";
-import { setCookies } from 'cookies-next';
 
 interface ThemeToChangeSelectorProps {
   themes: string[];

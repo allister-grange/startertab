@@ -21,10 +21,6 @@ export function MyApp({
       ? cookieStorageManager(cookies)
       : localStorageManager;
 
-      console.log("whhyyy" + colorModeManager.get());
-      console.log("whhyyy" + cookies);
-      console.log(typeof cookies === "string");
-      
   return (
     <ChakraProvider colorModeManager={colorModeManager}>
       <Head>
