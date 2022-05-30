@@ -34,6 +34,7 @@ type State = {
   status: Status;
   data?: WeatherData;
   error?: string;
+  cityNameOfData?: string;
 };
 
 export const WeatherTile: React.FC<WeatherTileProps> = ({ city, tileId }) => {
@@ -42,73 +43,55 @@ export const WeatherTile: React.FC<WeatherTileProps> = ({ city, tileId }) => {
     SettingsContext
   ) as UserSettingsContextInterface;
   const { colorMode } = useColorMode();
-  const [cityName, setCityName] = useState<string | undefined>(() => {
-    const theme = getCurrentTheme(settings, colorMode);
-    return theme[tileId].cityForWeather;
-  });
   const [cityInput, setCityInput] = useState<string>("");
   const [state, setState] = useState<State>({
     status: city ? "loading" : "waitingForInput",
   });
 
-  useEffect(() => {
-    const fetchWeatherData = async () => {
-      try {
-        const res = await fetch(`/api/weather?city=${cityName}`);
-        let data = await res.json();
+  const fetchWeatherData = React.useCallback(async (cityName: string) => {
+    try {
+      const res = await fetch(`/api/weather?city=${cityName}`);
+      let data = await res.json();
 
-        if (Object.keys(data).length === 0) {
-          setState((state) => ({
-            ...state,
-            error: `There's no such city as "${cityName}"`,
-            status: "rejected",
-          }));
-          return;
-        }
-
+      if (Object.keys(data).length === 0) {
         setState((state) => ({
           ...state,
-          data,
-          error: undefined,
-          status: "resolved",
-        }));
-      } catch (error) {
-        console.error(error);
-        setState((state) => ({
-          ...state,
-          error: `Failed to retrieve data from API`,
+          error: `There's no such city as "${cityName}"`,
           status: "rejected",
         }));
+        return;
       }
-    };
 
-    if (!cityName || cityName === "") {
-      setState((state) => ({ ...state, status: "waitingForInput" }));
-      return;
+      setState((state) => ({
+        ...state,
+        data,
+        error: undefined,
+        status: "resolved",
+        cityNameOfData: cityName,
+      }));
+    } catch (error) {
+      console.error(error);
+      setState((state) => ({
+        ...state,
+        error: `Failed to retrieve data from API`,
+        status: "rejected",
+      }));
     }
+  }, []);
 
-    fetchWeatherData();
-  }, [cityName]);
-
-  // for when the city is updated by the sidebar
   useEffect(() => {
-    // the person changing the input on the tile takes precedence
-    if (state.status === "waitingForInput") {
-      return;
-    }
+    const currentTheme = getCurrentTheme(settings, colorMode);
+    const cityFromSettings = currentTheme[tileId].cityForWeather;
 
-    if (city != cityName && city) {
-      setCityName(city);
-      setCityInput(city);
+    if (!cityFromSettings) {
+      setState({ status: "waitingForInput" });
+    } else if (cityFromSettings !== state.cityNameOfData && cityFromSettings) {
+      fetchWeatherData(cityFromSettings);
     }
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [city]);
+  }, [colorMode, fetchWeatherData, settings, state.cityNameOfData, tileId]);
 
   const handleSubmitCityName = (e: React.FormEvent) => {
     e.preventDefault();
-    setCityName(cityInput);
-
     let newSettings = cloneDeep(settings);
     const theme = getCurrentTheme(newSettings, colorMode);
     theme[tileId].cityForWeather = cityInput;
@@ -144,7 +127,7 @@ export const WeatherTile: React.FC<WeatherTileProps> = ({ city, tileId }) => {
     toDisplay = (
       <>
         <Text size="xs" opacity="0.4" pos="absolute" bottom="2" left="3">
-          {cityName}
+          {state.cityNameOfData}
         </Text>
         <IconButton
           mb="4"

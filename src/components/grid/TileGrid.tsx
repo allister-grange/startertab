@@ -7,7 +7,7 @@ import {
   UvGraphData,
 } from "@/types";
 import { Grid } from "@chakra-ui/react";
-import React from "react";
+import React, { useEffect } from "react";
 
 interface TileGridProps {
   stravaData: StravaGraphData;
@@ -34,7 +34,7 @@ export const TileGrid: React.FC<TileGridProps> = ({
       marginX="auto"
       p="4"
       py="8"
-      maxWidth={{'2xl': "1500px", 'xl': "1320px"}}
+      maxWidth={{ "2xl": "1500px", xl: "1320px" }}
     >
       <Tile
         rowSpan={5}
@@ -79,8 +79,7 @@ export const TileGrid: React.FC<TileGridProps> = ({
         stravaData={stravaData}
         uvData={uvData}
         hackerNewsData={hackerNewsData}
-      >
-      </Tile>
+      ></Tile>
       <Tile
         colSpan={3}
         rowSpan={1}
@@ -91,8 +90,7 @@ export const TileGrid: React.FC<TileGridProps> = ({
         stravaData={stravaData}
         uvData={uvData}
         hackerNewsData={hackerNewsData}
-      >
-      </Tile>
+      ></Tile>
       <Tile
         colSpan={1}
         rowSpan={4}
@@ -105,8 +103,7 @@ export const TileGrid: React.FC<TileGridProps> = ({
         stravaData={stravaData}
         uvData={uvData}
         hackerNewsData={hackerNewsData}
-      >
-      </Tile>
+      ></Tile>
       <Tile
         rowSpan={2}
         colSpan={1}
@@ -116,8 +113,7 @@ export const TileGrid: React.FC<TileGridProps> = ({
         stravaData={stravaData}
         uvData={uvData}
         hackerNewsData={hackerNewsData}
-      >
-      </Tile>
+      ></Tile>
       <Tile
         colSpan={2}
         rowSpan={4}
@@ -130,8 +126,7 @@ export const TileGrid: React.FC<TileGridProps> = ({
         stravaData={stravaData}
         uvData={uvData}
         hackerNewsData={hackerNewsData}
-      >
-      </Tile>
+      ></Tile>
       <Tile
         colSpan={1}
         rowSpan={2}
@@ -142,8 +137,7 @@ export const TileGrid: React.FC<TileGridProps> = ({
         stravaData={stravaData}
         uvData={uvData}
         hackerNewsData={hackerNewsData}
-      >
-      </Tile>
+      ></Tile>
       <Tile
         colSpan={1}
         rowSpan={2}
@@ -153,8 +147,7 @@ export const TileGrid: React.FC<TileGridProps> = ({
         stravaData={stravaData}
         uvData={uvData}
         hackerNewsData={hackerNewsData}
-      >
-      </Tile>
+      ></Tile>
       <Tile
         colSpan={1}
         rowSpan={2}
@@ -164,8 +157,7 @@ export const TileGrid: React.FC<TileGridProps> = ({
         stravaData={stravaData}
         uvData={uvData}
         hackerNewsData={hackerNewsData}
-      >
-      </Tile>
+      ></Tile>
     </Grid>
   );
 };
