@@ -50,6 +50,7 @@ export const WeatherTile: React.FC<WeatherTileProps> = ({ city, tileId }) => {
 
   const fetchWeatherData = React.useCallback(async (cityName: string) => {
     try {
+      setState((state) => ({...state, status: "loading"}));
       const res = await fetch(`/api/weather?city=${cityName}`);
       let data = await res.json();
 

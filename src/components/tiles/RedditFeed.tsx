@@ -4,7 +4,7 @@ import {
   RedditAPIResponse,
   RedditDataHolder,
   TileId,
-  UserSettingsContextInterface,
+  UserSettingsContextInterface
 } from "@/types";
 import {
   Box,
@@ -14,7 +14,7 @@ import {
   Link,
   Spinner,
   Text,
-  useColorMode,
+  useColorMode
 } from "@chakra-ui/react";
 import cloneDeep from "lodash.clonedeep";
 import React, { useCallback, useContext, useEffect, useState } from "react";
@@ -23,12 +23,17 @@ interface RedditFeedProps {
   tileId: TileId;
 }
 
-type Status = "loading" | "resolved" | "reload" | "waitingForInput";
+type Status =
+  | "loading"
+  | "resolved"
+  | "reload"
+  | "waitingForInput"
+  | "rejected";
 type State = {
   status: Status;
   data?: RedditDataHolder[];
   error?: unknown;
-  inputSubreddit?: string;
+  currentSubreddit?: string;
 };
 
 export const RedditFeed: React.FC<RedditFeedProps> = ({ tileId }) => {
@@ -36,10 +41,7 @@ export const RedditFeed: React.FC<RedditFeedProps> = ({ tileId }) => {
     SettingsContext
   ) as UserSettingsContextInterface;
   const { colorMode } = useColorMode();
-  const [subReddit, setSubReddit] = useState<string | undefined>(() => {
-    const theme = getCurrentTheme(settings, colorMode);
-    return theme[tileId].subReddit;
-  });
+  const [subRedditInput, setSubRedditInput] = useState<string>("");
   const [state, setState] = useState<State>({
     status: "waitingForInput",
   });
@@ -49,98 +51,82 @@ export const RedditFeed: React.FC<RedditFeedProps> = ({ tileId }) => {
 
   const { data, status, error } = state;
 
-  const loadRedditData = useCallback(
-    async (subReddit: string) => {
-      setState({ ...state, status: "loading" });
+  const getRedditData = React.useCallback(
+    async (subReddit: string): Promise<RedditDataHolder[]> => {
       try {
-        const data = await getRedditData(subReddit);
-        setState({ ...state, status: "resolved", data });
-      } catch (error) {
-        setState({ ...state, error });
+        const res = await fetch(
+          `https://www.reddit.com/r/${subReddit}/top.json?limit=20&t=day`
+        );
+        const redditData = (await res.json()) as RedditAPIResponse;
+
+        const formattedData: RedditDataHolder[] = redditData.data.children.map(
+          (child) => ({
+            url: child.data.url,
+            title: child.data.title,
+          })
+        );
+
+        return formattedData;
+      } catch (err) {
+        throw new Error();
       }
     },
-    [state]
+    []
   );
 
-  // when a setting in changed in storage
-  useEffect(() => {
-    const currentTheme = getCurrentTheme(settings, colorMode);
-    const subRedditInStorage = currentTheme[tileId].subReddit;
-
-    if (!subRedditInStorage) {
-      return;
-    }
-
-    if (subRedditInStorage === subReddit) {
-      return;
-    }
-
-    setSubReddit(subRedditInStorage);
-    setState((state) => {
-      return { ...state, status: "reload" };
-    });
-  }, [colorMode, settings, subReddit, tileId]);
-
-  useEffect(() => {
-    // only want this to run on first load
-    if (state.status === "reload" && subReddit) {
-      loadRedditData(subReddit);
-    } else if (state.data || state.error) {
-      return;
-    }
-
-    if (state.status === "waitingForInput" && subReddit) {
-      loadRedditData(subReddit);
-    }
-  }, [loadRedditData, state, subReddit]);
+  const loadRedditData = useCallback(
+    async (subReddit: string) => {
+      setState((state) => ({ ...state, status: "loading" }));
+      try {
+        const data = await getRedditData(subReddit);
+        setState((state) => ({
+          ...state,
+          status: "resolved",
+          data,
+          currentSubreddit: subReddit,
+        }));
+      } catch (error) {
+        setState((state) => ({ ...state, error, status: "rejected" }));
+      }
+    },
+    [getRedditData]
+  );
 
   const handleSubredditInput = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setState({ ...state, inputSubreddit: e.target.value });
+    setSubRedditInput(e.target.value);
   };
 
   const handleSubredditSubmit = (e: React.SyntheticEvent) => {
     e.preventDefault();
-    changeSubredditFeedInStorage();
-  };
-
-  const changeSubredditFeedInStorage = useCallback(async () => {
     let newSettings = cloneDeep(settings);
-
     const theme = getCurrentTheme(newSettings, colorMode);
-    theme[tileId].subReddit = state.inputSubreddit;
+    theme[tileId].subReddit = subRedditInput;
+
     setSettings(newSettings);
-
-    loadRedditData(state.inputSubreddit!);
-  }, [
-    colorMode,
-    loadRedditData,
-    setSettings,
-    settings,
-    state.inputSubreddit,
-    tileId,
-  ]);
-
-  const getRedditData = async (
-    subReddit: string
-  ): Promise<RedditDataHolder[]> => {
-    try {
-      const res = await fetch(
-        `https://www.reddit.com/r/${subReddit}/top.json?limit=20&t=day`
-      );
-      const redditData = (await res.json()) as RedditAPIResponse;
-
-      const formattedData: RedditDataHolder[] = redditData.data.children.map(
-        (child) => ({
-          url: child.data.url,
-          title: child.data.title,
-        })
-      );
-
-      return formattedData;
-    } catch (err) {
-      throw new Error();
-    }
   };
+
+  useEffect(() => {
+    console.log("whyyyyy");
+
+    const currentTheme = getCurrentTheme(settings, colorMode);
+    const subRedditFromSettings = currentTheme[tileId].subReddit;
+
+    console.log(
+      `state.currentSubreddit:${state.currentSubreddit} subRedditFromSettings:${subRedditFromSettings}`
+    );
+
+    if (!subRedditFromSettings) {
+      console.log("poo");
+
+      setState({ status: "waitingForInput" });
+    } else if (
+      subRedditFromSettings !== state.currentSubreddit &&
+      subRedditFromSettings
+    ) {
+      console.log("wtf");
+      loadRedditData(subRedditFromSettings);
+    }
+  }, [colorMode, loadRedditData, settings, state.currentSubreddit, tileId]);
 
   let display;
 
@@ -172,11 +158,7 @@ export const RedditFeed: React.FC<RedditFeedProps> = ({ tileId }) => {
 
   return (
     <Box p="2" color={textColor} position="relative">
-      <Box
-        position="absolute"
-        right="4"
-        top="3"
-      >
+      <Box position="absolute" right="4" top="3">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           width="24"
@@ -190,12 +172,12 @@ export const RedditFeed: React.FC<RedditFeedProps> = ({ tileId }) => {
       <Heading p="2" fontSize="xl" fontWeight="bold">
         <Link
           href={
-            subReddit
-              ? `https://reddit.com/r/${subReddit}`
+            state.currentSubreddit
+              ? `https://reddit.com/r/${state.currentSubreddit}`
               : "https://reddit.com"
           }
         >
-          {data ? `r/${subReddit}` : "Reddit Feed"}
+          {data ? `r/${state.currentSubreddit}` : "Reddit Feed"}
         </Link>
       </Heading>
       <Box w="80%" bg="white" height="1px" ml="2" bgColor={underlineColor} />
@@ -220,8 +202,8 @@ export const RedditFeed: React.FC<RedditFeedProps> = ({ tileId }) => {
             padding="4"
             mt="2"
             width="90%"
-            onSubmit={changeSubredditFeedInStorage}
-            value={state.inputSubreddit}
+            onSubmit={handleSubredditInput}
+            value={subRedditInput}
             onChange={handleSubredditInput}
             borderColor={underlineColor}
           />
