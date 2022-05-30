@@ -13,7 +13,7 @@ import {
   InputRightElement,
   Spinner,
   Text,
-  useColorMode,
+  useColorMode
 } from "@chakra-ui/react";
 import cloneDeep from "lodash.clonedeep";
 import React, { useContext, useEffect, useState } from "react";
@@ -21,7 +21,7 @@ import {
   WiCloud,
   WiDaySunny,
   WiDaySunnyOvercast,
-  WiRain,
+  WiRain
 } from "react-icons/wi";
 
 interface WeatherTileProps {

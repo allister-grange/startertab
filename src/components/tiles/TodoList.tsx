@@ -6,7 +6,7 @@ import {
   ChevronDownIcon,
   ChevronRightIcon,
   EditIcon,
-  SmallCloseIcon
+  SmallCloseIcon,
 } from "@chakra-ui/icons";
 import {
   Box,
@@ -14,10 +14,10 @@ import {
   Heading,
   Input,
   Text,
-  useColorMode
+  useColorMode,
 } from "@chakra-ui/react";
 import cloneDeep from "lodash.clonedeep";
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 
 export interface TodoListProps {
   tileId: TileId;
@@ -26,7 +26,6 @@ export interface TodoListProps {
 
 export const TodoList: React.FC<TodoListProps> = ({ tileId, todoList }) => {
   const color = `var(--text-color-${tileId})`;
-
   const { settings, setSettings } = useContext(
     SettingsContext
   ) as UserSettingsContextInterface;
@@ -68,7 +67,6 @@ export const TodoList: React.FC<TodoListProps> = ({ tileId, todoList }) => {
 
     todoInState.done = !todoInState.done;
 
-    setTodos(todosToUpdates);
     updateSettingsWithTodo(todosToUpdates);
   };
 
@@ -83,7 +81,6 @@ export const TodoList: React.FC<TodoListProps> = ({ tileId, todoList }) => {
     }
 
     newTodos.splice(todoInStateIndex, 1);
-    setTodos(newTodos);
     updateSettingsWithTodo(newTodos);
   };
 
@@ -93,10 +90,20 @@ export const TodoList: React.FC<TodoListProps> = ({ tileId, todoList }) => {
     }
     let newTodos = [...todos];
     newTodos.push({ done: false, title: inputValue, date: Date.now() });
-    setTodos(newTodos);
     updateSettingsWithTodo(newTodos);
     setInputValue("");
   };
+
+  useEffect(() => {
+    const currentTheme = getCurrentTheme(settings, colorMode);
+    const todosFromSettings = currentTheme[tileId].todoList;
+
+    if (!todosFromSettings) {
+      setTodos([{ date: 0, done: false, title: "Add some todos ✔️" }]);
+    } else if (todosFromSettings !== todos && todosFromSettings) {
+      setTodos(todosFromSettings);
+    }
+  }, [colorMode, settings, tileId, todos]);
 
   const finishedTodos = todos.filter((todo) => todo.done === true);
   const unfinishedTodos = todos.filter((todo) => todo.done === false);
