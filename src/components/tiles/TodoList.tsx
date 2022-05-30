@@ -66,7 +66,6 @@ export const TodoList: React.FC<TodoListProps> = ({ tileId, todoList }) => {
     }
 
     todoInState.done = !todoInState.done;
-
     updateSettingsWithTodo(todosToUpdates);
   };
 
@@ -100,10 +99,10 @@ export const TodoList: React.FC<TodoListProps> = ({ tileId, todoList }) => {
 
     if (!todosFromSettings) {
       setTodos([{ date: 0, done: false, title: "Add some todos ✔️" }]);
-    } else if (todosFromSettings !== todos && todosFromSettings) {
+    } else {
       setTodos(todosFromSettings);
     }
-  }, [colorMode, settings, tileId, todos]);
+  }, [colorMode, settings, tileId]);
 
   const finishedTodos = todos.filter((todo) => todo.done === true);
   const unfinishedTodos = todos.filter((todo) => todo.done === false);
