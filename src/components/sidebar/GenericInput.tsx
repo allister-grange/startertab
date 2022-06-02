@@ -3,7 +3,7 @@ import { Box, BoxProps, Input, Text } from "@chakra-ui/react";
 import { title } from "process";
 import React, { useEffect, useState } from "react";
 
-interface SmallStockInputProps extends BoxProps {
+interface GenericInputProps extends BoxProps {
   option: Option;
   textColor: string;
   subTextColor: string;
@@ -12,7 +12,7 @@ interface SmallStockInputProps extends BoxProps {
   resetOptionToDefault: (option: Option) => void;
 }
 
-export const SmallStockInput: React.FC<SmallStockInputProps> = ({
+export const GenericInput: React.FC<GenericInputProps> = ({
   option,
   textColor,
   subTextColor,
@@ -21,9 +21,9 @@ export const SmallStockInput: React.FC<SmallStockInputProps> = ({
   resetOptionToDefault,
 }) => {
   const { title, subTitle, localStorageId } = option;
-  const [inputValue, setInputValue] = useState(() => value);
+  const [inputValue, setInputValue] = useState(value);
 
-  const onStockNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const onInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInputValue(e.target.value);
   };
 
@@ -31,7 +31,7 @@ export const SmallStockInput: React.FC<SmallStockInputProps> = ({
     setInputValue(value);
   }, [value]);
 
-  // will set the stock in the in memory copy of the settings
+  // will set the subreddit in the in memory copy of the settings
   // to then be staged into the localStorage, need the timeout for
   // performance reasons (only refresh every half a second)
   useEffect(() => {
@@ -63,13 +63,14 @@ export const SmallStockInput: React.FC<SmallStockInputProps> = ({
       </Text>
       <Box display="flex" flexDir="column" mt="1">
         <Input
+          color={textColor}
           marginLeft="auto"
           display="block"
           value={inputValue}
           size="sm"
-          onChange={onStockNameChange}
+          onChange={onInputChange}
           height="8"
-          color={textColor}
+          placeholder={`${title} value`}
         />
       </Box>
     </Box>

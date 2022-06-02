@@ -1,23 +1,25 @@
 import { TileId, Option } from "@/types";
 import { Box, Select, Text } from "@chakra-ui/react";
-import React, { useEffect, useState } from "react";
+import React, { ReactElement, useEffect, useState } from "react";
 
-interface DropShadowSelectProps {
+interface GenericSelectProps {
   option: Option;
   textColor: string;
   subTextColor: string;
   value: string;
   changeSetting: (key: string, value: string, tileId: TileId) => void;
   resetOptionToDefault: (option: Option) => void;
+  options: ReactElement;
 }
 
-export const DropShadowSelect: React.FC<DropShadowSelectProps> = ({
+export const GenericSelect: React.FC<GenericSelectProps> = ({
   option,
   textColor,
   subTextColor,
   changeSetting,
   value,
   resetOptionToDefault,
+  options,
 }) => {
   const { title, subTitle, localStorageId } = option;
 
@@ -47,19 +49,7 @@ export const DropShadowSelect: React.FC<DropShadowSelectProps> = ({
           value={value}
           color={textColor}
         >
-          <option value="">No shadow</option>
-          <option value="2px 2px 6px rgba(0,0,0,.3)">
-            Small blurred shadow
-          </option>
-          <option value="3px 3px 10px rgba(0,0,0,.3)">
-            Medium blurred shadow
-          </option>
-          <option value="4px 4px 10px rgba(0,0,0,.3)">
-            Large blurred shadow
-          </option>
-          <option value="4px 4px 0 rgba(0,0,0,.3)">Small block shadow</option>
-          <option value="6px 6px 0 rgba(0,0,0,.3)">Medium block shadow</option>
-          <option value="8px 8px 0 rgba(0,0,0,.3)">Large block shadow</option>
+          {options}
         </Select>
       </Box>
     </Box>
