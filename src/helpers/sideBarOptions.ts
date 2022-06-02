@@ -30,6 +30,13 @@ export const sideBarOptions: Option[] = [
     tileId: "globalSettings",
   },
   {
+    title: "Grid Gap",
+    subTitle: "Controls the grip gap of all the tiles",
+    localStorageId: "gridGap",
+    optionType: "GridGapInput",
+    tileId: "globalSettings",
+  },
+  {
     title: "Background color",
     subTitle: "Background color of the tile",
     localStorageId: "backgroundColor",

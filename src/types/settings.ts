@@ -18,6 +18,7 @@ export type OptionType =
   | "BorderRadiusInput"
   | "BorderSelect"
   | "SmallStockInput"
+  | "GridGapInput"
   | "CityInput";
 
 export type TileType =
@@ -57,6 +58,7 @@ export type TileSettings = {
   bonsaiBaseColor?: string;
   bonsaiTrunkColor?: string;
   borderRadius?: string;
+  gridGap?: string;
 };
 
 export type ThemeSettings = {

@@ -59,11 +59,12 @@ const Home: NextPage<PageProps> = ({ stravaData, uvData, hackerNewsData }) => {
         stravaData={stravaData}
         uvData={uvData}
         hackerNewsData={hackerNewsData}
+        gridGap={getCurrentTheme(inMemorySettings, colorMode).globalSettings.gridGap}
       />
       {!isOpen && (
         <SettingsToggle
           onOpen={onOpen}
-          color={getCurrentTheme(settings, colorMode).globalSettings.textColor}
+          color={getCurrentTheme(inMemorySettings, colorMode).globalSettings.textColor}
         />
       )}
     </Box>

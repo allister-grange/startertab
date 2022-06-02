@@ -15,6 +15,7 @@ interface TileGridProps {
   hackerNewsData: HackerNewsLinkHolder[];
   inMemorySettings: UserSettings;
   optionHovered?: TileId;
+  gridGap?: string;
 }
 
 export const TileGrid: React.FC<TileGridProps> = ({
@@ -23,13 +24,14 @@ export const TileGrid: React.FC<TileGridProps> = ({
   inMemorySettings,
   stravaData,
   uvData,
+  gridGap,
 }) => {
   return (
     <Grid
       h="100%"
       templateRows="repeat(9, 1fr)"
       templateColumns="repeat(5, 1fr)"
-      gap={4}
+      gap={gridGap ?? 4}
       maxH="760px"
       marginX="auto"
       p="4"

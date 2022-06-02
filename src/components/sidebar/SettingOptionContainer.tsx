@@ -58,6 +58,7 @@ export const SettingOptionContainer: React.FC<SettingOptionContainerProps> = ({
       }
       break;
     case "BorderRadiusInput":
+    case "GridGapInput":
       optionToDisplay = (
         <GenericInput
           option={option}
@@ -66,36 +67,11 @@ export const SettingOptionContainer: React.FC<SettingOptionContainerProps> = ({
           subTextColor={subTextColor}
           value={value}
           resetOptionToDefault={resetOptionToDefault}
-          numeric={true}
         />
       );
       break;
     case "SmallTileTypePicker":
-      optionToDisplay = (
-        <TypePicker
-          option={option}
-          changeSetting={changeSetting}
-          textColor={textColor}
-          subTextColor={subTextColor}
-          value={value}
-          resetOptionToDefault={resetOptionToDefault}
-          sizeOfTileForTypes={option.optionType}
-        />
-      );
-      break;
     case "MediumTileTypePicker":
-      optionToDisplay = (
-        <TypePicker
-          option={option}
-          changeSetting={changeSetting}
-          textColor={textColor}
-          subTextColor={subTextColor}
-          value={value}
-          resetOptionToDefault={resetOptionToDefault}
-          sizeOfTileForTypes={option.optionType}
-        />
-      );
-      break;
     case "LargeTileTypePicker":
       optionToDisplay = (
         <TypePicker
@@ -192,20 +168,6 @@ export const SettingOptionContainer: React.FC<SettingOptionContainerProps> = ({
         />
       );
       break;
-    case "BorderRadiusInput":
-      optionToDisplay = (
-        <GenericSelect
-          option={option}
-          changeSetting={changeSetting}
-          textColor={textColor}
-          subTextColor={subTextColor}
-          value={value}
-          resetOptionToDefault={resetOptionToDefault}
-          options={<></>}
-        />
-      );
-      break;
-
     default:
       optionToDisplay = <Text>No option built for this type of tile yet</Text>;
   }
