@@ -33,21 +33,24 @@ const Tile: React.FC<TileProps> = ({
   const { colorMode } = useColorMode();
   const [shadow, setShadow] = useState<string | undefined>();
   const [border, setBorder] = useState<string | undefined>();
+  const [borderRadius, setBorderRadius] = useState<string | undefined>();
   const theme = getCurrentTheme(inMemorySettings, colorMode);
 
   useEffect(() => {
     setShadow(theme.globalSettings.dropShadow);
     setBorder(theme.globalSettings.tileBorder);
+    setBorderRadius(theme.globalSettings.borderRadius);
   }, [
     colorMode,
     inMemorySettings,
+    theme.globalSettings.borderRadius,
     theme.globalSettings.dropShadow,
     theme.globalSettings.tileBorder,
   ]);
 
   return (
     <GridItem
-      borderRadius="15"
+      borderRadius={borderRadius ?? "15"}
       transition=".3s ease-in-out"
       minW="230px"
       outline={optionHovered ? "2px solid white" : ""}

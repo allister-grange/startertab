@@ -10,6 +10,7 @@ interface GenericInputProps extends BoxProps {
   value: string;
   changeSetting: (key: string, value: string, tileId: TileId) => void;
   resetOptionToDefault: (option: Option) => void;
+  numeric?: boolean;
 }
 
 export const GenericInput: React.FC<GenericInputProps> = ({
@@ -19,6 +20,7 @@ export const GenericInput: React.FC<GenericInputProps> = ({
   changeSetting,
   value,
   resetOptionToDefault,
+  numeric = false,
 }) => {
   const { title, subTitle, localStorageId } = option;
   const [inputValue, setInputValue] = useState(value);
@@ -71,6 +73,7 @@ export const GenericInput: React.FC<GenericInputProps> = ({
           onChange={onInputChange}
           height="8"
           placeholder={`${title} value`}
+          type={numeric ? "number" : undefined}
         />
       </Box>
     </Box>

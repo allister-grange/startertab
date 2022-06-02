@@ -106,24 +106,15 @@ export const RedditFeed: React.FC<RedditFeedProps> = ({ tileId }) => {
   };
 
   useEffect(() => {
-    console.log("whyyyyy");
-
     const currentTheme = getCurrentTheme(settings, colorMode);
     const subRedditFromSettings = currentTheme[tileId].subReddit;
 
-    console.log(
-      `state.currentSubreddit:${state.currentSubreddit} subRedditFromSettings:${subRedditFromSettings}`
-    );
-
     if (!subRedditFromSettings) {
-      console.log("poo");
-
       setState({ status: "waitingForInput" });
     } else if (
       subRedditFromSettings !== state.currentSubreddit &&
       subRedditFromSettings
     ) {
-      console.log("wtf");
       loadRedditData(subRedditFromSettings);
     }
   }, [colorMode, loadRedditData, settings, state.currentSubreddit, tileId]);

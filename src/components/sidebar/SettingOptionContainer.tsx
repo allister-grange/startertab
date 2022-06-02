@@ -57,6 +57,19 @@ export const SettingOptionContainer: React.FC<SettingOptionContainerProps> = ({
         );
       }
       break;
+    case "BorderRadiusInput":
+      optionToDisplay = (
+        <GenericInput
+          option={option}
+          changeSetting={changeSetting}
+          textColor={textColor}
+          subTextColor={subTextColor}
+          value={value}
+          resetOptionToDefault={resetOptionToDefault}
+          numeric={true}
+        />
+      );
+      break;
     case "SmallTileTypePicker":
       optionToDisplay = (
         <TypePicker

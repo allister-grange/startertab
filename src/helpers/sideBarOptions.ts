@@ -23,10 +23,16 @@ export const sideBarOptions: Option[] = [
     tileId: "globalSettings",
   },
   {
+    title: "Border Radius",
+    subTitle: "Controls the border radius of all the tiles",
+    localStorageId: "borderRadius",
+    optionType: "BorderRadiusInput",
+    tileId: "globalSettings",
+  },
+  {
     title: "Background color",
     subTitle: "Background color of the tile",
     localStorageId: "backgroundColor",
-
     optionType: "ColorPicker",
     tileId: "tile1",
   },
@@ -34,7 +40,6 @@ export const sideBarOptions: Option[] = [
     title: "Text color",
     subTitle: "Text color of the tile",
     localStorageId: "textColor",
-
     optionType: "ColorPicker",
     tileId: "tile1",
   },

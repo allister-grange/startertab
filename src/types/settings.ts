@@ -15,6 +15,7 @@ export type OptionType =
   | "DropShadowInput"
   | "LargeTileTypePicker"
   | "SmallTileTypePicker"
+  | "BorderRadiusInput"
   | "BorderSelect"
   | "SmallStockInput"
   | "CityInput";
@@ -55,6 +56,7 @@ export type TileSettings = {
   colorSecondary?: string;
   bonsaiBaseColor?: string;
   bonsaiTrunkColor?: string;
+  borderRadius?: string;
 };
 
 export type ThemeSettings = {
