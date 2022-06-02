@@ -13,6 +13,8 @@ export const defaultSettings: UserSettings = {
         tileBorder: "",
         colorPrimary: "#33393D",
         colorSecondary: "#666",
+        borderRadius: "15px",
+        gridGap: "16px"
       },
       tile1: {
         backgroundColor: "#65abc1",
@@ -81,6 +83,8 @@ export const defaultSettings: UserSettings = {
         dropShadow: "",
         tileBorder: "",
         colorPrimary: "#eeeeee",
+        borderRadius: "15px",
+        gridGap: "16px"
       },
       tile1: {
         backgroundColor: "#65abc1",
@@ -147,8 +151,10 @@ export const defaultSettings: UserSettings = {
         textColor: "#222222",
         tileType: "None",
         dropShadow: "",
-        tileBorder: "1px solid #000",
+        tileBorder: "1px solid black",
         colorPrimary: "#eeeeee",
+        borderRadius: "15px",
+        gridGap: "16px"
       },
       tile1: {
         backgroundColor: "#ffffff",
@@ -218,6 +224,8 @@ export const defaultSettings: UserSettings = {
         colorPrimary: "#33393D",
         colorSecondary: "#666",
         dropShadow: "2px 2px 6px rgba(0,0,0,.3)",
+        borderRadius: "15px",
+        gridGap: "16px"
       },
       tile1: {
         backgroundColor: "#222222",
@@ -286,6 +294,8 @@ export const defaultSettings: UserSettings = {
         dropShadow: "0 4px 30px rgba(0, 0, 0, 0.1)",
         tileBorder: "1px solid rgba(255, 255, 255, 0.3)",
         colorPrimary: "#eeeeee",
+        borderRadius: "15px",
+        gridGap: "16px"
       },
       tile1: {
         backgroundColor: "rgba(255, 255, 255, 0.2)",
@@ -356,6 +366,8 @@ export const defaultSettings: UserSettings = {
         colorPrimary: "#33393D",
         subTextColor: "#ddd",
         colorSecondary: "#666",
+        borderRadius: "15px",
+        gridGap: "16px"
       },
       tile1: {
         backgroundColor: "rgba(255, 255, 255, 0.2)",
@@ -424,6 +436,8 @@ export const defaultSettings: UserSettings = {
         dropShadow: "0 4px 30px rgba(0, 0, 0, 0.1)",
         tileBorder: "1px solid rgba(255, 255, 255, 0.3)",
         colorPrimary: "#eeeeee",
+        borderRadius: "15px",
+        gridGap: "16px"
       },
       tile1: {
         backgroundColor: "#81F8FF",
