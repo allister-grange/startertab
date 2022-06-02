@@ -185,7 +185,7 @@ export const defaultSettings: UserSettings = {
         backgroundColor: "#ffffff",
         textColor: "#222222",
         tileType: "Bonsai",
-        bonsaiTrunkColor: "#fff",
+        bonsaiTrunkColor: "#202020",
         bonsaiBaseColor: "#000",
       },
       tile7: {
@@ -326,7 +326,7 @@ export const defaultSettings: UserSettings = {
         backgroundColor: "rgba(255, 255, 255, 0.2)",
         textColor: "#222222",
         tileType: "Bonsai",
-        bonsaiTrunkColor: "#fff",
+        bonsaiTrunkColor: "#202020",
         bonsaiBaseColor: "#000",
       },
       tile7: {
@@ -398,7 +398,7 @@ export const defaultSettings: UserSettings = {
         backgroundColor: "rgba(255, 255, 255, 0.2)",
         textColor: "#222222",
         tileType: "Bonsai",
-        bonsaiTrunkColor: "#fff",
+        bonsaiTrunkColor: "#202020",
         bonsaiBaseColor: "#000",
       },
       tile7: {
