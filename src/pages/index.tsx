@@ -1,4 +1,5 @@
 import { TileGrid } from "@/components/grid/TileGrid";
+import { Tutorial } from "@/components/tutorial/Tutorial";
 import { SettingsToggle } from "@/components/ui/SettingsToggle";
 import { SettingsContext } from "@/context/UserSettingsContext";
 import { getCurrentTheme } from "@/helpers/settingsHelpers";
@@ -16,7 +17,7 @@ import { Box, useColorMode, useDisclosure } from "@chakra-ui/react";
 import cloneDeep from "lodash.clonedeep";
 import type { GetServerSideProps, NextPage } from "next";
 import dynamic from "next/dynamic";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 const SettingsSideBar = dynamic(
   () => import("@/components/sidebar/SettingsSidebar")
 );
@@ -35,39 +36,61 @@ const Home: NextPage<PageProps> = ({ stravaData, uvData, hackerNewsData }) => {
   const { settings, setSettings } = useContext(
     SettingsContext
   ) as UserSettingsContextInterface;
-
+  const [showTutorial, setShowTutorial] = useState(false);
   const [inMemorySettings, setInMemorySettings] = useState(() =>
     cloneDeep(settings)
   );
 
   const { colorMode } = useColorMode();
 
+  useEffect(() => {
+    const hasVisitedBefore = localStorage.getItem("hasVisitedBefore");
+
+    if (!hasVisitedBefore) {
+      setShowTutorial(true);
+      document.body.style.background = "white";
+      localStorage.setItem("hasVisitedBefore", "true");
+    }
+  }, []);
+
   return (
-    <Box h="100vh" display="flex" alignItems="center" overflow="auto">
-      <SettingsSideBar
-        onClose={onClose}
-        isOpen={isOpen}
-        setOptionHovered={setOptionHovered}
-        settings={settings}
-        inMemorySettings={inMemorySettings}
-        setSettings={setSettings}
-        setInMemorySettings={setInMemorySettings}
-      />
-      <TileGrid
-        optionHovered={optionHovered}
-        inMemorySettings={inMemorySettings}
-        stravaData={stravaData}
-        uvData={uvData}
-        hackerNewsData={hackerNewsData}
-        gridGap={getCurrentTheme(inMemorySettings, colorMode).globalSettings.gridGap}
-      />
-      {!isOpen && (
+    <>
+      {showTutorial ? (
+        <Tutorial setShowTutorial={setShowTutorial} />
+      ) : (
+        <Box h="100vh" display="flex" alignItems="center">
+          <SettingsSideBar
+            onClose={onClose}
+            isOpen={isOpen}
+            setOptionHovered={setOptionHovered}
+            settings={settings}
+            inMemorySettings={inMemorySettings}
+            setSettings={setSettings}
+            setInMemorySettings={setInMemorySettings}
+          />
+          <TileGrid
+            optionHovered={optionHovered}
+            inMemorySettings={inMemorySettings}
+            stravaData={stravaData}
+            uvData={uvData}
+            hackerNewsData={hackerNewsData}
+            gridGap={
+              getCurrentTheme(inMemorySettings, colorMode).globalSettings
+                .gridGap
+            }
+          />
+        </Box>
+      )}
+      {!isOpen && !showTutorial && (
         <SettingsToggle
           onOpen={onOpen}
-          color={getCurrentTheme(inMemorySettings, colorMode).globalSettings.textColor}
+          color={
+            getCurrentTheme(inMemorySettings, colorMode).globalSettings
+              .textColor
+          }
         />
       )}
-    </Box>
+    </>
   );
 };
 
