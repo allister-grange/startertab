@@ -49,7 +49,6 @@ const Home: NextPage<PageProps> = ({ stravaData, uvData, hackerNewsData }) => {
     if (!hasVisitedBefore) {
       setShowTutorial(true);
       document.body.style.background = "white";
-      localStorage.setItem("hasVisitedBefore", "true");
     }
   }, []);
 
@@ -58,7 +57,7 @@ const Home: NextPage<PageProps> = ({ stravaData, uvData, hackerNewsData }) => {
       {showTutorial ? (
         <Tutorial setShowTutorial={setShowTutorial} />
       ) : (
-        <Box h="100vh" display="flex" alignItems="center">
+        <Box h="100vh"  display="flex" alignItems="center">
           <SettingsSideBar
             onClose={onClose}
             isOpen={isOpen}

@@ -288,7 +288,7 @@ export const defaultSettings: UserSettings = {
     {
       themeName: "glassmorphism light",
       globalSettings: {
-        backgroundColor: "linear-gradient(160deg, #0093E9 0%, #80D0C7 100%)",
+        backgroundColor: "linear-gradient(160deg, #0093E9 0%, #80D0C7 100%) fixed",
         textColor: "#222222",
         tileType: "None",
         dropShadow: "0 4px 30px rgba(0, 0, 0, 0.1)",
@@ -358,7 +358,7 @@ export const defaultSettings: UserSettings = {
     {
       themeName: "glassmorphism dark",
       globalSettings: {
-        backgroundColor: "linear-gradient(160deg, black 0%, #80D0C7 100%)",
+        backgroundColor: "linear-gradient(160deg, black 0%, #80D0C7 100%) fixed",
         textColor: "#fff",
         tileType: "None",
         dropShadow: "0 4px 30px rgba(0, 0, 0, 0.1)",

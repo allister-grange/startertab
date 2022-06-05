@@ -32,7 +32,7 @@ const ColorModeSwitcher: React.FC = () => {
     >
       <Flex mb="2">
         <ThemePickerBubble
-          bg="linear-gradient(90deg, white 50%, #E89B4B 50%);te"
+          bg="linear-gradient(90deg, white 50%, #E89B4B 50%);"
           onClick={() => setColorMode("light")}
         />
         <ThemePickerBubble
@@ -44,7 +44,7 @@ const ColorModeSwitcher: React.FC = () => {
       </Flex>
       <Flex mt="2">
         <ThemePickerBubble
-          bg="linear-gradient(90deg, white 50%, #77C9CA 50%);te"
+          bg="linear-gradient(90deg, white 50%, #77C9CA 50%);"
           onClick={() => setColorMode("glassmorphism light")}
         />
         <ThemePickerBubble

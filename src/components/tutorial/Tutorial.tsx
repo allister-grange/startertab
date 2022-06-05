@@ -107,6 +107,7 @@ export const Tutorial: React.FC<TutorialProps> = ({ setShowTutorial }) => {
           onClick={() => {
             setColorMode(selectedTheme);
             setShowTutorial(false);
+            localStorage.setItem("hasVisitedBefore", "true");
           }}
         >
           Continue &rarr;

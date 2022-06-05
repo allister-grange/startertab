@@ -13,7 +13,7 @@ html {
 }
 
 body {
-  overflow-y: scroll;
+  overflow: auto;
 }
 
 a {
