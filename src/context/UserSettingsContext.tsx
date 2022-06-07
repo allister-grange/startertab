@@ -1,4 +1,4 @@
-import { useLocalStorage } from "@/helpers/useLocalStorage";
+import { useLocalStorage } from "@/hooks/useLocalStorage";
 import { UserSettingsContextInterface } from "@/types";
 import * as React from "react";
 

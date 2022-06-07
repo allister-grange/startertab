@@ -30,7 +30,7 @@ export type TileType =
   | "Weather"
   | "UV Graph"
   | "Theme Picker"
-  | "Spotify"
+  | "Small Spotify Tile"
   | "Time"
   | "Todo List"
   | "Large Spotify Tile"

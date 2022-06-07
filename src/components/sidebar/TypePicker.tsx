@@ -37,6 +37,7 @@ export const TypePicker: React.FC<TypePickerProps> = ({
           <option value="Time">Time</option>
           <option value="Theme Picker">Theme Picker</option>
           <option value="Small Stock Tile">Stock Ticker</option>
+          <option value="Small Spotify Tile">Spotify</option>
         </>
       );
       break;

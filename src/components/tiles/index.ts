@@ -2,7 +2,7 @@ export * from "./Bonsai";
 export * from "./HackerNewsFeed";
 export * from "./UvGraph";
 export * from "./SearchBar";
-export * from "./Spotify";
+export * from "./SmallSpotifyTile";
 export * from "./StravaGraph";
 export * from "./SwimmingPoolTimeTable";
 export * from "./Time";

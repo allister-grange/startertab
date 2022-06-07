@@ -2,7 +2,7 @@ import {
   Bonsai,
   RedditFeed,
   SearchBar,
-  Spotify,
+  SmallSpotifyTile,
   Time,
   UvGraph,
   WeatherTile
@@ -78,8 +78,8 @@ const TileContainer: React.FC<TileContainerProps> = ({
         />
       );
       break;
-    case "Spotify":
-      tileToRender = <Spotify tileId={tileId} />;
+    case "Small Spotify Tile":
+      tileToRender = <SmallSpotifyTile tileId={tileId} />;
       break;
     case "UV Graph":
       tileToRender = <UvGraph uvData={uvData} tileId={tileId} />;
