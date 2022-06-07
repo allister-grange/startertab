@@ -13,11 +13,19 @@ import {
   UserSettingsContextInterface,
   UvGraphData,
 } from "@/types";
-import { Box, useColorMode, useDisclosure } from "@chakra-ui/react";
+import {
+  Box,
+  Center,
+  Flex,
+  Heading,
+  useColorMode,
+  useDisclosure,
+} from "@chakra-ui/react";
 import cloneDeep from "lodash.clonedeep";
 import type { GetServerSideProps, NextPage } from "next";
 import dynamic from "next/dynamic";
 import { useContext, useEffect, useState } from "react";
+import { isMobile } from "react-device-detect";
 const SettingsSideBar = dynamic(
   () => import("@/components/sidebar/SettingsSidebar")
 );
@@ -40,10 +48,14 @@ const Home: NextPage<PageProps> = ({ stravaData, uvData, hackerNewsData }) => {
   const [inMemorySettings, setInMemorySettings] = useState(() =>
     cloneDeep(settings)
   );
-
+  const [showingMobileWarning, setShowingMobileWarning] = useState(false);
   const { colorMode } = useColorMode();
 
   useEffect(() => {
+    if (isMobile) {
+      setShowingMobileWarning(true);
+    }
+
     const hasVisitedBefore = localStorage.getItem("hasVisitedBefore");
 
     if (!hasVisitedBefore) {
@@ -52,34 +64,51 @@ const Home: NextPage<PageProps> = ({ stravaData, uvData, hackerNewsData }) => {
     }
   }, []);
 
+  let toDisplay;
+
+  if (showingMobileWarning) {
+    toDisplay = (
+      <Center height="100vh" bg="white" color="black" p="5">
+        <Flex flexDir={"column"} justifyContent="center" alignItems="center">
+          <Heading color="orange">⚠️⚠️⚠️</Heading>
+          <Heading mt="6" textAlign="center">
+            This website is not designed for mobile devices, please come back on
+            a bigger display!
+          </Heading>
+        </Flex>
+      </Center>
+    );
+  } else if (showTutorial) {
+    toDisplay = <Tutorial setShowTutorial={setShowTutorial} />;
+  } else {
+    toDisplay = (
+      <Box h="100vh" display="flex" alignItems="center">
+        <SettingsSideBar
+          onClose={onClose}
+          isOpen={isOpen}
+          setOptionHovered={setOptionHovered}
+          settings={settings}
+          inMemorySettings={inMemorySettings}
+          setSettings={setSettings}
+          setInMemorySettings={setInMemorySettings}
+        />
+        <TileGrid
+          optionHovered={optionHovered}
+          inMemorySettings={inMemorySettings}
+          stravaData={stravaData}
+          uvData={uvData}
+          hackerNewsData={hackerNewsData}
+          gridGap={
+            getCurrentTheme(inMemorySettings, colorMode).globalSettings.gridGap
+          }
+        />
+      </Box>
+    );
+  }
+
   return (
     <>
-      {showTutorial ? (
-        <Tutorial setShowTutorial={setShowTutorial} />
-      ) : (
-        <Box h="100vh"  display="flex" alignItems="center">
-          <SettingsSideBar
-            onClose={onClose}
-            isOpen={isOpen}
-            setOptionHovered={setOptionHovered}
-            settings={settings}
-            inMemorySettings={inMemorySettings}
-            setSettings={setSettings}
-            setInMemorySettings={setInMemorySettings}
-          />
-          <TileGrid
-            optionHovered={optionHovered}
-            inMemorySettings={inMemorySettings}
-            stravaData={stravaData}
-            uvData={uvData}
-            hackerNewsData={hackerNewsData}
-            gridGap={
-              getCurrentTheme(inMemorySettings, colorMode).globalSettings
-                .gridGap
-            }
-          />
-        </Box>
-      )}
+      {toDisplay}
       {!isOpen && !showTutorial && (
         <SettingsToggle
           onOpen={onOpen}

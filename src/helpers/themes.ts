@@ -257,7 +257,7 @@ export const defaultSettings: UserSettings = {
         textColor: "#E0E0E0",
         tileType: "Bonsai",
         bonsaiTrunkColor: "#fff",
-        bonsaiBaseColor: "#000",
+        bonsaiBaseColor: "#fff",
       },
       tile7: {
         backgroundColor: "#222222",
