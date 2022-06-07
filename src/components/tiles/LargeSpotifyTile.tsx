@@ -1,6 +1,16 @@
-import { NowPlayingSpotifyData, TileId } from "@/types";
+import {
+  PauseIcon,
+  PlayIcon,
+  SkipLeft,
+  SkipRight,
+} from "@/components/ui/MediaControls";
+import { MusicControlButton } from "@/components/ui/MusicControlButton";
+import { SpotifyLogo } from "@/components/ui/SpotifyLogo";
+import useSpotify from "@/hooks/useSpotify";
+import { TileId } from "@/types";
 import {
   Box,
+  Button,
   Center,
   Flex,
   Heading,
@@ -8,16 +18,7 @@ import {
   Link,
   Spinner,
 } from "@chakra-ui/react";
-import React, { useEffect, useState } from "react";
-import { MusicControlButton } from "@/components/ui/MusicControlButton";
-import { SpotifyLogo } from "@/components/ui/SpotifyLogo";
-import {
-  PauseIcon,
-  PlayIcon,
-  SkipLeft,
-  SkipRight,
-} from "@/components/ui/MediaControls";
-import useSpotify from "@/hooks/useSpotify";
+import React from "react";
 
 interface LargeSpotifyTileProps {
   tileId: TileId;
@@ -26,7 +27,13 @@ interface LargeSpotifyTileProps {
 export const LargeSpotifyTile: React.FC<LargeSpotifyTileProps> = ({
   tileId,
 }) => {
-  const { spotifyData, skipSong, pausePlaySong } = useSpotify();
+  const {
+    spotifyData,
+    skipSong,
+    pausePlaySong,
+    isAuthenticated,
+    loginWithSpotify,
+  } = useSpotify();
   const { songArtist, songTitle, playing, link, playable, albumImageUrl } =
     spotifyData;
 
@@ -48,6 +55,18 @@ export const LargeSpotifyTile: React.FC<LargeSpotifyTileProps> = ({
     return fontSizeForTitle;
   };
 
+  if (true) {
+    // if (!isAuthenticated) {
+    return (
+      <Center height="100%">
+        <Button onClick={loginWithSpotify}>
+          Continue with Spotify&nbsp;
+          <SpotifyLogo color={color} size={20} />
+        </Button>
+      </Center>
+    );
+  }
+
   return (
     <Flex color={color} height="100%" p="4" pos="relative">
       <Link
@@ -55,10 +74,9 @@ export const LargeSpotifyTile: React.FC<LargeSpotifyTileProps> = ({
         pos="absolute"
         color={color}
         href="https://spotify.com"
-        height="24px"
         opacity="0.7"
       >
-        <SpotifyLogo color={color} />
+        <SpotifyLogo size={24} color={color} />
       </Link>
       <Flex
         flexDir="column"

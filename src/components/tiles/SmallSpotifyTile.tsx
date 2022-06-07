@@ -1,16 +1,15 @@
+import { PauseIcon, PlayIcon, SkipLeft, SkipRight } from "@/components/ui/MediaControls";
+import { SpotifyLogo } from "@/components/ui/SpotifyLogo";
+import useSpotify from "@/hooks/useSpotify";
 import { TileId } from "@/types";
-import { NowPlayingSpotifyData } from "@/types/spotify";
 import {
   Box, Flex,
   Heading,
   Link,
   Spinner
 } from "@chakra-ui/react";
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { MusicControlButton } from "../ui/MusicControlButton";
-import { SpotifyLogo } from "@/components/ui/SpotifyLogo";
-import { PauseIcon, PlayIcon, SkipLeft, SkipRight } from "@/components/ui/MediaControls";
-import useSpotify from "@/hooks/useSpotify";
 
 type SmallSpotifyTileProps = {
   tileId: TileId;
@@ -27,11 +26,11 @@ export const SmallSpotifyTile: React.FC<SmallSpotifyTileProps> = ({ tileId }) =>
 
     if (songTitle.length <= 13) {
       fontSizeForTitle = "2xl";
-    } else if (songTitle.length <= 18) {
+    } else if (songTitle.length <= 15) {
       fontSizeForTitle = "xl";
-    } else if (songTitle.length <= 24) {
+    } else if (songTitle.length <= 18) {
       fontSizeForTitle = "md";
-    } else if (songTitle.length >= 30) {
+    } else if (songTitle.length >= 28) {
       fontSizeForTitle = "sm";
     }
 
@@ -57,13 +56,14 @@ export const SmallSpotifyTile: React.FC<SmallSpotifyTileProps> = ({ tileId }) =>
         pos="absolute"
         color={color}
         href="https://spotify.com"
-        height="24px"
+        height="14px"
         left="2"
         top="2"
+        opacity="0.7"
       >
-        <SpotifyLogo color={color} />
+        <SpotifyLogo size={18} color={color} />
       </Link>
-      <Flex dir="row" pl="6" pt="2">
+      <Flex dir="row" pl="6" pt="4">
         {songTitle && songArtist ? (
           <Link href={link} mb="6">
             <Heading fontSize={getFontSize(songTitle)}>{songTitle}</Heading>

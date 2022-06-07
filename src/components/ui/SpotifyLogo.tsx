@@ -1,8 +1,11 @@
-export const SpotifyLogo: React.FC<{ color: string }> = ({ color }) => (
+export const SpotifyLogo: React.FC<{ color: string; size: number }> = ({
+  color,
+  size,
+}) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
-    height="24"
-    width="24"
+    height={size}
+    width={size}
     version="1.1"
     viewBox="0 0 168 168"
   >
