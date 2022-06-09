@@ -1,15 +1,10 @@
-import {
-  getClientUrl,
-  getRedirectUrl,
-  getSpotifyRedirectUrl,
-} from "@/helpers/getClientUrl";
 import { NowPlayingSpotifyData, SpotifyContextInterface } from "@/types";
 import * as React from "react";
 import { useState } from "react";
 
 const SPOTIFY_CLIENT_ID = "261297b4032a4ce7b473de936d525c9d";
-const SPOTIFY_ACCESS_TOKEN = "spotifyAccessToken"
-const SPOTIFY_REFRESH_TOKEN = "spotifyRefreshToken"
+const SPOTIFY_ACCESS_TOKEN = "spotifyAccessToken";
+const SPOTIFY_REFRESH_TOKEN = "spotifyRefreshToken";
 
 export const SpotifyContext =
   React.createContext<SpotifyContextInterface | null>(null);
@@ -48,8 +43,7 @@ const SpotifyContextProvider: React.FC<Props> = ({ children }) => {
       setAccessToken(accessTokenFromStorage);
       setRefreshToken(refreshTokenFromStorage);
       return;
-    }
-    else {
+    } else {
       setIsAuthenticated(false);
     }
 
@@ -70,7 +64,11 @@ const SpotifyContextProvider: React.FC<Props> = ({ children }) => {
     setAccessToken(accessToken);
     setRefreshToken(refreshToken);
     setIsAuthenticated(true);
-    history.pushState(null, "New Page", getClientUrl());
+    history.pushState(
+      null,
+      "New Page",
+      window.location.toString().split("?")[0]
+    );
   }, [isAuthenticated]);
 
   // User has logged in and has an access/refresh token
@@ -86,7 +84,7 @@ const SpotifyContextProvider: React.FC<Props> = ({ children }) => {
       let data = (await res.json()) as NowPlayingSpotifyData;
 
       // if there is an accessToken returned, the old one was stale
-      if(data.accessToken) {
+      if (data.accessToken) {
         setAccessToken(data.accessToken);
         localStorage.setItem(SPOTIFY_ACCESS_TOKEN, data.accessToken);
       }
@@ -99,19 +97,9 @@ const SpotifyContextProvider: React.FC<Props> = ({ children }) => {
     return () => clearInterval(interval);
   }, [accessToken, isAuthenticated, refreshToken]);
 
-  const loginWithSpotify = React.useCallback(() => {
-    const redirectUri = getRedirectUrl(
-      SPOTIFY_CLIENT_ID,
-      [
-        "user-read-currently-playing",
-        "user-top-read",
-        "user-read-playback-state",
-        "user-read-recently-played",
-        "user-modify-playback-state",
-      ],
-      getSpotifyRedirectUrl(),
-      true
-    );
+  const loginWithSpotify = React.useCallback(async () => {
+    const res = await fetch("/api/spotify/redirectUrl");
+    const redirectUri = (await res.json()).redirectUri;
 
     if (window.location !== window.parent.location) {
       const loginWindow = window.open(redirectUri);

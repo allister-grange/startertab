@@ -6,7 +6,7 @@ export const getClientUrl = (): string => {
 
 export const getSpotifyRedirectUrl = (): string => {
   return process.env.VERCEL_URL
-    ? process.env.VERCEL_URL
+    ? `${process.env.VERCEL_URL}/api/spotify/authorize`
     : 'http://localhost:3000/api/spotify/authorize';
 };
 
