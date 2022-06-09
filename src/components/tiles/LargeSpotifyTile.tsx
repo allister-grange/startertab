@@ -2,12 +2,12 @@ import {
   PauseIcon,
   PlayIcon,
   SkipLeft,
-  SkipRight,
+  SkipRight
 } from "@/components/ui/MediaControls";
 import { MusicControlButton } from "@/components/ui/MusicControlButton";
 import { SpotifyLogo } from "@/components/ui/SpotifyLogo";
-import useSpotify from "@/hooks/useSpotify";
-import { TileId } from "@/types";
+import { SpotifyContext } from "@/context/SpotifyContext";
+import { SpotifyContextInterface, TileId } from "@/types";
 import {
   Box,
   Button,
@@ -16,24 +16,22 @@ import {
   Heading,
   Img,
   Link,
-  Spinner,
+  Spinner
 } from "@chakra-ui/react";
-import React from "react";
+import React, { useContext } from "react";
 
 interface LargeSpotifyTileProps {
   tileId: TileId;
 }
 
-export const LargeSpotifyTile: React.FC<LargeSpotifyTileProps> = ({
-  tileId,
-}) => {
+export const LargeSpotifyTile: React.FC<LargeSpotifyTileProps> = ({ tileId }) => {
   const {
     spotifyData,
     skipSong,
     pausePlaySong,
     isAuthenticated,
     loginWithSpotify,
-  } = useSpotify();
+  } = useContext(SpotifyContext) as SpotifyContextInterface;
   const { songArtist, songTitle, playing, link, playable, albumImageUrl } =
     spotifyData;
 
@@ -55,11 +53,18 @@ export const LargeSpotifyTile: React.FC<LargeSpotifyTileProps> = ({
     return fontSizeForTitle;
   };
 
-  if (true) {
-    // if (!isAuthenticated) {
+  if (isAuthenticated === false) {
     return (
       <Center height="100%">
-        <Button onClick={loginWithSpotify}>
+        <Button
+          onClick={loginWithSpotify}
+          color={color}
+          bg={"transparent"}
+          border={`2px solid ${color}`}
+          _focus={{ background: "transparent" }}
+          _hover={{ background: "transparent", transform: "translateY(-2px)" }}
+          transition="all .2s"
+        >
           Continue with Spotify&nbsp;
           <SpotifyLogo color={color} size={20} />
         </Button>

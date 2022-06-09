@@ -1,22 +1,30 @@
-import { PauseIcon, PlayIcon, SkipLeft, SkipRight } from "@/components/ui/MediaControls";
-import { SpotifyLogo } from "@/components/ui/SpotifyLogo";
-import useSpotify from "@/hooks/useSpotify";
-import { TileId } from "@/types";
 import {
-  Box, Flex,
-  Heading,
-  Link,
-  Spinner
-} from "@chakra-ui/react";
-import React from "react";
+  PauseIcon,
+  PlayIcon,
+  SkipLeft,
+  SkipRight,
+} from "@/components/ui/MediaControls";
+import { SpotifyLogo } from "@/components/ui/SpotifyLogo";
+import { SpotifyContext } from "@/context/SpotifyContext";
+import { SpotifyContextInterface, TileId } from "@/types";
+import { Box, Button, Center, Flex, Heading, Link, Spinner } from "@chakra-ui/react";
+import React, { useContext } from "react";
 import { MusicControlButton } from "../ui/MusicControlButton";
 
 type SmallSpotifyTileProps = {
   tileId: TileId;
 };
 
-export const SmallSpotifyTile: React.FC<SmallSpotifyTileProps> = ({ tileId }) => {
-  const {spotifyData, skipSong, pausePlaySong} = useSpotify();
+export const SmallSpotifyTile: React.FC<SmallSpotifyTileProps> = ({
+  tileId,
+}) => {
+  const {
+    spotifyData,
+    skipSong,
+    pausePlaySong,
+    isAuthenticated,
+    loginWithSpotify,
+  } = useContext(SpotifyContext) as SpotifyContextInterface;
   const { songArtist, songTitle, playing, link, playable } = spotifyData;
 
   const color = `var(--text-color-${tileId})`;
@@ -48,6 +56,25 @@ export const SmallSpotifyTile: React.FC<SmallSpotifyTileProps> = ({ tileId }) =>
 
     return fontSizeForArtist;
   };
+
+  if (isAuthenticated === false) {
+    return (
+      <Center height="100%">
+        <Button
+          onClick={loginWithSpotify}
+          color={color}
+          bg={"transparent"}
+          border={`2px solid ${color}`}
+          _focus={{ background: "transparent" }}
+          _hover={{ background: "transparent", transform: "translateY(-2px)" }}
+          transition="all .2s"
+        >
+          Continue with Spotify&nbsp;
+          <SpotifyLogo color={color} size={20} />
+        </Button>
+      </Center>
+    );
+  }
 
   return (
     <Box color={color} height="100%" p="4" position="relative">
@@ -90,28 +117,28 @@ export const SmallSpotifyTile: React.FC<SmallSpotifyTileProps> = ({ tileId }) =>
               onClickHandler={() => skipSong(false)}
               playable={playable}
             >
-              <SkipLeft color={color}/>
+              <SkipLeft color={color} />
             </MusicControlButton>
             {playing ? (
               <MusicControlButton
                 onClickHandler={() => pausePlaySong(true)}
                 playable={playable}
               >
-              <PauseIcon color={color}/>
+                <PauseIcon color={color} />
               </MusicControlButton>
             ) : (
               <MusicControlButton
                 onClickHandler={() => pausePlaySong(false)}
                 playable={playable}
               >
-              <PlayIcon color={color}/>
+                <PlayIcon color={color} />
               </MusicControlButton>
             )}
             <MusicControlButton
               onClickHandler={() => skipSong(true)}
               playable={playable}
             >
-              <SkipRight color={color}/>
+              <SkipRight color={color} />
             </MusicControlButton>
           </Box>
         </Flex>
