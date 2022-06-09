@@ -1,4 +1,4 @@
-import { getClientUrl, getSpotifyRedirectUrl } from "@/helpers/getClientUrl";
+import { getSpotifyRedirectUrl } from "@/helpers/getClientUrl";
 import { NextApiRequest, NextApiResponse } from "next";
 
 const TOKEN_ENDPOINT = `https://accounts.spotify.com/api/token`;
@@ -28,10 +28,7 @@ export default async function handler(
         .send("Didn't find access token or refresh token in Spotify response");
     }
 
-    res.redirect(
-      getClientUrl() +
-        `/?accessToken=${access_token}&refreshToken=${refresh_token}`
-    );
+    res.redirect(`/?accessToken=${access_token}&refreshToken=${refresh_token}`);
   } catch (err) {
     res.status(500).send(err);
   }
