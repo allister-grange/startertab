@@ -101,25 +101,7 @@ const SpotifyContextProvider: React.FC<Props> = ({ children }) => {
     const res = await fetch("/api/spotify/redirectUrl");
     const redirectUri = (await res.json()).redirectUri;
 
-    if (window.location !== window.parent.location) {
-      const loginWindow = window.open(redirectUri);
-      window.addEventListener(
-        "message",
-        (event) => {
-          if (
-            event.data.type !== "react-spotify-auth" ||
-            !event.data.accessToken
-          ) {
-            return;
-          }
-
-          loginWindow!.close();
-        },
-        false
-      );
-    } else {
-      window.location = redirectUri as (string | Location) & Location;
-    }
+    window.location = redirectUri as (string | Location) & Location;
   }, []);
 
   const skipSong = async (forward: boolean) => {

@@ -20,8 +20,8 @@ export const getRedirectUrl = (
     "https://accounts.spotify.com/authorize?response_type=code" +
     `&client_id=${clientID}` +
     `&scope=${scopes.join("%20")}` +
-    `&redirect_uri=${redirectUri}` +
     "&show_dialog=" +
-    Boolean(showDialog)
+    Boolean(showDialog) +
+    `&redirect_uri=${redirectUri}`
   );
 };
