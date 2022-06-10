@@ -25,6 +25,15 @@ export function MyApp({
     <ChakraProvider colorModeManager={colorModeManager}>
       <Head>
         <title>New Page</title>
+        <meta
+          name="og:description"
+          content="A website to replace your 'New Tab' homepage"
+        />
+        <meta property="og:image" content={"/black.png"} />
+        <meta
+          property="og:title"
+          content="New Page - A customizable homepage"
+        />
       </Head>
       <SettingsContext>
         <Component {...pageProps} />
