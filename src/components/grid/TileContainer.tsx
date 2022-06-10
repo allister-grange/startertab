@@ -120,7 +120,7 @@ const TileContainer: React.FC<TileContainerProps> = ({
 
   return (
     // SSR screws up the styles of the divs, TODO look into this later
-    <NoSSR>{tileToRender}</NoSSR>
+    <>{tileToRender}</>
   );
 };
 

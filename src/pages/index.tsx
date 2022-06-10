@@ -26,6 +26,7 @@ import type { GetServerSideProps, NextPage } from "next";
 import dynamic from "next/dynamic";
 import { useContext, useEffect, useState } from "react";
 import { isMobile } from "react-device-detect";
+import NoSSR from "react-no-ssr";
 const SettingsSideBar = dynamic(
   () => import("@/components/sidebar/SettingsSidebar")
 );
@@ -64,6 +65,9 @@ const Home: NextPage<PageProps> = ({ stravaData, uvData, hackerNewsData }) => {
     }
   }, []);
 
+  const currentTheme = getCurrentTheme(settings, colorMode);
+  const gridGap = currentTheme.globalSettings.gridGap;
+  const settingsToggleColor = currentTheme.globalSettings.textColor;
   let toDisplay;
 
   if (showingMobileWarning) {
@@ -92,16 +96,16 @@ const Home: NextPage<PageProps> = ({ stravaData, uvData, hackerNewsData }) => {
           setSettings={setSettings}
           setInMemorySettings={setInMemorySettings}
         />
-        <TileGrid
-          optionHovered={optionHovered}
-          inMemorySettings={inMemorySettings}
-          stravaData={stravaData}
-          uvData={uvData}
-          hackerNewsData={hackerNewsData}
-          gridGap={
-            getCurrentTheme(inMemorySettings, colorMode).globalSettings.gridGap
-          }
-        />
+        <NoSSR>
+          <TileGrid
+            optionHovered={optionHovered}
+            inMemorySettings={inMemorySettings}
+            stravaData={stravaData}
+            uvData={uvData}
+            hackerNewsData={hackerNewsData}
+            gridGap={gridGap}
+          />
+        </NoSSR>
       </Box>
     );
   }
@@ -110,13 +114,7 @@ const Home: NextPage<PageProps> = ({ stravaData, uvData, hackerNewsData }) => {
     <>
       {toDisplay}
       {!isOpen && !showTutorial && (
-        <SettingsToggle
-          onOpen={onOpen}
-          color={
-            getCurrentTheme(inMemorySettings, colorMode).globalSettings
-              .textColor
-          }
-        />
+        <SettingsToggle onOpen={onOpen} color={settingsToggleColor} />
       )}
     </>
   );

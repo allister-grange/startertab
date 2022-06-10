@@ -28,7 +28,11 @@ export const GenericInput: React.FC<GenericInputProps> = ({
   };
 
   useEffect(() => {
-    setInputValue(value);
+    if (!value) {
+      setInputValue("");
+    } else {
+      setInputValue(value);
+    }
   }, [value]);
 
   // will set the subreddit in the in memory copy of the settings
