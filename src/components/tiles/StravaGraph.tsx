@@ -1,5 +1,9 @@
+import { StravaContext } from "@/context/StravaContext";
+import { TileId } from "@/types";
+import { StravaContextInterface, StravaGraphPoint } from "@/types/strava";
 import {
   Box,
+  Button,
   Center,
   Heading,
   Spinner,
@@ -7,7 +11,7 @@ import {
   Text,
   useColorModeValue,
 } from "@chakra-ui/react";
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import {
   Bar,
   BarChart,
@@ -16,21 +20,41 @@ import {
   XAxis,
   YAxis,
 } from "recharts";
-import { StravaGraphData, StravaGraphPoint } from "@/types/strava";
-import { TileId } from "@/types";
+import { StravaLogo } from "../ui/StravaLogo";
 
 type PageProps = {
-  stravaData: StravaGraphData;
   tileId: TileId;
 };
 
-const StravaGraph: React.FC<PageProps> = ({ stravaData, tileId }) => {
+const StravaGraph: React.FC<PageProps> = ({ tileId }) => {
+  const { isAuthenticated, stravaData, loginWithStrava } = useContext(
+    StravaContext
+  ) as StravaContextInterface;
   const [showingSwim, setShowingSwim] = useState<Boolean | undefined>();
   const color = `var(--text-color-${tileId})`;
   const runBoxColor = useColorModeValue(
     "rgba(255, 255, 255, 0.2)",
     "rgba(255, 255, 255, 0.1)"
   );
+
+  if (isAuthenticated === false) {
+    return (
+      <Center height="100%">
+        <Button
+          onClick={loginWithStrava}
+          color={color}
+          bg={"transparent"}
+          border={`2px solid ${color}`}
+          _focus={{ background: "transparent" }}
+          _hover={{ background: "transparent", transform: "translateY(-2px)" }}
+          transition="all .2s"
+        >
+          Continue with Strava&nbsp;
+          <StravaLogo color={color} size={28} />
+        </Button>
+      </Center>
+    );
+  }
 
   return (
     <Box p="6">

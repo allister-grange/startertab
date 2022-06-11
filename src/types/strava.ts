@@ -66,10 +66,17 @@ export interface StravaGraphData {
   swimming: StravaGraphPoint[],
   running: StravaGraphPoint[],
   combinedData: StravaCombinedGraphData[],
+  accessToken?: string;
 }
 
 export interface StravaCombinedGraphData {
   day: string,
   swim: number,
   run: number
+}
+
+export type StravaContextInterface = {
+  isAuthenticated?: boolean;
+  loginWithStrava: () => void;
+  stravaData?: StravaGraphData;
 }

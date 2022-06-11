@@ -2,7 +2,6 @@ import { NowPlayingSpotifyData, SpotifyContextInterface } from "@/types";
 import * as React from "react";
 import { useState } from "react";
 
-const SPOTIFY_CLIENT_ID = "261297b4032a4ce7b473de936d525c9d";
 const SPOTIFY_ACCESS_TOKEN = "spotifyAccessToken";
 const SPOTIFY_REFRESH_TOKEN = "spotifyRefreshToken";
 
@@ -98,7 +97,7 @@ const SpotifyContextProvider: React.FC<Props> = ({ children }) => {
   }, [accessToken, isAuthenticated, refreshToken]);
 
   const loginWithSpotify = React.useCallback(async () => {
-    const res = await fetch("/api/spotify/redirectUrl");
+    const res = await fetch("/api/spotify/redirectUri");
     const redirectUri = (await res.json()).redirectUri;
 
     window.location = redirectUri as (string | Location) & Location;

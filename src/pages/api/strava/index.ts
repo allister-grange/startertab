@@ -4,33 +4,43 @@ import {
   StravaActivity,
   StravaCombinedGraphData,
   StravaGraphData,
-  StravaGraphPoint
-} from "../../types/strava";
+  StravaGraphPoint,
+} from "@/types/strava";
 
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
   try {
-    const stravaData = await getStravaData();
+    let {
+      query: { accessToken, refreshToken },
+    } = req;
+
+    if (!accessToken || !refreshToken) {
+      return res.status(500).send("Failed to provide access or refresh token");
+    }
+
+    const stravaData = await getStravaData(
+      accessToken as string,
+      refreshToken as string
+    );
     res.status(200).json(stravaData);
   } catch (err) {
     res.status(500).json(err);
   }
 }
 
-export const getStravaData = async () => {
-  if (
-    !process.env.STRAVA_CLIENT ||
-    !process.env.STRAVA_REFRESH_TOKEN ||
-    !process.env.STRAVA_SECRET
-  ) {
+export const getStravaData = async (
+  accessToken: string,
+  refreshToken: string
+) => {
+  if (!process.env.STRAVA_CLIENT_ID || !process.env.STRAVA_SECRET) {
     throw new Error("No environment variables set for Strava API");
   }
 
   const body = JSON.stringify({
-    client_id: process.env.STRAVA_CLIENT,
-    refresh_token: process.env.STRAVA_REFRESH_TOKEN,
+    client_id: process.env.STRAVA_CLIENT_ID,
+    refresh_token: refreshToken,
     client_secret: process.env.STRAVA_SECRET,
     grant_type: "refresh_token",
   });
@@ -41,18 +51,18 @@ export const getStravaData = async () => {
   };
 
   try {
-    const reauthouriseRes = await fetch("https://www.strava.com/oauth/token", {
+    const reAuthorizeRes = await fetch("https://www.strava.com/oauth/token", {
       body: body,
       headers: headers,
       method: "post",
     });
 
-    const reAuthJson = await reauthouriseRes.json();
+    const reAuthorizeData = await reAuthorizeRes.json();
 
     const MonEpoch = getMonsEpoch();
 
     const activitiesRes = await fetch(
-      `https://www.strava.com/api/v3/athlete/activities?access_token=${reAuthJson.access_token}&after=${MonEpoch}`
+      `https://www.strava.com/api/v3/athlete/activities?access_token=${reAuthorizeData.access_token}&after=${MonEpoch}`
     );
 
     const activitiesJson: StravaActivity[] = await activitiesRes.json();

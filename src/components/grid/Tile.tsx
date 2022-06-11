@@ -1,20 +1,18 @@
+import TileContainer from "@/components/grid/TileContainer";
 import { getCurrentTheme } from "@/helpers/settingsHelpers";
 import styles from "@/styles/Home.module.css";
 import {
   HackerNewsLinkHolder,
-  StravaGraphData,
   TileId,
   UserSettings,
   UvGraphData,
 } from "@/types";
 import { GridItem, GridItemProps, useColorMode } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
-import TileContainer from "@/components/grid/TileContainer";
 
 interface TileProps extends GridItemProps {
   optionHovered: boolean;
   tileId: TileId;
-  stravaData: StravaGraphData;
   uvData: UvGraphData[];
   hackerNewsData: HackerNewsLinkHolder[];
   inMemorySettings: UserSettings;
@@ -25,7 +23,6 @@ const Tile: React.FC<TileProps> = ({
   optionHovered,
   hackerNewsData,
   inMemorySettings,
-  stravaData,
   uvData,
   children,
   ...props
@@ -66,7 +63,6 @@ const Tile: React.FC<TileProps> = ({
       <TileContainer
         tileId={tileId}
         hackerNewsData={hackerNewsData}
-        stravaData={stravaData}
         uvData={uvData}
         city={theme[tileId].cityForWeather}
         stockName={theme[tileId].stockName}

@@ -14,9 +14,9 @@ import StravaGraph from "@/components/tiles/StravaGraph";
 import { TodoList } from "@/components/tiles/TodoList";
 import ColorModeSwitcher from "@/components/ui/ColorModeSwitcher";
 import SpotifyContextProvider from "@/context/SpotifyContext";
+import StravaContextProvider from "@/context/StravaContext";
 import {
   HackerNewsLinkHolder,
-  StravaGraphData,
   TileId,
   TileType,
   TodoObject,
@@ -24,12 +24,10 @@ import {
 } from "@/types";
 import { Center, Heading } from "@chakra-ui/react";
 import React from "react";
-import NoSSR from "react-no-ssr";
 
 interface TileContainerProps {
   tileId: TileId;
   hackerNewsData: HackerNewsLinkHolder[];
-  stravaData: StravaGraphData;
   uvData: UvGraphData[];
   tileType: TileType;
   city?: string;
@@ -42,7 +40,6 @@ interface TileContainerProps {
 const TileContainer: React.FC<TileContainerProps> = ({
   tileId,
   hackerNewsData,
-  stravaData,
   uvData,
   tileType,
   city,
@@ -63,7 +60,11 @@ const TileContainer: React.FC<TileContainerProps> = ({
       );
       break;
     case "Strava Graph":
-      tileToRender = <StravaGraph stravaData={stravaData} tileId={tileId} />;
+      tileToRender = (
+        <StravaContextProvider>
+          <StravaGraph tileId={tileId} />
+        </StravaContextProvider>
+      );
       break;
     case "Search Bar":
       tileToRender = <SearchBar tileId={tileId} />;

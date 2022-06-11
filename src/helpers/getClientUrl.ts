@@ -10,7 +10,13 @@ export const getSpotifyRedirectUrl = (): string => {
     : 'http://localhost:3000/api/spotify/authorize';
 };
 
-export const getRedirectUrl = (
+export const getStravaRedirectUrl = (): string => {
+  return process.env.VERCEL_URL
+    ? `https://${process.env.VERCEL_URL}/api/strava/authorize`
+    : 'http://localhost:3000/api/strava/authorize';
+};
+
+export const getSpotifyRedirectUri = (
   clientID: string,
   scopes: string[],
   redirectUri: string,
@@ -22,6 +28,19 @@ export const getRedirectUrl = (
     `&scope=${scopes.join("%20")}` +
     "&show_dialog=" +
     Boolean(showDialog) +
+    `&redirect_uri=${redirectUri}`
+  );
+};
+
+export const getStravaRedirectUri = (
+  clientID: string,
+  scopes: string[],
+  redirectUri: string,
+) => {
+  return (
+    "https://www.strava.com/oauth/authorize?response_type=code" +
+    `&client_id=${clientID}` +
+    `&scope=${scopes.join(",")}` +
     `&redirect_uri=${redirectUri}`
   );
 };

@@ -1,16 +1,14 @@
 import Tile from "@/components/grid/Tile";
 import {
   HackerNewsLinkHolder,
-  StravaGraphData,
   TileId,
   UserSettings,
-  UvGraphData,
+  UvGraphData
 } from "@/types";
 import { Grid } from "@chakra-ui/react";
-import React, { useEffect } from "react";
+import React from "react";
 
 interface TileGridProps {
-  stravaData: StravaGraphData;
   uvData: UvGraphData[];
   hackerNewsData: HackerNewsLinkHolder[];
   inMemorySettings: UserSettings;
@@ -22,7 +20,6 @@ export const TileGrid: React.FC<TileGridProps> = ({
   optionHovered,
   hackerNewsData,
   inMemorySettings,
-  stravaData,
   uvData,
   gridGap,
 }) => {
@@ -44,7 +41,6 @@ export const TileGrid: React.FC<TileGridProps> = ({
         tileId={"tile1"}
         optionHovered={optionHovered === "tile1"}
         inMemorySettings={inMemorySettings}
-        stravaData={stravaData}
         uvData={uvData}
         hackerNewsData={hackerNewsData}
       />
@@ -57,7 +53,6 @@ export const TileGrid: React.FC<TileGridProps> = ({
         tileId={"tile2"}
         optionHovered={optionHovered === "tile2"}
         inMemorySettings={inMemorySettings}
-        stravaData={stravaData}
         uvData={uvData}
         hackerNewsData={hackerNewsData}
         overflow="hidden"
@@ -68,7 +63,6 @@ export const TileGrid: React.FC<TileGridProps> = ({
         tileId={"tile3"}
         optionHovered={optionHovered === "tile3"}
         inMemorySettings={inMemorySettings}
-        stravaData={stravaData}
         uvData={uvData}
         hackerNewsData={hackerNewsData}
       />
@@ -78,7 +72,6 @@ export const TileGrid: React.FC<TileGridProps> = ({
         tileId={"tile4"}
         optionHovered={optionHovered === "tile4"}
         inMemorySettings={inMemorySettings}
-        stravaData={stravaData}
         uvData={uvData}
         hackerNewsData={hackerNewsData}
       ></Tile>
@@ -89,7 +82,6 @@ export const TileGrid: React.FC<TileGridProps> = ({
         tileId={"tile5"}
         optionHovered={optionHovered === "tile5"}
         inMemorySettings={inMemorySettings}
-        stravaData={stravaData}
         uvData={uvData}
         hackerNewsData={hackerNewsData}
       ></Tile>
@@ -102,7 +94,6 @@ export const TileGrid: React.FC<TileGridProps> = ({
         tileId={"tile6"}
         optionHovered={optionHovered === "tile6"}
         inMemorySettings={inMemorySettings}
-        stravaData={stravaData}
         uvData={uvData}
         hackerNewsData={hackerNewsData}
       ></Tile>
@@ -112,7 +103,6 @@ export const TileGrid: React.FC<TileGridProps> = ({
         tileId={"tile7"}
         optionHovered={optionHovered === "tile7"}
         inMemorySettings={inMemorySettings}
-        stravaData={stravaData}
         uvData={uvData}
         hackerNewsData={hackerNewsData}
       ></Tile>
@@ -125,7 +115,6 @@ export const TileGrid: React.FC<TileGridProps> = ({
         optionHovered={optionHovered === "tile9"}
         tileId={"tile9"}
         inMemorySettings={inMemorySettings}
-        stravaData={stravaData}
         uvData={uvData}
         hackerNewsData={hackerNewsData}
       ></Tile>
@@ -136,7 +125,6 @@ export const TileGrid: React.FC<TileGridProps> = ({
         tileId={"tile10"}
         optionHovered={optionHovered === "tile10"}
         inMemorySettings={inMemorySettings}
-        stravaData={stravaData}
         uvData={uvData}
         hackerNewsData={hackerNewsData}
       ></Tile>
@@ -146,7 +134,6 @@ export const TileGrid: React.FC<TileGridProps> = ({
         tileId={"tile8"}
         optionHovered={optionHovered === "tile8"}
         inMemorySettings={inMemorySettings}
-        stravaData={stravaData}
         uvData={uvData}
         hackerNewsData={hackerNewsData}
       ></Tile>
@@ -156,7 +143,6 @@ export const TileGrid: React.FC<TileGridProps> = ({
         tileId={"tile11"}
         optionHovered={optionHovered === "tile11"}
         inMemorySettings={inMemorySettings}
-        stravaData={stravaData}
         uvData={uvData}
         hackerNewsData={hackerNewsData}
       ></Tile>

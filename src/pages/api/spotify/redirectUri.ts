@@ -1,4 +1,4 @@
-import { getRedirectUrl, getSpotifyRedirectUrl } from "@/helpers/getClientUrl";
+import { getSpotifyRedirectUri, getSpotifyRedirectUrl } from "@/helpers/getClientUrl";
 import { NextApiRequest, NextApiResponse } from "next";
 
 const clientId = process.env.SPOTIFY_CLIENT_ID;
@@ -9,7 +9,7 @@ export default async function handler(
 ) {
   try {
 
-    const redirectUri = getRedirectUrl(
+    const redirectUri = getSpotifyRedirectUri(
       clientId as string,
       [
         "user-read-currently-playing",
@@ -17,6 +17,7 @@ export default async function handler(
         "user-read-playback-state",
         "user-read-recently-played",
         "user-modify-playback-state",
+        "user-read-playback-position"
       ],
       getSpotifyRedirectUrl(),
       true

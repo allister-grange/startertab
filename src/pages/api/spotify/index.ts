@@ -45,7 +45,7 @@ export default async function handler(
         res.status(200).json({ success: true });
       }
     } catch (err) {
-      res.status(500).json(err);
+      return res.status(500).json(err);
     }
   } else if (req.method === "GET") {
     try {
@@ -64,7 +64,7 @@ export default async function handler(
 
       res.status(200).json(spotifyData);
     } catch (err) {
-      res.status(500).json(err);
+      return res.status(500).json(err);
     }
   } else {
     res.setHeader("Allow", ["GET", "POST"]);

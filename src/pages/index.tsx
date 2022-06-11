@@ -4,11 +4,9 @@ import { SettingsToggle } from "@/components/ui/SettingsToggle";
 import { SettingsContext } from "@/context/UserSettingsContext";
 import { getCurrentTheme } from "@/helpers/settingsHelpers";
 import { getHackerNewsData } from "@/pages/api/hackerNews";
-import { getStravaData } from "@/pages/api/strava";
 import { getUVData } from "@/pages/api/weather";
 import {
   HackerNewsLinkHolder,
-  StravaGraphData,
   TileId,
   UserSettingsContextInterface,
   UvGraphData,
@@ -32,12 +30,11 @@ const SettingsSideBar = dynamic(
 );
 
 type PageProps = {
-  stravaData: StravaGraphData;
   uvData: UvGraphData[];
   hackerNewsData: HackerNewsLinkHolder[];
 };
 
-const Home: NextPage<PageProps> = ({ stravaData, uvData, hackerNewsData }) => {
+const Home: NextPage<PageProps> = ({ uvData, hackerNewsData }) => {
   // Sidebar hook
   const { isOpen, onOpen, onClose } = useDisclosure();
   // to highlight what tile you are looking to edit from the sidebar
@@ -100,7 +97,6 @@ const Home: NextPage<PageProps> = ({ stravaData, uvData, hackerNewsData }) => {
           <TileGrid
             optionHovered={optionHovered}
             inMemorySettings={inMemorySettings}
-            stravaData={stravaData}
             uvData={uvData}
             hackerNewsData={hackerNewsData}
             gridGap={gridGap}
@@ -121,14 +117,13 @@ const Home: NextPage<PageProps> = ({ stravaData, uvData, hackerNewsData }) => {
 };
 
 export const getServerSideProps: GetServerSideProps = async () => {
-  const [stravaData, uvData, hackerNewsData] = await Promise.all([
-    getStravaData(),
+  const [uvData, hackerNewsData] = await Promise.all([
     getUVData(),
     getHackerNewsData(),
   ]);
 
   return {
-    props: { stravaData, uvData, hackerNewsData },
+    props: { uvData, hackerNewsData },
   };
 };
 
