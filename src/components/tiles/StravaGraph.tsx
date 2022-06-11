@@ -150,7 +150,7 @@ const StravaGraph: React.FC<PageProps> = ({ tileId }) => {
         </Box>
       ) : (
         <Center minHeight="265px">
-          <Spinner color="white" />
+          <Spinner color={color} />
         </Center>
       )}
     </Box>
