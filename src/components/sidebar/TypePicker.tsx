@@ -57,6 +57,7 @@ export const TypePicker: React.FC<TypePickerProps> = ({
           <option value="Strava Graph">Strava Graph</option>
           <option value="UV Graph">UV Graph</option>
           <option value="Large Spotify Tile">Spotify Tile</option>
+          <option value="Large Stock Tile">Large Stock Tile</option>
         </>
       );
       break;

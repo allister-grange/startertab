@@ -90,7 +90,6 @@ export const sideBarOptions: Option[] = [
     title: "Text color",
     subTitle: "Text color of the tile",
     localStorageId: "textColor",
-
     optionType: "ColorPicker",
     tileId: "tile2",
   },
@@ -113,7 +112,6 @@ export const sideBarOptions: Option[] = [
     title: "Text color",
     subTitle: "Text color of the tile",
     localStorageId: "textColor",
-
     optionType: "ColorPicker",
     tileId: "tile3",
   },
@@ -149,7 +147,6 @@ export const sideBarOptions: Option[] = [
     title: "Background color",
     subTitle: "Background color of the tile",
     localStorageId: "backgroundColor",
-
     optionType: "ColorPicker",
     tileId: "tile4",
   },
@@ -193,7 +190,6 @@ export const sideBarOptions: Option[] = [
     title: "Background color",
     subTitle: "Background color of the tile",
     localStorageId: "backgroundColor",
-
     optionType: "ColorPicker",
     tileId: "tile5",
   },
@@ -209,7 +205,6 @@ export const sideBarOptions: Option[] = [
     title: "Background color",
     subTitle: "Background color of the tile",
     localStorageId: "backgroundColor",
-
     optionType: "ColorPicker",
     tileId: "tile6",
   },
@@ -217,7 +212,6 @@ export const sideBarOptions: Option[] = [
     title: "Text color",
     subTitle: "Text color of the tile",
     localStorageId: "textColor",
-
     optionType: "ColorPicker",
     tileId: "tile6",
   },
@@ -261,7 +255,6 @@ export const sideBarOptions: Option[] = [
     title: "Text color",
     subTitle: "Text color of the tile",
     localStorageId: "textColor",
-
     optionType: "ColorPicker",
     tileId: "tile7",
   },
@@ -290,7 +283,6 @@ export const sideBarOptions: Option[] = [
     title: "Background color",
     subTitle: "Background color of the tile",
     localStorageId: "backgroundColor",
-
     optionType: "ColorPicker",
     tileId: "tile8",
   },
@@ -298,7 +290,6 @@ export const sideBarOptions: Option[] = [
     title: "Text color",
     subTitle: "Text color of the tile",
     localStorageId: "textColor",
-
     optionType: "ColorPicker",
     tileId: "tile8",
   },
@@ -327,7 +318,6 @@ export const sideBarOptions: Option[] = [
     title: "Background color",
     subTitle: "Background color of the tile",
     localStorageId: "backgroundColor",
-
     optionType: "ColorPicker",
     tileId: "tile9",
   },
@@ -335,7 +325,6 @@ export const sideBarOptions: Option[] = [
     title: "Text color",
     subTitle: "Text color of the tile",
     localStorageId: "textColor",
-
     optionType: "ColorPicker",
     tileId: "tile9",
   },
@@ -350,7 +339,6 @@ export const sideBarOptions: Option[] = [
     title: "Background color",
     subTitle: "Background color of the tile",
     localStorageId: "backgroundColor",
-
     optionType: "ColorPicker",
     tileId: "tile10",
   },
@@ -358,7 +346,6 @@ export const sideBarOptions: Option[] = [
     title: "Text color",
     subTitle: "Text color of the tile",
     localStorageId: "textColor",
-
     optionType: "ColorPicker",
     tileId: "tile10",
   },
@@ -387,7 +374,6 @@ export const sideBarOptions: Option[] = [
     title: "Background color",
     subTitle: "Background color of the tile",
     localStorageId: "backgroundColor",
-
     optionType: "ColorPicker",
     tileId: "tile11",
   },
@@ -395,7 +381,6 @@ export const sideBarOptions: Option[] = [
     title: "Text color",
     subTitle: "Text color of the tile",
     localStorageId: "textColor",
-
     optionType: "ColorPicker",
     tileId: "tile11",
   },

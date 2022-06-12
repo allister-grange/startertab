@@ -24,6 +24,7 @@ import {
 } from "@/types";
 import { Center, Heading } from "@chakra-ui/react";
 import React from "react";
+import { LargeStockTile } from "../tiles/LargeStockTile";
 
 interface TileContainerProps {
   tileId: TileId;
@@ -72,6 +73,11 @@ const TileContainer: React.FC<TileContainerProps> = ({
     case "Bonsai":
       tileToRender = (
         <Bonsai baseColor={bonsaiBaseColor} trunkColor={bonsaiTrunkColor} />
+      );
+      break;
+    case "Large Stock Tile":
+      tileToRender = (
+        <LargeStockTile tileId={tileId} />
       );
       break;
     case "Weather":

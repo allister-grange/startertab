@@ -19,6 +19,7 @@ export type OptionType =
   | "BorderSelect"
   | "SmallStockInput"
   | "GridGapInput"
+  | "LargeStockTile"
   | "CityInput";
 
 export type TileType =
