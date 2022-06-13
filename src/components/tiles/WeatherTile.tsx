@@ -13,7 +13,7 @@ import {
   InputRightElement,
   Spinner,
   Text,
-  useColorMode
+  useColorMode,
 } from "@chakra-ui/react";
 import cloneDeep from "lodash.clonedeep";
 import React, { useContext, useEffect, useState } from "react";
@@ -21,7 +21,7 @@ import {
   WiCloud,
   WiDaySunny,
   WiDaySunnyOvercast,
-  WiRain
+  WiRain,
 } from "react-icons/wi";
 
 interface WeatherTileProps {
@@ -50,7 +50,7 @@ export const WeatherTile: React.FC<WeatherTileProps> = ({ city, tileId }) => {
 
   const fetchWeatherData = React.useCallback(async (cityName: string) => {
     try {
-      setState((state) => ({...state, status: "loading"}));
+      setState((state) => ({ ...state, status: "loading" }));
       const res = await fetch(`/api/weather?city=${cityName}`);
       let data = await res.json();
 
@@ -151,6 +151,9 @@ export const WeatherTile: React.FC<WeatherTileProps> = ({ city, tileId }) => {
   } else if (state.status === "waitingForInput") {
     toDisplay = (
       <form onSubmit={handleSubmitCityName}>
+        <Text pos="absolute" top="4" left="3" fontSize="lg" fontWeight="500">
+          Weather Overview
+        </Text>
         <InputGroup>
           <InputRightElement
             className="InputRight"

@@ -63,8 +63,8 @@ const Tile: React.FC<TileProps> = ({
       <TileContainer
         tileId={tileId}
         hackerNewsData={hackerNewsData}
-        uvData={uvData}
-        city={theme[tileId].cityForWeather}
+        cityForWeather={theme[tileId].cityForWeather}
+        cityForUv={theme[tileId].cityForUV}
         stockName={theme[tileId].stockName}
         todoList={theme[tileId].todoList}
         tileType={theme[tileId].tileType}

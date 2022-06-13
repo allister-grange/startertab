@@ -129,6 +129,9 @@ export const SmallStockTile: React.FC<SmallStockTileProps> = ({
   } else if (state.status === "waitingForInput") {
     toDisplay = (
       <form onSubmit={handleSubmitStockName}>
+        <Text pos="absolute" top="4" left="3" fontSize="lg" fontWeight="500">
+          Stock Display
+        </Text>
         <InputGroup>
           <InputRightElement
             className="InputRight"

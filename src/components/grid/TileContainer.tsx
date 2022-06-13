@@ -29,9 +29,9 @@ import { LargeStockTile } from "../tiles/LargeStockTile";
 interface TileContainerProps {
   tileId: TileId;
   hackerNewsData: HackerNewsLinkHolder[];
-  uvData: UvGraphData[];
   tileType: TileType;
-  city?: string;
+  cityForWeather?: string;
+  cityForUv?: string;
   stockName?: string;
   todoList?: TodoObject[];
   bonsaiBaseColor?: string;
@@ -41,10 +41,10 @@ interface TileContainerProps {
 const TileContainer: React.FC<TileContainerProps> = ({
   tileId,
   hackerNewsData,
-  uvData,
   tileType,
-  city,
+  cityForWeather,
   stockName,
+  cityForUv,
   todoList,
   bonsaiBaseColor,
   bonsaiTrunkColor,
@@ -76,12 +76,10 @@ const TileContainer: React.FC<TileContainerProps> = ({
       );
       break;
     case "Large Stock Tile":
-      tileToRender = (
-        <LargeStockTile tileId={tileId} />
-      );
+      tileToRender = <LargeStockTile tileId={tileId} />;
       break;
     case "Weather":
-      tileToRender = <WeatherTile city={city} tileId={tileId} />;
+      tileToRender = <WeatherTile city={cityForWeather} tileId={tileId} />;
       break;
     case "Small Spotify Tile":
       tileToRender = (
@@ -91,7 +89,7 @@ const TileContainer: React.FC<TileContainerProps> = ({
       );
       break;
     case "UV Graph":
-      tileToRender = <UvGraph uvData={uvData} tileId={tileId} />;
+      tileToRender = <UvGraph city={cityForUv} tileId={tileId} />;
       break;
     case "Time":
       tileToRender = <Time tileId={tileId} />;

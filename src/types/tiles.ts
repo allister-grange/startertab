@@ -5,4 +5,3 @@ export type TodoObject = {
   title: string;
   date: number;
 };
-

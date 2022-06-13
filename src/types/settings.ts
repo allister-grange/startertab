@@ -50,6 +50,7 @@ export type TileSettings = {
   tileType: TileType;
   dropShadow?: string;
   cityForWeather?: string;
+  cityForUV?: string;
   todoList?: TodoObject[];
   tileBorder?: string;
   stockName?: string;

@@ -19,7 +19,13 @@ export default async function handler(
       res.status(204).send("Can't find empty city");
     }
 
-    const data = await getWeatherConditions(req.query.city as string);
+    let data;
+
+    if (req.query.uv) {
+      data = await getUVData(req.query.city as string);
+    } else {
+      data = await getWeatherConditions(req.query.city as string);
+    }
     res.status(200).json(data);
   } catch (err) {
     res.status(500).send(err);
@@ -82,7 +88,7 @@ export const getWeatherConditions = async (city: string) => {
   }
 };
 
-export const getUVData = async (): Promise<UvGraphData[]> => {
+export const getUVData = async (city: string): Promise<UvGraphData[]> => {
   const weatherAPIToken = process.env.WEATHERAPI_TOKEN;
 
   if (!weatherAPIToken) {
@@ -90,7 +96,7 @@ export const getUVData = async (): Promise<UvGraphData[]> => {
   }
 
   try {
-    const weatherUrl = `https://api.weatherapi.com/v1/forecast.json?key=${weatherAPIToken}&q=Wellington&days=1&aqi=no&alerts=no`;
+    const weatherUrl = `https://api.weatherapi.com/v1/forecast.json?key=${weatherAPIToken}&q=${city}&days=1&aqi=no&alerts=no`;
 
     const weatherRes = await fetch(weatherUrl, {
       headers: { "Content-Type": "application/json" },

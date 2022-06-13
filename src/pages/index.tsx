@@ -118,7 +118,7 @@ const Home: NextPage<PageProps> = ({ uvData, hackerNewsData }) => {
 
 export const getServerSideProps: GetServerSideProps = async () => {
   const [uvData, hackerNewsData] = await Promise.all([
-    getUVData(),
+    getUVData('Wellington'),
     getHackerNewsData(),
   ]);
 
