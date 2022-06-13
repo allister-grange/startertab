@@ -101,10 +101,16 @@ export const sideBarOptions: Option[] = [
     tileId: "tile2",
   },
   {
+    title: "City for UV data",
+    subTitle: "Name of the city you want the UV data for",
+    localStorageId: "cityForUv",
+    optionType: "CityInput",
+    tileId: "tile2",
+  },
+  {
     title: "Background color",
     subTitle: "Background color of the tile",
     localStorageId: "backgroundColor",
-
     optionType: "ColorPicker",
     tileId: "tile3",
   },
@@ -154,7 +160,6 @@ export const sideBarOptions: Option[] = [
     title: "Text color",
     subTitle: "Text color of the tile",
     localStorageId: "textColor",
-
     optionType: "ColorPicker",
     tileId: "tile4",
   },
@@ -197,7 +202,6 @@ export const sideBarOptions: Option[] = [
     title: "Text color",
     subTitle: "Text color of the tile",
     localStorageId: "textColor",
-
     optionType: "ColorPicker",
     tileId: "tile5",
   },
@@ -247,7 +251,6 @@ export const sideBarOptions: Option[] = [
     title: "Background color",
     subTitle: "Background color of the tile",
     localStorageId: "backgroundColor",
-
     optionType: "ColorPicker",
     tileId: "tile7",
   },
@@ -333,6 +336,13 @@ export const sideBarOptions: Option[] = [
     subTitle: "Type of tile you want to display",
     localStorageId: "tileType",
     optionType: "LargeTileTypePicker",
+    tileId: "tile9",
+  },
+  {
+    title: "City for UV data",
+    subTitle: "Name of the city you want the UV data for",
+    localStorageId: "cityForUv",
+    optionType: "CityInput",
     tileId: "tile9",
   },
   {

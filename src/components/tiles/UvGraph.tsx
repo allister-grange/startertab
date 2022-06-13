@@ -75,7 +75,7 @@ export const UvGraph: React.FC<UvGraphProps> = ({ city, tileId }) => {
 
   useEffect(() => {
     const currentTheme = getCurrentTheme(settings, colorMode);
-    const cityFromSettings = currentTheme[tileId].cityForUV;
+    const cityFromSettings = currentTheme[tileId].cityForUv;
 
     if (!cityFromSettings) {
       setState({ status: "waitingForInput" });
@@ -88,7 +88,7 @@ export const UvGraph: React.FC<UvGraphProps> = ({ city, tileId }) => {
     e.preventDefault();
     let newSettings = cloneDeep(settings);
     const theme = getCurrentTheme(newSettings, colorMode);
-    theme[tileId].cityForUV = cityInput;
+    theme[tileId].cityForUv = cityInput;
 
     setSettings(newSettings);
   };
@@ -97,7 +97,7 @@ export const UvGraph: React.FC<UvGraphProps> = ({ city, tileId }) => {
 
   if (state.status === "loading") {
     toDisplay = (
-      <Center height="100%" color={color}>
+      <Center height="80%" color={color}>
         <Spinner size="lg" />
       </Center>
     );
