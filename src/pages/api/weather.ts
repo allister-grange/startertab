@@ -1,4 +1,5 @@
 import {
+  ForecastdayEntity,
   UvGraphData,
   WeatherCondition,
   WeatherData,
@@ -23,6 +24,8 @@ export default async function handler(
 
     if (req.query.uv) {
       data = await getUVData(req.query.city as string);
+    } else if (req.query.weekForecast) {
+      data = await getWeatherConditionsForWeek(req.query.city as string);
     } else {
       data = await getWeatherConditions(req.query.city as string);
     }
@@ -31,6 +34,46 @@ export default async function handler(
     res.status(500).send(err);
   }
 }
+
+export const getWeatherConditionsForWeek = async (city: string) => {
+  const weatherAPIToken = process.env.WEATHERAPI_TOKEN;
+
+  if (!weatherAPIToken) {
+    throw new Error("Missing weather api environment config data");
+  }
+
+  try {
+    const weatherUrl = `https://api.weatherapi.com/v1/forecast.json?key=${weatherAPIToken}&q=${city}&days=5&aqi=no&alerts=no`;
+
+    const weatherRes = await fetch(weatherUrl, {
+      headers: { "Content-Type": "application/json" },
+    });
+
+    if (weatherRes.status !== 200) {
+      throw new Error("Bad request to weather api");
+    }
+
+    const data = (await weatherRes.json()) as WeatherResponse;
+    return data;
+
+    let forecasts: WeatherData[] = [];
+
+    data.forecast.forecastday!.forEach((forecast) => {
+      const weatherCondition = getWeatherCondition(forecast);
+
+      forecasts.push({
+        dailyMax: forecast.day.maxtemp_c,
+        dailyMin: forecast.day.mintemp_c,
+        condition: weatherCondition,
+        date: forecast.date,
+      });
+    });
+
+    return forecasts;
+  } catch (err) {
+    throw new Error(err as string);
+  }
+};
 
 export const getWeatherConditions = async (city: string) => {
   const weatherAPIToken = process.env.WEATHERAPI_TOKEN;
@@ -52,40 +95,48 @@ export const getWeatherConditions = async (city: string) => {
 
     const data = (await weatherRes.json()) as WeatherResponse;
 
-    let weatherCondition: WeatherCondition = "sunny";
-    const weatherConditionFromApi =
-      data.forecast.forecastday![0].day.condition.text;
-
-    if (
-      weatherConditionFromApi === "Sunny" ||
-      weatherConditionFromApi == "Clear"
-    ) {
-      weatherCondition = "sunny";
-    } else if (weatherConditionFromApi === "Partly cloudy") {
-      weatherCondition = "partly cloudy";
-    } else if (
-      weatherConditionFromApi === "Cloudy" ||
-      weatherConditionFromApi == "Overcast"
-    ) {
-      weatherCondition = "cloudy";
-    } else if (
-      data.forecast.forecastday![0].day.condition.text.includes("rain") ||
-      data.forecast.forecastday![0].day.condition.text.includes("Rain")
-    ) {
-      weatherCondition = "rain";
-    }
+    const weatherConditionFromApi = getWeatherCondition(
+      data.forecast.forecastday![0]
+    );
 
     const transformedData: WeatherData = {
       current: data.current.temp_c,
       dailyMax: data.forecast.forecastday![0].day.maxtemp_c,
       dailyMin: data.forecast.forecastday![0].day.mintemp_c,
-      condition: weatherCondition,
+      condition: weatherConditionFromApi,
+      date: data.forecast.forecastday![0].date,
     };
 
     return transformedData;
   } catch (err) {
     throw new Error(err as string);
   }
+};
+
+const getWeatherCondition = (forecast: ForecastdayEntity) => {
+  let weatherCondition: WeatherCondition = "sunny";
+  const weatherConditionFromApi = forecast.day.condition.text;
+
+  if (
+    weatherConditionFromApi === "Sunny" ||
+    weatherConditionFromApi == "Clear"
+  ) {
+    weatherCondition = "sunny";
+  } else if (weatherConditionFromApi === "Partly cloudy") {
+    weatherCondition = "partly cloudy";
+  } else if (
+    weatherConditionFromApi === "Cloudy" ||
+    weatherConditionFromApi == "Overcast"
+  ) {
+    weatherCondition = "cloudy";
+  } else if (
+    forecast.day.condition.text.includes("rain") ||
+    forecast.day.condition.text.includes("Rain")
+  ) {
+    weatherCondition = "rain";
+  }
+
+  return weatherCondition;
 };
 
 export const getUVData = async (city: string): Promise<UvGraphData[]> => {

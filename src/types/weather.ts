@@ -7,8 +7,9 @@ export interface WeatherResponse {
 export interface WeatherData {
   dailyMax: number;
   dailyMin: number;
-  current: number;
+  current?: number;
   condition: WeatherCondition;
+  date: string;
 }
 
 export type WeatherCondition = "cloudy" | "sunny" | "rain" | "partly cloudy";
