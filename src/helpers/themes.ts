@@ -51,7 +51,7 @@ export const defaultSettings: UserSettings = {
       tile7: {
         backgroundColor: "#65abc1",
         textColor: "#222222",
-        tileType: "Weather",
+        tileType: "Small Weather Tile",
       },
       tile8: {
         backgroundColor: "#9AB899",
@@ -121,7 +121,7 @@ export const defaultSettings: UserSettings = {
       tile7: {
         backgroundColor: "#E89C4B",
         textColor: "#ffffff",
-        tileType: "Weather",
+        tileType: "Small Weather Tile",
       },
       tile8: {
         backgroundColor: "#65abc1",
@@ -191,7 +191,7 @@ export const defaultSettings: UserSettings = {
       tile7: {
         backgroundColor: "#ffffff",
         textColor: "#222222",
-        tileType: "Weather",
+        tileType: "Small Weather Tile",
       },
       tile8: {
         backgroundColor: "#ffffff",
@@ -262,7 +262,7 @@ export const defaultSettings: UserSettings = {
       tile7: {
         backgroundColor: "#222222",
         textColor: "#E0E0E0",
-        tileType: "Weather",
+        tileType: "Small Weather Tile",
       },
       tile8: {
         backgroundColor: "#222222",
@@ -332,7 +332,7 @@ export const defaultSettings: UserSettings = {
       tile7: {
         backgroundColor: "rgba(255, 255, 255, 0.2)",
         textColor: "#222222",
-        tileType: "Weather",
+        tileType: "Small Weather Tile",
       },
       tile8: {
         backgroundColor: "rgba(255, 255, 255, 0.2)",
@@ -404,7 +404,7 @@ export const defaultSettings: UserSettings = {
       tile7: {
         backgroundColor: "rgba(255, 255, 255, 0.2)",
         textColor: "#222222",
-        tileType: "Weather",
+        tileType: "Small Weather Tile",
       },
       tile8: {
         backgroundColor: "rgba(255, 255, 255, 0.2)",
@@ -474,7 +474,7 @@ export const defaultSettings: UserSettings = {
       tile7: {
         backgroundColor: "#f882ff",
         textColor: "#222222",
-        tileType: "Weather",
+        tileType: "Small Weather Tile",
       },
       tile8: {
         backgroundColor: "rgba(255, 255, 255, 0.2)",
