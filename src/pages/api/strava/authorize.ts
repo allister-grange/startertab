@@ -28,7 +28,9 @@ export default async function handler(
         .send("Didn't find access token or refresh token in Spotify response");
     }
 
-    res.redirect(`/?accessToken=${access_token}&refreshToken=${refresh_token}`);
+    res.redirect(
+      `/?accessToken=${access_token}&refreshToken=${refresh_token}&fromStrava=true`
+    );
   } catch (err) {
     res.status(500).send(err);
   }
@@ -40,22 +42,19 @@ const getFirstAccessTokenFromCode = async (code: string) => {
       client_id: clientId,
       client_secret: clientSecret,
       grant_type: "authorization_code",
-      code: code
+      code: code,
     });
-  
+
     const headers = {
       Accept: "application/json, text/plain",
       "Content-Type": "application/json",
     };
 
-    const response = await fetch(
-      `${TOKEN_ENDPOINT}`,
-      {
-        method: `POST`,
-        headers: headers,
-        body: body
-      }
-    );
+    const response = await fetch(`${TOKEN_ENDPOINT}`, {
+      method: `POST`,
+      headers: headers,
+      body: body,
+    });
 
     const data = await response.json();
 

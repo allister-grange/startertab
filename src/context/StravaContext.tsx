@@ -5,8 +5,9 @@ import { useState } from "react";
 const STRAVA_ACCESS_TOKEN = "stravaAccessToken";
 const STRAVA_REFRESH_TOKEN = "stravaRefreshToken";
 
-export const StravaContext =
-  React.createContext<StravaContextInterface | null>(null);
+export const StravaContext = React.createContext<StravaContextInterface | null>(
+  null
+);
 
 interface Props {
   children: React.ReactNode;
@@ -43,8 +44,9 @@ const StravaContextProvider: React.FC<Props> = ({ children }) => {
     const searchTerms = new URLSearchParams(location.search);
     const accessToken = searchTerms.get("accessToken");
     const refreshToken = searchTerms.get("refreshToken");
+    const isStravaRedirect = searchTerms.get("fromStrava");
 
-    if (!accessToken || !refreshToken) {
+    if (!accessToken || !refreshToken || !isStravaRedirect) {
       return;
     }
 
@@ -85,13 +87,12 @@ const StravaContextProvider: React.FC<Props> = ({ children }) => {
     fetchStravaData();
   }, [accessToken, isAuthenticated, refreshToken]);
 
-  const loginWithStrava = React.useCallback(async () => {    
+  const loginWithStrava = React.useCallback(async () => {
     try {
       const res = await fetch("/api/strava/redirectUri");
       const redirectUri = (await res.json()).redirectUri;
       window.location = redirectUri as (string | Location) & Location;
-    }
-    catch(err) {
+    } catch (err) {
       console.error(err as string);
     }
   }, []);
@@ -102,7 +103,7 @@ const StravaContextProvider: React.FC<Props> = ({ children }) => {
         isAuthenticated,
         stravaData,
         loginWithStrava,
-      }} 
+      }}
     >
       {children}
     </StravaContext.Provider>

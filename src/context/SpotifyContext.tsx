@@ -50,8 +50,9 @@ const SpotifyContextProvider: React.FC<Props> = ({ children }) => {
     const searchTerms = new URLSearchParams(location.search);
     const accessToken = searchTerms.get("accessToken");
     const refreshToken = searchTerms.get("refreshToken");
+    const isSpotifyRedirect = searchTerms.get("fromSpotify");
 
-    if (!accessToken || !refreshToken) {
+    if (!accessToken || !refreshToken || !isSpotifyRedirect) {
       return;
     }
 

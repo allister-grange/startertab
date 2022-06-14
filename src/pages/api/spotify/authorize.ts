@@ -28,7 +28,9 @@ export default async function handler(
         .send("Didn't find access token or refresh token in Spotify response");
     }
 
-    res.redirect(`/?accessToken=${access_token}&refreshToken=${refresh_token}`);
+    res.redirect(
+      `/?accessToken=${access_token}&refreshToken=${refresh_token}&fromSpotify=true`
+    );
   } catch (err) {
     res.status(500).send(err);
   }
