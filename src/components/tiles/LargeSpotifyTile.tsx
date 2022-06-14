@@ -143,7 +143,7 @@ export const LargeSpotifyTile: React.FC<LargeSpotifyTileProps> = ({ tileId }) =>
       <Center pr="4">
         <Img
           boxShadow={"4px 4px 10px rgba(0,0,0,.4)"}
-          borderRadius="15"
+          // borderRadius="15"
           src={albumImageUrl}
         />
       </Center>
