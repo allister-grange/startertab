@@ -6,6 +6,7 @@ import {
   Box,
   Button,
   Center,
+  Flex,
   Heading,
   IconButton,
   Input,
@@ -24,20 +25,82 @@ import {
   WiRain,
 } from "react-icons/wi";
 
-interface WeatherTileProps {
+interface LargeWeatherTileProps {
   tileId: TileId;
   city?: string;
+}
+
+interface DaysWeatherProps {
+  weatherData: WeatherData;
 }
 
 type Status = "loading" | "resolved" | "waitingForInput" | "rejected";
 type State = {
   status: Status;
-  data?: WeatherData;
+  data?: WeatherData[];
   error?: string;
   cityNameOfData?: string;
 };
 
-export const WeatherTile: React.FC<WeatherTileProps> = ({ city, tileId }) => {
+export const DaysWeather: React.FC<DaysWeatherProps> = ({ weatherData }) => {
+  let icon;
+
+  switch (weatherData.condition) {
+    case "cloudy":
+      icon = <WiCloud size="90" />;
+      break;
+    case "sunny":
+      icon = <WiDaySunny size="90" />;
+      break;
+    case "partly cloudy":
+      icon = <WiDaySunnyOvercast size="90" />;
+      break;
+    case "rain":
+      icon = <WiRain size="90" />;
+      break;
+  }
+
+  const convertDateToWeekday = (date: string) => {
+    let d = new Date(date);
+    const weekday = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
+    return weekday[d.getDay()].slice(0,3);
+  } 
+
+  return (
+    <Flex flexDir="column">
+      <Text>{convertDateToWeekday(weatherData.date)}</Text>
+      <IconButton
+        height="80px"
+        aria-label="Weather icon"
+        _hover={{ background: "transparent", cursor: "auto" }}
+        _focus={{ border: "0px", cursor: "auto" }}
+        _active={{ background: "transparent", cursor: "auto" }}
+        backgroundColor={"transparent"}
+        icon={icon}
+      />
+      <Box
+        display="flex"
+        flexDirection="column"
+        mb="4"
+        alignItems="center"
+      >
+        <Box display="flex" flexDirection="row">
+          <Text fontSize="18px" mr="1">
+            {weatherData.dailyMin}&#176;
+          </Text>
+          <Text ml="1" fontSize="18px">
+            {weatherData.dailyMax}&#176;
+          </Text>
+        </Box>
+      </Box>
+    </Flex>
+  );
+};
+
+export const LargeWeatherTile: React.FC<LargeWeatherTileProps> = ({
+  city,
+  tileId,
+}) => {
   const color = `var(--text-color-${tileId})`;
   const { settings, setSettings } = useContext(
     SettingsContext
@@ -51,7 +114,9 @@ export const WeatherTile: React.FC<WeatherTileProps> = ({ city, tileId }) => {
   const fetchWeatherData = React.useCallback(async (cityName: string) => {
     try {
       setState((state) => ({ ...state, status: "loading" }));
-      const res = await fetch(`/api/weather?city=${cityName}`);
+      const res = await fetch(
+        `/api/weather?city=${cityName}&weekForecast=true`
+      );
       let data = await res.json();
 
       if (Object.keys(data).length === 0) {
@@ -109,44 +174,12 @@ export const WeatherTile: React.FC<WeatherTileProps> = ({ city, tileId }) => {
       </Center>
     );
   } else if (state.status === "resolved" && state.data) {
-    let icon;
-
-    switch (state.data.condition) {
-      case "cloudy":
-        icon = <WiCloud size="70" />;
-        break;
-      case "sunny":
-        icon = <WiDaySunny size="70" />;
-        break;
-      case "partly cloudy":
-        icon = <WiDaySunnyOvercast size="70" />;
-        break;
-      case "rain":
-        icon = <WiRain size="70" />;
-        break;
-    }
     toDisplay = (
-      <>
-        <Text size="xs" opacity="0.4" pos="absolute" bottom="2" left="3">
-          {state.cityNameOfData}
-        </Text>
-        <IconButton
-          mb="4"
-          aria-label="Weather icon"
-          _hover={{ background: "transparent", cursor: "auto" }}
-          _focus={{ border: "0px", cursor: "auto" }}
-          _active={{ background: "transparent", cursor: "auto" }}
-          backgroundColor={"transparent"}
-          icon={icon}
-        />
-        <Box display="flex" flexDirection="column" mt="2" mb="4">
-          <Heading bg="transparent">{state.data.current}&#176;</Heading>
-          <Box display="flex" flexDirection="row">
-            <Text>{state.data.dailyMin}&#176;</Text>
-            <Text ml="1">{state.data.dailyMax}&#176;</Text>
-          </Box>
-        </Box>
-      </>
+      <Flex justifyContent={"space-around"} width="90%">
+        <DaysWeather weatherData={state.data[0]} />
+        <DaysWeather weatherData={state.data[1]} />
+        <DaysWeather weatherData={state.data[2]} />
+      </Flex>
     );
   } else if (state.status === "waitingForInput") {
     toDisplay = (
@@ -201,6 +234,9 @@ export const WeatherTile: React.FC<WeatherTileProps> = ({ city, tileId }) => {
       >
         Change city
       </Button>
+      <Text size="xs" opacity="0.4" pos="absolute" bottom="2" left="3">
+        {state.cityNameOfData}
+      </Text>
     </Center>
   );
 };

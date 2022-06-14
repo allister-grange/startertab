@@ -5,7 +5,7 @@ import {
   SmallSpotifyTile,
   Time,
   UvGraph,
-  WeatherTile,
+  SmallWeatherTile,
 } from "@/components/tiles";
 import { HackerNewsFeed } from "@/components/tiles/HackerNewsFeed";
 import { LargeSpotifyTile } from "@/components/tiles/LargeSpotifyTile";
@@ -20,11 +20,11 @@ import {
   TileId,
   TileType,
   TodoObject,
-  UvGraphData,
 } from "@/types";
 import { Center, Heading } from "@chakra-ui/react";
 import React from "react";
 import { LargeStockTile } from "../tiles/LargeStockTile";
+import { LargeWeatherTile } from "../tiles/LargeWeatherTile";
 
 interface TileContainerProps {
   tileId: TileId;
@@ -78,8 +78,11 @@ const TileContainer: React.FC<TileContainerProps> = ({
     case "Large Stock Tile":
       tileToRender = <LargeStockTile tileId={tileId} />;
       break;
-    case "Weather":
-      tileToRender = <WeatherTile city={cityForWeather} tileId={tileId} />;
+    case "Large Weather Tile":
+      tileToRender = <LargeWeatherTile city={cityForWeather} tileId={tileId} />;
+      break;
+    case "Small Weather Tile":
+      tileToRender = <SmallWeatherTile city={cityForWeather} tileId={tileId} />;
       break;
     case "Small Spotify Tile":
       tileToRender = (

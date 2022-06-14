@@ -108,6 +108,13 @@ export const sideBarOptions: Option[] = [
     tileId: "tile2",
   },
   {
+    title: "City for weather forecast",
+    subTitle: "Name of the city you want the weather forecast for",
+    localStorageId: "cityForWeather",
+    optionType: "CityInput",
+    tileId: "tile2",
+  },
+  {
     title: "Background color",
     subTitle: "Background color of the tile",
     localStorageId: "backgroundColor",
@@ -336,6 +343,13 @@ export const sideBarOptions: Option[] = [
     subTitle: "Type of tile you want to display",
     localStorageId: "tileType",
     optionType: "LargeTileTypePicker",
+    tileId: "tile9",
+  },
+  {
+    title: "City for weather forecast",
+    subTitle: "Name of the city you want the weather forecast for",
+    localStorageId: "cityForWeather",
+    optionType: "CityInput",
     tileId: "tile9",
   },
   {

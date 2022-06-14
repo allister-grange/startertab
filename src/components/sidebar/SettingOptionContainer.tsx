@@ -26,7 +26,7 @@ export const SettingOptionContainer: React.FC<SettingOptionContainerProps> = ({
   value,
 }) => {
   let optionToDisplay;
-    
+
   switch (option.optionType) {
     case "ColorPicker":
       if (tileType !== "Bonsai" && option.localStorageId.includes("bonsai")) {
@@ -121,8 +121,11 @@ export const SettingOptionContainer: React.FC<SettingOptionContainerProps> = ({
       );
       break;
     case "CityInput":
-      if (tileType === "Weather" || tileType === "UV Graph") {
-        
+      if (
+        tileType === "Small Weather Tile" ||
+        tileType === "UV Graph" ||
+        tileType === "Large Weather Tile"
+      ) {
         optionToDisplay = (
           <GenericInput
             option={option}

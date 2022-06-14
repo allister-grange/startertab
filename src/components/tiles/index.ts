@@ -6,6 +6,7 @@ export * from "./SmallSpotifyTile";
 export * from "./StravaGraph";
 export * from "./SwimmingPoolTimeTable";
 export * from "./Time";
-export * from "./WeatherTile";
+export * from "./SmallWeatherTile";
+export * from "./LargeWeatherTile";
 export * from "./WindFinderLinks";
 export * from "./RedditFeed";

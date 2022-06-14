@@ -54,7 +54,6 @@ export const getWeatherConditionsForWeek = async (city: string) => {
     }
 
     const data = (await weatherRes.json()) as WeatherResponse;
-    return data;
 
     let forecasts: WeatherData[] = [];
 
