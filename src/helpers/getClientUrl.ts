@@ -1,18 +1,18 @@
 export const getClientUrl = (): string => {
-  return process.env.VERCEL_URL
-    ? `https://${process.env.VERCEL_URL}`
+  return process.env.HOSTED_URL
+    ? `https://${process.env.HOSTED_URL}`
     : 'http://localhost:3000/';
 };
 
 export const getSpotifyRedirectUrl = (): string => {
-  return process.env.VERCEL_URL
-    ? `https://${process.env.VERCEL_URL}/api/spotify/authorize`
+  return process.env.HOSTED_URL
+    ? `https://${process.env.HOSTED_URL}/api/spotify/authorize`
     : 'http://localhost:3000/api/spotify/authorize';
 };
 
 export const getStravaRedirectUrl = (): string => {
-  return process.env.VERCEL_URL
-    ? `https://${process.env.VERCEL_URL}/api/strava/authorize`
+  return process.env.HOSTED_URL
+    ? `https://${process.env.HOSTED_URL}/api/strava/authorize`
     : 'http://localhost:3000/api/strava/authorize';
 };
 

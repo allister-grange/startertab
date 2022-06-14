@@ -37,8 +37,8 @@ export default async function handler(
 const getFirstAccessTokenFromCode = async (code: string) => {
   try {
     const body = JSON.stringify({
-      client_id: process.env.STRAVA_CLIENT_ID,
-      client_secret: process.env.STRAVA_SECRET,
+      client_id: clientId,
+      client_secret: clientSecret,
       grant_type: "authorization_code",
       code: code
     });

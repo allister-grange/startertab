@@ -50,8 +50,6 @@ const StravaContextProvider: React.FC<Props> = ({ children }) => {
 
     localStorage.setItem(STRAVA_ACCESS_TOKEN, accessToken);
     localStorage.setItem(STRAVA_REFRESH_TOKEN, refreshToken);
-    console.log("Setting tokens ", accessToken);
-    console.log("Setting tokens ", refreshToken);
 
     setAccessToken(accessToken);
     setRefreshToken(refreshToken);
