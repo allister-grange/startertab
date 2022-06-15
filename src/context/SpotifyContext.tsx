@@ -58,8 +58,6 @@ const SpotifyContextProvider: React.FC<Props> = ({ children }) => {
 
     localStorage.setItem(SPOTIFY_ACCESS_TOKEN, accessToken);
     localStorage.setItem(SPOTIFY_REFRESH_TOKEN, refreshToken);
-    console.log("Setting tokens ", accessToken);
-    console.log("Setting tokens ", refreshToken);
 
     setAccessToken(accessToken);
     setRefreshToken(refreshToken);
@@ -93,7 +91,7 @@ const SpotifyContextProvider: React.FC<Props> = ({ children }) => {
     };
 
     fetchCurrentSong();
-    const interval = setInterval(fetchCurrentSong, 10000);
+    const interval = setInterval(fetchCurrentSong, 1000);
     return () => clearInterval(interval);
   }, [accessToken, isAuthenticated, refreshToken]);
 

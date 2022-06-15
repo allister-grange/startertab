@@ -107,12 +107,12 @@ export const defaultSettings: UserSettings = {
         tileType: "Reddit Feed",
       },
       tile5: {
-        backgroundColor: "#E89C4B",
+        backgroundColor: "#F06808",
         textColor: "#ffffff",
         tileType: "Search Bar",
       },
       tile6: {
-        backgroundColor: "#F06808",
+        backgroundColor: "#E89C4B",
         textColor: "#ffffff",
         tileType: "Bonsai",
         bonsaiTrunkColor: "#fff",
