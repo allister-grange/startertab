@@ -58,7 +58,7 @@ export const sideBarOptions: Option[] = [
     tileId: "tile1",
   },
   {
-    title: "Bonsai truck color",
+    title: "Bonsai trunk color",
     subTitle: "Color of the bonsai trunk",
     localStorageId: "bonsaiTrunkColor",
     optionType: "ColorPicker",
@@ -136,7 +136,7 @@ export const sideBarOptions: Option[] = [
     tileId: "tile3",
   },
   {
-    title: "Bonsai truck color",
+    title: "Bonsai trunk color",
     subTitle: "Color of the bonsai trunk",
     localStorageId: "bonsaiTrunkColor",
     optionType: "ColorPicker",
@@ -178,7 +178,7 @@ export const sideBarOptions: Option[] = [
     tileId: "tile4",
   },
   {
-    title: "Bonsai truck color",
+    title: "Bonsai trunk color",
     subTitle: "Color of the bonsai trunk",
     localStorageId: "bonsaiTrunkColor",
     optionType: "ColorPicker",
@@ -234,7 +234,7 @@ export const sideBarOptions: Option[] = [
     tileId: "tile6",
   },
   {
-    title: "Bonsai truck color",
+    title: "Bonsai trunk color",
     subTitle: "Color of the bonsai trunk",
     localStorageId: "bonsaiTrunkColor",
     optionType: "ColorPicker",
