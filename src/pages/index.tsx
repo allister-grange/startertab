@@ -1,5 +1,6 @@
 import { TileGrid } from "@/components/grid/TileGrid";
 import { Tutorial } from "@/components/tutorial/Tutorial";
+import { MobileWarning } from "@/components/ui/MobileWarning";
 import { SettingsToggle } from "@/components/ui/SettingsToggle";
 import { SettingsContext } from "@/context/UserSettingsContext";
 import { getCurrentTheme } from "@/helpers/settingsHelpers";
@@ -67,17 +68,9 @@ const Home: NextPage<PageProps> = ({ uvData, hackerNewsData }) => {
   const settingsToggleColor = currentTheme.globalSettings.textColor;
   let toDisplay;
 
-  if (showingMobileWarning) {
+  if (true) {
     toDisplay = (
-      <Center height="100vh" bg="white" color="black" p="5">
-        <Flex flexDir={"column"} justifyContent="center" alignItems="center">
-          <Heading color="orange">⚠️⚠️⚠️</Heading>
-          <Heading mt="6" textAlign="center">
-            This website is not designed for mobile devices, please come back on
-            a bigger display!
-          </Heading>
-        </Flex>
-      </Center>
+      <MobileWarning />
     );
   } else if (showTutorial) {
     toDisplay = <Tutorial setShowTutorial={setShowTutorial} />;
