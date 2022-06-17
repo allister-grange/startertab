@@ -68,7 +68,7 @@ const Home: NextPage<PageProps> = ({ uvData, hackerNewsData }) => {
   const settingsToggleColor = currentTheme.globalSettings.textColor;
   let toDisplay;
 
-  if (true) {
+  if (showingMobileWarning) {
     toDisplay = (
       <MobileWarning />
     );
