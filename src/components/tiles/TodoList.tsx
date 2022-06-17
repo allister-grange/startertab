@@ -107,12 +107,10 @@ export const TodoList: React.FC<TodoListProps> = ({ tileId, todoList }) => {
   const finishedTodos = todos.filter((todo) => todo.done === true);
   const unfinishedTodos = todos.filter((todo) => todo.done === false);
 
+  console.log(todos.length);
+  
   return (
     <Box color={color} p="4" pt="4" height="100%">
-      <Heading fontSize="xl" fontWeight="bold">
-        Todo
-      </Heading>
-      <Box w="80%" height="1px" bgColor={color} mt="2" />
       <Flex minWidth="50%" flexDir="column" mt="4">
         <Box>
           <ol>
@@ -164,6 +162,7 @@ export const TodoList: React.FC<TodoListProps> = ({ tileId, todoList }) => {
             borderColor={color}
             onChange={onInputChange}
             onKeyDown={onKeyPress}
+            placeholder={unfinishedTodos.length <= 0 ? "Add a to-do" : ""}
             _focus={{ borderColor: color }}
             _hover={{ borderColor: color }}
           />
