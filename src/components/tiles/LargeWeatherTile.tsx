@@ -28,7 +28,7 @@ import {
 interface LargeWeatherTileProps {
   tileId: TileId;
   city?: string;
-  tempDisplayInCelsius: boolean | undefined;
+  tempDisplayInCelsius: string | undefined;
 }
 
 interface DaysWeatherProps {
@@ -129,8 +129,9 @@ export const LargeWeatherTile: React.FC<LargeWeatherTileProps> = ({
   const [state, setState] = useState<State>({
     status: city ? "loading" : "waitingForInput",
   });
-  const [displayInCelsius, setDisplayInCelsius] =
-    useState(tempDisplayInCelsius);
+  const [displayInCelsius, setDisplayInCelsius] = useState(
+    tempDisplayInCelsius === "true"
+  );
 
   const hoverStyles = {
     backgroundColor: "transparent",
@@ -194,7 +195,7 @@ export const LargeWeatherTile: React.FC<LargeWeatherTileProps> = ({
   const changeTemperatureDisplayUnits = (celsius: boolean) => {
     let newSettings = cloneDeep(settings);
     const theme = getCurrentTheme(newSettings, colorMode);
-    theme[tileId].tempDisplayInCelsius = celsius;
+    theme[tileId].tempDisplayInCelsius = celsius ? "true" : "false";
     setSettings(newSettings);
     setDisplayInCelsius(celsius);
   };
@@ -213,9 +214,18 @@ export const LargeWeatherTile: React.FC<LargeWeatherTileProps> = ({
         <Text size="xs" opacity="0.4" pos="absolute" bottom="2" left="3">
           {state.cityNameOfData}
         </Text>
-        <DaysWeather weatherData={state.data[0]} displayInCelsius={displayInCelsius}/>
-        <DaysWeather weatherData={state.data[1]} displayInCelsius={displayInCelsius}/>
-        <DaysWeather weatherData={state.data[2]} displayInCelsius={displayInCelsius}/>
+        <DaysWeather
+          weatherData={state.data[0]}
+          displayInCelsius={displayInCelsius}
+        />
+        <DaysWeather
+          weatherData={state.data[1]}
+          displayInCelsius={displayInCelsius}
+        />
+        <DaysWeather
+          weatherData={state.data[2]}
+          displayInCelsius={displayInCelsius}
+        />
       </Flex>
     );
   } else if (state.status === "waitingForInput") {

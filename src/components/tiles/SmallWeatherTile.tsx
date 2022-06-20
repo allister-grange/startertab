@@ -114,7 +114,7 @@ export const SmallWeatherTile: React.FC<SmallWeatherTileProps> = ({
   const changeTemperatureDisplayUnits = (celsius: boolean) => {
     let newSettings = cloneDeep(settings);
     const theme = getCurrentTheme(newSettings, colorMode);
-    theme[tileId].tempDisplayInCelsius = celsius;
+    theme[tileId].tempDisplayInCelsius = celsius ? "true" : "false";
     setSettings(newSettings);
     setDisplayInCelsius(celsius);
   };
