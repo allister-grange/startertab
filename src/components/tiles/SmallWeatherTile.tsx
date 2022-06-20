@@ -27,7 +27,7 @@ import {
 interface SmallWeatherTileProps {
   tileId: TileId;
   city?: string;
-  tempDisplayInCelsius?: boolean;
+  tempDisplayInCelsius?: string;
 }
 
 type Status = "loading" | "resolved" | "waitingForInput" | "rejected";
@@ -56,8 +56,9 @@ export const SmallWeatherTile: React.FC<SmallWeatherTileProps> = ({
   const [state, setState] = useState<State>({
     status: city ? "loading" : "waitingForInput",
   });
-  const [displayInCelsius, setDisplayInCelsius] =
-    useState(tempDisplayInCelsius);
+  const [displayInCelsius, setDisplayInCelsius] = useState(
+    tempDisplayInCelsius === "true"
+  );
 
   const fetchWeatherData = React.useCallback(async (cityName: string) => {
     try {
