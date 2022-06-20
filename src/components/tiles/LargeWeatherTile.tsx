@@ -210,6 +210,9 @@ export const LargeWeatherTile: React.FC<LargeWeatherTileProps> = ({
   } else if (state.status === "resolved" && state.data) {
     toDisplay = (
       <Flex justifyContent={"space-around"} width="90%">
+        <Text size="xs" opacity="0.4" pos="absolute" bottom="2" left="3">
+          {state.cityNameOfData}
+        </Text>
         <DaysWeather weatherData={state.data[0]} displayInCelsius={displayInCelsius}/>
         <DaysWeather weatherData={state.data[1]} displayInCelsius={displayInCelsius}/>
         <DaysWeather weatherData={state.data[2]} displayInCelsius={displayInCelsius}/>
