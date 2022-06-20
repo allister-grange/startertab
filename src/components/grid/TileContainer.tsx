@@ -15,12 +15,7 @@ import { TodoList } from "@/components/tiles/TodoList";
 import ColorModeSwitcher from "@/components/ui/ColorModeSwitcher";
 import SpotifyContextProvider from "@/context/SpotifyContext";
 import StravaContextProvider from "@/context/StravaContext";
-import {
-  HackerNewsLinkHolder,
-  TileId,
-  TileType,
-  TodoObject,
-} from "@/types";
+import { HackerNewsLinkHolder, TileId, TileType, TodoObject } from "@/types";
 import { Center, Heading } from "@chakra-ui/react";
 import React from "react";
 import { LargeStockTile } from "../tiles/LargeStockTile";
@@ -36,6 +31,7 @@ interface TileContainerProps {
   todoList?: TodoObject[];
   bonsaiBaseColor?: string;
   bonsaiTrunkColor?: string;
+  tempDisplayInCelsius?: boolean;
 }
 
 const TileContainer: React.FC<TileContainerProps> = ({
@@ -43,6 +39,7 @@ const TileContainer: React.FC<TileContainerProps> = ({
   hackerNewsData,
   tileType,
   cityForWeather,
+  tempDisplayInCelsius,
   stockName,
   cityForUv,
   todoList,
@@ -79,10 +76,22 @@ const TileContainer: React.FC<TileContainerProps> = ({
       tileToRender = <LargeStockTile tileId={tileId} />;
       break;
     case "Large Weather Tile":
-      tileToRender = <LargeWeatherTile city={cityForWeather} tileId={tileId} />;
+      tileToRender = (
+        <LargeWeatherTile
+          tempDisplayInCelsius={tempDisplayInCelsius}
+          city={cityForWeather}
+          tileId={tileId}
+        />
+      );
       break;
     case "Small Weather Tile":
-      tileToRender = <SmallWeatherTile city={cityForWeather} tileId={tileId} />;
+      tileToRender = (
+        <SmallWeatherTile
+          tempDisplayInCelsius={tempDisplayInCelsius}
+          city={cityForWeather}
+          tileId={tileId}
+        />
+      );
       break;
     case "Small Spotify Tile":
       tileToRender = (

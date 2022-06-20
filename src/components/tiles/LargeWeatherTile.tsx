@@ -28,10 +28,12 @@ import {
 interface LargeWeatherTileProps {
   tileId: TileId;
   city?: string;
+  tempDisplayInCelsius: boolean | undefined;
 }
 
 interface DaysWeatherProps {
   weatherData: WeatherData;
+  displayInCelsius?: boolean;
 }
 
 type Status = "loading" | "resolved" | "waitingForInput" | "rejected";
@@ -42,7 +44,14 @@ type State = {
   cityNameOfData?: string;
 };
 
-export const DaysWeather: React.FC<DaysWeatherProps> = ({ weatherData }) => {
+const convertCelsiusToFahrenheit = (temp: number): number => {
+  return Math.floor((temp * 9) / 5 + 32);
+};
+
+export const DaysWeather: React.FC<DaysWeatherProps> = ({
+  weatherData,
+  displayInCelsius,
+}) => {
   let icon;
 
   switch (weatherData.condition) {
@@ -62,9 +71,17 @@ export const DaysWeather: React.FC<DaysWeatherProps> = ({ weatherData }) => {
 
   const convertDateToWeekday = (date: string) => {
     let d = new Date(date);
-    const weekday = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
-    return weekday[d.getDay()].slice(0,3);
-  } 
+    const weekday = [
+      "Sunday",
+      "Monday",
+      "Tuesday",
+      "Wednesday",
+      "Thursday",
+      "Friday",
+      "Saturday",
+    ];
+    return weekday[d.getDay()].slice(0, 3);
+  };
 
   return (
     <Flex flexDir="column">
@@ -78,18 +95,19 @@ export const DaysWeather: React.FC<DaysWeatherProps> = ({ weatherData }) => {
         backgroundColor={"transparent"}
         icon={icon}
       />
-      <Box
-        display="flex"
-        flexDirection="column"
-        mb="4"
-        alignItems="center"
-      >
+      <Box display="flex" flexDirection="column" mb="4" alignItems="center">
         <Box display="flex" flexDirection="row">
           <Text fontSize="18px" mr="1">
-            {weatherData.dailyMin}&#176;
+            {displayInCelsius
+              ? weatherData.dailyMin
+              : convertCelsiusToFahrenheit(weatherData.dailyMin)}
+            &#176;
           </Text>
           <Text ml="1" fontSize="18px">
-            {weatherData.dailyMax}&#176;
+            {displayInCelsius
+              ? weatherData.dailyMax
+              : convertCelsiusToFahrenheit(weatherData.dailyMax)}
+            &#176;
           </Text>
         </Box>
       </Box>
@@ -100,6 +118,7 @@ export const DaysWeather: React.FC<DaysWeatherProps> = ({ weatherData }) => {
 export const LargeWeatherTile: React.FC<LargeWeatherTileProps> = ({
   city,
   tileId,
+  tempDisplayInCelsius,
 }) => {
   const color = `var(--text-color-${tileId})`;
   const { settings, setSettings } = useContext(
@@ -110,6 +129,13 @@ export const LargeWeatherTile: React.FC<LargeWeatherTileProps> = ({
   const [state, setState] = useState<State>({
     status: city ? "loading" : "waitingForInput",
   });
+  const [displayInCelsius, setDisplayInCelsius] =
+    useState(tempDisplayInCelsius);
+
+  const hoverStyles = {
+    backgroundColor: "transparent",
+    outline: `1px solid ${color}`,
+  };
 
   const fetchWeatherData = React.useCallback(async (cityName: string) => {
     try {
@@ -165,6 +191,14 @@ export const LargeWeatherTile: React.FC<LargeWeatherTileProps> = ({
     setSettings(newSettings);
   };
 
+  const changeTemperatureDisplayUnits = (celsius: boolean) => {
+    let newSettings = cloneDeep(settings);
+    const theme = getCurrentTheme(newSettings, colorMode);
+    theme[tileId].tempDisplayInCelsius = celsius;
+    setSettings(newSettings);
+    setDisplayInCelsius(celsius);
+  };
+
   let toDisplay;
 
   if (state.status === "loading") {
@@ -176,9 +210,9 @@ export const LargeWeatherTile: React.FC<LargeWeatherTileProps> = ({
   } else if (state.status === "resolved" && state.data) {
     toDisplay = (
       <Flex justifyContent={"space-around"} width="90%">
-        <DaysWeather weatherData={state.data[0]} />
-        <DaysWeather weatherData={state.data[1]} />
-        <DaysWeather weatherData={state.data[2]} />
+        <DaysWeather weatherData={state.data[0]} displayInCelsius={displayInCelsius}/>
+        <DaysWeather weatherData={state.data[1]} displayInCelsius={displayInCelsius}/>
+        <DaysWeather weatherData={state.data[2]} displayInCelsius={displayInCelsius}/>
       </Flex>
     );
   } else if (state.status === "waitingForInput") {
@@ -213,30 +247,46 @@ export const LargeWeatherTile: React.FC<LargeWeatherTileProps> = ({
   return (
     <Center color={color} height="100%" pos="relative">
       {toDisplay}
-      <Button
-        size="xs"
+      <Box
         pos="absolute"
         right="2"
-        bottom="2"
+        bottom="1.5"
+        fontSize={"11px"}
         color={color}
-        backgroundColor="transparent"
-        _focus={{
-          backgroundColor: "transparent",
-          outline: `1px solid ${color}`,
-        }}
-        _hover={{
-          backgroundColor: "transparent",
-          outline: `1px solid ${color}`,
-        }}
-        onClick={() =>
-          setState((state) => ({ ...state, status: "waitingForInput" }))
-        }
+        opacity={0.6}
       >
-        Change city
-      </Button>
-      <Text size="xs" opacity="0.4" pos="absolute" bottom="2" left="3">
-        {state.cityNameOfData}
-      </Text>
+        <Button
+          size="xs"
+          backgroundColor="transparent"
+          _focus={hoverStyles}
+          _hover={hoverStyles}
+          onClick={() =>
+            setState((state) => ({ ...state, status: "waitingForInput" }))
+          }
+        >
+          Change city
+        </Button>
+        |&nbsp;
+        <Button
+          size="xxs"
+          backgroundColor="transparent"
+          _focus={hoverStyles}
+          _hover={hoverStyles}
+          onClick={() => changeTemperatureDisplayUnits(false)}
+        >
+          °F
+        </Button>
+        &nbsp;
+        <Button
+          size="xxs"
+          backgroundColor="transparent"
+          _focus={hoverStyles}
+          _hover={hoverStyles}
+          onClick={() => changeTemperatureDisplayUnits(true)}
+        >
+          °C
+        </Button>
+      </Box>
     </Center>
   );
 };
