@@ -169,7 +169,7 @@ export const SmallWeatherTile: React.FC<SmallWeatherTileProps> = ({
             {" "}
             {displayInCelsius
               ? state.data.current
-              : convertCelsiusToFahrenheit(state.data.current)}
+              : convertCelsiusToFahrenheit(state.data.current!)}
             &#176;
           </Heading>
           <Box display="flex" flexDirection="row">
