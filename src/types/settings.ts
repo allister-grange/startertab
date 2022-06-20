@@ -20,7 +20,8 @@ export type OptionType =
   | "SmallStockInput"
   | "GridGapInput"
   | "LargeStockTile"
-  | "CityInput";
+  | "CityInputForWeather"
+  | "CityInputForUV";
 
 export type TileType =
   | "Reddit Feed"

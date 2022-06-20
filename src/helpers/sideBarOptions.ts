@@ -104,14 +104,14 @@ export const sideBarOptions: Option[] = [
     title: "City for UV data",
     subTitle: "Name of the city you want the UV data for",
     localStorageId: "cityForUv",
-    optionType: "CityInput",
+    optionType: "CityInputForUV",
     tileId: "tile2",
   },
   {
     title: "City for weather forecast",
     subTitle: "Name of the city you want the weather forecast for",
     localStorageId: "cityForWeather",
-    optionType: "CityInput",
+    optionType: "CityInputForWeather",
     tileId: "tile2",
   },
   {
@@ -272,7 +272,7 @@ export const sideBarOptions: Option[] = [
     title: "City for weather",
     subTitle: "Name of the city you want the weather for",
     localStorageId: "cityForWeather",
-    optionType: "CityInput",
+    optionType: "CityInputForWeather",
     tileId: "tile7",
   },
   {
@@ -307,7 +307,7 @@ export const sideBarOptions: Option[] = [
     title: "City for weather",
     subTitle: "Name of the city you want the weather for",
     localStorageId: "cityForWeather",
-    optionType: "CityInput",
+    optionType: "CityInputForWeather",
     tileId: "tile8",
   },
   {
@@ -349,14 +349,14 @@ export const sideBarOptions: Option[] = [
     title: "City for weather forecast",
     subTitle: "Name of the city you want the weather forecast for",
     localStorageId: "cityForWeather",
-    optionType: "CityInput",
+    optionType: "CityInputForWeather",
     tileId: "tile9",
   },
   {
     title: "City for UV data",
     subTitle: "Name of the city you want the UV data for",
     localStorageId: "cityForUv",
-    optionType: "CityInput",
+    optionType: "CityInputForUV",
     tileId: "tile9",
   },
   {
@@ -377,7 +377,7 @@ export const sideBarOptions: Option[] = [
     title: "City for weather",
     subTitle: "Name of the city you want the weather for",
     localStorageId: "cityForWeather",
-    optionType: "CityInput",
+    optionType: "CityInputForWeather",
     tileId: "tile10",
   },
   {
@@ -412,7 +412,7 @@ export const sideBarOptions: Option[] = [
     title: "City for weather",
     subTitle: "Name of the city you want the weather for",
     localStorageId: "cityForWeather",
-    optionType: "CityInput",
+    optionType: "CityInputForWeather",
     tileId: "tile11",
   },
   {

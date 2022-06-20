@@ -120,12 +120,25 @@ export const SettingOptionContainer: React.FC<SettingOptionContainerProps> = ({
         />
       );
       break;
-    case "CityInput":
+    case "CityInputForWeather":
       if (
         tileType === "Small Weather Tile" ||
-        tileType === "UV Graph" ||
         tileType === "Large Weather Tile"
       ) {
+        optionToDisplay = (
+          <GenericInput
+            option={option}
+            changeSetting={changeSetting}
+            textColor={textColor}
+            subTextColor={subTextColor}
+            value={value}
+            resetOptionToDefault={resetOptionToDefault}
+          />
+        );
+      }
+      break;
+    case "CityInputForUV":
+      if (tileType === "UV Graph") {
         optionToDisplay = (
           <GenericInput
             option={option}
