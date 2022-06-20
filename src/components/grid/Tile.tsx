@@ -31,18 +31,21 @@ const Tile: React.FC<TileProps> = ({
   const [shadow, setShadow] = useState<string | undefined>();
   const [border, setBorder] = useState<string | undefined>();
   const [borderRadius, setBorderRadius] = useState<string | undefined>();
+  const [borderColor, setBorderColor] = useState<string | undefined>();
   const theme = getCurrentTheme(inMemorySettings, colorMode);
 
   useEffect(() => {
     setShadow(theme.globalSettings.dropShadow);
     setBorder(theme.globalSettings.tileBorder);
     setBorderRadius(theme.globalSettings.borderRadius);
+    setBorderColor(theme.globalSettings.borderColor);
   }, [
     colorMode,
     inMemorySettings,
     theme.globalSettings.borderRadius,
     theme.globalSettings.dropShadow,
     theme.globalSettings.tileBorder,
+    theme.globalSettings.borderColor
   ]);
 
   return (
@@ -53,6 +56,7 @@ const Tile: React.FC<TileProps> = ({
       outline={optionHovered ? "2px solid white" : ""}
       shadow={shadow}
       border={border}
+      borderColor={borderColor}
       style={optionHovered ? { transform: "scale(1.05)" } : {}}
       background={`var(--bg-color-${tileId})`}
       pos="relative"

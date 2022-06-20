@@ -31,7 +31,7 @@ interface TileContainerProps {
   todoList?: TodoObject[];
   bonsaiBaseColor?: string;
   bonsaiTrunkColor?: string;
-  tempDisplayInCelsius?: boolean;
+  tempDisplayInCelsius?: string;
 }
 
 const TileContainer: React.FC<TileContainerProps> = ({

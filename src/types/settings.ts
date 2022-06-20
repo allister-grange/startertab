@@ -62,6 +62,7 @@ export type TileSettings = {
   bonsaiBaseColor?: string;
   bonsaiTrunkColor?: string;
   borderRadius?: string;
+  borderColor?: string;
   gridGap?: string;
   tempDisplayInCelsius?: string;
 };
