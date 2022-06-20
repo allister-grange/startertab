@@ -7,7 +7,7 @@ export interface WeatherResponse {
 export interface WeatherData {
   dailyMax: number;
   dailyMin: number;
-  current: number;
+  current?: number;
   condition: WeatherCondition;
   date: string;
 }
