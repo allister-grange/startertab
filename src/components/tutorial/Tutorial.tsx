@@ -1,106 +1,156 @@
+import { TutorialThemeOption } from "@/components/tutorial/TutorialThemeOption";
 import {
   Box,
-  Center,
-  Text,
-  Heading,
   Button,
-  Grid,
-  useColorMode,
+  Center, Flex, Heading, Text, useColorMode
 } from "@chakra-ui/react";
-import React, { useState } from "react";
-import { TutorialThemeOption } from "@/components/tutorial/TutorialThemeOption";
+import React, { useEffect, useRef, useState } from "react";
+import { WelcomePage } from "./WelcomePage";
 
 interface TutorialProps {
   setShowTutorial: (value: React.SetStateAction<boolean>) => void;
 }
 
+const themes = [
+  {
+    themeName: "white",
+    background: "white",
+    innerBackgroundColor: "white",
+    innerBorder: "2px solid black",
+  },
+  {
+    themeName: "glassmorphism dark",
+    background: "linear-gradient(160deg, black 0%, #80D0C7 100%)",
+    innerBackgroundColor: "rgba(255, 255, 255, 0.2)",
+    innerBorder: "2px solid white",
+  },
+  {
+    themeName: "black",
+    background: "black",
+    innerBackgroundColor: "#444444",
+    innerBorder: "",
+  },
+  {
+    themeName: "CMYK",
+    background: "white",
+    innerBackgroundColor: "#F882FE",
+    innerBorder: "",
+  },
+  {
+    themeName: "glassmorphism light",
+    background: "linear-gradient(160deg, #0093E9 0%, #80D0C7 100%)",
+    innerBackgroundColor: "rgba(255, 255, 255, 0.2)",
+    innerBorder: "2px solid white",
+  },
+  {
+    themeName: "light",
+    background: "white",
+    innerBackgroundColor: "#E89B4B",
+    innerBorder: "",
+  },
+  {
+    themeName: "dark",
+    background: "#1B202B",
+    innerBackgroundColor: "#E89B4B",
+    innerBorder: "",
+  },
+];
+
 export const Tutorial: React.FC<TutorialProps> = ({ setShowTutorial }) => {
   const [selectedTheme, setSelectedTheme] = useState("");
+  const [colorThemeShowing, setColorThemeShowing] = useState(themes[0]);
+  const showingThemeIndex = useRef(0);
+  const animatingThemesTimer = useRef<undefined | NodeJS.Timeout>();
   const { setColorMode } = useColorMode();
 
-  return (
-    <Box width="80%" p="4" pl="18%" mt="5rem">
-      <header>
-        <Heading size={"4xl"} color="black">
-          Start Page
-        </Heading>
-        <Text mt="2" fontSize={"2xl"} color="#4f4e4e">
-          Your &apos;New Tab&apos; page with a twist
-        </Text>
-        <Text mt="2" fontSize={"lg"} color="#4f4e4e" width="82%">
-          This is a website designed to take over your new tab page to display
-          you what you want to see whenever you open a browser. Any time you
-          want to change the settings, look for the cog in the lower left hand
-          corner. I use{" "}
-          <a
-            style={{ color: "orange" }}
-            href="https://chrome.google.com/webstore/detail/custom-new-tab-url/mmjbdbjnoablegbkcklggeknkfcjkjia?hl=en"
-          >
-            this extension
-          </a>{" "}
-          to point to this website&apos;s URL. This is all open source, check
-          out the GitHub repo{" "}
-          <a
-            style={{ color: "orange" }}
-            href="https://github.com/allister-grange/startpage"
-          >
-            here.
-          </a>{" "}
-          All data is stored locally within your browser, pick a design below to
-          get started! 🏎
-        </Text>
-      </header>
+  const changeColorTheme = () => {
+    console.log("called");
 
-      <Center mt="8" width="100%">
-        <Grid
-          width="100%"
-          templateColumns={"repeat(auto-fill, 497px)"}
-          gridGap="5"
-          justifyContent="flex-start"
+    if (showingThemeIndex.current === themes.length - 1) {
+      showingThemeIndex.current = 0;
+    } else {
+      showingThemeIndex.current += 1;
+    }
+    setColorThemeShowing(themes[showingThemeIndex.current]);
+  };
+
+  useEffect(() => {
+    const timeoutIdentifier = setInterval(changeColorTheme, 1700);
+    animatingThemesTimer.current = timeoutIdentifier;
+
+    return () => {
+      clearInterval(timeoutIdentifier);
+    };
+  }, []);
+
+  const stopAnimationOfThemes = () => {
+    console.log(animatingThemesTimer.current!);
+
+    clearInterval(animatingThemesTimer.current!);
+    changeColorTheme();
+  };
+
+  return (
+    <Box scrollSnapType={"y mandatory"} overflowY="scroll" height="100vh">
+      <WelcomePage />
+      <Box
+        width="100%"
+        height="calc(100vh)"
+        mt="-30px"
+        background="white"
+        borderRadius="30px"
+        scrollSnapAlign="center"
+        p="6"
+        display="flex"
+      >
+        <Flex
+          p="8"
+          flexBasis={"40%"}
+          flexDir="column"
+          justifyContent={"center"}
+          mb="40"
         >
+          <Heading>
+            Firstly, pick a color theme that feels right for you
+          </Heading>
+          <Text mt="6">
+            This will set the initial color theme for the <i>Start Page</i>
+          </Text>
+          <Text mt="2">
+            Don&apos;t worry, you can change the color scheme any time you need
+            to in the settings sidebar
+          </Text>
+        </Flex>
+        <Center flexBasis="60%">
           <TutorialThemeOption
             themeName="white"
-            selected={"white" === selectedTheme}
-            onClick={() => setSelectedTheme("white")}
+            width="min(800px,70%)"
+            height="70%"
+            shadow="xl"
+            selected={false}
+            // selected={"white" === selectedTheme}
+            // onClick={() => setSelectedTheme("white")}
+            onClick={stopAnimationOfThemes}
+            background={colorThemeShowing.background}
+            innerBackgroundColor={colorThemeShowing.innerBackgroundColor}
+            innerBorder={colorThemeShowing.innerBorder}
           />
-          <TutorialThemeOption
-            themeName="glassmorphism dark"
-            selected={"glassmorphism dark" === selectedTheme}
-            onClick={() => setSelectedTheme("glassmorphism dark")}
-          />
-          <TutorialThemeOption
-            themeName="glassmorphism light"
-            selected={"glassmorphism light" === selectedTheme}
-            onClick={() => setSelectedTheme("glassmorphism light")}
-          />
-          <TutorialThemeOption
-            themeName="black"
-            selected={"black" === selectedTheme}
-            onClick={() => setSelectedTheme("black")}
-          />
-          <TutorialThemeOption
-            themeName="dark"
-            selected={"dark" === selectedTheme}
-            onClick={() => setSelectedTheme("dark")}
-          />
-          <TutorialThemeOption
-            themeName="light"
-            selected={"light" === selectedTheme}
-            onClick={() => setSelectedTheme("light")}
-          />
-          <TutorialThemeOption
-            themeName="CMYK"
-            selected={"CMYK" === selectedTheme}
-            onClick={() => setSelectedTheme("CMYK")}
-          />
-        </Grid>
-      </Center>
+        </Center>
+      </Box>
+
+      <Box
+        height="calc(100vh)"
+        mt="-30px"
+        background={"#8b83fc"}
+        borderTopRadius="30px"
+        scrollSnapAlign="center"
+      ></Box>
       {selectedTheme !== "" ? (
         <Button
           bottom="5"
           right="5"
           position="fixed"
-          background={"orange"}
+          background={"blue"}
           color="white"
           _hover={{ background: "white", color: "black" }}
           _focus={{ background: "white", color: "black" }}
