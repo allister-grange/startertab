@@ -1,6 +1,11 @@
 import { Box, BoxProps, Button, ButtonProps } from "@chakra-ui/react";
 import React from "react";
 import Image from "next/image";
+import { HackerNewsLinkHolder, ThemeSettings, TileType, UvGraphData } from "@/types";
+import { RedditFeed } from "../tiles/RedditFeed";
+import { Bonsai, HackerNewsFeed } from "../tiles";
+import { TodoList } from "../tiles/TodoList";
+import styles from "@/styles/Home.module.css";
 
 interface TutorialThemeOptionProps extends ButtonProps {
   selected: boolean;
@@ -8,6 +13,9 @@ interface TutorialThemeOptionProps extends ButtonProps {
   background: string;
   innerBackgroundColor: string;
   innerBorder: string;
+  tutorialTileType: TileType | undefined;
+  theme: ThemeSettings;
+  hackerNewsData: HackerNewsLinkHolder[];
 }
 
 export const TutorialThemeOption: React.FC<TutorialThemeOptionProps> = ({
@@ -16,8 +24,35 @@ export const TutorialThemeOption: React.FC<TutorialThemeOptionProps> = ({
   background,
   innerBackgroundColor,
   innerBorder,
+  tutorialTileType,
+  hackerNewsData,
+  theme,
   ...props
 }) => {
+
+  let tileToRender;
+  
+  switch (tutorialTileType) {
+    case "Reddit Feed":
+      tileToRender = <RedditFeed tileId={"tile1"} />;
+      break;
+    case "Hacker News Feed":
+      tileToRender = (
+        <HackerNewsFeed hackerNewsData={hackerNewsData} tileId={"tile1"} />
+      );
+      break;
+    case "Bonsai":
+      tileToRender = (
+        <Bonsai baseColor={"white"} trunkColor={"white"} />
+      );
+      break;
+    case "Todo List":
+      tileToRender = <TodoList tileId={"tile1"} todoList={[]} />;
+      break;
+    default: 
+      tileToRender = undefined
+  }
+
   return (
     // put perspective shift on these
     <Button
@@ -38,12 +73,22 @@ export const TutorialThemeOption: React.FC<TutorialThemeOptionProps> = ({
     >
       <Box
         transition={"background .3s ease-in"}
-        width="350px"
+        width="300px"
         height="max(400px, 70%)"
         background={innerBackgroundColor}
         borderRadius="15px"
-        border={innerBorder}
-      ></Box>
+        minW="230px"
+        pos="relative"
+        overflowY="scroll"
+        className={styles.disableScrollbars}
+        textAlign={"left"}
+        whiteSpace="normal"
+        shadow={theme.globalSettings.dropShadow}
+        border={theme.globalSettings.tileBorder}
+        borderColor={theme.globalSettings.borderColor}  
+      >
+        {tileToRender}
+      </Box>
     </Button>
   );
 };

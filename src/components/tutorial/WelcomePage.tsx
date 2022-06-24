@@ -7,10 +7,10 @@ export const WelcomePage: React.FC = ({}) => {
     <Box height="100vh" background={"#F4D748"} scrollSnapAlign="center">
       <Box width="90%" p="4" pl="18%" pos="relative" height="100%">
         <header>
-          <Heading fontSize={"140px"} color="black" mt="6rem">
+          <Heading fontSize={"115px"} color="black" mt="6rem">
             Start Page ✌
           </Heading>
-          <Text mt="2" fontSize={"28px"} color="#151515">
+          <Text mt="2" fontSize={"24px"} color="#151515">
             Your &apos;New Tab&apos; page with a twist
           </Text>
         </header>

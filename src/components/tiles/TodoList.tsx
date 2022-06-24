@@ -106,8 +106,6 @@ export const TodoList: React.FC<TodoListProps> = ({ tileId, todoList }) => {
 
   const finishedTodos = todos.filter((todo) => todo.done === true);
   const unfinishedTodos = todos.filter((todo) => todo.done === false);
-
-  console.log(todos.length);
   
   return (
     <Box color={color} p="4" pt="4" height="100%">

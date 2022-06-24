@@ -96,7 +96,7 @@ const formatStravaData = (data: StravaActivity[]) => {
         if (
           activityToFind.day === weekday[new Date(activity.start_date).getDay()]
         ) {
-          activityToFind.distance =
+          activityToFind.distance +=
             Math.round((activity.distance / 1000) * 10) / 10;
         }
       });
@@ -104,7 +104,7 @@ const formatStravaData = (data: StravaActivity[]) => {
         if (
           activityToFind.day === weekday[new Date(activity.start_date).getDay()]
         ) {
-          activityToFind.run = Math.round((activity.distance / 1000) * 10) / 10;
+          activityToFind.run += Math.round((activity.distance / 1000) * 10) / 10;
         }
       });
     } else if (activity.type === "Swim") {
@@ -112,7 +112,7 @@ const formatStravaData = (data: StravaActivity[]) => {
         if (
           activityToFind.day === weekday[new Date(activity.start_date).getDay()]
         ) {
-          activityToFind.distance =
+          activityToFind.distance +=
             Math.round((activity.distance / 1000) * 10) / 10;
         }
       });
@@ -120,7 +120,7 @@ const formatStravaData = (data: StravaActivity[]) => {
         if (
           activityToFind.day === weekday[new Date(activity.start_date).getDay()]
         ) {
-          activityToFind.swim =
+          activityToFind.swim +=
             Math.round((activity.distance / 1000) * 10) / 10;
         }
       });

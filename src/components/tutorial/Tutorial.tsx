@@ -1,81 +1,66 @@
 import { TutorialThemeOption } from "@/components/tutorial/TutorialThemeOption";
+import { SettingsContext } from "@/context/UserSettingsContext";
+import { applyTheme, getCurrentTheme } from "@/helpers/settingsHelpers";
+import { getHackerNewsData } from "@/pages/api/hackerNews";
+import { getUVData } from "@/pages/api/weather";
+import { HackerNewsLinkHolder, TileType, UserSettingsContextInterface, UvGraphData } from "@/types";
 import {
   Box,
   Button,
-  Center, Flex, Heading, Text, useColorMode
+  Center,
+  color,
+  Flex,
+  Heading,
+  Text,
+  useColorMode,
 } from "@chakra-ui/react";
-import React, { useEffect, useRef, useState } from "react";
+import { GetServerSideProps } from "next";
+import React, { useContext, useEffect, useRef, useState } from "react";
+import { TutorialAccordion } from "./TutorialAccordion";
 import { WelcomePage } from "./WelcomePage";
 
 interface TutorialProps {
   setShowTutorial: (value: React.SetStateAction<boolean>) => void;
+  hackerNewsData: HackerNewsLinkHolder[];
 }
 
-const themes = [
-  {
-    themeName: "white",
-    background: "white",
-    innerBackgroundColor: "white",
-    innerBorder: "2px solid black",
-  },
-  {
-    themeName: "glassmorphism dark",
-    background: "linear-gradient(160deg, black 0%, #80D0C7 100%)",
-    innerBackgroundColor: "rgba(255, 255, 255, 0.2)",
-    innerBorder: "2px solid white",
-  },
-  {
-    themeName: "black",
-    background: "black",
-    innerBackgroundColor: "#444444",
-    innerBorder: "",
-  },
-  {
-    themeName: "CMYK",
-    background: "white",
-    innerBackgroundColor: "#F882FE",
-    innerBorder: "",
-  },
-  {
-    themeName: "glassmorphism light",
-    background: "linear-gradient(160deg, #0093E9 0%, #80D0C7 100%)",
-    innerBackgroundColor: "rgba(255, 255, 255, 0.2)",
-    innerBorder: "2px solid white",
-  },
-  {
-    themeName: "light",
-    background: "white",
-    innerBackgroundColor: "#E89B4B",
-    innerBorder: "",
-  },
-  {
-    themeName: "dark",
-    background: "#1B202B",
-    innerBackgroundColor: "#E89B4B",
-    innerBorder: "",
-  },
-];
+export const Tutorial: React.FC<TutorialProps> = ({
+  setShowTutorial,
+  hackerNewsData,
+}) => {
+  // const [selectedTheme, setSelectedTheme] = useState("");
+  // const [colorThemeShowing, setColorThemeShowing] = useState(themes[0]);
+  const [tutorialTileType, setTutorialTileType] = useState<
+    TileType | undefined
+  >();
+  const { settings, setSettings } = useContext(
+    SettingsContext
+  ) as UserSettingsContextInterface;
+  const { colorMode } = useColorMode();
+  console.log("hellooo" + colorMode);
+  
+  const currentTheme = getCurrentTheme(settings, colorMode);
 
-export const Tutorial: React.FC<TutorialProps> = ({ setShowTutorial }) => {
-  const [selectedTheme, setSelectedTheme] = useState("");
-  const [colorThemeShowing, setColorThemeShowing] = useState(themes[0]);
   const showingThemeIndex = useRef(0);
   const animatingThemesTimer = useRef<undefined | NodeJS.Timeout>();
   const { setColorMode } = useColorMode();
 
-  const changeColorTheme = () => {
-    console.log("called");
+  useEffect(() => {
+    applyTheme(currentTheme);
+  }, [colorMode, currentTheme])
 
-    if (showingThemeIndex.current === themes.length - 1) {
+  const changeColorTheme = () => {
+    if (showingThemeIndex.current === settings.themes.length - 1) {
       showingThemeIndex.current = 0;
     } else {
       showingThemeIndex.current += 1;
     }
-    setColorThemeShowing(themes[showingThemeIndex.current]);
+
+    setColorMode(settings.themes[showingThemeIndex.current].themeName);
   };
 
   useEffect(() => {
-    const timeoutIdentifier = setInterval(changeColorTheme, 1700);
+    const timeoutIdentifier = setInterval(changeColorTheme, 2500);
     animatingThemesTimer.current = timeoutIdentifier;
 
     return () => {
@@ -84,8 +69,6 @@ export const Tutorial: React.FC<TutorialProps> = ({ setShowTutorial }) => {
   }, []);
 
   const stopAnimationOfThemes = () => {
-    console.log(animatingThemesTimer.current!);
-
     clearInterval(animatingThemesTimer.current!);
     changeColorTheme();
   };
@@ -131,9 +114,12 @@ export const Tutorial: React.FC<TutorialProps> = ({ setShowTutorial }) => {
             // selected={"white" === selectedTheme}
             // onClick={() => setSelectedTheme("white")}
             onClick={stopAnimationOfThemes}
-            background={colorThemeShowing.background}
-            innerBackgroundColor={colorThemeShowing.innerBackgroundColor}
-            innerBorder={colorThemeShowing.innerBorder}
+            hackerNewsData={hackerNewsData}
+            background={currentTheme.globalSettings.backgroundColor}
+            innerBackgroundColor={currentTheme.tile1.backgroundColor}
+            innerBorder={currentTheme.tile1.borderColor!}
+            tutorialTileType={undefined}
+            theme={currentTheme}
           />
         </Center>
       </Box>
@@ -144,8 +130,55 @@ export const Tutorial: React.FC<TutorialProps> = ({ setShowTutorial }) => {
         background={"#8b83fc"}
         borderTopRadius="30px"
         scrollSnapAlign="center"
-      ></Box>
-      {selectedTheme !== "" ? (
+        p="6"
+      >
+        <Box width="70%">
+          <Heading>Let&apos;s show you how to use the Start Page</Heading>
+          <Text>
+            While on the Start Page, click the cog in the bottom left corner to
+            open up the settings, from here you can customize aspects of your
+            own personal Start Page
+          </Text>
+        </Box>
+        <Flex
+          flexDir={"row"}
+          height="100%"
+          justifyContent={"space-around"}
+          mt="10"
+          p="6"
+        >
+          <TutorialAccordion
+            borderRadius="10"
+            width={330}
+            height="70%"
+            transition={"all 0.4s ease-in-out"}
+            zIndex="10"
+            bg={"#EEEEEE"}
+            overflowY="auto"
+            // maxWidth={"330px"}
+            // ml="15%"
+            // mt="60px"
+            setTutorialTileType={setTutorialTileType}
+          />
+          <TutorialThemeOption
+            themeName="white"
+            width="min(500px,70%)"
+            height="70%"
+            shadow="xl"
+            selected={false}
+            // selected={"white" === selectedTheme}
+            // onClick={() => setSelectedTheme("white")}
+            onClick={stopAnimationOfThemes}
+            hackerNewsData={hackerNewsData}
+            background={currentTheme.globalSettings.backgroundColor}
+            innerBackgroundColor={currentTheme.tile1.backgroundColor}
+            innerBorder={currentTheme.tile1.borderColor!}
+            tutorialTileType={tutorialTileType}
+            theme={currentTheme}
+          />
+        </Flex>
+      </Box>
+      {/* {selectedTheme !== "" ? (
         <Button
           bottom="5"
           right="5"
@@ -162,7 +195,18 @@ export const Tutorial: React.FC<TutorialProps> = ({ setShowTutorial }) => {
         >
           Continue &rarr;
         </Button>
-      ) : null}
+      ) : null} */}
     </Box>
   );
+};
+
+export const getServerSideProps: GetServerSideProps = async () => {
+  const [uvData, hackerNewsData] = await Promise.all([
+    getUVData("Wellington"),
+    getHackerNewsData(),
+  ]);
+
+  return {
+    props: { uvData, hackerNewsData },
+  };
 };

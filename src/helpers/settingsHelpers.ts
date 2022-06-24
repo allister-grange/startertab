@@ -152,7 +152,7 @@ export const getCurrentTheme = (
 ): ThemeSettings => {
   const theme = settings.themes.find((theme) => theme.themeName === colorMode);
   if (!theme) {
-    throw new Error("No change named " + colorMode);
+    throw new Error("No theme named " + colorMode);
   }
 
   return theme;

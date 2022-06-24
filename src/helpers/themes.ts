@@ -3,7 +3,7 @@ import { UserSettings } from "@/types";
 export const defaultSettings: UserSettings = {
   themes: [
     {
-      themeName: "dark",
+      themeName: "darker",
       globalSettings: {
         backgroundColor: "#1B202B",
         textColor: "#fff",

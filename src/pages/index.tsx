@@ -59,10 +59,12 @@ const Home: NextPage<PageProps> = ({ uvData, hackerNewsData }) => {
 
     if (!hasVisitedBefore) {
       setShowTutorial(true);
-      document.body.style.background = "white";
+      // document.body.style.background = "#F4D748";
     }
   }, []);
 
+  console.log(colorMode);
+  
   const currentTheme = getCurrentTheme(settings, colorMode);
   const gridGap = currentTheme.globalSettings.gridGap;
   const settingsToggleColor = currentTheme.globalSettings.textColor;
@@ -72,8 +74,8 @@ const Home: NextPage<PageProps> = ({ uvData, hackerNewsData }) => {
     toDisplay = (
       <MobileWarning />
     );
-  } else if (showTutorial) {
-    toDisplay = <Tutorial setShowTutorial={setShowTutorial} />;
+  } else if (true) {
+    toDisplay = <Tutorial hackerNewsData={hackerNewsData} setShowTutorial={setShowTutorial} />;
   } else {
     toDisplay = (
       <Box h="100vh" display="flex" alignItems="center">

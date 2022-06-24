@@ -41,7 +41,7 @@ export type TileType =
   | "Large Stock Tile"
   | "None";
 
-export type Themes = "dark" | "light";
+// export type Themes = "dark" | "light";
 
 export type TileSettings = {
   subReddit?: string;
