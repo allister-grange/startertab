@@ -89,10 +89,12 @@ const weekday = ["Sun", "Mon", "Tues", "Wed", "Thur", "Fri", "Sat"];
 // I want two lots of data (swimming and running)
 const formatStravaData = (data: StravaActivity[]) => {
   const formattedStravaData = getEmptyStravaData();
+  console.log("poo");
 
   data.forEach((activity) => {
-    const utcDate = new Date(activity.start_date);
-    const localDate = new Date(utcDate);
+    const utcDate = new Date(activity.start_date).getTime();
+    const offsetTime = utcDate + activity.utc_offset;
+    const localDate = new Date(offsetTime);
 
     if (activity.type === "Run") {
       formattedStravaData.running.forEach((activityToFind) => {
