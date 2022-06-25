@@ -3,12 +3,14 @@ import { SettingsContext } from "@/context/UserSettingsContext";
 import { applyTheme, getCurrentTheme } from "@/helpers/settingsHelpers";
 import { getHackerNewsData } from "@/pages/api/hackerNews";
 import { getUVData } from "@/pages/api/weather";
-import { HackerNewsLinkHolder, TileType, UserSettingsContextInterface, UvGraphData } from "@/types";
+import {
+  HackerNewsLinkHolder,
+  TileType,
+  UserSettingsContextInterface,
+} from "@/types";
 import {
   Box,
-  Button,
   Center,
-  color,
   Flex,
   Heading,
   Text,
@@ -28,17 +30,12 @@ export const Tutorial: React.FC<TutorialProps> = ({
   setShowTutorial,
   hackerNewsData,
 }) => {
-  // const [selectedTheme, setSelectedTheme] = useState("");
-  // const [colorThemeShowing, setColorThemeShowing] = useState(themes[0]);
-  const [tutorialTileType, setTutorialTileType] = useState<
-    TileType | undefined
-  >();
+  const [tutorialTileType, setTutorialTileType] = useState<TileType>("None");
   const { settings, setSettings } = useContext(
     SettingsContext
   ) as UserSettingsContextInterface;
   const { colorMode } = useColorMode();
-  console.log("hellooo" + colorMode);
-  
+
   const currentTheme = getCurrentTheme(settings, colorMode);
 
   const showingThemeIndex = useRef(0);
@@ -47,7 +44,7 @@ export const Tutorial: React.FC<TutorialProps> = ({
 
   useEffect(() => {
     applyTheme(currentTheme);
-  }, [colorMode, currentTheme])
+  }, [colorMode, currentTheme]);
 
   const changeColorTheme = () => {
     if (showingThemeIndex.current === settings.themes.length - 1) {
@@ -130,9 +127,9 @@ export const Tutorial: React.FC<TutorialProps> = ({
         background={"#8b83fc"}
         borderTopRadius="30px"
         scrollSnapAlign="center"
-        p="6"
+        p="8"
       >
-        <Box width="70%">
+        <Box width="50%" ml="8">
           <Heading>Let&apos;s show you how to use the Start Page</Heading>
           <Text>
             While on the Start Page, click the cog in the bottom left corner to
@@ -149,16 +146,14 @@ export const Tutorial: React.FC<TutorialProps> = ({
         >
           <TutorialAccordion
             borderRadius="10"
-            width={330}
+            width={350}
             height="70%"
             transition={"all 0.4s ease-in-out"}
             zIndex="10"
             bg={"#EEEEEE"}
             overflowY="auto"
-            // maxWidth={"330px"}
-            // ml="15%"
-            // mt="60px"
             setTutorialTileType={setTutorialTileType}
+            tutorialTileType={tutorialTileType!}
           />
           <TutorialThemeOption
             themeName="white"
@@ -166,8 +161,6 @@ export const Tutorial: React.FC<TutorialProps> = ({
             height="70%"
             shadow="xl"
             selected={false}
-            // selected={"white" === selectedTheme}
-            // onClick={() => setSelectedTheme("white")}
             onClick={stopAnimationOfThemes}
             hackerNewsData={hackerNewsData}
             background={currentTheme.globalSettings.backgroundColor}

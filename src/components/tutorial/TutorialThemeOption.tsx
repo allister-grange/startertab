@@ -1,7 +1,19 @@
-import { Box, BoxProps, Button, ButtonProps } from "@chakra-ui/react";
+import {
+  Box,
+  BoxProps,
+  Button,
+  ButtonProps,
+  Center,
+  Heading,
+} from "@chakra-ui/react";
 import React from "react";
 import Image from "next/image";
-import { HackerNewsLinkHolder, ThemeSettings, TileType, UvGraphData } from "@/types";
+import {
+  HackerNewsLinkHolder,
+  ThemeSettings,
+  TileType,
+  UvGraphData,
+} from "@/types";
 import { RedditFeed } from "../tiles/RedditFeed";
 import { Bonsai, HackerNewsFeed } from "../tiles";
 import { TodoList } from "../tiles/TodoList";
@@ -29,9 +41,8 @@ export const TutorialThemeOption: React.FC<TutorialThemeOptionProps> = ({
   theme,
   ...props
 }) => {
-
   let tileToRender;
-  
+
   switch (tutorialTileType) {
     case "Reddit Feed":
       tileToRender = <RedditFeed tileId={"tile1"} />;
@@ -42,15 +53,21 @@ export const TutorialThemeOption: React.FC<TutorialThemeOptionProps> = ({
       );
       break;
     case "Bonsai":
-      tileToRender = (
-        <Bonsai baseColor={"white"} trunkColor={"white"} />
-      );
+      tileToRender = <Bonsai baseColor={"#454545"} trunkColor={"#af6f00"} />;
       break;
     case "Todo List":
       tileToRender = <TodoList tileId={"tile1"} todoList={[]} />;
       break;
-    default: 
-      tileToRender = undefined
+    default:
+      tileToRender = (
+        <Center height="100%" p="10">
+          <Heading size="md" color={`var(--text-color-tile1)`} textAlign="center">
+            {tutorialTileType
+              ? `Give me a tile type in the settings ✌️`
+              : "Click on me to lock in a color"}
+          </Heading>
+        </Center>
+      );
   }
 
   return (
@@ -85,7 +102,7 @@ export const TutorialThemeOption: React.FC<TutorialThemeOptionProps> = ({
         whiteSpace="normal"
         shadow={theme.globalSettings.dropShadow}
         border={theme.globalSettings.tileBorder}
-        borderColor={theme.globalSettings.borderColor}  
+        borderColor={theme.globalSettings.borderColor}
       >
         {tileToRender}
       </Box>
