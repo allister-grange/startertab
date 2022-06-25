@@ -64,7 +64,7 @@ export const TutorialThemeOption: React.FC<TutorialThemeOptionProps> = ({
           <Heading size="md" color={`var(--text-color-tile1)`} textAlign="center">
             {tutorialTileType
               ? `Give me a tile type in the settings ✌️`
-              : "Click on me to lock in a color"}
+              : "Click on me to lock in a theme 🎨"}
           </Heading>
         </Center>
       );

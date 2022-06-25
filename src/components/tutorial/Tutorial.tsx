@@ -10,6 +10,7 @@ import {
 } from "@/types";
 import {
   Box,
+  Button,
   Center,
   Flex,
   Heading,
@@ -97,7 +98,7 @@ export const Tutorial: React.FC<TutorialProps> = ({
             This will set the initial color theme for the <i>Start Page</i>
           </Text>
           <Text mt="2">
-            Don&apos;t worry, you can change the color scheme any time you need
+            Don&apos;t worry, you can change the color theme any time you need
             to in the settings sidebar
           </Text>
         </Flex>
@@ -171,24 +172,46 @@ export const Tutorial: React.FC<TutorialProps> = ({
           />
         </Flex>
       </Box>
-      {/* {selectedTheme !== "" ? (
-        <Button
-          bottom="5"
-          right="5"
-          position="fixed"
-          background={"blue"}
-          color="white"
-          _hover={{ background: "white", color: "black" }}
-          _focus={{ background: "white", color: "black" }}
-          onClick={() => {
-            setColorMode(selectedTheme);
-            setShowTutorial(false);
-            localStorage.setItem("hasVisitedBefore", "true");
-          }}
-        >
-          Continue &rarr;
-        </Button>
-      ) : null} */}
+      <Box
+        height="calc(100vh)"
+        mt="-30px"
+        background={"#7fe3ff"}
+        borderTopRadius="30px"
+        scrollSnapAlign="center"
+      >
+        <Box ml="3rem" p="8">
+          <Heading fontSize={"55px"} color="black" mt="6rem">
+            You&apos;re ready to go! 🚀
+          </Heading>
+          <Text size="2xl" color="#303030" mt="1rem">
+            Just a note, if you want to have this webpage open whenever you
+            create a new tab, you&apos;ll want to use an extension like{" "}
+            <a
+              style={{ color: "red" }}
+              href="https://chrome.google.com/webstore/detail/custom-new-tab-url/mmjbdbjnoablegbkcklggeknkfcjkjia?hl=en"
+            >
+              this one
+            </a>
+          </Text>
+
+          <Button
+            // bottom="5"
+            // right="5"
+            // position="fixed"
+            background={"blue"}
+            color="white"
+            mt="2rem"
+            _hover={{ background: "white", color: "black" }}
+            _focus={{ background: "white", color: "black" }}
+            onClick={() => {
+              setShowTutorial(false);
+              localStorage.setItem("hasVisitedBefore", "true");
+            }}
+          >
+            Take me through! &rarr;
+          </Button>
+        </Box>
+      </Box>
     </Box>
   );
 };

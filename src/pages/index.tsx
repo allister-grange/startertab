@@ -62,8 +62,6 @@ const Home: NextPage<PageProps> = ({ uvData, hackerNewsData }) => {
       // document.body.style.background = "#F4D748";
     }
   }, []);
-
-  console.log(colorMode);
   
   const currentTheme = getCurrentTheme(settings, colorMode);
   const gridGap = currentTheme.globalSettings.gridGap;
@@ -74,7 +72,7 @@ const Home: NextPage<PageProps> = ({ uvData, hackerNewsData }) => {
     toDisplay = (
       <MobileWarning />
     );
-  } else if (true) {
+  } else if (showTutorial) {
     toDisplay = <Tutorial hackerNewsData={hackerNewsData} setShowTutorial={setShowTutorial} />;
   } else {
     toDisplay = (
