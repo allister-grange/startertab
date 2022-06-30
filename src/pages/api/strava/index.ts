@@ -91,35 +91,30 @@ const formatStravaData = (data: StravaActivity[]) => {
   const formattedStravaData = getEmptyStravaData();
 
   data.forEach((activity) => {
+    const dayOfActivity = new Date(activity.start_date_local).getUTCDay();
+
     if (activity.type === "Run") {
       formattedStravaData.running.forEach((activityToFind) => {
-        if (
-          activityToFind.day === weekday[new Date(activity.start_date).getDay()]
-        ) {
+        if (activityToFind.day === weekday[dayOfActivity]) {
           activityToFind.distance +=
             Math.round((activity.distance / 1000) * 10) / 10;
         }
       });
       formattedStravaData.combinedData.forEach((activityToFind) => {
-        if (
-          activityToFind.day === weekday[new Date(activity.start_date).getDay()]
-        ) {
-          activityToFind.run += Math.round((activity.distance / 1000) * 10) / 10;
+        if (activityToFind.day === weekday[dayOfActivity]) {
+          activityToFind.run +=
+            Math.round((activity.distance / 1000) * 10) / 10;
         }
       });
     } else if (activity.type === "Swim") {
       formattedStravaData.swimming.forEach((activityToFind) => {
-        if (
-          activityToFind.day === weekday[new Date(activity.start_date).getDay()]
-        ) {
+        if (activityToFind.day === weekday[dayOfActivity]) {
           activityToFind.distance +=
             Math.round((activity.distance / 1000) * 10) / 10;
         }
       });
       formattedStravaData.combinedData.forEach((activityToFind) => {
-        if (
-          activityToFind.day === weekday[new Date(activity.start_date).getDay()]
-        ) {
+        if (activityToFind.day === weekday[dayOfActivity]) {
           activityToFind.swim +=
             Math.round((activity.distance / 1000) * 10) / 10;
         }
