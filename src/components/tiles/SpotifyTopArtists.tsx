@@ -22,9 +22,8 @@ type SmallSpotifyTileProps = {
 export const SpotifyTopArtists: React.FC<SmallSpotifyTileProps> = ({
   tileId,
 }) => {
-  const { topArtists, isAuthenticated, loginWithSpotify } = useContext(
-    SpotifyContext
-  ) as SpotifyContextInterface;
+  const { topArtists, isAuthenticated, loginWithSpotify, fetchTopArtistData } =
+    useContext(SpotifyContext) as SpotifyContextInterface;
 
   console.log(topArtists);
 
@@ -77,7 +76,7 @@ export const SpotifyTopArtists: React.FC<SmallSpotifyTileProps> = ({
               );
             })
           ) : (
-            <Center mt="100px">
+            <Center mt="100px" mr="20px">
               <Spinner size="lg" color={color} />
             </Center>
           )}
@@ -85,16 +84,32 @@ export const SpotifyTopArtists: React.FC<SmallSpotifyTileProps> = ({
         {topArtists.length > 0 && (
           <Box width="90%" mt="2" mb="4" textAlign="center">
             <Badge
+              _hover={{ cursor: "pointer" }}
+              _active={{ cursor: "pointer" }}
               fontSize="xs"
-              onClick={() => console.log("poo")}
+              onClick={() => fetchTopArtistData("short_term")}
               colorScheme="green"
             >
               Short term
             </Badge>
-            <Badge fontSize="xs" colorScheme="red" ml="2" mr="2">
+            <Badge
+              _hover={{ cursor: "pointer" }}
+              _active={{ cursor: "pointer" }}
+              onClick={() => fetchTopArtistData("medium_term")}
+              fontSize="xs"
+              colorScheme="red"
+              ml="2"
+              mr="2"
+            >
               Medium Term
             </Badge>
-            <Badge fontSize="xs" colorScheme="purple">
+            <Badge
+              _hover={{ cursor: "pointer" }}
+              _active={{ cursor: "pointer" }}
+              onClick={() => fetchTopArtistData("long_term")}
+              fontSize="xs"
+              colorScheme="purple"
+            >
               Long Term
             </Badge>
           </Box>

@@ -7,7 +7,7 @@ const clientSecret = process.env.SPOTIFY_CLIENT_SECRET;
 
 const basic = Buffer.from(`${clientId}:${clientSecret}`).toString(`base64`);
 
-const TOP_ARTISTS = `https://api.spotify.com/v1/me/top/artists?time_range=long_term`;
+const TOP_ARTISTS = `https://api.spotify.com/v1/me/top/artists`;
 const TOKEN_ENDPOINT = `https://accounts.spotify.com/api/token`;
 
 export default async function handler(
@@ -17,7 +17,7 @@ export default async function handler(
   if (req.method === "GET") {
     try {
       let {
-        query: { accessToken, refreshToken },
+        query: { accessToken, refreshToken, timeRange },
       } = req;
 
       if (!accessToken || !refreshToken) {
@@ -26,7 +26,8 @@ export default async function handler(
 
       const spotifyData = await getSpotifyTopArtists(
         accessToken as string,
-        refreshToken as string
+        refreshToken as string,
+        timeRange as string
       );
 
       spotifyData.topArtists.sort((a, b) => b.popularity - a.popularity);
@@ -65,9 +66,10 @@ const getAccessToken = async (refreshToken: string) => {
 
 export const getSpotifyTopArtists = async (
   accessToken: string,
-  refreshToken: string
+  refreshToken: string,
+  timeRange: string
 ): Promise<TopArtistSpotifyData> => {
-  const res = await fetch(TOP_ARTISTS, {
+  const res = await fetch(`${TOP_ARTISTS}?time_range=${timeRange}`, {
     headers: {
       Authorization: `Bearer ${accessToken}`,
     },
@@ -78,7 +80,7 @@ export const getSpotifyTopArtists = async (
     console.log("Refreshing old access token", accessToken);
     const newAccessToken = await getAccessToken(refreshToken);
     console.log("New access token grabbed", newAccessToken);
-    const data = await getSpotifyTopArtists(newAccessToken, refreshToken);
+    const data = await getSpotifyTopArtists(newAccessToken, refreshToken, timeRange);
     return { ...data, accessToken: newAccessToken };
   }
 

@@ -17,6 +17,7 @@ export type SpotifyContextInterface = {
   skipSong: (forward: boolean) => Promise<void>;
   pausePlaySong: (pause: boolean) => Promise<void>;
   topArtists: TopArtistSpotify[];
+  fetchTopArtistData: (timeRange: string) => void;
 };
 
 export type TopArtistSpotify = {
