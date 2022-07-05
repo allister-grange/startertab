@@ -54,7 +54,7 @@ export default async function handler(
       } = req;
 
       if (!accessToken || !refreshToken) {
-        res.status(500).send("No access/refresh token provided");
+        return res.status(500).send("No access/refresh token provided");
       }
 
       const spotifyData = await getSpotifyStatus(

@@ -48,6 +48,7 @@ export const TypePicker: React.FC<TypePickerProps> = ({
           <option value="Hacker News Feed">Hacker News Feed</option>
           <option value="Todo List">Todo List</option>
           <option value="Bonsai">Bonsai</option>
+          <option value="Spotify Top Artist Tile">Spotify Top Artist List</option>
         </>
       );
       break;

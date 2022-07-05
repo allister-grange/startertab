@@ -1,4 +1,9 @@
-import { NowPlayingSpotifyData, SpotifyContextInterface } from "@/types";
+import {
+  NowPlayingSpotifyData,
+  SpotifyContextInterface,
+  TopArtistSpotify,
+  TopArtistSpotifyData
+} from "@/types";
 import * as React from "react";
 import { useState } from "react";
 
@@ -24,6 +29,7 @@ const SpotifyContextProvider: React.FC<Props> = ({ children }) => {
     albumImageUrl: undefined,
     playable: false,
   });
+  const [topArtists, setTopArtists] = useState<TopArtistSpotify[]>([]);
 
   // only needs to run when the user has clicked 'continue with spotify'
   // used for grabbing the access and refresh token and storing them in
@@ -90,7 +96,23 @@ const SpotifyContextProvider: React.FC<Props> = ({ children }) => {
       setSpotifyData(data);
     };
 
+    const fetchTopArtistData = async () => {
+      const res = await fetch(
+        `/api/spotify/topTracks?accessToken=${accessToken}&refreshToken=${refreshToken}`
+      );
+      let data = (await res.json()) as TopArtistSpotifyData;
+
+      // if there is an accessToken returned, the old one was stale
+      if (data.accessToken) {
+        setAccessToken(data.accessToken);
+        localStorage.setItem(SPOTIFY_ACCESS_TOKEN, data.accessToken);
+      }
+
+      setTopArtists(data.topArtists);
+    };
+
     fetchCurrentSong();
+    fetchTopArtistData();
     const interval = setInterval(fetchCurrentSong, 1000);
     return () => clearInterval(interval);
   }, [accessToken, isAuthenticated, refreshToken]);
@@ -115,11 +137,17 @@ const SpotifyContextProvider: React.FC<Props> = ({ children }) => {
 
   const pausePlaySong = async (pause: boolean) => {
     try {
-      setSpotifyData({ ...spotifyData, playing: !pause });
+      setSpotifyData({
+        ...spotifyData,
+        playing: !pause,
+      } as NowPlayingSpotifyData);
       await fetch(`/api/spotify?pause=${pause}`, { method: "POST" });
     } catch (err) {
       console.error(err);
-      setSpotifyData({ ...spotifyData, playing: pause });
+      setSpotifyData({
+        ...spotifyData,
+        playing: pause,
+      } as NowPlayingSpotifyData);
     }
   };
 
@@ -131,6 +159,7 @@ const SpotifyContextProvider: React.FC<Props> = ({ children }) => {
         loginWithSpotify,
         skipSong,
         pausePlaySong,
+        topArtists,
       }}
     >
       {children}

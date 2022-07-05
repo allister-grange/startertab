@@ -3,13 +3,16 @@ import {
   RedditFeed,
   SearchBar,
   SmallSpotifyTile,
+  SmallWeatherTile,
   Time,
   UvGraph,
-  SmallWeatherTile,
 } from "@/components/tiles";
 import { HackerNewsFeed } from "@/components/tiles/HackerNewsFeed";
 import { LargeSpotifyTile } from "@/components/tiles/LargeSpotifyTile";
+import { LargeStockTile } from "@/components/tiles/LargeStockTile";
+import { LargeWeatherTile } from "@/components/tiles/LargeWeatherTile";
 import { SmallStockTile } from "@/components/tiles/SmallStockTile";
+import { SpotifyTopArtists } from "@/components/tiles/SpotifyTopArtists";
 import StravaGraph from "@/components/tiles/StravaGraph";
 import { TodoList } from "@/components/tiles/TodoList";
 import ColorModeSwitcher from "@/components/ui/ColorModeSwitcher";
@@ -18,8 +21,6 @@ import StravaContextProvider from "@/context/StravaContext";
 import { HackerNewsLinkHolder, TileId, TileType, TodoObject } from "@/types";
 import { Center, Heading } from "@chakra-ui/react";
 import React from "react";
-import { LargeStockTile } from "../tiles/LargeStockTile";
-import { LargeWeatherTile } from "../tiles/LargeWeatherTile";
 
 interface TileContainerProps {
   tileId: TileId;
@@ -111,6 +112,13 @@ const TileContainer: React.FC<TileContainerProps> = ({
       break;
     case "Todo List":
       tileToRender = <TodoList tileId={tileId} todoList={todoList} />;
+      break;
+    case "Spotify Top Artist Tile":
+      tileToRender = (
+        <SpotifyContextProvider>
+          <SpotifyTopArtists tileId={tileId} />
+        </SpotifyContextProvider>
+      );
       break;
     case "Large Spotify Tile":
       tileToRender = (
