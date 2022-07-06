@@ -7,7 +7,7 @@ import {
 import { MusicControlButton } from "@/components/ui/MusicControlButton";
 import { SpotifyLogo } from "@/components/ui/SpotifyLogo";
 import { SpotifyContext } from "@/context/SpotifyContext";
-import { SpotifyContextInterface, TileId } from "@/types";
+import { NowPlayingSpotifyData, SpotifyContextInterface, TileId } from "@/types";
 import {
   Box,
   Button,
@@ -33,7 +33,7 @@ export const LargeSpotifyTile: React.FC<LargeSpotifyTileProps> = ({ tileId }) =>
     loginWithSpotify,
   } = useContext(SpotifyContext) as SpotifyContextInterface;
   const { songArtist, songTitle, playing, link, playable, albumImageUrl } =
-    spotifyData;
+    spotifyData as NowPlayingSpotifyData;
 
   const color = `var(--text-color-${tileId})`;
 
@@ -64,6 +64,7 @@ export const LargeSpotifyTile: React.FC<LargeSpotifyTileProps> = ({ tileId }) =>
           _focus={{ background: "transparent" }}
           _hover={{ background: "transparent", transform: "translateY(-2px)" }}
           transition="all .2s"
+          shadow="md"
         >
           Continue with Spotify&nbsp;
           <SpotifyLogo color={color} size={20} />

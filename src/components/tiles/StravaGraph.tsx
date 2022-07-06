@@ -48,6 +48,7 @@ const StravaGraph: React.FC<PageProps> = ({ tileId }) => {
           _focus={{ background: "transparent" }}
           _hover={{ background: "transparent", transform: "translateY(-2px)" }}
           transition="all .2s"
+          shadow="md"
         >
           Continue with Strava&nbsp;
           <StravaLogo color={color} size={28} />

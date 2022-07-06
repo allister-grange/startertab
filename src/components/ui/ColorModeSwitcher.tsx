@@ -37,7 +37,7 @@ const ColorModeSwitcher: React.FC = () => {
         />
         <ThemePickerBubble
           bg="linear-gradient(90deg, black 50%, #E89B4B 50%);"
-          onClick={() => setColorMode("dark")}
+          onClick={() => setColorMode("darker")}
         />
         <ThemePickerBubble bg="white" onClick={() => setColorMode("white")} />
         <ThemePickerBubble bg="black" onClick={() => setColorMode("black")} />

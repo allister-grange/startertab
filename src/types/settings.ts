@@ -39,9 +39,10 @@ export type TileType =
   | "Large Spotify Tile"
   | "Small Stock Tile"
   | "Large Stock Tile"
+  | "Spotify Top Artist Tile"
   | "None";
 
-export type Themes = "dark" | "light";
+// export type Themes = "dark" | "light";
 
 export type TileSettings = {
   subReddit?: string;

@@ -5,9 +5,9 @@ export interface WeatherResponse {
 }
 
 export interface WeatherData {
-  dailyMax: number;
-  dailyMin: number;
-  current?: number;
+  dailyMaxTemp: number;
+  dailyMinTemp: number;
+  currentTemp?: number;
   condition: WeatherCondition;
   date: string;
 }
