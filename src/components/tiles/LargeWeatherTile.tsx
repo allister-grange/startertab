@@ -99,14 +99,14 @@ export const DaysWeather: React.FC<DaysWeatherProps> = ({
         <Box display="flex" flexDirection="row">
           <Text fontSize="18px" mr="1">
             {displayInCelsius
-              ? weatherData.dailyMin
-              : convertCelsiusToFahrenheit(weatherData.dailyMin)}
+              ? weatherData.dailyMinTemp
+              : convertCelsiusToFahrenheit(weatherData.dailyMinTemp)}
             &#176;
           </Text>
           <Text ml="1" fontSize="18px">
             {displayInCelsius
-              ? weatherData.dailyMax
-              : convertCelsiusToFahrenheit(weatherData.dailyMax)}
+              ? weatherData.dailyMaxTemp
+              : convertCelsiusToFahrenheit(weatherData.dailyMaxTemp)}
             &#176;
           </Text>
         </Box>

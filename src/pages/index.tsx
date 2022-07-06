@@ -72,8 +72,8 @@ const Home: NextPage<PageProps> = ({ uvData, hackerNewsData }) => {
     toDisplay = (
       <MobileWarning />
     );
-  } else if (showTutorial) {
-    toDisplay = <Tutorial hackerNewsData={hackerNewsData} setShowTutorial={setShowTutorial} />;
+  // } else if (showTutorial) {
+  //   toDisplay = <Tutorial hackerNewsData={hackerNewsData} setShowTutorial={setShowTutorial} />;
   } else {
     toDisplay = (
       <Box h="100vh" display="flex" alignItems="center">

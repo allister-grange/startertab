@@ -40,6 +40,7 @@ export const SpotifyTopArtists: React.FC<SmallSpotifyTileProps> = ({
           _focus={{ background: "transparent" }}
           _hover={{ background: "transparent", transform: "translateY(-2px)" }}
           transition="all .2s"
+          shadow="md"
         >
           Continue with Spotify&nbsp;
           <SpotifyLogo color={color} size={20} />

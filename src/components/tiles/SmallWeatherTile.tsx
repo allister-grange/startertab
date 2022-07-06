@@ -166,23 +166,22 @@ export const SmallWeatherTile: React.FC<SmallWeatherTileProps> = ({
         />
         <Box display="flex" flexDirection="column" mt="2" mb="4">
           <Heading bg="transparent">
-            {" "}
             {displayInCelsius
-              ? state.data.current
-              : convertCelsiusToFahrenheit(state.data.current)}
+              ? state.data.currentTemp
+              : convertCelsiusToFahrenheit(state.data.currentTemp!)}
             &#176;
           </Heading>
           <Box display="flex" flexDirection="row">
             <Text>
               {displayInCelsius
-                ? state.data.dailyMin
-                : convertCelsiusToFahrenheit(state.data.dailyMin)}
+                ? state.data.dailyMinTemp
+                : convertCelsiusToFahrenheit(state.data.dailyMinTemp)}
               &#176;
             </Text>
             <Text ml="1">
               {displayInCelsius
-                ? state.data.dailyMax
-                : convertCelsiusToFahrenheit(state.data.dailyMax)}
+                ? state.data.dailyMaxTemp
+                : convertCelsiusToFahrenheit(state.data.dailyMaxTemp)}
               &#176;
             </Text>
           </Box>

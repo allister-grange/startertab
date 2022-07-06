@@ -61,8 +61,8 @@ export const getWeatherConditionsForWeek = async (city: string) => {
       const weatherCondition = getWeatherCondition(forecast);
 
       forecasts.push({
-        dailyMax: forecast.day.maxtemp_c,
-        dailyMin: forecast.day.mintemp_c,
+        dailyMaxTemp: forecast.day.maxtemp_c,
+        dailyMinTemp: forecast.day.mintemp_c,
         condition: weatherCondition,
         date: forecast.date,
       });
@@ -99,9 +99,9 @@ export const getWeatherConditions = async (city: string) => {
     );
 
     const transformedData: WeatherData = {
-      current: data.current.temp_c,
-      dailyMax: data.forecast.forecastday![0].day.maxtemp_c,
-      dailyMin: data.forecast.forecastday![0].day.mintemp_c,
+      currentTemp: data.current.temp_c,
+      dailyMaxTemp: data.forecast.forecastday![0].day.maxtemp_c,
+      dailyMinTemp: data.forecast.forecastday![0].day.mintemp_c,
       condition: weatherConditionFromApi,
       date: data.forecast.forecastday![0].date,
     };
