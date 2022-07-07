@@ -1,5 +1,6 @@
 import { TileGrid } from "@/components/grid/TileGrid";
 import { Tutorial } from "@/components/tutorial/Tutorial";
+import { TutorialBlur } from "@/components/tutorial/TutorialBlur";
 import { MobileWarning } from "@/components/ui/MobileWarning";
 import { SettingsToggle } from "@/components/ui/SettingsToggle";
 import { SettingsContext } from "@/context/UserSettingsContext";
@@ -43,12 +44,12 @@ const Home: NextPage<PageProps> = ({ uvData, hackerNewsData }) => {
   const { settings, setSettings } = useContext(
     SettingsContext
   ) as UserSettingsContextInterface;
-  const [showTutorial, setShowTutorial] = useState(false);
+  const [showingTutorial, setShowingTutorial] = useState(false);
   const [inMemorySettings, setInMemorySettings] = useState(() =>
     cloneDeep(settings)
   );
   const [showingMobileWarning, setShowingMobileWarning] = useState(false);
-  const { colorMode } = useColorMode();
+  const { colorMode, setColorMode } = useColorMode();
 
   useEffect(() => {
     if (isMobile) {
@@ -58,22 +59,21 @@ const Home: NextPage<PageProps> = ({ uvData, hackerNewsData }) => {
     const hasVisitedBefore = localStorage.getItem("hasVisitedBefore");
 
     if (!hasVisitedBefore) {
-      setShowTutorial(true);
+      // setShowingTutorial(true);
       // document.body.style.background = "#F4D748";
+      setColorMode("black");
     }
   }, []);
-  
+
   const currentTheme = getCurrentTheme(settings, colorMode);
   const gridGap = currentTheme.globalSettings.gridGap;
   const settingsToggleColor = currentTheme.globalSettings.textColor;
   let toDisplay;
 
   if (showingMobileWarning) {
-    toDisplay = (
-      <MobileWarning />
-    );
-  // } else if (showTutorial) {
-  //   toDisplay = <Tutorial hackerNewsData={hackerNewsData} setShowTutorial={setShowTutorial} />;
+    toDisplay = <MobileWarning />;
+    // } else if (showingTutorial) {
+    //   toDisplay = <Tutorial hackerNewsData={hackerNewsData} setShowingTutorial={setShowingTutorial} />;
   } else {
     toDisplay = (
       <Box h="100vh" display="flex" alignItems="center">
@@ -87,13 +87,17 @@ const Home: NextPage<PageProps> = ({ uvData, hackerNewsData }) => {
           setInMemorySettings={setInMemorySettings}
         />
         <NoSSR>
-          <TileGrid
-            optionHovered={optionHovered}
-            inMemorySettings={inMemorySettings}
-            uvData={uvData}
-            hackerNewsData={hackerNewsData}
-            gridGap={gridGap}
-          />
+          <>
+            {true ? <TutorialBlur setShowingTutorial={setShowingTutorial}/> : null}
+
+            <TileGrid
+              optionHovered={optionHovered}
+              inMemorySettings={inMemorySettings}
+              uvData={uvData}
+              hackerNewsData={hackerNewsData}
+              gridGap={gridGap}
+            />
+          </>
         </NoSSR>
       </Box>
     );
@@ -102,7 +106,7 @@ const Home: NextPage<PageProps> = ({ uvData, hackerNewsData }) => {
   return (
     <>
       {toDisplay}
-      {!isOpen && !showTutorial && (
+      {!isOpen && !showingTutorial && (
         <SettingsToggle onOpen={onOpen} color={settingsToggleColor} />
       )}
     </>
@@ -111,7 +115,7 @@ const Home: NextPage<PageProps> = ({ uvData, hackerNewsData }) => {
 
 export const getServerSideProps: GetServerSideProps = async () => {
   const [uvData, hackerNewsData] = await Promise.all([
-    getUVData('Wellington'),
+    getUVData("Wellington"),
     getHackerNewsData(),
   ]);
 

@@ -1,13 +1,13 @@
-import { Box, Heading, Text } from "@chakra-ui/react";
+import { Box, BoxProps, Heading, Text } from "@chakra-ui/react";
 import Image from "next/image";
 import React from "react";
 
-export const WelcomePage: React.FC = ({}) => {
+export const WelcomePage: React.FC<BoxProps> = ({ ...props }) => {
   return (
-    <Box height="100vh" background={"#F4D748"} scrollSnapAlign="center">
+    <Box {...props}>
       <Box width="90%" p="4" pl="18%" pos="relative" height="100%">
         <header>
-          <Heading fontSize={"115px"} color="black" mt="6rem">
+          <Heading fontSize={"115px"} color="black" mt="2.5rem">
             Start Page ✌
           </Heading>
           <Text mt="2" fontSize={"24px"} color="#151515">

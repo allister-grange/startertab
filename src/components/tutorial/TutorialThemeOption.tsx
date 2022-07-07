@@ -19,7 +19,7 @@ import { Bonsai, HackerNewsFeed } from "../tiles";
 import { TodoList } from "../tiles/TodoList";
 import styles from "@/styles/Home.module.css";
 
-interface TutorialThemeOptionProps extends ButtonProps {
+interface TutorialThemeOptionProps extends BoxProps {
   selected: boolean;
   themeName: string;
   background: string;
@@ -63,7 +63,7 @@ export const TutorialThemeOption: React.FC<TutorialThemeOptionProps> = ({
         <Center height="100%" p="10">
           <Heading size="md" color={`var(--text-color-tile1)`} textAlign="center">
             {tutorialTileType
-              ? `Give me a tile type in the settings ✌️`
+              ? "Give me a tile type in the settings on the left ← ✌️"
               : "Click on me to lock in a theme 🎨"}
           </Heading>
         </Center>
@@ -72,14 +72,11 @@ export const TutorialThemeOption: React.FC<TutorialThemeOptionProps> = ({
 
   return (
     // put perspective shift on these
-    <Button
+    <Box
       background={background}
       outline={selected ? "4px solid #8B83FB" : undefined}
       borderRadius="12"
       transition={"background width height .3s ease-in"}
-      _hover={{ transform: "scale(1.02)", cursor: "pointer" }}
-      _focus={{ border: "" }}
-      _active={{ background, transform: "translateY(-2px)" }}
       overflow="hidden"
       display="flex"
       justifyContent={"center"}
@@ -90,11 +87,10 @@ export const TutorialThemeOption: React.FC<TutorialThemeOptionProps> = ({
     >
       <Box
         transition={"background .3s ease-in"}
-        width="300px"
-        height="max(400px, 70%)"
+        width="230px"
+        height="330px"
         background={innerBackgroundColor}
         borderRadius="15px"
-        minW="230px"
         pos="relative"
         overflowY="scroll"
         className={styles.disableScrollbars}
@@ -106,6 +102,6 @@ export const TutorialThemeOption: React.FC<TutorialThemeOptionProps> = ({
       >
         {tileToRender}
       </Box>
-    </Button>
+    </Box>
   );
 };

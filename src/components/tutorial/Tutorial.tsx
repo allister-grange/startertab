@@ -21,6 +21,8 @@ import { GetServerSideProps } from "next";
 import React, { useContext, useEffect, useRef, useState } from "react";
 import { TutorialAccordion } from "./TutorialAccordion";
 import { WelcomePage } from "./WelcomePage";
+import styles from "@/styles/Home.module.css";
+import { TutorialThemePicker } from "./TutorialThemePicker";
 
 interface TutorialProps {
   setShowTutorial: (value: React.SetStateAction<boolean>) => void;
@@ -72,147 +74,123 @@ export const Tutorial: React.FC<TutorialProps> = ({
   };
 
   return (
-    <Box scrollSnapType={"y mandatory"} overflowY="scroll" height="100vh">
-      <WelcomePage />
+    <Center
+      transition={"background 1s ease-in-out"}
+      background="#1B202B"
+      height="100vh"
+      width="100vw"
+      overflow="hidden"
+    >
       <Box
-        width="100%"
-        height="calc(100vh)"
-        mt="-30px"
-        background="white"
-        borderRadius="30px"
-        scrollSnapAlign="center"
-        p="6"
-        display="flex"
+        scrollSnapType={"y mandatory"}
+        overflowY="scroll"
+        height="85vh"
+        width="80%"
+        borderRadius="15px"
+        className={styles.disableScrollbars}
+        shadow="xl"
       >
-        <Flex
-          p="8"
-          flexBasis={"40%"}
-          flexDir="column"
-          justifyContent={"center"}
-          mb="40"
-        >
-          <Heading>
-            Firstly, pick a color theme that feels right for you
-          </Heading>
-          <Text mt="6">
-            This will set the initial color theme for the <i>Start Page</i>
-          </Text>
-          <Text mt="2">
-            Don&apos;t worry, you can change the color theme any time you need
-            to in the settings sidebar
-          </Text>
-        </Flex>
-        <Center flexBasis="60%">
-          <TutorialThemeOption
-            themeName="white"
-            width="min(800px,70%)"
-            height="70%"
-            shadow="xl"
-            selected={false}
-            // selected={"white" === selectedTheme}
-            // onClick={() => setSelectedTheme("white")}
-            onClick={stopAnimationOfThemes}
-            hackerNewsData={hackerNewsData}
-            background={currentTheme.globalSettings.backgroundColor}
-            innerBackgroundColor={currentTheme.tile1.backgroundColor}
-            innerBorder={currentTheme.tile1.borderColor!}
-            tutorialTileType={undefined}
-            theme={currentTheme}
-          />
-        </Center>
-      </Box>
-
-      <Box
-        height="calc(100vh)"
-        mt="-30px"
-        background={"#8b83fc"}
-        borderTopRadius="30px"
-        scrollSnapAlign="center"
-        p="8"
-      >
-        <Box width="50%" ml="8">
-          <Heading>Let&apos;s show you how to use the Start Page</Heading>
-          <Text>
-            While on the Start Page, click the cog in the bottom left corner to
-            open up the settings, from here you can customize aspects of your
-            own personal Start Page
-          </Text>
-        </Box>
-        <Flex
-          flexDir={"row"}
+        <WelcomePage
           height="100%"
-          justifyContent={"space-around"}
-          mt="10"
-          p="6"
+          background={"#F4D748"}
+          scrollSnapAlign="center"
+        />
+        <TutorialThemePicker
+          currentTheme={currentTheme}
+          stopAnimationOfThemes={stopAnimationOfThemes}
+        />
+        <Box
+          height="100%"
+          mt="-30px"
+          background={"#8b83fc"}
+          borderTopRadius="30px"
+          scrollSnapAlign="center"
+          p="8"
         >
-          <TutorialAccordion
-            borderRadius="10"
-            width={350}
-            height="70%"
-            transition={"all 0.4s ease-in-out"}
-            zIndex="10"
-            bg={"#EEEEEE"}
-            overflowY="auto"
-            setTutorialTileType={setTutorialTileType}
-            tutorialTileType={tutorialTileType!}
-          />
-          <TutorialThemeOption
-            themeName="white"
-            width="min(500px,70%)"
-            height="70%"
-            shadow="xl"
-            selected={false}
-            onClick={stopAnimationOfThemes}
-            hackerNewsData={hackerNewsData}
-            background={currentTheme.globalSettings.backgroundColor}
-            innerBackgroundColor={currentTheme.tile1.backgroundColor}
-            innerBorder={currentTheme.tile1.borderColor!}
-            tutorialTileType={tutorialTileType}
-            theme={currentTheme}
-          />
-        </Flex>
-      </Box>
-      <Box
-        height="calc(100vh)"
-        mt="-30px"
-        background={"#7fe3ff"}
-        borderTopRadius="30px"
-        scrollSnapAlign="center"
-      >
-        <Box ml="3rem" p="8">
-          <Heading fontSize={"55px"} color="black" mt="6rem">
-            You&apos;re ready to go! 🚀
-          </Heading>
-          <Text size="2xl" color="#303030" mt="1rem">
-            Just a note, if you want to have this webpage open whenever you
-            create a new tab, you&apos;ll want to use an extension like{" "}
-            <a
-              style={{ color: "red" }}
-              href="https://chrome.google.com/webstore/detail/custom-new-tab-url/mmjbdbjnoablegbkcklggeknkfcjkjia?hl=en"
-            >
-              this one
-            </a>
-          </Text>
-
-          <Button
-            // bottom="5"
-            // right="5"
-            // position="fixed"
-            background={"blue"}
-            color="white"
-            mt="2rem"
-            _hover={{ background: "white", color: "black" }}
-            _focus={{ background: "white", color: "black" }}
-            onClick={() => {
-              setShowTutorial(false);
-              localStorage.setItem("hasVisitedBefore", "true");
-            }}
+          <Box width="50%" ml="8">
+            <Heading>Let&apos;s show you how to use the Start Page</Heading>
+            <Text>
+              While on the Start Page, click the cog in the bottom left corner
+              to open up the settings, from here you can customize aspects of
+              your own personal Start Page
+            </Text>
+          </Box>
+          <Flex
+            flexDir={"row"}
+            height="100%"
+            justifyContent={"space-around"}
+            // mt="10"
+            p="2"
           >
-            Take me through! &rarr;
-          </Button>
+            <TutorialAccordion
+              borderRadius="10"
+              width={350}
+              transition={"all 0.4s ease-in-out"}
+              zIndex="10"
+              bg={"#EEEEEE"}
+              overflowY="auto"
+              setTutorialTileType={setTutorialTileType}
+              tutorialTileType={tutorialTileType!}
+              height="380px"
+              background="white"
+            />
+            <TutorialThemeOption
+              themeName="white"
+              width="40%"
+              height="380px"
+              shadow="xl"
+              selected={false}
+              hackerNewsData={hackerNewsData}
+              background={currentTheme.globalSettings.backgroundColor}
+              innerBackgroundColor={currentTheme.tile1.backgroundColor}
+              innerBorder={currentTheme.tile1.borderColor!}
+              tutorialTileType={tutorialTileType}
+              theme={currentTheme}
+            />
+          </Flex>
+        </Box>
+        <Box
+          height="100%"
+          mt="-30px"
+          background={"#7fe3ff"}
+          borderTopRadius="30px"
+          scrollSnapAlign="center"
+        >
+          <Box ml="3rem" p="8">
+            <Heading fontSize={"55px"} color="black" mt="6rem">
+              You&apos;re ready to go! 🚀
+            </Heading>
+            <Text size="2xl" color="#303030" mt="1rem">
+              Just a note, if you want to have this webpage open whenever you
+              create a new tab, you&apos;ll want to use an extension like{" "}
+              <a
+                style={{ color: "red" }}
+                href="https://chrome.google.com/webstore/detail/custom-new-tab-url/mmjbdbjnoablegbkcklggeknkfcjkjia?hl=en"
+              >
+                this one
+              </a>
+            </Text>
+
+            <Button
+              // bottom="5"
+              // right="5"
+              // position="fixed"
+              background={"blue"}
+              color="white"
+              mt="2rem"
+              _hover={{ background: "white", color: "black" }}
+              _focus={{ background: "white", color: "black" }}
+              onClick={() => {
+                setShowTutorial(false);
+                localStorage.setItem("hasVisitedBefore", "true");
+              }}
+            >
+              Take me through! &rarr;
+            </Button>
+          </Box>
         </Box>
       </Box>
-    </Box>
+    </Center>
   );
 };
 

@@ -1,23 +1,36 @@
 import { SettingsContext } from "@/context/UserSettingsContext";
 import {
   getThemeNames,
-  sortOptionsIntoTileGroups
+  sortOptionsIntoTileGroups,
 } from "@/helpers/settingsHelpers";
 import { sideBarOptions } from "@/helpers/sideBarOptions";
 import {
-  Option, TileId,
-  TileType, UserSettingsContextInterface
+  ThemeSettings,
+  TileId,
+  TileType,
+  UserSettings,
+  UserSettingsContextInterface,
 } from "@/types";
 import {
-  Accordion, AccordionButton,
-  AccordionIcon, AccordionItem, Box, BoxProps
+  Box,
+  Accordion,
+  AccordionItem,
+  AccordionButton,
+  AccordionIcon,
+  AccordionPanel,
+  BoxProps,
+  Select,
 } from "@chakra-ui/react";
 import React, { useContext } from "react";
 import SettingOptionContainer from "../sidebar/SettingOptionContainer";
 import { ThemeToChangeSelector } from "../sidebar/ThemeToChangeSelector";
+import { TypePicker } from "../sidebar/TypePicker";
+import { Option } from "@/types";
 
 interface TutorialAccordionProps extends BoxProps {
-  setTutorialTileType: React.Dispatch<React.SetStateAction<TileType>>;
+  setTutorialTileType: React.Dispatch<
+    React.SetStateAction<TileType>
+  >;
   tutorialTileType: string;
 }
 
@@ -26,6 +39,7 @@ export const TutorialAccordion: React.FC<TutorialAccordionProps> = ({
   tutorialTileType,
   ...props
 }) => {
+  const sortedOptions = sortOptionsIntoTileGroups(sideBarOptions);
   const { settings } = useContext(
     SettingsContext
   ) as UserSettingsContextInterface;
