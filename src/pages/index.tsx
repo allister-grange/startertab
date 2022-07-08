@@ -102,7 +102,7 @@ const Home: NextPage<PageProps> = ({ uvData, hackerNewsData }) => {
   return (
     <>
       {toDisplay}
-      {!isOpen && !showTutorial && (
+      {!isOpen && (
         <SettingsToggle onOpen={onOpen} color={settingsToggleColor} />
       )}
     </>
