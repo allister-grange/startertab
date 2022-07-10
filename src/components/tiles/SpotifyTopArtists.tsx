@@ -83,13 +83,15 @@ export const SpotifyTopArtists: React.FC<SmallSpotifyTileProps> = ({
           )}
         </UnorderedList>
         {topArtists.length > 0 && (
-          <Box width="90%" mt="2" mb="4" textAlign="center">
+          <Box width="100%" mt="2" mb="4" textAlign="center">
             <Badge
               _hover={{ cursor: "pointer" }}
               _active={{ cursor: "pointer" }}
               fontSize="xs"
               onClick={() => fetchTopArtistData("short_term")}
-              colorScheme="green"
+              background="transparent"
+              border={`1px solid ${color}`}
+              color={color}
             >
               Short term
             </Badge>
@@ -98,7 +100,9 @@ export const SpotifyTopArtists: React.FC<SmallSpotifyTileProps> = ({
               _active={{ cursor: "pointer" }}
               onClick={() => fetchTopArtistData("medium_term")}
               fontSize="xs"
-              colorScheme="red"
+              background="transparent"
+              border={`1px solid ${color}`}
+              color={color}
               ml="2"
               mr="2"
             >
@@ -109,7 +113,9 @@ export const SpotifyTopArtists: React.FC<SmallSpotifyTileProps> = ({
               _active={{ cursor: "pointer" }}
               onClick={() => fetchTopArtistData("long_term")}
               fontSize="xs"
-              colorScheme="purple"
+              background="transparent"
+              border={`1px solid ${color}`}
+              color={color}
             >
               Long Term
             </Badge>

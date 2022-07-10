@@ -1,6 +1,5 @@
 import Tile from "@/components/grid/Tile";
 import {
-  HackerNewsLinkHolder,
   TileId,
   UserSettings,
   UvGraphData
@@ -10,7 +9,6 @@ import React from "react";
 
 interface TileGridProps {
   uvData: UvGraphData[];
-  hackerNewsData: HackerNewsLinkHolder[];
   inMemorySettings: UserSettings;
   optionHovered?: TileId;
   gridGap?: string;
@@ -18,7 +16,6 @@ interface TileGridProps {
 
 export const TileGrid: React.FC<TileGridProps> = ({
   optionHovered,
-  hackerNewsData,
   inMemorySettings,
   uvData,
   gridGap,
@@ -42,7 +39,6 @@ export const TileGrid: React.FC<TileGridProps> = ({
         optionHovered={optionHovered === "tile1"}
         inMemorySettings={inMemorySettings}
         uvData={uvData}
-        hackerNewsData={hackerNewsData}
       />
       <Tile
         rowSpan={4}
@@ -54,7 +50,6 @@ export const TileGrid: React.FC<TileGridProps> = ({
         optionHovered={optionHovered === "tile2"}
         inMemorySettings={inMemorySettings}
         uvData={uvData}
-        hackerNewsData={hackerNewsData}
         overflow="hidden"
       />
       <Tile
@@ -64,7 +59,6 @@ export const TileGrid: React.FC<TileGridProps> = ({
         optionHovered={optionHovered === "tile3"}
         inMemorySettings={inMemorySettings}
         uvData={uvData}
-        hackerNewsData={hackerNewsData}
       />
       <Tile
         colSpan={1}
@@ -73,7 +67,6 @@ export const TileGrid: React.FC<TileGridProps> = ({
         optionHovered={optionHovered === "tile4"}
         inMemorySettings={inMemorySettings}
         uvData={uvData}
-        hackerNewsData={hackerNewsData}
       ></Tile>
       <Tile
         colSpan={3}
@@ -83,7 +76,6 @@ export const TileGrid: React.FC<TileGridProps> = ({
         optionHovered={optionHovered === "tile5"}
         inMemorySettings={inMemorySettings}
         uvData={uvData}
-        hackerNewsData={hackerNewsData}
       ></Tile>
       <Tile
         colSpan={1}
@@ -95,7 +87,6 @@ export const TileGrid: React.FC<TileGridProps> = ({
         optionHovered={optionHovered === "tile6"}
         inMemorySettings={inMemorySettings}
         uvData={uvData}
-        hackerNewsData={hackerNewsData}
       ></Tile>
       <Tile
         rowSpan={2}
@@ -104,7 +95,6 @@ export const TileGrid: React.FC<TileGridProps> = ({
         optionHovered={optionHovered === "tile7"}
         inMemorySettings={inMemorySettings}
         uvData={uvData}
-        hackerNewsData={hackerNewsData}
       ></Tile>
       <Tile
         colSpan={2}
@@ -116,7 +106,6 @@ export const TileGrid: React.FC<TileGridProps> = ({
         tileId={"tile9"}
         inMemorySettings={inMemorySettings}
         uvData={uvData}
-        hackerNewsData={hackerNewsData}
       ></Tile>
       <Tile
         colSpan={1}
@@ -126,7 +115,6 @@ export const TileGrid: React.FC<TileGridProps> = ({
         optionHovered={optionHovered === "tile10"}
         inMemorySettings={inMemorySettings}
         uvData={uvData}
-        hackerNewsData={hackerNewsData}
       ></Tile>
       <Tile
         colSpan={1}
@@ -135,7 +123,6 @@ export const TileGrid: React.FC<TileGridProps> = ({
         optionHovered={optionHovered === "tile8"}
         inMemorySettings={inMemorySettings}
         uvData={uvData}
-        hackerNewsData={hackerNewsData}
       ></Tile>
       <Tile
         colSpan={1}
@@ -144,7 +131,6 @@ export const TileGrid: React.FC<TileGridProps> = ({
         optionHovered={optionHovered === "tile11"}
         inMemorySettings={inMemorySettings}
         uvData={uvData}
-        hackerNewsData={hackerNewsData}
       ></Tile>
     </Grid>
   );

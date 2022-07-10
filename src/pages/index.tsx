@@ -33,10 +33,9 @@ const SettingsSideBar = dynamic(
 
 type PageProps = {
   uvData: UvGraphData[];
-  hackerNewsData: HackerNewsLinkHolder[];
 };
 
-const Home: NextPage<PageProps> = ({ uvData, hackerNewsData }) => {
+const Home: NextPage<PageProps> = ({ uvData }) => {
   // Sidebar hook
   const { isOpen, onOpen, onClose } = useDisclosure();
   // to highlight what tile you are looking to edit from the sidebar
@@ -88,13 +87,12 @@ const Home: NextPage<PageProps> = ({ uvData, hackerNewsData }) => {
         />
         <NoSSR>
           <>
-            {true ? <TutorialBlur setShowingTutorial={setShowingTutorial}/> : null}
+            {/* {true ? <TutorialBlur setShowingTutorial={setShowingTutorial}/> : null} */}
 
             <TileGrid
               optionHovered={optionHovered}
               inMemorySettings={inMemorySettings}
               uvData={uvData}
-              hackerNewsData={hackerNewsData}
               gridGap={gridGap}
             />
           </>
@@ -106,7 +104,7 @@ const Home: NextPage<PageProps> = ({ uvData, hackerNewsData }) => {
   return (
     <>
       {toDisplay}
-      {!isOpen && !showingTutorial && (
+      {!isOpen && (
         <SettingsToggle onOpen={onOpen} color={settingsToggleColor} />
       )}
     </>
@@ -114,13 +112,10 @@ const Home: NextPage<PageProps> = ({ uvData, hackerNewsData }) => {
 };
 
 export const getServerSideProps: GetServerSideProps = async () => {
-  const [uvData, hackerNewsData] = await Promise.all([
-    getUVData("Wellington"),
-    getHackerNewsData(),
-  ]);
+  const uvData = await getUVData("Wellington");
 
   return {
-    props: { uvData, hackerNewsData },
+    props: { uvData },
   };
 };
 
