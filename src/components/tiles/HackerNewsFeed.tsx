@@ -2,6 +2,7 @@ import { TileId } from "@/types";
 import { HackerNewsLinkHolder } from "@/types/hackernews";
 import { Badge, Box, Center, Heading, Link, Spinner } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
+import { OptionBadge } from "@/components/ui/OptionBadge";
 
 type PageProps = {
   tileId: TileId;
@@ -54,41 +55,27 @@ export const HackerNewsFeed: React.FC<PageProps> = ({ tileId }) => {
             </Box>
           ))}
           <Box width="100%" mt="2" mb="4" textAlign="center">
-            <Badge
-              _hover={{ cursor: "pointer" }}
-              _active={{ cursor: "pointer" }}
-              fontSize="xs"
+            <OptionBadge
               onClick={() => setHackNewsFeed("Top")}
-              background="transparent"
-              border={`1px solid ${color}`}
               color={color}
             >
               Top Stories
-            </Badge>
-            <Badge
-              _hover={{ cursor: "pointer" }}
-              _active={{ cursor: "pointer" }}
+            </OptionBadge>
+            <OptionBadge
               onClick={() => setHackNewsFeed("Show")}
-              fontSize="xs"
-              background="transparent"
-              border={`1px solid ${color}`}
               color={color}
               ml="2"
               mr="2"
             >
               Show Stories
-            </Badge>
-            <Badge
-              _hover={{ cursor: "pointer" }}
-              _active={{ cursor: "pointer" }}
+            </OptionBadge>
+            <OptionBadge
               onClick={() => setHackNewsFeed("Ask")}
-              fontSize="xs"
-              background="transparent"
-              border={`1px solid ${color}`}
               color={color}
+              mt="2"
             >
               Ask Stories
-            </Badge>
+            </OptionBadge>
           </Box>
         </>
       ) : (
