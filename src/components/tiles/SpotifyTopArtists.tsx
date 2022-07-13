@@ -26,8 +26,6 @@ export const SpotifyTopArtists: React.FC<SmallSpotifyTileProps> = ({
   const { topArtists, isAuthenticated, loginWithSpotify, fetchTopArtistData } =
     useContext(SpotifyContext) as SpotifyContextInterface;
 
-  console.log(topArtists);
-
   const color = `var(--text-color-${tileId})`;
 
   if (isAuthenticated === false) {

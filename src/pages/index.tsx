@@ -1,26 +1,12 @@
 import { TileGrid } from "@/components/grid/TileGrid";
 import { Tutorial } from "@/components/tutorial/Tutorial";
-import { TutorialBlur } from "@/components/tutorial/TutorialBlur";
 import { MobileWarning } from "@/components/ui/MobileWarning";
 import { SettingsToggle } from "@/components/ui/SettingsToggle";
 import { SettingsContext } from "@/context/UserSettingsContext";
 import { getCurrentTheme } from "@/helpers/settingsHelpers";
-import { getHackerNewsData } from "@/pages/api/hackerNews";
 import { getUVData } from "@/pages/api/weather";
-import {
-  HackerNewsLinkHolder,
-  TileId,
-  UserSettingsContextInterface,
-  UvGraphData,
-} from "@/types";
-import {
-  Box,
-  Center,
-  Flex,
-  Heading,
-  useColorMode,
-  useDisclosure,
-} from "@chakra-ui/react";
+import { TileId, UserSettingsContextInterface, UvGraphData } from "@/types";
+import { Box, useColorMode, useDisclosure } from "@chakra-ui/react";
 import cloneDeep from "lodash.clonedeep";
 import type { GetServerSideProps, NextPage } from "next";
 import dynamic from "next/dynamic";
@@ -44,6 +30,7 @@ const Home: NextPage<PageProps> = ({ uvData }) => {
     SettingsContext
   ) as UserSettingsContextInterface;
   const [showingTutorial, setShowingTutorial] = useState(false);
+  const [tutorialProgress, setTutorialProgress] = useState(0);
   const [inMemorySettings, setInMemorySettings] = useState(() =>
     cloneDeep(settings)
   );
@@ -62,7 +49,7 @@ const Home: NextPage<PageProps> = ({ uvData }) => {
       // document.body.style.background = "#F4D748";
       setColorMode("black");
     }
-  }, []);
+  }, [setColorMode]);
 
   const currentTheme = getCurrentTheme(settings, colorMode);
   const gridGap = currentTheme.globalSettings.gridGap;
@@ -84,10 +71,17 @@ const Home: NextPage<PageProps> = ({ uvData }) => {
           inMemorySettings={inMemorySettings}
           setSettings={setSettings}
           setInMemorySettings={setInMemorySettings}
+          setTutorialProgress={setTutorialProgress}
         />
         <NoSSR>
           <>
-            {/* {true ? <TutorialBlur setShowingTutorial={setShowingTutorial}/> : null} */}
+            {true ? (
+              <Tutorial
+                setShowingTutorial={setShowingTutorial}
+                tutorialProgress={tutorialProgress}
+                setTutorialProgress={setTutorialProgress}
+              />
+            ) : null}
 
             <TileGrid
               optionHovered={optionHovered}
@@ -105,7 +99,13 @@ const Home: NextPage<PageProps> = ({ uvData }) => {
     <>
       {toDisplay}
       {!isOpen && (
-        <SettingsToggle onOpen={onOpen} color={settingsToggleColor} />
+        <SettingsToggle
+          onOpen={() => {
+            onOpen();
+            setTutorialProgress(tutorialProgress + 1);
+          }}
+          color={settingsToggleColor}
+        />
       )}
     </>
   );

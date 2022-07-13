@@ -1,23 +1,10 @@
-import {
-  Box,
-  BoxProps,
-  Button,
-  ButtonProps,
-  Center,
-  Heading,
-} from "@chakra-ui/react";
-import React from "react";
-import Image from "next/image";
-import {
-  HackerNewsLinkHolder,
-  ThemeSettings,
-  TileType,
-  UvGraphData,
-} from "@/types";
-import { RedditFeed } from "../tiles/RedditFeed";
-import { Bonsai, HackerNewsFeed } from "../tiles";
-import { TodoList } from "../tiles/TodoList";
 import styles from "@/styles/Home.module.css";
+import { ThemeSettings, TileType } from "@/types";
+import { Box, BoxProps, Center, Heading } from "@chakra-ui/react";
+import React from "react";
+import { Bonsai, HackerNewsFeed } from "../tiles";
+import { RedditFeed } from "../tiles/RedditFeed";
+import { TodoList } from "../tiles/TodoList";
 
 interface TutorialThemeOptionProps extends BoxProps {
   selected: boolean;
@@ -27,7 +14,6 @@ interface TutorialThemeOptionProps extends BoxProps {
   innerBorder: string;
   tutorialTileType: TileType | undefined;
   theme: ThemeSettings;
-  hackerNewsData: HackerNewsLinkHolder[];
 }
 
 export const TutorialThemeOption: React.FC<TutorialThemeOptionProps> = ({
@@ -37,7 +23,6 @@ export const TutorialThemeOption: React.FC<TutorialThemeOptionProps> = ({
   innerBackgroundColor,
   innerBorder,
   tutorialTileType,
-  hackerNewsData,
   theme,
   ...props
 }) => {
@@ -48,9 +33,7 @@ export const TutorialThemeOption: React.FC<TutorialThemeOptionProps> = ({
       tileToRender = <RedditFeed tileId={"tile1"} />;
       break;
     case "Hacker News Feed":
-      tileToRender = (
-        <HackerNewsFeed hackerNewsData={hackerNewsData} tileId={"tile1"} />
-      );
+      tileToRender = <HackerNewsFeed tileId={"tile1"} />;
       break;
     case "Bonsai":
       tileToRender = <Bonsai baseColor={"#454545"} trunkColor={"#af6f00"} />;
@@ -61,7 +44,11 @@ export const TutorialThemeOption: React.FC<TutorialThemeOptionProps> = ({
     default:
       tileToRender = (
         <Center height="100%" p="10">
-          <Heading size="md" color={`var(--text-color-tile1)`} textAlign="center">
+          <Heading
+            size="md"
+            color={`var(--text-color-tile1)`}
+            textAlign="center"
+          >
             {tutorialTileType
               ? "Give me a tile type in the settings on the left ← ✌️"
               : "Click on me to lock in a theme 🎨"}
