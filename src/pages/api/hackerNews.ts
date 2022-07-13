@@ -1,29 +1,47 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import {
   HackerNewsApiItem,
-  HackerNewsLinkHolder
+  HackerNewsLinkHolder,
 } from "../../types/hackernews";
 
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
+  const { hackerNewsFeed } = req.query;
+
+  if (!hackerNewsFeed || typeof hackerNewsFeed !== "string") {
+    return res.status(400).send("Bad request, please include feed type");
+  }
+
   try {
-    const hackerNewsData = await getHackerNewsData();
-    return hackerNewsData;
+    const hackerNewsData = await getHackerNewsData(hackerNewsFeed);
+    return res.status(200).json(hackerNewsData);
   } catch (err) {
     res.status(500).json(err);
+    return;
   }
 }
 
-export const getHackerNewsData = async () => {
-  const hackerNewsTopAskUrl =
-    "https://hacker-news.firebaseio.com/v0/askstories.json";
+export const getHackerNewsData = async (hackerNewsFeed: string) => {
+  let hackerNewsUrl;
+
+  switch (hackerNewsFeed) {
+    case "Ask":
+      hackerNewsUrl = "https://hacker-news.firebaseio.com/v0/askstories.json";
+      break;
+    case "Show":
+      hackerNewsUrl = "https://hacker-news.firebaseio.com/v0/showstories.json";
+      break;
+    default:
+      hackerNewsUrl = "https://hacker-news.firebaseio.com/v0/beststories.json";
+  }
+
   const hackerNewsItemUrl = "https://hacker-news.firebaseio.com/v0/item/";
 
   try {
     const takenAsks = 25;
-    const topAsksRes = await fetch(hackerNewsTopAskUrl);
+    const topAsksRes = await fetch(hackerNewsUrl);
     const topAsks = (await topAsksRes.json()) as number[];
     const topAskTruncated = topAsks.slice(0, takenAsks);
     const askLinks: HackerNewsLinkHolder[] = [];

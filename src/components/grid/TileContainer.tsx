@@ -24,7 +24,6 @@ import React from "react";
 
 interface TileContainerProps {
   tileId: TileId;
-  hackerNewsData: HackerNewsLinkHolder[];
   tileType: TileType;
   cityForWeather?: string;
   cityForUv?: string;
@@ -37,7 +36,6 @@ interface TileContainerProps {
 
 const TileContainer: React.FC<TileContainerProps> = ({
   tileId,
-  hackerNewsData,
   tileType,
   cityForWeather,
   tempDisplayInCelsius,
@@ -55,7 +53,7 @@ const TileContainer: React.FC<TileContainerProps> = ({
       break;
     case "Hacker News Feed":
       tileToRender = (
-        <HackerNewsFeed hackerNewsData={hackerNewsData} tileId={tileId} />
+        <HackerNewsFeed tileId={tileId} />
       );
       break;
     case "Strava Graph":

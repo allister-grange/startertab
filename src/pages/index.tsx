@@ -4,22 +4,9 @@ import { MobileWarning } from "@/components/ui/MobileWarning";
 import { SettingsToggle } from "@/components/ui/SettingsToggle";
 import { SettingsContext } from "@/context/UserSettingsContext";
 import { getCurrentTheme } from "@/helpers/settingsHelpers";
-import { getHackerNewsData } from "@/pages/api/hackerNews";
 import { getUVData } from "@/pages/api/weather";
-import {
-  HackerNewsLinkHolder,
-  TileId,
-  UserSettingsContextInterface,
-  UvGraphData,
-} from "@/types";
-import {
-  Box,
-  Center,
-  Flex,
-  Heading,
-  useColorMode,
-  useDisclosure,
-} from "@chakra-ui/react";
+import { TileId, UserSettingsContextInterface, UvGraphData } from "@/types";
+import { Box, useColorMode, useDisclosure } from "@chakra-ui/react";
 import cloneDeep from "lodash.clonedeep";
 import type { GetServerSideProps, NextPage } from "next";
 import dynamic from "next/dynamic";
@@ -32,10 +19,9 @@ const SettingsSideBar = dynamic(
 
 type PageProps = {
   uvData: UvGraphData[];
-  hackerNewsData: HackerNewsLinkHolder[];
 };
 
-const Home: NextPage<PageProps> = ({ uvData, hackerNewsData }) => {
+const Home: NextPage<PageProps> = ({ uvData }) => {
   // Sidebar hook
   const { isOpen, onOpen, onClose } = useDisclosure();
   // to highlight what tile you are looking to edit from the sidebar
@@ -43,12 +29,13 @@ const Home: NextPage<PageProps> = ({ uvData, hackerNewsData }) => {
   const { settings, setSettings } = useContext(
     SettingsContext
   ) as UserSettingsContextInterface;
-  const [showTutorial, setShowTutorial] = useState(false);
+  const [showingTutorial, setShowingTutorial] = useState(false);
+  const [tutorialProgress, setTutorialProgress] = useState(0);
   const [inMemorySettings, setInMemorySettings] = useState(() =>
     cloneDeep(settings)
   );
   const [showingMobileWarning, setShowingMobileWarning] = useState(false);
-  const { colorMode } = useColorMode();
+  const { colorMode, setColorMode } = useColorMode();
 
   useEffect(() => {
     if (isMobile) {
@@ -58,22 +45,18 @@ const Home: NextPage<PageProps> = ({ uvData, hackerNewsData }) => {
     const hasVisitedBefore = localStorage.getItem("hasVisitedBefore");
 
     if (!hasVisitedBefore) {
-      setShowTutorial(true);
-      // document.body.style.background = "#F4D748";
+      setShowingTutorial(true);
+      localStorage.setItem("hasVisitedBefore", "true");
     }
-  }, []);
-  
+  }, [setColorMode]);
+
   const currentTheme = getCurrentTheme(settings, colorMode);
   const gridGap = currentTheme.globalSettings.gridGap;
   const settingsToggleColor = currentTheme.globalSettings.textColor;
   let toDisplay;
 
   if (showingMobileWarning) {
-    toDisplay = (
-      <MobileWarning />
-    );
-  // } else if (showTutorial) {
-  //   toDisplay = <Tutorial hackerNewsData={hackerNewsData} setShowTutorial={setShowTutorial} />;
+    toDisplay = <MobileWarning />;
   } else {
     toDisplay = (
       <Box h="100vh" display="flex" alignItems="center">
@@ -85,15 +68,24 @@ const Home: NextPage<PageProps> = ({ uvData, hackerNewsData }) => {
           inMemorySettings={inMemorySettings}
           setSettings={setSettings}
           setInMemorySettings={setInMemorySettings}
+          setTutorialProgress={setTutorialProgress}
         />
         <NoSSR>
-          <TileGrid
-            optionHovered={optionHovered}
-            inMemorySettings={inMemorySettings}
-            uvData={uvData}
-            hackerNewsData={hackerNewsData}
-            gridGap={gridGap}
-          />
+          <>
+            {showingTutorial ? (
+              <Tutorial
+                setShowingTutorial={setShowingTutorial}
+                tutorialProgress={tutorialProgress}
+                setTutorialProgress={setTutorialProgress}
+              />
+            ) : null}
+            <TileGrid
+              optionHovered={optionHovered}
+              inMemorySettings={inMemorySettings}
+              uvData={uvData}
+              gridGap={gridGap}
+            />
+          </>
         </NoSSR>
       </Box>
     );
@@ -103,20 +95,23 @@ const Home: NextPage<PageProps> = ({ uvData, hackerNewsData }) => {
     <>
       {toDisplay}
       {!isOpen && (
-        <SettingsToggle onOpen={onOpen} color={settingsToggleColor} />
+        <SettingsToggle
+          onOpen={() => {
+            onOpen();
+            setTutorialProgress(tutorialProgress + 1);
+          }}
+          color={settingsToggleColor}
+        />
       )}
     </>
   );
 };
 
 export const getServerSideProps: GetServerSideProps = async () => {
-  const [uvData, hackerNewsData] = await Promise.all([
-    getUVData('Wellington'),
-    getHackerNewsData(),
-  ]);
+  const uvData = await getUVData("Wellington");
 
   return {
-    props: { uvData, hackerNewsData },
+    props: { uvData },
   };
 };
 

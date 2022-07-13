@@ -1,25 +1,12 @@
-import {
-  Box,
-  BoxProps,
-  Button,
-  ButtonProps,
-  Center,
-  Heading,
-} from "@chakra-ui/react";
-import React from "react";
-import Image from "next/image";
-import {
-  HackerNewsLinkHolder,
-  ThemeSettings,
-  TileType,
-  UvGraphData,
-} from "@/types";
-import { RedditFeed } from "../tiles/RedditFeed";
-import { Bonsai, HackerNewsFeed } from "../tiles";
-import { TodoList } from "../tiles/TodoList";
 import styles from "@/styles/Home.module.css";
+import { ThemeSettings, TileType } from "@/types";
+import { Box, BoxProps, Center, Heading } from "@chakra-ui/react";
+import React from "react";
+import { Bonsai, HackerNewsFeed } from "../tiles";
+import { RedditFeed } from "../tiles/RedditFeed";
+import { TodoList } from "../tiles/TodoList";
 
-interface TutorialThemeOptionProps extends ButtonProps {
+interface TutorialThemeOptionProps extends BoxProps {
   selected: boolean;
   themeName: string;
   background: string;
@@ -27,7 +14,6 @@ interface TutorialThemeOptionProps extends ButtonProps {
   innerBorder: string;
   tutorialTileType: TileType | undefined;
   theme: ThemeSettings;
-  hackerNewsData: HackerNewsLinkHolder[];
 }
 
 export const TutorialThemeOption: React.FC<TutorialThemeOptionProps> = ({
@@ -37,7 +23,6 @@ export const TutorialThemeOption: React.FC<TutorialThemeOptionProps> = ({
   innerBackgroundColor,
   innerBorder,
   tutorialTileType,
-  hackerNewsData,
   theme,
   ...props
 }) => {
@@ -48,9 +33,7 @@ export const TutorialThemeOption: React.FC<TutorialThemeOptionProps> = ({
       tileToRender = <RedditFeed tileId={"tile1"} />;
       break;
     case "Hacker News Feed":
-      tileToRender = (
-        <HackerNewsFeed hackerNewsData={hackerNewsData} tileId={"tile1"} />
-      );
+      tileToRender = <HackerNewsFeed tileId={"tile1"} />;
       break;
     case "Bonsai":
       tileToRender = <Bonsai baseColor={"#454545"} trunkColor={"#af6f00"} />;
@@ -61,9 +44,13 @@ export const TutorialThemeOption: React.FC<TutorialThemeOptionProps> = ({
     default:
       tileToRender = (
         <Center height="100%" p="10">
-          <Heading size="md" color={`var(--text-color-tile1)`} textAlign="center">
+          <Heading
+            size="md"
+            color={`var(--text-color-tile1)`}
+            textAlign="center"
+          >
             {tutorialTileType
-              ? `Give me a tile type in the settings ✌️`
+              ? "Give me a tile type in the settings on the left ← ✌️"
               : "Click on me to lock in a theme 🎨"}
           </Heading>
         </Center>
@@ -72,14 +59,11 @@ export const TutorialThemeOption: React.FC<TutorialThemeOptionProps> = ({
 
   return (
     // put perspective shift on these
-    <Button
+    <Box
       background={background}
       outline={selected ? "4px solid #8B83FB" : undefined}
       borderRadius="12"
       transition={"background width height .3s ease-in"}
-      _hover={{ transform: "scale(1.02)", cursor: "pointer" }}
-      _focus={{ border: "" }}
-      _active={{ background, transform: "translateY(-2px)" }}
       overflow="hidden"
       display="flex"
       justifyContent={"center"}
@@ -90,11 +74,10 @@ export const TutorialThemeOption: React.FC<TutorialThemeOptionProps> = ({
     >
       <Box
         transition={"background .3s ease-in"}
-        width="300px"
-        height="max(400px, 70%)"
+        width="230px"
+        height="330px"
         background={innerBackgroundColor}
         borderRadius="15px"
-        minW="230px"
         pos="relative"
         overflowY="scroll"
         className={styles.disableScrollbars}
@@ -106,6 +89,6 @@ export const TutorialThemeOption: React.FC<TutorialThemeOptionProps> = ({
       >
         {tileToRender}
       </Box>
-    </Button>
+    </Box>
   );
 };

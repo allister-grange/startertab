@@ -14,14 +14,12 @@ interface TileProps extends GridItemProps {
   optionHovered: boolean;
   tileId: TileId;
   uvData: UvGraphData[];
-  hackerNewsData: HackerNewsLinkHolder[];
   inMemorySettings: UserSettings;
 }
 
 const Tile: React.FC<TileProps> = ({
   tileId,
   optionHovered,
-  hackerNewsData,
   inMemorySettings,
   uvData,
   children,
@@ -66,7 +64,6 @@ const Tile: React.FC<TileProps> = ({
     >
       <TileContainer
         tileId={tileId}
-        hackerNewsData={hackerNewsData}
         cityForWeather={theme[tileId].cityForWeather}
         cityForUv={theme[tileId].cityForUv}
         stockName={theme[tileId].stockName}

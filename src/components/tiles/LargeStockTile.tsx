@@ -3,7 +3,17 @@ import { getCurrentTheme } from "@/helpers/settingsHelpers";
 import { TileId, UserSettingsContextInterface } from "@/types";
 import { FinnhubStockResponse, StockTickers } from "@/types/stocks";
 import {
-  Box, Button, Center, Flex, Grid, Heading, Input, InputGroup, Spinner, Text, useColorMode
+  Box,
+  Button,
+  Center,
+  Flex,
+  Grid,
+  Heading,
+  Input,
+  InputGroup,
+  Spinner,
+  Text,
+  useColorMode,
 } from "@chakra-ui/react";
 import cloneDeep from "lodash.clonedeep";
 import React, { useContext, useEffect, useState } from "react";
@@ -211,7 +221,12 @@ export const LargeStockTile: React.FC<LargeStockTileProps> = ({ tileId }) => {
               />
             </Box>
             <Box>
-              <Button type="submit" ml="4">
+              <Button
+                type="submit"
+                ml="4"
+                background="transparent"
+                border={`1px solid ${color}`}
+              >
                 Load stocks
               </Button>
             </Box>

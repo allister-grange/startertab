@@ -14,6 +14,7 @@ import {
   UnorderedList,
 } from "@chakra-ui/react";
 import React, { useContext } from "react";
+import { OptionBadge } from "@/components/ui/OptionBadge";
 
 type SmallSpotifyTileProps = {
   tileId: TileId;
@@ -24,8 +25,6 @@ export const SpotifyTopArtists: React.FC<SmallSpotifyTileProps> = ({
 }) => {
   const { topArtists, isAuthenticated, loginWithSpotify, fetchTopArtistData } =
     useContext(SpotifyContext) as SpotifyContextInterface;
-
-  console.log(topArtists);
 
   const color = `var(--text-color-${tileId})`;
 
@@ -83,36 +82,28 @@ export const SpotifyTopArtists: React.FC<SmallSpotifyTileProps> = ({
           )}
         </UnorderedList>
         {topArtists.length > 0 && (
-          <Box width="90%" mt="2" mb="4" textAlign="center">
-            <Badge
-              _hover={{ cursor: "pointer" }}
-              _active={{ cursor: "pointer" }}
-              fontSize="xs"
+          <Box width="100%" mt="2" mb="4" textAlign="center">
+            <OptionBadge
               onClick={() => fetchTopArtistData("short_term")}
-              colorScheme="green"
+              color={color}
             >
               Short term
-            </Badge>
-            <Badge
-              _hover={{ cursor: "pointer" }}
-              _active={{ cursor: "pointer" }}
+            </OptionBadge>
+            <OptionBadge
               onClick={() => fetchTopArtistData("medium_term")}
-              fontSize="xs"
-              colorScheme="red"
+              color={color}
               ml="2"
               mr="2"
             >
               Medium Term
-            </Badge>
-            <Badge
-              _hover={{ cursor: "pointer" }}
-              _active={{ cursor: "pointer" }}
+            </OptionBadge>
+            <OptionBadge
+              mt="2"
               onClick={() => fetchTopArtistData("long_term")}
-              fontSize="xs"
-              colorScheme="purple"
+              color={color}
             >
               Long Term
-            </Badge>
+            </OptionBadge>
           </Box>
         )}
       </Flex>

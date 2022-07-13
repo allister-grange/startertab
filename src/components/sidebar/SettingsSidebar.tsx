@@ -46,6 +46,7 @@ interface SettingsSideBarProps {
   inMemorySettings: UserSettings;
   setSettings: (value: UserSettings) => void;
   setInMemorySettings: Dispatch<SetStateAction<UserSettings>>;
+  setTutorialProgress: Dispatch<SetStateAction<number>>;
 }
 
 const openStyle = {
@@ -74,6 +75,7 @@ const SettingsSideBar: React.FC<SettingsSideBarProps> = ({
   inMemorySettings,
   setSettings,
   setInMemorySettings,
+  setTutorialProgress,
 }) => {
   const { colorMode } = useColorMode();
 
@@ -148,6 +150,8 @@ const SettingsSideBar: React.FC<SettingsSideBarProps> = ({
   const sortedOptions = sortOptionsIntoTileGroups(sideBarOptions);
 
   const onAccordionChange = (expandedIndex: ExpandedIndex) => {
+    // for the tutorial, if we expand an option we want to progress the tutorial
+    setTutorialProgress((prevState) => (prevState === 2 ? 3 : prevState));
     setAccordionIndex(expandedIndex);
   };
 
