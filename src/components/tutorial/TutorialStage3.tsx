@@ -8,7 +8,7 @@ export const TutorialStage3: React.FC = ({}) => {
       {/* BACKGROUND */}
       <Box
         height="100vh"
-        width="calc(100vw - 320px)"
+        width="calc(100vw - 340px)"
         transition="width 0.44s ease-in-out"
         backdropFilter="blur(4.5px)"
         zIndex="9999"
@@ -24,6 +24,7 @@ export const TutorialStage3: React.FC = ({}) => {
         top="0"
         left="0"
         zIndex="9999"
+        transition="width 0.44s ease-in-out"
       />
       <Box
         width="320px"
@@ -33,6 +34,7 @@ export const TutorialStage3: React.FC = ({}) => {
         top="250px"
         left="0"
         zIndex="9999"
+        transition="width 0.44s ease-in-out"
       />
       <Box
         width="320px"
@@ -42,6 +44,7 @@ export const TutorialStage3: React.FC = ({}) => {
         top="390px"
         left="0"
         zIndex="9999"
+        transition="width 0.44s ease-in-out"
       />
       <Fade in={true}>
         <Box
@@ -50,18 +53,40 @@ export const TutorialStage3: React.FC = ({}) => {
           background="rgba(240,240,240,.9)"
           pos="absolute"
           left="430px"
-          top="325px"
+          top="315px"
+          borderRadius="20px"
+          p="4"
+          width="520px"
+          zIndex="9999"
+        >
+          Click on a dropdown to personalise your Start Page
+        </Box>
+        <Box
+          fontSize={"24px"}
+          color="black"
+          background="rgba(240,240,240,.9)"
+          pos="absolute"
+          left="430px"
+          top="430px"
+          width="520px"
           borderRadius="20px"
           p="4"
           zIndex="9999"
         >
-          Click on a tile to change it up
+          You should now be good to go. If you want this page to act as your
+          &apos;New Tab&apos; page please use a chrome extension like{" "}
+          <a
+            href="https://chrome.google.com/webstore/detail/custom-new-tab-url/mmjbdbjnoablegbkcklggeknkfcjkjia?hl=en"
+            style={{ textDecoration: "underline", color: "coral" }}
+          >
+            this one
+          </a>
         </Box>
         <Box
           pos="absolute"
           left="350px"
           top="340px"
-          height="5rem"
+          height="70px"
           zIndex="9999"
           width="3rem"
           color="rgba(240,240,240,.9)"

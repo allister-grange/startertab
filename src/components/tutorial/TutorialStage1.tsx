@@ -35,12 +35,12 @@ export const TutorialStage1: React.FC<TutorialStage1Props> = ({
           <Heading
             alignItems="flex-start"
             fontSize={"120px"}
-            color="white"
+            color="#101010"
             mt="2.5rem"
           >
             Start Page ✌
           </Heading>
-          <Text mt="2" fontSize={"28px"} color="#dee0e5">
+          <Text mt="2" fontSize={"28px"} color="#252525">
             Your &apos;New Tab&apos; page with a twist
           </Text>
           <Box alignItems="flex-start" mt="35px">

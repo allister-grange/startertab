@@ -54,6 +54,13 @@ MyApp.getInitialProps = async (
     cookies = req.headers.cookie ?? "";
   }
 
+  console.log("cookies", cookies);
+  if (!cookies.includes("chakra-ui-color-mode")) {
+    // res.set"chakra-ui-color-mode=black"
+    // console.log("no cookie g");
+    // res?.setHeader("set-cookie", "chakra-ui-color-mode=black; path=/;");
+  }
+
   if (res) {
     res.setHeader("Cache-Control", "no-store");
   }

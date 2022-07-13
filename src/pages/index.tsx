@@ -45,9 +45,8 @@ const Home: NextPage<PageProps> = ({ uvData }) => {
     const hasVisitedBefore = localStorage.getItem("hasVisitedBefore");
 
     if (!hasVisitedBefore) {
-      // setShowingTutorial(true);
-      // document.body.style.background = "#F4D748";
-      setColorMode("black");
+      setShowingTutorial(true);
+      localStorage.setItem("hasVisitedBefore", "true");
     }
   }, [setColorMode]);
 
@@ -58,8 +57,6 @@ const Home: NextPage<PageProps> = ({ uvData }) => {
 
   if (showingMobileWarning) {
     toDisplay = <MobileWarning />;
-    // } else if (showingTutorial) {
-    //   toDisplay = <Tutorial hackerNewsData={hackerNewsData} setShowingTutorial={setShowingTutorial} />;
   } else {
     toDisplay = (
       <Box h="100vh" display="flex" alignItems="center">
@@ -75,14 +72,13 @@ const Home: NextPage<PageProps> = ({ uvData }) => {
         />
         <NoSSR>
           <>
-            {true ? (
+            {showingTutorial ? (
               <Tutorial
                 setShowingTutorial={setShowingTutorial}
                 tutorialProgress={tutorialProgress}
                 setTutorialProgress={setTutorialProgress}
               />
             ) : null}
-
             <TileGrid
               optionHovered={optionHovered}
               inMemorySettings={inMemorySettings}
