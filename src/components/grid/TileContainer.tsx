@@ -19,7 +19,7 @@ import ColorModeSwitcher from "@/components/ui/ColorModeSwitcher";
 import SpotifyContextProvider from "@/context/SpotifyContext";
 import StravaContextProvider from "@/context/StravaContext";
 import { HackerNewsLinkHolder, TileId, TileType, TodoObject } from "@/types";
-import { Center, Heading } from "@chakra-ui/react";
+import { Box, Center, Heading } from "@chakra-ui/react";
 import React from "react";
 
 interface TileContainerProps {
@@ -52,9 +52,10 @@ const TileContainer: React.FC<TileContainerProps> = ({
       tileToRender = <RedditFeed tileId={tileId} />;
       break;
     case "Hacker News Feed":
-      tileToRender = (
-        <HackerNewsFeed tileId={tileId} />
-      );
+      tileToRender = <HackerNewsFeed tileId={tileId} />;
+      break;
+    case "Blank Tile":
+      tileToRender = <Box width="100%" height="100%" />;
       break;
     case "Strava Graph":
       tileToRender = (
@@ -132,7 +133,7 @@ const TileContainer: React.FC<TileContainerProps> = ({
       break;
     default:
       tileToRender = (
-        <Center height="100%" p="10">
+        <Center height="100%" p="6">
           <Heading
             size="md"
             color={`var(--text-color-${tileId})`}

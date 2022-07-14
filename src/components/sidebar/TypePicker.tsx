@@ -28,7 +28,7 @@ export const TypePicker: React.FC<TypePickerProps> = ({
   };
 
   let options;
-  
+
   switch (sizeOfTileForTypes) {
     case "SmallTileTypePicker":
       options = (
@@ -38,6 +38,7 @@ export const TypePicker: React.FC<TypePickerProps> = ({
           <option value="Theme Picker">Theme Picker</option>
           <option value="Small Stock Tile">Stock Ticker</option>
           <option value="Small Spotify Tile">Spotify</option>
+          <option value="Blank Tile">Blank</option>
         </>
       );
       break;
@@ -48,7 +49,10 @@ export const TypePicker: React.FC<TypePickerProps> = ({
           <option value="Hacker News Feed">Hacker News Feed</option>
           <option value="Todo List">Todo List</option>
           <option value="Bonsai">Bonsai</option>
-          <option value="Spotify Top Artist Tile">Spotify Top Artist List</option>
+          <option value="Spotify Top Artist Tile">
+            Spotify Top Artist List
+          </option>
+          <option value="Blank Tile">Blank</option>
         </>
       );
       break;
@@ -60,6 +64,7 @@ export const TypePicker: React.FC<TypePickerProps> = ({
           <option value="Large Spotify Tile">Spotify Tile</option>
           <option value="Large Stock Tile">Stock Tile</option>
           <option value="Large Weather Tile">Weather Forecast</option>
+          <option value="Blank Tile">Blank</option>
         </>
       );
       break;

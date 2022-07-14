@@ -40,6 +40,7 @@ export type TileType =
   | "Small Stock Tile"
   | "Large Stock Tile"
   | "Spotify Top Artist Tile"
+  | "Blank Tile"
   | "None";
 
 // export type Themes = "dark" | "light";
