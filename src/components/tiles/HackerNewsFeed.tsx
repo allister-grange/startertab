@@ -1,8 +1,8 @@
+import { OptionBadge } from "@/components/ui/OptionBadge";
 import { TileId } from "@/types";
 import { HackerNewsLinkHolder } from "@/types/hackernews";
-import { Badge, Box, Center, Heading, Link, Spinner } from "@chakra-ui/react";
+import { Box, Heading, Link, Skeleton } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
-import { OptionBadge } from "@/components/ui/OptionBadge";
 
 type PageProps = {
   tileId: TileId;
@@ -32,8 +32,6 @@ export const HackerNewsFeed: React.FC<PageProps> = ({ tileId }) => {
       }
     };
 
-    console.log("fetching");
-
     fetchHackerNewsData();
   }, [hackerNewsFeed]);
 
@@ -55,10 +53,7 @@ export const HackerNewsFeed: React.FC<PageProps> = ({ tileId }) => {
             </Box>
           ))}
           <Box width="100%" mt="2" mb="4" textAlign="center">
-            <OptionBadge
-              onClick={() => setHackNewsFeed("Top")}
-              color={color}
-            >
+            <OptionBadge onClick={() => setHackNewsFeed("Top")} color={color}>
               Top Stories
             </OptionBadge>
             <OptionBadge
@@ -79,9 +74,19 @@ export const HackerNewsFeed: React.FC<PageProps> = ({ tileId }) => {
           </Box>
         </>
       ) : (
-        <Center minH="300px">
-          <Spinner color="white" />
-        </Center>
+        <Box height="100%" p="2">
+          <Skeleton height="15px" mt="3" width="90%" />
+          <Skeleton height="15px" mt="3" />
+          <Skeleton height="15px" mt="3" width="75%" />
+          <Skeleton height="15px" mt="3" width="65%" />
+          <Skeleton height="15px" mt="3" width="85%" />
+          <Skeleton height="15px" mt="3" width="95%" />
+          <Skeleton height="15px" mt="3" width="75%" />
+          <Skeleton height="15px" mt="3" />
+          <Skeleton height="15px" mt="3" width="70%" />
+          <Skeleton height="15px" mt="3" width="85%" />
+          <Skeleton height="15px" mt="3" width="95%" />
+        </Box>
       )}
     </Box>
   );

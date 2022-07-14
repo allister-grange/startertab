@@ -4,7 +4,7 @@ import {
   RedditAPIResponse,
   RedditDataHolder,
   TileId,
-  UserSettingsContextInterface
+  UserSettingsContextInterface,
 } from "@/types";
 import {
   Box,
@@ -12,9 +12,10 @@ import {
   Heading,
   Input,
   Link,
+  Skeleton,
   Spinner,
   Text,
-  useColorMode
+  useColorMode,
 } from "@chakra-ui/react";
 import cloneDeep from "lodash.clonedeep";
 import React, { useCallback, useContext, useEffect, useState } from "react";
@@ -123,9 +124,19 @@ export const RedditFeed: React.FC<RedditFeedProps> = ({ tileId }) => {
 
   if (status === "loading") {
     display = (
-      <Center mt="4">
-        <Spinner color={textColor} />
-      </Center>
+      <Box height="100%" p="2">
+        <Skeleton height="15px" mt="3" width="90%" />
+        <Skeleton height="15px" mt="3" />
+        <Skeleton height="15px" mt="3" width="75%" />
+        <Skeleton height="15px" mt="3" width="65%" />
+        <Skeleton height="15px" mt="3" width="85%" />
+        <Skeleton height="15px" mt="3" width="95%" />
+        <Skeleton height="15px" mt="3" width="75%" />
+        <Skeleton height="15px" mt="3" />
+        <Skeleton height="15px" mt="3" width="70%" />
+        <Skeleton height="15px" mt="3" width="85%" />
+        <Skeleton height="15px" mt="3" width="95%" />
+      </Box>
     );
   } else if (status === "resolved" && data) {
     display = data.map((link) => (
