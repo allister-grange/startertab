@@ -119,6 +119,19 @@ const formatStravaData = (data: StravaActivity[]) => {
             Math.round((activity.distance / 1000) * 10) / 10;
         }
       });
+    } else if (activity.type === "Ride") {
+      formattedStravaData.riding.forEach((activityToFind) => {
+        if (activityToFind.day === weekday[dayOfActivity]) {
+          activityToFind.distance +=
+            Math.round((activity.distance / 1000) * 10) / 10;
+        }
+      });
+      formattedStravaData.combinedData.forEach((activityToFind) => {
+        if (activityToFind.day === weekday[dayOfActivity]) {
+          activityToFind.ride +=
+            Math.round((activity.distance / 1000) * 10) / 10;
+        }
+      });
     }
   });
 
@@ -129,6 +142,7 @@ const getEmptyStravaData = (): StravaGraphData => {
   const formattedStravaData: StravaGraphData = {
     swimming: [] as StravaGraphPoint[],
     running: [] as StravaGraphPoint[],
+    riding: [] as StravaGraphPoint[],
     combinedData: [] as StravaCombinedGraphData[],
   };
 
@@ -146,13 +160,55 @@ const getEmptyStravaData = (): StravaGraphData => {
   formattedStravaData.swimming.push({ day: "Fri", distance: 0 });
   formattedStravaData.swimming.push({ day: "Sat", distance: 0 });
   formattedStravaData.swimming.push({ day: "Sun", distance: 0 });
-  formattedStravaData.combinedData.push({ day: "Mon", run: 0, swim: 0 });
-  formattedStravaData.combinedData.push({ day: "Tues", run: 0, swim: 0 });
-  formattedStravaData.combinedData.push({ day: "Wed", run: 0, swim: 0 });
-  formattedStravaData.combinedData.push({ day: "Thur", run: 0, swim: 0 });
-  formattedStravaData.combinedData.push({ day: "Fri", run: 0, swim: 0 });
-  formattedStravaData.combinedData.push({ day: "Sat", run: 0, swim: 0 });
-  formattedStravaData.combinedData.push({ day: "Sun", run: 0, swim: 0 });
+  formattedStravaData.riding.push({ day: "Mon", distance: 0 });
+  formattedStravaData.riding.push({ day: "Tues", distance: 0 });
+  formattedStravaData.riding.push({ day: "Wed", distance: 0 });
+  formattedStravaData.riding.push({ day: "Thur", distance: 0 });
+  formattedStravaData.riding.push({ day: "Fri", distance: 0 });
+  formattedStravaData.riding.push({ day: "Sat", distance: 0 });
+  formattedStravaData.riding.push({ day: "Sun", distance: 0 });
+  formattedStravaData.combinedData.push({
+    day: "Mon",
+    run: 0,
+    swim: 0,
+    ride: 0,
+  });
+  formattedStravaData.combinedData.push({
+    day: "Tues",
+    run: 0,
+    swim: 0,
+    ride: 0,
+  });
+  formattedStravaData.combinedData.push({
+    day: "Wed",
+    run: 0,
+    swim: 0,
+    ride: 0,
+  });
+  formattedStravaData.combinedData.push({
+    day: "Thur",
+    run: 0,
+    swim: 0,
+    ride: 0,
+  });
+  formattedStravaData.combinedData.push({
+    day: "Fri",
+    run: 0,
+    swim: 0,
+    ride: 0,
+  });
+  formattedStravaData.combinedData.push({
+    day: "Sat",
+    run: 0,
+    swim: 0,
+    ride: 0,
+  });
+  formattedStravaData.combinedData.push({
+    day: "Sun",
+    run: 0,
+    swim: 0,
+    ride: 0,
+  });
 
   return formattedStravaData;
 };

@@ -1,16 +1,9 @@
+import { OptionBadge } from "@/components/ui/OptionBadge";
+import { StravaLogo } from "@/components/ui/StravaLogo";
 import { StravaContext } from "@/context/StravaContext";
 import { TileId } from "@/types";
 import { StravaContextInterface, StravaGraphPoint } from "@/types/strava";
-import {
-  Box,
-  Button,
-  Center,
-  Heading,
-  Spinner,
-  Switch,
-  Text,
-  useColorModeValue,
-} from "@chakra-ui/react";
+import { Box, Button, Center, Heading, Spinner } from "@chakra-ui/react";
 import React, { useContext, useState } from "react";
 import {
   Bar,
@@ -20,22 +13,21 @@ import {
   XAxis,
   YAxis,
 } from "recharts";
-import { StravaLogo } from "../ui/StravaLogo";
 
 type PageProps = {
   tileId: TileId;
 };
 
+type ActivityDisplay = "swim" | "ride" | "run";
+
 const StravaGraph: React.FC<PageProps> = ({ tileId }) => {
   const { isAuthenticated, stravaData, loginWithStrava } = useContext(
     StravaContext
   ) as StravaContextInterface;
-  const [showingSwim, setShowingSwim] = useState<Boolean | undefined>();
+  const [activityShowing, setActivityShowing] = useState<
+    ActivityDisplay | undefined
+  >();
   const color = `var(--text-color-${tileId})`;
-  const runBoxColor = useColorModeValue(
-    "rgba(255, 255, 255, 0.2)",
-    "rgba(255, 255, 255, 0.1)"
-  );
 
   if (isAuthenticated === false) {
     return (
@@ -57,26 +49,34 @@ const StravaGraph: React.FC<PageProps> = ({ tileId }) => {
     );
   }
 
+  console.log(stravaData);
+
   return (
     <Box p="6">
-      <Box display="flex" flexDir="row" color={color}>
+      <Box
+        display="flex"
+        flexDir="row"
+        color={color}
+        width="100%"
+        justifyContent="space-between"
+      >
         <Heading fontSize="2xl">Strava Stats</Heading>
-        <Text ml="auto" mr="2">
-          run
-        </Text>
-        <Switch
-          size="lg"
-          onChange={() => {
-            if (showingSwim === undefined) {
-              setShowingSwim(true);
-            } else {
-              setShowingSwim((showingSwim) => !showingSwim);
-            }
-          }}
-        />
-        <Text mr="80px" ml="2">
-          swim
-        </Text>
+        <Box mr="6">
+          <OptionBadge onClick={() => setActivityShowing("swim")} color={color}>
+            swim
+          </OptionBadge>
+          <OptionBadge
+            onClick={() => setActivityShowing("ride")}
+            color={color}
+            mr="2"
+            ml="2"
+          >
+            ride
+          </OptionBadge>
+          <OptionBadge onClick={() => setActivityShowing("run")} color={color}>
+            run
+          </OptionBadge>
+        </Box>
       </Box>
       {stravaData ? (
         <Box mt="4" ml="-10">
@@ -90,7 +90,7 @@ const StravaGraph: React.FC<PageProps> = ({ tileId }) => {
                 stroke={color}
               />
               <YAxis stroke={color} />
-              {showingSwim === true && (
+              {activityShowing === "swim" && (
                 <Bar dataKey="swim" barSize={35}>
                   {stravaData.swimming.map(
                     (entry: StravaGraphPoint, index: number) => (
@@ -104,30 +104,44 @@ const StravaGraph: React.FC<PageProps> = ({ tileId }) => {
                   )}
                 </Bar>
               )}
-              {showingSwim === false && (
+              {activityShowing === "run" && (
                 <Bar dataKey="run" barSize={35}>
-                  {stravaData.swimming.map(
+                  {stravaData.running.map(
                     (entry: StravaGraphPoint, index: number) => (
                       <Cell
                         key={`cell-${index}`}
                         stroke={color}
-                        strokeWidth={2}
-                        fill={runBoxColor}
+                        strokeWidth={1}
+                        fill={"rgba(32,147,0,0.2)"}
                       />
                     )
                   )}
                 </Bar>
               )}
-              {showingSwim === undefined && (
+              {activityShowing === "ride" && (
+                <Bar dataKey="ride" barSize={35}>
+                  {stravaData.riding.map(
+                    (entry: StravaGraphPoint, index: number) => (
+                      <Cell
+                        key={`cell-${index}`}
+                        stroke={"coral"}
+                        strokeWidth={1}
+                        fill={"rgba(255, 133, 1, 0.2"}
+                      />
+                    )
+                  )}
+                </Bar>
+              )}
+              {activityShowing === undefined && (
                 <>
                   <Bar dataKey="run" barSize={35}>
-                    {stravaData.swimming.map(
+                    {stravaData.running.map(
                       (entry: StravaGraphPoint, index: number) => (
                         <Cell
                           key={`cell-${index}`}
                           stroke={color}
-                          strokeWidth={2}
-                          fill={runBoxColor}
+                          strokeWidth={1}
+                          fill={"rgba(32,147,0,0.2)"}
                         />
                       )
                     )}
@@ -138,8 +152,20 @@ const StravaGraph: React.FC<PageProps> = ({ tileId }) => {
                         <Cell
                           key={`cell-${index}`}
                           stroke={"#0654A4"}
-                          strokeWidth={2}
+                          strokeWidth={1}
                           fill={"rgba(6, 84, 164, 0.2)"}
+                        />
+                      )
+                    )}
+                  </Bar>
+                  <Bar dataKey="ride" barSize={35}>
+                    {stravaData.riding.map(
+                      (entry: StravaGraphPoint, index: number) => (
+                        <Cell
+                          key={`cell-${index}`}
+                          stroke={"coral"}
+                          strokeWidth={1}
+                          fill={"rgba(255, 133, 1, 0.2"}
                         />
                       )
                     )}
