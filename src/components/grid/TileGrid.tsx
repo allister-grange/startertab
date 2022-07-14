@@ -1,9 +1,5 @@
 import Tile from "@/components/grid/Tile";
-import {
-  TileId,
-  UserSettings,
-  UvGraphData
-} from "@/types";
+import { TileId, UserSettings, UvGraphData } from "@/types";
 import { Grid } from "@chakra-ui/react";
 import React from "react";
 

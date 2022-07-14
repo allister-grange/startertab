@@ -73,8 +73,8 @@ export const TutorialStage3: React.FC = ({}) => {
           p="4"
           zIndex="9999"
         >
-          You should now be good to go. If you want this page to act as your
-          &apos;New Tab&apos; page please use a chrome extension like{" "}
+          You should now be good to go! If you want this page to act as your
+          &apos;New Tab&apos; page you&apos;ll need an extension like{" "}
           <a
             href="https://chrome.google.com/webstore/detail/custom-new-tab-url/mmjbdbjnoablegbkcklggeknkfcjkjia?hl=en"
             style={{ textDecoration: "underline", color: "coral" }}
@@ -89,7 +89,7 @@ export const TutorialStage3: React.FC = ({}) => {
           height="70px"
           zIndex="9999"
           width="3rem"
-          color="rgba(240,240,240,.9)"
+          color="coral"
         >
           <BackArrow />
         </Box>
