@@ -1,8 +1,8 @@
+import { OptionBadge } from "@/components/ui/OptionBadge";
 import { SpotifyLogo } from "@/components/ui/SpotifyLogo";
 import { SpotifyContext } from "@/context/SpotifyContext";
 import { SpotifyContextInterface, TileId } from "@/types";
 import {
-  Badge,
   Box,
   Button,
   Center,
@@ -14,7 +14,6 @@ import {
   UnorderedList,
 } from "@chakra-ui/react";
 import React, { useContext } from "react";
-import { OptionBadge } from "@/components/ui/OptionBadge";
 
 type SmallSpotifyTileProps = {
   tileId: TileId;
@@ -89,21 +88,22 @@ export const SpotifyTopArtists: React.FC<SmallSpotifyTileProps> = ({
             >
               Short term
             </OptionBadge>
-            <OptionBadge
-              onClick={() => fetchTopArtistData("medium_term")}
-              color={color}
-              ml="2"
-              mr="2"
-            >
-              Medium Term
-            </OptionBadge>
-            <OptionBadge
-              mt="2"
-              onClick={() => fetchTopArtistData("long_term")}
-              color={color}
-            >
-              Long Term
-            </OptionBadge>
+            <Box mt="2">
+              <OptionBadge
+                onClick={() => fetchTopArtistData("medium_term")}
+                color={color}
+                mr="1"
+              >
+                Medium Term
+              </OptionBadge>
+              <OptionBadge
+                ml="1"
+                onClick={() => fetchTopArtistData("long_term")}
+                color={color}
+              >
+                Long Term
+              </OptionBadge>
+            </Box>
           </Box>
         )}
       </Flex>
