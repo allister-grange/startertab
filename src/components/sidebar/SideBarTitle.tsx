@@ -6,6 +6,7 @@ interface SideBarTitleProps {
   onSaveHandler: () => void;
   onExitHandler: () => void;
   backgroundColor: string;
+  tutorialProgress: number;
 }
 
 export const SideBarTitle: React.FC<SideBarTitleProps> = ({
@@ -13,6 +14,7 @@ export const SideBarTitle: React.FC<SideBarTitleProps> = ({
   onSaveHandler,
   onExitHandler,
   backgroundColor,
+  tutorialProgress,
 }) => {
   return (
     <Box
@@ -29,6 +31,7 @@ export const SideBarTitle: React.FC<SideBarTitleProps> = ({
         background="transparent"
         border={`1px solid ${textColor}`}
         color={textColor}
+        disabled={tutorialProgress > 1 && tutorialProgress < 4}
       >
         Exit
       </Button>

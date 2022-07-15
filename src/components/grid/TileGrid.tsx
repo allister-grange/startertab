@@ -8,6 +8,7 @@ interface TileGridProps {
   inMemorySettings: UserSettings;
   optionHovered?: TileId;
   gridGap?: string;
+  tutorialProgress: number;
 }
 
 export const TileGrid: React.FC<TileGridProps> = ({
@@ -15,6 +16,7 @@ export const TileGrid: React.FC<TileGridProps> = ({
   inMemorySettings,
   uvData,
   gridGap,
+  tutorialProgress,
 }) => {
   return (
     <Grid
@@ -27,11 +29,17 @@ export const TileGrid: React.FC<TileGridProps> = ({
       p="4"
       py="8"
       maxWidth={{ "2xl": "1500px", xl: "1320px" }}
+      filter={
+        tutorialProgress >= 0 && tutorialProgress < 4
+          ? "blur(4.5px)"
+          : undefined
+      }
     >
       <Tile
         rowSpan={5}
         colSpan={1}
         tileId={"tile1"}
+        minW="285px"
         optionHovered={optionHovered === "tile1"}
         inMemorySettings={inMemorySettings}
         uvData={uvData}

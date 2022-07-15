@@ -1,9 +1,5 @@
 import { TileId } from "@/types";
-import {
-  Box,
-  BoxProps, Flex,
-  useColorMode
-} from "@chakra-ui/react";
+import { Box, BoxProps, Flex, useColorMode } from "@chakra-ui/react";
 import React from "react";
 
 const ThemePickerBubble = (props: BoxProps) => {
@@ -50,6 +46,10 @@ const ColorModeSwitcher: React.FC = () => {
         <ThemePickerBubble
           bg="linear-gradient(90deg, black 50%, #2E4C49 50%);"
           onClick={() => setColorMode("glassmorphism dark")}
+        />
+        <ThemePickerBubble
+          bg="linear-gradient(90deg, #ABA1EE 50%, #f882ff 50%);"
+          onClick={() => setColorMode("Pink")}
         />
         <ThemePickerBubble
           bg="linear-gradient(90deg, white 50%, #f882ff 50%);"

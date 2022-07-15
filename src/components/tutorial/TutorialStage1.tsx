@@ -12,12 +12,10 @@ export const TutorialStage1: React.FC<TutorialStage1Props> = ({
 }) => {
   return (
     <Box
-      style={{ zIndex: "9999" }}
       height="100vh"
       width="100vw"
       transition="width 0.44s ease-in-out"
-      backdropFilter="blur(4.5px)"
-      // zIndex="9999"
+      zIndex="9999"
       right="0"
       top="0"
       pos="fixed"

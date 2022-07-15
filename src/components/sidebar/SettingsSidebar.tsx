@@ -47,6 +47,7 @@ interface SettingsSideBarProps {
   setSettings: (value: UserSettings) => void;
   setInMemorySettings: Dispatch<SetStateAction<UserSettings>>;
   setTutorialProgress: Dispatch<SetStateAction<number>>;
+  tutorialProgress: number;
 }
 
 const openStyle = {
@@ -76,6 +77,7 @@ const SettingsSideBar: React.FC<SettingsSideBarProps> = ({
   setSettings,
   setInMemorySettings,
   setTutorialProgress,
+  tutorialProgress,
 }) => {
   const { colorMode } = useColorMode();
 
@@ -90,8 +92,11 @@ const SettingsSideBar: React.FC<SettingsSideBarProps> = ({
   useEffect(() => {
     const themeToChange = getCurrentTheme(inMemorySettings, colorMode);
 
+    // for the tutorial, if we change the theme we want to progress the tutorial
+    setTutorialProgress((prevState) => (prevState === 2 ? 3 : prevState));
+
     applyTheme(themeToChange);
-  }, [inMemorySettings, colorMode]);
+  }, [inMemorySettings, colorMode, setTutorialProgress]);
 
   // will change the appearance of the site, but not what's stored in localStorage
   const changeSetting = useCallback(
@@ -150,9 +155,10 @@ const SettingsSideBar: React.FC<SettingsSideBarProps> = ({
   const sortedOptions = sortOptionsIntoTileGroups(sideBarOptions);
 
   const onAccordionChange = (expandedIndex: ExpandedIndex) => {
-    // for the tutorial, if we expand an option we want to progress the tutorial
-    setTutorialProgress((prevState) => (prevState === 2 ? 3 : prevState));
     setAccordionIndex(expandedIndex);
+
+    // for the tutorial, if we open the dropdown we want to progress the tutorial
+    setTutorialProgress((prevState) => (prevState === 3 ? 4 : prevState));
   };
 
   const getOptionTitle = (tileId: keyof ThemeSettings): string => {
@@ -203,6 +209,7 @@ const SettingsSideBar: React.FC<SettingsSideBarProps> = ({
         backgroundColor={backgroundColor}
         onSaveHandler={onSaveHandler}
         onExitHandler={onExitHandler}
+        tutorialProgress={tutorialProgress}
       />
       <Box p="3">
         <ThemeToChangeSelector
@@ -251,6 +258,9 @@ const SettingsSideBar: React.FC<SettingsSideBarProps> = ({
                   onMouseLeave={() => setOptionHovered(undefined)}
                   onBlur={() => setOptionHovered(undefined)}
                   borderColor={borderColor}
+                  isDisabled={
+                    tutorialProgress > 1 && tutorialProgress < 4 && index !== 2
+                  }
                 >
                   <h2>
                     <AccordionButton

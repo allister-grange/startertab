@@ -25,17 +25,17 @@ const Home: NextPage<PageProps> = ({ uvData }) => {
   // Sidebar hook
   const { isOpen, onOpen, onClose } = useDisclosure();
   // to highlight what tile you are looking to edit from the sidebar
-  const [optionHovered, setOptionHovered] = useState<undefined | TileId>();
+  const [optionHovered, setOptionHovered] = useState<TileId | undefined>();
   const { settings, setSettings } = useContext(
     SettingsContext
   ) as UserSettingsContextInterface;
   const [showingTutorial, setShowingTutorial] = useState(false);
-  const [tutorialProgress, setTutorialProgress] = useState(0);
+  const [tutorialProgress, setTutorialProgress] = useState<number>(-1);
   const [inMemorySettings, setInMemorySettings] = useState(() =>
     cloneDeep(settings)
   );
   const [showingMobileWarning, setShowingMobileWarning] = useState(false);
-  const { colorMode, setColorMode } = useColorMode();
+  const { colorMode } = useColorMode();
 
   useEffect(() => {
     if (isMobile) {
@@ -43,12 +43,12 @@ const Home: NextPage<PageProps> = ({ uvData }) => {
     }
 
     const hasVisitedBefore = localStorage.getItem("hasVisitedBefore");
-
     if (!hasVisitedBefore) {
       setShowingTutorial(true);
+      setTutorialProgress(0);
       localStorage.setItem("hasVisitedBefore", "true");
     }
-  }, [setColorMode]);
+  }, []);
 
   const currentTheme = getCurrentTheme(settings, colorMode);
   const gridGap = currentTheme.globalSettings.gridGap;
@@ -69,6 +69,7 @@ const Home: NextPage<PageProps> = ({ uvData }) => {
           setSettings={setSettings}
           setInMemorySettings={setInMemorySettings}
           setTutorialProgress={setTutorialProgress}
+          tutorialProgress={tutorialProgress}
         />
         <NoSSR>
           <>
@@ -80,6 +81,7 @@ const Home: NextPage<PageProps> = ({ uvData }) => {
               />
             ) : null}
             <TileGrid
+              tutorialProgress={tutorialProgress}
               optionHovered={optionHovered}
               inMemorySettings={inMemorySettings}
               uvData={uvData}
@@ -98,7 +100,9 @@ const Home: NextPage<PageProps> = ({ uvData }) => {
         <SettingsToggle
           onOpen={() => {
             onOpen();
-            setTutorialProgress(tutorialProgress + 1);
+            if (showingTutorial) {
+              setTutorialProgress(tutorialProgress + 1);
+            }
           }}
           color={settingsToggleColor}
         />

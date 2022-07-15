@@ -49,8 +49,6 @@ const StravaGraph: React.FC<PageProps> = ({ tileId }) => {
     );
   }
 
-  console.log(stravaData);
-
   return (
     <Box p="6">
       <Box

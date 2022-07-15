@@ -43,7 +43,7 @@ const Tile: React.FC<TileProps> = ({
     theme.globalSettings.borderRadius,
     theme.globalSettings.dropShadow,
     theme.globalSettings.tileBorder,
-    theme.globalSettings.borderColor
+    theme.globalSettings.borderColor,
   ]);
 
   return (
