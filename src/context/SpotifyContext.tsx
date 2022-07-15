@@ -5,7 +5,7 @@ import {
   TopArtistSpotifyData,
 } from "@/types";
 import * as React from "react";
-import { useState } from "react";
+import { useRef, useState } from "react";
 
 const SPOTIFY_ACCESS_TOKEN = "spotifyAccessToken";
 const SPOTIFY_REFRESH_TOKEN = "spotifyRefreshToken";
@@ -30,6 +30,7 @@ const SpotifyContextProvider: React.FC<Props> = ({ children }) => {
     playable: false,
   });
   const [topArtists, setTopArtists] = useState<TopArtistSpotify[]>([]);
+  const refreshingInterval = useRef<NodeJS.Timer | undefined>();
 
   // only needs to run when the user has clicked 'continue with spotify'
   // used for grabbing the access and refresh token and storing them in
@@ -90,22 +91,30 @@ const SpotifyContextProvider: React.FC<Props> = ({ children }) => {
     setSpotifyData(data);
   }, [accessToken, refreshToken]);
 
-  const fetchTopArtistData = React.useCallback(async (timeRage: string) => {
-    setTopArtists([]);
-    const res = await fetch(
-      `/api/spotify/topArtists?accessToken=${accessToken}&refreshToken=${refreshToken}` +
-        `&timeRange=${timeRage}`
-    );
-    let data = (await res.json()) as TopArtistSpotifyData;
+  const fetchTopArtistData = React.useCallback(
+    async (timeRage: string) => {
+      setTopArtists([]);
+      const res = await fetch(
+        `/api/spotify/topArtists?accessToken=${accessToken}&refreshToken=${refreshToken}` +
+          `&timeRange=${timeRage}`
+      );
+      let data = (await res.json()) as TopArtistSpotifyData;
 
-    // if there is an accessToken returned, the old one was stale
-    if (data.accessToken) {
-      setAccessToken(data.accessToken);
-      localStorage.setItem(SPOTIFY_ACCESS_TOKEN, data.accessToken);
-    }
+      // if there is an accessToken returned, the old one was stale
+      if (data.accessToken) {
+        setAccessToken(data.accessToken);
+        localStorage.setItem(SPOTIFY_ACCESS_TOKEN, data.accessToken);
+      }
 
-    setTopArtists(data.topArtists);
-  }, [accessToken, refreshToken]);
+      setTopArtists(data.topArtists);
+    },
+    [accessToken, refreshToken]
+  );
+
+  const setRefreshingInterval = React.useCallback(() => {
+    const interval = setInterval(fetchCurrentSong, 750);
+    refreshingInterval.current = interval;
+  }, [fetchCurrentSong]);
 
   // User has logged in and has an access/refresh token
   React.useEffect(() => {
@@ -115,9 +124,16 @@ const SpotifyContextProvider: React.FC<Props> = ({ children }) => {
 
     fetchCurrentSong();
     fetchTopArtistData("long_term");
-    const interval = setInterval(fetchCurrentSong, 1000);
-    return () => clearInterval(interval);
-  }, [accessToken, fetchCurrentSong, fetchTopArtistData, isAuthenticated, refreshToken]);
+    setRefreshingInterval();
+    return () => clearInterval(refreshingInterval.current!);
+  }, [
+    accessToken,
+    fetchCurrentSong,
+    fetchTopArtistData,
+    isAuthenticated,
+    refreshToken,
+    setRefreshingInterval,
+  ]);
 
   const loginWithSpotify = React.useCallback(async () => {
     const res = await fetch("/api/spotify/redirectUri");
@@ -128,28 +144,32 @@ const SpotifyContextProvider: React.FC<Props> = ({ children }) => {
 
   const skipSong = async (forward: boolean) => {
     try {
-      await fetch(`/api/spotify?forward=${forward}`, { method: "POST" });
-      const res = await fetch(`/api/spotify?accessToken=${accessToken}`);
-      const data = (await res.json()) as NowPlayingSpotifyData;
-      setSpotifyData(data);
+      clearInterval(refreshingInterval.current!);
+      await fetch(
+        `/api/spotify?forward=${forward}&accessToken=${accessToken}`,
+        { method: "POST" }
+      );
     } catch (err) {
       console.error(err);
+    } finally {
+      setRefreshingInterval();
     }
   };
 
   const pausePlaySong = async (pause: boolean) => {
     try {
-      setSpotifyData({
-        ...spotifyData,
-        playing: !pause,
-      } as NowPlayingSpotifyData);
-      await fetch(`/api/spotify?pause=${pause}`, { method: "POST" });
+      clearInterval(refreshingInterval.current!);
+      await fetch(`/api/spotify?pause=${pause}&accessToken=${accessToken}`, {
+        method: "POST",
+      });
     } catch (err) {
       console.error(err);
       setSpotifyData({
         ...spotifyData,
         playing: pause,
       } as NowPlayingSpotifyData);
+    } finally {
+      setRefreshingInterval();
     }
   };
 
@@ -162,7 +182,7 @@ const SpotifyContextProvider: React.FC<Props> = ({ children }) => {
         skipSong,
         pausePlaySong,
         topArtists,
-        fetchTopArtistData
+        fetchTopArtistData,
       }}
     >
       {children}
