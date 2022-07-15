@@ -3,7 +3,7 @@ import { UserSettings } from "@/types";
 export const defaultSettings: UserSettings = {
   themes: [
     {
-      themeName: "darker",
+      themeName: "colored dark",
       globalSettings: {
         backgroundColor: "#1B202B",
         textColor: "#fff",
@@ -75,7 +75,7 @@ export const defaultSettings: UserSettings = {
       },
     },
     {
-      themeName: "light",
+      themeName: "colored light",
       globalSettings: {
         backgroundColor: "#ffffff",
         textColor: "#222222",
@@ -145,7 +145,7 @@ export const defaultSettings: UserSettings = {
       },
     },
     {
-      themeName: "white",
+      themeName: "light",
       globalSettings: {
         backgroundColor: "white",
         textColor: "#222222",
@@ -215,7 +215,7 @@ export const defaultSettings: UserSettings = {
       },
     },
     {
-      themeName: "black",
+      themeName: "dark",
       globalSettings: {
         backgroundColor: "#000",
         textColor: "#fff",
