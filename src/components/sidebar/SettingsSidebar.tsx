@@ -1,6 +1,7 @@
 import SettingOptionContainer from "@/components/sidebar/SettingOptionContainer";
 import { SideBarTitle } from "@/components/sidebar/SideBarTitle";
 import { ThemeToChangeSelector } from "@/components/sidebar/ThemeToChangeSelector";
+import { SettingsContext } from "@/context/UserSettingsContext";
 import {
   applyTheme,
   getCurrentTheme,
@@ -10,13 +11,8 @@ import {
 } from "@/helpers/settingsHelpers";
 import { sideBarOptions } from "@/helpers/sideBarOptions";
 import styles from "@/styles/Home.module.css";
-import { Option } from "@/types";
-import {
-  ThemeSettings,
-  TileId,
-  TileSettings,
-  UserSettings,
-} from "@/types/settings";
+import { Option, UserSettingsContextInterface } from "@/types";
+import { ThemeSettings, TileId, TileSettings } from "@/types/settings";
 import {
   Accordion,
   AccordionButton,
@@ -33,6 +29,7 @@ import React, {
   Dispatch,
   SetStateAction,
   useCallback,
+  useContext,
   useEffect,
   useState,
 } from "react";
@@ -42,10 +39,6 @@ interface SettingsSideBarProps {
   isOpen: boolean;
   onClose: () => void;
   setOptionHovered: React.Dispatch<SetStateAction<TileId | undefined>>;
-  settings: UserSettings;
-  inMemorySettings: UserSettings;
-  setSettings: (value: UserSettings) => void;
-  setInMemorySettings: Dispatch<SetStateAction<UserSettings>>;
   setTutorialProgress: Dispatch<SetStateAction<number>>;
   tutorialProgress: number;
 }
@@ -72,14 +65,13 @@ const SettingsSideBar: React.FC<SettingsSideBarProps> = ({
   isOpen,
   onClose,
   setOptionHovered,
-  settings,
-  inMemorySettings,
-  setSettings,
-  setInMemorySettings,
   setTutorialProgress,
   tutorialProgress,
 }) => {
   const { colorMode } = useColorMode();
+
+  const { settings, inMemorySettings, setSettings, setInMemorySettings } =
+    useContext(SettingsContext) as UserSettingsContextInterface;
 
   const [accordionIndex, setAccordionIndex] = useState<ExpandedIndex>([]);
 

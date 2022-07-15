@@ -1,11 +1,10 @@
 import Tile from "@/components/grid/Tile";
-import { TileId, UserSettings, UvGraphData } from "@/types";
+import { TileId, UvGraphData } from "@/types";
 import { Grid } from "@chakra-ui/react";
 import React from "react";
 
 interface TileGridProps {
   uvData: UvGraphData[];
-  inMemorySettings: UserSettings;
   optionHovered?: TileId;
   gridGap?: string;
   tutorialProgress: number;
@@ -13,7 +12,6 @@ interface TileGridProps {
 
 export const TileGrid: React.FC<TileGridProps> = ({
   optionHovered,
-  inMemorySettings,
   uvData,
   gridGap,
   tutorialProgress,
@@ -41,7 +39,6 @@ export const TileGrid: React.FC<TileGridProps> = ({
         tileId={"tile1"}
         minW="285px"
         optionHovered={optionHovered === "tile1"}
-        inMemorySettings={inMemorySettings}
         uvData={uvData}
       />
       <Tile
@@ -52,7 +49,6 @@ export const TileGrid: React.FC<TileGridProps> = ({
         minW="530px"
         tileId={"tile2"}
         optionHovered={optionHovered === "tile2"}
-        inMemorySettings={inMemorySettings}
         uvData={uvData}
         overflow="hidden"
       />
@@ -61,7 +57,6 @@ export const TileGrid: React.FC<TileGridProps> = ({
         rowSpan={4}
         tileId={"tile3"}
         optionHovered={optionHovered === "tile3"}
-        inMemorySettings={inMemorySettings}
         uvData={uvData}
       />
       <Tile
@@ -69,7 +64,6 @@ export const TileGrid: React.FC<TileGridProps> = ({
         rowSpan={5}
         tileId={"tile4"}
         optionHovered={optionHovered === "tile4"}
-        inMemorySettings={inMemorySettings}
         uvData={uvData}
       ></Tile>
       <Tile
@@ -78,7 +72,6 @@ export const TileGrid: React.FC<TileGridProps> = ({
         minH="60px"
         tileId={"tile5"}
         optionHovered={optionHovered === "tile5"}
-        inMemorySettings={inMemorySettings}
         uvData={uvData}
       ></Tile>
       <Tile
@@ -89,7 +82,6 @@ export const TileGrid: React.FC<TileGridProps> = ({
         maxH="380px"
         tileId={"tile6"}
         optionHovered={optionHovered === "tile6"}
-        inMemorySettings={inMemorySettings}
         uvData={uvData}
       ></Tile>
       <Tile
@@ -97,7 +89,6 @@ export const TileGrid: React.FC<TileGridProps> = ({
         colSpan={1}
         tileId={"tile7"}
         optionHovered={optionHovered === "tile7"}
-        inMemorySettings={inMemorySettings}
         uvData={uvData}
       ></Tile>
       <Tile
@@ -108,7 +99,6 @@ export const TileGrid: React.FC<TileGridProps> = ({
         maxH="330px"
         optionHovered={optionHovered === "tile9"}
         tileId={"tile9"}
-        inMemorySettings={inMemorySettings}
         uvData={uvData}
       ></Tile>
       <Tile
@@ -117,7 +107,6 @@ export const TileGrid: React.FC<TileGridProps> = ({
         pos="relative"
         tileId={"tile10"}
         optionHovered={optionHovered === "tile10"}
-        inMemorySettings={inMemorySettings}
         uvData={uvData}
       ></Tile>
       <Tile
@@ -125,7 +114,6 @@ export const TileGrid: React.FC<TileGridProps> = ({
         rowSpan={2}
         tileId={"tile8"}
         optionHovered={optionHovered === "tile8"}
-        inMemorySettings={inMemorySettings}
         uvData={uvData}
       ></Tile>
       <Tile
@@ -133,7 +121,6 @@ export const TileGrid: React.FC<TileGridProps> = ({
         rowSpan={2}
         tileId={"tile11"}
         optionHovered={optionHovered === "tile11"}
-        inMemorySettings={inMemorySettings}
         uvData={uvData}
       ></Tile>
     </Grid>

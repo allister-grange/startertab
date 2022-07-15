@@ -1,26 +1,20 @@
 import TileContainer from "@/components/grid/TileContainer";
+import { SettingsContext } from "@/context/UserSettingsContext";
 import { getCurrentTheme } from "@/helpers/settingsHelpers";
 import styles from "@/styles/Home.module.css";
-import {
-  HackerNewsLinkHolder,
-  TileId,
-  UserSettings,
-  UvGraphData,
-} from "@/types";
+import { TileId, UserSettingsContextInterface, UvGraphData } from "@/types";
 import { GridItem, GridItemProps, useColorMode } from "@chakra-ui/react";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 
 interface TileProps extends GridItemProps {
   optionHovered: boolean;
   tileId: TileId;
   uvData: UvGraphData[];
-  inMemorySettings: UserSettings;
 }
 
 const Tile: React.FC<TileProps> = ({
   tileId,
   optionHovered,
-  inMemorySettings,
   uvData,
   children,
   ...props
@@ -30,6 +24,9 @@ const Tile: React.FC<TileProps> = ({
   const [border, setBorder] = useState<string | undefined>();
   const [borderRadius, setBorderRadius] = useState<string | undefined>();
   const [borderColor, setBorderColor] = useState<string | undefined>();
+  const { inMemorySettings } = useContext(
+    SettingsContext
+  ) as UserSettingsContextInterface;
   const theme = getCurrentTheme(inMemorySettings, colorMode);
 
   useEffect(() => {

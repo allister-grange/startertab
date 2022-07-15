@@ -7,7 +7,6 @@ import { getCurrentTheme } from "@/helpers/settingsHelpers";
 import { getUVData } from "@/pages/api/weather";
 import { TileId, UserSettingsContextInterface, UvGraphData } from "@/types";
 import { Box, useColorMode, useDisclosure } from "@chakra-ui/react";
-import cloneDeep from "lodash.clonedeep";
 import type { GetServerSideProps, NextPage } from "next";
 import dynamic from "next/dynamic";
 import { useContext, useEffect, useState } from "react";
@@ -26,14 +25,11 @@ const Home: NextPage<PageProps> = ({ uvData }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   // to highlight what tile you are looking to edit from the sidebar
   const [optionHovered, setOptionHovered] = useState<TileId | undefined>();
-  const { settings, setSettings } = useContext(
-    SettingsContext
-  ) as UserSettingsContextInterface;
   const [showingTutorial, setShowingTutorial] = useState(false);
   const [tutorialProgress, setTutorialProgress] = useState<number>(-1);
-  const [inMemorySettings, setInMemorySettings] = useState(() =>
-    cloneDeep(settings)
-  );
+  const { settings } = useContext(
+    SettingsContext
+  ) as UserSettingsContextInterface;
   const [showingMobileWarning, setShowingMobileWarning] = useState(false);
   const { colorMode } = useColorMode();
 
@@ -64,10 +60,6 @@ const Home: NextPage<PageProps> = ({ uvData }) => {
           onClose={onClose}
           isOpen={isOpen}
           setOptionHovered={setOptionHovered}
-          settings={settings}
-          inMemorySettings={inMemorySettings}
-          setSettings={setSettings}
-          setInMemorySettings={setInMemorySettings}
           setTutorialProgress={setTutorialProgress}
           tutorialProgress={tutorialProgress}
         />
@@ -83,7 +75,6 @@ const Home: NextPage<PageProps> = ({ uvData }) => {
             <TileGrid
               tutorialProgress={tutorialProgress}
               optionHovered={optionHovered}
-              inMemorySettings={inMemorySettings}
               uvData={uvData}
               gridGap={gridGap}
             />

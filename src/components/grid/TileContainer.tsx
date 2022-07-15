@@ -32,6 +32,7 @@ interface TileContainerProps {
   bonsaiBaseColor?: string;
   bonsaiTrunkColor?: string;
   tempDisplayInCelsius?: string;
+  hackerNewsFeed?: string;
 }
 
 const TileContainer: React.FC<TileContainerProps> = ({
@@ -44,6 +45,7 @@ const TileContainer: React.FC<TileContainerProps> = ({
   todoList,
   bonsaiBaseColor,
   bonsaiTrunkColor,
+  hackerNewsFeed,
 }) => {
   let tileToRender;
 
@@ -52,7 +54,12 @@ const TileContainer: React.FC<TileContainerProps> = ({
       tileToRender = <RedditFeed tileId={tileId} />;
       break;
     case "Hacker News Feed":
-      tileToRender = <HackerNewsFeed tileId={tileId} />;
+      tileToRender = (
+        <HackerNewsFeed
+          tileId={tileId}
+          hackerNewsFeedFromSettings={hackerNewsFeed}
+        />
+      );
       break;
     case "Blank Tile":
       tileToRender = <Box width="100%" height="100%" />;
