@@ -47,8 +47,6 @@ export const HackerNewsFeed: React.FC<PageProps> = ({ tileId }) => {
         );
         const data = (await res.json()) as HackerNewsLinkHolder[];
 
-        console.log(data);
-
         setHackerNewsData(data);
       } catch (err) {
         console.error(err);

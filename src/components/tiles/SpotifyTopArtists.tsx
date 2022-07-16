@@ -92,11 +92,13 @@ export const SpotifyTopArtists: React.FC<SmallSpotifyTileProps> = ({
       >
         <SpotifyLogo size={18} color={color} />
       </Link>
-      <Heading size="md" pl="4">
-        Top Artists
+      <Heading p="2" fontSize="xl" fontWeight="bold">
+        Top Spotify Artists
       </Heading>
+      <Box w="80%" bg="white" height="1px" ml="2" bgColor={color} />
+
       <Flex dir="row" flexDir="column">
-        <UnorderedList mt="2" style={{ listStyle: "none" }}>
+        <UnorderedList mt="2" ml="2" style={{ listStyle: "none" }}>
           {topArtists.length > 0 ? (
             topArtists.map((artist, index) => {
               return (
