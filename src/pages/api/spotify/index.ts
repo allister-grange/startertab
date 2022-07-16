@@ -25,7 +25,12 @@ export default async function handler(
         query: { forward, pause, accessToken, refreshToken },
       } = req;
 
-      if (!accessToken || !refreshToken) {
+      if (
+        !accessToken ||
+        !refreshToken ||
+        accessToken === "undefined" ||
+        refreshToken === "undefined"
+      ) {
         return res.status(500).send("No access/refresh token provided");
       }
 

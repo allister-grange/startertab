@@ -20,7 +20,12 @@ export default async function handler(
         query: { accessToken, refreshToken, timeRange },
       } = req;
 
-      if (!accessToken || !refreshToken) {
+      if (
+        !accessToken ||
+        !refreshToken ||
+        accessToken === "undefined" ||
+        refreshToken === "undefined"
+      ) {
         return res.status(500).send("No access/refresh token provided");
       }
 
@@ -80,7 +85,11 @@ export const getSpotifyTopArtists = async (
     console.log("Refreshing old access token", accessToken);
     const newAccessToken = await getAccessToken(refreshToken);
     console.log("New access token grabbed", newAccessToken);
-    const data = await getSpotifyTopArtists(newAccessToken, refreshToken, timeRange);
+    const data = await getSpotifyTopArtists(
+      newAccessToken,
+      refreshToken,
+      timeRange
+    );
     return { ...data, accessToken: newAccessToken };
   }
 
