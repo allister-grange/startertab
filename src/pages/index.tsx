@@ -3,7 +3,7 @@ import { Tutorial } from "@/components/tutorial/Tutorial";
 import { MobileWarning } from "@/components/ui/MobileWarning";
 import { SettingsToggle } from "@/components/ui/SettingsToggle";
 import { SettingsContext } from "@/context/UserSettingsContext";
-import { getCurrentTheme } from "@/helpers/settingsHelpers";
+import { applyTheme, getCurrentTheme } from "@/helpers/settingsHelpers";
 import { getUVData } from "@/pages/api/weather";
 import { TileId, UserSettingsContextInterface, UvGraphData } from "@/types";
 import { Box, useColorMode, useDisclosure } from "@chakra-ui/react";
@@ -27,7 +27,7 @@ const Home: NextPage<PageProps> = ({ uvData }) => {
   const [optionHovered, setOptionHovered] = useState<TileId | undefined>();
   const [showingTutorial, setShowingTutorial] = useState(false);
   const [tutorialProgress, setTutorialProgress] = useState<number>(-1);
-  const { settings } = useContext(
+  const { inMemorySettings, settings } = useContext(
     SettingsContext
   ) as UserSettingsContextInterface;
   const [showingMobileWarning, setShowingMobileWarning] = useState(false);
@@ -46,6 +46,11 @@ const Home: NextPage<PageProps> = ({ uvData }) => {
     }
   }, []);
 
+  useEffect(() => {
+    const themeToChange = getCurrentTheme(inMemorySettings, colorMode);
+    applyTheme(themeToChange);
+  }, [inMemorySettings, colorMode]);
+
   const currentTheme = getCurrentTheme(settings, colorMode);
   const gridGap = currentTheme.globalSettings.gridGap;
   const settingsToggleColor = currentTheme.globalSettings.textColor;
@@ -56,13 +61,15 @@ const Home: NextPage<PageProps> = ({ uvData }) => {
   } else {
     toDisplay = (
       <Box h="100vh" display="flex" alignItems="center">
-        <SettingsSideBar
-          onClose={onClose}
-          isOpen={isOpen}
-          setOptionHovered={setOptionHovered}
-          setTutorialProgress={setTutorialProgress}
-          tutorialProgress={tutorialProgress}
-        />
+        {isOpen && (
+          <SettingsSideBar
+            onClose={onClose}
+            isOpen={isOpen}
+            setOptionHovered={setOptionHovered}
+            setTutorialProgress={setTutorialProgress}
+            tutorialProgress={tutorialProgress}
+          />
+        )}
         <NoSSR>
           <>
             {showingTutorial ? (

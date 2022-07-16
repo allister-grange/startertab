@@ -43,27 +43,14 @@ interface SettingsSideBarProps {
   tutorialProgress: number;
 }
 
-const openStyle = {
-  opacity: 1,
-  minWidth: "320px",
-  transform: "translateX(0px)",
-};
-
-const closedStyle = {
-  opacity: 0,
-  minWidth: 0,
-  transform: "translateX(-320px)",
-  width: 0,
-};
-
 const randomHexValue = (): string => {
   let n = (Math.random() * 0xfffff * 1000000).toString(16);
   return "#" + n.slice(0, 6);
 };
 
 const SettingsSideBar: React.FC<SettingsSideBarProps> = ({
-  isOpen,
   onClose,
+  isOpen,
   setOptionHovered,
   setTutorialProgress,
   tutorialProgress,
@@ -75,20 +62,20 @@ const SettingsSideBar: React.FC<SettingsSideBarProps> = ({
 
   const [accordionIndex, setAccordionIndex] = useState<ExpandedIndex>([]);
 
+  // used to animate the width of the sidebar
+  const [width, setWidth] = useState("0px");
+
+  React.useEffect(() => {
+    if (isOpen) {
+      setWidth("320px");
+    }
+  }, [isOpen]);
+
   const currentThemeSettings = React.useMemo(
     () =>
       inMemorySettings.themes.find((theme) => theme.themeName === colorMode),
     [colorMode, inMemorySettings.themes]
   );
-
-  useEffect(() => {
-    const themeToChange = getCurrentTheme(inMemorySettings, colorMode);
-
-    // for the tutorial, if we change the theme we want to progress the tutorial
-    setTutorialProgress((prevState) => (prevState === 2 ? 3 : prevState));
-
-    applyTheme(themeToChange);
-  }, [inMemorySettings, colorMode, setTutorialProgress]);
 
   // will change the appearance of the site, but not what's stored in localStorage
   const changeSetting = useCallback(
@@ -113,7 +100,9 @@ const SettingsSideBar: React.FC<SettingsSideBarProps> = ({
 
   // reset the background, colors etc back to what is in the userSettings before changes
   const onExitHandler = () => {
-    onClose();
+    // close the sidebar
+    setWidth("0px");
+    setTimeout(onClose, 500);
     // reset settings
     setInMemorySettings(cloneDeep(settings));
     setOptionHovered(undefined);
@@ -186,14 +175,13 @@ const SettingsSideBar: React.FC<SettingsSideBarProps> = ({
 
   return (
     <Box
-      minWidth={300}
-      width={300}
+      minWidth={width}
+      width={width}
       height="100%"
       transition={"all 0.4s ease-in-out"}
       zIndex="10"
       bg={backgroundColor}
       overflowY="auto"
-      style={isOpen ? openStyle : closedStyle}
       className={styles.disableScrollbars}
     >
       <SideBarTitle
@@ -206,6 +194,7 @@ const SettingsSideBar: React.FC<SettingsSideBarProps> = ({
       <Box p="3">
         <ThemeToChangeSelector
           textColor={textColor}
+          setTutorialProgress={setTutorialProgress}
           themes={getThemeNames(settings)}
         />
         <Box mb="4">

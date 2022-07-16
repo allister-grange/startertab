@@ -1,25 +1,22 @@
-import React from "react";
-import {
-  Box,
-  Flex,
-  Select,
-  Switch,
-  Text,
-  useColorMode,
-} from "@chakra-ui/react";
+import { Flex, Select, Text, useColorMode } from "@chakra-ui/react";
+import React, { Dispatch, SetStateAction } from "react";
 
 interface ThemeToChangeSelectorProps {
   themes: string[];
   textColor: string;
+  setTutorialProgress: Dispatch<SetStateAction<number>>;
 }
 
 export const ThemeToChangeSelector: React.FC<ThemeToChangeSelectorProps> = ({
   themes,
   textColor,
+  setTutorialProgress,
 }) => {
   const { colorMode, setColorMode } = useColorMode();
 
   const onThemeSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    // for the tutorial, if we change the theme we want to progress the tutorial
+    setTutorialProgress((prevState) => (prevState === 2 ? 3 : prevState));
     setColorMode(e.target.value);
   };
 
