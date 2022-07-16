@@ -8,12 +8,10 @@ import {
 } from "@/types";
 import {
   Box,
-  Center,
   Heading,
   Input,
   Link,
   Skeleton,
-  Spinner,
   Text,
   useColorMode,
 } from "@chakra-ui/react";
@@ -30,6 +28,7 @@ type Status =
   | "reload"
   | "waitingForInput"
   | "rejected";
+
 type State = {
   status: Status;
   data?: RedditDataHolder[];

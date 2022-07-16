@@ -38,7 +38,7 @@ export const GenericSelect: React.FC<GenericSelectProps> = ({
           style={{ cursor: "pointer" }}
           onClick={() => resetOptionToDefault(option)}
         >
-          .&nbsp;Reset to default.
+          &nbsp;Reset to default.
         </span>
       </Text>
       <Box display="flex" flexDir="column" mt="1">
