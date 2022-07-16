@@ -86,6 +86,13 @@ export const sideBarOptions: Option[] = [
     tileId: "tile1",
   },
   {
+    title: "Spotify Top Artists Time Length",
+    subTitle: "How long back do you want to search over?",
+    localStorageId: "spotifyArtistSearchTimeLength",
+    optionType: "SpotifyTopArtistsTimeLength",
+    tileId: "tile1",
+  },
+  {
     title: "Type of tile",
     subTitle: "Choose what you want this tile to display",
     localStorageId: "tileType",
@@ -170,6 +177,13 @@ export const sideBarOptions: Option[] = [
     tileId: "tile3",
   },
   {
+    title: "Spotify Top Artists Time Length",
+    subTitle: "How long back do you want to search over?",
+    localStorageId: "spotifyArtistSearchTimeLength",
+    optionType: "SpotifyTopArtistsTimeLength",
+    tileId: "tile3",
+  },
+  {
     title: "Type of tile",
     subTitle: "Choose what you want this tile to display",
     localStorageId: "tileType",
@@ -219,6 +233,13 @@ export const sideBarOptions: Option[] = [
     tileId: "tile4",
   },
   {
+    title: "Spotify Top Artists Time Length",
+    subTitle: "How long back do you want to search over?",
+    localStorageId: "spotifyArtistSearchTimeLength",
+    optionType: "SpotifyTopArtistsTimeLength",
+    tileId: "tile4",
+  },
+  {
     title: "Type of tile",
     subTitle: "Choose what you want this tile to display",
     localStorageId: "tileType",
@@ -279,6 +300,13 @@ export const sideBarOptions: Option[] = [
     subTitle: "What type of feed do you want to see from Hacker News?",
     localStorageId: "hackerNewsFeedType",
     optionType: "HackerNewsFeedType",
+    tileId: "tile6",
+  },
+  {
+    title: "Spotify Top Artists Time Length",
+    subTitle: "How long back do you want to search over?",
+    localStorageId: "spotifyArtistSearchTimeLength",
+    optionType: "SpotifyTopArtistsTimeLength",
     tileId: "tile6",
   },
   {

@@ -54,12 +54,7 @@ const TileContainer: React.FC<TileContainerProps> = ({
       tileToRender = <RedditFeed tileId={tileId} />;
       break;
     case "Hacker News Feed":
-      tileToRender = (
-        <HackerNewsFeed
-          tileId={tileId}
-          hackerNewsFeedFromSettings={hackerNewsFeed}
-        />
-      );
+      tileToRender = <HackerNewsFeed tileId={tileId} />;
       break;
     case "Blank Tile":
       tileToRender = <Box width="100%" height="100%" />;

@@ -172,6 +172,27 @@ export const SettingOptionContainer: React.FC<SettingOptionContainerProps> = ({
         );
       }
       break;
+    case "SpotifyTopArtistsTimeLength":
+      if (tileType === "Spotify Top Artist Tile") {
+        optionToDisplay = (
+          <GenericSelect
+            option={option}
+            changeSetting={changeSetting}
+            textColor={textColor}
+            subTextColor={subTextColor}
+            value={value}
+            resetOptionToDefault={resetOptionToDefault}
+            options={
+              <>
+                <option value="short_term">Short Term</option>
+                <option value="medium_term">Medium Term</option>
+                <option value="long_term">Long Term</option>
+              </>
+            }
+          />
+        );
+      }
+      break;
     case "SmallStockInput":
       if (tileType === "Small Stock Tile") {
         optionToDisplay = (

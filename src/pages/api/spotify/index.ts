@@ -25,6 +25,10 @@ export default async function handler(
         query: { forward, pause, accessToken, refreshToken },
       } = req;
 
+      if (!accessToken || !refreshToken) {
+        return res.status(500).send("No access/refresh token provided");
+      }
+
       if (forward !== undefined) {
         const forwardBool = forward === "true" ? true : false;
         await changeSongSpotify(

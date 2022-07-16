@@ -22,6 +22,7 @@ export type OptionType =
   | "LargeStockTile"
   | "CityInputForWeather"
   | "HackerNewsFeedType"
+  | "SpotifyTopArtistsTimeLength"
   | "CityInputForUV";
 
 export type TileType =
@@ -67,6 +68,7 @@ export type TileSettings = {
   gridGap?: string;
   tempDisplayInCelsius?: string;
   hackerNewsFeedType?: string;
+  spotifyArtistSearchTimeLength?: string;
 };
 
 export type ThemeSettings = {

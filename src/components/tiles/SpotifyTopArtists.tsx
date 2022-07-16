@@ -1,7 +1,13 @@
 import { OptionBadge } from "@/components/ui/OptionBadge";
 import { SpotifyLogo } from "@/components/ui/SpotifyLogo";
 import { SpotifyContext } from "@/context/SpotifyContext";
-import { SpotifyContextInterface, TileId } from "@/types";
+import { SettingsContext } from "@/context/UserSettingsContext";
+import { getCurrentTheme } from "@/helpers/settingsHelpers";
+import {
+  SpotifyContextInterface,
+  TileId,
+  UserSettingsContextInterface,
+} from "@/types";
 import {
   Box,
   Button,
@@ -12,7 +18,9 @@ import {
   ListItem,
   Spinner,
   UnorderedList,
+  useColorMode,
 } from "@chakra-ui/react";
+import { clone } from "lodash";
 import React, { useContext } from "react";
 
 type SmallSpotifyTileProps = {
@@ -22,8 +30,31 @@ type SmallSpotifyTileProps = {
 export const SpotifyTopArtists: React.FC<SmallSpotifyTileProps> = ({
   tileId,
 }) => {
+  const { inMemorySettings, setSettings } = useContext(
+    SettingsContext
+  ) as UserSettingsContextInterface;
+  const { colorMode } = useColorMode();
+  const theme = getCurrentTheme(inMemorySettings, colorMode);
+  const spotifyTimeLengthFromSettings =
+    theme[tileId].spotifyArtistSearchTimeLength;
+
   const { topArtists, isAuthenticated, loginWithSpotify, fetchTopArtistData } =
     useContext(SpotifyContext) as SpotifyContextInterface;
+
+  React.useEffect(() => {
+    if (!spotifyTimeLengthFromSettings) {
+      return;
+    }
+
+    fetchTopArtistData(spotifyTimeLengthFromSettings);
+  }, [fetchTopArtistData, spotifyTimeLengthFromSettings]);
+
+  const changeSpotifyTimeLength = (timeLength: string) => {
+    const settingsClone = clone(inMemorySettings);
+    const themeCopy = getCurrentTheme(settingsClone, colorMode);
+    themeCopy[tileId].spotifyArtistSearchTimeLength = timeLength;
+    setSettings(settingsClone);
+  };
 
   const color = `var(--text-color-${tileId})`;
 
@@ -83,14 +114,14 @@ export const SpotifyTopArtists: React.FC<SmallSpotifyTileProps> = ({
         {topArtists.length > 0 && (
           <Box width="100%" mt="2" mb="4" textAlign="center">
             <OptionBadge
-              onClick={() => fetchTopArtistData("short_term")}
+              onClick={() => changeSpotifyTimeLength("short_term")}
               color={color}
             >
               Short term
             </OptionBadge>
             <Box mt="2">
               <OptionBadge
-                onClick={() => fetchTopArtistData("medium_term")}
+                onClick={() => changeSpotifyTimeLength("medium_term")}
                 color={color}
                 mr="1"
               >
@@ -98,7 +129,7 @@ export const SpotifyTopArtists: React.FC<SmallSpotifyTileProps> = ({
               </OptionBadge>
               <OptionBadge
                 ml="1"
-                onClick={() => fetchTopArtistData("long_term")}
+                onClick={() => changeSpotifyTimeLength("long_term")}
                 color={color}
               >
                 Long Term
