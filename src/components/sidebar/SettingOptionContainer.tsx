@@ -151,6 +151,27 @@ export const SettingOptionContainer: React.FC<SettingOptionContainerProps> = ({
         );
       }
       break;
+    case "HackerNewsFeedType":
+      if (tileType === "Hacker News Feed") {
+        optionToDisplay = (
+          <GenericSelect
+            option={option}
+            changeSetting={changeSetting}
+            textColor={textColor}
+            subTextColor={subTextColor}
+            value={value}
+            resetOptionToDefault={resetOptionToDefault}
+            options={
+              <>
+                <option value="Top">Top Stories</option>
+                <option value="Show">Show Stories</option>
+                <option value="Ask">Ask Stories</option>
+              </>
+            }
+          />
+        );
+      }
+      break;
     case "SmallStockInput":
       if (tileType === "Small Stock Tile") {
         optionToDisplay = (

@@ -1,8 +1,11 @@
 import { OptionBadge } from "@/components/ui/OptionBadge";
-import { TileId } from "@/types";
+import { SettingsContext } from "@/context/UserSettingsContext";
+import { getCurrentTheme } from "@/helpers/settingsHelpers";
+import { TileId, UserSettingsContextInterface } from "@/types";
 import { HackerNewsLinkHolder } from "@/types/hackernews";
-import { Box, Heading, Link, Skeleton } from "@chakra-ui/react";
-import React, { useEffect, useState } from "react";
+import { Box, Heading, Link, Skeleton, useColorMode } from "@chakra-ui/react";
+import { clone } from "lodash";
+import React, { useContext, useEffect, useState } from "react";
 
 type PageProps = {
   tileId: TileId;
@@ -11,20 +14,40 @@ type PageProps = {
 type HackerNewsFeed = "Ask" | "Top" | "Show";
 
 export const HackerNewsFeed: React.FC<PageProps> = ({ tileId }) => {
+  const { inMemorySettings, setSettings } = useContext(
+    SettingsContext
+  ) as UserSettingsContextInterface;
+  const { colorMode } = useColorMode();
+  const theme = getCurrentTheme(inMemorySettings, colorMode);
+  const hackerNewsFeedFromSettings = theme[tileId].hackerNewsFeedType;
+
   const [hackerNewsData, setHackerNewsData] = useState<
     HackerNewsLinkHolder[] | undefined
   >();
-  const [hackerNewsFeed, setHackNewsFeed] = useState<HackerNewsFeed>("Ask");
+
+  const [hackerNewsFeed, setHackerNewsFeed] = useState<HackerNewsFeed>(
+    (hackerNewsFeedFromSettings as HackerNewsFeed) || "Top"
+  );
   const color = `var(--text-color-${tileId})`;
   const underlineColor = color;
 
   useEffect(() => {
+    // the settings from the sidebar override the local state
+    if (
+      hackerNewsFeed != hackerNewsFeedFromSettings &&
+      hackerNewsFeedFromSettings
+    ) {
+      setHackerNewsFeed(hackerNewsFeedFromSettings as HackerNewsFeed);
+    }
+
     const fetchHackerNewsData = async () => {
       try {
         const res = await fetch(
           `/api/hackerNews?hackerNewsFeed=${hackerNewsFeed}`
         );
         const data = (await res.json()) as HackerNewsLinkHolder[];
+
+        console.log(data);
 
         setHackerNewsData(data);
       } catch (err) {
@@ -33,7 +56,15 @@ export const HackerNewsFeed: React.FC<PageProps> = ({ tileId }) => {
     };
 
     fetchHackerNewsData();
-  }, [hackerNewsFeed]);
+  }, [hackerNewsFeed, hackerNewsFeedFromSettings]);
+
+  const changeFeedType = (feed: HackerNewsFeed) => {
+    setHackerNewsFeed(feed);
+    const settingsClone = clone(inMemorySettings);
+    const themeCopy = getCurrentTheme(settingsClone, colorMode);
+    themeCopy[tileId].hackerNewsFeedType = feed;
+    setSettings(settingsClone);
+  };
 
   return (
     <Box p="2" color={color} position="relative">
@@ -53,11 +84,11 @@ export const HackerNewsFeed: React.FC<PageProps> = ({ tileId }) => {
             </Box>
           ))}
           <Box width="100%" mt="2" mb="4" textAlign="center">
-            <OptionBadge onClick={() => setHackNewsFeed("Top")} color={color}>
+            <OptionBadge onClick={() => changeFeedType("Top")} color={color}>
               Top Stories
             </OptionBadge>
             <OptionBadge
-              onClick={() => setHackNewsFeed("Show")}
+              onClick={() => changeFeedType("Show")}
               color={color}
               ml="2"
               mr="2"
@@ -65,7 +96,7 @@ export const HackerNewsFeed: React.FC<PageProps> = ({ tileId }) => {
               Show Stories
             </OptionBadge>
             <OptionBadge
-              onClick={() => setHackNewsFeed("Ask")}
+              onClick={() => changeFeedType("Ask")}
               color={color}
               mt="2"
             >

@@ -21,6 +21,7 @@ export type OptionType =
   | "GridGapInput"
   | "LargeStockTile"
   | "CityInputForWeather"
+  | "HackerNewsFeedType"
   | "CityInputForUV";
 
 export type TileType =
@@ -42,8 +43,6 @@ export type TileType =
   | "Spotify Top Artist Tile"
   | "Blank Tile"
   | "None";
-
-// export type Themes = "dark" | "light";
 
 export type TileSettings = {
   subReddit?: string;
@@ -67,6 +66,7 @@ export type TileSettings = {
   borderColor?: string;
   gridGap?: string;
   tempDisplayInCelsius?: string;
+  hackerNewsFeedType?: string;
 };
 
 export type ThemeSettings = {

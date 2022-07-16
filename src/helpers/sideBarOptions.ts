@@ -10,14 +10,14 @@ export const sideBarOptions: Option[] = [
   },
   {
     title: "Drop shadow",
-    subTitle: "Controls the drop shadow of all the tiles",
+    subTitle: "Controls the drop shadow of all the tiles.",
     localStorageId: "dropShadow",
     optionType: "DropShadowInput",
     tileId: "globalSettings",
   },
   {
     title: "Border",
-    subTitle: "Controls the border of all the tiles",
+    subTitle: "Controls the border of all the tiles.",
     localStorageId: "tileBorder",
     optionType: "BorderSelect",
     tileId: "globalSettings",
@@ -79,6 +79,13 @@ export const sideBarOptions: Option[] = [
     tileId: "tile1",
   },
   {
+    title: "Hacker News Feed Type",
+    subTitle: "What type of feed do you want to see from Hacker News?",
+    localStorageId: "hackerNewsFeedType",
+    optionType: "HackerNewsFeedType",
+    tileId: "tile1",
+  },
+  {
     title: "Type of tile",
     subTitle: "Choose what you want this tile to display",
     localStorageId: "tileType",
@@ -89,7 +96,6 @@ export const sideBarOptions: Option[] = [
     title: "Background color",
     subTitle: "Background color of the tile",
     localStorageId: "backgroundColor",
-
     optionType: "ColorPicker",
     tileId: "tile2",
   },
@@ -157,6 +163,13 @@ export const sideBarOptions: Option[] = [
     tileId: "tile3",
   },
   {
+    title: "Hacker News Feed Type",
+    subTitle: "What type of feed do you want to see from Hacker News?",
+    localStorageId: "hackerNewsFeedType",
+    optionType: "HackerNewsFeedType",
+    tileId: "tile3",
+  },
+  {
     title: "Type of tile",
     subTitle: "Choose what you want this tile to display",
     localStorageId: "tileType",
@@ -199,6 +212,13 @@ export const sideBarOptions: Option[] = [
     tileId: "tile4",
   },
   {
+    title: "Hacker News Feed Type",
+    subTitle: "What type of feed do you want to see from Hacker News?",
+    localStorageId: "hackerNewsFeedType",
+    optionType: "HackerNewsFeedType",
+    tileId: "tile4",
+  },
+  {
     title: "Type of tile",
     subTitle: "Choose what you want this tile to display",
     localStorageId: "tileType",
@@ -252,6 +272,13 @@ export const sideBarOptions: Option[] = [
     subTitle: "Subreddit you want to see the posts from",
     localStorageId: "subReddit",
     optionType: "SubRedditPicker",
+    tileId: "tile6",
+  },
+  {
+    title: "Hacker News Feed Type",
+    subTitle: "What type of feed do you want to see from Hacker News?",
+    localStorageId: "hackerNewsFeedType",
+    optionType: "HackerNewsFeedType",
     tileId: "tile6",
   },
   {

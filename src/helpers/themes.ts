@@ -20,6 +20,7 @@ export const defaultSettings: UserSettings = {
         backgroundColor: "#65abc1",
         textColor: "#222222",
         tileType: "Hacker News Feed",
+        hackerNewsFeedType: "Top",
       },
       tile2: {
         backgroundColor: "#E89C4B",
@@ -90,6 +91,7 @@ export const defaultSettings: UserSettings = {
         backgroundColor: "#65abc1",
         textColor: "#ffffff",
         tileType: "Hacker News Feed",
+        hackerNewsFeedType: "Top",
       },
       tile2: {
         backgroundColor: "#E89C4B",
@@ -160,6 +162,7 @@ export const defaultSettings: UserSettings = {
         backgroundColor: "#ffffff",
         textColor: "#222222",
         tileType: "Hacker News Feed",
+        hackerNewsFeedType: "Top",
       },
       tile2: {
         backgroundColor: "#ffffff",
@@ -231,6 +234,7 @@ export const defaultSettings: UserSettings = {
         backgroundColor: "#222222",
         textColor: "#E0E0E0",
         tileType: "Hacker News Feed",
+        hackerNewsFeedType: "Top",
       },
       tile2: {
         backgroundColor: "#222222",
@@ -302,6 +306,7 @@ export const defaultSettings: UserSettings = {
         backgroundColor: "rgba(255, 255, 255, 0.2)",
         textColor: "#222222",
         tileType: "Hacker News Feed",
+        hackerNewsFeedType: "Top",
       },
       tile2: {
         backgroundColor: "rgba(255, 255, 255, 0.2)",
@@ -375,6 +380,7 @@ export const defaultSettings: UserSettings = {
         backgroundColor: "rgba(255, 255, 255, 0.2)",
         textColor: "#222222",
         tileType: "Hacker News Feed",
+        hackerNewsFeedType: "Top",
       },
       tile2: {
         backgroundColor: "rgba(255, 255, 255, 0.2)",
@@ -446,6 +452,7 @@ export const defaultSettings: UserSettings = {
         backgroundColor: "rgba(255, 255, 255, 0.2)",
         textColor: "#222222",
         tileType: "Hacker News Feed",
+        hackerNewsFeedType: "Top",
       },
       tile2: {
         backgroundColor: "rgba(255, 255, 255, 0.2)",
@@ -516,6 +523,7 @@ export const defaultSettings: UserSettings = {
         backgroundColor: "#81F8FF",
         textColor: "#222222",
         tileType: "Hacker News Feed",
+        hackerNewsFeedType: "Top",
       },
       tile2: {
         backgroundColor: "rgba(255, 255, 255, 0.2)",

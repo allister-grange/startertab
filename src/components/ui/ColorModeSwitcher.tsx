@@ -29,14 +29,14 @@ const ColorModeSwitcher: React.FC = () => {
       <Flex mb="2">
         <ThemePickerBubble
           bg="linear-gradient(90deg, white 50%, #E89B4B 50%);"
-          onClick={() => setColorMode("light")}
+          onClick={() => setColorMode("colored light")}
         />
         <ThemePickerBubble
           bg="linear-gradient(90deg, black 50%, #E89B4B 50%);"
-          onClick={() => setColorMode("darker")}
+          onClick={() => setColorMode("colored dark")}
         />
-        <ThemePickerBubble bg="white" onClick={() => setColorMode("white")} />
-        <ThemePickerBubble bg="black" onClick={() => setColorMode("black")} />
+        <ThemePickerBubble bg="white" onClick={() => setColorMode("light")} />
+        <ThemePickerBubble bg="black" onClick={() => setColorMode("dark")} />
       </Flex>
       <Flex mt="2">
         <ThemePickerBubble

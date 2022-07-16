@@ -41,23 +41,24 @@ export const getHackerNewsData = async (hackerNewsFeed: string) => {
 
   try {
     const takenAsks = 25;
-    const topAsksRes = await fetch(hackerNewsUrl);
-    const topAsks = (await topAsksRes.json()) as number[];
-    const topAskTruncated = topAsks.slice(0, takenAsks);
-    const askLinks: HackerNewsLinkHolder[] = [];
+
+    const topPostsRes = await fetch(hackerNewsUrl);
+    const topPosts = (await topPostsRes.json()) as number[];
+    const topPostsTruncated = topPosts.slice(0, takenAsks);
+    const postLinks: HackerNewsLinkHolder[] = [];
 
     await Promise.all(
-      topAskTruncated.map(async (askId) => {
-        const askDetailRes = await fetch(`${hackerNewsItemUrl}${askId}.json`);
-        const askDetail = (await askDetailRes.json()) as HackerNewsApiItem;
-        askLinks.push({
-          title: askDetail.title,
-          url: `https://news.ycombinator.com/item?id=${askDetail.id}`,
+      topPostsTruncated.map(async (askId) => {
+        const postDetailRes = await fetch(`${hackerNewsItemUrl}${askId}.json`);
+        const postDetail = (await postDetailRes.json()) as HackerNewsApiItem;
+        postLinks.push({
+          title: postDetail.title,
+          url: `https://news.ycombinator.com/item?id=${postDetail.id}`,
         });
       })
     );
 
-    return askLinks;
+    return postLinks;
   } catch (err) {
     throw new Error(err as string);
   }
