@@ -1,9 +1,9 @@
 import SettingOptionContainer from "@/components/sidebar/SettingOptionContainer";
+import { SidebarFooter } from "@/components/sidebar/SidebarFooter";
 import { SideBarTitle } from "@/components/sidebar/SideBarTitle";
 import { ThemeToChangeSelector } from "@/components/sidebar/ThemeToChangeSelector";
 import { SettingsContext } from "@/context/UserSettingsContext";
 import {
-  applyTheme,
   getCurrentTheme,
   getDefaultSettingForOption,
   getThemeNames,
@@ -30,7 +30,6 @@ import React, {
   SetStateAction,
   useCallback,
   useContext,
-  useEffect,
   useState,
 } from "react";
 import NoSSR from "react-no-ssr";
@@ -183,6 +182,8 @@ const SettingsSideBar: React.FC<SettingsSideBarProps> = ({
       bg={backgroundColor}
       overflowY="auto"
       className={styles.disableScrollbars}
+      display="flex"
+      flexDirection="column"
     >
       <SideBarTitle
         textColor={textColor}
@@ -279,6 +280,7 @@ const SettingsSideBar: React.FC<SettingsSideBarProps> = ({
           </NoSSR>
         </Accordion>
       </Box>
+      <SidebarFooter borderColor={borderColor} textColor={textColor} />
     </Box>
   );
 };

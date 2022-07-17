@@ -60,7 +60,14 @@ const Home: NextPage<PageProps> = ({ uvData }) => {
     toDisplay = <MobileWarning />;
   } else {
     toDisplay = (
-      <Box h="100vh" display="flex" alignItems="center">
+      <Box
+        height="100vh"
+        width="100%"
+        position="fixed"
+        display="flex"
+        alignItems="center"
+        overflowX="scroll"
+      >
         {isOpen && (
           <SettingsSideBar
             onClose={onClose}
