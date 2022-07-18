@@ -27,9 +27,10 @@ const Tile: React.FC<TileProps> = ({
   const { inMemorySettings } = useContext(
     SettingsContext
   ) as UserSettingsContextInterface;
+
   const theme = getCurrentTheme(inMemorySettings, colorMode);
 
-  useEffect(() => {
+  React.useLayoutEffect(() => {
     setShadow(theme.globalSettings.dropShadow);
     setBorder(theme.globalSettings.tileBorder);
     setBorderRadius(theme.globalSettings.borderRadius);
@@ -37,10 +38,10 @@ const Tile: React.FC<TileProps> = ({
   }, [
     colorMode,
     inMemorySettings,
+    theme.globalSettings.borderColor,
     theme.globalSettings.borderRadius,
     theme.globalSettings.dropShadow,
     theme.globalSettings.tileBorder,
-    theme.globalSettings.borderColor,
   ]);
 
   return (
