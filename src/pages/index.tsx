@@ -66,7 +66,7 @@ const Home: NextPage<PageProps> = ({ uvData }) => {
         position="fixed"
         display="flex"
         alignItems="center"
-        overflowX="scroll"
+        overflow="auto"
       >
         {isOpen && (
           <SettingsSideBar

@@ -153,7 +153,7 @@ export const getUVData = async (city: string): Promise<UvGraphData[]> => {
     });
 
     if (weatherRes.status !== 200) {
-      throw new Error("Bad request to niwa");
+      throw new Error("Error on request to weather API");
     }
 
     const data = (await weatherRes.json()) as WeatherResponse;
