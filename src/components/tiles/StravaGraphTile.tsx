@@ -29,6 +29,9 @@ const StravaGraphTile: React.FC<PageProps> = ({ tileId }) => {
   >();
   const color = `var(--text-color-${tileId})`;
 
+  const doesWeekHaveAnActivityInIt = (weeksActivities: StravaGraphPoint[]) =>
+    weeksActivities.some((activity) => activity.distance > 0);
+
   if (isAuthenticated === false) {
     return (
       <Center height="100%">
@@ -132,42 +135,48 @@ const StravaGraphTile: React.FC<PageProps> = ({ tileId }) => {
               )}
               {activityShowing === undefined && (
                 <>
-                  <Bar dataKey="run" barSize={35}>
-                    {stravaData.running.map(
-                      (entry: StravaGraphPoint, index: number) => (
-                        <Cell
-                          key={`cell-${index}`}
-                          stroke={color}
-                          strokeWidth={1}
-                          fill={"rgba(32,147,0,0.2)"}
-                        />
-                      )
-                    )}
-                  </Bar>
-                  <Bar dataKey="swim" barSize={35}>
-                    {stravaData.swimming.map(
-                      (entry: StravaGraphPoint, index: number) => (
-                        <Cell
-                          key={`cell-${index}`}
-                          stroke={"#0654A4"}
-                          strokeWidth={1}
-                          fill={"rgba(6, 84, 164, 0.2)"}
-                        />
-                      )
-                    )}
-                  </Bar>
-                  <Bar dataKey="ride" barSize={35}>
-                    {stravaData.riding.map(
-                      (entry: StravaGraphPoint, index: number) => (
-                        <Cell
-                          key={`cell-${index}`}
-                          stroke={"coral"}
-                          strokeWidth={1}
-                          fill={"rgba(255, 133, 1, 0.2"}
-                        />
-                      )
-                    )}
-                  </Bar>
+                  {doesWeekHaveAnActivityInIt(stravaData.running) && (
+                    <Bar dataKey="run" barSize={35}>
+                      {stravaData.running.map(
+                        (entry: StravaGraphPoint, index: number) => (
+                          <Cell
+                            key={`cell-${index}`}
+                            stroke={color}
+                            strokeWidth={1}
+                            fill={"rgba(32,147,0,0.2)"}
+                          />
+                        )
+                      )}
+                    </Bar>
+                  )}
+                  {doesWeekHaveAnActivityInIt(stravaData.swimming) && (
+                    <Bar dataKey="swim" barSize={35}>
+                      {stravaData.swimming.map(
+                        (entry: StravaGraphPoint, index: number) => (
+                          <Cell
+                            key={`cell-${index}`}
+                            stroke={"#0654A4"}
+                            strokeWidth={1}
+                            fill={"rgba(6, 84, 164, 0.2)"}
+                          />
+                        )
+                      )}
+                    </Bar>
+                  )}
+                  {doesWeekHaveAnActivityInIt(stravaData.riding) && (
+                    <Bar dataKey="ride" barSize={35}>
+                      {stravaData.riding.map(
+                        (entry: StravaGraphPoint, index: number) => (
+                          <Cell
+                            key={`cell-${index}`}
+                            stroke={"coral"}
+                            strokeWidth={1}
+                            fill={"rgba(255, 133, 1, 0.2"}
+                          />
+                        )
+                      )}
+                    </Bar>
+                  )}
                 </>
               )}
             </BarChart>
