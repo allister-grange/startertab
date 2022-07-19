@@ -280,7 +280,7 @@ const SettingsSideBar: React.FC<SettingsSideBarProps> = ({
           </NoSSR>
         </Accordion>
       </Box>
-      <SidebarFooter borderColor={borderColor} textColor={textColor} />
+      <SidebarFooter textColor={textColor} />
     </Box>
   );
 };

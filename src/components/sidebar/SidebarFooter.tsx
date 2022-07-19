@@ -3,19 +3,15 @@ import React from "react";
 import { GithubSvg } from "@/components/ui/GithubSvg";
 
 interface SidebarFooterProps {
-  borderColor: string;
   textColor: string;
 }
 
-export const SidebarFooter: React.FC<SidebarFooterProps> = ({
-  borderColor,
-  textColor,
-}) => {
+export const SidebarFooter: React.FC<SidebarFooterProps> = ({ textColor }) => {
   return (
     <Box
       marginTop="auto"
       bottom="0"
-      borderTop={`1px solid ${borderColor}`}
+      borderTop={`1px solid ${textColor}`}
       height="3rem"
       p="4"
       display="flex"
