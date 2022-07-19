@@ -31,8 +31,8 @@ export const TutorialStage4: React.FC = ({}) => {
         p="4"
         zIndex="9999"
       >
-        You should now be good to go! If you want this page to act as your
-        &apos;New Tab&apos; page you&apos;ll need an extension like{" "}
+        See, it&apos;s a breeze to customize the site. If you want this page to
+        act as your &apos;New Tab&apos; page you&apos;ll need an extension like{" "}
         <a
           href="https://chrome.google.com/webstore/detail/custom-new-tab-url/mmjbdbjnoablegbkcklggeknkfcjkjia?hl=en"
           style={{ color: "coral" }}

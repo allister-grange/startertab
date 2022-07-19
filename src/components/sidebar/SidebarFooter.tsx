@@ -27,7 +27,7 @@ export const SidebarFooter: React.FC<SidebarFooterProps> = ({ textColor }) => {
       <Box
         ml="3"
         borderLeft={`1px solid ${textColor}`}
-        height="160%"
+        height="180%"
         width="1px"
       />
       <Text ml="3" fontSize="smaller">

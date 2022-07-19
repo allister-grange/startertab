@@ -36,7 +36,7 @@ type State = {
   currentSubreddit?: string;
 };
 
-export const RedditFeed: React.FC<RedditFeedProps> = ({ tileId }) => {
+export const RedditFeedTile: React.FC<RedditFeedProps> = ({ tileId }) => {
   const { settings, setSettings } = useContext(
     SettingsContext
   ) as UserSettingsContextInterface;

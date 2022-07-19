@@ -27,7 +27,7 @@ type SmallSpotifyTileProps = {
   tileId: TileId;
 };
 
-export const SpotifyTopArtists: React.FC<SmallSpotifyTileProps> = ({
+export const SpotifyTopArtistsTile: React.FC<SmallSpotifyTileProps> = ({
   tileId,
 }) => {
   const { inMemorySettings, setSettings } = useContext(

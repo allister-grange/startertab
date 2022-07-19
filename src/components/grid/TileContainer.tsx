@@ -1,25 +1,25 @@
 import {
-  Bonsai,
-  RedditFeed,
-  SearchBar,
+  BonsaiTile,
+  RedditFeedTile,
+  SearchBarTile,
   SmallSpotifyTile,
   SmallWeatherTile,
-  Time,
-  UvGraph,
+  TimeTile,
+  UvGraphTile,
+  HackerNewsFeedTile,
+  LargeSpotifyTile,
+  LargeStockTile,
+  SmallStockTile,
+  SpotifyTopArtistsTile,
+  LargeWeatherTile,
+  TodoListTile,
 } from "@/components/tiles";
-import { HackerNewsFeed } from "@/components/tiles/HackerNewsFeed";
-import { LargeSpotifyTile } from "@/components/tiles/LargeSpotifyTile";
-import { LargeStockTile } from "@/components/tiles/LargeStockTile";
-import { LargeWeatherTile } from "@/components/tiles/LargeWeatherTile";
-import { SmallStockTile } from "@/components/tiles/SmallStockTile";
-import { SpotifyTopArtists } from "@/components/tiles/SpotifyTopArtists";
-import StravaGraph from "@/components/tiles/StravaGraph";
-import { TodoList } from "@/components/tiles/TodoList";
 import ColorModeSwitcher from "@/components/ui/ColorModeSwitcher";
 import SpotifyContextProvider from "@/context/SpotifyContext";
 import StravaContextProvider from "@/context/StravaContext";
-import { HackerNewsLinkHolder, TileId, TileType, TodoObject } from "@/types";
+import { TileId, TileType, TodoObject } from "@/types";
 import { Box, Center, Heading } from "@chakra-ui/react";
+import StravaGraphTile from "@/components/tiles/StravaGraphTile";
 import React from "react";
 
 interface TileContainerProps {
@@ -51,10 +51,10 @@ const TileContainer: React.FC<TileContainerProps> = ({
 
   switch (tileType) {
     case "Reddit Feed":
-      tileToRender = <RedditFeed tileId={tileId} />;
+      tileToRender = <RedditFeedTile tileId={tileId} />;
       break;
     case "Hacker News Feed":
-      tileToRender = <HackerNewsFeed tileId={tileId} />;
+      tileToRender = <HackerNewsFeedTile tileId={tileId} />;
       break;
     case "Blank Tile":
       tileToRender = <Box width="100%" height="100%" />;
@@ -62,16 +62,16 @@ const TileContainer: React.FC<TileContainerProps> = ({
     case "Strava Graph":
       tileToRender = (
         <StravaContextProvider>
-          <StravaGraph tileId={tileId} />
+          <StravaGraphTile tileId={tileId} />
         </StravaContextProvider>
       );
       break;
     case "Search Bar":
-      tileToRender = <SearchBar tileId={tileId} />;
+      tileToRender = <SearchBarTile tileId={tileId} />;
       break;
     case "Bonsai":
       tileToRender = (
-        <Bonsai baseColor={bonsaiBaseColor} trunkColor={bonsaiTrunkColor} />
+        <BonsaiTile baseColor={bonsaiBaseColor} trunkColor={bonsaiTrunkColor} />
       );
       break;
     case "Large Stock Tile":
@@ -103,21 +103,21 @@ const TileContainer: React.FC<TileContainerProps> = ({
       );
       break;
     case "UV Graph":
-      tileToRender = <UvGraph city={cityForUv} tileId={tileId} />;
+      tileToRender = <UvGraphTile city={cityForUv} tileId={tileId} />;
       break;
     case "Time":
-      tileToRender = <Time tileId={tileId} />;
+      tileToRender = <TimeTile tileId={tileId} />;
       break;
     case "Theme Picker":
       tileToRender = <ColorModeSwitcher />;
       break;
     case "Todo List":
-      tileToRender = <TodoList tileId={tileId} todoList={todoList} />;
+      tileToRender = <TodoListTile tileId={tileId} todoList={todoList} />;
       break;
     case "Spotify Top Artist Tile":
       tileToRender = (
         <SpotifyContextProvider>
-          <SpotifyTopArtists tileId={tileId} />
+          <SpotifyTopArtistsTile tileId={tileId} />
         </SpotifyContextProvider>
       );
       break;

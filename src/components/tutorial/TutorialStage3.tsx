@@ -17,7 +17,7 @@ export const TutorialStage3: React.FC = ({}) => {
         width="max-content"
         zIndex="9999"
       >
-        Give changing the theme a shot
+        Give changing the theme a try
       </Box>
       <Box
         pos="absolute"

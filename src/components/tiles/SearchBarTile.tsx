@@ -1,9 +1,4 @@
-import {
-  Button,
-  Center,
-  Input,
-  useColorMode,
-} from "@chakra-ui/react";
+import { Button, Center, Input, useColorMode } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import React, { useState } from "react";
 import {
@@ -13,11 +8,11 @@ import {
 } from "@/components/icons";
 import { TileId } from "@/types";
 
-type SearchBarProps ={
+type SearchBarProps = {
   tileId: TileId;
-}
+};
 
-export const SearchBar: React.FC<SearchBarProps> = ({tileId}) => {
+export const SearchBarTile: React.FC<SearchBarProps> = ({ tileId }) => {
   const router = useRouter();
   const [searchTerm, setSearchTerm] = useState<undefined | string>(undefined);
   const color = `var(--text-color-${tileId})`;
@@ -43,13 +38,13 @@ export const SearchBar: React.FC<SearchBarProps> = ({tileId}) => {
   return (
     <Center height="100%">
       <Button bg="transparent" onClick={() => searchClick("duck")}>
-        <DuckDuckGoIcon w={10} h={10} fill={color}/>
+        <DuckDuckGoIcon w={10} h={10} fill={color} />
       </Button>
       <Button bg="transparent" onClick={() => searchClick("google")}>
-        <GoogleIcon w={9} h={9} fill={color}/>
+        <GoogleIcon w={9} h={9} fill={color} />
       </Button>
       <Button bg="transparent" onClick={() => searchClick("stackoverflow")}>
-        <StackOverFlowIcon w={10} h={10} fill={color}/>
+        <StackOverFlowIcon w={10} h={10} fill={color} />
       </Button>
       <Input
         width={400}

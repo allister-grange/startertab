@@ -31,7 +31,7 @@ type State = {
   cityNameOfData?: string;
 };
 
-export const UvGraph: React.FC<UvGraphProps> = ({ city, tileId }) => {
+export const UvGraphTile: React.FC<UvGraphProps> = ({ city, tileId }) => {
   const color = `var(--text-color-${tileId})`;
   const { settings, setSettings } = useContext(
     SettingsContext
@@ -151,7 +151,7 @@ export const UvGraph: React.FC<UvGraphProps> = ({ city, tileId }) => {
   }
 
   return (
-    <Box p="6" color={color} height="100%" >
+    <Box p="6" color={color} height="100%">
       <Heading fontSize="2xl">UV Index</Heading>
       {toDisplay}
       <Button

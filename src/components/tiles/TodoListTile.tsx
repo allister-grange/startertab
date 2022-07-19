@@ -24,7 +24,7 @@ export interface TodoListProps {
   todoList: TodoObject[] | undefined;
 }
 
-export const TodoList: React.FC<TodoListProps> = ({ tileId, todoList }) => {
+export const TodoListTile: React.FC<TodoListProps> = ({ tileId, todoList }) => {
   const color = `var(--text-color-${tileId})`;
   const { settings, setSettings } = useContext(
     SettingsContext
@@ -106,7 +106,7 @@ export const TodoList: React.FC<TodoListProps> = ({ tileId, todoList }) => {
 
   const finishedTodos = todos.filter((todo) => todo.done === true);
   const unfinishedTodos = todos.filter((todo) => todo.done === false);
-  
+
   return (
     <Box color={color} p="4" pt="4" height="100%">
       <Flex minWidth="50%" flexDir="column" mt="4">

@@ -20,7 +20,7 @@ type PageProps = {
 
 type ActivityDisplay = "swim" | "ride" | "run";
 
-const StravaGraph: React.FC<PageProps> = ({ tileId }) => {
+const StravaGraphTile: React.FC<PageProps> = ({ tileId }) => {
   const { isAuthenticated, stravaData, loginWithStrava } = useContext(
     StravaContext
   ) as StravaContextInterface;
@@ -182,4 +182,4 @@ const StravaGraph: React.FC<PageProps> = ({ tileId }) => {
   );
 };
 
-export default React.memo(StravaGraph);
+export default React.memo(StravaGraphTile);

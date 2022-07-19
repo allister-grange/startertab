@@ -13,7 +13,7 @@ type PageProps = {
 
 type HackerNewsFeed = "Ask" | "Top" | "Show";
 
-export const HackerNewsFeed: React.FC<PageProps> = ({ tileId }) => {
+export const HackerNewsFeedTile: React.FC<PageProps> = ({ tileId }) => {
   const { inMemorySettings, setSettings } = useContext(
     SettingsContext
   ) as UserSettingsContextInterface;

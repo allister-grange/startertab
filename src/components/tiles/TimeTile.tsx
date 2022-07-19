@@ -6,7 +6,7 @@ interface TimeProps {
   tileId: TileId;
 }
 
-export const Time: React.FC<TimeProps> = ({ tileId }) => {
+export const TimeTile: React.FC<TimeProps> = ({ tileId }) => {
   const [time, setTime] = useState("");
   const [timerPlaceholder, setTimerPlaceholder] = useState<undefined | number>(
     undefined
@@ -28,7 +28,7 @@ export const Time: React.FC<TimeProps> = ({ tileId }) => {
       alert("timer over!!");
       setTimer(undefined);
       clearInterval(intervalRef.current!);
-      document.title = "Timer finished!"
+      document.title = "Timer finished!";
     }
   }, [timer]);
 
@@ -89,7 +89,7 @@ export const Time: React.FC<TimeProps> = ({ tileId }) => {
           borderRadius="7"
           size="sm"
           _focus={{
-            borderColor:{color}
+            borderColor: { color },
           }}
         />
         <Button

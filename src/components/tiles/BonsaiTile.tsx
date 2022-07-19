@@ -9,7 +9,7 @@ type BonsaiProps = {
   trunkColor?: string;
 };
 
-export const Bonsai: React.FC<BonsaiProps> = ({
+export const BonsaiTile: React.FC<BonsaiProps> = ({
   baseColor,
   trunkColor,
 }): JSX.Element => {
