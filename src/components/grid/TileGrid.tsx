@@ -1,10 +1,9 @@
 import Tile from "@/components/grid/Tile";
-import { TileId, UvGraphData } from "@/types";
+import { TileId } from "@/types";
 import { Grid } from "@chakra-ui/react";
 import React from "react";
 
 interface TileGridProps {
-  uvData: UvGraphData[];
   optionHovered?: TileId;
   gridGap?: string;
   tutorialProgress: number;
@@ -12,7 +11,6 @@ interface TileGridProps {
 
 export const TileGrid: React.FC<TileGridProps> = ({
   optionHovered,
-  uvData,
   gridGap,
   tutorialProgress,
 }) => {
@@ -39,7 +37,6 @@ export const TileGrid: React.FC<TileGridProps> = ({
         tileId={"tile1"}
         minW="285px"
         optionHovered={optionHovered === "tile1"}
-        uvData={uvData}
       />
       <Tile
         rowSpan={4}
@@ -49,7 +46,6 @@ export const TileGrid: React.FC<TileGridProps> = ({
         minW="530px"
         tileId={"tile2"}
         optionHovered={optionHovered === "tile2"}
-        uvData={uvData}
         overflow="hidden"
       />
       <Tile
@@ -57,14 +53,12 @@ export const TileGrid: React.FC<TileGridProps> = ({
         rowSpan={4}
         tileId={"tile3"}
         optionHovered={optionHovered === "tile3"}
-        uvData={uvData}
       />
       <Tile
         colSpan={1}
         rowSpan={5}
         tileId={"tile4"}
         optionHovered={optionHovered === "tile4"}
-        uvData={uvData}
       ></Tile>
       <Tile
         colSpan={3}
@@ -72,7 +66,6 @@ export const TileGrid: React.FC<TileGridProps> = ({
         minH="60px"
         tileId={"tile5"}
         optionHovered={optionHovered === "tile5"}
-        uvData={uvData}
       ></Tile>
       <Tile
         colSpan={1}
@@ -82,14 +75,12 @@ export const TileGrid: React.FC<TileGridProps> = ({
         maxH="380px"
         tileId={"tile6"}
         optionHovered={optionHovered === "tile6"}
-        uvData={uvData}
       ></Tile>
       <Tile
         rowSpan={2}
         colSpan={1}
         tileId={"tile7"}
         optionHovered={optionHovered === "tile7"}
-        uvData={uvData}
       ></Tile>
       <Tile
         colSpan={2}
@@ -99,7 +90,6 @@ export const TileGrid: React.FC<TileGridProps> = ({
         maxH="330px"
         optionHovered={optionHovered === "tile9"}
         tileId={"tile9"}
-        uvData={uvData}
       ></Tile>
       <Tile
         colSpan={1}
@@ -107,21 +97,18 @@ export const TileGrid: React.FC<TileGridProps> = ({
         pos="relative"
         tileId={"tile10"}
         optionHovered={optionHovered === "tile10"}
-        uvData={uvData}
       ></Tile>
       <Tile
         colSpan={1}
         rowSpan={2}
         tileId={"tile8"}
         optionHovered={optionHovered === "tile8"}
-        uvData={uvData}
       ></Tile>
       <Tile
         colSpan={1}
         rowSpan={2}
         tileId={"tile11"}
         optionHovered={optionHovered === "tile11"}
-        uvData={uvData}
       ></Tile>
     </Grid>
   );

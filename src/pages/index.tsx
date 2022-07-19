@@ -4,10 +4,9 @@ import { MobileWarning } from "@/components/ui/MobileWarning";
 import { SettingsToggle } from "@/components/ui/SettingsToggle";
 import { SettingsContext } from "@/context/UserSettingsContext";
 import { applyTheme, getCurrentTheme } from "@/helpers/settingsHelpers";
-import { getUVData } from "@/pages/api/weather";
-import { TileId, UserSettingsContextInterface, UvGraphData } from "@/types";
+import { TileId, UserSettingsContextInterface } from "@/types";
 import { Box, useColorMode, useDisclosure } from "@chakra-ui/react";
-import type { GetServerSideProps, NextPage } from "next";
+import type { NextPage } from "next";
 import dynamic from "next/dynamic";
 import { useContext, useEffect, useState } from "react";
 import { isMobile } from "react-device-detect";
@@ -16,11 +15,7 @@ const SettingsSideBar = dynamic(
   () => import("@/components/sidebar/SettingsSidebar")
 );
 
-type PageProps = {
-  uvData: UvGraphData[];
-};
-
-const Home: NextPage<PageProps> = ({ uvData }) => {
+const Home: NextPage = () => {
   // Sidebar hook
   const { isOpen, onOpen, onClose } = useDisclosure();
   // to highlight what tile you are looking to edit from the sidebar
@@ -89,7 +84,6 @@ const Home: NextPage<PageProps> = ({ uvData }) => {
             <TileGrid
               tutorialProgress={tutorialProgress}
               optionHovered={optionHovered}
-              uvData={uvData}
               gridGap={gridGap}
             />
           </>
@@ -114,14 +108,6 @@ const Home: NextPage<PageProps> = ({ uvData }) => {
       )}
     </>
   );
-};
-
-export const getServerSideProps: GetServerSideProps = async () => {
-  const uvData = await getUVData("Wellington");
-
-  return {
-    props: { uvData },
-  };
 };
 
 export default Home;

@@ -2,20 +2,18 @@ import TileContainer from "@/components/grid/TileContainer";
 import { SettingsContext } from "@/context/UserSettingsContext";
 import { getCurrentTheme } from "@/helpers/settingsHelpers";
 import styles from "@/styles/Home.module.css";
-import { TileId, UserSettingsContextInterface, UvGraphData } from "@/types";
+import { TileId, UserSettingsContextInterface } from "@/types";
 import { GridItem, GridItemProps, useColorMode } from "@chakra-ui/react";
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useState } from "react";
 
 interface TileProps extends GridItemProps {
   optionHovered: boolean;
   tileId: TileId;
-  uvData: UvGraphData[];
 }
 
 const Tile: React.FC<TileProps> = ({
   tileId,
   optionHovered,
-  uvData,
   children,
   ...props
 }) => {
