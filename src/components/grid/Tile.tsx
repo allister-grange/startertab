@@ -18,29 +18,16 @@ const Tile: React.FC<TileProps> = ({
   ...props
 }) => {
   const { colorMode } = useColorMode();
-  const [shadow, setShadow] = useState<string | undefined>();
-  const [border, setBorder] = useState<string | undefined>();
-  const [borderRadius, setBorderRadius] = useState<string | undefined>();
-  const [borderColor, setBorderColor] = useState<string | undefined>();
   const { inMemorySettings } = useContext(
     SettingsContext
   ) as UserSettingsContextInterface;
 
   const theme = getCurrentTheme(inMemorySettings, colorMode);
 
-  React.useLayoutEffect(() => {
-    setShadow(theme.globalSettings.dropShadow);
-    setBorder(theme.globalSettings.tileBorder);
-    setBorderRadius(theme.globalSettings.borderRadius);
-    setBorderColor(theme.globalSettings.borderColor);
-  }, [
-    colorMode,
-    inMemorySettings,
-    theme.globalSettings.borderColor,
-    theme.globalSettings.borderRadius,
-    theme.globalSettings.dropShadow,
-    theme.globalSettings.tileBorder,
-  ]);
+  const borderRadius = theme.globalSettings.borderRadius;
+  const shadow = theme.globalSettings.dropShadow;
+  const border = theme.globalSettings.tileBorder;
+  const borderColor = theme.globalSettings.borderColor;
 
   return (
     <GridItem
