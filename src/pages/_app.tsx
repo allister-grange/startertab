@@ -27,7 +27,11 @@ export function MyApp({
         <title>New Page</title>
         <meta
           name="og:description"
-          content="A website to replace your 'New Tab' homepage"
+          content="A customizable website to replace your 'New Tab' homepage"
+        />
+        <meta
+          name="description"
+          content="A customizable website to replace your 'New Tab' homepage."
         />
         <meta property="og:image" content={"/black.jpg"} />
         <meta

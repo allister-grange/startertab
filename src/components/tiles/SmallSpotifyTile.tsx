@@ -2,14 +2,14 @@ import {
   PauseIcon,
   PlayIcon,
   SkipLeft,
-  SkipRight
+  SkipRight,
 } from "@/components/ui/MediaControls";
 import { SpotifyLogo } from "@/components/ui/SpotifyLogo";
 import { SpotifyContext } from "@/context/SpotifyContext";
 import {
   NowPlayingSpotifyData,
   SpotifyContextInterface,
-  TileId
+  TileId,
 } from "@/types";
 import {
   Box,
@@ -18,7 +18,7 @@ import {
   Flex,
   Heading,
   Link,
-  Spinner
+  Spinner,
 } from "@chakra-ui/react";
 import React, { useContext } from "react";
 import { MusicControlButton } from "../ui/MusicControlButton";
@@ -101,6 +101,7 @@ export const SmallSpotifyTile: React.FC<SmallSpotifyTileProps> = ({
         left="2"
         top="2"
         opacity="0.7"
+        aria-label="Link to Spotify"
       >
         <SpotifyLogo size={18} color={color} />
       </Link>
@@ -130,6 +131,7 @@ export const SmallSpotifyTile: React.FC<SmallSpotifyTileProps> = ({
             <MusicControlButton
               onClickHandler={() => skipSong(false)}
               playable={playable}
+              aria-label="Go back a song"
             >
               <SkipLeft color={color} />
             </MusicControlButton>
@@ -137,6 +139,7 @@ export const SmallSpotifyTile: React.FC<SmallSpotifyTileProps> = ({
               <MusicControlButton
                 onClickHandler={() => pausePlaySong(true)}
                 playable={playable}
+                aria-label="Pause song"
               >
                 <PauseIcon color={color} />
               </MusicControlButton>
@@ -144,6 +147,7 @@ export const SmallSpotifyTile: React.FC<SmallSpotifyTileProps> = ({
               <MusicControlButton
                 onClickHandler={() => pausePlaySong(false)}
                 playable={playable}
+                aria-label="Play song"
               >
                 <PlayIcon color={color} />
               </MusicControlButton>
@@ -151,6 +155,7 @@ export const SmallSpotifyTile: React.FC<SmallSpotifyTileProps> = ({
             <MusicControlButton
               onClickHandler={() => skipSong(true)}
               playable={playable}
+              aria-label="Skip song"
             >
               <SkipRight color={color} />
             </MusicControlButton>

@@ -2,12 +2,16 @@ import {
   PauseIcon,
   PlayIcon,
   SkipLeft,
-  SkipRight
+  SkipRight,
 } from "@/components/ui/MediaControls";
 import { MusicControlButton } from "@/components/ui/MusicControlButton";
 import { SpotifyLogo } from "@/components/ui/SpotifyLogo";
 import { SpotifyContext } from "@/context/SpotifyContext";
-import { NowPlayingSpotifyData, SpotifyContextInterface, TileId } from "@/types";
+import {
+  NowPlayingSpotifyData,
+  SpotifyContextInterface,
+  TileId,
+} from "@/types";
 import {
   Box,
   Button,
@@ -16,7 +20,7 @@ import {
   Heading,
   Img,
   Link,
-  Spinner
+  Spinner,
 } from "@chakra-ui/react";
 import React, { useContext } from "react";
 
@@ -24,7 +28,9 @@ interface LargeSpotifyTileProps {
   tileId: TileId;
 }
 
-export const LargeSpotifyTile: React.FC<LargeSpotifyTileProps> = ({ tileId }) => {
+export const LargeSpotifyTile: React.FC<LargeSpotifyTileProps> = ({
+  tileId,
+}) => {
   const {
     spotifyData,
     skipSong,
@@ -81,6 +87,7 @@ export const LargeSpotifyTile: React.FC<LargeSpotifyTileProps> = ({ tileId }) =>
         color={color}
         href="https://spotify.com"
         opacity="0.7"
+        aria-label="Link to Spotify"
       >
         <SpotifyLogo size={24} color={color} />
       </Link>
@@ -114,6 +121,7 @@ export const LargeSpotifyTile: React.FC<LargeSpotifyTileProps> = ({ tileId }) =>
           <MusicControlButton
             onClickHandler={() => skipSong(false)}
             playable={playable}
+            aria-label="Go back a song"
           >
             <SkipLeft color={color} />
           </MusicControlButton>
@@ -121,6 +129,7 @@ export const LargeSpotifyTile: React.FC<LargeSpotifyTileProps> = ({ tileId }) =>
             <MusicControlButton
               onClickHandler={() => pausePlaySong(true)}
               playable={playable}
+              aria-label="Pause song"
             >
               <PauseIcon color={color} />
             </MusicControlButton>
@@ -128,6 +137,7 @@ export const LargeSpotifyTile: React.FC<LargeSpotifyTileProps> = ({ tileId }) =>
             <MusicControlButton
               onClickHandler={() => pausePlaySong(false)}
               playable={playable}
+              aria-label="Play song"
             >
               <PlayIcon color={color} />
             </MusicControlButton>
@@ -135,6 +145,7 @@ export const LargeSpotifyTile: React.FC<LargeSpotifyTileProps> = ({ tileId }) =>
           <MusicControlButton
             onClickHandler={() => skipSong(true)}
             playable={playable}
+            aria-label="Skip song"
           >
             <SkipRight color={color} />
           </MusicControlButton>
@@ -144,8 +155,8 @@ export const LargeSpotifyTile: React.FC<LargeSpotifyTileProps> = ({ tileId }) =>
       <Center pr="4">
         <Img
           boxShadow={"4px 4px 10px rgba(0,0,0,.4)"}
-          // borderRadius="15"
           src={albumImageUrl}
+          aria-label="Album cover art"
         />
       </Center>
     </Flex>

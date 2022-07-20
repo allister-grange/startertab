@@ -28,6 +28,7 @@ export const SettingsToggle: React.FC<SettingsToggleProps> = ({
         color={color}
         _active={{ bg: "transparent" }}
         _focus={{ border: "none" }}
+        aria-label="Toggle sidebar"
       >
         <CogIcon width={30} height={50} />
       </Button>

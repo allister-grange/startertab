@@ -67,7 +67,12 @@ export const HackerNewsFeedTile: React.FC<PageProps> = ({ tileId }) => {
   return (
     <Box p="2" color={color} position="relative">
       <Heading p="2" fontSize="xl" fontWeight="bold">
-        <Link href="https://news.ycombinator.com/ask">Hacker News Feed</Link>
+        <Link
+          href="https://news.ycombinator.com/ask"
+          aria-label="Link to Hacker News"
+        >
+          Hacker News Feed
+        </Link>
       </Heading>
       <Box w="80%" bg="white" height="1px" ml="2" bgColor={underlineColor} />
       {hackerNewsData ? (

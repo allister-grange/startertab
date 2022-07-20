@@ -172,6 +172,7 @@ export const RedditFeedTile: React.FC<RedditFeedProps> = ({ tileId }) => {
       </Box>
       <Heading p="2" fontSize="xl" fontWeight="bold">
         <Link
+          aria-label="Link to Reddit"
           href={
             state.currentSubreddit
               ? `https://reddit.com/r/${state.currentSubreddit}`
