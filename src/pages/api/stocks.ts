@@ -16,7 +16,7 @@ export default async function handler(
       res
         .status(404)
         .send("Please provide stock tickers to call this API with");
-        return;
+      return;
     }
 
     const stockData = await getStockTickerInfo(req.query.stocks as string);
@@ -43,7 +43,7 @@ export const getStockTickerInfo = async (
     await Promise.all(
       stocksArray.map(async (stockName) => {
         const res = await fetch(
-          `https://finnhub.io/api/v1/quote?symbol=${stockName}`,
+          `https://finnhub.io/api/v1/quote?symbol=${stockName.toUpperCase()}`,
           {
             method: "GET",
             headers: {

@@ -117,7 +117,7 @@ export const SmallStockTile: React.FC<SmallStockTileProps> = ({
         mb="4"
         mr="2"
       >
-        <Heading size="lg">{stockTicker?.ticker}</Heading>
+        <Heading size="lg">{stockTicker?.ticker.toUpperCase()}</Heading>
         <Text fontSize="lg" opacity="0.9">{`$${stockTicker?.c}`}</Text>
         <Box ml="2">
           <Text color={stockTicker?.dp! > 0 ? "green" : "#F1676D"}>
@@ -152,11 +152,7 @@ export const SmallStockTile: React.FC<SmallStockTileProps> = ({
       </form>
     );
   } else if (state.status === "rejected") {
-    toDisplay = (
-      <Text>
-        Sorry, that stock doesn&apos;t exist 😔&nbsp;(ps, try capitals)
-      </Text>
-    );
+    toDisplay = <Text>Sorry, that stock doesn&apos;t exist 😔&nbsp;</Text>;
   }
 
   return (

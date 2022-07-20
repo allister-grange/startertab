@@ -69,7 +69,7 @@ const StockDisplay: React.FC<StockDisplayProps> = ({ stockTicker }) => {
       mb="4"
       mr="2"
     >
-      <Heading size="lg">{stockTicker?.ticker}</Heading>
+      <Heading size="lg">{stockTicker?.ticker.toUpperCase()}</Heading>
       <Text fontSize="md" opacity="0.9">{`$${stockTicker?.c}`}</Text>
       {textDisplay}
     </Flex>
@@ -181,11 +181,7 @@ export const LargeStockTile: React.FC<LargeStockTileProps> = ({ tileId }) => {
       </Grid>
     );
   } else if (state.status === "rejected") {
-    toDisplay = (
-      <Text>
-        Sorry, that stock doesn&apos;t exist 😔&nbsp;(ps, try capitals)
-      </Text>
-    );
+    toDisplay = <Text>Sorry, that stock doesn&apos;t exist 😔</Text>;
   }
 
   return (

@@ -47,6 +47,8 @@ export const SmallWeatherTile: React.FC<SmallWeatherTileProps> = ({
   tileId,
   tempDisplayInCelsius,
 }) => {
+  console.log("city", city);
+
   const color = `var(--text-color-${tileId})`;
   const { settings, setSettings } = useContext(
     SettingsContext

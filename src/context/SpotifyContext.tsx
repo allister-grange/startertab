@@ -146,7 +146,7 @@ const SpotifyContextProvider: React.FC<Props> = ({ children }) => {
     try {
       clearInterval(refreshingInterval.current!);
       await fetch(
-        `/api/spotify?forward=${forward}&accessToken=${accessToken}`,
+        `/api/spotify?forward=${forward}&accessToken=${accessToken}&refreshToken=${refreshToken}`,
         { method: "POST" }
       );
     } catch (err) {
@@ -159,9 +159,12 @@ const SpotifyContextProvider: React.FC<Props> = ({ children }) => {
   const pausePlaySong = async (pause: boolean) => {
     try {
       clearInterval(refreshingInterval.current!);
-      await fetch(`/api/spotify?pause=${pause}&accessToken=${accessToken}`, {
-        method: "POST",
-      });
+      await fetch(
+        `/api/spotify?pause=${pause}&accessToken=${accessToken}&refreshToken=${refreshToken}`,
+        {
+          method: "POST",
+        }
+      );
     } catch (err) {
       console.error(err);
       setSpotifyData({
