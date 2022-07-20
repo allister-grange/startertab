@@ -30,6 +30,7 @@ Written in NextJS with CharkaUI. Hosted in Vercel.
 - Twitter
 - Outlook / Microsoft
 - Gmail
+- Public transport provider
 
 ## Local Hosting
 
