@@ -39,7 +39,7 @@ export const TimeTile: React.FC<TimeProps> = ({ tileId }) => {
     });
   };
 
-  const startTimer = () => {
+  const startOrResetTimer = () => {
     if (intervalRef.current) {
       clearInterval(intervalRef.current);
     }
@@ -58,6 +58,12 @@ export const TimeTile: React.FC<TimeProps> = ({ tileId }) => {
     seconds = seconds < 10 ? "0" + seconds : seconds;
 
     return minutes + ":" + seconds;
+  };
+
+  const keyPress = (event: React.KeyboardEvent<HTMLInputElement>) => {
+    if (event.key === "Enter") {
+      startOrResetTimer();
+    }
   };
 
   return (
@@ -91,6 +97,7 @@ export const TimeTile: React.FC<TimeProps> = ({ tileId }) => {
           _focus={{
             borderColor: { color },
           }}
+          onKeyUpCapture={keyPress}
         />
         <Button
           borderRadius="7"
@@ -98,9 +105,10 @@ export const TimeTile: React.FC<TimeProps> = ({ tileId }) => {
           ml="1"
           border="1px"
           bg="transparent"
-          onClick={startTimer}
+          onClick={startOrResetTimer}
+          _hover={{ background: "transparent" }}
         >
-          go
+          {intervalRef.current ? "reset" : "go"}
         </Button>
       </Box>
     </Box>
