@@ -20,7 +20,7 @@ import {
   Heading,
   Img,
   Link,
-  Spinner,
+  Skeleton,
 } from "@chakra-ui/react";
 import React, { useContext } from "react";
 
@@ -38,8 +38,15 @@ export const LargeSpotifyTile: React.FC<LargeSpotifyTileProps> = ({
     isAuthenticated,
     loginWithSpotify,
   } = useContext(SpotifyContext) as SpotifyContextInterface;
-  const { songArtist, songTitle, playing, link, playable, albumImageUrl } =
-    spotifyData as NowPlayingSpotifyData;
+  const {
+    songArtist,
+    songTitle,
+    playing,
+    link,
+    playable,
+    albumFullSizeImageUrl,
+    albumPreviewUrl,
+  } = spotifyData as NowPlayingSpotifyData;
 
   const color = `var(--text-color-${tileId})`;
 
@@ -99,11 +106,15 @@ export const LargeSpotifyTile: React.FC<LargeSpotifyTileProps> = ({
         pl="4"
         pr="2"
         justifyContent="center"
+        pos="relative"
       >
         {!songTitle ? (
-          <Spinner color={color} size="lg" mb="35" ml="10" />
+          <Box height="175px" width="90%">
+            <Skeleton height="20px" mt="3" width="90%" />
+            <Skeleton height="15px" mt="3" width="75%" />
+          </Box>
         ) : (
-          <Link href={link} mb="7">
+          <Link href={link} pos="absolute" top="20%">
             <Heading fontSize={getFontSize(songTitle)}>{songTitle}</Heading>
             <Heading fontSize="xl" opacity="0.7">
               {songArtist}
@@ -111,7 +122,8 @@ export const LargeSpotifyTile: React.FC<LargeSpotifyTileProps> = ({
           </Link>
         )}
         <Box
-          mt="3"
+          position={"absolute"}
+          top="65%"
           borderRadius="15"
           bgColor="rgba(255,255,255,0.1)"
           border="1px solid rgba(255,255,255,0.1)"
@@ -152,13 +164,14 @@ export const LargeSpotifyTile: React.FC<LargeSpotifyTileProps> = ({
         </Box>
       </Flex>
 
-      <Center pr="4">
-        <Img
-          boxShadow={"4px 4px 10px rgba(0,0,0,.4)"}
-          src={albumImageUrl}
-          aria-label="Album cover art"
-        />
-      </Center>
+      <Box
+        boxShadow={"4px 4px 10px rgba(0,0,0,.4)"}
+        width="218px"
+        height="218px"
+        mt="6%"
+      >
+        <Img src={albumFullSizeImageUrl} aria-label="Album cover art" />
+      </Box>
     </Flex>
   );
 };

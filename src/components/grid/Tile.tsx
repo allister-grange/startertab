@@ -4,7 +4,7 @@ import { getCurrentTheme } from "@/helpers/settingsHelpers";
 import styles from "@/styles/Home.module.css";
 import { TileId, UserSettingsContextInterface } from "@/types";
 import { GridItem, GridItemProps, useColorMode } from "@chakra-ui/react";
-import React, { useContext, useState } from "react";
+import React, { useContext } from "react";
 
 interface TileProps extends GridItemProps {
   optionHovered: boolean;

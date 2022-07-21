@@ -16,7 +16,7 @@ import {
   Heading,
   Link,
   ListItem,
-  Spinner,
+  Skeleton,
   UnorderedList,
   useColorMode,
 } from "@chakra-ui/react";
@@ -108,9 +108,19 @@ export const SpotifyTopArtistsTile: React.FC<SmallSpotifyTileProps> = ({
               );
             })
           ) : (
-            <Center mt="100px" mr="20px">
-              <Spinner size="lg" color={color} />
-            </Center>
+            <Box height="100%" p="2">
+              <Skeleton height="15px" mt="3" width="90%" />
+              <Skeleton height="15px" mt="3" />
+              <Skeleton height="15px" mt="3" width="75%" />
+              <Skeleton height="15px" mt="3" width="65%" />
+              <Skeleton height="15px" mt="3" width="85%" />
+              <Skeleton height="15px" mt="3" width="95%" />
+              <Skeleton height="15px" mt="3" width="75%" />
+              <Skeleton height="15px" mt="3" />
+              <Skeleton height="15px" mt="3" width="70%" />
+              <Skeleton height="15px" mt="3" width="85%" />
+              <Skeleton height="15px" mt="3" width="95%" />
+            </Box>
           )}
         </UnorderedList>
         {topArtists.length > 0 && (

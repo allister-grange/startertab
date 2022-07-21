@@ -133,7 +133,8 @@ export const getSpotifyStatus = async (
       songArtist: undefined,
       songTitle: undefined,
       link: undefined,
-      albumImageUrl: undefined,
+      albumFullSizeImageUrl: undefined,
+      albumPreviewUrl: undefined,
       playable: false,
     };
   }
@@ -147,7 +148,8 @@ export const getSpotifyStatus = async (
       songArtist: data.item.show.name,
       songTitle: data.item.name,
       link: data.item.show.href,
-      albumImageUrl: data.item.images[0].url,
+      albumFullSizeImageUrl: data.item.images[0].url,
+      albumPreviewUrl: data.item.images[2].url,
       playable: true,
     };
   }
@@ -157,7 +159,8 @@ export const getSpotifyStatus = async (
     songTitle: data.item.name,
     songArtist: data.item.artists[0].name,
     link: data.item.external_urls.spotify,
-    albumImageUrl: data.item.album.images[0].url,
+    albumFullSizeImageUrl: data.item.album.images[0].url,
+    albumPreviewUrl: data.item.images[2].url,
     playable: true,
   };
 };
@@ -186,7 +189,8 @@ export const getRecentlyPlayed = async (
       songArtist: undefined,
       songTitle: undefined,
       link: undefined,
-      albumImageUrl: undefined,
+      albumFullSizeImageUrl: undefined,
+      albumPreviewUrl: undefined,
       playable: false,
     };
   }
@@ -200,7 +204,8 @@ export const getRecentlyPlayed = async (
       songTitle: data.items[1].track.name,
       songArtist: data.items[1].track.artists[0].name,
       link: data.items[1].track.external_urls.spotify,
-      albumImageUrl: data.items[1].track.album.images[0].url,
+      albumFullSizeImageUrl: data.items[1].track.album.images[0].url,
+      albumPreviewUrl: data.items[1].track.album.images[2].url,
       playable: false,
     };
   }
@@ -210,7 +215,8 @@ export const getRecentlyPlayed = async (
     songTitle: data.items[0].track.name,
     songArtist: data.items[0].track.artists[0].name,
     link: data.items[0].track.external_urls.spotify,
-    albumImageUrl: data.items[0].track.album.images[0].url,
+    albumFullSizeImageUrl: data.items[0].track.album.images[0].url,
+    albumPreviewUrl: data.items[0].track.album.images[2].url,
     playable: false,
   };
 };

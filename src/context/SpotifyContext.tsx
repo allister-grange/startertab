@@ -26,7 +26,8 @@ const SpotifyContextProvider: React.FC<Props> = ({ children }) => {
     songTitle: undefined,
     songArtist: undefined,
     link: undefined,
-    albumImageUrl: undefined,
+    albumFullSizeImageUrl: undefined,
+    albumPreviewUrl: undefined,
     playable: false,
   });
   const [topArtists, setTopArtists] = useState<TopArtistSpotify[]>([]);

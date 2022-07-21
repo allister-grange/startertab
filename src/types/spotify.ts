@@ -5,7 +5,8 @@ export type NowPlayingSpotifyData = {
   songArtist?: string;
   playing: boolean;
   link?: string;
-  albumImageUrl?: string;
+  albumFullSizeImageUrl?: string;
+  albumPreviewUrl?: string;
   playable: boolean;
   accessToken?: string;
 };
