@@ -22,7 +22,7 @@ const Home: NextPage = () => {
   const [optionHovered, setOptionHovered] = useState<TileId | undefined>();
   const [showingTutorial, setShowingTutorial] = useState(false);
   const [tutorialProgress, setTutorialProgress] = useState<number>(-1);
-  const { inMemorySettings, settings } = useContext(
+  const { settings } = useContext(
     SettingsContext
   ) as UserSettingsContextInterface;
   const [showingMobileWarning, setShowingMobileWarning] = useState(false);
@@ -42,9 +42,9 @@ const Home: NextPage = () => {
   }, []);
 
   useEffect(() => {
-    const themeToChange = getCurrentTheme(inMemorySettings, colorMode);
+    const themeToChange = getCurrentTheme(settings, colorMode);
     applyTheme(themeToChange);
-  }, [inMemorySettings, colorMode]);
+  }, [settings, colorMode]);
 
   const currentTheme = getCurrentTheme(settings, colorMode);
   const gridGap = currentTheme.globalSettings.gridGap;

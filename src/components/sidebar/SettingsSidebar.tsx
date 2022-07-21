@@ -30,6 +30,7 @@ import React, {
   SetStateAction,
   useCallback,
   useContext,
+  useRef,
   useState,
 } from "react";
 import NoSSR from "react-no-ssr";
@@ -56,8 +57,11 @@ const SettingsSideBar: React.FC<SettingsSideBarProps> = ({
 }) => {
   const { colorMode } = useColorMode();
 
-  const { settings, inMemorySettings, setSettings, setInMemorySettings } =
-    useContext(SettingsContext) as UserSettingsContextInterface;
+  const { settings, setSettings } = useContext(
+    SettingsContext
+  ) as UserSettingsContextInterface;
+
+  const inMemorySettingsRef = useRef(settings);
 
   const [accordionIndex, setAccordionIndex] = useState<ExpandedIndex>([]);
 
@@ -71,30 +75,28 @@ const SettingsSideBar: React.FC<SettingsSideBarProps> = ({
   }, [isOpen]);
 
   const currentThemeSettings = React.useMemo(
-    () =>
-      inMemorySettings.themes.find((theme) => theme.themeName === colorMode),
-    [colorMode, inMemorySettings.themes]
+    () => settings.themes.find((theme) => theme.themeName === colorMode),
+    [colorMode, settings.themes]
   );
 
   // will change the appearance of the site, but not what's stored in localStorage
   const changeSetting = useCallback(
     (key: string, value: string, tileId: TileId) => {
       console.log(`changeSettings ${key}:${value}`);
-      setInMemorySettings((inMemorySettings) => {
-        let newSettings = cloneDeep(inMemorySettings);
-        const themeToChange = getCurrentTheme(newSettings, colorMode);
-        // Need to cast this for the one use case of changing the type of tile to display
-        themeToChange[tileId][key as keyof TileSettings] = value as any;
-        return newSettings;
-      });
+      let newSettings = cloneDeep(settings);
+      const themeToChange = getCurrentTheme(newSettings, colorMode);
+      // Need to cast this for the one use case of changing the type of tile to display
+      themeToChange[tileId][key as keyof TileSettings] = value as any;
+      setSettings(newSettings);
     },
-    [colorMode, setInMemorySettings]
+    [colorMode, setSettings, settings]
   );
 
   // apply the in memory settings into localStorage
   const onSaveHandler = () => {
-    const permanentSettings = cloneDeep(inMemorySettings);
+    const permanentSettings = cloneDeep(settings);
     setSettings(permanentSettings);
+    inMemorySettingsRef.current = permanentSettings;
   };
 
   // reset the background, colors etc back to what is in the userSettings before changes
@@ -103,9 +105,10 @@ const SettingsSideBar: React.FC<SettingsSideBarProps> = ({
     setWidth("0px");
     setTimeout(onClose, 500);
     // reset settings
-    setInMemorySettings(cloneDeep(settings));
+    setSettings(cloneDeep(settings));
     setOptionHovered(undefined);
     setAccordionIndex([]);
+    setSettings(inMemorySettingsRef.current);
   };
 
   const resetOptionToDefault = React.useCallback(

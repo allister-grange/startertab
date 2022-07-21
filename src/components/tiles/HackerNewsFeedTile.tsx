@@ -14,11 +14,11 @@ type PageProps = {
 type HackerNewsFeed = "Ask" | "Top" | "Show";
 
 export const HackerNewsFeedTile: React.FC<PageProps> = ({ tileId }) => {
-  const { inMemorySettings, setSettings } = useContext(
+  const { settings, setSettings } = useContext(
     SettingsContext
   ) as UserSettingsContextInterface;
   const { colorMode } = useColorMode();
-  const theme = getCurrentTheme(inMemorySettings, colorMode);
+  const theme = getCurrentTheme(settings, colorMode);
   const hackerNewsFeedFromSettings = theme[tileId].hackerNewsFeedType;
 
   const [hackerNewsData, setHackerNewsData] = useState<
@@ -58,7 +58,7 @@ export const HackerNewsFeedTile: React.FC<PageProps> = ({ tileId }) => {
 
   const changeFeedType = (feed: HackerNewsFeed) => {
     setHackerNewsFeed(feed);
-    const settingsClone = clone(inMemorySettings);
+    const settingsClone = clone(settings);
     const themeCopy = getCurrentTheme(settingsClone, colorMode);
     themeCopy[tileId].hackerNewsFeedType = feed;
     setSettings(settingsClone);

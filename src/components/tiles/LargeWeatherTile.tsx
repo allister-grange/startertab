@@ -7,7 +7,6 @@ import {
   Button,
   Center,
   Flex,
-  Heading,
   IconButton,
   Input,
   InputGroup,

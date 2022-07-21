@@ -11,14 +11,9 @@ interface Props {
 
 const UserSettingsProvider: React.FC<Props> = ({ children }) => {
   const [settings, setSettings] = useLocalStorage("userSettings");
-  const [inMemorySettings, setInMemorySettings] = React.useState(
-    () => settings
-  );
 
   return (
-    <SettingsContext.Provider
-      value={{ settings, setSettings, inMemorySettings, setInMemorySettings }}
-    >
+    <SettingsContext.Provider value={{ settings, setSettings }}>
       {children}
     </SettingsContext.Provider>
   );

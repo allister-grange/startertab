@@ -18,11 +18,11 @@ const Tile: React.FC<TileProps> = ({
   ...props
 }) => {
   const { colorMode } = useColorMode();
-  const { inMemorySettings } = useContext(
+  const { settings } = useContext(
     SettingsContext
   ) as UserSettingsContextInterface;
 
-  const theme = getCurrentTheme(inMemorySettings, colorMode);
+  const theme = getCurrentTheme(settings, colorMode);
 
   const borderRadius = theme.globalSettings.borderRadius;
   const shadow = theme.globalSettings.dropShadow;
