@@ -43,7 +43,6 @@ export const GenericSelect: React.FC<GenericSelectProps> = ({
       </Text>
       <Box display="flex" flexDir="column" mt="1">
         <Select
-          placeholder="Select option"
           size="sm"
           onChange={onTypeSelectChange}
           value={value}

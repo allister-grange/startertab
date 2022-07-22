@@ -6,6 +6,10 @@ interface ThemeToChangeSelectorProps {
   textColor: string;
   setTutorialProgress: Dispatch<SetStateAction<number>>;
 }
+const optionsStyles = {
+  color: "white",
+  background: "#42494f",
+};
 
 export const ThemeToChangeSelector: React.FC<ThemeToChangeSelectorProps> = ({
   themes,
@@ -37,7 +41,7 @@ export const ThemeToChangeSelector: React.FC<ThemeToChangeSelectorProps> = ({
         _focus={{ border: `1px solid ${textColor}` }}
       >
         {themes.map((theme) => (
-          <option key={theme} value={theme}>
+          <option key={theme} value={theme} style={optionsStyles}>
             {theme.charAt(0).toUpperCase() + theme.slice(1)}
           </option>
         ))}
