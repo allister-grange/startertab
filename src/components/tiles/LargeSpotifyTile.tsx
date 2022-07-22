@@ -45,7 +45,6 @@ export const LargeSpotifyTile: React.FC<LargeSpotifyTileProps> = ({
     link,
     playable,
     albumFullSizeImageUrl,
-    albumPreviewUrl,
   } = spotifyData as NowPlayingSpotifyData;
 
   const color = `var(--text-color-${tileId})`;

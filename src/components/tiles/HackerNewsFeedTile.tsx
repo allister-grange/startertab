@@ -78,7 +78,7 @@ export const HackerNewsFeedTile: React.FC<PageProps> = ({ tileId }) => {
       {hackerNewsData ? (
         <>
           {hackerNewsData.map((link) => (
-            <Box key={link.title} p="2" pr="4">
+            <Box key={link.id} p="2" pr="4">
               <Link href={link.url}>
                 <Heading fontSize="md" fontWeight="normal">
                   {link.title}

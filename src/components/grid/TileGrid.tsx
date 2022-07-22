@@ -26,9 +26,7 @@ export const TileGrid: React.FC<TileGridProps> = ({
       py="8"
       maxWidth={{ "2xl": "1500px", xl: "1320px" }}
       filter={
-        tutorialProgress >= 0 && tutorialProgress < 4
-          ? "blur(4.5px)"
-          : undefined
+        tutorialProgress >= 0 && tutorialProgress < 4 ? "blur(8px)" : undefined
       }
     >
       <Tile

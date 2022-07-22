@@ -45,13 +45,13 @@ export const SmallSpotifyTile: React.FC<SmallSpotifyTileProps> = ({
   const getFontSize = (songTitle: string): string => {
     let fontSizeForTitle = "xl";
 
-    if (songTitle.length <= 13) {
-      fontSizeForTitle = "2xl";
-    } else if (songTitle.length <= 15) {
+    if (songTitle.length >= 13) {
       fontSizeForTitle = "xl";
-    } else if (songTitle.length <= 18) {
-      fontSizeForTitle = "md";
-    } else if (songTitle.length >= 28) {
+    }
+    if (songTitle.length >= 15) {
+      fontSizeForTitle = "lg";
+    }
+    if (songTitle.length >= 18) {
       fontSizeForTitle = "sm";
     }
 
@@ -59,12 +59,13 @@ export const SmallSpotifyTile: React.FC<SmallSpotifyTileProps> = ({
   };
 
   const getArtistFontSize = (artistName: string): string => {
-    let fontSizeForArtist = "lg";
+    let fontSizeForArtist = "md";
 
-    if (artistName.length <= 14) {
-      fontSizeForArtist = "md";
-    } else if (artistName.length >= 16) {
+    if (artistName.length >= 8) {
       fontSizeForArtist = "sm";
+    }
+    if (artistName.length >= 12) {
+      fontSizeForArtist = "xs";
     }
 
     return fontSizeForArtist;

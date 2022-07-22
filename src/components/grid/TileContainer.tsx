@@ -21,6 +21,8 @@ import { TileId, TileType, TodoObject } from "@/types";
 import { Box, Center, Heading } from "@chakra-ui/react";
 import StravaGraphTile from "@/components/tiles/StravaGraphTile";
 import React from "react";
+import { ErrorBoundary } from "react-error-boundary";
+import { TileErrorBoundary } from "@/components/tiles/TileErrorBoundary";
 
 interface TileContainerProps {
   tileId: TileId;
@@ -146,7 +148,9 @@ const TileContainer: React.FC<TileContainerProps> = ({
 
   return (
     // SSR screws up the styles of the divs, TODO look into this later
-    <>{tileToRender}</>
+    <ErrorBoundary FallbackComponent={TileErrorBoundary}>
+      {tileToRender}
+    </ErrorBoundary>
   );
 };
 

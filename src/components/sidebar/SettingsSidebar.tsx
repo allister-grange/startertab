@@ -120,19 +120,33 @@ const SettingsSideBar: React.FC<SettingsSideBarProps> = ({
   );
 
   const resetAllSettingsToDefault = () => {
+    let newSettings = cloneDeep(settings);
+    const themeToChange = getCurrentTheme(newSettings, colorMode);
+
     sideBarOptions.forEach((option) => {
       const defaultSetting = getDefaultSettingForOption(option, colorMode);
-      changeSetting(option.localStorageId, defaultSetting, option.tileId);
+      themeToChange[option.tileId][
+        option.localStorageId as keyof TileSettings
+      ] = defaultSetting as any;
     });
+
+    setSettings(newSettings);
   };
 
   const randomizeAllColorValues = () => {
+    let newSettings = cloneDeep(settings);
+    const themeToChange = getCurrentTheme(newSettings, colorMode);
+
     sideBarOptions.forEach((option) => {
       if (option.localStorageId.toLowerCase().includes("color")) {
         const newColorSetting = randomHexValue();
-        changeSetting(option.localStorageId, newColorSetting, option.tileId);
+        themeToChange[option.tileId][
+          option.localStorageId as keyof TileSettings
+        ] = newColorSetting as any;
       }
     });
+
+    setSettings(newSettings);
   };
 
   const sortedOptions = sortOptionsIntoTileGroups(sideBarOptions);

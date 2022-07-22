@@ -11,7 +11,7 @@ import {
   Input,
   InputGroup,
   InputRightElement,
-  Spinner,
+  Skeleton,
   Text,
   useColorMode,
 } from "@chakra-ui/react";
@@ -47,8 +47,6 @@ export const SmallWeatherTile: React.FC<SmallWeatherTileProps> = ({
   tileId,
   tempDisplayInCelsius,
 }) => {
-  console.log("city", city);
-
   const color = `var(--text-color-${tileId})`;
   const { settings, setSettings } = useContext(
     SettingsContext
@@ -132,7 +130,10 @@ export const SmallWeatherTile: React.FC<SmallWeatherTileProps> = ({
   if (state.status === "loading") {
     toDisplay = (
       <Center height="100%" color={color}>
-        <Spinner size="lg" />
+        <Text size="xs" opacity="0.4" pos="absolute" bottom="2" left="3">
+          {state.cityNameOfData}
+        </Text>
+        <Skeleton width="70px" height="70px" borderRadius="15px" />
       </Center>
     );
   } else if (state.status === "resolved" && state.data) {

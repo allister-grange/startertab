@@ -11,7 +11,7 @@ import {
   Input,
   InputGroup,
   InputRightElement,
-  Spinner,
+  Skeleton,
   Text,
   useColorMode,
 } from "@chakra-ui/react";
@@ -203,9 +203,14 @@ export const LargeWeatherTile: React.FC<LargeWeatherTileProps> = ({
 
   if (state.status === "loading") {
     toDisplay = (
-      <Center height="100%" color={color}>
-        <Spinner size="lg" />
-      </Center>
+      <Flex justifyContent={"space-around"} width="90%">
+        <Text size="xs" opacity="0.4" pos="absolute" bottom="2" left="3">
+          {state.cityNameOfData}
+        </Text>
+        <Skeleton width="70px" height="70px" borderRadius="15px" />
+        <Skeleton width="70px" height="70px" borderRadius="15px" />
+        <Skeleton width="70px" height="70px" borderRadius="15px" />
+      </Flex>
     );
   } else if (state.status === "resolved" && state.data) {
     toDisplay = (

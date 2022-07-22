@@ -2,7 +2,7 @@ export interface HackerNewsApiItem {
   by: string;
   descendants: number;
   id: number;
-  kids?: (number)[] | null;
+  kids?: number[] | null;
   score: number;
   text: string;
   time: number;
@@ -13,4 +13,5 @@ export interface HackerNewsApiItem {
 export interface HackerNewsLinkHolder {
   title: string;
   url: string;
+  id: number;
 }

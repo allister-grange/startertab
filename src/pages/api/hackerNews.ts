@@ -54,6 +54,7 @@ export const getHackerNewsData = async (hackerNewsFeed: string) => {
         postLinks.push({
           title: postDetail.title,
           url: `https://news.ycombinator.com/item?id=${postDetail.id}`,
+          id: postDetail.id,
         });
       })
     );

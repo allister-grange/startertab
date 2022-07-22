@@ -34,30 +34,45 @@ export const TutorialStage1: React.FC<TutorialStage1Props> = ({
           <Heading
             alignItems="flex-start"
             fontSize={"120px"}
-            color="#101010"
+            color="white"
             mt="2.5rem"
           >
             Start Page ✌
           </Heading>
-          <Text mt="2" fontSize={"28px"} color="#252525">
+          <Text mt="2" fontSize={"28px"} color="#DEDEDE">
             Your &apos;New Tab&apos; page with a twist
+          </Text>
+          <Text mt="4" fontSize={"21px"} color="#DEDEDE" width="80%">
+            Heads up, this website does not store any of your personal data
+            outside of your own browser, you own everything. If you&apos;d like
+            to see the code,{" "}
+            <a
+              href="https://github.com/allister-grange/startpage"
+              style={{ textDecoration: "underline" }}
+            >
+              take a peek
+            </a>
+            .
           </Text>
           <Box alignItems="flex-start" mt="35px">
             <Button
               alignSelf="flex-start"
-              _hover={{ cursor: "pointer", transform: "translateY(-2px)" }}
-              _active={{ cursor: "pointer", transform: "translateY(-2px)" }}
+              _hover={{ cursor: "pointer", transform: "translateY(-3px)" }}
+              _active={{ cursor: "pointer", transform: "translateY(-3px)" }}
               transition="all .2s"
               fontSize="xl"
               colorScheme="purple"
-              onClick={() => setShowingTutorial(false)}
+              onClick={() => {
+                setShowingTutorial(false);
+                setTutorialProgress(-1);
+              }}
             >
               Skip Tutorial
             </Button>
             <Button
               ml="20px"
-              _hover={{ cursor: "pointer", transform: "translateY(-2px)" }}
-              _active={{ cursor: "pointer", transform: "translateY(-2px)" }}
+              _hover={{ cursor: "pointer", transform: "translateY(-3px)" }}
+              _active={{ cursor: "pointer", transform: "translateY(-3px)" }}
               transition="all .2s"
               onClick={() => setTutorialProgress(1)}
               fontSize="xl"
