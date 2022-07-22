@@ -16,6 +16,11 @@ interface SettingOptionContainerProps {
   tileType: TileType;
 }
 
+const optionsStyles = {
+  color: "white",
+  background: "#252525",
+};
+
 export const SettingOptionContainer: React.FC<SettingOptionContainerProps> = ({
   option,
   textColor,
@@ -96,23 +101,25 @@ export const SettingOptionContainer: React.FC<SettingOptionContainerProps> = ({
           resetOptionToDefault={resetOptionToDefault}
           options={
             <>
-              <option value="">No shadow</option>
-              <option value="2px 2px 6px rgba(0,0,0,.3)">
+              <option value="" style={optionsStyles}>
+                No shadow
+              </option>
+              <option value="2px 2px 6px rgba(0,0,0,.3)" style={optionsStyles}>
                 Small blurred shadow
               </option>
-              <option value="3px 3px 10px rgba(0,0,0,.3)">
+              <option value="3px 3px 10px rgba(0,0,0,.3)" style={optionsStyles}>
                 Medium blurred shadow
               </option>
-              <option value="4px 4px 10px rgba(0,0,0,.3)">
+              <option value="4px 4px 10px rgba(0,0,0,.3)" style={optionsStyles}>
                 Large blurred shadow
               </option>
-              <option value="4px 4px 0 rgba(0,0,0,.3)">
+              <option value="4px 4px 0 rgba(0,0,0,.3)" style={optionsStyles}>
                 Small block shadow
               </option>
-              <option value="6px 6px 0 rgba(0,0,0,.3)">
+              <option value="6px 6px 0 rgba(0,0,0,.3)" style={optionsStyles}>
                 Medium block shadow
               </option>
-              <option value="8px 8px 0 rgba(0,0,0,.3)">
+              <option value="8px 8px 0 rgba(0,0,0,.3)" style={optionsStyles}>
                 Large block shadow
               </option>
             </>
@@ -163,9 +170,15 @@ export const SettingOptionContainer: React.FC<SettingOptionContainerProps> = ({
             resetOptionToDefault={resetOptionToDefault}
             options={
               <>
-                <option value="Top">Top Stories</option>
-                <option value="Show">Show Stories</option>
-                <option value="Ask">Ask Stories</option>
+                <option style={optionsStyles} value="Top">
+                  Top Stories
+                </option>
+                <option style={optionsStyles} value="Show">
+                  Show Stories
+                </option>
+                <option style={optionsStyles} value="Ask">
+                  Ask Stories
+                </option>
               </>
             }
           />
@@ -184,9 +197,15 @@ export const SettingOptionContainer: React.FC<SettingOptionContainerProps> = ({
             resetOptionToDefault={resetOptionToDefault}
             options={
               <>
-                <option value="short_term">Short Term</option>
-                <option value="medium_term">Medium Term</option>
-                <option value="long_term">Long Term</option>
+                <option style={optionsStyles} value="short_term">
+                  Short Term
+                </option>
+                <option style={optionsStyles} value="medium_term">
+                  Medium Term
+                </option>
+                <option style={optionsStyles} value="long_term">
+                  Long Term
+                </option>
               </>
             }
           />
@@ -218,10 +237,18 @@ export const SettingOptionContainer: React.FC<SettingOptionContainerProps> = ({
           resetOptionToDefault={resetOptionToDefault}
           options={
             <>
-              <option value="">No border</option>
-              <option value="1px solid black">Small border</option>
-              <option value="2px solid black">Medium border</option>
-              <option value="3px solid black">Large border</option>
+              <option style={optionsStyles} value="">
+                No border
+              </option>
+              <option style={optionsStyles} value="1px solid black">
+                Small border
+              </option>
+              <option style={optionsStyles} value="2px solid black">
+                Medium border
+              </option>
+              <option style={optionsStyles} value="3px solid black">
+                Large border
+              </option>
             </>
           }
         />
