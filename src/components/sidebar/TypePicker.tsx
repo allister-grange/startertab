@@ -38,23 +38,23 @@ export const TypePicker: React.FC<TypePickerProps> = ({
     case "SmallTileTypePicker":
       options = (
         <>
-          <option style={optionsStyles} value="Small Weather Tile">
-            Weather
-          </option>
-          <option style={optionsStyles} value="Time">
-            Time
-          </option>
-          <option style={optionsStyles} value="Theme Picker">
-            Theme Picker
-          </option>
-          <option style={optionsStyles} value="Small Stock Tile">
-            Stock Ticker
+          <option style={optionsStyles} value="Blank Tile">
+            Blank
           </option>
           <option style={optionsStyles} value="Small Spotify Tile">
             Spotify
           </option>
-          <option style={optionsStyles} value="Blank Tile">
-            Blank
+          <option style={optionsStyles} value="Small Stock Tile">
+            Stock Ticker
+          </option>
+          <option style={optionsStyles} value="Theme Picker">
+            Theme Picker
+          </option>
+          <option style={optionsStyles} value="Time">
+            Time
+          </option>
+          <option style={optionsStyles} value="Small Weather Tile">
+            Weather
           </option>
         </>
       );
@@ -62,23 +62,23 @@ export const TypePicker: React.FC<TypePickerProps> = ({
     case "MediumTileTypePicker":
       options = (
         <>
-          <option style={optionsStyles} value="Reddit Feed">
-            Reddit Feed
-          </option>
-          <option style={optionsStyles} value="Hacker News Feed">
-            Hacker News Feed
-          </option>
-          <option style={optionsStyles} value="Todo List">
-            Todo List
+          <option style={optionsStyles} value="Blank Tile">
+            Blank
           </option>
           <option style={optionsStyles} value="Bonsai">
             Bonsai
           </option>
+          <option style={optionsStyles} value="Hacker News Feed">
+            Hacker News Feed
+          </option>
+          <option style={optionsStyles} value="Reddit Feed">
+            Reddit Feed
+          </option>
           <option style={optionsStyles} value="Spotify Top Artist Tile">
             Spotify Top Artist List
           </option>
-          <option style={optionsStyles} value="Blank Tile">
-            Blank
+          <option style={optionsStyles} value="Todo List">
+            Todo List
           </option>
         </>
       );
@@ -86,11 +86,8 @@ export const TypePicker: React.FC<TypePickerProps> = ({
     case "LargeTileTypePicker":
       options = (
         <>
-          <option style={optionsStyles} value="Strava Graph">
-            Strava Graph
-          </option>
-          <option style={optionsStyles} value="UV Graph">
-            UV Graph
+          <option style={optionsStyles} value="Blank Tile">
+            Blank
           </option>
           <option style={optionsStyles} value="Large Spotify Tile">
             Spotify Tile
@@ -98,11 +95,14 @@ export const TypePicker: React.FC<TypePickerProps> = ({
           <option style={optionsStyles} value="Large Stock Tile">
             Stock Tile
           </option>
+          <option style={optionsStyles} value="Strava Graph">
+            Strava Graph
+          </option>
+          <option style={optionsStyles} value="UV Graph">
+            UV Graph
+          </option>
           <option style={optionsStyles} value="Large Weather Tile">
             Weather Forecast
-          </option>
-          <option style={optionsStyles} value="Blank Tile">
-            Blank
           </option>
         </>
       );
