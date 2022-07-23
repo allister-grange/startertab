@@ -2,6 +2,20 @@ import { Option } from "@/types";
 
 export const sideBarOptions: Option[] = [
   {
+    title: "Reset All Settings to Default",
+    subTitle: "Resets all settings to their theme default.",
+    localStorageId: "null",
+    optionType: "ResetSettings",
+    tileId: "globalSettings",
+  },
+  {
+    title: "Randomize All Colors",
+    subTitle: "Randomizes all the colors in the app.",
+    localStorageId: "null",
+    optionType: "RandomizeColors",
+    tileId: "globalSettings",
+  },
+  {
     title: "Background color",
     subTitle: "Controls the theme background color of the main page",
     localStorageId: "backgroundColor",

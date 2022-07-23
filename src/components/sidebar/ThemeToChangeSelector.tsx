@@ -1,4 +1,5 @@
-import { Flex, Select, Text, useColorMode } from "@chakra-ui/react";
+import { Button, Flex, Select, Text, useColorMode } from "@chakra-ui/react";
+import Router from "next/router";
 import React, { Dispatch, SetStateAction } from "react";
 
 interface ThemeToChangeSelectorProps {
@@ -32,10 +33,10 @@ export const ThemeToChangeSelector: React.FC<ThemeToChangeSelectorProps> = ({
       pb="4"
       color={textColor}
     >
-      <Text>Theme?</Text>
+      {/* <Text>Theme?</Text> */}
       <Select
         value={colorMode}
-        width="65%"
+        width="75%"
         onChange={onThemeSelectChange}
         outline={`1px solid ${textColor}`}
         _focus={{ border: `1px solid ${textColor}` }}
@@ -46,6 +47,17 @@ export const ThemeToChangeSelector: React.FC<ThemeToChangeSelectorProps> = ({
           </option>
         ))}
       </Select>
+      <Button
+        mr="1"
+        backgroundColor="transparent"
+        outline={`1px solid ${textColor}`}
+        _focus={{ border: `1px solid ${textColor}` }}
+        _hover={{ background: "transparent", transform: "translateY(-2px)" }}
+        transition="all .2s"
+        onClick={() => Router.push("/newTheme")}
+      >
+        +
+      </Button>
     </Flex>
   );
 };

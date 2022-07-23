@@ -19,9 +19,7 @@ import {
   AccordionIcon,
   AccordionItem,
   Box,
-  Button,
   ExpandedIndex,
-  Text,
   useColorMode,
 } from "@chakra-ui/react";
 import cloneDeep from "lodash.clonedeep";
@@ -215,7 +213,7 @@ const SettingsSideBar: React.FC<SettingsSideBarProps> = ({
           setTutorialProgress={setTutorialProgress}
           themes={getThemeNames(settings)}
         />
-        <Box mb="4">
+        {/* <Box mb="4">
           <Button
             display="block"
             onClick={resetAllSettingsToDefault}
@@ -227,8 +225,8 @@ const SettingsSideBar: React.FC<SettingsSideBarProps> = ({
             </Text>
           </Button>
         </Box>
-        <Box mt="4" />
-        <Box mb="4">
+        <Box mt="4" /> */}
+        {/* <Box mb="4">
           <Button
             display="block"
             onClick={randomizeAllColorValues}
@@ -239,7 +237,20 @@ const SettingsSideBar: React.FC<SettingsSideBarProps> = ({
               Randomize all color values
             </Text>
           </Button>
-        </Box>
+        </Box> */}
+        {/* <Box mt="4" />
+        <Box mb="4">
+          <Button
+            display="block"
+            onClick={randomizeAllColorValues}
+            background="transparent"
+            border={`1px solid ${textColor}`}
+          >
+            <Text fontSize="sm" color={textColor}>
+              Create new theme
+            </Text>
+          </Button>
+        </Box> */}
         <Box mt="4" />
         <Accordion
           allowMultiple
@@ -273,7 +284,6 @@ const SettingsSideBar: React.FC<SettingsSideBarProps> = ({
                     </AccordionButton>
                   </h2>
                   {tileGroup[1].map((option: Option) => {
-                    // eager loading the options for performance
                     return (
                       <SettingOptionContainer
                         key={option.localStorageId}
@@ -283,6 +293,8 @@ const SettingsSideBar: React.FC<SettingsSideBarProps> = ({
                         textColor={textColor}
                         subTextColor={subTextColor}
                         resetOptionToDefault={resetOptionToDefault}
+                        randomizeAllColorValues={randomizeAllColorValues}
+                        resetAllSettingsToDefault={resetAllSettingsToDefault}
                         value={
                           currentThemeSettings![option.tileId!][
                             option.localStorageId as keyof TileSettings
