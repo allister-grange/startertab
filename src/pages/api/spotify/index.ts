@@ -31,7 +31,7 @@ export default async function handler(
         accessToken === "undefined" ||
         refreshToken === "undefined"
       ) {
-        return res.status(500).send("No access/refresh token provided");
+        return res.status(400).send("No access/refresh token provided");
       }
 
       if (forward !== undefined) {
@@ -63,7 +63,7 @@ export default async function handler(
       } = req;
 
       if (!accessToken || !refreshToken) {
-        return res.status(500).send("No access/refresh token provided");
+        return res.status(400).send("No access/refresh token provided");
       }
 
       const spotifyData = await getSpotifyStatus(
@@ -160,7 +160,7 @@ export const getSpotifyStatus = async (
     songArtist: data.item.artists[0].name,
     link: data.item.external_urls.spotify,
     albumFullSizeImageUrl: data.item.album.images[0].url,
-    albumPreviewUrl: data.item.images[2].url,
+    albumPreviewUrl: data.item.album.images[2].url,
     playable: true,
   };
 };

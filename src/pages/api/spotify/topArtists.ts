@@ -26,7 +26,7 @@ export default async function handler(
         accessToken === "undefined" ||
         refreshToken === "undefined"
       ) {
-        return res.status(500).send("No access/refresh token provided");
+        return res.status(400).send("No access/refresh token provided");
       }
 
       const spotifyData = await getSpotifyTopArtists(
