@@ -4,6 +4,8 @@ import { UserSettingsContextInterface } from "@/types";
 import {
   Box,
   Button,
+  Flex,
+  Grid,
   Heading,
   Input,
   Stack,
@@ -16,33 +18,82 @@ import Router from "next/router";
 import React, { useContext, useState } from "react";
 import { HexColorPicker } from "react-colorful";
 
-interface ThemeCreatorProps {}
+interface ColorPickerProps {
+  value: string;
+  onChange: (newColor: string) => void;
+  title: string;
+}
 
 type FormInputs = {
   themeName: string;
   backgroundColor: string;
-  textColor: string;
+  backgroundColorOfTiles: string;
+  textColorOfTiles: string;
   sidebarIsDarkTheme: boolean;
 };
 
-export const ThemeCreator: React.FC<ThemeCreatorProps> = ({}) => {
+const ColorPicker: React.FC<ColorPickerProps> = ({
+  value,
+  onChange,
+  title,
+}) => {
+  return (
+    <Stack
+      backgroundColor="white"
+      shadow="lg"
+      p="6"
+      borderRadius="10px"
+      width="90%"
+      spacing="2"
+      maxW="400px"
+    >
+      <Text>{title}</Text>
+      <Flex>
+        <Input
+          value={value}
+          onChange={(e) => onChange(e.target.value)}
+          width="110px"
+        />
+        <Box
+          width="40px"
+          height="40px"
+          ml="4"
+          backgroundColor={value}
+          borderRadius="5px"
+        />
+      </Flex>
+      <HexColorPicker
+        color={value}
+        onChange={onChange}
+        style={{
+          width: "20rem",
+          height: "120px",
+          marginTop: "10px",
+          marginBottom: "5px",
+        }}
+      />
+    </Stack>
+  );
+};
+
+export const ThemeCreator: React.FC = ({}) => {
   const { colorMode, setColorMode } = useColorMode();
   const { settings, setSettings } = useContext(
     SettingsContext
   ) as UserSettingsContextInterface;
   const [formInputs, setFormInputs] = useState<FormInputs>({
     themeName: "",
-    textColor: "#000000",
     backgroundColor: "#ffffff",
+    backgroundColorOfTiles: "#5bbdff",
     sidebarIsDarkTheme: false,
+    textColorOfTiles: "#202020",
   });
 
-  const theme = getCurrentTheme(settings, colorMode);
+  // const theme = getCurrentTheme(settings, colorMode);
 
   React.useLayoutEffect(() => {
-    document.body.style.background = theme.globalSettings.backgroundColor;
-    document.body.style.color = theme.globalSettings.textColor;
-  }, [theme.globalSettings.backgroundColor, theme.globalSettings.textColor]);
+    document.body.style.background = "#F6F9F9";
+  }, []);
 
   const onThemeNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormInputs({
@@ -58,10 +109,17 @@ export const ThemeCreator: React.FC<ThemeCreatorProps> = ({}) => {
     });
   };
 
-  const onTextColorChange = (newColor: string) => {
+  const onTextColorOfTilesChange = (newColor: string) => {
     setFormInputs({
       ...formInputs,
-      textColor: newColor,
+      textColorOfTiles: newColor,
+    });
+  };
+
+  const onBackgroundColorOfTilesChange = (newColor: string) => {
+    setFormInputs({
+      ...formInputs,
+      backgroundColorOfTiles: newColor,
     });
   };
 
@@ -75,10 +133,10 @@ export const ThemeCreator: React.FC<ThemeCreatorProps> = ({}) => {
   const formValid =
     formInputs?.themeName &&
     formInputs?.backgroundColor &&
-    formInputs?.textColor &&
+    formInputs?.backgroundColorOfTiles &&
+    formInputs?.textColorOfTiles &&
     formInputs?.sidebarIsDarkTheme !== undefined;
 
-  console.log(formInputs);
   const submitThemeForm = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!formValid) {
@@ -94,10 +152,64 @@ export const ThemeCreator: React.FC<ThemeCreatorProps> = ({}) => {
       globalSettings: {
         ...currentSettings.themes[0].globalSettings,
         backgroundColor: formInputs.backgroundColor,
-        textColor: formInputs.textColor,
         colorPrimary: formInputs.sidebarIsDarkTheme ? "#33393D" : "#eee",
-        colorSecondary: formInputs.sidebarIsDarkTheme ? "#666" : "#222",
+        textColor: formInputs.sidebarIsDarkTheme ? "#fff" : "#222222",
         tileType: "None",
+      },
+      tile1: {
+        ...currentSettings.themes[0].tile1,
+        backgroundColor: formInputs.backgroundColorOfTiles,
+        textColor: formInputs.textColorOfTiles,
+      },
+      tile2: {
+        ...currentSettings.themes[0].tile2,
+        backgroundColor: formInputs.backgroundColorOfTiles,
+        textColor: formInputs.textColorOfTiles,
+      },
+      tile3: {
+        ...currentSettings.themes[0].tile3,
+        backgroundColor: formInputs.backgroundColorOfTiles,
+        textColor: formInputs.textColorOfTiles,
+      },
+      tile4: {
+        ...currentSettings.themes[0].tile4,
+        backgroundColor: formInputs.backgroundColorOfTiles,
+        textColor: formInputs.textColorOfTiles,
+      },
+      tile5: {
+        ...currentSettings.themes[0].tile5,
+        backgroundColor: formInputs.backgroundColorOfTiles,
+        textColor: formInputs.textColorOfTiles,
+      },
+      tile6: {
+        ...currentSettings.themes[0].tile6,
+        backgroundColor: formInputs.backgroundColorOfTiles,
+        textColor: formInputs.textColorOfTiles,
+      },
+      tile7: {
+        ...currentSettings.themes[0].tile7,
+        backgroundColor: formInputs.backgroundColorOfTiles,
+        textColor: formInputs.textColorOfTiles,
+      },
+      tile8: {
+        ...currentSettings.themes[0].tile8,
+        backgroundColor: formInputs.backgroundColorOfTiles,
+        textColor: formInputs.textColorOfTiles,
+      },
+      tile9: {
+        ...currentSettings.themes[0].tile9,
+        backgroundColor: formInputs.backgroundColorOfTiles,
+        textColor: formInputs.textColorOfTiles,
+      },
+      tile10: {
+        ...currentSettings.themes[0].tile10,
+        backgroundColor: formInputs.backgroundColorOfTiles,
+        textColor: formInputs.textColorOfTiles,
+      },
+      tile11: {
+        ...currentSettings.themes[0].tile11,
+        backgroundColor: formInputs.backgroundColorOfTiles,
+        textColor: formInputs.textColorOfTiles,
       },
     });
     setSettings(currentSettings);
@@ -108,71 +220,79 @@ export const ThemeCreator: React.FC<ThemeCreatorProps> = ({}) => {
   };
 
   return (
-    <Box height="100%" width="100%" p="6">
+    <Box height="100%" width="100%" p="6" color="#526371">
       <form onSubmit={submitThemeForm}>
-        <Stack width="max-content" mt="8" spacing="4" ml="20%">
-          <Heading>So you want a new theme?</Heading>
-          <Box>
-            <Text>Theme name</Text>
-            <Input
-              width="20rem"
-              onChange={onThemeNameChange}
-              value={formInputs.themeName}
-            />
+        <Heading color="black" mt="4" mb="8">
+          So you want a new theme?
+        </Heading>
+        <Box
+          mb="8"
+          backgroundColor="white"
+          shadow="lg"
+          p="6"
+          borderRadius="10px"
+          // width="max(30%, 300px)"
+          width="400px"
+        >
+          <Text>Theme Name</Text>
+          <Input onChange={onThemeNameChange} value={formInputs.themeName} />
+        </Box>
+        <Grid
+          templateColumns={"repeat(auto-fit, minmax(400px, 1fr))"}
+          gridGap="20px"
+          alignContent={"center"}
+        >
+          <ColorPicker
+            title="Background Color"
+            value={formInputs.backgroundColor}
+            onChange={onBackgroundColorChange}
+          />
+          <ColorPicker
+            title="Background Color of the Tiles"
+            value={formInputs.backgroundColorOfTiles}
+            onChange={onBackgroundColorOfTilesChange}
+          />
+          <ColorPicker
+            title="Text Color of Tiles"
+            value={formInputs.textColorOfTiles}
+            onChange={onTextColorOfTilesChange}
+          />
+        </Grid>
+        <Box
+          backgroundColor="white"
+          shadow="lg"
+          p="6"
+          borderRadius="10px"
+          textAlign="center"
+          // width="max(30%, 300px)"
+          mt="8"
+          maxW="400px"
+        >
+          <Text>Sidebar theme</Text>
+          <Box display="flex" alignItems="center" justifyContent="center">
+            <span style={{ marginRight: "10px" }}>Light</span>
+            <Switch
+              onChange={onDarkThemeChange}
+              isChecked={formInputs.sidebarIsDarkTheme}
+              size="md"
+            ></Switch>
+            <span style={{ marginLeft: "10px" }}>Dark</span>
           </Box>
-          <Box>
-            <Text>Background Color</Text>
-            <Input
-              value={formInputs.backgroundColor}
-              onChange={(e) => onBackgroundColorChange(e.target.value)}
-              width="110px"
-            />
-            <HexColorPicker
-              color={formInputs.backgroundColor}
-              onChange={onBackgroundColorChange}
-              style={{
-                width: "20rem",
-                height: "120px",
-                marginTop: "10px",
-                marginBottom: "5px",
-              }}
-            />
-          </Box>
-          <Box>
-            <Text>Text Color</Text>
-            <Input
-              value={formInputs.textColor}
-              onChange={(e) => onTextColorChange(e.target.value)}
-              width="110px"
-            />
-            <HexColorPicker
-              color={formInputs.textColor}
-              onChange={onTextColorChange}
-              style={{
-                width: "20rem",
-                height: "120px",
-                marginTop: "10px",
-                marginBottom: "5px",
-              }}
-            />
-          </Box>
-          <Box>
-            <Text>Sidebar theme</Text>
-            <Box display="flex" alignItems="center">
-              <span style={{ marginRight: "10px" }}>Light</span>
-              <Switch
-                // color={inputValue}
-                onChange={onDarkThemeChange}
-                isChecked={formInputs.sidebarIsDarkTheme}
-                size="md"
-              ></Switch>
-              <span style={{ marginLeft: "10px" }}>Dark</span>
-            </Box>
-          </Box>
-          <Button width="10rem" type="submit" disabled={!formValid}>
-            Create it!
+        </Box>
+        <Box width="400px" textAlign="center">
+          <Button
+            width="150px"
+            height="50px"
+            type="submit"
+            disabled={!formValid}
+            mt="4"
+            alignSelf="center"
+            background="white"
+            shadow="lg"
+          >
+            CREATE IT
           </Button>
-        </Stack>
+        </Box>
       </form>
     </Box>
   );

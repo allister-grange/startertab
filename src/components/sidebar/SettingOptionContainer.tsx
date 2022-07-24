@@ -1,10 +1,11 @@
 import { ColorPicker } from "@/components/sidebar/ColorPicker";
-import { Option, TileId, TileType } from "@/types";
-import { AccordionPanel, Box, Button, Text } from "@chakra-ui/react";
-import React from "react";
-import { TypePicker } from "@/components/sidebar/TypePicker";
-import { GenericSelect } from "@/components/sidebar/GenericSelect";
 import { GenericInput } from "@/components/sidebar/GenericInput";
+import { GenericSelect } from "@/components/sidebar/GenericSelect";
+import { TypePicker } from "@/components/sidebar/TypePicker";
+import { Option, TileId, TileType } from "@/types";
+import { AccordionPanel, Box, Text } from "@chakra-ui/react";
+import React from "react";
+import { ResetAndRandomizeColors } from "./ResetAndRandomizeColors";
 
 interface SettingOptionContainerProps {
   option: Option;
@@ -15,7 +16,7 @@ interface SettingOptionContainerProps {
   value: any;
   tileType: TileType;
   randomizeAllColorValues: () => void;
-  resetAllSettingsToDefault: () => void;
+  resetAllColorsToDefault: () => void;
 }
 
 const optionsStyles = {
@@ -30,41 +31,20 @@ export const SettingOptionContainer: React.FC<SettingOptionContainerProps> = ({
   changeSetting,
   resetOptionToDefault,
   randomizeAllColorValues,
-  resetAllSettingsToDefault,
+  resetAllColorsToDefault,
   tileType,
   value,
 }) => {
   let optionToDisplay;
 
   switch (option.optionType) {
-    case "RandomizeColors":
+    case "ResetColorsAndRandomize":
       optionToDisplay = (
-        <Button
-          display="block"
-          mt="2"
-          onClick={randomizeAllColorValues}
-          background="transparent"
-          border={`1px solid ${textColor}`}
-        >
-          <Text fontSize="sm" color={textColor}>
-            Randomize all color values
-          </Text>
-        </Button>
-      );
-      break;
-    case "ResetSettings":
-      optionToDisplay = (
-        <Button
-          display="block"
-          mt="4"
-          onClick={resetAllSettingsToDefault}
-          background="transparent"
-          border={`1px solid ${textColor}`}
-        >
-          <Text fontSize="sm" color={textColor}>
-            Reset all settings back to default
-          </Text>
-        </Button>
+        <ResetAndRandomizeColors
+          resetAllColorsToDefault={resetAllColorsToDefault}
+          textColor={textColor}
+          randomizeAllColorValues={randomizeAllColorValues}
+        />
       );
       break;
     case "ColorPicker":
