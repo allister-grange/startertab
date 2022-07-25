@@ -4,16 +4,16 @@ import { TileId, UserSettingsContextInterface } from "@/types";
 import { StockTickers } from "@/types/stocks";
 import {
   Box,
-  Center,
-  Heading,
-  useColorMode,
-  Text,
-  Flex,
-  Input,
   Button,
-  Spinner,
+  Center,
+  Flex,
+  Heading,
+  Input,
   InputGroup,
   InputRightElement,
+  Skeleton,
+  Text,
+  useColorMode,
 } from "@chakra-ui/react";
 import cloneDeep from "lodash.clonedeep";
 import React, { useContext, useEffect, useState } from "react";
@@ -105,7 +105,7 @@ export const SmallStockTile: React.FC<SmallStockTileProps> = ({
   if (state.status === "loading") {
     toDisplay = (
       <Center height="100%" color={color}>
-        <Spinner size="lg" />
+        <Skeleton width="70px" height="70px" borderRadius="15px" />
       </Center>
     );
   } else if (state.status === "resolved") {
@@ -119,7 +119,7 @@ export const SmallStockTile: React.FC<SmallStockTileProps> = ({
       >
         <Heading size="lg">{stockTicker?.ticker.toUpperCase()}</Heading>
         <Text fontSize="lg" opacity="0.9">{`$${stockTicker?.c}`}</Text>
-        <Box ml="2">
+        <Box>
           <Text color={stockTicker?.dp! > 0 ? "green" : "#F1676D"}>
             {stockTicker?.d} ({stockTicker?.dp}%)
           </Text>
