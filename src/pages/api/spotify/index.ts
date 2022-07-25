@@ -160,7 +160,7 @@ export const getSpotifyStatus = async (
     songArtist: data.item.artists[0].name,
     link: data.item.external_urls.spotify,
     albumFullSizeImageUrl: data.item.album.images[0].url,
-    albumPreviewUrl: data.item.images[2].url,
+    albumPreviewUrl: data.item.album.images[2].url,
     playable: true,
   };
 };
