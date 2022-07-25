@@ -61,7 +61,7 @@ export const RedditFeedTile: React.FC<RedditFeedProps> = ({ tileId }) => {
 
         const formattedData: RedditDataHolder[] = redditData.data.children.map(
           (child) => ({
-            url: child.data.url,
+            url: `https://www.reddit.com${child.data.permalink}`,
             title: child.data.title,
             id: child.data.id,
           })
