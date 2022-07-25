@@ -137,7 +137,6 @@ export const SmallWeatherTile: React.FC<SmallWeatherTileProps> = ({
       </Center>
     );
   } else if (state.status === "resolved" && state.data) {
-  } else if (state.status === "resolved" && state.data) {
     let icon;
 
     switch (state.data.condition) {
