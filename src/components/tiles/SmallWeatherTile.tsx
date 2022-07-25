@@ -133,9 +133,10 @@ export const SmallWeatherTile: React.FC<SmallWeatherTileProps> = ({
         <Text size="xs" opacity="0.4" pos="absolute" bottom="2" left="3">
           {state.cityNameOfData}
         </Text>
-        <Skeleton width="70px" height="70px" borderRadius="15px" />
+        <Skeleton width="60px" height="60px" borderRadius="15px" />
       </Center>
     );
+  } else if (state.status === "resolved" && state.data) {
   } else if (state.status === "resolved" && state.data) {
     let icon;
 

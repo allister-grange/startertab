@@ -121,7 +121,7 @@ export const SmallSpotifyTile: React.FC<SmallSpotifyTileProps> = ({
         ) : (
           <Box>
             <Skeleton height="20px" width="70px" />
-            <Skeleton height="20px" width="95px" mt="2" />
+            <Skeleton height="15px" width="95px" mt="2" />
           </Box>
         )}
         <Flex pos="absolute" bottom="3" left="10" dir="row" alignItems="center">
