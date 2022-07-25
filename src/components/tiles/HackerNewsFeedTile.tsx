@@ -6,6 +6,7 @@ import { HackerNewsLinkHolder } from "@/types/hackernews";
 import { Box, Heading, Link, Skeleton, useColorMode } from "@chakra-ui/react";
 import { clone } from "lodash";
 import React, { useContext, useEffect, useState } from "react";
+import { HackerNewsLogo } from "../ui/HackerNewsLogo";
 
 type PageProps = {
   tileId: TileId;
@@ -74,6 +75,10 @@ export const HackerNewsFeedTile: React.FC<PageProps> = ({ tileId }) => {
           Hacker News Feed
         </Link>
       </Heading>
+      <Box position="absolute" right="4" top="4" height="10px" width="20px">
+        <HackerNewsLogo color={color} />
+      </Box>
+
       <Box w="80%" bg="white" height="1px" ml="2" bgColor={underlineColor} />
       {hackerNewsData ? (
         <>
