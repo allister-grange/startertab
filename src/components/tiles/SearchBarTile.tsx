@@ -39,6 +39,7 @@ export const SearchBarTile: React.FC<SearchBarProps> = ({ tileId }) => {
     <Center height="100%">
       <Button
         bg="transparent"
+        _hover={{ background: "transparent", transform: "translateY(-2px)" }}
         onClick={() => searchClick("duck")}
         aria-label="Search with DuckDuckGo"
       >
@@ -46,6 +47,7 @@ export const SearchBarTile: React.FC<SearchBarProps> = ({ tileId }) => {
       </Button>
       <Button
         bg="transparent"
+        _hover={{ background: "transparent", transform: "translateY(-2px)" }}
         onClick={() => searchClick("google")}
         aria-label="Search with Google"
       >
@@ -53,6 +55,7 @@ export const SearchBarTile: React.FC<SearchBarProps> = ({ tileId }) => {
       </Button>
       <Button
         bg="transparent"
+        _hover={{ background: "transparent", transform: "translateY(-2px)" }}
         onClick={() => searchClick("stackoverflow")}
         aria-label="Search Google with Stack Overflow"
       >
