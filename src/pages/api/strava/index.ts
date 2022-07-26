@@ -6,19 +6,34 @@ import {
   StravaGraphData,
   StravaGraphPoint,
 } from "@/types/strava";
+import CryptoJS from "crypto-js";
+
+const key = process.env.TOKEN_ENCRYPT_KEY;
 
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
   try {
-    let {
-      query: { accessToken, refreshToken },
-    } = req;
+    let accessToken = req.cookies["stravaAccessToken"];
+    let refreshToken = req.cookies["stravaRefreshToken"];
 
     if (!accessToken || !refreshToken) {
-      return res.status(500).send("Failed to provide access or refresh token");
+      return res.status(400).send("Failed to provide access or refresh token");
     }
+
+    if (!key) {
+      return res
+        .status(500)
+        .send("No encryption key found in environment variables");
+    }
+
+    accessToken = CryptoJS.AES.decrypt(accessToken, key).toString(
+      CryptoJS.enc.Utf8
+    );
+    refreshToken = CryptoJS.AES.decrypt(refreshToken, key).toString(
+      CryptoJS.enc.Utf8
+    );
 
     const stravaData = await getStravaData(
       accessToken as string,

@@ -7,9 +7,6 @@ import {
 import * as React from "react";
 import { useRef, useState } from "react";
 
-const SPOTIFY_ACCESS_TOKEN = "spotifyAccessToken";
-const SPOTIFY_REFRESH_TOKEN = "spotifyRefreshToken";
-
 export const SpotifyContext =
   React.createContext<SpotifyContextInterface | null>(null);
 
@@ -19,8 +16,6 @@ interface Props {
 
 const SpotifyContextProvider: React.FC<Props> = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState<boolean | undefined>();
-  const [accessToken, setAccessToken] = useState<string | undefined>();
-  const [refreshToken, setRefreshToken] = useState<string | undefined>();
   const [spotifyData, setSpotifyData] = useState<NowPlayingSpotifyData>({
     playing: false,
     songTitle: undefined,
@@ -33,84 +28,34 @@ const SpotifyContextProvider: React.FC<Props> = ({ children }) => {
   const [topArtists, setTopArtists] = useState<TopArtistSpotify[]>([]);
   const refreshingInterval = useRef<NodeJS.Timer | undefined>();
 
-  // only needs to run when the user has clicked 'continue with spotify'
-  // used for grabbing the access and refresh token and storing them in
-  // local storage
   React.useEffect(() => {
-    // user is logged in, no need to process
-    if (isAuthenticated) {
-      return;
-    }
+    const checkIfLoggedIn = async () => {
+      try {
+        const res = await fetch("/api/spotify/me");
+        const { loggedIn } = await res.json();
+        setIsAuthenticated(loggedIn);
+      } catch (err) {
+        throw new Error(err as string);
+      }
+    };
 
-    // check if the user has already logged in before, but not in this session
-    const accessTokenFromStorage = localStorage.getItem(SPOTIFY_ACCESS_TOKEN);
-    const refreshTokenFromStorage = localStorage.getItem(SPOTIFY_REFRESH_TOKEN);
-    if (accessTokenFromStorage && refreshTokenFromStorage) {
-      setIsAuthenticated(true);
-      setAccessToken(accessTokenFromStorage);
-      setRefreshToken(refreshTokenFromStorage);
-      return;
-    } else {
-      setIsAuthenticated(false);
-    }
-
-    // user hasn't logged in before, and has been redirected from Spotify login
-    const searchTerms = new URLSearchParams(location.search);
-    const accessToken = searchTerms.get("accessToken");
-    const refreshToken = searchTerms.get("refreshToken");
-    const isSpotifyRedirect = searchTerms.get("fromSpotify");
-
-    if (!accessToken || !refreshToken || !isSpotifyRedirect) {
-      return;
-    }
-
-    localStorage.setItem(SPOTIFY_ACCESS_TOKEN, accessToken);
-    localStorage.setItem(SPOTIFY_REFRESH_TOKEN, refreshToken);
-
-    setAccessToken(accessToken);
-    setRefreshToken(refreshToken);
-    setIsAuthenticated(true);
-    history.pushState(
-      null,
-      "New Page",
-      window.location.toString().split("?")[0]
-    );
-  }, [isAuthenticated]);
+    checkIfLoggedIn();
+  }, []);
 
   const fetchCurrentSong = React.useCallback(async () => {
-    const res = await fetch(
-      `/api/spotify?accessToken=${accessToken}&refreshToken=${refreshToken}`
-    );
+    const res = await fetch(`/api/spotify`);
     let data = (await res.json()) as NowPlayingSpotifyData;
 
-    // if there is an accessToken returned, the old one was stale
-    if (data.accessToken) {
-      setAccessToken(data.accessToken);
-      localStorage.setItem(SPOTIFY_ACCESS_TOKEN, data.accessToken);
-    }
-
     setSpotifyData(data);
-  }, [accessToken, refreshToken]);
+  }, []);
 
-  const fetchTopArtistData = React.useCallback(
-    async (timeRage: string) => {
-      setTopArtists([]);
-      const res = await fetch(
-        `/api/spotify/topArtists?accessToken=${accessToken}&refreshToken=${refreshToken}` +
-          `&timeRange=${timeRage}`
-      );
-      let data = (await res.json()) as TopArtistSpotifyData;
+  const fetchTopArtistData = React.useCallback(async (timeRage: string) => {
+    setTopArtists([]);
+    const res = await fetch(`/api/spotify/topArtists?timeRange=${timeRage}`);
+    let data = (await res.json()) as TopArtistSpotifyData;
 
-      // if there is an accessToken returned, the old one was stale
-      if (data.accessToken) {
-        setAccessToken(data.accessToken);
-        localStorage.setItem(SPOTIFY_ACCESS_TOKEN, data.accessToken);
-      }
-
-      setTopArtists(data.topArtists);
-    },
-    [accessToken, refreshToken]
-  );
+    setTopArtists(data.topArtists);
+  }, []);
 
   const setRefreshingInterval = React.useCallback(() => {
     const interval = setInterval(fetchCurrentSong, 750);
@@ -119,7 +64,7 @@ const SpotifyContextProvider: React.FC<Props> = ({ children }) => {
 
   // User has logged in and has an access/refresh token
   React.useEffect(() => {
-    if (!isAuthenticated || !accessToken || !refreshToken) {
+    if (!isAuthenticated) {
       return;
     }
 
@@ -128,11 +73,9 @@ const SpotifyContextProvider: React.FC<Props> = ({ children }) => {
     setRefreshingInterval();
     return () => clearInterval(refreshingInterval.current!);
   }, [
-    accessToken,
     fetchCurrentSong,
     fetchTopArtistData,
     isAuthenticated,
-    refreshToken,
     setRefreshingInterval,
   ]);
 
@@ -146,10 +89,7 @@ const SpotifyContextProvider: React.FC<Props> = ({ children }) => {
   const skipSong = async (forward: boolean) => {
     try {
       clearInterval(refreshingInterval.current!);
-      await fetch(
-        `/api/spotify?forward=${forward}&accessToken=${accessToken}&refreshToken=${refreshToken}`,
-        { method: "POST" }
-      );
+      await fetch(`/api/spotify?forward=${forward}`, { method: "POST" });
     } catch (err) {
       console.error(err);
     } finally {
@@ -160,12 +100,9 @@ const SpotifyContextProvider: React.FC<Props> = ({ children }) => {
   const pausePlaySong = async (pause: boolean) => {
     try {
       clearInterval(refreshingInterval.current!);
-      await fetch(
-        `/api/spotify?pause=${pause}&accessToken=${accessToken}&refreshToken=${refreshToken}`,
-        {
-          method: "POST",
-        }
-      );
+      await fetch(`/api/spotify?pause=${pause}`, {
+        method: "POST",
+      });
     } catch (err) {
       console.error(err);
       setSpotifyData({
