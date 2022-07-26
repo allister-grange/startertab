@@ -67,7 +67,6 @@ export interface StravaGraphData {
   running: StravaGraphPoint[];
   riding: StravaGraphPoint[];
   combinedData: StravaCombinedGraphData[];
-  accessToken?: string;
 }
 
 export interface StravaCombinedGraphData {

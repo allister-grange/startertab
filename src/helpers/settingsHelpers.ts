@@ -9,6 +9,8 @@ import { defaultSettings } from "@/helpers/themes";
 
 export const applyTheme = (theme: ThemeSettings) => {
   document.body.style.background = theme.globalSettings.backgroundColor;
+  document.body.style.backgroundRepeat = "no-repeat";
+  document.body.style.backgroundSize = "cover";
   document.documentElement.style.setProperty(
     "--bg-color-tile1",
     theme.tile1.backgroundColor

@@ -52,8 +52,8 @@ const ColorModeSwitcher: React.FC = () => {
           onClick={() => setColorMode("Pink")}
         />
         <ThemePickerBubble
-          bg="linear-gradient(90deg, white 50%, #f882ff 50%);"
-          onClick={() => setColorMode("CMYK")}
+          bg="linear-gradient(360deg, blue 50%, white 50%);"
+          onClick={() => setColorMode("Wavy")}
         />
       </Flex>
     </Flex>

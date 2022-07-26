@@ -39,8 +39,8 @@ const ColorPicker: React.FC<ColorPickerProps> = ({
 }) => {
   return (
     <Stack
-      backgroundColor="white"
-      shadow="lg"
+      shadow="md"
+      background="white"
       p="6"
       borderRadius="10px"
       width="90%"
@@ -77,7 +77,7 @@ const ColorPicker: React.FC<ColorPickerProps> = ({
 };
 
 export const ThemeCreator: React.FC = ({}) => {
-  const { colorMode, setColorMode } = useColorMode();
+  const { setColorMode } = useColorMode();
   const { settings, setSettings } = useContext(
     SettingsContext
   ) as UserSettingsContextInterface;
@@ -88,8 +88,6 @@ export const ThemeCreator: React.FC = ({}) => {
     sidebarIsDarkTheme: false,
     textColorOfTiles: "#202020",
   });
-
-  // const theme = getCurrentTheme(settings, colorMode);
 
   React.useLayoutEffect(() => {
     document.body.style.background = "#F6F9F9";

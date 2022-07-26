@@ -8,7 +8,6 @@ export type NowPlayingSpotifyData = {
   albumFullSizeImageUrl?: string;
   albumPreviewUrl?: string;
   playable: boolean;
-  accessToken?: string;
 };
 
 export type SpotifyContextInterface = {
@@ -30,5 +29,4 @@ export type TopArtistSpotify = {
 // so that it can set it in the localStorage if it's refreshed
 export type TopArtistSpotifyData = {
   topArtists: TopArtistSpotify[];
-  accessToken?: string;
 };
