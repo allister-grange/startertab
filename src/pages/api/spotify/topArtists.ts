@@ -59,7 +59,7 @@ export default async function handler(
           cookie.serialize("spotifyAccessToken", spotifyData, {
             httpOnly: true,
             secure: process.env.NODE_ENV !== "development",
-            maxAge: 60 * 60 * 24,
+            maxAge: 34560000,
             sameSite: "strict",
             path: "/",
             encode: (value) => AES.encrypt(value, key!).toString(),

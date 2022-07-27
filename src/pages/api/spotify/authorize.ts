@@ -41,7 +41,7 @@ export default async function handler(
       cookie.serialize("spotifyRefreshToken", refresh_token, {
         httpOnly: true,
         secure: process.env.NODE_ENV !== "development",
-        maxAge: 60 * 60 * 24,
+        maxAge: 34560000,
         sameSite: "strict",
         path: "/",
         encode: (value) => AES.encrypt(value, key).toString(),
@@ -49,7 +49,7 @@ export default async function handler(
       cookie.serialize("spotifyAccessToken", access_token, {
         httpOnly: true,
         secure: process.env.NODE_ENV !== "development",
-        maxAge: 60 * 60 * 24,
+        maxAge: 34560000,
         sameSite: "strict",
         path: "/",
         encode: (value) => AES.encrypt(value, key).toString(),
