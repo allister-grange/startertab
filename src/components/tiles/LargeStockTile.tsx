@@ -17,6 +17,7 @@ import {
 } from "@chakra-ui/react";
 import cloneDeep from "lodash.clonedeep";
 import React, { useContext, useEffect, useState } from "react";
+import { LargeStockTickerSkeleton } from "@/components/skeletons/LargeStockTickerSkeleton";
 
 interface LargeStockTileProps {
   tileId: TileId;
@@ -169,16 +170,7 @@ export const LargeStockTile: React.FC<LargeStockTileProps> = ({ tileId }) => {
   let toDisplay;
 
   if (state.status === "loading") {
-    toDisplay = (
-      <Center height="100%" color={color}>
-        <Grid templateColumns="150px 150px" rowGap="80px" columnGap="100px">
-          <Skeleton width="60px" height="60px" borderRadius="10px" />
-          <Skeleton width="60px" height="60px" borderRadius="10px" />
-          <Skeleton width="60px" height="60px" borderRadius="10px" />
-          <Skeleton width="60px" height="60px" borderRadius="10px" />
-        </Grid>
-      </Center>
-    );
+    toDisplay = <LargeStockTickerSkeleton />;
   } else if (state.status === "resolved") {
     toDisplay = (
       <Grid templateColumns={"150px 150px"} rowGap="30px" columnGap={"100px"}>

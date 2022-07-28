@@ -3,10 +3,11 @@ import { SettingsContext } from "@/context/UserSettingsContext";
 import { getCurrentTheme } from "@/helpers/settingsHelpers";
 import { TileId, UserSettingsContextInterface } from "@/types";
 import { HackerNewsLinkHolder } from "@/types/hackernews";
-import { Box, Heading, Link, Skeleton, useColorMode } from "@chakra-ui/react";
+import { Box, Heading, Link, useColorMode } from "@chakra-ui/react";
 import { clone } from "lodash";
 import React, { useContext, useEffect, useState } from "react";
-import { HackerNewsLogo } from "../ui/HackerNewsLogo";
+import { TextFeedSkeleton } from "@/components/skeletons/TextFeedSkeleton";
+import { HackerNewsLogo } from "@/components/ui/HackerNewsLogo";
 
 type PageProps = {
   tileId: TileId;
@@ -113,19 +114,7 @@ export const HackerNewsFeedTile: React.FC<PageProps> = ({ tileId }) => {
           </Box>
         </>
       ) : (
-        <Box height="100%" p="2">
-          <Skeleton height="15px" mt="3" width="90%" />
-          <Skeleton height="15px" mt="3" />
-          <Skeleton height="15px" mt="3" width="75%" />
-          <Skeleton height="15px" mt="3" width="65%" />
-          <Skeleton height="15px" mt="3" width="85%" />
-          <Skeleton height="15px" mt="3" width="95%" />
-          <Skeleton height="15px" mt="3" width="75%" />
-          <Skeleton height="15px" mt="3" />
-          <Skeleton height="15px" mt="3" width="70%" />
-          <Skeleton height="15px" mt="3" width="85%" />
-          <Skeleton height="15px" mt="3" width="95%" />
-        </Box>
+        <TextFeedSkeleton />
       )}
     </Box>
   );

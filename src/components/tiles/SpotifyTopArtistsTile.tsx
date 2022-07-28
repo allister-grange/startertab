@@ -1,3 +1,4 @@
+import { TextFeedSkeleton } from "@/components/skeletons/TextFeedSkeleton";
 import { OptionBadge } from "@/components/ui/OptionBadge";
 import { SpotifyLogo } from "@/components/ui/SpotifyLogo";
 import { SpotifyContext } from "@/context/SpotifyContext";
@@ -16,7 +17,6 @@ import {
   Heading,
   Link,
   ListItem,
-  Skeleton,
   UnorderedList,
   useColorMode,
 } from "@chakra-ui/react";
@@ -108,19 +108,7 @@ export const SpotifyTopArtistsTile: React.FC<SmallSpotifyTileProps> = ({
               );
             })
           ) : (
-            <Box height="100%" p="2">
-              <Skeleton height="15px" mt="3" width="90%" />
-              <Skeleton height="15px" mt="3" />
-              <Skeleton height="15px" mt="3" width="75%" />
-              <Skeleton height="15px" mt="3" width="65%" />
-              <Skeleton height="15px" mt="3" width="85%" />
-              <Skeleton height="15px" mt="3" width="95%" />
-              <Skeleton height="15px" mt="3" width="75%" />
-              <Skeleton height="15px" mt="3" />
-              <Skeleton height="15px" mt="3" width="70%" />
-              <Skeleton height="15px" mt="3" width="85%" />
-              <Skeleton height="15px" mt="3" width="95%" />
-            </Box>
+            <TextFeedSkeleton />
           )}
         </UnorderedList>
         {topArtists.length > 0 && (

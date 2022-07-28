@@ -17,6 +17,7 @@ import {
 } from "@chakra-ui/react";
 import cloneDeep from "lodash.clonedeep";
 import React, { useContext, useEffect, useState } from "react";
+import { SmallStockTickerSkeleton } from "@/components/skeletons/SmallStockTickerSkeleton";
 
 interface SmallStockTileProps {
   tileId: TileId;
@@ -103,11 +104,7 @@ export const SmallStockTile: React.FC<SmallStockTileProps> = ({
   let toDisplay;
 
   if (state.status === "loading") {
-    toDisplay = (
-      <Center height="100%" color={color}>
-        <Skeleton width="70px" height="70px" borderRadius="15px" />
-      </Center>
-    );
+    toDisplay = <SmallStockTickerSkeleton />;
   } else if (state.status === "resolved") {
     toDisplay = state.data?.map((stockTicker) => (
       <Flex

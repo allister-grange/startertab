@@ -11,7 +11,6 @@ import {
   Input,
   InputGroup,
   InputRightElement,
-  Skeleton,
   Text,
   useColorMode,
 } from "@chakra-ui/react";
@@ -23,6 +22,7 @@ import {
   WiDaySunnyOvercast,
   WiRain,
 } from "react-icons/wi";
+import { LargeWeatherTileSkeleton } from "@/components/skeletons/LargeWeatherTileSkeleton";
 
 interface LargeWeatherTileProps {
   tileId: TileId;
@@ -207,9 +207,7 @@ export const LargeWeatherTile: React.FC<LargeWeatherTileProps> = ({
         <Text size="xs" opacity="0.4" pos="absolute" bottom="2" left="3">
           {state.cityNameOfData}
         </Text>
-        <Skeleton width="70px" height="70px" borderRadius="15px" />
-        <Skeleton width="70px" height="70px" borderRadius="15px" />
-        <Skeleton width="70px" height="70px" borderRadius="15px" />
+        <LargeWeatherTileSkeleton />
       </Flex>
     );
   } else if (state.status === "resolved" && state.data) {
