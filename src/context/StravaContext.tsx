@@ -1,3 +1,4 @@
+import { getEmptyStravaData } from "@/pages/api/strava";
 import { StravaContextInterface, StravaGraphData } from "@/types";
 import * as React from "react";
 import { useState } from "react";
@@ -12,7 +13,9 @@ interface Props {
 
 const StravaContextProvider: React.FC<Props> = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState<boolean | undefined>();
-  const [stravaData, setStravaData] = useState<StravaGraphData | undefined>();
+  const [stravaData, setStravaData] = useState<StravaGraphData>(
+    getEmptyStravaData()
+  );
 
   React.useEffect(() => {
     const checkIfLoggedIn = async () => {

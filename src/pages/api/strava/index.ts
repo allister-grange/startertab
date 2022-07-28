@@ -153,7 +153,7 @@ const formatStravaData = (data: StravaActivity[]) => {
   return formattedStravaData;
 };
 
-const getEmptyStravaData = (): StravaGraphData => {
+export const getEmptyStravaData = (): StravaGraphData => {
   const formattedStravaData: StravaGraphData = {
     swimming: [] as StravaGraphPoint[],
     running: [] as StravaGraphPoint[],

@@ -79,5 +79,5 @@ export interface StravaCombinedGraphData {
 export type StravaContextInterface = {
   isAuthenticated?: boolean;
   loginWithStrava: () => void;
-  stravaData?: StravaGraphData;
+  stravaData: StravaGraphData;
 };
