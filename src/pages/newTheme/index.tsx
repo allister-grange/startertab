@@ -1,5 +1,6 @@
 import { ColorPicker } from "@/components/theme-creator/ColorPicker";
 import { SettingTitle } from "@/components/theme-creator/SettingTitle";
+import { SidebarThemePicker } from "@/components/theme-creator/SidebarThemePicker";
 import { SettingsContext } from "@/context/UserSettingsContext";
 import { UserSettingsContextInterface } from "@/types";
 import {
@@ -9,7 +10,6 @@ import {
   Grid,
   Heading,
   Input,
-  Switch,
   Text,
   useColorMode,
 } from "@chakra-ui/react";
@@ -33,11 +33,13 @@ export const ThemeCreator: React.FC = ({}) => {
   ) as UserSettingsContextInterface;
   const [formInputs, setFormInputs] = useState<FormInputs>({
     themeName: "",
-    backgroundColor: "#ffffff",
+    backgroundColor: "#f3b4b4",
     backgroundColorOfTiles: "#5bbdff",
     sidebarIsDarkTheme: false,
     textColorOfTiles: "#202020",
   });
+
+  console.log("formInputs", formInputs);
 
   React.useLayoutEffect(() => {
     document.body.style.background = "#F6F9F9";
@@ -51,6 +53,8 @@ export const ThemeCreator: React.FC = ({}) => {
   };
 
   const onBackgroundColorChange = (newColor: string) => {
+    console.log("changing to " + newColor);
+
     setFormInputs({
       ...formInputs,
       backgroundColor: newColor,
@@ -71,10 +75,10 @@ export const ThemeCreator: React.FC = ({}) => {
     });
   };
 
-  const onDarkThemeChange = () => {
+  const onDarkThemeChange = (isDarkTheme: boolean) => {
     setFormInputs({
       ...formInputs,
-      sidebarIsDarkTheme: !formInputs.sidebarIsDarkTheme,
+      sidebarIsDarkTheme: isDarkTheme,
     });
   };
 
@@ -166,7 +170,7 @@ export const ThemeCreator: React.FC = ({}) => {
   };
 
   return (
-    <Box height="100%" width="70%" p="6" color="#526371" mx="auto">
+    <Box height="100%" width="65%" p="2" color="#526371" mx="auto">
       <Flex>
         <span style={{ fontSize: "140px" }}>🎨</span>
         <Box my="auto" ml="8" width="55%">
@@ -179,7 +183,7 @@ export const ThemeCreator: React.FC = ({}) => {
         </Box>
       </Flex>
       <form onSubmit={submitThemeForm}>
-        <Box mb="8" p="6" width="400px">
+        <Box mb="12" mt="4" width="400px">
           <SettingTitle displayNumber={1} title="THEME NAME" />
           <Input
             mt="6"
@@ -208,7 +212,7 @@ export const ThemeCreator: React.FC = ({}) => {
         </Box>
 
         <Grid
-          templateColumns={"repeat(auto-fit, minmax(400px, 1fr))"}
+          templateColumns={"repeat(auto-fit, minmax(380px, 1fr))"}
           gridGap="20px"
           alignContent={"center"}
         >
@@ -240,60 +244,34 @@ export const ThemeCreator: React.FC = ({}) => {
             <SettingTitle displayNumber={5} title="SIDEBAR THEME" />
 
             <Flex mt="10">
-              <Box width="100%" height="100px" pos="relative">
+              <SidebarThemePicker
+                mr="2"
+                isSelected={formInputs.sidebarIsDarkTheme}
+                onClick={() => onDarkThemeChange(true)}
+              >
                 <Image
                   src="/darkSidebar.jpg"
+                  alt="dark sidebar option"
+                  layout="fill"
+                  objectFit="contain"
+                />
+              </SidebarThemePicker>
+              <SidebarThemePicker
+                ml="2"
+                isSelected={!formInputs.sidebarIsDarkTheme}
+                onClick={() => onDarkThemeChange(false)}
+              >
+                <Image
+                  src="/lightSidebar.jpg"
                   alt="light sidebar option"
                   layout="fill"
                   objectFit="contain"
                 />
-              </Box>
-              <Button
-                width="500px"
-                height="120px"
-                ml="10"
-                border="3px #B0AED0 solid"
-                borderRadius="15px"
-                p="2"
-                pos="relative"
-                background="transparent"
-                _hover={{
-                  background: "transparent",
-                }}
-              >
-                <Flex
-                  background="#B0AED0"
-                  width="28px"
-                  height="28px"
-                  pos="absolute"
-                  borderRadius="50%"
-                  top="-3"
-                  right="-4"
-                  zIndex={999}
-                  alignItems="center"
-                  justifyContent="center"
-                >
-                  <Text
-                    fontSize="12px"
-                    color="transparent"
-                    textShadow="0 0 0 white"
-                  >
-                    ✔️
-                  </Text>
-                </Flex>
-                <Box width="100%" height="100px" pos="relative">
-                  <Image
-                    src="/lightSidebar.jpg"
-                    alt="light sidebar option"
-                    layout="fill"
-                    objectFit="contain"
-                  />
-                </Box>
-              </Button>
+              </SidebarThemePicker>
             </Flex>
           </Box>
         </Grid>
-        <Box width="400px" textAlign="center">
+        <Box>
           <Button
             width="150px"
             height="50px"

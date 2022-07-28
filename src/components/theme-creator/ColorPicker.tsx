@@ -17,9 +17,26 @@ const Picker: React.FC<ColorPickerProps> = ({ value, onChange }) => {
       borderRadius="10px"
       width="300px"
       spacing="2"
-      mt="430px"
+      mt="415px"
       zIndex={999}
+      pos="relative"
     >
+      <Box
+        backgroundColor="white"
+        pos="absolute"
+        left="50%"
+        transform={"translateX(-50%)"}
+        top="-18px"
+        width="30px"
+        height="18px"
+        borderLeftWidth="15px"
+        borderLeftColor="#F6F9F9"
+        borderRightWidth="15px"
+        borderRightColor="#F6F9F9"
+        borderBottomWidth="15px"
+        borderBottomColor="white"
+        zIndex="999"
+      />
       <Flex>
         <Input
           value={value}
@@ -55,8 +72,6 @@ export const ColorPicker: React.FC<ColorPickerProps> = ({
 }) => {
   const [showingPicker, setShowingPicker] = useState(false);
 
-  console.log(showingPicker);
-
   return (
     <Center
       height="9.2rem"
@@ -65,20 +80,19 @@ export const ColorPicker: React.FC<ColorPickerProps> = ({
       outline="1px solid rgba(0,0,0, .1)"
       _hover={{ cursor: "pointer" }}
       mt="4"
-      onClick={() => {
-        console.log("helloo");
-        setShowingPicker((showingPicker) => true);
-      }}
+      pos="relative"
     >
       <Box
-        height="8rem"
-        width="8rem"
+        minHeight="8rem"
+        minWidth="8rem"
         borderRadius="50%"
         backgroundColor={value}
         transition="all .2s"
         _hover={{ transform: "scale(1.1)" }}
-
-        // onMouseLeave={() => setShowingPicker(false)}
+        pos="absolute"
+        onClick={() => {
+          setShowingPicker((showingPicker) => !showingPicker);
+        }}
       />
       {showingPicker && (
         <Picker value={value} onChange={onChange} title={title} />
