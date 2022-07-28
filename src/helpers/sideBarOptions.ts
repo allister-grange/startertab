@@ -121,13 +121,6 @@ export const sideBarOptions: Option[] = [
     tileId: "tile2",
   },
   {
-    title: "Type of tile",
-    subTitle: "Type of tile you want to display",
-    localStorageId: "tileType",
-    optionType: "LargeTileTypePicker",
-    tileId: "tile2",
-  },
-  {
     title: "City for UV data",
     subTitle: "Name of the city you want the UV data for",
     localStorageId: "cityForUv",
@@ -139,6 +132,13 @@ export const sideBarOptions: Option[] = [
     subTitle: "Name of the city you want the weather forecast for",
     localStorageId: "cityForWeather",
     optionType: "CityInputForWeather",
+    tileId: "tile2",
+  },
+  {
+    title: "Type of tile",
+    subTitle: "Type of tile you want to display",
+    localStorageId: "tileType",
+    optionType: "LargeTileTypePicker",
     tileId: "tile2",
   },
   {
@@ -408,13 +408,6 @@ export const sideBarOptions: Option[] = [
     tileId: "tile9",
   },
   {
-    title: "Type of tile",
-    subTitle: "Type of tile you want to display",
-    localStorageId: "tileType",
-    optionType: "LargeTileTypePicker",
-    tileId: "tile9",
-  },
-  {
     title: "City for weather forecast",
     subTitle: "Name of the city you want the weather forecast for",
     localStorageId: "cityForWeather",
@@ -426,6 +419,13 @@ export const sideBarOptions: Option[] = [
     subTitle: "Name of the city you want the UV data for",
     localStorageId: "cityForUv",
     optionType: "CityInputForUV",
+    tileId: "tile9",
+  },
+  {
+    title: "Type of tile",
+    subTitle: "Type of tile you want to display",
+    localStorageId: "tileType",
+    optionType: "LargeTileTypePicker",
     tileId: "tile9",
   },
   {

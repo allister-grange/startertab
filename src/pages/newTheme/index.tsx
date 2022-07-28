@@ -1,5 +1,6 @@
+import { ColorPicker } from "@/components/theme-creator/ColorPicker";
+import { SettingTitle } from "@/components/theme-creator/SettingTitle";
 import { SettingsContext } from "@/context/UserSettingsContext";
-import { getCurrentTheme } from "@/helpers/settingsHelpers";
 import { UserSettingsContextInterface } from "@/types";
 import {
   Box,
@@ -8,21 +9,14 @@ import {
   Grid,
   Heading,
   Input,
-  Stack,
   Switch,
   Text,
   useColorMode,
 } from "@chakra-ui/react";
 import { clone } from "lodash";
+import Image from "next/image";
 import Router from "next/router";
 import React, { useContext, useState } from "react";
-import { HexColorPicker } from "react-colorful";
-
-interface ColorPickerProps {
-  value: string;
-  onChange: (newColor: string) => void;
-  title: string;
-}
 
 type FormInputs = {
   themeName: string;
@@ -30,50 +24,6 @@ type FormInputs = {
   backgroundColorOfTiles: string;
   textColorOfTiles: string;
   sidebarIsDarkTheme: boolean;
-};
-
-const ColorPicker: React.FC<ColorPickerProps> = ({
-  value,
-  onChange,
-  title,
-}) => {
-  return (
-    <Stack
-      shadow="md"
-      background="white"
-      p="6"
-      borderRadius="10px"
-      width="90%"
-      spacing="2"
-      maxW="400px"
-    >
-      <Text>{title}</Text>
-      <Flex>
-        <Input
-          value={value}
-          onChange={(e) => onChange(e.target.value)}
-          width="110px"
-        />
-        <Box
-          width="40px"
-          height="40px"
-          ml="4"
-          backgroundColor={value}
-          borderRadius="5px"
-        />
-      </Flex>
-      <HexColorPicker
-        color={value}
-        onChange={onChange}
-        style={{
-          width: "20rem",
-          height: "120px",
-          marginTop: "10px",
-          marginBottom: "5px",
-        }}
-      />
-    </Stack>
-  );
 };
 
 export const ThemeCreator: React.FC = ({}) => {
@@ -211,72 +161,138 @@ export const ThemeCreator: React.FC = ({}) => {
       },
     });
     setSettings(currentSettings);
-    // set the theme to that new theme
     setColorMode(formInputs.themeName);
-    // redirect you back to the main page
     Router.push("/");
   };
 
   return (
-    <Box height="100%" width="100%" p="6" color="#526371">
-      <form onSubmit={submitThemeForm}>
-        <Heading color="black" mt="4" mb="8">
-          So you want a new theme?
-        </Heading>
-        <Box
-          mb="8"
-          backgroundColor="white"
-          shadow="lg"
-          p="6"
-          borderRadius="10px"
-          // width="max(30%, 300px)"
-          width="400px"
-        >
-          <Text>Theme Name</Text>
-          <Input onChange={onThemeNameChange} value={formInputs.themeName} />
+    <Box height="100%" width="70%" p="6" color="#526371" mx="auto">
+      <Flex>
+        <span style={{ fontSize: "140px" }}>🎨</span>
+        <Box my="auto" ml="8" width="55%">
+          <Heading color="black">Theme Creator</Heading>
+          <Text mt="2">
+            Here is a simple tool that allows you to create your own themes. The
+            settings you can change here are the &apos;global&apos; settings.
+            You can edit the rest of the theme once on the main screen.
+          </Text>
         </Box>
+      </Flex>
+      <form onSubmit={submitThemeForm}>
+        <Box mb="8" p="6" width="400px">
+          <SettingTitle displayNumber={1} title="THEME NAME" />
+          <Input
+            mt="6"
+            ml="4"
+            _focus={{
+              border: "0",
+              borderBottom: "1px",
+              borderColor: "blue",
+            }}
+            _placeholder={{
+              marginLeft: 0,
+              paddingLeft: 0,
+              fontSize: "30px",
+              paddingBottom: 0,
+            }}
+            fontSize="30px"
+            placeholder="Sunset Theme"
+            border="0"
+            borderBottom="1px"
+            borderRadius="0"
+            borderColor="blue"
+            size="lg"
+            onChange={onThemeNameChange}
+            value={formInputs.themeName}
+          />
+        </Box>
+
         <Grid
           templateColumns={"repeat(auto-fit, minmax(400px, 1fr))"}
           gridGap="20px"
           alignContent={"center"}
         >
-          <ColorPicker
-            title="Background Color"
-            value={formInputs.backgroundColor}
-            onChange={onBackgroundColorChange}
-          />
-          <ColorPicker
-            title="Background Color of the Tiles"
-            value={formInputs.backgroundColorOfTiles}
-            onChange={onBackgroundColorOfTilesChange}
-          />
-          <ColorPicker
-            title="Text Color of Tiles"
-            value={formInputs.textColorOfTiles}
-            onChange={onTextColorOfTilesChange}
-          />
-        </Grid>
-        <Box
-          backgroundColor="white"
-          shadow="lg"
-          p="6"
-          borderRadius="10px"
-          textAlign="center"
-          // width="max(30%, 300px)"
-          mt="8"
-          maxW="400px"
-        >
-          <Text>Sidebar theme</Text>
-          <Box display="flex" alignItems="center" justifyContent="center">
-            <span style={{ marginRight: "10px" }}>Light</span>
-            <Switch
-              onChange={onDarkThemeChange}
-              isChecked={formInputs.sidebarIsDarkTheme}
-              size="md"
-            ></Switch>
-            <span style={{ marginLeft: "10px" }}>Dark</span>
+          <Box>
+            <SettingTitle displayNumber={2} title="BACKGROUND COLOR" />
+            <ColorPicker
+              title="Background Color"
+              value={formInputs.backgroundColor}
+              onChange={onBackgroundColorChange}
+            />
           </Box>
-        </Box>
+          <Box>
+            <SettingTitle displayNumber={3} title="TILE BACKGROUND COLOR" />
+            <ColorPicker
+              title="Background Color of the Tiles"
+              value={formInputs.backgroundColorOfTiles}
+              onChange={onBackgroundColorOfTilesChange}
+            />
+          </Box>
+          <Box>
+            <SettingTitle displayNumber={4} title="TILE TEXT COLOR" />
+            <ColorPicker
+              title="Text Color of Tiles"
+              value={formInputs.textColorOfTiles}
+              onChange={onTextColorOfTilesChange}
+            />
+          </Box>
+          <Box>
+            <SettingTitle displayNumber={5} title="SIDEBAR THEME" />
+
+            <Flex mt="10">
+              <Box width="100%" height="100px" pos="relative">
+                <Image
+                  src="/darkSidebar.jpg"
+                  alt="light sidebar option"
+                  layout="fill"
+                  objectFit="contain"
+                />
+              </Box>
+              <Button
+                width="500px"
+                height="120px"
+                ml="10"
+                border="3px #B0AED0 solid"
+                borderRadius="15px"
+                p="2"
+                pos="relative"
+                background="transparent"
+                _hover={{
+                  background: "transparent",
+                }}
+              >
+                <Flex
+                  background="#B0AED0"
+                  width="28px"
+                  height="28px"
+                  pos="absolute"
+                  borderRadius="50%"
+                  top="-3"
+                  right="-4"
+                  zIndex={999}
+                  alignItems="center"
+                  justifyContent="center"
+                >
+                  <Text
+                    fontSize="12px"
+                    color="transparent"
+                    textShadow="0 0 0 white"
+                  >
+                    ✔️
+                  </Text>
+                </Flex>
+                <Box width="100%" height="100px" pos="relative">
+                  <Image
+                    src="/lightSidebar.jpg"
+                    alt="light sidebar option"
+                    layout="fill"
+                    objectFit="contain"
+                  />
+                </Box>
+              </Button>
+            </Flex>
+          </Box>
+        </Grid>
         <Box width="400px" textAlign="center">
           <Button
             width="150px"
