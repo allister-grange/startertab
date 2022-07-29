@@ -39,8 +39,6 @@ export const ThemeCreator: React.FC = ({}) => {
     textColorOfTiles: "#202020",
   });
 
-  console.log("formInputs", formInputs);
-
   React.useLayoutEffect(() => {
     document.body.style.background = "#F6F9F9";
   }, []);
@@ -97,6 +95,17 @@ export const ThemeCreator: React.FC = ({}) => {
 
     // put a new theme into local storage
     const currentSettings = clone(settings);
+
+    if (
+      currentSettings.themes.some(
+        (theme) =>
+          theme.themeName.toLowerCase() === formInputs.themeName.toLowerCase()
+      )
+    ) {
+      alert("Theme name already exists, try another");
+      return;
+    }
+
     currentSettings.themes.push({
       // push all the usual defaults onto the new theme, expect with the new settings
       ...currentSettings.themes[0],
@@ -104,8 +113,10 @@ export const ThemeCreator: React.FC = ({}) => {
       globalSettings: {
         ...currentSettings.themes[0].globalSettings,
         backgroundColor: formInputs.backgroundColor,
-        colorPrimary: formInputs.sidebarIsDarkTheme ? "#33393D" : "#eee",
-        textColor: formInputs.sidebarIsDarkTheme ? "#fff" : "#222222",
+        textColor: formInputs.sidebarIsDarkTheme ? "#33393D" : "#eee",
+        sidebarBackgroundColor: formInputs.sidebarIsDarkTheme
+          ? "#fff"
+          : "#222222",
         tileType: "None",
       },
       tile1: {

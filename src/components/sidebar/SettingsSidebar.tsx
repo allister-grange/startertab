@@ -188,10 +188,11 @@ const SettingsSideBar: React.FC<SettingsSideBarProps> = ({
     return <></>;
   }
 
-  const backgroundColor = currentThemeSettings?.globalSettings.colorPrimary!;
+  const backgroundColor =
+    currentThemeSettings?.globalSettings.sidebarBackgroundColor!;
   const textColor = currentThemeSettings?.globalSettings.textColor;
   const subTextColor = currentThemeSettings?.globalSettings.subTextColor!;
-  const borderColor = currentThemeSettings?.globalSettings.colorSecondary!;
+  const borderColor = currentThemeSettings?.globalSettings.sidebarBorderColor!;
 
   return (
     <Box
