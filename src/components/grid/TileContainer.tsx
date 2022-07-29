@@ -14,7 +14,6 @@ import {
   LargeWeatherTile,
   TodoListTile,
 } from "@/components/tiles";
-import ColorModeSwitcher from "@/components/ui/ColorModeSwitcher";
 import SpotifyContextProvider from "@/context/SpotifyContext";
 import StravaContextProvider from "@/context/StravaContext";
 import { TileId, TileType, TodoObject } from "@/types";
@@ -23,6 +22,7 @@ import StravaGraphTile from "@/components/tiles/StravaGraphTile";
 import React from "react";
 import { ErrorBoundary } from "react-error-boundary";
 import { TileErrorBoundary } from "@/components/tiles/TileErrorBoundary";
+import ThemePickerTile from "@/components/tiles/ThemePickerTile";
 
 interface TileContainerProps {
   tileId: TileId;
@@ -111,7 +111,7 @@ const TileContainer: React.FC<TileContainerProps> = ({
       tileToRender = <TimeTile tileId={tileId} />;
       break;
     case "Theme Picker":
-      tileToRender = <ColorModeSwitcher />;
+      tileToRender = <ThemePickerTile />;
       break;
     case "Todo List":
       tileToRender = <TodoListTile tileId={tileId} todoList={todoList} />;

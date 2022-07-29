@@ -1,4 +1,3 @@
-import { TileId } from "@/types";
 import { Box, BoxProps, Flex, useColorMode } from "@chakra-ui/react";
 import React from "react";
 
@@ -16,7 +15,7 @@ const ThemePickerBubble = (props: BoxProps) => {
   );
 };
 
-const ColorModeSwitcher: React.FC = () => {
+const ThemePickerTile: React.FC = () => {
   const { setColorMode } = useColorMode();
 
   return (
@@ -60,4 +59,4 @@ const ColorModeSwitcher: React.FC = () => {
   );
 };
 
-export default ColorModeSwitcher;
+export default ThemePickerTile;
