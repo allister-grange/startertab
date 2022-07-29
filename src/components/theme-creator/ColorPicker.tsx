@@ -5,7 +5,6 @@ import { HexColorPicker } from "react-colorful";
 interface ColorPickerProps {
   value: string;
   onChange: (newColor: string) => void;
-  title: string;
 }
 
 const Picker: React.FC<ColorPickerProps> = ({ value, onChange }) => {
@@ -47,7 +46,7 @@ const Picker: React.FC<ColorPickerProps> = ({ value, onChange }) => {
           width="40px"
           height="40px"
           ml="4"
-          backgroundColor={value}
+          background={value}
           borderRadius="5px"
         />
       </Flex>
@@ -68,7 +67,6 @@ const Picker: React.FC<ColorPickerProps> = ({ value, onChange }) => {
 export const ColorPicker: React.FC<ColorPickerProps> = ({
   value,
   onChange,
-  title,
 }) => {
   const [showingPicker, setShowingPicker] = useState(false);
 
@@ -86,7 +84,7 @@ export const ColorPicker: React.FC<ColorPickerProps> = ({
         minHeight="8rem"
         minWidth="8rem"
         borderRadius="50%"
-        backgroundColor={value}
+        background={value}
         transition="all .2s"
         _hover={{ transform: "scale(1.1)" }}
         pos="absolute"
@@ -94,9 +92,7 @@ export const ColorPicker: React.FC<ColorPickerProps> = ({
           setShowingPicker((showingPicker) => !showingPicker);
         }}
       />
-      {showingPicker && (
-        <Picker value={value} onChange={onChange} title={title} />
-      )}
+      {showingPicker && <Picker value={value} onChange={onChange} />}
     </Center>
   );
 };

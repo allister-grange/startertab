@@ -50,6 +50,7 @@ export type TileSettings = {
   textColor: string;
   backgroundColor: string;
   tileType: TileType;
+  themePickerBubbleColor?: string;
   sidebarBackgroundColor?: string;
   sidebarBorderColor?: string;
   subTextColor?: string;

@@ -70,7 +70,7 @@ export const HackerNewsFeedTile: React.FC<PageProps> = ({ tileId }) => {
     <Box p="2" color={color} position="relative">
       <Heading p="2" fontSize="xl" fontWeight="bold">
         <Link
-          href="https://news.ycombinator.com/ask"
+          href="https://news.ycombinator.com"
           aria-label="Link to Hacker News"
         >
           Hacker News Feed

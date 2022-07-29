@@ -23,6 +23,7 @@ type FormInputs = {
   backgroundColor: string;
   backgroundColorOfTiles: string;
   textColorOfTiles: string;
+  iconColor: string;
   sidebarIsDarkTheme: boolean;
 };
 
@@ -36,6 +37,7 @@ export const ThemeCreator: React.FC = ({}) => {
     backgroundColor: "#f3b4b4",
     backgroundColorOfTiles: "#5bbdff",
     sidebarIsDarkTheme: false,
+    iconColor: "linear-gradient(90deg, #f3b4b4 50%, #5bbdff 50%)",
     textColorOfTiles: "#202020",
   });
 
@@ -51,8 +53,6 @@ export const ThemeCreator: React.FC = ({}) => {
   };
 
   const onBackgroundColorChange = (newColor: string) => {
-    console.log("changing to " + newColor);
-
     setFormInputs({
       ...formInputs,
       backgroundColor: newColor,
@@ -77,6 +77,13 @@ export const ThemeCreator: React.FC = ({}) => {
     setFormInputs({
       ...formInputs,
       sidebarIsDarkTheme: isDarkTheme,
+    });
+  };
+
+  const onIconColorChange = (color: string) => {
+    setFormInputs({
+      ...formInputs,
+      iconColor: color,
     });
   };
 
@@ -118,6 +125,7 @@ export const ThemeCreator: React.FC = ({}) => {
           ? "#fff"
           : "#222222",
         tileType: "None",
+        themePickerBubbleColor: formInputs.iconColor,
       },
       tile1: {
         ...currentSettings.themes[0].tile1,
@@ -223,14 +231,13 @@ export const ThemeCreator: React.FC = ({}) => {
         </Box>
 
         <Grid
-          templateColumns={"repeat(auto-fit, minmax(380px, 1fr))"}
+          templateColumns="repeat(auto-fit, minmax(380px, 1fr))"
           gridGap="20px"
-          alignContent={"center"}
+          alignContent="center"
         >
           <Box>
             <SettingTitle displayNumber={2} title="BACKGROUND COLOR" />
             <ColorPicker
-              title="Background Color"
               value={formInputs.backgroundColor}
               onChange={onBackgroundColorChange}
             />
@@ -238,7 +245,6 @@ export const ThemeCreator: React.FC = ({}) => {
           <Box>
             <SettingTitle displayNumber={3} title="TILE BACKGROUND COLOR" />
             <ColorPicker
-              title="Background Color of the Tiles"
               value={formInputs.backgroundColorOfTiles}
               onChange={onBackgroundColorOfTilesChange}
             />
@@ -246,14 +252,12 @@ export const ThemeCreator: React.FC = ({}) => {
           <Box>
             <SettingTitle displayNumber={4} title="TILE TEXT COLOR" />
             <ColorPicker
-              title="Text Color of Tiles"
               value={formInputs.textColorOfTiles}
               onChange={onTextColorOfTilesChange}
             />
           </Box>
           <Box>
             <SettingTitle displayNumber={5} title="SIDEBAR THEME" />
-
             <Flex mt="10">
               <SidebarThemePicker
                 mr="2"
@@ -281,21 +285,28 @@ export const ThemeCreator: React.FC = ({}) => {
               </SidebarThemePicker>
             </Flex>
           </Box>
+          <Box>
+            <SettingTitle displayNumber={6} title="THEME ICON COLOR" />
+            <ColorPicker
+              value={formInputs.iconColor}
+              onChange={onIconColorChange}
+            />
+          </Box>
+          <Box>
+            <Button
+              width="150px"
+              height="50px"
+              type="submit"
+              disabled={!formValid}
+              mt="4"
+              alignSelf="center"
+              background="white"
+              shadow="lg"
+            >
+              CREATE IT
+            </Button>
+          </Box>
         </Grid>
-        <Box>
-          <Button
-            width="150px"
-            height="50px"
-            type="submit"
-            disabled={!formValid}
-            mt="4"
-            alignSelf="center"
-            background="white"
-            shadow="lg"
-          >
-            CREATE IT
-          </Button>
-        </Box>
       </form>
     </Box>
   );
