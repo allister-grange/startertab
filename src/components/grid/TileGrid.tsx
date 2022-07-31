@@ -41,7 +41,7 @@ export const TileGrid: React.FC<TileGridProps> = ({
         colSpan={2}
         minH="300px"
         maxH="330px"
-        minW="530px"
+        minW="480px"
         tileId={"tile2"}
         optionHovered={optionHovered === "tile2"}
         overflow="hidden"

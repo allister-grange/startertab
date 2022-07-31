@@ -81,7 +81,7 @@ export const HackerNewsFeedTile: React.FC<PageProps> = ({ tileId }) => {
       </Box>
 
       <Box w="80%" bg="white" height="1px" ml="2" bgColor={underlineColor} />
-      {hackerNewsData ? (
+      {hackerNewsData && hackerNewsData.length > 1 ? (
         <>
           {hackerNewsData.map((link) => (
             <Box key={link.id} p="2" pr="4">

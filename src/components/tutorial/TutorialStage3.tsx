@@ -1,24 +1,14 @@
 import { Box, Fade } from "@chakra-ui/react";
 import React from "react";
-import { BackArrow } from "../ui/BackArrow";
+import { BackArrow } from "@/components/ui/BackArrow";
+import { MessageBubble } from "@/components/tutorial/MessageBubble";
 
 export const TutorialStage3: React.FC = ({}) => {
   return (
     <Fade in={true}>
-      <Box
-        fontSize={"24px"}
-        color="black"
-        background="rgba(240,240,240,.9)"
-        pos="absolute"
-        left="430px"
-        top="75px"
-        borderRadius="20px"
-        p="4"
-        width="max-content"
-        zIndex="9999"
-      >
+      <MessageBubble pos="absolute" left="430px" top="70px">
         Give changing the theme a try
-      </Box>
+      </MessageBubble>
       <Box
         pos="absolute"
         left="350px"
@@ -26,7 +16,7 @@ export const TutorialStage3: React.FC = ({}) => {
         height="70px"
         zIndex="9999"
         width="3rem"
-        color="coral"
+        color="#B0AED0"
       >
         <BackArrow />
       </Box>

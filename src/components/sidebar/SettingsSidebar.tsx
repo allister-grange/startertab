@@ -217,6 +217,7 @@ const SettingsSideBar: React.FC<SettingsSideBarProps> = ({
       <Box p="3">
         <ThemeToChangeSelector
           textColor={textColor}
+          tutorialProgress={tutorialProgress}
           setTutorialProgress={setTutorialProgress}
           themes={getThemeNames(settings)}
         />

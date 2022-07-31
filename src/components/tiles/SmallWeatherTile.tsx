@@ -222,7 +222,7 @@ export const SmallWeatherTile: React.FC<SmallWeatherTileProps> = ({
   }
 
   return (
-    <Center color={color} height="100%" pos="relative">
+    <Center color={color} height="100%" pos="relative" p="4">
       {toDisplay}
       <Box
         pos="absolute"

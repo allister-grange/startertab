@@ -1,53 +1,44 @@
 import { Box, Fade } from "@chakra-ui/react";
 import React from "react";
-import { BackArrow } from "../ui/BackArrow";
+import { BackArrow } from "@/components/ui/BackArrow";
+import { MessageBubble } from "@/components/tutorial/MessageBubble";
 
 export const TutorialStage4: React.FC = ({}) => {
   return (
     <Fade in={true}>
-      <Box
-        fontSize={"24px"}
-        color="black"
-        background="rgba(240,240,240,.9)"
+      <MessageBubble
+        fontSize="24px"
         pos="absolute"
         left="430px"
         top="315px"
-        borderRadius="20px"
-        p="4"
         width="520px"
-        zIndex="9999"
       >
         Click on a dropdown to personalize your tiles
-      </Box>
-      <Box
-        fontSize={"24px"}
-        color="black"
-        background="rgba(240,240,240,.9)"
+      </MessageBubble>
+      <MessageBubble
+        fontSize="24px"
         pos="absolute"
         left="430px"
         top="150px"
         width="520px"
-        borderRadius="20px"
-        p="4"
-        zIndex="9999"
       >
         See, it&apos;s a breeze to customize the site. If you want this page to
         act as your &apos;New Tab&apos; page you&apos;ll need an extension like{" "}
         <a
           href="https://chrome.google.com/webstore/detail/custom-new-tab-url/mmjbdbjnoablegbkcklggeknkfcjkjia?hl=en"
-          style={{ color: "coral" }}
+          style={{ textDecorationLine: "underline" }}
         >
           this one
         </a>
-      </Box>
+      </MessageBubble>
       <Box
         pos="absolute"
         left="350px"
-        top="340px"
+        top="240px"
         height="70px"
         zIndex="9999"
         width="3rem"
-        color="coral"
+        color="#B0AED0"
       >
         <BackArrow />
       </Box>

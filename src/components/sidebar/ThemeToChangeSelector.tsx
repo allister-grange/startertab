@@ -5,6 +5,7 @@ import React, { Dispatch, SetStateAction } from "react";
 interface ThemeToChangeSelectorProps {
   themes: string[];
   textColor: string;
+  tutorialProgress: number;
   setTutorialProgress: Dispatch<SetStateAction<number>>;
 }
 const optionsStyles = {
@@ -15,6 +16,7 @@ const optionsStyles = {
 export const ThemeToChangeSelector: React.FC<ThemeToChangeSelectorProps> = ({
   themes,
   textColor,
+  tutorialProgress,
   setTutorialProgress,
 }) => {
   const { colorMode, setColorMode } = useColorMode();
@@ -25,6 +27,8 @@ export const ThemeToChangeSelector: React.FC<ThemeToChangeSelectorProps> = ({
     setColorMode(e.target.value);
   };
 
+  console.log(tutorialProgress);
+
   return (
     <Flex
       alignItems="center"
@@ -33,7 +37,6 @@ export const ThemeToChangeSelector: React.FC<ThemeToChangeSelectorProps> = ({
       pb="4"
       color={textColor}
     >
-      {/* <Text>Theme?</Text> */}
       <Select
         value={colorMode}
         width="75%"
@@ -55,6 +58,7 @@ export const ThemeToChangeSelector: React.FC<ThemeToChangeSelectorProps> = ({
         _hover={{ background: "transparent", transform: "translateY(-2px)" }}
         transition="all .2s"
         onClick={() => Router.push("/newTheme")}
+        isDisabled={tutorialProgress === 2 || tutorialProgress === 3}
       >
         +
       </Button>
