@@ -34,15 +34,15 @@ export const TutorialStage1: React.FC<TutorialStage1Props> = ({
           <Heading
             alignItems="flex-start"
             fontSize={"120px"}
-            color="white"
+            color="black"
             mt="2.5rem"
           >
             Start Page ✌
           </Heading>
-          <Text mt="2" fontSize={"28px"} color="#DEDEDE">
+          <Text mt="2" fontSize={"28px"} color="#303030">
             Your &apos;New Tab&apos; page with a twist
           </Text>
-          <Text mt="4" fontSize={"21px"} color="#DEDEDE" width="80%">
+          <Text mt="4" fontSize={"21px"} color="#303030" width="80%">
             Heads up, this website does not store any of your personal data
             outside of your own browser, you own everything. If you&apos;d like
             to see the code,{" "}

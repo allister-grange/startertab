@@ -1,4 +1,3 @@
-import { Box, Fade } from "@chakra-ui/react";
 import React, { Dispatch, SetStateAction } from "react";
 import { TutorialStage1 } from "@/components/tutorial/TutorialStage1";
 import { TutorialStage2 } from "@/components/tutorial/TutorialStage2";
@@ -24,9 +23,9 @@ export const Tutorial: React.FC<TutorialBlurProps> = ({
           setShowingTutorial={setShowingTutorial}
         />
       )}
-      <Box>{tutorialProgress === 1 && <TutorialStage2 />}</Box>
-      <Box>{tutorialProgress === 2 && <TutorialStage3 />}</Box>
-      <Box>{tutorialProgress === 3 && <TutorialStage4 />}</Box>
+      {tutorialProgress === 1 && <TutorialStage2 />}
+      {tutorialProgress === 2 && <TutorialStage3 />}
+      {tutorialProgress === 3 && <TutorialStage4 />}
     </>
   );
 };
