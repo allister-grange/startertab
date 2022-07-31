@@ -202,7 +202,7 @@ export const ThemeCreator: React.FC = ({}) => {
         </Box>
       </Flex>
       <form onSubmit={submitThemeForm}>
-        <Box mb="12" mt="4" width="400px">
+        <Box mb="12" mt="4" width="500px">
           <SettingTitle displayNumber={1} title="THEME NAME" />
           <Input
             mt="6"
@@ -225,15 +225,16 @@ export const ThemeCreator: React.FC = ({}) => {
             borderRadius="0"
             borderColor="blue"
             size="lg"
+            maxW="350px"
             onChange={onThemeNameChange}
             value={formInputs.themeName}
           />
         </Box>
-
         <Grid
           templateColumns="repeat(auto-fit, minmax(380px, 1fr))"
           gridGap="20px"
           alignContent="center"
+          maxWidth="1100px"
         >
           <Box>
             <SettingTitle displayNumber={2} title="BACKGROUND COLOR" />
@@ -292,21 +293,25 @@ export const ThemeCreator: React.FC = ({}) => {
               onChange={onIconColorChange}
             />
           </Box>
-          <Box>
-            <Button
-              width="150px"
-              height="50px"
-              type="submit"
-              disabled={!formValid}
-              mt="4"
-              alignSelf="center"
-              background="white"
-              shadow="lg"
-            >
-              CREATE IT
-            </Button>
-          </Box>
         </Grid>
+        <Flex mt="10" mb="10" alignItems="center" width="100%" height="100%">
+          <Button
+            width="150px"
+            height="50px"
+            type="submit"
+            disabled={!formValid}
+            background="transparent"
+            shadow="lg"
+            border="3px solid #B0AED0"
+            transition="all .2s"
+            _hover={{
+              transform: "translateY(-2px)",
+            }}
+            fontWeight="800"
+          >
+            CREATE IT
+          </Button>
+        </Flex>
       </form>
     </Box>
   );

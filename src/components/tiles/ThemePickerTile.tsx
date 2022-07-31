@@ -34,7 +34,7 @@ const ThemePickerTile: React.FC = () => {
     >
       <Grid
         templateColumns="repeat(auto-fit, minmax(25px, 1fr))"
-        gridGap="6px"
+        gridGap="7px"
         gridRowGap="15px"
         alignContent="center"
         width="100%"

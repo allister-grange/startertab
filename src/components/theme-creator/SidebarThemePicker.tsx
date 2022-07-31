@@ -13,8 +13,8 @@ export const SidebarThemePicker: React.FC<SidebarThemePickerProps> = ({
 }) => {
   return (
     <Button
-      width="580px"
-      height="120px"
+      width="230px"
+      height="140px"
       borderRadius="15px"
       p="2"
       pos="relative"
@@ -48,7 +48,7 @@ export const SidebarThemePicker: React.FC<SidebarThemePickerProps> = ({
         </Flex>
       ) : null}
 
-      <Box width="95%" height="160px" pos="relative">
+      <Box width="280px" height="160px" pos="relative">
         {children}
       </Box>
     </Button>
