@@ -79,114 +79,108 @@ const StravaGraphTile: React.FC<PageProps> = ({ tileId }) => {
           </OptionBadge>
         </Box>
       </Box>
-      {stravaData ? (
-        <Box mt="4" ml="-10">
-          <ResponsiveContainer width="97%" height={230}>
-            <BarChart data={stravaData.combinedData}>
-              <XAxis
-                label={undefined}
-                dataKey="day"
-                tick={{ fontSize: 12 }}
-                interval={0}
-                stroke={color}
-              />
-              <YAxis stroke={color} />
-              {activityShowing === "swim" && (
-                <Bar dataKey="swim" barSize={35}>
-                  {stravaData.swimming.map(
-                    (entry: StravaGraphPoint, index: number) => (
-                      <Cell
-                        key={`cell-${index}`}
-                        stroke={"#0654A4"}
-                        strokeWidth={2}
-                        fill={"rgba(6, 84, 164, 0.2)"}
-                      />
-                    )
-                  )}
-                </Bar>
-              )}
-              {activityShowing === "run" && (
-                <Bar dataKey="run" barSize={35}>
-                  {stravaData.running.map(
-                    (entry: StravaGraphPoint, index: number) => (
-                      <Cell
-                        key={`cell-${index}`}
-                        stroke={color}
-                        strokeWidth={1}
-                        fill={"rgba(32,147,0,0.2)"}
-                      />
-                    )
-                  )}
-                </Bar>
-              )}
-              {activityShowing === "ride" && (
-                <Bar dataKey="ride" barSize={35}>
-                  {stravaData.riding.map(
-                    (entry: StravaGraphPoint, index: number) => (
-                      <Cell
-                        key={`cell-${index}`}
-                        stroke={"coral"}
-                        strokeWidth={1}
-                        fill={"rgba(255, 133, 1, 0.2"}
-                      />
-                    )
-                  )}
-                </Bar>
-              )}
-              {activityShowing === undefined && (
-                <>
-                  {doesWeekHaveAnActivityInIt(stravaData.running) && (
-                    <Bar dataKey="run" barSize={35}>
-                      {stravaData.running.map(
-                        (entry: StravaGraphPoint, index: number) => (
-                          <Cell
-                            key={`cell-${index}`}
-                            stroke={color}
-                            strokeWidth={1}
-                            fill={"rgba(32,147,0,0.2)"}
-                          />
-                        )
-                      )}
-                    </Bar>
-                  )}
-                  {doesWeekHaveAnActivityInIt(stravaData.swimming) && (
-                    <Bar dataKey="swim" barSize={35}>
-                      {stravaData.swimming.map(
-                        (entry: StravaGraphPoint, index: number) => (
-                          <Cell
-                            key={`cell-${index}`}
-                            stroke={"#0654A4"}
-                            strokeWidth={1}
-                            fill={"rgba(6, 84, 164, 0.2)"}
-                          />
-                        )
-                      )}
-                    </Bar>
-                  )}
-                  {doesWeekHaveAnActivityInIt(stravaData.riding) && (
-                    <Bar dataKey="ride" barSize={35}>
-                      {stravaData.riding.map(
-                        (entry: StravaGraphPoint, index: number) => (
-                          <Cell
-                            key={`cell-${index}`}
-                            stroke={"coral"}
-                            strokeWidth={1}
-                            fill={"rgba(255, 133, 1, 0.2"}
-                          />
-                        )
-                      )}
-                    </Bar>
-                  )}
-                </>
-              )}
-            </BarChart>
-          </ResponsiveContainer>
-        </Box>
-      ) : (
-        <Center minHeight="265px">
-          <Spinner color={color} />
-        </Center>
-      )}
+      <Box mt="4" ml="-10">
+        <ResponsiveContainer width="97%" height={230}>
+          <BarChart data={stravaData.combinedData}>
+            <XAxis
+              label={undefined}
+              dataKey="day"
+              tick={{ fontSize: 12 }}
+              interval={0}
+              stroke={color}
+            />
+            <YAxis stroke={color} />
+            {activityShowing === "swim" && (
+              <Bar dataKey="swim" barSize={35}>
+                {stravaData.swimming.map(
+                  (entry: StravaGraphPoint, index: number) => (
+                    <Cell
+                      key={`cell-${index}`}
+                      stroke={"#0654A4"}
+                      strokeWidth={2}
+                      fill={"rgba(6, 84, 164, 0.2)"}
+                    />
+                  )
+                )}
+              </Bar>
+            )}
+            {activityShowing === "run" && (
+              <Bar dataKey="run" barSize={35}>
+                {stravaData.running.map(
+                  (entry: StravaGraphPoint, index: number) => (
+                    <Cell
+                      key={`cell-${index}`}
+                      stroke={color}
+                      strokeWidth={1}
+                      fill={"rgba(32,147,0,0.2)"}
+                    />
+                  )
+                )}
+              </Bar>
+            )}
+            {activityShowing === "ride" && (
+              <Bar dataKey="ride" barSize={35}>
+                {stravaData.riding.map(
+                  (entry: StravaGraphPoint, index: number) => (
+                    <Cell
+                      key={`cell-${index}`}
+                      stroke={"coral"}
+                      strokeWidth={1}
+                      fill={"rgba(255, 133, 1, 0.2"}
+                    />
+                  )
+                )}
+              </Bar>
+            )}
+            {activityShowing === undefined && (
+              <>
+                {doesWeekHaveAnActivityInIt(stravaData.running) && (
+                  <Bar dataKey="run" barSize={35}>
+                    {stravaData.running.map(
+                      (entry: StravaGraphPoint, index: number) => (
+                        <Cell
+                          key={`cell-${index}`}
+                          stroke={color}
+                          strokeWidth={1}
+                          fill={"rgba(32,147,0,0.2)"}
+                        />
+                      )
+                    )}
+                  </Bar>
+                )}
+                {doesWeekHaveAnActivityInIt(stravaData.swimming) && (
+                  <Bar dataKey="swim" barSize={35}>
+                    {stravaData.swimming.map(
+                      (entry: StravaGraphPoint, index: number) => (
+                        <Cell
+                          key={`cell-${index}`}
+                          stroke={"#0654A4"}
+                          strokeWidth={1}
+                          fill={"rgba(6, 84, 164, 0.2)"}
+                        />
+                      )
+                    )}
+                  </Bar>
+                )}
+                {doesWeekHaveAnActivityInIt(stravaData.riding) && (
+                  <Bar dataKey="ride" barSize={35}>
+                    {stravaData.riding.map(
+                      (entry: StravaGraphPoint, index: number) => (
+                        <Cell
+                          key={`cell-${index}`}
+                          stroke={"coral"}
+                          strokeWidth={1}
+                          fill={"rgba(255, 133, 1, 0.2"}
+                        />
+                      )
+                    )}
+                  </Bar>
+                )}
+              </>
+            )}
+          </BarChart>
+        </ResponsiveContainer>
+      </Box>
     </Box>
   );
 };

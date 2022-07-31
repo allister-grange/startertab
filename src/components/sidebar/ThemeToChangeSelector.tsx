@@ -1,9 +1,11 @@
-import { Flex, Select, Text, useColorMode } from "@chakra-ui/react";
+import { Button, Flex, Select, Text, useColorMode } from "@chakra-ui/react";
+import Router from "next/router";
 import React, { Dispatch, SetStateAction } from "react";
 
 interface ThemeToChangeSelectorProps {
   themes: string[];
   textColor: string;
+  tutorialProgress: number;
   setTutorialProgress: Dispatch<SetStateAction<number>>;
 }
 const optionsStyles = {
@@ -14,6 +16,7 @@ const optionsStyles = {
 export const ThemeToChangeSelector: React.FC<ThemeToChangeSelectorProps> = ({
   themes,
   textColor,
+  tutorialProgress,
   setTutorialProgress,
 }) => {
   const { colorMode, setColorMode } = useColorMode();
@@ -24,6 +27,8 @@ export const ThemeToChangeSelector: React.FC<ThemeToChangeSelectorProps> = ({
     setColorMode(e.target.value);
   };
 
+  console.log(tutorialProgress);
+
   return (
     <Flex
       alignItems="center"
@@ -32,10 +37,9 @@ export const ThemeToChangeSelector: React.FC<ThemeToChangeSelectorProps> = ({
       pb="4"
       color={textColor}
     >
-      <Text>Theme?</Text>
       <Select
         value={colorMode}
-        width="65%"
+        width="75%"
         onChange={onThemeSelectChange}
         outline={`1px solid ${textColor}`}
         _focus={{ border: `1px solid ${textColor}` }}
@@ -46,6 +50,18 @@ export const ThemeToChangeSelector: React.FC<ThemeToChangeSelectorProps> = ({
           </option>
         ))}
       </Select>
+      <Button
+        mr="1"
+        backgroundColor="transparent"
+        outline={`1px solid ${textColor}`}
+        _focus={{ border: `1px solid ${textColor}` }}
+        _hover={{ background: "transparent", transform: "translateY(-2px)" }}
+        transition="all .2s"
+        onClick={() => Router.push("/newTheme")}
+        isDisabled={tutorialProgress === 2 || tutorialProgress === 3}
+      >
+        +
+      </Button>
     </Flex>
   );
 };

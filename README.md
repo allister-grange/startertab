@@ -1,7 +1,7 @@
 # [StartPage](https://startpage.allistergrange.com/)
 
 <p align="center">
-  <img src="public/white.jpeg">
+  <img src="public/demo.png">
 </p>
 
 ## Inspiration
@@ -15,7 +15,6 @@ I use [this](https://chrome.google.com/webstore/detail/custom-new-tab-url/mmjbdb
 Local storage is used for storing your information, meaning you own your data! All of the settings, tokens and themes sit on your own browser. Some may call it laziness that I don't want to maintain a database, others may see it as me helping prevent your data being in yet another cloud service. 
 
 Written in NextJS with CharkaUI. Hosted in Vercel.
-
 
 ## Current API Integrations
 

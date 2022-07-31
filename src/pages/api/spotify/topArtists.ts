@@ -1,9 +1,13 @@
 import { TopArtistSpotify, TopArtistSpotifyData } from "@/types/spotify";
 import { NextApiRequest, NextApiResponse } from "next";
 import querystring from "querystring";
+import CryptoJS from "crypto-js";
+import AES from "crypto-js/aes";
+import cookie from "cookie";
 
 const clientId = process.env.SPOTIFY_CLIENT_ID;
 const clientSecret = process.env.SPOTIFY_CLIENT_SECRET;
+const key = process.env.TOKEN_ENCRYPT_KEY;
 
 const basic = Buffer.from(`${clientId}:${clientSecret}`).toString(`base64`);
 
@@ -17,23 +21,56 @@ export default async function handler(
   if (req.method === "GET") {
     try {
       let {
-        query: { accessToken, refreshToken, timeRange },
+        query: { timeRange },
       } = req;
 
-      if (
-        !accessToken ||
-        !refreshToken ||
-        accessToken === "undefined" ||
-        refreshToken === "undefined"
-      ) {
-        return res.status(500).send("No access/refresh token provided");
+      let accessToken = req.cookies["spotifyAccessToken"];
+      let refreshToken = req.cookies["spotifyRefreshToken"];
+
+      if (!accessToken || !refreshToken) {
+        return res
+          .status(400)
+          .send("Failed to provide access or refresh token");
       }
 
-      const spotifyData = await getSpotifyTopArtists(
+      if (!key) {
+        return res
+          .status(500)
+          .send("No encryption key found in environment variables");
+      }
+
+      accessToken = CryptoJS.AES.decrypt(accessToken, key).toString(
+        CryptoJS.enc.Utf8
+      );
+      refreshToken = CryptoJS.AES.decrypt(refreshToken, key).toString(
+        CryptoJS.enc.Utf8
+      );
+
+      let spotifyData = await getSpotifyTopArtists(
         accessToken as string,
         refreshToken as string,
         timeRange as string
       );
+
+      // if a new access token is sent back, set it in cookies
+      // and re-fetch the request
+      if (typeof spotifyData === "string") {
+        res.setHeader("Set-Cookie", [
+          cookie.serialize("spotifyAccessToken", spotifyData, {
+            httpOnly: true,
+            secure: process.env.NODE_ENV !== "development",
+            maxAge: 34560000,
+            sameSite: "strict",
+            path: "/",
+            encode: (value) => AES.encrypt(value, key!).toString(),
+          }),
+        ]);
+        spotifyData = (await getSpotifyTopArtists(
+          accessToken as string,
+          refreshToken as string,
+          timeRange as string
+        )) as TopArtistSpotifyData;
+      }
 
       spotifyData.topArtists.sort((a, b) => b.popularity - a.popularity);
 
@@ -73,7 +110,7 @@ export const getSpotifyTopArtists = async (
   accessToken: string,
   refreshToken: string,
   timeRange: string
-): Promise<TopArtistSpotifyData> => {
+): Promise<TopArtistSpotifyData | string> => {
   const res = await fetch(`${TOP_ARTISTS}?time_range=${timeRange}`, {
     headers: {
       Authorization: `Bearer ${accessToken}`,
@@ -85,12 +122,7 @@ export const getSpotifyTopArtists = async (
     console.log("Refreshing old access token", accessToken);
     const newAccessToken = await getAccessToken(refreshToken);
     console.log("New access token grabbed", newAccessToken);
-    const data = await getSpotifyTopArtists(
-      newAccessToken,
-      refreshToken,
-      timeRange
-    );
-    return { ...data, accessToken: newAccessToken };
+    return newAccessToken;
   }
 
   if (res.status !== 200) {

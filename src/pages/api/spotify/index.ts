@@ -1,9 +1,13 @@
 import { NowPlayingSpotifyData } from "@/types/spotify";
 import { NextApiRequest, NextApiResponse } from "next";
 import querystring from "querystring";
+import CryptoJS from "crypto-js";
+import AES from "crypto-js/aes";
+import cookie from "cookie";
 
 const clientId = process.env.SPOTIFY_CLIENT_ID;
 const clientSecret = process.env.SPOTIFY_CLIENT_SECRET;
+const key = process.env.TOKEN_ENCRYPT_KEY;
 
 const basic = Buffer.from(`${clientId}:${clientSecret}`).toString(`base64`);
 
@@ -19,20 +23,31 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
+  let accessToken = req.cookies["spotifyAccessToken"];
+  let refreshToken = req.cookies["spotifyRefreshToken"];
+
+  if (!accessToken || !refreshToken) {
+    return res.status(400).send("Failed to provide access or refresh token");
+  }
+
+  if (!key) {
+    return res
+      .status(500)
+      .send("No encryption key found in environment variables");
+  }
+
+  accessToken = CryptoJS.AES.decrypt(accessToken, key).toString(
+    CryptoJS.enc.Utf8
+  );
+  refreshToken = CryptoJS.AES.decrypt(refreshToken, key).toString(
+    CryptoJS.enc.Utf8
+  );
+
   if (req.method === "POST") {
     try {
       let {
-        query: { forward, pause, accessToken, refreshToken },
+        query: { forward, pause },
       } = req;
-
-      if (
-        !accessToken ||
-        !refreshToken ||
-        accessToken === "undefined" ||
-        refreshToken === "undefined"
-      ) {
-        return res.status(500).send("No access/refresh token provided");
-      }
 
       if (forward !== undefined) {
         const forwardBool = forward === "true" ? true : false;
@@ -58,18 +73,29 @@ export default async function handler(
     }
   } else if (req.method === "GET") {
     try {
-      let {
-        query: { accessToken, refreshToken },
-      } = req;
-
-      if (!accessToken || !refreshToken) {
-        return res.status(500).send("No access/refresh token provided");
-      }
-
-      const spotifyData = await getSpotifyStatus(
+      let spotifyData = await getSpotifyStatus(
         accessToken as string,
         refreshToken as string
       );
+
+      // if a new access token is sent back, set it in cookies
+      // and re-fetch the request
+      if (typeof spotifyData === "string") {
+        res.setHeader("Set-Cookie", [
+          cookie.serialize("spotifyAccessToken", spotifyData, {
+            httpOnly: true,
+            secure: process.env.NODE_ENV !== "development",
+            maxAge: 34560000,
+            sameSite: "strict",
+            path: "/",
+            encode: (value) => AES.encrypt(value, key!).toString(),
+          }),
+        ]);
+        spotifyData = await getSpotifyStatus(
+          spotifyData as string,
+          refreshToken as string
+        );
+      }
 
       res.status(200).json(spotifyData);
     } catch (err) {
@@ -106,28 +132,27 @@ const getAccessToken = async (refreshToken: string) => {
 export const getSpotifyStatus = async (
   accessToken: string,
   refreshToken: string
-): Promise<NowPlayingSpotifyData> => {
-  const res = await fetch(STATUS_ENDPOINT, {
+): Promise<NowPlayingSpotifyData | string> => {
+  const spotifyStatusRes = await fetch(STATUS_ENDPOINT, {
     headers: {
       Authorization: `Bearer ${accessToken}`,
     },
   });
 
   // access token is stale, get a new token and re-call this method
-  if (res.status === 401) {
+  if (spotifyStatusRes.status === 401) {
     console.log("Refreshing old access token", accessToken);
     const newAccessToken = await getAccessToken(refreshToken);
     console.log("New access token grabbed", newAccessToken);
-    const data = await getSpotifyStatus(newAccessToken, refreshToken);
-    return { ...data, accessToken: newAccessToken };
+    return newAccessToken;
   }
 
-  if (res.status === 204) {
-    const data = await getRecentlyPlayed(accessToken, refreshToken);
+  if (spotifyStatusRes.status === 204) {
+    const data = await getRecentlyPlayed(accessToken);
     return data;
   }
 
-  if (res.status !== 200) {
+  if (spotifyStatusRes.status !== 200) {
     return {
       playing: false,
       songArtist: undefined,
@@ -139,7 +164,7 @@ export const getSpotifyStatus = async (
     };
   }
 
-  const data = await res.json();
+  const data = await spotifyStatusRes.json();
 
   // if a podcast is playing
   if (data.currently_playing_type === "episode") {
@@ -166,22 +191,13 @@ export const getSpotifyStatus = async (
 };
 
 export const getRecentlyPlayed = async (
-  accessToken: string,
-  refreshToken: string
+  accessToken: string
 ): Promise<NowPlayingSpotifyData> => {
   const res = await fetch(RECENTLY_PLAYED_ENDPOINT, {
     headers: {
       Authorization: `Bearer ${accessToken}`,
     },
   });
-
-  if (res.status === 401) {
-    console.log("Refreshing old access token", accessToken);
-    const newAccessToken = await getAccessToken(refreshToken);
-    console.log("New access token grabbed", newAccessToken);
-    const data = await getRecentlyPlayed(newAccessToken, refreshToken);
-    return { ...data, accessToken: newAccessToken };
-  }
 
   if (res.status !== 200) {
     return {

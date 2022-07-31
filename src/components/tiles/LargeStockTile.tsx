@@ -11,12 +11,13 @@ import {
   Heading,
   Input,
   InputGroup,
-  Spinner,
+  Skeleton,
   Text,
   useColorMode,
 } from "@chakra-ui/react";
 import cloneDeep from "lodash.clonedeep";
 import React, { useContext, useEffect, useState } from "react";
+import { LargeStockTickerSkeleton } from "@/components/skeletons/LargeStockTickerSkeleton";
 
 interface LargeStockTileProps {
   tileId: TileId;
@@ -47,13 +48,15 @@ const StockDisplay: React.FC<StockDisplayProps> = ({ stockTicker }) => {
   // bung stock name, it's an error on the users behalf
   if (stockTicker?.c === 0) {
     textDisplay = (
-      <Box ml="2">
-        <Text color={"#F1676D"}>Sorry, that stock doesn&apos;t exist 😔</Text>
+      <Box>
+        <Text color="#F1676D" fontSize="xs">
+          Sorry, that stock doesn&apos;t exist 😔
+        </Text>
       </Box>
     );
   } else {
     textDisplay = (
-      <Box ml="2">
+      <Box>
         <Text color={stockTicker?.dp! > 0 ? "green" : "#F1676D"}>
           {stockTicker?.d} ({stockTicker?.dp}%)
         </Text>
@@ -167,11 +170,7 @@ export const LargeStockTile: React.FC<LargeStockTileProps> = ({ tileId }) => {
   let toDisplay;
 
   if (state.status === "loading") {
-    toDisplay = (
-      <Center height="100%" color={color}>
-        <Spinner size="lg" />
-      </Center>
-    );
+    toDisplay = <LargeStockTickerSkeleton />;
   } else if (state.status === "resolved") {
     toDisplay = (
       <Grid templateColumns={"150px 150px"} rowGap="30px" columnGap={"100px"}>
@@ -181,7 +180,7 @@ export const LargeStockTile: React.FC<LargeStockTileProps> = ({ tileId }) => {
       </Grid>
     );
   } else if (state.status === "rejected") {
-    toDisplay = <Text>Sorry, that stock doesn&apos;t exist 😔</Text>;
+    toDisplay = <Text size="xs">Sorry, that stock doesn&apos;t exist 😔</Text>;
   }
 
   return (

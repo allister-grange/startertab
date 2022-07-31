@@ -1,24 +1,14 @@
 import { Box, Fade } from "@chakra-ui/react";
 import React from "react";
-import { BackArrow } from "../ui/BackArrow";
+import { BackArrow } from "@/components/ui/BackArrow";
+import { MessageBubble } from "@/components/tutorial/MessageBubble";
 
 export const TutorialStage2: React.FC = ({}) => {
   return (
     <Fade in={true}>
-      <Box
-        fontSize={"34px"}
-        color="black"
-        background="rgba(240,240,240,.9)"
-        pos="absolute"
-        bottom="110px"
-        width="500px"
-        left="8rem"
-        borderRadius="20px"
-        p="4"
-        zIndex="9999"
-      >
-        Click the settings toggle at any time to change things up ⚙️
-      </Box>
+      <MessageBubble pos="absolute" bottom="110px" left="8rem">
+        <p>Click the settings toggle at any time to change things up ⚙️</p>
+      </MessageBubble>
       <Box
         pos="absolute"
         bottom="35px"
@@ -26,7 +16,7 @@ export const TutorialStage2: React.FC = ({}) => {
         height="5rem"
         width="3rem"
         transform={"rotate(320deg)"}
-        color="coral"
+        color="#B0AED0"
         zIndex="9999"
       >
         <BackArrow />

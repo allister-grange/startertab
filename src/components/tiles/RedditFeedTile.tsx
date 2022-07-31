@@ -1,3 +1,4 @@
+import { TextFeedSkeleton } from "@/components/skeletons/TextFeedSkeleton";
 import { SettingsContext } from "@/context/UserSettingsContext";
 import { getCurrentTheme } from "@/helpers/settingsHelpers";
 import {
@@ -11,7 +12,6 @@ import {
   Heading,
   Input,
   Link,
-  Skeleton,
   Text,
   useColorMode,
 } from "@chakra-ui/react";
@@ -61,7 +61,7 @@ export const RedditFeedTile: React.FC<RedditFeedProps> = ({ tileId }) => {
 
         const formattedData: RedditDataHolder[] = redditData.data.children.map(
           (child) => ({
-            url: child.data.url,
+            url: `https://www.reddit.com${child.data.permalink}`,
             title: child.data.title,
             id: child.data.id,
           })
@@ -123,21 +123,7 @@ export const RedditFeedTile: React.FC<RedditFeedProps> = ({ tileId }) => {
   let display;
 
   if (status === "loading") {
-    display = (
-      <Box height="100%" p="2">
-        <Skeleton height="15px" mt="3" width="90%" />
-        <Skeleton height="15px" mt="3" />
-        <Skeleton height="15px" mt="3" width="75%" />
-        <Skeleton height="15px" mt="3" width="65%" />
-        <Skeleton height="15px" mt="3" width="85%" />
-        <Skeleton height="15px" mt="3" width="95%" />
-        <Skeleton height="15px" mt="3" width="75%" />
-        <Skeleton height="15px" mt="3" />
-        <Skeleton height="15px" mt="3" width="70%" />
-        <Skeleton height="15px" mt="3" width="85%" />
-        <Skeleton height="15px" mt="3" width="95%" />
-      </Box>
-    );
+    display = <TextFeedSkeleton />;
   } else if (status === "resolved" && data) {
     display = data.map((link) => (
       <>

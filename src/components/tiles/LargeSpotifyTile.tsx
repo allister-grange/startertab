@@ -113,7 +113,7 @@ export const LargeSpotifyTile: React.FC<LargeSpotifyTileProps> = ({
             <Skeleton height="15px" mt="3" width="75%" />
           </Box>
         ) : (
-          <Link href={link} pos="absolute" top="20%">
+          <Link href={link} pos="absolute" top="20%" width="90%">
             <Heading fontSize={getFontSize(songTitle)}>{songTitle}</Heading>
             <Heading fontSize="xl" opacity="0.7">
               {songArtist}
@@ -166,7 +166,7 @@ export const LargeSpotifyTile: React.FC<LargeSpotifyTileProps> = ({
       <Box
         boxShadow={"4px 4px 10px rgba(0,0,0,.4)"}
         width="218px"
-        height="218px"
+        height="216px"
         mt="6%"
       >
         <Img src={albumFullSizeImageUrl} aria-label="Album cover art" />

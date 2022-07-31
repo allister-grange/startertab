@@ -19,6 +19,7 @@ export type OptionType =
   | "BorderSelect"
   | "SmallStockInput"
   | "GridGapInput"
+  | "ResetColorsAndRandomize"
   | "LargeStockTile"
   | "CityInputForWeather"
   | "HackerNewsFeedType"
@@ -46,21 +47,22 @@ export type TileType =
   | "None";
 
 export type TileSettings = {
+  textColor: string;
+  backgroundColor: string;
+  tileType: TileType;
+  themePickerBubbleColor?: string;
+  sidebarBackgroundColor?: string;
+  sidebarBorderColor?: string;
+  subTextColor?: string;
   subReddit?: string;
   twitterFeedURL?: string;
   stravaToken?: string;
-  backgroundColor: string;
-  textColor: string;
-  tileType: TileType;
   dropShadow?: string;
   cityForWeather?: string;
   cityForUv?: string;
   todoList?: TodoObject[];
   tileBorder?: string;
   stockName?: string;
-  subTextColor?: string;
-  colorPrimary?: string;
-  colorSecondary?: string;
   bonsaiBaseColor?: string;
   bonsaiTrunkColor?: string;
   borderRadius?: string;

@@ -18,7 +18,7 @@ import {
   Flex,
   Heading,
   Link,
-  Spinner,
+  Skeleton,
 } from "@chakra-ui/react";
 import React, { useContext } from "react";
 import { MusicControlButton } from "../ui/MusicControlButton";
@@ -106,9 +106,9 @@ export const SmallSpotifyTile: React.FC<SmallSpotifyTileProps> = ({
       >
         <SpotifyLogo size={18} color={color} />
       </Link>
-      <Flex dir="row" pl="6" pt="4">
+      <Flex dir="row" pl="6" pt="3">
         {songTitle && songArtist ? (
-          <Link href={link} mb="6">
+          <Link href={link}>
             <Heading fontSize={getFontSize(songTitle)}>{songTitle}</Heading>
             <Heading
               display="inline"
@@ -119,7 +119,10 @@ export const SmallSpotifyTile: React.FC<SmallSpotifyTileProps> = ({
             </Heading>
           </Link>
         ) : (
-          <Spinner color={color} size="md" mt="2" />
+          <Box>
+            <Skeleton height="20px" width="70px" />
+            <Skeleton height="15px" width="95px" mt="2" />
+          </Box>
         )}
         <Flex pos="absolute" bottom="3" left="10" dir="row" alignItems="center">
           <Box

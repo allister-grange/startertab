@@ -1,10 +1,11 @@
 import { ColorPicker } from "@/components/sidebar/ColorPicker";
+import { GenericInput } from "@/components/sidebar/GenericInput";
+import { GenericSelect } from "@/components/sidebar/GenericSelect";
+import { TypePicker } from "@/components/sidebar/TypePicker";
 import { Option, TileId, TileType } from "@/types";
 import { AccordionPanel, Box, Text } from "@chakra-ui/react";
 import React from "react";
-import { TypePicker } from "@/components/sidebar/TypePicker";
-import { GenericSelect } from "@/components/sidebar/GenericSelect";
-import { GenericInput } from "@/components/sidebar/GenericInput";
+import { ResetAndRandomizeColors } from "./ResetAndRandomizeColors";
 
 interface SettingOptionContainerProps {
   option: Option;
@@ -14,6 +15,8 @@ interface SettingOptionContainerProps {
   resetOptionToDefault: (option: Option) => void;
   value: any;
   tileType: TileType;
+  randomizeAllColorValues: () => void;
+  resetAllColorsToDefault: () => void;
 }
 
 const optionsStyles = {
@@ -27,12 +30,23 @@ export const SettingOptionContainer: React.FC<SettingOptionContainerProps> = ({
   subTextColor,
   changeSetting,
   resetOptionToDefault,
+  randomizeAllColorValues,
+  resetAllColorsToDefault,
   tileType,
   value,
 }) => {
   let optionToDisplay;
 
   switch (option.optionType) {
+    case "ResetColorsAndRandomize":
+      optionToDisplay = (
+        <ResetAndRandomizeColors
+          resetAllColorsToDefault={resetAllColorsToDefault}
+          textColor={textColor}
+          randomizeAllColorValues={randomizeAllColorValues}
+        />
+      );
+      break;
     case "ColorPicker":
       if (tileType !== "Bonsai" && option.localStorageId.includes("bonsai")) {
         break;

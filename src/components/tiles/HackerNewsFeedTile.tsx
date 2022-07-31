@@ -3,9 +3,11 @@ import { SettingsContext } from "@/context/UserSettingsContext";
 import { getCurrentTheme } from "@/helpers/settingsHelpers";
 import { TileId, UserSettingsContextInterface } from "@/types";
 import { HackerNewsLinkHolder } from "@/types/hackernews";
-import { Box, Heading, Link, Skeleton, useColorMode } from "@chakra-ui/react";
+import { Box, Heading, Link, useColorMode } from "@chakra-ui/react";
 import { clone } from "lodash";
 import React, { useContext, useEffect, useState } from "react";
+import { TextFeedSkeleton } from "@/components/skeletons/TextFeedSkeleton";
+import { HackerNewsLogo } from "@/components/ui/HackerNewsLogo";
 
 type PageProps = {
   tileId: TileId;
@@ -68,14 +70,18 @@ export const HackerNewsFeedTile: React.FC<PageProps> = ({ tileId }) => {
     <Box p="2" color={color} position="relative">
       <Heading p="2" fontSize="xl" fontWeight="bold">
         <Link
-          href="https://news.ycombinator.com/ask"
+          href="https://news.ycombinator.com"
           aria-label="Link to Hacker News"
         >
           Hacker News Feed
         </Link>
       </Heading>
+      <Box position="absolute" right="4" top="4" height="10px" width="20px">
+        <HackerNewsLogo color={color} />
+      </Box>
+
       <Box w="80%" bg="white" height="1px" ml="2" bgColor={underlineColor} />
-      {hackerNewsData ? (
+      {hackerNewsData && hackerNewsData.length > 1 ? (
         <>
           {hackerNewsData.map((link) => (
             <Box key={link.id} p="2" pr="4">
@@ -108,19 +114,7 @@ export const HackerNewsFeedTile: React.FC<PageProps> = ({ tileId }) => {
           </Box>
         </>
       ) : (
-        <Box height="100%" p="2">
-          <Skeleton height="15px" mt="3" width="90%" />
-          <Skeleton height="15px" mt="3" />
-          <Skeleton height="15px" mt="3" width="75%" />
-          <Skeleton height="15px" mt="3" width="65%" />
-          <Skeleton height="15px" mt="3" width="85%" />
-          <Skeleton height="15px" mt="3" width="95%" />
-          <Skeleton height="15px" mt="3" width="75%" />
-          <Skeleton height="15px" mt="3" />
-          <Skeleton height="15px" mt="3" width="70%" />
-          <Skeleton height="15px" mt="3" width="85%" />
-          <Skeleton height="15px" mt="3" width="95%" />
-        </Box>
+        <TextFeedSkeleton />
       )}
     </Box>
   );

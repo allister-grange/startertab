@@ -1,9 +1,12 @@
 import { getSpotifyRedirectUrl } from "@/helpers/getClientUrl";
 import { NextApiRequest, NextApiResponse } from "next";
+import AES from "crypto-js/aes";
+import cookie from "cookie";
 
 const TOKEN_ENDPOINT = `https://accounts.spotify.com/api/token`;
 const clientId = process.env.SPOTIFY_CLIENT_ID;
 const clientSecret = process.env.SPOTIFY_CLIENT_SECRET;
+const key = process.env.TOKEN_ENCRYPT_KEY;
 
 export default async function handler(
   req: NextApiRequest,
@@ -18,6 +21,12 @@ export default async function handler(
       res.status(500).send("No code on the redirect from Spotify");
     }
 
+    if (!key) {
+      return res
+        .status(500)
+        .send("No encryption key found in environment variables");
+    }
+
     const data = await getFirstAccessTokenFromCode(code as string);
 
     const { access_token, refresh_token } = data;
@@ -28,9 +37,26 @@ export default async function handler(
         .send("Didn't find access token or refresh token in Spotify response");
     }
 
-    res.redirect(
-      `/?accessToken=${access_token}&refreshToken=${refresh_token}&fromSpotify=true`
-    );
+    res.setHeader("Set-Cookie", [
+      cookie.serialize("spotifyRefreshToken", refresh_token, {
+        httpOnly: true,
+        secure: process.env.NODE_ENV !== "development",
+        maxAge: 34560000,
+        sameSite: "strict",
+        path: "/",
+        encode: (value) => AES.encrypt(value, key).toString(),
+      }),
+      cookie.serialize("spotifyAccessToken", access_token, {
+        httpOnly: true,
+        secure: process.env.NODE_ENV !== "development",
+        maxAge: 34560000,
+        sameSite: "strict",
+        path: "/",
+        encode: (value) => AES.encrypt(value, key).toString(),
+      }),
+    ]);
+
+    res.redirect(`/`);
   } catch (err) {
     res.status(500).send(err);
   }

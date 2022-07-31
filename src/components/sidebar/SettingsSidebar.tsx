@@ -19,9 +19,7 @@ import {
   AccordionIcon,
   AccordionItem,
   Box,
-  Button,
   ExpandedIndex,
-  Text,
   useColorMode,
 } from "@chakra-ui/react";
 import cloneDeep from "lodash.clonedeep";
@@ -119,11 +117,17 @@ const SettingsSideBar: React.FC<SettingsSideBarProps> = ({
     [changeSetting, colorMode]
   );
 
-  const resetAllSettingsToDefault = () => {
+  const resetAllColorsToDefault = () => {
     let newSettings = cloneDeep(settings);
     const themeToChange = getCurrentTheme(newSettings, colorMode);
 
     sideBarOptions.forEach((option) => {
+      if (
+        !option.optionType.toLowerCase().includes("color") &&
+        option.tileId !== "globalSettings"
+      ) {
+        return;
+      }
       const defaultSetting = getDefaultSettingForOption(option, colorMode);
       themeToChange[option.tileId][
         option.localStorageId as keyof TileSettings
@@ -184,10 +188,11 @@ const SettingsSideBar: React.FC<SettingsSideBarProps> = ({
     return <></>;
   }
 
-  const backgroundColor = currentThemeSettings?.globalSettings.colorPrimary!;
+  const backgroundColor =
+    currentThemeSettings?.globalSettings.sidebarBackgroundColor!;
   const textColor = currentThemeSettings?.globalSettings.textColor;
   const subTextColor = currentThemeSettings?.globalSettings.subTextColor!;
-  const borderColor = currentThemeSettings?.globalSettings.colorSecondary!;
+  const borderColor = currentThemeSettings?.globalSettings.sidebarBorderColor!;
 
   return (
     <Box
@@ -212,34 +217,10 @@ const SettingsSideBar: React.FC<SettingsSideBarProps> = ({
       <Box p="3">
         <ThemeToChangeSelector
           textColor={textColor}
+          tutorialProgress={tutorialProgress}
           setTutorialProgress={setTutorialProgress}
           themes={getThemeNames(settings)}
         />
-        <Box mb="4">
-          <Button
-            display="block"
-            onClick={resetAllSettingsToDefault}
-            background="transparent"
-            border={`1px solid ${textColor}`}
-          >
-            <Text fontSize="sm" color={textColor}>
-              Reset all settings back to default
-            </Text>
-          </Button>
-        </Box>
-        <Box mt="4" />
-        <Box mb="4">
-          <Button
-            display="block"
-            onClick={randomizeAllColorValues}
-            background="transparent"
-            border={`1px solid ${textColor}`}
-          >
-            <Text fontSize="sm" color={textColor}>
-              Randomize all color values
-            </Text>
-          </Button>
-        </Box>
         <Box mt="4" />
         <Accordion
           allowMultiple
@@ -273,7 +254,6 @@ const SettingsSideBar: React.FC<SettingsSideBarProps> = ({
                     </AccordionButton>
                   </h2>
                   {tileGroup[1].map((option: Option) => {
-                    // eager loading the options for performance
                     return (
                       <SettingOptionContainer
                         key={option.localStorageId}
@@ -283,6 +263,8 @@ const SettingsSideBar: React.FC<SettingsSideBarProps> = ({
                         textColor={textColor}
                         subTextColor={subTextColor}
                         resetOptionToDefault={resetOptionToDefault}
+                        randomizeAllColorValues={randomizeAllColorValues}
+                        resetAllColorsToDefault={resetAllColorsToDefault}
                         value={
                           currentThemeSettings![option.tileId!][
                             option.localStorageId as keyof TileSettings
