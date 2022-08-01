@@ -63,7 +63,7 @@ const Home: NextPage = () => {
         alignItems="center"
         overflow="auto"
       >
-        {isOpen && (
+        {isOpen ? (
           <SettingsSideBar
             onClose={onClose}
             isOpen={isOpen}
@@ -71,7 +71,7 @@ const Home: NextPage = () => {
             setTutorialProgress={setTutorialProgress}
             tutorialProgress={tutorialProgress}
           />
-        )}
+        ) : null}
         <NoSSR>
           <>
             {showingTutorial ? (

@@ -17,7 +17,7 @@ export const TutorialStage2: React.FC = ({}) => {
         width="3rem"
         transform={"rotate(320deg)"}
         color="#B0AED0"
-        zIndex="9999"
+        zIndex="2"
       >
         <BackArrow />
       </Box>

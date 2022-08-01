@@ -1,5 +1,4 @@
 import { SettingsContext } from "@/context/UserSettingsContext";
-import { getCurrentTheme } from "@/helpers/settingsHelpers";
 import { UserSettingsContextInterface } from "@/types";
 import { Box, BoxProps, Flex, Grid, useColorMode } from "@chakra-ui/react";
 import React, { useContext } from "react";
@@ -44,6 +43,7 @@ const ThemePickerTile: React.FC = () => {
           if (theme.themeName !== "Global Settings") {
             return (
               <ThemePickerBubble
+                key={theme.themeName}
                 justifySelf="center"
                 onClick={() => setColorMode(theme.themeName)}
                 bg={theme.globalSettings.themePickerBubbleColor}

@@ -36,7 +36,7 @@ export const TutorialStage4: React.FC = ({}) => {
         left="350px"
         top="240px"
         height="70px"
-        zIndex="9999"
+        zIndex="3"
         width="3rem"
         color="#B0AED0"
       >

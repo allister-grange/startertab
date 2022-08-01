@@ -11,7 +11,7 @@ export const MessageBubble: React.FC<BoxProps> = ({ children, ...props }) => {
       width="500px"
       borderRadius="20px"
       p="4"
-      zIndex="9999"
+      zIndex="3"
       {...props}
     >
       {children}
