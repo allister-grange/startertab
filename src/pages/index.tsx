@@ -10,7 +10,6 @@ import type { NextPage } from "next";
 import dynamic from "next/dynamic";
 import { useContext, useEffect, useState } from "react";
 import { isMobile } from "react-device-detect";
-import NoSSR from "react-no-ssr";
 const SettingsSideBar = dynamic(
   () => import("@/components/sidebar/SettingsSidebar")
 );
@@ -72,22 +71,20 @@ const Home: NextPage = () => {
             tutorialProgress={tutorialProgress}
           />
         ) : null}
-        <NoSSR>
-          <>
-            {showingTutorial ? (
-              <Tutorial
-                setShowingTutorial={setShowingTutorial}
-                tutorialProgress={tutorialProgress}
-                setTutorialProgress={setTutorialProgress}
-              />
-            ) : null}
-            <TileGrid
+        <>
+          {showingTutorial ? (
+            <Tutorial
+              setShowingTutorial={setShowingTutorial}
               tutorialProgress={tutorialProgress}
-              optionHovered={optionHovered}
-              gridGap={gridGap}
+              setTutorialProgress={setTutorialProgress}
             />
-          </>
-        </NoSSR>
+          ) : null}
+          <TileGrid
+            tutorialProgress={tutorialProgress}
+            optionHovered={optionHovered}
+            gridGap={gridGap}
+          />
+        </>
       </Box>
     );
   }

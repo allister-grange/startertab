@@ -1,3 +1,4 @@
+import { AppErrorBoundary } from "@/components/ui/AppErrorBoundary";
 import SettingsContext from "@/context/UserSettingsContext";
 import {
   ChakraProvider,
@@ -6,6 +7,8 @@ import {
 } from "@chakra-ui/react";
 import App, { AppContext, AppInitialProps, AppProps } from "next/app";
 import Head from "next/head";
+import { ErrorBoundary } from "react-error-boundary";
+import NoSSR from "react-no-ssr";
 import "../styles/globals.css";
 
 type MyAppProps = { cookies?: string };
@@ -22,27 +25,35 @@ export function MyApp({
       : localStorageManager;
 
   return (
-    <ChakraProvider colorModeManager={colorModeManager}>
-      <Head>
-        <title>New Page</title>
-        <meta
-          name="og:description"
-          content="A customizable website to replace your 'New Tab' homepage"
-        />
-        <meta
-          name="description"
-          content="A customizable website to replace your 'New Tab' homepage."
-        />
-        <meta property="og:image" content={"/black.jpg"} />
-        <meta
-          property="og:title"
-          content="New Page - A customizable homepage"
-        />
-      </Head>
-      <SettingsContext>
-        <Component {...pageProps} />
-      </SettingsContext>
-    </ChakraProvider>
+    <ErrorBoundary FallbackComponent={AppErrorBoundary}>
+      <ChakraProvider colorModeManager={colorModeManager}>
+        <Head>
+          <title>New Page</title>
+          <meta
+            name="og:description"
+            content="A customizable website to replace your 'New Tab' homepage"
+          />
+          <meta
+            name="description"
+            content="A customizable website to replace your 'New Tab' homepage."
+          />
+          <meta property="og:image" content={"/black.jpg"} />
+          <meta
+            property="og:title"
+            content="New Page - A customizable homepage"
+          />
+        </Head>
+
+        {/* NOTE: I have to use client side rendering here because of allowing a user
+        to create their own themes. Because themes are stored client-side in localStorage,
+        they can only be found when the application is rendered on the client. */}
+        <NoSSR>
+          <SettingsContext>
+            <Component {...pageProps} />
+          </SettingsContext>
+        </NoSSR>
+      </ChakraProvider>
+    </ErrorBoundary>
   );
 }
 

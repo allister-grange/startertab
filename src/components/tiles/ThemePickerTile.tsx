@@ -37,7 +37,8 @@ const ThemePickerTile: React.FC = () => {
         gridRowGap="15px"
         alignContent="center"
         width="100%"
-        p="10"
+        py="25px"
+        px="50px"
       >
         {settings.themes.map((theme) => {
           if (theme.themeName !== "Global Settings") {

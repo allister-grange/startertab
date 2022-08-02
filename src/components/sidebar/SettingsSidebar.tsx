@@ -31,7 +31,6 @@ import React, {
   useRef,
   useState,
 } from "react";
-import NoSSR from "react-no-ssr";
 
 interface SettingsSideBarProps {
   isOpen: boolean;
@@ -227,56 +226,54 @@ const SettingsSideBar: React.FC<SettingsSideBarProps> = ({
           onChange={onAccordionChange}
           index={accordionIndex}
         >
-          <NoSSR>
-            {Object.entries(sortedOptions).map((tileGroup, index) => {
-              return (
-                <AccordionItem
-                  key={tileGroup[0]}
-                  p="0"
-                  onMouseEnter={() => setOptionHovered(tileGroup[0] as TileId)}
-                  onFocus={() => setOptionHovered(tileGroup[0] as TileId)}
-                  onMouseLeave={() => setOptionHovered(undefined)}
-                  onBlur={() => setOptionHovered(undefined)}
-                  borderColor={borderColor}
-                  isDisabled={
-                    tutorialProgress > 1 && tutorialProgress < 4 && index !== 2
-                  }
-                >
-                  <h2>
-                    <AccordionButton
-                      _expanded={{ backdropFilter: "brightness(0.90)" }}
-                      color={textColor}
-                    >
-                      <Box flex="1" textAlign="left">
-                        {getOptionTitle(tileGroup[0] as keyof ThemeSettings)}
-                      </Box>
-                      <AccordionIcon />
-                    </AccordionButton>
-                  </h2>
-                  {tileGroup[1].map((option: Option) => {
-                    return (
-                      <SettingOptionContainer
-                        key={option.localStorageId}
-                        option={option}
-                        tileType={currentThemeSettings![option.tileId].tileType}
-                        changeSetting={changeSetting}
-                        textColor={textColor}
-                        subTextColor={subTextColor}
-                        resetOptionToDefault={resetOptionToDefault}
-                        randomizeAllColorValues={randomizeAllColorValues}
-                        resetAllColorsToDefault={resetAllColorsToDefault}
-                        value={
-                          currentThemeSettings![option.tileId!][
-                            option.localStorageId as keyof TileSettings
-                          ]
-                        }
-                      />
-                    );
-                  })}
-                </AccordionItem>
-              );
-            })}
-          </NoSSR>
+          {Object.entries(sortedOptions).map((tileGroup, index) => {
+            return (
+              <AccordionItem
+                key={tileGroup[0]}
+                p="0"
+                onMouseEnter={() => setOptionHovered(tileGroup[0] as TileId)}
+                onFocus={() => setOptionHovered(tileGroup[0] as TileId)}
+                onMouseLeave={() => setOptionHovered(undefined)}
+                onBlur={() => setOptionHovered(undefined)}
+                borderColor={borderColor}
+                isDisabled={
+                  tutorialProgress > 1 && tutorialProgress < 4 && index !== 2
+                }
+              >
+                <h2>
+                  <AccordionButton
+                    _expanded={{ backdropFilter: "brightness(0.90)" }}
+                    color={textColor}
+                  >
+                    <Box flex="1" textAlign="left">
+                      {getOptionTitle(tileGroup[0] as keyof ThemeSettings)}
+                    </Box>
+                    <AccordionIcon />
+                  </AccordionButton>
+                </h2>
+                {tileGroup[1].map((option: Option) => {
+                  return (
+                    <SettingOptionContainer
+                      key={option.localStorageId}
+                      option={option}
+                      tileType={currentThemeSettings![option.tileId].tileType}
+                      changeSetting={changeSetting}
+                      textColor={textColor}
+                      subTextColor={subTextColor}
+                      resetOptionToDefault={resetOptionToDefault}
+                      randomizeAllColorValues={randomizeAllColorValues}
+                      resetAllColorsToDefault={resetAllColorsToDefault}
+                      value={
+                        currentThemeSettings![option.tileId!][
+                          option.localStorageId as keyof TileSettings
+                        ]
+                      }
+                    />
+                  );
+                })}
+              </AccordionItem>
+            );
+          })}
         </Accordion>
       </Box>
       <SidebarFooter textColor={textColor} />

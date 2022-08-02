@@ -6,6 +6,7 @@ import {
   UserSettings,
 } from "@/types";
 import { defaultSettings } from "@/helpers/themes";
+import { setCookies } from "cookies-next";
 
 export const applyTheme = (theme: ThemeSettings) => {
   document.body.style.background = theme.globalSettings.backgroundColor;
@@ -99,6 +100,11 @@ export const applyTheme = (theme: ThemeSettings) => {
     "--text-color-tile11",
     theme.tile11.textColor
   );
+  setCookies("background", theme.globalSettings.backgroundColor, {
+    maxAge: 34560000,
+    sameSite: "strict",
+    path: "/",
+  });
 };
 
 export const sortOptionsIntoTileGroups = (
@@ -137,12 +143,8 @@ export const getDefaultSettingForOption = (
     (theme) => theme.themeName === currentThemeName
   );
 
-  // this is very likely a custom theme from the user, apply the defaults from
-  // the first theme
   if (!defaultTheme) {
-    return defaultSettings.themes[0][option.tileId][
-      option.localStorageId as keyof TileSettings
-    ] as string;
+    throw new Error("No theme named " + currentThemeName);
   }
 
   return defaultTheme[option.tileId][
@@ -157,13 +159,7 @@ export const getCurrentTheme = (
   const theme = settings.themes.find((theme) => theme.themeName === colorMode);
 
   if (!theme) {
-    // very likely is because of SSR and the theme being custom
-    // (ie not found because it's not in local storage)
-    // so we return an 'default' theme that's in 'defaultSettings'
-    // and we let the client side JS figure it out TODO this will
-    // cause a flicker, maybe I should store the last backgroundColor in
-    // cookies for SSR
-    return settings.themes[0];
+    throw new Error("No theme named " + colorMode);
   }
 
   return theme;
