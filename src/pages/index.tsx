@@ -5,7 +5,7 @@ import { SettingsToggle } from "@/components/ui/SettingsToggle";
 import { SettingsContext } from "@/context/UserSettingsContext";
 import { applyTheme, getCurrentTheme } from "@/helpers/settingsHelpers";
 import { TileId, UserSettingsContextInterface } from "@/types";
-import { Box, useColorMode, useDisclosure } from "@chakra-ui/react";
+import { Box, Flex, useColorMode, useDisclosure } from "@chakra-ui/react";
 import type { NextPage } from "next";
 import dynamic from "next/dynamic";
 import { useContext, useEffect, useState } from "react";
@@ -60,7 +60,6 @@ const Home: NextPage = () => {
         position="fixed"
         display="flex"
         alignItems="center"
-        overflow="auto"
       >
         {isOpen ? (
           <SettingsSideBar
@@ -79,11 +78,13 @@ const Home: NextPage = () => {
               setTutorialProgress={setTutorialProgress}
             />
           ) : null}
-          <TileGrid
-            tutorialProgress={tutorialProgress}
-            optionHovered={optionHovered}
-            gridGap={gridGap}
-          />
+          <Flex width="100%" height="100%" overflow="auto">
+            <TileGrid
+              tutorialProgress={tutorialProgress}
+              optionHovered={optionHovered}
+              gridGap={gridGap}
+            />
+          </Flex>
         </>
       </Box>
     );
