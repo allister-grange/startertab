@@ -71,6 +71,10 @@ export const SmallSpotifyTile: React.FC<SmallSpotifyTileProps> = ({
     return fontSizeForArtist;
   };
 
+  if (isAuthenticated === undefined) {
+    return <Box></Box>;
+  }
+
   if (isAuthenticated === false) {
     return (
       <Center height="100%">

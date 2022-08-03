@@ -65,6 +65,10 @@ export const LargeSpotifyTile: React.FC<LargeSpotifyTileProps> = ({
     return fontSizeForTitle;
   };
 
+  if (isAuthenticated === undefined) {
+    return <Box></Box>;
+  }
+
   if (isAuthenticated === false) {
     return (
       <Center height="100%">

@@ -32,6 +32,10 @@ const StravaGraphTile: React.FC<PageProps> = ({ tileId }) => {
   const doesWeekHaveAnActivityInIt = (weeksActivities: StravaGraphPoint[]) =>
     weeksActivities.some((activity) => activity.distance > 0);
 
+  if (isAuthenticated === undefined) {
+    return <Box></Box>;
+  }
+
   if (isAuthenticated === false) {
     return (
       <Center height="100%">
