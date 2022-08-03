@@ -34,6 +34,7 @@ export type TileType =
   | "Bonsai"
   | "Small Weather Tile"
   | "Large Weather Tile"
+  | "Javascript Console Tile"
   | "UV Graph"
   | "Theme Picker"
   | "Small Spotify Tile"

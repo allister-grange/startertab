@@ -33,7 +33,7 @@ const StravaGraphTile: React.FC<PageProps> = ({ tileId }) => {
     weeksActivities.some((activity) => activity.distance > 0);
 
   if (isAuthenticated === undefined) {
-    return <Box></Box>;
+    return <Box />;
   }
 
   if (isAuthenticated === false) {

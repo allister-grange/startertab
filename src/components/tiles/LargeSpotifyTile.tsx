@@ -66,7 +66,7 @@ export const LargeSpotifyTile: React.FC<LargeSpotifyTileProps> = ({
   };
 
   if (isAuthenticated === undefined) {
-    return <Box></Box>;
+    return <Box />;
   }
 
   if (isAuthenticated === false) {

@@ -23,6 +23,7 @@ import React from "react";
 import { ErrorBoundary } from "react-error-boundary";
 import { TileErrorBoundary } from "@/components/tiles/TileErrorBoundary";
 import ThemePickerTile from "@/components/tiles/ThemePickerTile";
+import { JavascriptConsoleTile } from "@/components/tiles/JavascriptConsoleTile";
 
 interface TileContainerProps {
   tileId: TileId;
@@ -134,6 +135,9 @@ const TileContainer: React.FC<TileContainerProps> = ({
       tileToRender = (
         <SmallStockTile tileId={tileId} stockNameFromSettings={stockName} />
       );
+      break;
+    case "Javascript Console Tile":
+      tileToRender = <JavascriptConsoleTile tileId={tileId} />;
       break;
     default:
       tileToRender = (

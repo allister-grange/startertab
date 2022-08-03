@@ -72,7 +72,7 @@ export const SmallSpotifyTile: React.FC<SmallSpotifyTileProps> = ({
   };
 
   if (isAuthenticated === undefined) {
-    return <Box></Box>;
+    return <Box />;
   }
 
   if (isAuthenticated === false) {
