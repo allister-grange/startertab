@@ -22,6 +22,7 @@ export const TileGrid: React.FC<TileGridProps> = ({
       gap={gridGap ?? 4}
       maxH="760px"
       marginX="auto"
+      marginY="auto"
       p="4"
       py="8"
       maxWidth={{ "2xl": "1500px", xl: "1320px" }}
