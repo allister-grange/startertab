@@ -23,6 +23,7 @@ import React from "react";
 import { ErrorBoundary } from "react-error-boundary";
 import { TileErrorBoundary } from "@/components/tiles/TileErrorBoundary";
 import ThemePickerTile from "@/components/tiles/ThemePickerTile";
+import { DayPlannerTile } from "../tiles/DayPlannerTile";
 
 interface TileContainerProps {
   tileId: TileId;
@@ -134,6 +135,9 @@ const TileContainer: React.FC<TileContainerProps> = ({
       tileToRender = (
         <SmallStockTile tileId={tileId} stockNameFromSettings={stockName} />
       );
+      break;
+    case "Day Planner":
+      tileToRender = <DayPlannerTile tileId={tileId} />;
       break;
     default:
       tileToRender = (

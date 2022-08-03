@@ -27,8 +27,6 @@ export const ThemeToChangeSelector: React.FC<ThemeToChangeSelectorProps> = ({
     setColorMode(e.target.value);
   };
 
-  console.log(tutorialProgress);
-
   return (
     <Flex
       alignItems="center"

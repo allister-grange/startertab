@@ -268,6 +268,13 @@ export const sideBarOptions: Option[] = [
     tileId: "tile5",
   },
   {
+    title: "Type of tile",
+    subTitle: "Choose what you want this tile to display",
+    localStorageId: "tileType",
+    optionType: "LongTileTypePicker",
+    tileId: "tile5",
+  },
+  {
     title: "Background color",
     subTitle: "Background color of the tile",
     localStorageId: "backgroundColor",
