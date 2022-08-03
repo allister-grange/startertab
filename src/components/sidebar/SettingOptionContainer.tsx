@@ -1,7 +1,7 @@
 import { ColorPicker } from "@/components/sidebar/ColorPicker";
 import { GenericInput } from "@/components/sidebar/GenericInput";
 import { GenericSelect } from "@/components/sidebar/GenericSelect";
-import { TypePicker } from "@/components/sidebar/TypePicker";
+import { TileTypePicker } from "@/components/sidebar/TileTypePicker";
 import { Option, TileId, TileType } from "@/types";
 import { AccordionPanel, Box, Text } from "@chakra-ui/react";
 import React from "react";
@@ -93,7 +93,7 @@ export const SettingOptionContainer: React.FC<SettingOptionContainerProps> = ({
     case "MediumTileTypePicker":
     case "LargeTileTypePicker":
       optionToDisplay = (
-        <TypePicker
+        <TileTypePicker
           option={option}
           changeSetting={changeSetting}
           textColor={textColor}

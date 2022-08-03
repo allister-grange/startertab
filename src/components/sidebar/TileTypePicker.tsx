@@ -2,7 +2,7 @@ import { Option, OptionType, TileId } from "@/types";
 import { Box, BoxProps, Select, Text } from "@chakra-ui/react";
 import React from "react";
 
-interface TypePickerProps extends BoxProps {
+interface TileTypePickerProps extends BoxProps {
   option: Option;
   textColor: string;
   subTextColor: string;
@@ -17,7 +17,7 @@ const optionsStyles = {
   background: "#42494f",
 };
 
-export const TypePicker: React.FC<TypePickerProps> = ({
+export const TileTypePicker: React.FC<TileTypePickerProps> = ({
   option,
   textColor,
   subTextColor,
@@ -88,6 +88,9 @@ export const TypePicker: React.FC<TypePickerProps> = ({
         <>
           <option style={optionsStyles} value="Blank Tile">
             Blank
+          </option>
+          <option style={optionsStyles} value="Javascript Console Tile">
+            Javascript Console Tile
           </option>
           <option style={optionsStyles} value="Large Spotify Tile">
             Spotify Tile
