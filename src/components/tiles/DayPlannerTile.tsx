@@ -1,5 +1,24 @@
-import { Box, Flex, Tooltip } from "@chakra-ui/react";
-import React, { useLayoutEffect, useRef, useState } from "react";
+import { CloseIcon } from "@chakra-ui/icons";
+import {
+  Box,
+  Flex,
+  Input,
+  Stack,
+  Tooltip,
+  Text,
+  Heading,
+  Button,
+} from "@chakra-ui/react";
+import React, {
+  useCallback,
+  useEffect,
+  useLayoutEffect,
+  useRef,
+  useState,
+} from "react";
+import { HexColorPicker } from "react-colorful";
+import { NumberedBubble } from "@/components/ui/NumberedBubble";
+import { OutlinedButton } from "@/components/ui/OutlinedButton";
 
 interface DayPlannerTileProps {
   tileId: string;
@@ -35,7 +54,30 @@ export const DayPlannerTile: React.FC<DayPlannerTileProps> = ({ tileId }) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const [width, setWidth] = useState(0);
   const [showingTimePicker, setShowingTimePicker] = useState(false);
+  const [pixelsToPushTimerAcross, setPixelsToPushTimerAcross] = useState(3);
   const [bookings, setBookings] = useState<Booking[]>([]);
+
+  const calculateTimeHandPosition = useCallback(() => {
+    const currentHours = new Date().getHours();
+    const currentMinutes = new Date().getMinutes();
+
+    // calculating what hour to put the hand on
+    // 6 is taken off current hours as we start the clock at 6:00am
+    // the 5 at the end is the offset from the left hand side of the div
+    let pixelsToPushTimerAcross =
+      (width / times.length) * (currentHours - 6) + 4;
+
+    // calculating what minute to put the hand on
+    setPixelsToPushTimerAcross(
+      (pixelsToPushTimerAcross += (width / times.length / 60) * currentMinutes)
+    );
+  }, [width]);
+
+  useEffect(() => {
+    calculateTimeHandPosition();
+
+    setInterval(calculateTimeHandPosition, 60000);
+  }, [calculateTimeHandPosition]);
 
   useLayoutEffect(() => {
     setWidth(containerRef.current!.offsetWidth);
@@ -45,30 +87,25 @@ export const DayPlannerTile: React.FC<DayPlannerTileProps> = ({ tileId }) => {
     setShowingTimePicker(!showingTimePicker);
   };
 
-  const currentHours = new Date().getHours();
-  const currentMinutes = new Date().getMinutes();
-
-  // calculating what hour to put the hand on
-  // 6 is taken off current hours as we start the clock at 6:00am
-  // the 5 at the end is the offset from the left hand side of the div
-  let pixelsToPushTimerAcross = (width / times.length) * (currentHours - 6) + 5;
-
-  // calculating what minute to put the hand on
-  pixelsToPushTimerAcross += (width / times.length / 60) * currentMinutes;
-
   return (
-    <Flex height="100%" pos="relative" justifyContent="center">
+    <Flex
+      height="100%"
+      pos="relative"
+      justifyContent="center"
+      ref={containerRef}
+      width="80%"
+      mx="auto"
+    >
       <Flex
         alignItems="flex-end"
         height="100%"
         justifyContent="center"
-        width="80%"
+        width="max-content"
         pos="relative"
-        ref={containerRef}
       >
         <Tooltip
-          label={`${currentHours}:${currentMinutes}${
-            currentHours < 12 ? "am" : "pm"
+          label={`${new Date().getHours()}:${new Date().getMinutes()}${
+            new Date().getHours() < 12 ? "am" : "pm"
           }`}
         >
           <Box
@@ -119,9 +156,94 @@ export const DayPlannerTile: React.FC<DayPlannerTileProps> = ({ tileId }) => {
           </Flex>
         ))}
       </Flex>
-      {/* <Box pos="absolute">
-        {showingTimePicker && <Picker value="" onChange={() => {}} />}
-      </Box> */}
+      <Box pos="fixed" bottom="200px" zIndex={999}>
+        {/* use a ref to capture when a user focuses on the element, then use it on the new theme builder too */}
+        {showingTimePicker && (
+          <Stack
+            shadow="md"
+            background="white"
+            p="6"
+            borderRadius="10px"
+            width="350px"
+            spacing="2"
+            mt="415px"
+            pos="relative"
+            color="black"
+            tabIndex={1}
+            onBlur={onTimeIndicatorClick}
+          >
+            <Button
+              pos="absolute"
+              top="2"
+              right="2"
+              onClick={onTimeIndicatorClick}
+            >
+              <CloseIcon />
+            </Button>
+            <form>
+              <Heading mb="4" fontSize="2xl">
+                New Event
+              </Heading>
+              <Box
+                width="45%"
+                borderBottom="1px solid grey"
+                height="1px"
+                mt="-2"
+              />
+              <Flex fontSize="md" mb="4" mt="6" fontWeight="600">
+                <NumberedBubble displayNumber={1} mr="2" /> Event Time
+              </Flex>
+              <Flex justifyContent="space-between" alignItems="center">
+                <Input
+                  // value={value}
+                  // onChange={(e) => onChange(e.target.value)}
+                  type="time"
+                  min="05:00"
+                  max="21:00"
+                  width="138px"
+                  outline="3px solid #B0AED0"
+                  step="900"
+                  _focus={{
+                    border: "none",
+                  }}
+                />
+                <Text>to</Text>
+                <Input
+                  // value={value}
+                  // onChange={(e) => onChange(e.target.value)}
+                  width="138px"
+                  type="time"
+                  step="900"
+                  min="05:00"
+                  max="21:00"
+                  outline="3px solid #B0AED0"
+                  _focus={{
+                    border: "none",
+                  }}
+                />
+              </Flex>
+              <Flex fontSize="md" mb="4" mt="4" fontWeight="600">
+                <NumberedBubble displayNumber={2} mr="2" /> Event Color
+              </Flex>
+
+              <HexColorPicker
+                // color={value}
+                // onChange={onChange}
+                style={{
+                  width: "100%",
+                  height: "120px",
+                  marginTop: "10px",
+                  marginBottom: "5px",
+                  borderRadius: "10px",
+                }}
+              />
+              <OutlinedButton fontWeight="500" mt="2" borderColor="#B0AED0">
+                Create Event
+              </OutlinedButton>
+            </form>
+          </Stack>
+        )}
+      </Box>
     </Flex>
   );
 };

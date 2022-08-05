@@ -1,6 +1,7 @@
 import { CheckIcon } from "@chakra-ui/icons";
 import { Box, Button, ButtonProps, Flex } from "@chakra-ui/react";
 import React from "react";
+import { OutlinedButton } from "@/components/ui/OutlinedButton";
 
 interface SidebarThemePickerProps extends ButtonProps {
   isSelected: boolean;
@@ -12,23 +13,13 @@ export const SidebarThemePicker: React.FC<SidebarThemePickerProps> = ({
   ...props
 }) => {
   return (
-    <Button
+    <OutlinedButton
       width="230px"
       height="140px"
       borderRadius="15px"
+      border={isSelected ? "3px #B0AED0 solid" : "none"}
       p="2"
       pos="relative"
-      background="transparent"
-      outline={isSelected ? "3px #B0AED0 solid" : "none"}
-      _hover={{
-        background: "transparent",
-      }}
-      _active={{
-        background: "transparent",
-      }}
-      _focus={{
-        border: "",
-      }}
       {...props}
     >
       {isSelected ? (
@@ -51,6 +42,6 @@ export const SidebarThemePicker: React.FC<SidebarThemePickerProps> = ({
       <Box width="280px" height="160px" pos="relative">
         {children}
       </Box>
-    </Button>
+    </OutlinedButton>
   );
 };

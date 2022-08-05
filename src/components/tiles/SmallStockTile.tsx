@@ -1,23 +1,22 @@
+import { SmallStockTickerSkeleton } from "@/components/skeletons/SmallStockTickerSkeleton";
+import { OutlinedButton } from "@/components/ui/OutlinedButton";
 import { SettingsContext } from "@/context/UserSettingsContext";
 import { getCurrentTheme } from "@/helpers/settingsHelpers";
 import { TileId, UserSettingsContextInterface } from "@/types";
 import { StockTickers } from "@/types/stocks";
 import {
   Box,
-  Button,
   Center,
   Flex,
   Heading,
   Input,
   InputGroup,
   InputRightElement,
-  Skeleton,
   Text,
   useColorMode,
 } from "@chakra-ui/react";
 import cloneDeep from "lodash.clonedeep";
 import React, { useContext, useEffect, useState } from "react";
-import { SmallStockTickerSkeleton } from "@/components/skeletons/SmallStockTickerSkeleton";
 
 interface SmallStockTileProps {
   tileId: TileId;
@@ -155,27 +154,19 @@ export const SmallStockTile: React.FC<SmallStockTileProps> = ({
   return (
     <Center height="100%" color={color} p="4">
       {toDisplay}
-      <Button
+      <OutlinedButton
         size="xs"
         pos="absolute"
         right="2"
         bottom="2"
         color={color}
-        backgroundColor="transparent"
-        _focus={{
-          backgroundColor: "transparent",
-          outline: `1px solid ${color}`,
-        }}
-        _hover={{
-          backgroundColor: "transparent",
-          outline: `1px solid ${color}`,
-        }}
+        backgroundColor={color}
         onClick={() =>
           setState((state) => ({ ...state, status: "waitingForInput" }))
         }
       >
         Change stock
-      </Button>
+      </OutlinedButton>
     </Center>
   );
 };

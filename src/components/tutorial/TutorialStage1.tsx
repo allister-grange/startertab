@@ -1,5 +1,6 @@
-import { Box, Heading, Button, Text } from "@chakra-ui/react";
+import { Box, Heading, Text } from "@chakra-ui/react";
 import React, { Dispatch, SetStateAction } from "react";
+import { OutlinedButton } from "@/components/ui/OutlinedButton";
 
 interface TutorialStage1Props {
   setShowingTutorial: Dispatch<SetStateAction<boolean>>;
@@ -55,32 +56,26 @@ export const TutorialStage1: React.FC<TutorialStage1Props> = ({
             .
           </Text>
           <Box alignItems="flex-start" mt="35px">
-            <Button
+            <OutlinedButton
               alignSelf="flex-start"
-              _hover={{ cursor: "pointer", transform: "translateY(-3px)" }}
-              _active={{ cursor: "pointer", transform: "translateY(-3px)" }}
-              transition="all .2s"
               fontSize="xl"
-              colorScheme="purple"
+              borderColor="purple"
               onClick={() => {
                 setShowingTutorial(false);
                 setTutorialProgress(-1);
               }}
             >
               Skip Tutorial
-            </Button>
-            <Button
+            </OutlinedButton>
+            <OutlinedButton
               ml="20px"
-              _hover={{ cursor: "pointer", transform: "translateY(-3px)" }}
-              _active={{ cursor: "pointer", transform: "translateY(-3px)" }}
-              transition="all .2s"
               onClick={() => setTutorialProgress(1)}
               fontSize="xl"
-              colorScheme="green"
+              borderColor="green"
               mr="2"
             >
               Start Tutorial
-            </Button>
+            </OutlinedButton>
           </Box>
         </Box>
       </header>

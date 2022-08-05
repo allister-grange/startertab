@@ -1,12 +1,13 @@
-import { Button, Center, Input, useColorMode } from "@chakra-ui/react";
-import { useRouter } from "next/router";
-import React, { useState } from "react";
 import {
   DuckDuckGoIcon,
   GoogleIcon,
   StackOverFlowIcon,
 } from "@/components/icons";
 import { TileId } from "@/types";
+import { Center, Input } from "@chakra-ui/react";
+import { useRouter } from "next/router";
+import React, { useState } from "react";
+import { OutlinedButton } from "@/components/ui/OutlinedButton";
 
 type SearchBarProps = {
   tileId: TileId;
@@ -37,30 +38,24 @@ export const SearchBarTile: React.FC<SearchBarProps> = ({ tileId }) => {
 
   return (
     <Center height="100%">
-      <Button
-        bg="transparent"
-        _hover={{ background: "transparent", transform: "translateY(-2px)" }}
+      <OutlinedButton
         onClick={() => searchClick("duck")}
         aria-label="Search with DuckDuckGo"
       >
         <DuckDuckGoIcon w={10} h={10} fill={color} />
-      </Button>
-      <Button
-        bg="transparent"
-        _hover={{ background: "transparent", transform: "translateY(-2px)" }}
+      </OutlinedButton>
+      <OutlinedButton
         onClick={() => searchClick("google")}
         aria-label="Search with Google"
       >
         <GoogleIcon w={9} h={9} fill={color} />
-      </Button>
-      <Button
-        bg="transparent"
-        _hover={{ background: "transparent", transform: "translateY(-2px)" }}
+      </OutlinedButton>
+      <OutlinedButton
         onClick={() => searchClick("stackoverflow")}
         aria-label="Search Google with Stack Overflow"
       >
         <StackOverFlowIcon w={10} h={10} fill={color} />
-      </Button>
+      </OutlinedButton>
       <Input
         width={400}
         color={color}

@@ -3,7 +3,7 @@ import { StravaLogo } from "@/components/ui/StravaLogo";
 import { StravaContext } from "@/context/StravaContext";
 import { TileId } from "@/types";
 import { StravaContextInterface, StravaGraphPoint } from "@/types/strava";
-import { Box, Button, Center, Heading, Spinner } from "@chakra-ui/react";
+import { Box, Center, Heading } from "@chakra-ui/react";
 import React, { useContext, useState } from "react";
 import {
   Bar,
@@ -13,6 +13,7 @@ import {
   XAxis,
   YAxis,
 } from "recharts";
+import { OutlinedButton } from "@/components/ui/OutlinedButton";
 
 type PageProps = {
   tileId: TileId;
@@ -39,19 +40,14 @@ const StravaGraphTile: React.FC<PageProps> = ({ tileId }) => {
   if (isAuthenticated === false) {
     return (
       <Center height="100%">
-        <Button
+        <OutlinedButton
           onClick={loginWithStrava}
           color={color}
-          bg={"transparent"}
-          border={`2px solid ${color}`}
-          _focus={{ background: "transparent" }}
-          _hover={{ background: "transparent", transform: "translateY(-2px)" }}
-          transition="all .2s"
-          shadow="md"
+          borderColor={color}
         >
           Continue with Strava&nbsp;
           <StravaLogo color={color} size={28} />
-        </Button>
+        </OutlinedButton>
       </Center>
     );
   }

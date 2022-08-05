@@ -22,6 +22,7 @@ import {
 } from "@chakra-ui/react";
 import React, { useContext } from "react";
 import { MusicControlButton } from "../ui/MusicControlButton";
+import { OutlinedButton } from "@/components/ui/OutlinedButton";
 
 type SmallSpotifyTileProps = {
   tileId: TileId;
@@ -78,19 +79,14 @@ export const SmallSpotifyTile: React.FC<SmallSpotifyTileProps> = ({
   if (isAuthenticated === false) {
     return (
       <Center height="100%">
-        <Button
+        <OutlinedButton
           onClick={loginWithSpotify}
           color={color}
-          bg={"transparent"}
-          border={`2px solid ${color}`}
-          _focus={{ background: "transparent" }}
-          _hover={{ background: "transparent", transform: "translateY(-2px)" }}
-          transition="all .2s"
-          shadow="md"
+          borderColor={color}
         >
           Continue with Spotify&nbsp;
           <SpotifyLogo color={color} size={20} />
-        </Button>
+        </OutlinedButton>
       </Center>
     );
   }
