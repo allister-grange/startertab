@@ -14,3 +14,4 @@ export * from "./LargeStockTile";
 export * from "./SpotifyTopArtistsTile";
 export * from "./SpotifyTopArtistsTile";
 export * from "./TodoListTile";
+export * from "./DayPlanner/DayPlannerTile";

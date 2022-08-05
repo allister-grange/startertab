@@ -1,14 +1,5 @@
 import { CloseIcon } from "@chakra-ui/icons";
-import {
-  Box,
-  Flex,
-  Input,
-  Stack,
-  Tooltip,
-  Text,
-  Heading,
-  Button,
-} from "@chakra-ui/react";
+import { Box, Button, Flex, Stack, Tooltip } from "@chakra-ui/react";
 import React, {
   useCallback,
   useEffect,
@@ -16,9 +7,7 @@ import React, {
   useRef,
   useState,
 } from "react";
-import { HexColorPicker } from "react-colorful";
-import { NumberedBubble } from "@/components/ui/NumberedBubble";
-import { OutlinedButton } from "@/components/ui/OutlinedButton";
+import { DayPlannerForm } from "./DayPlannerForm";
 
 interface DayPlannerTileProps {
   tileId: string;
@@ -43,10 +32,11 @@ const times = [
   "21:00pm",
 ];
 
-type Booking = {
+export type Booking = {
   color: string;
-  startTime: number;
-  endTime: number;
+  startTime: string;
+  endTime: string;
+  title: string;
 };
 
 export const DayPlannerTile: React.FC<DayPlannerTileProps> = ({ tileId }) => {
@@ -56,6 +46,12 @@ export const DayPlannerTile: React.FC<DayPlannerTileProps> = ({ tileId }) => {
   const [showingTimePicker, setShowingTimePicker] = useState(false);
   const [pixelsToPushTimerAcross, setPixelsToPushTimerAcross] = useState(3);
   const [bookings, setBookings] = useState<Booking[]>([]);
+  const [formValues, setFormValues] = useState<Booking>({
+    color: "#1a2498",
+    title: "",
+    startTime: "0:00",
+    endTime: '"0:00',
+  });
 
   const calculateTimeHandPosition = useCallback(() => {
     const currentHours = new Date().getHours();
@@ -157,20 +153,16 @@ export const DayPlannerTile: React.FC<DayPlannerTileProps> = ({ tileId }) => {
         ))}
       </Flex>
       <Box pos="fixed" bottom="200px" zIndex={999}>
-        {/* use a ref to capture when a user focuses on the element, then use it on the new theme builder too */}
         {showingTimePicker && (
           <Stack
             shadow="md"
             background="white"
-            p="6"
+            p="4"
             borderRadius="10px"
-            width="350px"
-            spacing="2"
+            width="400px"
             mt="415px"
             pos="relative"
             color="black"
-            tabIndex={1}
-            onBlur={onTimeIndicatorClick}
           >
             <Button
               pos="absolute"
@@ -180,67 +172,10 @@ export const DayPlannerTile: React.FC<DayPlannerTileProps> = ({ tileId }) => {
             >
               <CloseIcon />
             </Button>
-            <form>
-              <Heading mb="4" fontSize="2xl">
-                New Event
-              </Heading>
-              <Box
-                width="45%"
-                borderBottom="1px solid grey"
-                height="1px"
-                mt="-2"
-              />
-              <Flex fontSize="md" mb="4" mt="6" fontWeight="600">
-                <NumberedBubble displayNumber={1} mr="2" /> Event Time
-              </Flex>
-              <Flex justifyContent="space-between" alignItems="center">
-                <Input
-                  // value={value}
-                  // onChange={(e) => onChange(e.target.value)}
-                  type="time"
-                  min="05:00"
-                  max="21:00"
-                  width="138px"
-                  outline="3px solid #B0AED0"
-                  step="900"
-                  _focus={{
-                    border: "none",
-                  }}
-                />
-                <Text>to</Text>
-                <Input
-                  // value={value}
-                  // onChange={(e) => onChange(e.target.value)}
-                  width="138px"
-                  type="time"
-                  step="900"
-                  min="05:00"
-                  max="21:00"
-                  outline="3px solid #B0AED0"
-                  _focus={{
-                    border: "none",
-                  }}
-                />
-              </Flex>
-              <Flex fontSize="md" mb="4" mt="4" fontWeight="600">
-                <NumberedBubble displayNumber={2} mr="2" /> Event Color
-              </Flex>
-
-              <HexColorPicker
-                // color={value}
-                // onChange={onChange}
-                style={{
-                  width: "100%",
-                  height: "120px",
-                  marginTop: "10px",
-                  marginBottom: "5px",
-                  borderRadius: "10px",
-                }}
-              />
-              <OutlinedButton fontWeight="500" mt="2" borderColor="#B0AED0">
-                Create Event
-              </OutlinedButton>
-            </form>
+            <DayPlannerForm
+              formValues={formValues}
+              setFormValues={setFormValues}
+            />
           </Stack>
         )}
       </Box>
