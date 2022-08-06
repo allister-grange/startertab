@@ -1,3 +1,4 @@
+import { times } from "@/helpers/tileHelpers";
 import { CloseIcon } from "@chakra-ui/icons";
 import { Box, Text, Flex, Stack, Tooltip } from "@chakra-ui/react";
 import React, {
@@ -14,28 +15,6 @@ import { DayPlannerForm } from "./DayPlannerForm";
 interface DayPlannerTileProps {
   tileId: string;
 }
-
-const times = [
-  "6:00am",
-  "6:15am",
-  "6:30am",
-  "6:45am",
-  "7:00am",
-  "8:00am",
-  "9:00am",
-  "10:00am",
-  "11:00am",
-  "12:00pm",
-  "13:00pm",
-  "14:00pm",
-  "15:00pm",
-  "16:00pm",
-  "17:00pm",
-  "18:00pm",
-  "19:00pm",
-  "20:00pm",
-  "21:00pm",
-];
 
 export type Booking = {
   color: string;
@@ -99,6 +78,8 @@ export const DayPlannerTile: React.FC<DayPlannerTileProps> = ({ tileId }) => {
     ) {
       return;
     }
+    console.log(formValues);
+
     setBookings([...bookings, formValues]);
     setFormValues(defaultFormValues);
     setShowingTimePicker(false);
@@ -106,28 +87,46 @@ export const DayPlannerTile: React.FC<DayPlannerTileProps> = ({ tileId }) => {
 
   // all times are in the format HH:MM (in 24 hour time)
   const getBookingInTimeSlot = (time: string) => {
-    const searchingTimeHour = Number.parseInt(time.split(":")[0]);
-    const searchingTimeMinute = Number.parseInt(time.split(":")[1]);
-
     for (const key in bookings) {
       const booking = bookings[key];
-      const startHour = Number.parseInt(booking.startTime?.split(":")[0]);
-      const startMinute = Number.parseInt(booking.startTime?.split(":")[1]);
-
-      const endHour = Number.parseInt(booking.endTime?.split(":")[0]);
-      const endMinute = Number.parseInt(booking.endTime?.split(":")[1]);
-
-      if (
-        searchingTimeHour >= startHour &&
-        searchingTimeHour <= endHour &&
-        searchingTimeMinute >= startMinute &&
-        searchingTimeMinute <= endMinute
-      ) {
+      if (time >= booking.startTime && time <= booking.endTime) {
         return booking;
       }
     }
 
     return null;
+  };
+
+  const getBoxWidth = (time: string) => {
+    const minutes = time.split(":")[1].slice(0, 2);
+
+    if (minutes === "00") {
+      return "3px";
+    }
+    return "2px";
+  };
+
+  const getBoxHeight = (time: string) => {
+    const minutes = time.split(":")[1].slice(0, 2);
+
+    if (minutes === "00") {
+      return "90%";
+    } else if (minutes === "30") {
+      return "70%";
+    }
+    return "50%";
+  };
+
+  const convert24HourTo12 = (timeToConvert: string) => {
+    const amOrPm =
+      Number.parseInt(timeToConvert.split(":")[0]) >= 12 ? "pm" : "am";
+    const hours = Number.parseInt(timeToConvert.split(":")[0]) % 12 || 12;
+    const minutes =
+      Number.parseInt(timeToConvert.split(":")[1]) == 0
+        ? "00"
+        : Number.parseInt(timeToConvert.split(":")[1]);
+
+    return `${hours}:${minutes}${amOrPm}`;
   };
 
   return (
@@ -164,32 +163,33 @@ export const DayPlannerTile: React.FC<DayPlannerTileProps> = ({ tileId }) => {
           />
         </Tooltip>
 
-        {times.map((val, idx) => (
+        {times.map((time, idx) => (
           <Flex
-            key={val}
-            width={`${width / 16}px`}
+            key={time}
+            width={`${width / times.length}px`}
             height="24px"
             pos="relative"
           >
             {
               // means that there's a booking in this time slot
-              getBookingInTimeSlot(val) ? (
+              getBookingInTimeSlot(time) &&
+              time === getBookingInTimeSlot(time)?.startTime ? (
                 <Box pos="absolute" top="-25px">
                   <Text fontSize="xs" fontWeight="700">
-                    {getBookingInTimeSlot(val)!.title.toUpperCase()}
+                    {getBookingInTimeSlot(time)!.title.toUpperCase()}
                   </Text>
                 </Box>
               ) : null
             }
-            <Tooltip label={val}>
+            <Tooltip label={convert24HourTo12(time)}>
               <Box
-                width="3px"
+                width={getBoxWidth(time)}
                 backgroundColor={
-                  getBookingInTimeSlot(val)
-                    ? getBookingInTimeSlot(val)?.color
+                  getBookingInTimeSlot(time)
+                    ? getBookingInTimeSlot(time)?.color
                     : color
                 }
-                height="90%"
+                height={getBoxHeight(time)}
                 mx="auto"
                 mt="auto"
                 transition="all .2s"
@@ -197,39 +197,7 @@ export const DayPlannerTile: React.FC<DayPlannerTileProps> = ({ tileId }) => {
                 onClick={onTimeIndicatorClick}
               />
             </Tooltip>
-            {Array.from(Array(3).keys()).map((idx) => (
-              <Tooltip
-                // ugly code to get the 15 minute intervals between hours
-                label={`${val.split(":00")[0]}:${15 * (idx + 1)}${
-                  val.split(":00")[1]
-                }`}
-                key={val + idx}
-              >
-                <Box
-                  height={idx === 1 ? "15px" : "10px"}
-                  width="2px"
-                  backgroundColor={
-                    getBookingInTimeSlot(val)
-                      ? getBookingInTimeSlot(val)?.color
-                      : color
-                  }
-                  mt="auto"
-                  mx="auto"
-                  transition="all .2s"
-                  _hover={{ transform: "scale(1.2)", cursor: "pointer" }}
-                  onClick={onTimeIndicatorClick}
-                />
-              </Tooltip>
-            ))}
           </Flex>
-        ))}
-        {bookings.map((booking) => (
-          <Flex
-            key={booking.title + booking.startTime}
-            width={`${width / 16}px`}
-            height="24px"
-            pos="relative"
-          ></Flex>
         ))}
       </Flex>
       <Box pos="fixed" bottom="200px" zIndex={999}>
