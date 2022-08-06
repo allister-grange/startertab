@@ -96,7 +96,6 @@ export const DayPlannerForm: React.FC<DayPlannerFormProps> = ({
               _focus={{
                 border: "none",
               }}
-              filter={props.color}
             />
             <Text>to</Text>
             <Input

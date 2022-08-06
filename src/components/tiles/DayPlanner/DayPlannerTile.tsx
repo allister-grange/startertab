@@ -1,15 +1,7 @@
 import { SettingsContext } from "@/context/UserSettingsContext";
-import { getCurrentTheme } from "@/helpers/settingsHelpers";
 import { times } from "@/helpers/tileHelpers";
-import { ThemeSettings, TileId, UserSettingsContextInterface } from "@/types";
-import {
-  Box,
-  Button,
-  Flex,
-  Text,
-  Tooltip,
-  useColorMode,
-} from "@chakra-ui/react";
+import { TileId, UserSettingsContextInterface } from "@/types";
+import { Box, Button, Flex, LightMode, Text, Tooltip } from "@chakra-ui/react";
 import React, {
   useCallback,
   useContext,
@@ -47,26 +39,27 @@ export const DayPlannerTile: React.FC<DayPlannerTileProps> = ({
   const containerRef = useRef<HTMLDivElement>(null);
   const [width, setWidth] = useState(0);
   const [showingTimePicker, setShowingTimePicker] = useState(false);
-  const [pixelsToPushTimerAcross, setPixelsToPushTimerAcross] = useState(3);
+  const [pixelsToPushTimerAcross, setPixelsToPushTimerAcross] = useState(0);
   const [formValues, setFormValues] = useState<Booking>(defaultFormValues);
   const { changeThemeInSettings, theme } = useContext(
     SettingsContext
   ) as UserSettingsContextInterface;
 
+  // calculating what hour to put the hand on
+  // 6 is taken off current hours as we start the clock at 6:00am
+  // the 5 at the end is the offset from the left hand side of the div
   const calculateTimeHandPosition = useCallback(() => {
     const currentHours = new Date().getHours();
     const currentMinutes = new Date().getMinutes();
 
-    // calculating what hour to put the hand on
-    // 6 is taken off current hours as we start the clock at 6:00am
-    // the 5 at the end is the offset from the left hand side of the div
-    let pixelsToPushTimerAcross =
-      (width / times.length) * (currentHours - 6) + 4;
+    const hoursInTheWorkDay = times.length / 4;
+    const distanceToMoveInOneHour = width / hoursInTheWorkDay;
+    const hourDistance = distanceToMoveInOneHour * (currentHours - 6) + 4;
 
-    // calculating what minute to put the hand on
-    setPixelsToPushTimerAcross(
-      (pixelsToPushTimerAcross += (width / times.length / 60) * currentMinutes)
-    );
+    const distanceToMoveIn1Minute = distanceToMoveInOneHour / 60;
+    const minuteDistance = distanceToMoveIn1Minute * currentMinutes;
+
+    setPixelsToPushTimerAcross(hourDistance + minuteDistance);
   }, [width]);
 
   useEffect(() => {
@@ -165,11 +158,13 @@ export const DayPlannerTile: React.FC<DayPlannerTileProps> = ({
         pos="relative"
       >
         <Tooltip
-          label={`${new Date().getHours()}:${
-            new Date().getMinutes() < 10
-              ? "0" + new Date().getMinutes()
-              : new Date().getMinutes()
-          }${new Date().getHours() < 12 ? "am" : "pm"}`}
+          label={convert24HourTo12(
+            `${new Date().getHours()}:${
+              new Date().getMinutes() < 10
+                ? "0" + new Date().getMinutes()
+                : new Date().getMinutes()
+            }`
+          )}
         >
           <Box
             width="1px"
