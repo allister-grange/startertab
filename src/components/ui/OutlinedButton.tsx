@@ -13,7 +13,7 @@ export const OutlinedButton: React.FC<ButtonProps> = ({
   return (
     <Button
       background="transparent"
-      shadow="md"
+      shadow="sm"
       border={`2px solid ${borderColor}`}
       transition="all .2s"
       _hover={{

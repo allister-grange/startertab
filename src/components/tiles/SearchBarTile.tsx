@@ -39,18 +39,21 @@ export const SearchBarTile: React.FC<SearchBarProps> = ({ tileId }) => {
   return (
     <Center height="100%">
       <OutlinedButton
+        shadow="none"
         onClick={() => searchClick("duck")}
         aria-label="Search with DuckDuckGo"
       >
         <DuckDuckGoIcon w={10} h={10} fill={color} />
       </OutlinedButton>
       <OutlinedButton
+        shadow="none"
         onClick={() => searchClick("google")}
         aria-label="Search with Google"
       >
         <GoogleIcon w={9} h={9} fill={color} />
       </OutlinedButton>
       <OutlinedButton
+        shadow="none"
         onClick={() => searchClick("stackoverflow")}
         aria-label="Search Google with Stack Overflow"
       >

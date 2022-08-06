@@ -230,6 +230,7 @@ export const LargeStockTile: React.FC<LargeStockTileProps> = ({ tileId }) => {
         bottom="2"
         color={color}
         borderColor={color}
+        borderWidth="1px"
         onClick={() =>
           setState((state) => ({ ...state, status: "waitingForInput" }))
         }

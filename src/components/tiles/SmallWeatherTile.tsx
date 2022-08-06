@@ -231,6 +231,7 @@ export const SmallWeatherTile: React.FC<SmallWeatherTileProps> = ({
           onClick={() =>
             setState((state) => ({ ...state, status: "waitingForInput" }))
           }
+          shadow="none"
         >
           Change city
         </OutlinedButton>

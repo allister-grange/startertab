@@ -2,7 +2,14 @@ import { SettingsContext } from "@/context/UserSettingsContext";
 import { getCurrentTheme } from "@/helpers/settingsHelpers";
 import { times } from "@/helpers/tileHelpers";
 import { ThemeSettings, TileId, UserSettingsContextInterface } from "@/types";
-import { Box, Flex, Text, Tooltip, useColorMode } from "@chakra-ui/react";
+import {
+  Box,
+  Button,
+  Flex,
+  Text,
+  Tooltip,
+  useColorMode,
+} from "@chakra-ui/react";
 import React, {
   useCallback,
   useContext,
@@ -186,11 +193,17 @@ export const DayPlannerTile: React.FC<DayPlannerTileProps> = ({
               // means that there's a booking in this time slot
               getBookingInTimeSlot(time) &&
               time === getBookingInTimeSlot(time)?.startTime ? (
-                <Box pos="absolute" top="-25px">
+                <Button
+                  variant="unstyled"
+                  pos="absolute"
+                  top="-38px"
+                  left="-3px"
+                  _focus={{ border: "none" }}
+                >
                   <Text fontSize="xs" fontWeight="700">
                     {getBookingInTimeSlot(time)!.title.toUpperCase()}
                   </Text>
-                </Box>
+                </Button>
               ) : null
             }
             <Tooltip label={convert24HourTo12(time)}>
@@ -212,9 +225,11 @@ export const DayPlannerTile: React.FC<DayPlannerTileProps> = ({
           </Flex>
         ))}
       </Flex>
-      <Box pos="fixed" bottom="200px" zIndex={999}>
+      <Box pos="fixed" top="50%" zIndex={999} transform="translateY(-50%)">
         {showingTimePicker && (
           <DayPlannerForm
+            background={theme.globalSettings.sidebarBackgroundColor}
+            color={theme.globalSettings.textColor}
             formValues={formValues}
             setFormValues={setFormValues}
             onSubmit={onSubmit}

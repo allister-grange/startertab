@@ -159,8 +159,9 @@ export const SmallStockTile: React.FC<SmallStockTileProps> = ({
         pos="absolute"
         right="2"
         bottom="2"
-        color={color}
-        backgroundColor={color}
+        borderColor={"none"}
+        shadow="none"
+        borderWidth="1px"
         onClick={() =>
           setState((state) => ({ ...state, status: "waitingForInput" }))
         }

@@ -1,12 +1,20 @@
 import { NumberedBubble } from "@/components/ui/NumberedBubble";
 import { OutlinedButton } from "@/components/ui/OutlinedButton";
 import { CloseIcon } from "@chakra-ui/icons";
-import { Box, Button, Flex, Input, Stack, Text } from "@chakra-ui/react";
+import {
+  Box,
+  Button,
+  Flex,
+  Input,
+  Stack,
+  StackProps,
+  Text,
+} from "@chakra-ui/react";
 import React, { ChangeEvent, FormEvent } from "react";
 import { HexColorPicker } from "react-colorful";
 import { Booking } from "./DayPlannerTile";
 
-interface DayPlannerFormProps {
+interface DayPlannerFormProps extends StackProps {
   formValues: Booking;
   setFormValues: React.Dispatch<React.SetStateAction<Booking>>;
   onSubmit: (e: React.FormEvent) => void;
@@ -18,6 +26,7 @@ export const DayPlannerForm: React.FC<DayPlannerFormProps> = ({
   onSubmit,
   onTimeIndicatorClick,
   setFormValues,
+  ...props
 }) => {
   const onTitleChange = (e: ChangeEvent<HTMLInputElement>) => {
     setFormValues({ ...formValues, title: e.target.value });
@@ -37,16 +46,21 @@ export const DayPlannerForm: React.FC<DayPlannerFormProps> = ({
 
   return (
     <Stack
-      shadow="md"
+      shadow="lg"
       background="white"
       p="4"
       borderRadius="10px"
-      width="400px"
-      mt="415px"
+      width="370px"
       pos="relative"
-      color="black"
+      {...props}
     >
-      <Button pos="absolute" top="2" right="2" onClick={onTimeIndicatorClick}>
+      <Button
+        pos="absolute"
+        top="2"
+        right="2"
+        onClick={onTimeIndicatorClick}
+        background="transparent"
+      >
         <CloseIcon />
       </Button>
       <form onSubmit={onSubmit}>
@@ -76,18 +90,19 @@ export const DayPlannerForm: React.FC<DayPlannerFormProps> = ({
               type="time"
               min="05:00"
               max="21:00"
-              width="145px"
+              width="120px"
               outline="3px solid #B0AED0"
               step="900"
               _focus={{
                 border: "none",
               }}
+              filter={props.color}
             />
             <Text>to</Text>
             <Input
               value={formValues.endTime}
               onChange={onEndTimeChange}
-              width="145px"
+              width="120px"
               type="time"
               step="900"
               min="05:00"
