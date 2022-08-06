@@ -21,6 +21,7 @@ export const OutlinedButton: React.FC<ButtonProps> = ({
       }}
       _focus={{
         border: `2px solid ${borderColor}`,
+        transform: "translateY(-2px)",
         borderWidth: props.borderWidth,
       }}
       _active={{

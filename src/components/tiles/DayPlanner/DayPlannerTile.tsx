@@ -1,6 +1,8 @@
 import { CloseIcon } from "@chakra-ui/icons";
-import { Box, Button, Flex, Stack, Tooltip } from "@chakra-ui/react";
+import { Box, Text, Flex, Stack, Tooltip } from "@chakra-ui/react";
 import React, {
+  ChangeEvent,
+  FormEvent,
   useCallback,
   useEffect,
   useLayoutEffect,
@@ -15,6 +17,9 @@ interface DayPlannerTileProps {
 
 const times = [
   "6:00am",
+  "6:15am",
+  "6:30am",
+  "6:45am",
   "7:00am",
   "8:00am",
   "9:00am",
@@ -39,6 +44,13 @@ export type Booking = {
   title: string;
 };
 
+const defaultFormValues = {
+  color: "#B0AED0",
+  title: "",
+  startTime: "06:00",
+  endTime: "07:00",
+};
+
 export const DayPlannerTile: React.FC<DayPlannerTileProps> = ({ tileId }) => {
   const color = `var(--text-color-${tileId})`;
   const containerRef = useRef<HTMLDivElement>(null);
@@ -46,12 +58,7 @@ export const DayPlannerTile: React.FC<DayPlannerTileProps> = ({ tileId }) => {
   const [showingTimePicker, setShowingTimePicker] = useState(false);
   const [pixelsToPushTimerAcross, setPixelsToPushTimerAcross] = useState(3);
   const [bookings, setBookings] = useState<Booking[]>([]);
-  const [formValues, setFormValues] = useState<Booking>({
-    color: "#1a2498",
-    title: "",
-    startTime: "0:00",
-    endTime: '"0:00',
-  });
+  const [formValues, setFormValues] = useState<Booking>(defaultFormValues);
 
   const calculateTimeHandPosition = useCallback(() => {
     const currentHours = new Date().getHours();
@@ -83,6 +90,46 @@ export const DayPlannerTile: React.FC<DayPlannerTileProps> = ({ tileId }) => {
     setShowingTimePicker(!showingTimePicker);
   };
 
+  const onSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (
+      formValues.title.length <= 0 ||
+      formValues.startTime === undefined ||
+      formValues.startTime === undefined
+    ) {
+      return;
+    }
+    setBookings([...bookings, formValues]);
+    setFormValues(defaultFormValues);
+    setShowingTimePicker(false);
+  };
+
+  // all times are in the format HH:MM (in 24 hour time)
+  const getBookingInTimeSlot = (time: string) => {
+    const searchingTimeHour = Number.parseInt(time.split(":")[0]);
+    const searchingTimeMinute = Number.parseInt(time.split(":")[1]);
+
+    for (const key in bookings) {
+      const booking = bookings[key];
+      const startHour = Number.parseInt(booking.startTime?.split(":")[0]);
+      const startMinute = Number.parseInt(booking.startTime?.split(":")[1]);
+
+      const endHour = Number.parseInt(booking.endTime?.split(":")[0]);
+      const endMinute = Number.parseInt(booking.endTime?.split(":")[1]);
+
+      if (
+        searchingTimeHour >= startHour &&
+        searchingTimeHour <= endHour &&
+        searchingTimeMinute >= startMinute &&
+        searchingTimeMinute <= endMinute
+      ) {
+        return booking;
+      }
+    }
+
+    return null;
+  };
+
   return (
     <Flex
       height="100%"
@@ -100,9 +147,11 @@ export const DayPlannerTile: React.FC<DayPlannerTileProps> = ({ tileId }) => {
         pos="relative"
       >
         <Tooltip
-          label={`${new Date().getHours()}:${new Date().getMinutes()}${
-            new Date().getHours() < 12 ? "am" : "pm"
-          }`}
+          label={`${new Date().getHours()}:${
+            new Date().getMinutes() < 10
+              ? "0" + new Date().getMinutes()
+              : new Date().getMinutes()
+          }${new Date().getHours() < 12 ? "am" : "pm"}`}
         >
           <Box
             width="1px"
@@ -116,11 +165,30 @@ export const DayPlannerTile: React.FC<DayPlannerTileProps> = ({ tileId }) => {
         </Tooltip>
 
         {times.map((val, idx) => (
-          <Flex key={1} width={`${width / 16}px`} height="24px" pos="relative">
+          <Flex
+            key={val}
+            width={`${width / 16}px`}
+            height="24px"
+            pos="relative"
+          >
+            {
+              // means that there's a booking in this time slot
+              getBookingInTimeSlot(val) ? (
+                <Box pos="absolute" top="-25px">
+                  <Text fontSize="xs" fontWeight="700">
+                    {getBookingInTimeSlot(val)!.title.toUpperCase()}
+                  </Text>
+                </Box>
+              ) : null
+            }
             <Tooltip label={val}>
               <Box
                 width="3px"
-                background={color}
+                backgroundColor={
+                  getBookingInTimeSlot(val)
+                    ? getBookingInTimeSlot(val)?.color
+                    : color
+                }
                 height="90%"
                 mx="auto"
                 mt="auto"
@@ -135,12 +203,16 @@ export const DayPlannerTile: React.FC<DayPlannerTileProps> = ({ tileId }) => {
                 label={`${val.split(":00")[0]}:${15 * (idx + 1)}${
                   val.split(":00")[1]
                 }`}
-                key={idx}
+                key={val + idx}
               >
                 <Box
                   height={idx === 1 ? "15px" : "10px"}
                   width="2px"
-                  background={color}
+                  backgroundColor={
+                    getBookingInTimeSlot(val)
+                      ? getBookingInTimeSlot(val)?.color
+                      : color
+                  }
                   mt="auto"
                   mx="auto"
                   transition="all .2s"
@@ -151,32 +223,23 @@ export const DayPlannerTile: React.FC<DayPlannerTileProps> = ({ tileId }) => {
             ))}
           </Flex>
         ))}
+        {bookings.map((booking) => (
+          <Flex
+            key={booking.title + booking.startTime}
+            width={`${width / 16}px`}
+            height="24px"
+            pos="relative"
+          ></Flex>
+        ))}
       </Flex>
       <Box pos="fixed" bottom="200px" zIndex={999}>
         {showingTimePicker && (
-          <Stack
-            shadow="md"
-            background="white"
-            p="4"
-            borderRadius="10px"
-            width="400px"
-            mt="415px"
-            pos="relative"
-            color="black"
-          >
-            <Button
-              pos="absolute"
-              top="2"
-              right="2"
-              onClick={onTimeIndicatorClick}
-            >
-              <CloseIcon />
-            </Button>
-            <DayPlannerForm
-              formValues={formValues}
-              setFormValues={setFormValues}
-            />
-          </Stack>
+          <DayPlannerForm
+            formValues={formValues}
+            setFormValues={setFormValues}
+            onSubmit={onSubmit}
+            onTimeIndicatorClick={onTimeIndicatorClick}
+          />
         )}
       </Box>
     </Flex>
