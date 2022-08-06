@@ -14,6 +14,7 @@ import {
   LargeWeatherTile,
   TodoListTile,
   DayPlannerTile,
+  Booking,
 } from "@/components/tiles";
 import SpotifyContextProvider from "@/context/SpotifyContext";
 import StravaContextProvider from "@/context/StravaContext";
@@ -36,6 +37,7 @@ interface TileContainerProps {
   bonsaiTrunkColor?: string;
   tempDisplayInCelsius?: string;
   hackerNewsFeed?: string;
+  bookings?: Booking[];
 }
 
 const TileContainer: React.FC<TileContainerProps> = ({
@@ -48,7 +50,7 @@ const TileContainer: React.FC<TileContainerProps> = ({
   todoList,
   bonsaiBaseColor,
   bonsaiTrunkColor,
-  hackerNewsFeed,
+  bookings,
 }) => {
   let tileToRender;
 
@@ -137,7 +139,7 @@ const TileContainer: React.FC<TileContainerProps> = ({
       );
       break;
     case "Day Planner":
-      tileToRender = <DayPlannerTile tileId={tileId} />;
+      tileToRender = <DayPlannerTile tileId={tileId} bookings={bookings} />;
       break;
     default:
       tileToRender = (

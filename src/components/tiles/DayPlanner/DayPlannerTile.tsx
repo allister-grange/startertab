@@ -1,10 +1,11 @@
+import { SettingsContext } from "@/context/UserSettingsContext";
+import { getCurrentTheme } from "@/helpers/settingsHelpers";
 import { times } from "@/helpers/tileHelpers";
-import { CloseIcon } from "@chakra-ui/icons";
-import { Box, Text, Flex, Stack, Tooltip } from "@chakra-ui/react";
+import { ThemeSettings, TileId, UserSettingsContextInterface } from "@/types";
+import { Box, Flex, Text, Tooltip, useColorMode } from "@chakra-ui/react";
 import React, {
-  ChangeEvent,
-  FormEvent,
   useCallback,
+  useContext,
   useEffect,
   useLayoutEffect,
   useRef,
@@ -14,6 +15,7 @@ import { DayPlannerForm } from "./DayPlannerForm";
 
 interface DayPlannerTileProps {
   tileId: string;
+  bookings?: Booking[];
 }
 
 export type Booking = {
@@ -30,14 +32,19 @@ const defaultFormValues = {
   endTime: "07:00",
 };
 
-export const DayPlannerTile: React.FC<DayPlannerTileProps> = ({ tileId }) => {
+export const DayPlannerTile: React.FC<DayPlannerTileProps> = ({
+  tileId,
+  bookings,
+}) => {
   const color = `var(--text-color-${tileId})`;
   const containerRef = useRef<HTMLDivElement>(null);
   const [width, setWidth] = useState(0);
   const [showingTimePicker, setShowingTimePicker] = useState(false);
   const [pixelsToPushTimerAcross, setPixelsToPushTimerAcross] = useState(3);
-  const [bookings, setBookings] = useState<Booking[]>([]);
   const [formValues, setFormValues] = useState<Booking>(defaultFormValues);
+  const { changeThemeInSettings, theme } = useContext(
+    SettingsContext
+  ) as UserSettingsContextInterface;
 
   const calculateTimeHandPosition = useCallback(() => {
     const currentHours = new Date().getHours();
@@ -78,15 +85,20 @@ export const DayPlannerTile: React.FC<DayPlannerTileProps> = ({ tileId }) => {
     ) {
       return;
     }
-    console.log(formValues);
 
-    setBookings([...bookings, formValues]);
+    const newBookings = [...(bookings || []), formValues];
+    theme[tileId as TileId].bookings = newBookings;
+    changeThemeInSettings(theme);
     setFormValues(defaultFormValues);
     setShowingTimePicker(false);
   };
 
   // all times are in the format HH:MM (in 24 hour time)
   const getBookingInTimeSlot = (time: string) => {
+    if (!bookings) {
+      return;
+    }
+
     for (const key in bookings) {
       const booking = bookings[key];
       if (time >= booking.startTime && time <= booking.endTime) {

@@ -1,3 +1,4 @@
+import { Booking } from "@/components/tiles";
 import { TodoObject } from "./tiles";
 
 export type Option = {
@@ -73,6 +74,7 @@ export type TileSettings = {
   tempDisplayInCelsius?: string;
   hackerNewsFeedType?: string;
   spotifyArtistSearchTimeLength?: string;
+  bookings?: Booking[];
 };
 
 export type ThemeSettings = {
@@ -116,4 +118,6 @@ export type TileId =
 export interface UserSettingsContextInterface {
   settings: UserSettings;
   setSettings: (value: UserSettings) => void;
+  theme: ThemeSettings;
+  changeThemeInSettings: (newTheme: ThemeSettings) => void;
 }
