@@ -19,6 +19,7 @@ interface DayPlannerFormProps extends StackProps {
   setFormValues: React.Dispatch<React.SetStateAction<Booking>>;
   onSubmit: (e: React.FormEvent) => void;
   onTimeIndicatorClick: () => void;
+  bookings: Booking[] | undefined;
 }
 
 export const DayPlannerForm: React.FC<DayPlannerFormProps> = ({
@@ -26,6 +27,7 @@ export const DayPlannerForm: React.FC<DayPlannerFormProps> = ({
   onSubmit,
   onTimeIndicatorClick,
   setFormValues,
+  bookings,
   ...props
 }) => {
   const onTitleChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -43,6 +45,33 @@ export const DayPlannerForm: React.FC<DayPlannerFormProps> = ({
   const onEndTimeChange = (e: ChangeEvent<HTMLInputElement>) => {
     setFormValues({ ...formValues, endTime: e.target.value });
   };
+
+  const validateForm = () => {
+    // make sure this booking doesn't overlap with another one
+    if (bookings) {
+      for (let i = 0; i < bookings.length; i++) {
+        const booking = bookings[i];
+        if (
+          formValues.startTime <= booking.endTime &&
+          formValues.endTime >= booking.endTime
+        ) {
+          return false;
+        }
+      }
+    }
+
+    if (formValues.title.length <= 0) {
+      return false;
+    }
+
+    if (formValues.endTime < formValues.startTime) {
+      return false;
+    }
+
+    return true;
+  };
+
+  const isFormValid = validateForm();
 
   return (
     <Stack
@@ -88,8 +117,8 @@ export const DayPlannerForm: React.FC<DayPlannerFormProps> = ({
               value={formValues.startTime}
               onChange={onStartTimeChange}
               type="time"
-              min="05:00"
-              max="21:00"
+              min="06:00"
+              max="20:45"
               width="120px"
               outline="3px solid #B0AED0"
               step="900"
@@ -104,7 +133,7 @@ export const DayPlannerForm: React.FC<DayPlannerFormProps> = ({
               width="120px"
               type="time"
               step="900"
-              min="05:00"
+              min="06:15"
               max="21:00"
               outline="3px solid #B0AED0"
               _focus={{
@@ -135,11 +164,7 @@ export const DayPlannerForm: React.FC<DayPlannerFormProps> = ({
           mt="2"
           borderColor="#B0AED0"
           type="submit"
-          disabled={
-            formValues.title.length <= 0 ||
-            formValues.startTime === undefined ||
-            formValues.startTime === undefined
-          }
+          disabled={!isFormValid}
         >
           Create Event
         </OutlinedButton>

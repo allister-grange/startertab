@@ -1,7 +1,18 @@
+import { OutlinedButton } from "@/components/ui/OutlinedButton";
 import { SettingsContext } from "@/context/UserSettingsContext";
 import { times } from "@/helpers/tileHelpers";
 import { TileId, UserSettingsContextInterface } from "@/types";
-import { Box, Button, Flex, LightMode, Text, Tooltip } from "@chakra-ui/react";
+import {
+  Box,
+  Flex,
+  Popover,
+  PopoverContent,
+  PopoverTrigger as OrigPopoverTrigger,
+  Portal,
+  Text,
+  Tooltip,
+} from "@chakra-ui/react";
+import { clone } from "lodash";
 import React, {
   useCallback,
   useContext,
@@ -11,6 +22,9 @@ import React, {
   useState,
 } from "react";
 import { DayPlannerForm } from "./DayPlannerForm";
+
+const PopoverTrigger: React.FC<{ children: React.ReactNode }> =
+  OrigPopoverTrigger;
 
 interface DayPlannerTileProps {
   tileId: string;
@@ -141,6 +155,24 @@ export const DayPlannerTile: React.FC<DayPlannerTileProps> = ({
     return `${hours}:${minutes}${amOrPm}`;
   };
 
+  const deleteBooking = (time: string) => {
+    if (!bookings) {
+      return;
+    }
+
+    const newBookings = clone(bookings);
+
+    for (let i = 0; i < newBookings.length; i++) {
+      const booking = newBookings[i];
+      if (time >= booking.startTime && time <= booking.endTime) {
+        newBookings.splice(i, 1);
+
+        theme[tileId as TileId].bookings = newBookings;
+        changeThemeInSettings(theme);
+      }
+    }
+  };
+
   return (
     <Flex
       height="100%"
@@ -188,17 +220,34 @@ export const DayPlannerTile: React.FC<DayPlannerTileProps> = ({
               // means that there's a booking in this time slot
               getBookingInTimeSlot(time) &&
               time === getBookingInTimeSlot(time)?.startTime ? (
-                <Button
-                  variant="unstyled"
-                  pos="absolute"
-                  top="-38px"
-                  left="-3px"
-                  _focus={{ border: "none" }}
-                >
-                  <Text fontSize="xs" fontWeight="700">
-                    {getBookingInTimeSlot(time)!.title.toUpperCase()}
-                  </Text>
-                </Button>
+                <Popover>
+                  <PopoverTrigger>
+                    <Text
+                      fontSize="xs"
+                      fontWeight="700"
+                      pos="absolute"
+                      top="-26px"
+                      cursor="pointer"
+                    >
+                      {getBookingInTimeSlot(time)!.title.toUpperCase()}
+                    </Text>
+                  </PopoverTrigger>
+                  <Portal>
+                    <PopoverContent
+                      width="150px"
+                      background={theme.globalSettings.sidebarBackgroundColor}
+                      color={theme.globalSettings.textColor}
+                    >
+                      <OutlinedButton
+                        background={theme.globalSettings.sidebarBackgroundColor}
+                        color={theme.globalSettings.textColor}
+                        onClick={() => deleteBooking(time)}
+                      >
+                        Delete booking
+                      </OutlinedButton>
+                    </PopoverContent>
+                  </Portal>
+                </Popover>
               ) : null
             }
             <Tooltip label={convert24HourTo12(time)}>
@@ -226,6 +275,7 @@ export const DayPlannerTile: React.FC<DayPlannerTileProps> = ({
             background={theme.globalSettings.sidebarBackgroundColor}
             color={theme.globalSettings.textColor}
             formValues={formValues}
+            bookings={bookings}
             setFormValues={setFormValues}
             onSubmit={onSubmit}
             onTimeIndicatorClick={onTimeIndicatorClick}
