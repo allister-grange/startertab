@@ -1,5 +1,6 @@
 import { Flex, Button, Text } from "@chakra-ui/react";
 import React from "react";
+import { OutlinedButton } from "@/components/ui/OutlinedButton";
 
 interface ResetAndRandomizeColorsProps {
   textColor: string;
@@ -12,7 +13,7 @@ export const ResetAndRandomizeColors: React.FC<
 > = ({ resetAllColorsToDefault, randomizeAllColorValues, textColor }) => {
   return (
     <Flex alignItems="center" justifyContent="space-between" mt="2">
-      <Button
+      <OutlinedButton
         display="block"
         onClick={randomizeAllColorValues}
         background="transparent"
@@ -21,9 +22,9 @@ export const ResetAndRandomizeColors: React.FC<
         <Text fontSize="sm" color={textColor}>
           Randomize colors
         </Text>
-      </Button>
+      </OutlinedButton>
 
-      <Button
+      <OutlinedButton
         display="block"
         onClick={resetAllColorsToDefault}
         background="transparent"
@@ -32,7 +33,7 @@ export const ResetAndRandomizeColors: React.FC<
         <Text fontSize="sm" color={textColor}>
           Reset all
         </Text>
-      </Button>
+      </OutlinedButton>
     </Flex>
   );
 };

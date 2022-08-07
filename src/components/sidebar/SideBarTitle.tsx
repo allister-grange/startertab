@@ -1,4 +1,5 @@
-import { Box, Button, Text, useColorModeValue } from "@chakra-ui/react";
+import { OutlinedButton } from "@/components/ui/OutlinedButton";
+import { Box, Text } from "@chakra-ui/react";
 import React from "react";
 
 interface SideBarTitleProps {
@@ -25,7 +26,7 @@ export const SideBarTitle: React.FC<SideBarTitleProps> = ({
       py="3"
       borderBottom={`1px solid ${textColor}`}
     >
-      <Button
+      <OutlinedButton
         onClick={onExitHandler}
         bg="gray.400"
         background="transparent"
@@ -34,9 +35,9 @@ export const SideBarTitle: React.FC<SideBarTitleProps> = ({
         disabled={tutorialProgress > 1 && tutorialProgress < 4}
       >
         Exit
-      </Button>
+      </OutlinedButton>
       <Text color={textColor}>Preferences</Text>
-      <Button
+      <OutlinedButton
         onClick={onSaveHandler}
         bg="gray.400"
         background="transparent"
@@ -44,7 +45,7 @@ export const SideBarTitle: React.FC<SideBarTitleProps> = ({
         color={textColor}
       >
         Save
-      </Button>
+      </OutlinedButton>
     </Box>
   );
 };

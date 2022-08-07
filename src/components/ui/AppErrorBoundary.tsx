@@ -1,6 +1,7 @@
-import { Box, Button, Flex, Heading, Text } from "@chakra-ui/react";
+import { Box, Flex, Heading, Text } from "@chakra-ui/react";
 import Router from "next/router";
 import React from "react";
+import { OutlinedButton } from "@/components/ui/OutlinedButton";
 
 export const AppErrorBoundary: React.FC = ({}) => {
   const deleteAllSettings = () => {
@@ -35,20 +36,14 @@ export const AppErrorBoundary: React.FC = ({}) => {
         </Box>
       </Flex>
       <Box textAlign="center">
-        <Button
-          background="transparent"
-          shadow="lg"
-          border="3px solid red"
-          transition="all .2s"
-          _hover={{
-            transform: "translateY(-2px)",
-          }}
+        <OutlinedButton
+          borderColor="red"
           fontWeight="800"
           onClick={deleteAllSettings}
           px="4"
         >
           CLEAR SETTINGS
-        </Button>
+        </OutlinedButton>
       </Box>
     </Box>
   );

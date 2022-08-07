@@ -53,17 +53,18 @@ const SettingsSideBar: React.FC<SettingsSideBarProps> = ({
   tutorialProgress,
 }) => {
   const { colorMode } = useColorMode();
-
   const { settings, setSettings } = useContext(
     SettingsContext
   ) as UserSettingsContextInterface;
-
   const inMemorySettingsRef = useRef(settings);
-
   const [accordionIndex, setAccordionIndex] = useState<ExpandedIndex>([]);
 
   // used to animate the width of the sidebar
   const [width, setWidth] = useState("0px");
+  const sortedOptions = React.useMemo(
+    () => sortOptionsIntoTileGroups(sideBarOptions),
+    []
+  );
 
   React.useEffect(() => {
     if (isOpen) {
@@ -151,8 +152,6 @@ const SettingsSideBar: React.FC<SettingsSideBarProps> = ({
 
     setSettings(newSettings);
   };
-
-  const sortedOptions = sortOptionsIntoTileGroups(sideBarOptions);
 
   const onAccordionChange = (expandedIndex: ExpandedIndex) => {
     setAccordionIndex(expandedIndex);

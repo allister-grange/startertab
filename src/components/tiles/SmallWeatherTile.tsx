@@ -1,17 +1,17 @@
+import { SmallWeatherTileSkeleton } from "@/components/skeletons/SmallWeatherTileSkeleton";
+import { OutlinedButton } from "@/components/ui/OutlinedButton";
 import { SettingsContext } from "@/context/UserSettingsContext";
 import { getCurrentTheme } from "@/helpers/settingsHelpers";
 import { TileId, UserSettingsContextInterface } from "@/types";
 import { WeatherData } from "@/types/weather";
 import {
   Box,
-  Button,
   Center,
   Heading,
   IconButton,
   Input,
   InputGroup,
   InputRightElement,
-  Skeleton,
   Text,
   useColorMode,
 } from "@chakra-ui/react";
@@ -23,7 +23,6 @@ import {
   WiDaySunnyOvercast,
   WiRain,
 } from "react-icons/wi";
-import { SmallWeatherTileSkeleton } from "@/components/skeletons/SmallWeatherTileSkeleton";
 
 interface SmallWeatherTileProps {
   tileId: TileId;
@@ -119,11 +118,6 @@ export const SmallWeatherTile: React.FC<SmallWeatherTileProps> = ({
     theme[tileId].tempDisplayInCelsius = celsius ? "true" : "false";
     setSettings(newSettings);
     setDisplayInCelsius(celsius);
-  };
-
-  const hoverStyles = {
-    backgroundColor: "transparent",
-    outline: `1px solid ${color}`,
   };
 
   let toDisplay;
@@ -232,37 +226,29 @@ export const SmallWeatherTile: React.FC<SmallWeatherTileProps> = ({
         color={color}
         opacity={0.6}
       >
-        <Button
+        <OutlinedButton
           size="xs"
-          backgroundColor="transparent"
-          _focus={hoverStyles}
-          _hover={hoverStyles}
           onClick={() =>
             setState((state) => ({ ...state, status: "waitingForInput" }))
           }
+          shadow="none"
         >
           Change city
-        </Button>
+        </OutlinedButton>
         |&nbsp;
-        <Button
+        <OutlinedButton
           size="xxs"
-          backgroundColor="transparent"
-          _focus={hoverStyles}
-          _hover={hoverStyles}
           onClick={() => changeTemperatureDisplayUnits(false)}
         >
           °F
-        </Button>
+        </OutlinedButton>
         &nbsp;
-        <Button
+        <OutlinedButton
           size="xxs"
-          backgroundColor="transparent"
-          _focus={hoverStyles}
-          _hover={hoverStyles}
           onClick={() => changeTemperatureDisplayUnits(true)}
         >
           °C
-        </Button>
+        </OutlinedButton>
       </Box>
     </Center>
   );

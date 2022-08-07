@@ -1,6 +1,7 @@
 import { TileId } from "@/types";
 import { Box, Button, Heading, Input } from "@chakra-ui/react";
 import React, { useEffect, useRef, useState } from "react";
+import { OutlinedButton } from "@/components/ui/OutlinedButton";
 
 interface TimeProps {
   tileId: TileId;
@@ -99,17 +100,15 @@ export const TimeTile: React.FC<TimeProps> = ({ tileId }) => {
           }}
           onKeyUpCapture={keyPress}
         />
-        <Button
-          borderRadius="7"
+        <OutlinedButton
           size="sm"
           ml="1"
-          border="1px"
-          bg="transparent"
+          borderColor={color}
+          borderWidth="1px"
           onClick={startOrResetTimer}
-          _hover={{ background: "transparent" }}
         >
           {intervalRef.current ? "reset" : "go"}
-        </Button>
+        </OutlinedButton>
       </Box>
     </Box>
   );

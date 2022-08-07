@@ -1,10 +1,8 @@
 import { SettingsContext } from "@/context/UserSettingsContext";
 import { getCurrentTheme } from "@/helpers/settingsHelpers";
-import { getUVData } from "@/pages/api/weather";
 import { TileId, UserSettingsContextInterface, UvGraphData } from "@/types";
 import {
   Box,
-  Button,
   Center,
   Heading,
   Input,
@@ -17,6 +15,7 @@ import {
 import cloneDeep from "lodash.clonedeep";
 import React, { useContext, useEffect, useState } from "react";
 import { Line, LineChart, ResponsiveContainer, XAxis, YAxis } from "recharts";
+import { OutlinedButton } from "@/components/ui/OutlinedButton";
 
 interface UvGraphProps {
   tileId: TileId;
@@ -154,27 +153,19 @@ export const UvGraphTile: React.FC<UvGraphProps> = ({ city, tileId }) => {
     <Box p="6" color={color} height="100%">
       <Heading fontSize="2xl">UV Index</Heading>
       {toDisplay}
-      <Button
+      <OutlinedButton
         size="xs"
         pos="absolute"
         right="4"
         top="4"
         color={color}
-        backgroundColor="transparent"
-        _focus={{
-          backgroundColor: "transparent",
-          outline: `1px solid ${color}`,
-        }}
-        _hover={{
-          backgroundColor: "transparent",
-          outline: `1px solid ${color}`,
-        }}
+        borderColor={color}
         onClick={() =>
           setState((state) => ({ ...state, status: "waitingForInput" }))
         }
       >
         Change city
-      </Button>
+      </OutlinedButton>
     </Box>
   );
 };

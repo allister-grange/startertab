@@ -25,6 +25,11 @@ a {
   box-sizing: border-box;
 }
 
+input[type="time"]::-webkit-calendar-picker-indicator {
+  background: none;
+  display: none;
+}
+
 :root {
   --bg-color-tile-1: #65abc1;
   --bg-color-tile-2: #E89C4B;

@@ -1,3 +1,5 @@
+import { LargeStockTickerSkeleton } from "@/components/skeletons/LargeStockTickerSkeleton";
+import { OutlinedButton } from "@/components/ui/OutlinedButton";
 import { SettingsContext } from "@/context/UserSettingsContext";
 import { getCurrentTheme } from "@/helpers/settingsHelpers";
 import { TileId, UserSettingsContextInterface } from "@/types";
@@ -11,13 +13,11 @@ import {
   Heading,
   Input,
   InputGroup,
-  Skeleton,
   Text,
   useColorMode,
 } from "@chakra-ui/react";
 import cloneDeep from "lodash.clonedeep";
 import React, { useContext, useEffect, useState } from "react";
-import { LargeStockTickerSkeleton } from "@/components/skeletons/LargeStockTickerSkeleton";
 
 interface LargeStockTileProps {
   tileId: TileId;
@@ -216,39 +216,27 @@ export const LargeStockTile: React.FC<LargeStockTileProps> = ({ tileId }) => {
               />
             </Box>
             <Box>
-              <Button
-                type="submit"
-                ml="4"
-                background="transparent"
-                border={`1px solid ${color}`}
-              >
+              <OutlinedButton type="submit" ml="4" borderColor={color}>
                 Load stocks
-              </Button>
+              </OutlinedButton>
             </Box>
           </Flex>
         </form>
       )}
-      <Button
+      <OutlinedButton
         size="xs"
         pos="absolute"
         right="2"
         bottom="2"
         color={color}
-        backgroundColor="transparent"
-        _focus={{
-          backgroundColor: "transparent",
-          outline: `1px solid ${color}`,
-        }}
-        _hover={{
-          backgroundColor: "transparent",
-          outline: `1px solid ${color}`,
-        }}
+        borderColor={color}
+        borderWidth="1px"
         onClick={() =>
           setState((state) => ({ ...state, status: "waitingForInput" }))
         }
       >
         Change stocks
-      </Button>
+      </OutlinedButton>
     </Center>
   );
 };

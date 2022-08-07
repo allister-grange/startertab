@@ -1,3 +1,4 @@
+import { Booking } from "@/components/tiles";
 import { TodoObject } from "./tiles";
 
 export type Option = {
@@ -15,6 +16,7 @@ export type OptionType =
   | "DropShadowInput"
   | "LargeTileTypePicker"
   | "SmallTileTypePicker"
+  | "LongTileTypePicker"
   | "BorderRadiusInput"
   | "BorderSelect"
   | "SmallStockInput"
@@ -35,6 +37,7 @@ export type TileType =
   | "Small Weather Tile"
   | "Large Weather Tile"
   | "UV Graph"
+  | "Day Planner"
   | "Theme Picker"
   | "Small Spotify Tile"
   | "Time"
@@ -71,6 +74,7 @@ export type TileSettings = {
   tempDisplayInCelsius?: string;
   hackerNewsFeedType?: string;
   spotifyArtistSearchTimeLength?: string;
+  bookings?: Booking[];
 };
 
 export type ThemeSettings = {
@@ -114,4 +118,6 @@ export type TileId =
 export interface UserSettingsContextInterface {
   settings: UserSettings;
   setSettings: (value: UserSettings) => void;
+  theme: ThemeSettings;
+  changeThemeInSettings: (newTheme: ThemeSettings) => void;
 }

@@ -1,6 +1,7 @@
 import { ColorPicker } from "@/components/theme-creator/ColorPicker";
 import { SettingTitle } from "@/components/theme-creator/SettingTitle";
 import { SidebarThemePicker } from "@/components/theme-creator/SidebarThemePicker";
+import { OutlinedButton } from "@/components/ui/OutlinedButton";
 import { SettingsContext } from "@/context/UserSettingsContext";
 import { UserSettingsContextInterface } from "@/types";
 import {
@@ -295,22 +296,9 @@ export const ThemeCreator: React.FC = ({}) => {
           </Box>
         </Grid>
         <Flex mt="10" mb="10" alignItems="center" width="100%" height="100%">
-          <Button
-            width="150px"
-            height="50px"
-            type="submit"
-            disabled={!formValid}
-            background="transparent"
-            shadow="lg"
-            border="3px solid #B0AED0"
-            transition="all .2s"
-            _hover={{
-              transform: "translateY(-2px)",
-            }}
-            fontWeight="800"
-          >
+          <OutlinedButton fontWeight="800" mt="2" borderColor="#B0AED0">
             CREATE IT
-          </Button>
+          </OutlinedButton>
         </Flex>
       </form>
     </Box>

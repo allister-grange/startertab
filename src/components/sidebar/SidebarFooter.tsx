@@ -31,11 +31,7 @@ export const SidebarFooter: React.FC<SidebarFooterProps> = ({ textColor }) => {
         width="1px"
       />
       <Text ml="3" fontSize="smaller">
-        &copy; 2022,{" "}
-        <a href="https://allistergrange.com" aria-label="My personal website">
-          Allister Grange
-        </a>{" "}
-        - v1.00
+        &copy; 2022, Start Page - v1.00
       </Text>
     </Box>
   );

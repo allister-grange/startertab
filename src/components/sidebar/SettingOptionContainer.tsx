@@ -92,6 +92,7 @@ export const SettingOptionContainer: React.FC<SettingOptionContainerProps> = ({
     case "SmallTileTypePicker":
     case "MediumTileTypePicker":
     case "LargeTileTypePicker":
+    case "LongTileTypePicker":
       optionToDisplay = (
         <TileTypePicker
           option={option}

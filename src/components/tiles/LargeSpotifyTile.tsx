@@ -5,6 +5,7 @@ import {
   SkipRight,
 } from "@/components/ui/MediaControls";
 import { MusicControlButton } from "@/components/ui/MusicControlButton";
+import { OutlinedButton } from "@/components/ui/OutlinedButton";
 import { SpotifyLogo } from "@/components/ui/SpotifyLogo";
 import { SpotifyContext } from "@/context/SpotifyContext";
 import {
@@ -14,7 +15,6 @@ import {
 } from "@/types";
 import {
   Box,
-  Button,
   Center,
   Flex,
   Heading,
@@ -72,19 +72,14 @@ export const LargeSpotifyTile: React.FC<LargeSpotifyTileProps> = ({
   if (isAuthenticated === false) {
     return (
       <Center height="100%">
-        <Button
+        <OutlinedButton
           onClick={loginWithSpotify}
           color={color}
-          bg={"transparent"}
-          border={`2px solid ${color}`}
-          _focus={{ background: "transparent" }}
-          _hover={{ background: "transparent", transform: "translateY(-2px)" }}
-          transition="all .2s"
-          shadow="md"
+          borderColor={color}
         >
           Continue with Spotify&nbsp;
           <SpotifyLogo color={color} size={20} />
-        </Button>
+        </OutlinedButton>
       </Center>
     );
   }

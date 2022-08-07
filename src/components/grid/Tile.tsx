@@ -55,6 +55,7 @@ const Tile: React.FC<TileProps> = ({
         bonsaiBaseColor={theme[tileId].bonsaiBaseColor}
         bonsaiTrunkColor={theme[tileId].bonsaiTrunkColor}
         tempDisplayInCelsius={theme[tileId].tempDisplayInCelsius}
+        bookings={theme[tileId].bookings}
       />
     </GridItem>
   );

@@ -23,6 +23,7 @@ import {
   WiRain,
 } from "react-icons/wi";
 import { LargeWeatherTileSkeleton } from "@/components/skeletons/LargeWeatherTileSkeleton";
+import { OutlinedButton } from "@/components/ui/OutlinedButton";
 
 interface LargeWeatherTileProps {
   tileId: TileId;
@@ -131,11 +132,6 @@ export const LargeWeatherTile: React.FC<LargeWeatherTileProps> = ({
   const [displayInCelsius, setDisplayInCelsius] = useState(
     tempDisplayInCelsius === "true"
   );
-
-  const hoverStyles = {
-    backgroundColor: "transparent",
-    outline: `1px solid ${color}`,
-  };
 
   const fetchWeatherData = React.useCallback(async (cityName: string) => {
     try {
@@ -270,37 +266,28 @@ export const LargeWeatherTile: React.FC<LargeWeatherTileProps> = ({
         color={color}
         opacity={0.6}
       >
-        <Button
+        <OutlinedButton
           size="xs"
-          backgroundColor="transparent"
-          _focus={hoverStyles}
-          _hover={hoverStyles}
           onClick={() =>
             setState((state) => ({ ...state, status: "waitingForInput" }))
           }
         >
           Change city
-        </Button>
+        </OutlinedButton>
         |&nbsp;
-        <Button
+        <OutlinedButton
           size="xxs"
-          backgroundColor="transparent"
-          _focus={hoverStyles}
-          _hover={hoverStyles}
           onClick={() => changeTemperatureDisplayUnits(false)}
         >
           °F
-        </Button>
+        </OutlinedButton>
         &nbsp;
-        <Button
+        <OutlinedButton
           size="xxs"
-          backgroundColor="transparent"
-          _focus={hoverStyles}
-          _hover={hoverStyles}
           onClick={() => changeTemperatureDisplayUnits(true)}
         >
           °C
-        </Button>
+        </OutlinedButton>
       </Box>
     </Center>
   );

@@ -110,6 +110,21 @@ export const TileTypePicker: React.FC<TileTypePickerProps> = ({
         </>
       );
       break;
+    case "LongTileTypePicker":
+      options = (
+        <>
+          <option style={optionsStyles} value="Blank Tile">
+            Blank
+          </option>
+          <option style={optionsStyles} value="Search Bar">
+            Search Bar
+          </option>
+          <option style={optionsStyles} value="Day Planner">
+            Day Planner
+          </option>
+        </>
+      );
+      break;
 
     default:
       options = null;
