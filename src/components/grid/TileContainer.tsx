@@ -13,7 +13,6 @@ import {
   SpotifyTopArtistsTile,
   LargeWeatherTile,
   TodoListTile,
-  DayPlannerTile,
   Booking,
 } from "@/components/tiles";
 import SpotifyContextProvider from "@/context/SpotifyContext";
@@ -25,6 +24,7 @@ import React from "react";
 import { ErrorBoundary } from "react-error-boundary";
 import { TileErrorBoundary } from "@/components/tiles/TileErrorBoundary";
 import ThemePickerTile from "@/components/tiles/ThemePickerTile";
+import DayPlannerTile from "@/components/tiles/DayPlanner/DayPlannerTile";
 
 interface TileContainerProps {
   tileId: TileId;

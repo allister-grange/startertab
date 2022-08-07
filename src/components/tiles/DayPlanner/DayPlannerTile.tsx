@@ -45,7 +45,7 @@ const defaultFormValues = {
   endTime: "07:00",
 };
 
-export const DayPlannerTile: React.FC<DayPlannerTileProps> = ({
+const DayPlannerTile: React.FC<DayPlannerTileProps> = ({
   tileId,
   bookings,
 }) => {
@@ -228,6 +228,7 @@ export const DayPlannerTile: React.FC<DayPlannerTileProps> = ({
                       pos="absolute"
                       top="-26px"
                       cursor="pointer"
+                      whiteSpace="nowrap"
                     >
                       {getBookingInTimeSlot(time)!.title.toUpperCase()}
                     </Text>
@@ -285,3 +286,12 @@ export const DayPlannerTile: React.FC<DayPlannerTileProps> = ({
     </Flex>
   );
 };
+
+const areEqual = (
+  prevProps: DayPlannerTileProps,
+  nextProps: DayPlannerTileProps
+) => {
+  return prevProps.bookings?.length === nextProps.bookings?.length;
+};
+
+export default React.memo(DayPlannerTile, areEqual);
