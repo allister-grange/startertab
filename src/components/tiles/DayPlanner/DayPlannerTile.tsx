@@ -21,7 +21,7 @@ import React, {
   useRef,
   useState,
 } from "react";
-import { DayPlannerForm } from "./DayPlannerForm";
+import { DayPlannerForm } from "@/components/tiles/DayPlanner/DayPlannerForm";
 
 const PopoverTrigger: React.FC<{ children: React.ReactNode }> =
   OrigPopoverTrigger;

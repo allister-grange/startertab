@@ -6,7 +6,6 @@ import { SettingsContext } from "@/context/UserSettingsContext";
 import { UserSettingsContextInterface } from "@/types";
 import {
   Box,
-  Button,
   Flex,
   Grid,
   Heading,
