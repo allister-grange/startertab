@@ -18,16 +18,16 @@ interface DayPlannerFormProps extends StackProps {
   formValues: Booking;
   setFormValues: React.Dispatch<React.SetStateAction<Booking>>;
   onSubmit: (e: React.FormEvent) => void;
-  onTimeIndicatorClick: () => void;
   bookings: Booking[] | undefined;
+  startTime: string;
 }
 
 export const DayPlannerForm: React.FC<DayPlannerFormProps> = ({
   formValues,
   onSubmit,
-  onTimeIndicatorClick,
   setFormValues,
   bookings,
+  startTime,
   ...props
 }) => {
   const onTitleChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -83,15 +83,15 @@ export const DayPlannerForm: React.FC<DayPlannerFormProps> = ({
       pos="relative"
       {...props}
     >
-      <Button
+      {/* <Button
         pos="absolute"
         top="2"
         right="2"
-        onClick={onTimeIndicatorClick}
+        onClick={() => onTimeIndicatorClick(undefined)}
         background="transparent"
       >
         <CloseIcon />
-      </Button>
+      </Button> */}
       <form onSubmit={onSubmit}>
         <Box>
           <Flex fontSize="md" mb="4" fontWeight="600">

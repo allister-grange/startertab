@@ -52,7 +52,9 @@ const DayPlannerTile: React.FC<DayPlannerTileProps> = ({
   const color = `var(--text-color-${tileId})`;
   const containerRef = useRef<HTMLDivElement>(null);
   const [width, setWidth] = useState(0);
-  const [showingTimePicker, setShowingTimePicker] = useState(false);
+  const [showingTimePicker, setShowingTimePicker] = useState<
+    undefined | string
+  >();
   const [pixelsToPushTimerAcross, setPixelsToPushTimerAcross] = useState(0);
   const [formValues, setFormValues] = useState<Booking>(defaultFormValues);
   const { changeSetting, theme } = useContext(
@@ -86,8 +88,13 @@ const DayPlannerTile: React.FC<DayPlannerTileProps> = ({
     setWidth(containerRef.current!.offsetWidth);
   }, []);
 
-  const onTimeIndicatorClick = () => {
-    setShowingTimePicker(!showingTimePicker);
+  const onTimeIndicatorClick = (time?: string) => {
+    setShowingTimePicker(time);
+    if (time) {
+      const endTimeHour = Number.parseInt(time.split(":")[0]) + 1;
+      const endTime = endTimeHour + ":" + time.split(":")[1];
+      setFormValues({ ...formValues, startTime: time, endTime });
+    }
   };
 
   const onSubmit = (e: React.FormEvent) => {
@@ -106,7 +113,7 @@ const DayPlannerTile: React.FC<DayPlannerTileProps> = ({
       tileId as TileId
     );
     setFormValues(defaultFormValues);
-    setShowingTimePicker(false);
+    setShowingTimePicker(undefined);
   };
 
   // all times are in the format HH:MM (in 24 hour time)
@@ -184,8 +191,10 @@ const DayPlannerTile: React.FC<DayPlannerTileProps> = ({
       mx="auto"
     >
       <Flex
+        marginTop="auto"
         alignItems="flex-end"
-        height="100%"
+        // height="100%"
+        height="40%"
         justifyContent="center"
         width="max-content"
         pos="relative"
@@ -211,10 +220,10 @@ const DayPlannerTile: React.FC<DayPlannerTileProps> = ({
         </Tooltip>
 
         {times.map((time, idx) => (
-          <Flex
+          <Box
             key={time}
             width={`${width / times.length}px`}
-            height="24px"
+            // height="24px"
             pos="relative"
           >
             {
@@ -252,38 +261,56 @@ const DayPlannerTile: React.FC<DayPlannerTileProps> = ({
                 </Popover>
               ) : null
             }
-            <Tooltip label={convert24HourTo12(time)}>
-              <Box
-                width={getBoxWidth(time)}
-                backgroundColor={
-                  getBookingInTimeSlot(time)
-                    ? getBookingInTimeSlot(time)?.color
-                    : color
-                }
-                height={getBoxHeight(time)}
-                mx="auto"
-                mt="auto"
-                transition="all .2s"
-                _hover={{ transform: "scale(1.2)", cursor: "pointer" }}
-                onClick={onTimeIndicatorClick}
-              />
-            </Tooltip>
-          </Flex>
+
+            <Popover>
+              <Tooltip
+                label={convert24HourTo12(time)}
+                aria-label="tooltip"
+                placement="top"
+              >
+                <Flex height="30px" marginTop={"auto"}>
+                  <PopoverTrigger>
+                    <Box
+                      width={getBoxWidth(time)}
+                      backgroundColor={
+                        getBookingInTimeSlot(time)
+                          ? getBookingInTimeSlot(time)?.color
+                          : color
+                      }
+                      height={getBoxHeight(time)}
+                      mx="auto"
+                      mt="auto"
+                      transition="all .2s"
+                      _hover={{ transform: "scale(1.2)", cursor: "pointer" }}
+                      onClick={() => onTimeIndicatorClick(time)}
+                    />
+                  </PopoverTrigger>
+                </Flex>
+              </Tooltip>
+              <Portal>
+                <PopoverContent>
+                  <Box
+                    pos="fixed"
+                    top="80%"
+                    zIndex={999}
+                    transform="translateY(-50%)"
+                  >
+                    <DayPlannerForm
+                      background={theme.globalSettings.sidebarBackgroundColor}
+                      color={theme.globalSettings.textColor}
+                      formValues={formValues}
+                      bookings={bookings}
+                      setFormValues={setFormValues}
+                      onSubmit={onSubmit}
+                      startTime={showingTimePicker!}
+                    />
+                  </Box>
+                </PopoverContent>
+              </Portal>
+            </Popover>
+          </Box>
         ))}
       </Flex>
-      <Box pos="fixed" top="50%" zIndex={999} transform="translateY(-50%)">
-        {showingTimePicker && (
-          <DayPlannerForm
-            background={theme.globalSettings.sidebarBackgroundColor}
-            color={theme.globalSettings.textColor}
-            formValues={formValues}
-            bookings={bookings}
-            setFormValues={setFormValues}
-            onSubmit={onSubmit}
-            onTimeIndicatorClick={onTimeIndicatorClick}
-          />
-        )}
-      </Box>
     </Flex>
   );
 };
