@@ -22,7 +22,7 @@ interface DayPlannerFormProps extends StackProps {
   startTime: string;
 }
 
-export const DayPlannerForm: React.FC<DayPlannerFormProps> = ({
+const DayPlannerForm: React.FC<DayPlannerFormProps> = ({
   formValues,
   onSubmit,
   setFormValues,
@@ -172,3 +172,5 @@ export const DayPlannerForm: React.FC<DayPlannerFormProps> = ({
     </Stack>
   );
 };
+
+export default React.memo(DayPlannerForm);

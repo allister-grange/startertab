@@ -23,12 +23,15 @@ const UserSettingsProvider: React.FC<Props> = ({ children }) => {
   const { colorMode } = useColorMode();
   const theme = getCurrentTheme(settings, colorMode);
 
-  const changeSetting = (key: string, value: string, tileId: TileId) => {
-    let newSettings = cloneDeep(settings);
-    const themeToChange = getCurrentTheme(newSettings, colorMode);
-    themeToChange[tileId][key as keyof TileSettings] = value as any;
-    setSettings(newSettings);
-  };
+  const changeSetting = React.useCallback(
+    (key: string, value: string, tileId: TileId) => {
+      let newSettings = cloneDeep(settings);
+      const themeToChange = getCurrentTheme(newSettings, colorMode);
+      themeToChange[tileId][key as keyof TileSettings] = value as any;
+      setSettings(newSettings);
+    },
+    [colorMode, setSettings, settings]
+  );
 
   return (
     <SettingsContext.Provider

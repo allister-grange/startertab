@@ -21,7 +21,7 @@ import React, {
   useRef,
   useState,
 } from "react";
-import { DayPlannerForm } from "@/components/tiles/DayPlanner/DayPlannerForm";
+import DayPlannerForm from "@/components/tiles/DayPlanner/DayPlannerForm";
 
 const PopoverTrigger: React.FC<{ children: React.ReactNode }> =
   OrigPopoverTrigger;
@@ -57,7 +57,7 @@ const DayPlannerTile: React.FC<DayPlannerTileProps> = ({
   >();
   const [pixelsToPushTimerAcross, setPixelsToPushTimerAcross] = useState(0);
   const [formValues, setFormValues] = useState<Booking>(defaultFormValues);
-  const { changeSetting, theme } = useContext(
+  const { changeSetting } = useContext(
     SettingsContext
   ) as UserSettingsContextInterface;
 
@@ -220,12 +220,7 @@ const DayPlannerTile: React.FC<DayPlannerTileProps> = ({
         </Tooltip>
 
         {times.map((time, idx) => (
-          <Box
-            key={time}
-            width={`${width / times.length}px`}
-            // height="24px"
-            pos="relative"
-          >
+          <Box key={time} width={`${width / times.length}px`} pos="relative">
             {
               // means that there's a booking in this time slot
               getBookingInTimeSlot(time) &&
@@ -246,12 +241,12 @@ const DayPlannerTile: React.FC<DayPlannerTileProps> = ({
                   <Portal>
                     <PopoverContent
                       width="150px"
-                      background={theme.globalSettings.sidebarBackgroundColor}
-                      color={theme.globalSettings.textColor}
+                      background="var(--bg-color-sidebar)"
+                      color="var(--text-color-sidebar)"
                     >
                       <OutlinedButton
-                        background={theme.globalSettings.sidebarBackgroundColor}
-                        color={theme.globalSettings.textColor}
+                        background="var(--bg-color-sidebar)"
+                        color="var(--text-color-sidebar)"
                         onClick={() => deleteBooking(time)}
                       >
                         Delete booking
@@ -296,8 +291,8 @@ const DayPlannerTile: React.FC<DayPlannerTileProps> = ({
                     transform="translateY(-50%)"
                   >
                     <DayPlannerForm
-                      background={theme.globalSettings.sidebarBackgroundColor}
-                      color={theme.globalSettings.textColor}
+                      background="var(--bg-color-sidebar)"
+                      color="var(--text-color-sidebar)"
                       formValues={formValues}
                       bookings={bookings}
                       setFormValues={setFormValues}
@@ -319,6 +314,11 @@ const areEqual = (
   prevProps: DayPlannerTileProps,
   nextProps: DayPlannerTileProps
 ) => {
+  console.log(
+    "poocheck",
+    prevProps.bookings?.length === nextProps.bookings?.length
+  );
+
   return prevProps.bookings?.length === nextProps.bookings?.length;
 };
 

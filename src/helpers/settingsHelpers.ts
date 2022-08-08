@@ -13,6 +13,18 @@ export const applyTheme = (theme: ThemeSettings) => {
   document.body.style.backgroundRepeat = "no-repeat";
   document.body.style.backgroundSize = "cover";
   document.documentElement.style.setProperty(
+    "--bg-color-sidebar",
+    theme.globalSettings.sidebarBackgroundColor || ""
+  );
+  document.documentElement.style.setProperty(
+    "--text-color-sidebar",
+    theme.globalSettings.textColor || ""
+  );
+  document.documentElement.style.setProperty(
+    "--bg-color-tile1",
+    theme.tile1.backgroundColor
+  );
+  document.documentElement.style.setProperty(
     "--bg-color-tile1",
     theme.tile1.backgroundColor
   );
