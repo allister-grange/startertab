@@ -15,7 +15,6 @@ import {
   Text,
   useColorMode,
 } from "@chakra-ui/react";
-import cloneDeep from "lodash.clonedeep";
 import React, { useContext, useEffect, useState } from "react";
 
 interface SmallStockTileProps {
@@ -36,7 +35,7 @@ export const SmallStockTile: React.FC<SmallStockTileProps> = ({
   stockNameFromSettings,
 }) => {
   const color = `var(--text-color-${tileId})`;
-  const { settings, setSettings } = useContext(
+  const { settings, changeSetting } = useContext(
     SettingsContext
   ) as UserSettingsContextInterface;
   const { colorMode } = useColorMode();
@@ -72,11 +71,7 @@ export const SmallStockTile: React.FC<SmallStockTileProps> = ({
 
   const handleSubmitStockName = (e: React.FormEvent) => {
     e.preventDefault();
-    let newSettings = cloneDeep(settings);
-    const theme = getCurrentTheme(newSettings, colorMode);
-    theme[tileId].stockName = stockInput;
-
-    setSettings(newSettings);
+    changeSetting("stockName", stockInput, tileId as TileId);
   };
 
   useEffect(() => {

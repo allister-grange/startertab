@@ -108,7 +108,7 @@ const InputDisplay: React.FC<InputDisplayProps> = ({
 
 export const LargeStockTile: React.FC<LargeStockTileProps> = ({ tileId }) => {
   const color = `var(--text-color-${tileId})`;
-  const { settings, setSettings } = useContext(
+  const { settings, changeSetting } = useContext(
     SettingsContext
   ) as UserSettingsContextInterface;
   const { colorMode } = useColorMode();
@@ -143,13 +143,10 @@ export const LargeStockTile: React.FC<LargeStockTileProps> = ({ tileId }) => {
 
   const handleSubmitStockName = (e: React.FormEvent) => {
     e.preventDefault();
-    let newSettings = cloneDeep(settings);
-    const theme = getCurrentTheme(newSettings, colorMode);
-    theme[tileId].stockName = stockInputs.join(",");
-
+    const stocks = stockInputs.join(",");
     setState((state) => ({ ...state, stockTickerNames: stockInputs }));
-    setSettings(newSettings);
-    getStocks(stockInputs.join(","));
+    changeSetting("stockName", stocks, tileId as TileId);
+    getStocks(stocks);
   };
 
   useEffect(() => {

@@ -1,6 +1,5 @@
-import { Option, TileId } from "@/types";
+import { Option, TileId, TileSettings } from "@/types";
 import { Box, BoxProps, Input, Text } from "@chakra-ui/react";
-import { title } from "process";
 import React, { useEffect, useState } from "react";
 
 interface GenericInputProps extends BoxProps {
@@ -8,7 +7,11 @@ interface GenericInputProps extends BoxProps {
   textColor: string;
   subTextColor: string;
   value: string;
-  changeSetting: (key: string, value: string, tileId: TileId) => void;
+  changeSetting: (
+    key: keyof TileSettings,
+    value: string,
+    tileId: TileId
+  ) => void;
   resetOptionToDefault: (option: Option) => void;
 }
 
@@ -43,7 +46,11 @@ export const GenericInput: React.FC<GenericInputProps> = ({
       return;
     }
     const timeoutIdentifier = setTimeout(() => {
-      changeSetting(option.localStorageId, inputValue, option.tileId);
+      changeSetting(
+        option.localStorageId as keyof TileSettings,
+        inputValue,
+        option.tileId
+      );
     }, 800);
 
     return () => {

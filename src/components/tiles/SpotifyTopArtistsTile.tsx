@@ -31,7 +31,7 @@ type SmallSpotifyTileProps = {
 export const SpotifyTopArtistsTile: React.FC<SmallSpotifyTileProps> = ({
   tileId,
 }) => {
-  const { settings, setSettings } = useContext(
+  const { settings, changeSetting } = useContext(
     SettingsContext
   ) as UserSettingsContextInterface;
   const { colorMode } = useColorMode();
@@ -51,10 +51,11 @@ export const SpotifyTopArtistsTile: React.FC<SmallSpotifyTileProps> = ({
   }, [fetchTopArtistData, spotifyTimeLengthFromSettings]);
 
   const changeSpotifyTimeLength = (timeLength: string) => {
-    const settingsClone = clone(settings);
-    const themeCopy = getCurrentTheme(settingsClone, colorMode);
-    themeCopy[tileId].spotifyArtistSearchTimeLength = timeLength;
-    setSettings(settingsClone);
+    changeSetting(
+      "spotifyArtistSearchTimeLength",
+      timeLength,
+      tileId as TileId
+    );
   };
 
   const color = `var(--text-color-${tileId})`;

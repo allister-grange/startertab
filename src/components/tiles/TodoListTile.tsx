@@ -16,7 +16,6 @@ import {
   Text,
   useColorMode,
 } from "@chakra-ui/react";
-import cloneDeep from "lodash.clonedeep";
 import React, { useContext, useEffect, useState } from "react";
 
 export interface TodoListProps {
@@ -26,7 +25,7 @@ export interface TodoListProps {
 
 export const TodoListTile: React.FC<TodoListProps> = ({ tileId, todoList }) => {
   const color = `var(--text-color-${tileId})`;
-  const { settings, setSettings } = useContext(
+  const { settings, changeSetting } = useContext(
     SettingsContext
   ) as UserSettingsContextInterface;
   const { colorMode } = useColorMode();
@@ -48,11 +47,7 @@ export const TodoListTile: React.FC<TodoListProps> = ({ tileId, todoList }) => {
   };
 
   const updateSettingsWithTodo = (todos: TodoObject[]) => {
-    const newSettings = cloneDeep(settings);
-    const currentTheme = getCurrentTheme(newSettings, colorMode);
-
-    currentTheme[tileId].todoList = todos;
-    setSettings(newSettings);
+    changeSetting("todoList", todos, tileId as TileId);
   };
 
   const handleTodoTicked = (todo: TodoObject) => {

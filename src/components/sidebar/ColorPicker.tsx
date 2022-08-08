@@ -1,11 +1,12 @@
-import { Option, TileId } from "@/types";
+import { Option, TileId, TileSettings } from "@/types";
 import {
   Box,
   BoxProps,
   Center,
   Collapse,
   Flex,
-  Input, Text
+  Input,
+  Text,
 } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
 import { HexColorPicker } from "react-colorful";
@@ -15,7 +16,11 @@ interface ColorPickerProps extends BoxProps {
   textColor: string;
   subTextColor: string;
   value: string;
-  changeSetting: (key: string, value: string, tileId: TileId) => void;
+  changeSetting: (
+    key: keyof TileSettings,
+    value: string,
+    tileId: TileId
+  ) => void;
   resetOptionToDefault: (option: Option) => void;
 }
 
@@ -30,7 +35,7 @@ export const ColorPicker: React.FC<ColorPickerProps> = ({
   const { title, subTitle, localStorageId } = option;
   const [inputValue, setInputValue] = useState(value);
   const [showingColorPicker, setShowingColorPicker] = useState(false);
-  
+
   const onColorPickerChange = (color: string) => {
     setInputValue(color);
   };
@@ -47,7 +52,11 @@ export const ColorPicker: React.FC<ColorPickerProps> = ({
       return;
     }
     const timeoutIdentifier = setTimeout(() => {
-      changeSetting(option.localStorageId, inputValue, option.tileId);
+      changeSetting(
+        option.localStorageId as keyof TileSettings,
+        inputValue,
+        option.tileId
+      );
     }, 500);
 
     return () => {

@@ -31,7 +31,7 @@ export const ResetAndRandomizeColors: React.FC<
         border={`1px solid ${textColor}`}
       >
         <Text fontSize="sm" color={textColor}>
-          Reset all
+          Reset colors
         </Text>
       </OutlinedButton>
     </Flex>

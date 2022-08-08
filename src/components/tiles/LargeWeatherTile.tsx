@@ -1,10 +1,11 @@
+import { LargeWeatherTileSkeleton } from "@/components/skeletons/LargeWeatherTileSkeleton";
+import { OutlinedButton } from "@/components/ui/OutlinedButton";
 import { SettingsContext } from "@/context/UserSettingsContext";
 import { getCurrentTheme } from "@/helpers/settingsHelpers";
 import { TileId, UserSettingsContextInterface } from "@/types";
 import { WeatherData } from "@/types/weather";
 import {
   Box,
-  Button,
   Center,
   Flex,
   IconButton,
@@ -14,7 +15,6 @@ import {
   Text,
   useColorMode,
 } from "@chakra-ui/react";
-import cloneDeep from "lodash.clonedeep";
 import React, { useContext, useEffect, useState } from "react";
 import {
   WiCloud,
@@ -22,8 +22,6 @@ import {
   WiDaySunnyOvercast,
   WiRain,
 } from "react-icons/wi";
-import { LargeWeatherTileSkeleton } from "@/components/skeletons/LargeWeatherTileSkeleton";
-import { OutlinedButton } from "@/components/ui/OutlinedButton";
 
 interface LargeWeatherTileProps {
   tileId: TileId;
@@ -121,7 +119,7 @@ export const LargeWeatherTile: React.FC<LargeWeatherTileProps> = ({
   tempDisplayInCelsius,
 }) => {
   const color = `var(--text-color-${tileId})`;
-  const { settings, setSettings } = useContext(
+  const { settings, changeSetting } = useContext(
     SettingsContext
   ) as UserSettingsContextInterface;
   const { colorMode } = useColorMode();
@@ -180,19 +178,16 @@ export const LargeWeatherTile: React.FC<LargeWeatherTileProps> = ({
 
   const handleSubmitCityName = (e: React.FormEvent) => {
     e.preventDefault();
-    let newSettings = cloneDeep(settings);
-    const theme = getCurrentTheme(newSettings, colorMode);
-    theme[tileId].cityForWeather = cityInput;
-
-    setSettings(newSettings);
+    changeSetting("cityForWeather", cityInput, tileId as TileId);
   };
 
   const changeTemperatureDisplayUnits = (celsius: boolean) => {
-    let newSettings = cloneDeep(settings);
-    const theme = getCurrentTheme(newSettings, colorMode);
-    theme[tileId].tempDisplayInCelsius = celsius ? "true" : "false";
-    setSettings(newSettings);
     setDisplayInCelsius(celsius);
+    changeSetting(
+      "tempDisplayInCelsius",
+      celsius ? "true" : "false",
+      tileId as TileId
+    );
   };
 
   let toDisplay;

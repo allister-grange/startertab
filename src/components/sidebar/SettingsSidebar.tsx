@@ -1,7 +1,3 @@
-import SettingOptionContainer from "@/components/sidebar/SettingOptionContainer";
-import { SidebarFooter } from "@/components/sidebar/SidebarFooter";
-import { SideBarTitle } from "@/components/sidebar/SideBarTitle";
-import { ThemeToChangeSelector } from "@/components/sidebar/ThemeToChangeSelector";
 import { SettingsContext } from "@/context/UserSettingsContext";
 import {
   getCurrentTheme,
@@ -26,11 +22,16 @@ import cloneDeep from "lodash.clonedeep";
 import React, {
   Dispatch,
   SetStateAction,
-  useCallback,
   useContext,
   useRef,
   useState,
 } from "react";
+import {
+  SideBarFooter,
+  SideBarTitle,
+  ThemeToChangeSelector,
+} from "@/components/sidebar";
+import SettingOptionContainer from "@/components/sidebar/SettingOptionContainer";
 
 interface SettingsSideBarProps {
   isOpen: boolean;
@@ -53,7 +54,7 @@ const SettingsSideBar: React.FC<SettingsSideBarProps> = ({
   tutorialProgress,
 }) => {
   const { colorMode } = useColorMode();
-  const { settings, setSettings } = useContext(
+  const { settings, setSettings, changeSetting } = useContext(
     SettingsContext
   ) as UserSettingsContextInterface;
   const inMemorySettingsRef = useRef(settings);
@@ -75,19 +76,6 @@ const SettingsSideBar: React.FC<SettingsSideBarProps> = ({
   const currentThemeSettings = React.useMemo(
     () => settings.themes.find((theme) => theme.themeName === colorMode),
     [colorMode, settings.themes]
-  );
-
-  // will change the appearance of the site, but not what's stored in localStorage
-  const changeSetting = useCallback(
-    (key: string, value: string, tileId: TileId) => {
-      console.log(`changeSettings ${key}:${value}`);
-      let newSettings = cloneDeep(settings);
-      const themeToChange = getCurrentTheme(newSettings, colorMode);
-      // Need to cast this for the one use case of changing the type of tile to display
-      themeToChange[tileId][key as keyof TileSettings] = value as any;
-      setSettings(newSettings);
-    },
-    [colorMode, setSettings, settings]
   );
 
   // apply the in memory settings into localStorage
@@ -112,7 +100,11 @@ const SettingsSideBar: React.FC<SettingsSideBarProps> = ({
   const resetOptionToDefault = React.useCallback(
     (option: Option) => {
       const defaultSetting = getDefaultSettingForOption(option, colorMode);
-      changeSetting(option.localStorageId, defaultSetting, option.tileId);
+      changeSetting(
+        option.localStorageId as keyof TileSettings,
+        defaultSetting,
+        option.tileId
+      );
     },
     [changeSetting, colorMode]
   );
@@ -275,7 +267,7 @@ const SettingsSideBar: React.FC<SettingsSideBarProps> = ({
           })}
         </Accordion>
       </Box>
-      <SidebarFooter textColor={textColor} />
+      <SideBarFooter textColor={textColor} />
     </Box>
   );
 };

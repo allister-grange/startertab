@@ -15,7 +15,6 @@ import {
   Text,
   useColorMode,
 } from "@chakra-ui/react";
-import cloneDeep from "lodash.clonedeep";
 import React, { useCallback, useContext, useEffect, useState } from "react";
 
 interface RedditFeedProps {
@@ -37,7 +36,7 @@ type State = {
 };
 
 export const RedditFeedTile: React.FC<RedditFeedProps> = ({ tileId }) => {
-  const { settings, setSettings } = useContext(
+  const { settings, changeSetting } = useContext(
     SettingsContext
   ) as UserSettingsContextInterface;
   const { colorMode } = useColorMode();
@@ -99,11 +98,7 @@ export const RedditFeedTile: React.FC<RedditFeedProps> = ({ tileId }) => {
 
   const handleSubredditSubmit = (e: React.SyntheticEvent) => {
     e.preventDefault();
-    let newSettings = cloneDeep(settings);
-    const theme = getCurrentTheme(newSettings, colorMode);
-    theme[tileId].subReddit = subRedditInput;
-
-    setSettings(newSettings);
+    changeSetting("subReddit", subRedditInput, tileId as TileId);
   };
 
   useEffect(() => {

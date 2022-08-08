@@ -16,7 +16,7 @@ type PageProps = {
 type HackerNewsFeed = "Ask" | "Top" | "Show";
 
 export const HackerNewsFeedTile: React.FC<PageProps> = ({ tileId }) => {
-  const { settings, setSettings } = useContext(
+  const { settings, changeSetting } = useContext(
     SettingsContext
   ) as UserSettingsContextInterface;
   const { colorMode } = useColorMode();
@@ -60,10 +60,7 @@ export const HackerNewsFeedTile: React.FC<PageProps> = ({ tileId }) => {
 
   const changeFeedType = (feed: HackerNewsFeed) => {
     setHackerNewsFeed(feed);
-    const settingsClone = clone(settings);
-    const themeCopy = getCurrentTheme(settingsClone, colorMode);
-    themeCopy[tileId].hackerNewsFeedType = feed;
-    setSettings(settingsClone);
+    changeSetting("hackerNewsFeedType", feed, tileId as TileId);
   };
 
   return (

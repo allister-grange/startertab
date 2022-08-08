@@ -12,7 +12,6 @@ import {
   Text,
   useColorMode,
 } from "@chakra-ui/react";
-import cloneDeep from "lodash.clonedeep";
 import React, { useContext, useEffect, useState } from "react";
 import { Line, LineChart, ResponsiveContainer, XAxis, YAxis } from "recharts";
 import { OutlinedButton } from "@/components/ui/OutlinedButton";
@@ -32,7 +31,7 @@ type State = {
 
 export const UvGraphTile: React.FC<UvGraphProps> = ({ city, tileId }) => {
   const color = `var(--text-color-${tileId})`;
-  const { settings, setSettings } = useContext(
+  const { settings, changeSetting } = useContext(
     SettingsContext
   ) as UserSettingsContextInterface;
   const { colorMode } = useColorMode();
@@ -85,11 +84,7 @@ export const UvGraphTile: React.FC<UvGraphProps> = ({ city, tileId }) => {
 
   const handleSubmitCityName = (e: React.FormEvent) => {
     e.preventDefault();
-    let newSettings = cloneDeep(settings);
-    const theme = getCurrentTheme(newSettings, colorMode);
-    theme[tileId].cityForUv = cityInput;
-
-    setSettings(newSettings);
+    changeSetting("cityForUv", cityInput, tileId as TileId);
   };
 
   let toDisplay;

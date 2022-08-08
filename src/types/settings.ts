@@ -119,5 +119,5 @@ export interface UserSettingsContextInterface {
   settings: UserSettings;
   setSettings: (value: UserSettings) => void;
   theme: ThemeSettings;
-  changeThemeInSettings: (newTheme: ThemeSettings) => void;
+  changeSetting: (key: keyof TileSettings, value: any, tileId: TileId) => void;
 }

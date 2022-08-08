@@ -2,11 +2,11 @@ import { Box, Text } from "@chakra-ui/react";
 import React from "react";
 import { GithubSvg } from "@/components/ui/GithubSvg";
 
-interface SidebarFooterProps {
+interface SideBarFooterProps {
   textColor: string;
 }
 
-export const SidebarFooter: React.FC<SidebarFooterProps> = ({ textColor }) => {
+export const SideBarFooter: React.FC<SideBarFooterProps> = ({ textColor }) => {
   return (
     <Box
       marginTop="auto"

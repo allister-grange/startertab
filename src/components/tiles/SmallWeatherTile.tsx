@@ -48,7 +48,7 @@ export const SmallWeatherTile: React.FC<SmallWeatherTileProps> = ({
   tempDisplayInCelsius,
 }) => {
   const color = `var(--text-color-${tileId})`;
-  const { settings, setSettings } = useContext(
+  const { settings, changeSetting } = useContext(
     SettingsContext
   ) as UserSettingsContextInterface;
   const { colorMode } = useColorMode();
@@ -105,19 +105,16 @@ export const SmallWeatherTile: React.FC<SmallWeatherTileProps> = ({
 
   const handleSubmitCityName = (e: React.FormEvent) => {
     e.preventDefault();
-    let newSettings = cloneDeep(settings);
-    const theme = getCurrentTheme(newSettings, colorMode);
-    theme[tileId].cityForWeather = cityInput;
-
-    setSettings(newSettings);
+    changeSetting("cityForWeather", cityInput, tileId as TileId);
   };
 
   const changeTemperatureDisplayUnits = (celsius: boolean) => {
-    let newSettings = cloneDeep(settings);
-    const theme = getCurrentTheme(newSettings, colorMode);
-    theme[tileId].tempDisplayInCelsius = celsius ? "true" : "false";
-    setSettings(newSettings);
     setDisplayInCelsius(celsius);
+    changeSetting(
+      "tempDisplayInCelsius",
+      celsius ? "true" : "false",
+      tileId as TileId
+    );
   };
 
   let toDisplay;

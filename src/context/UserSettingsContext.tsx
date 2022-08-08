@@ -1,8 +1,14 @@
 import { getCurrentTheme } from "@/helpers/settingsHelpers";
 import { useLocalStorage } from "@/hooks/useLocalStorage";
-import { ThemeSettings, UserSettingsContextInterface } from "@/types";
+import {
+  ThemeSettings,
+  TileId,
+  TileSettings,
+  UserSettingsContextInterface,
+} from "@/types";
 import { useColorMode } from "@chakra-ui/react";
 import { clone } from "lodash";
+import cloneDeep from "lodash.clonedeep";
 import * as React from "react";
 
 export const SettingsContext =
@@ -17,19 +23,16 @@ const UserSettingsProvider: React.FC<Props> = ({ children }) => {
   const { colorMode } = useColorMode();
   const theme = getCurrentTheme(settings, colorMode);
 
-  const changeThemeInSettings = (newTheme: ThemeSettings) => {
-    const newSettings = clone(settings);
-    newSettings.themes.map((theme) => {
-      if (theme.themeName === newTheme.themeName) {
-        return newTheme;
-      } else return theme;
-    });
+  const changeSetting = (key: string, value: string, tileId: TileId) => {
+    let newSettings = cloneDeep(settings);
+    const themeToChange = getCurrentTheme(newSettings, colorMode);
+    themeToChange[tileId][key as keyof TileSettings] = value as any;
     setSettings(newSettings);
   };
 
   return (
     <SettingsContext.Provider
-      value={{ settings, setSettings, theme, changeThemeInSettings }}
+      value={{ settings, setSettings, theme, changeSetting }}
     >
       {children}
     </SettingsContext.Provider>

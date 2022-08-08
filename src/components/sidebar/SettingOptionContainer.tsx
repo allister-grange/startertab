@@ -2,7 +2,7 @@ import { ColorPicker } from "@/components/sidebar/ColorPicker";
 import { GenericInput } from "@/components/sidebar/GenericInput";
 import { GenericSelect } from "@/components/sidebar/GenericSelect";
 import { TileTypePicker } from "@/components/sidebar/TileTypePicker";
-import { Option, TileId, TileType } from "@/types";
+import { Option, TileId, TileSettings, TileType } from "@/types";
 import { AccordionPanel, Box, Text } from "@chakra-ui/react";
 import React from "react";
 import { ResetAndRandomizeColors } from "./ResetAndRandomizeColors";
@@ -11,7 +11,11 @@ interface SettingOptionContainerProps {
   option: Option;
   textColor: string;
   subTextColor: string;
-  changeSetting: (key: string, value: string, tileId: TileId) => void;
+  changeSetting: (
+    key: keyof TileSettings,
+    value: string,
+    tileId: TileId
+  ) => void;
   resetOptionToDefault: (option: Option) => void;
   value: any;
   tileType: TileType;
@@ -24,7 +28,7 @@ const optionsStyles = {
   background: "#42494f",
 };
 
-export const SettingOptionContainer: React.FC<SettingOptionContainerProps> = ({
+const SettingOptionContainer: React.FC<SettingOptionContainerProps> = ({
   option,
   textColor,
   subTextColor,

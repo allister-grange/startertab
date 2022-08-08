@@ -55,7 +55,7 @@ const DayPlannerTile: React.FC<DayPlannerTileProps> = ({
   const [showingTimePicker, setShowingTimePicker] = useState(false);
   const [pixelsToPushTimerAcross, setPixelsToPushTimerAcross] = useState(0);
   const [formValues, setFormValues] = useState<Booking>(defaultFormValues);
-  const { changeThemeInSettings, theme } = useContext(
+  const { changeSetting, theme } = useContext(
     SettingsContext
   ) as UserSettingsContextInterface;
 
@@ -100,9 +100,11 @@ const DayPlannerTile: React.FC<DayPlannerTileProps> = ({
       return;
     }
 
-    const newBookings = [...(bookings || []), formValues];
-    theme[tileId as TileId].bookings = newBookings;
-    changeThemeInSettings(theme);
+    changeSetting(
+      "bookings",
+      [...(bookings || []), formValues],
+      tileId as TileId
+    );
     setFormValues(defaultFormValues);
     setShowingTimePicker(false);
   };
@@ -167,8 +169,7 @@ const DayPlannerTile: React.FC<DayPlannerTileProps> = ({
       if (time >= booking.startTime && time <= booking.endTime) {
         newBookings.splice(i, 1);
 
-        theme[tileId as TileId].bookings = newBookings;
-        changeThemeInSettings(theme);
+        changeSetting("bookings", newBookings, tileId as TileId);
       }
     }
   };
