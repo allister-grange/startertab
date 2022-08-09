@@ -81,9 +81,7 @@ const TileContainer: React.FC<TileContainerProps> = ({
 
   switch (tileType) {
     case "Reddit Feed":
-      tileToRender = (
-        <RedditFeedTile tileId={tileId} changeSetting={changeSetting} />
-      );
+      tileToRender = <RedditFeedTile tileId={tileId} />;
       break;
     case "Hacker News Feed":
       tileToRender = <HackerNewsFeedTile tileId={tileId} />;
@@ -110,22 +108,10 @@ const TileContainer: React.FC<TileContainerProps> = ({
       tileToRender = <LargeStockTile tileId={tileId} />;
       break;
     case "Large Weather Tile":
-      tileToRender = (
-        <LargeWeatherTile
-          tempDisplayInCelsius={tempDisplayInCelsius}
-          city={cityForWeather}
-          tileId={tileId}
-        />
-      );
+      tileToRender = <LargeWeatherTile tileId={tileId} />;
       break;
     case "Small Weather Tile":
-      tileToRender = (
-        <SmallWeatherTile
-          tempDisplayInCelsius={tempDisplayInCelsius}
-          city={cityForWeather}
-          tileId={tileId}
-        />
-      );
+      tileToRender = <SmallWeatherTile tileId={tileId} />;
       break;
     case "Small Spotify Tile":
       tileToRender = (

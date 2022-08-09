@@ -1,13 +1,12 @@
-import { OptionBadge } from "@/components/ui/OptionBadge";
-import { SettingsContext } from "@/context/UserSettingsContext";
-import { getCurrentTheme } from "@/helpers/settingsHelpers";
-import { TileId, UserSettingsContextInterface } from "@/types";
-import { HackerNewsLinkHolder } from "@/types/hackernews";
-import { Box, Heading, Link, useColorMode } from "@chakra-ui/react";
-import { clone } from "lodash";
-import React, { useContext, useEffect, useState } from "react";
 import { TextFeedSkeleton } from "@/components/skeletons/TextFeedSkeleton";
 import { HackerNewsLogo } from "@/components/ui/HackerNewsLogo";
+import { OptionBadge } from "@/components/ui/OptionBadge";
+import { TileId } from "@/types";
+import { HackerNewsLinkHolder } from "@/types/hackernews";
+import { Box, Heading, Link } from "@chakra-ui/react";
+import React, { useEffect, useState } from "react";
+import { useRecoilState } from "recoil";
+import { redditFeedSelector } from "../recoil/UserSettingsSelectors";
 
 type PageProps = {
   tileId: TileId;
@@ -16,30 +15,19 @@ type PageProps = {
 type HackerNewsFeed = "Ask" | "Top" | "Show";
 
 export const HackerNewsFeedTile: React.FC<PageProps> = ({ tileId }) => {
-  const { settings, changeSetting } = useContext(
-    SettingsContext
-  ) as UserSettingsContextInterface;
-  const { colorMode } = useColorMode();
-  const theme = getCurrentTheme(settings, colorMode);
-  const hackerNewsFeedFromSettings = theme[tileId].hackerNewsFeedType;
-
+  const [hackerNewsFeed, setHackerNewsFeed] = useRecoilState(
+    redditFeedSelector(tileId)
+  );
   const [hackerNewsData, setHackerNewsData] = useState<
     HackerNewsLinkHolder[] | undefined
   >();
 
-  const [hackerNewsFeed, setHackerNewsFeed] = useState<HackerNewsFeed>(
-    (hackerNewsFeedFromSettings as HackerNewsFeed) || "Top"
-  );
   const color = `var(--text-color-${tileId})`;
   const underlineColor = color;
 
   useEffect(() => {
-    // the settings from the sidebar override the local state
-    if (
-      hackerNewsFeed != hackerNewsFeedFromSettings &&
-      hackerNewsFeedFromSettings
-    ) {
-      setHackerNewsFeed(hackerNewsFeedFromSettings as HackerNewsFeed);
+    if (!hackerNewsFeed) {
+      setHackerNewsFeed("Top");
     }
 
     const fetchHackerNewsData = async () => {
@@ -56,11 +44,10 @@ export const HackerNewsFeedTile: React.FC<PageProps> = ({ tileId }) => {
     };
 
     fetchHackerNewsData();
-  }, [hackerNewsFeed, hackerNewsFeedFromSettings]);
+  }, [hackerNewsFeed, setHackerNewsFeed]);
 
   const changeFeedType = (feed: HackerNewsFeed) => {
     setHackerNewsFeed(feed);
-    changeSetting("hackerNewsFeedType", feed, tileId as TileId);
   };
 
   return (

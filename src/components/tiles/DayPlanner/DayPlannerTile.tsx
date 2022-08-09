@@ -340,11 +340,6 @@ const areEqual = (
   prevProps: DayPlannerTileProps,
   nextProps: DayPlannerTileProps
 ) => {
-  console.log(
-    "poocheck",
-    prevProps.bookings?.length === nextProps.bookings?.length
-  );
-
   return prevProps.bookings?.length === nextProps.bookings?.length;
 };
 

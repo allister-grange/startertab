@@ -22,11 +22,15 @@ import {
   WiDaySunnyOvercast,
   WiRain,
 } from "react-icons/wi";
+import { useRecoilState } from "recoil";
+import {
+  cityForWeatherSelector,
+  redditFeedSelector,
+  tempDisplayInCelsiusSelector,
+} from "@/components/recoil/UserSettingsSelectors";
 
 interface LargeWeatherTileProps {
   tileId: TileId;
-  city?: string;
-  tempDisplayInCelsius: string | undefined;
 }
 
 interface DaysWeatherProps {
@@ -114,18 +118,19 @@ export const DaysWeather: React.FC<DaysWeatherProps> = ({
 };
 
 export const LargeWeatherTile: React.FC<LargeWeatherTileProps> = ({
-  city,
   tileId,
-  tempDisplayInCelsius,
 }) => {
   const color = `var(--text-color-${tileId})`;
-  const { settings, changeSetting } = useContext(
-    SettingsContext
-  ) as UserSettingsContextInterface;
-  const { colorMode } = useColorMode();
+  const [cityForWeather, setCityForWeather] = useRecoilState(
+    cityForWeatherSelector(tileId)
+  );
+  const [tempDisplayInCelsius, setTempDisplayInCelsius] = useRecoilState(
+    tempDisplayInCelsiusSelector(tileId)
+  );
+
   const [cityInput, setCityInput] = useState<string>("");
   const [state, setState] = useState<State>({
-    status: city ? "loading" : "waitingForInput",
+    status: cityForWeather ? "loading" : "waitingForInput",
   });
   const [displayInCelsius, setDisplayInCelsius] = useState(
     tempDisplayInCelsius === "true"
@@ -166,28 +171,24 @@ export const LargeWeatherTile: React.FC<LargeWeatherTileProps> = ({
   }, []);
 
   useEffect(() => {
-    const currentTheme = getCurrentTheme(settings, colorMode);
-    const cityFromSettings = currentTheme[tileId].cityForWeather;
+    // const currentTheme = getCurrentTheme(settings, colorMode);
+    // const cityFromSettings = currentTheme[tileId].cityForWeather;
 
-    if (!cityFromSettings) {
+    if (!cityForWeather) {
       setState({ status: "waitingForInput" });
-    } else if (cityFromSettings !== state.cityNameOfData && cityFromSettings) {
-      fetchWeatherData(cityFromSettings);
+    } else {
+      fetchWeatherData(cityForWeather);
     }
-  }, [colorMode, fetchWeatherData, settings, state.cityNameOfData, tileId]);
+  }, [cityForWeather, fetchWeatherData]);
 
   const handleSubmitCityName = (e: React.FormEvent) => {
     e.preventDefault();
-    changeSetting("cityForWeather", cityInput, tileId as TileId);
+    setCityForWeather(cityInput);
   };
 
   const changeTemperatureDisplayUnits = (celsius: boolean) => {
     setDisplayInCelsius(celsius);
-    changeSetting(
-      "tempDisplayInCelsius",
-      celsius ? "true" : "false",
-      tileId as TileId
-    );
+    setTempDisplayInCelsius(celsius ? "true" : "false");
   };
 
   let toDisplay;

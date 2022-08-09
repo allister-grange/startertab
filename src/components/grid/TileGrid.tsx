@@ -30,7 +30,7 @@ export const TileGrid: React.FC<TileGridProps> = ({
         tutorialProgress >= 0 && tutorialProgress < 4 ? "blur(8px)" : undefined
       }
     >
-      {/* <Tile
+      <Tile
         rowSpan={5}
         colSpan={1}
         tileId={"tile1"}
@@ -52,14 +52,14 @@ export const TileGrid: React.FC<TileGridProps> = ({
         rowSpan={4}
         tileId={"tile3"}
         optionHovered={optionHovered === "tile3"}
-      /> */}
+      />
       <Tile
         colSpan={1}
         rowSpan={5}
         tileId={"tile4"}
         optionHovered={optionHovered === "tile4"}
       ></Tile>
-      {/* <Tile
+      <Tile
         colSpan={3}
         rowSpan={1}
         minH="60px"
@@ -90,7 +90,7 @@ export const TileGrid: React.FC<TileGridProps> = ({
         optionHovered={optionHovered === "tile9"}
         tileId={"tile9"}
       ></Tile>
-      <Tile
+      {/* <Tile
         colSpan={1}
         rowSpan={2}
         pos="relative"
@@ -108,7 +108,7 @@ export const TileGrid: React.FC<TileGridProps> = ({
         rowSpan={2}
         tileId={"tile11"}
         optionHovered={optionHovered === "tile11"}
-      ></Tile> */}
+      ></Tile>  */}
     </Grid>
   );
 };

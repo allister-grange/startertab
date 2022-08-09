@@ -29,8 +29,6 @@ const Tile: React.FC<TileProps> = ({
   const userSettings = useRecoilValue(userSettingState);
   const theme = getCurrentTheme(userSettings, colorMode);
 
-  console.log("recoilTheme", theme);
-
   const borderRadius = theme.globalSettings.borderRadius;
   const shadow = theme.globalSettings.dropShadow;
   const border = theme.globalSettings.tileBorder;

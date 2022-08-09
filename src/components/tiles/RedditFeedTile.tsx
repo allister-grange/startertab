@@ -22,7 +22,6 @@ import { redditFeedSelector } from "@/components/recoil/UserSettingsSelectors";
 
 interface RedditFeedProps {
   tileId: TileId;
-  changeSetting: (key: keyof TileSettings, value: any, tileId: TileId) => void;
 }
 
 type Status =
@@ -39,14 +38,7 @@ type State = {
   currentSubreddit?: string;
 };
 
-export const RedditFeedTile: React.FC<RedditFeedProps> = ({
-  tileId,
-  changeSetting,
-}) => {
-  // const { settings, changeSetting } = useContext(
-  //   SettingsContext
-  // ) as UserSettingsContextInterface;
-  // const { colorMode } = useColorMode();
+export const RedditFeedTile: React.FC<RedditFeedProps> = ({ tileId }) => {
   const [subRedditInput, setSubRedditInput] = useState<string>("");
   const [state, setState] = useState<State>({
     status: "waitingForInput",
@@ -108,20 +100,10 @@ export const RedditFeedTile: React.FC<RedditFeedProps> = ({
 
   const handleSubredditSubmit = (e: React.SyntheticEvent) => {
     e.preventDefault();
-    changeSetting("subReddit", subRedditInput, tileId as TileId);
+    setSubRedditFeed(subRedditInput);
   };
 
   useEffect(() => {
-    // const currentTheme = getCurrentTheme(settings, colorMode);
-    // const subRedditFromSettings = currentTheme[tileId].subReddit;
-    // if (!subRedditFromSettings) {
-    //   setState({ status: "waitingForInput" });
-    // } else if (
-    //   subRedditFromSettings !== state.currentSubreddit &&
-    //   subRedditFromSettings
-    // ) {
-    //   loadRedditData(subRedditFromSettings);
-    // }
     if (!subRedditFeed) {
       setState({ status: "waitingForInput" });
     } else {

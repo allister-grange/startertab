@@ -33,9 +33,6 @@ const Home: NextPage = () => {
   const { colorMode } = useColorMode();
 
   const setColorModeState = useSetRecoilState(colorModeState);
-  const setUserSettings = useSetRecoilState(userSettingState);
-
-  setUserSettings(settings);
 
   useEffect(() => {
     if (isMobile) {
@@ -51,8 +48,8 @@ const Home: NextPage = () => {
   }, []);
 
   useEffect(() => {
-    setColorModeState(colorMode);
     const themeToChange = getCurrentTheme(settings, colorMode);
+    setColorModeState(colorMode);
     applyTheme(themeToChange);
   }, [settings, colorMode, setColorModeState]);
 
