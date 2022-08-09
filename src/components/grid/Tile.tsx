@@ -3,8 +3,10 @@ import { SettingsContext } from "@/context/UserSettingsContext";
 import { getCurrentTheme } from "@/helpers/settingsHelpers";
 import styles from "@/styles/Home.module.css";
 import { TileId, UserSettingsContextInterface } from "@/types";
-import { GridItem, GridItemProps, useColorMode } from "@chakra-ui/react";
+import { color, GridItem, GridItemProps, useColorMode } from "@chakra-ui/react";
 import React, { useContext } from "react";
+import { useRecoilValue } from "recoil";
+import { userSettingState } from "../recoil/UserSettingsAtom";
 
 interface TileProps extends GridItemProps {
   optionHovered: boolean;
@@ -23,6 +25,9 @@ const Tile: React.FC<TileProps> = ({
   ) as UserSettingsContextInterface;
 
   const theme = getCurrentTheme(settings, colorMode);
+
+  const userSettings = useRecoilValue(userSettingState);
+  const otherTheme = getCurrentTheme(userSettings, colorMode);
 
   const borderRadius = theme.globalSettings.borderRadius;
   const shadow = theme.globalSettings.dropShadow;
@@ -55,7 +60,7 @@ const Tile: React.FC<TileProps> = ({
         bonsaiBaseColor={theme[tileId].bonsaiBaseColor}
         bonsaiTrunkColor={theme[tileId].bonsaiTrunkColor}
         tempDisplayInCelsius={theme[tileId].tempDisplayInCelsius}
-        bookings={theme[tileId].bookings}
+        bookings={otherTheme[tileId].bookings}
       />
     </GridItem>
   );

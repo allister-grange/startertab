@@ -9,6 +9,7 @@ import App, { AppContext, AppInitialProps, AppProps } from "next/app";
 import Head from "next/head";
 import { ErrorBoundary } from "react-error-boundary";
 import NoSSR from "react-no-ssr";
+import { RecoilRoot } from "recoil";
 import "../styles/globals.css";
 
 type MyAppProps = { cookies?: string };
@@ -48,9 +49,11 @@ export function MyApp({
         to create their own themes. Because themes are stored client-side in localStorage,
         they can only be found when the application is rendered on the client. */}
         <NoSSR>
-          <SettingsContext>
-            <Component {...pageProps} />
-          </SettingsContext>
+          <RecoilRoot>
+            <SettingsContext>
+              <Component {...pageProps} />
+            </SettingsContext>
+          </RecoilRoot>
         </NoSSR>
       </ChakraProvider>
     </ErrorBoundary>

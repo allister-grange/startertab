@@ -1,4 +1,5 @@
 import { TileGrid } from "@/components/grid/TileGrid";
+import { userSettingState } from "@/components/recoil/UserSettingsAtom";
 import { Tutorial } from "@/components/tutorial/Tutorial";
 import { MobileWarning } from "@/components/ui/MobileWarning";
 import { SettingsToggle } from "@/components/ui/SettingsToggle";
@@ -13,6 +14,7 @@ import { isMobile } from "react-device-detect";
 const SettingsSideBar = dynamic(
   () => import("@/components/sidebar/SettingsSidebar")
 );
+import { useSetRecoilState } from "recoil";
 
 const Home: NextPage = () => {
   // Sidebar hook
@@ -26,6 +28,10 @@ const Home: NextPage = () => {
   ) as UserSettingsContextInterface;
   const [showingMobileWarning, setShowingMobileWarning] = useState(false);
   const { colorMode } = useColorMode();
+
+  const setUserSettings = useSetRecoilState(userSettingState);
+
+  setUserSettings(settings);
 
   useEffect(() => {
     if (isMobile) {

@@ -7,7 +7,7 @@ export function useLocalStorage(
 ): [UserSettings, (value: UserSettings) => void] {
   const [storedValue, setStoredValue] = React.useState<UserSettings>(() => {
     if (typeof window === "undefined") {
-      // TODO this may ruin SSR in the future
+      // this may ruin SSR in the future
       return defaultSettings;
     }
     try {

@@ -1,7 +1,12 @@
 import { OutlinedButton } from "@/components/ui/OutlinedButton";
 import { SettingsContext } from "@/context/UserSettingsContext";
 import { times } from "@/helpers/tileHelpers";
-import { TileId, UserSettingsContextInterface } from "@/types";
+import {
+  TileId,
+  TileSettings,
+  UserSettings,
+  UserSettingsContextInterface,
+} from "@/types";
 import {
   Box,
   Flex,
@@ -22,6 +27,8 @@ import React, {
   useState,
 } from "react";
 import DayPlannerForm from "@/components/tiles/DayPlanner/DayPlannerForm";
+import { SetterOrUpdater } from "recoil";
+import { userSettingState } from "@/components/recoil/UserSettingsAtom";
 
 const PopoverTrigger: React.FC<{ children: React.ReactNode }> =
   OrigPopoverTrigger;
@@ -29,6 +36,7 @@ const PopoverTrigger: React.FC<{ children: React.ReactNode }> =
 interface DayPlannerTileProps {
   tileId: string;
   bookings?: Booking[];
+  setUserSettings: SetterOrUpdater<UserSettings>;
 }
 
 export type Booking = {
@@ -48,6 +56,7 @@ const defaultFormValues = {
 const DayPlannerTile: React.FC<DayPlannerTileProps> = ({
   tileId,
   bookings,
+  setUserSettings,
 }) => {
   const color = `var(--text-color-${tileId})`;
   const containerRef = useRef<HTMLDivElement>(null);
@@ -57,9 +66,10 @@ const DayPlannerTile: React.FC<DayPlannerTileProps> = ({
   >();
   const [pixelsToPushTimerAcross, setPixelsToPushTimerAcross] = useState(0);
   const [formValues, setFormValues] = useState<Booking>(defaultFormValues);
-  const { changeSetting } = useContext(
-    SettingsContext
-  ) as UserSettingsContextInterface;
+
+  // const { changeSetting } = useContext(
+  //   SettingsContext
+  // ) as UserSettingsContextInterface;
 
   // calculating what hour to put the hand on
   // 6 is taken off current hours as we start the clock at 6:00am
@@ -107,11 +117,11 @@ const DayPlannerTile: React.FC<DayPlannerTileProps> = ({
       return;
     }
 
-    changeSetting(
-      "bookings",
-      [...(bookings || []), formValues],
-      tileId as TileId
-    );
+    // changeSetting(
+    //   "bookings",
+    //   [...(bookings || []), formValues],
+    //   tileId as TileId
+    // );
     setFormValues(defaultFormValues);
     setShowingTimePicker(undefined);
   };
@@ -179,6 +189,22 @@ const DayPlannerTile: React.FC<DayPlannerTileProps> = ({
         changeSetting("bookings", newBookings, tileId as TileId);
       }
     }
+  };
+
+  const changeSetting = (
+    key: keyof TileSettings,
+    value: any,
+    tileId: TileId
+  ) => {
+    console.log("bookings", value);
+
+    setUserSettings((userSettings) => {
+      const newSettings = clone(userSettings);
+      newSettings.themes.forEach(
+        (theme) => (theme[tileId as TileId].bookings = value)
+      );
+      return newSettings;
+    });
   };
 
   return (

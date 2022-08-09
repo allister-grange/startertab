@@ -25,6 +25,8 @@ import { ErrorBoundary } from "react-error-boundary";
 import { TileErrorBoundary } from "@/components/tiles/TileErrorBoundary";
 import ThemePickerTile from "@/components/tiles/ThemePickerTile";
 import DayPlannerTile from "@/components/tiles/DayPlanner/DayPlannerTile";
+import { useSetRecoilState } from "recoil";
+import { userSettingState } from "../recoil/UserSettingsAtom";
 
 interface TileContainerProps {
   tileId: TileId;
@@ -53,6 +55,7 @@ const TileContainer: React.FC<TileContainerProps> = ({
   bookings,
 }) => {
   let tileToRender;
+  const setUserSettings = useSetRecoilState(userSettingState);
 
   switch (tileType) {
     case "Reddit Feed":
@@ -139,7 +142,13 @@ const TileContainer: React.FC<TileContainerProps> = ({
       );
       break;
     case "Day Planner":
-      tileToRender = <DayPlannerTile tileId={tileId} bookings={bookings} />;
+      tileToRender = (
+        <DayPlannerTile
+          tileId={tileId}
+          bookings={bookings}
+          setUserSettings={setUserSettings}
+        />
+      );
       break;
     default:
       tileToRender = (
