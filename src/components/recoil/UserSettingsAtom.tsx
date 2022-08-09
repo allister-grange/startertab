@@ -1,17 +1,7 @@
-import { getCurrentTheme } from "@/helpers/settingsHelpers";
-import { useLocalStorage } from "@/hooks/useLocalStorage";
-import {
-  ThemeSettings,
-  TileId,
-  TileSettings,
-  UserSettings,
-  UserSettingsContextInterface,
-} from "@/types";
-import { useColorMode } from "@chakra-ui/react";
-import { clone } from "lodash";
-import cloneDeep from "lodash.clonedeep";
-import * as React from "react";
-import { atom, AtomEffect, DefaultValue } from "recoil";
+import { defaultSettings } from "@/helpers/themes";
+import { UserSettings } from "@/types";
+import { ColorMode } from "@chakra-ui/react";
+import { atom, AtomEffect } from "recoil";
 
 const localStorageEffect: <T>(key: string) => AtomEffect<T> =
   (key: string) =>
@@ -19,6 +9,8 @@ const localStorageEffect: <T>(key: string) => AtomEffect<T> =
     const savedValue = localStorage.getItem(key);
     if (savedValue != null) {
       setSelf(JSON.parse(savedValue));
+    } else {
+      localStorage.setItem(key, JSON.stringify(defaultSettings));
     }
 
     onSet((newValue) => {
@@ -31,4 +23,9 @@ export const userSettingState = atom({
   key: "UserSettings",
   default: {} as UserSettings,
   effects: [localStorageEffect("recoil_settings")],
+});
+
+export const colorModeState = atom({
+  key: "ColorMode",
+  default: "dark" as ColorMode,
 });

@@ -36,7 +36,7 @@ const PopoverTrigger: React.FC<{ children: React.ReactNode }> =
 interface DayPlannerTileProps {
   tileId: string;
   bookings?: Booking[];
-  setUserSettings: SetterOrUpdater<UserSettings>;
+  changeSetting: (key: keyof TileSettings, value: any, tileId: TileId) => void;
 }
 
 export type Booking = {
@@ -56,7 +56,7 @@ const defaultFormValues = {
 const DayPlannerTile: React.FC<DayPlannerTileProps> = ({
   tileId,
   bookings,
-  setUserSettings,
+  changeSetting,
 }) => {
   const color = `var(--text-color-${tileId})`;
   const containerRef = useRef<HTMLDivElement>(null);
@@ -191,21 +191,21 @@ const DayPlannerTile: React.FC<DayPlannerTileProps> = ({
     }
   };
 
-  const changeSetting = (
-    key: keyof TileSettings,
-    value: any,
-    tileId: TileId
-  ) => {
-    console.log("bookings", value);
+  // const changeSetting = (
+  //   key: keyof TileSettings,
+  //   value: any,
+  //   tileId: TileId
+  // ) => {
+  //   console.log("bookings", value);
 
-    setUserSettings((userSettings) => {
-      const newSettings = clone(userSettings);
-      newSettings.themes.forEach(
-        (theme) => (theme[tileId as TileId].bookings = value)
-      );
-      return newSettings;
-    });
-  };
+  //   setUserSettings((userSettings) => {
+  //     const newSettings = clone(userSettings);
+  //     newSettings.themes.forEach(
+  //       (theme) => (theme[tileId as TileId].bookings = value)
+  //     );
+  //     return newSettings;
+  //   });
+  // };
 
   return (
     <Flex

@@ -17,7 +17,13 @@ import {
 } from "@/components/tiles";
 import SpotifyContextProvider from "@/context/SpotifyContext";
 import StravaContextProvider from "@/context/StravaContext";
-import { TileId, TileType, TodoObject } from "@/types";
+import {
+  TileId,
+  TileSettings,
+  TileType,
+  TodoObject,
+  UserSettings,
+} from "@/types";
 import { Box, Center, Heading } from "@chakra-ui/react";
 import StravaGraphTile from "@/components/tiles/StravaGraphTile";
 import React from "react";
@@ -57,9 +63,27 @@ const TileContainer: React.FC<TileContainerProps> = ({
   let tileToRender;
   const setUserSettings = useSetRecoilState(userSettingState);
 
+  const changeSetting = (
+    key: keyof TileSettings,
+    value: any,
+    tileId: TileId
+  ) => {
+    setUserSettings((userSettings) => {
+      const newSettings = JSON.parse(
+        JSON.stringify(userSettings)
+      ) as UserSettings;
+      newSettings.themes.forEach(
+        (theme) => (theme[tileId as TileId][key] = value)
+      );
+      return newSettings;
+    });
+  };
+
   switch (tileType) {
     case "Reddit Feed":
-      tileToRender = <RedditFeedTile tileId={tileId} />;
+      tileToRender = (
+        <RedditFeedTile tileId={tileId} changeSetting={changeSetting} />
+      );
       break;
     case "Hacker News Feed":
       tileToRender = <HackerNewsFeedTile tileId={tileId} />;
@@ -146,7 +170,7 @@ const TileContainer: React.FC<TileContainerProps> = ({
         <DayPlannerTile
           tileId={tileId}
           bookings={bookings}
-          setUserSettings={setUserSettings}
+          changeSetting={changeSetting}
         />
       );
       break;

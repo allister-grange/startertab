@@ -1,5 +1,5 @@
 import TileContainer from "@/components/grid/TileContainer";
-import { SettingsContext } from "@/context/UserSettingsContext";
+// import { SettingsContext } from "@/context/UserSettingsContext";
 import { getCurrentTheme } from "@/helpers/settingsHelpers";
 import styles from "@/styles/Home.module.css";
 import { TileId, UserSettingsContextInterface } from "@/types";
@@ -20,14 +20,16 @@ const Tile: React.FC<TileProps> = ({
   ...props
 }) => {
   const { colorMode } = useColorMode();
-  const { settings } = useContext(
-    SettingsContext
-  ) as UserSettingsContextInterface;
+  // const { settings } = useContext(
+  //   SettingsContext
+  // ) as UserSettingsContextInterface;
 
-  const theme = getCurrentTheme(settings, colorMode);
+  // const theme = getCurrentTheme(settings, colorMode);
 
   const userSettings = useRecoilValue(userSettingState);
-  const otherTheme = getCurrentTheme(userSettings, colorMode);
+  const theme = getCurrentTheme(userSettings, colorMode);
+
+  console.log("recoilTheme", theme);
 
   const borderRadius = theme.globalSettings.borderRadius;
   const shadow = theme.globalSettings.dropShadow;
@@ -60,7 +62,7 @@ const Tile: React.FC<TileProps> = ({
         bonsaiBaseColor={theme[tileId].bonsaiBaseColor}
         bonsaiTrunkColor={theme[tileId].bonsaiTrunkColor}
         tempDisplayInCelsius={theme[tileId].tempDisplayInCelsius}
-        bookings={otherTheme[tileId].bookings}
+        bookings={theme[tileId].bookings}
       />
     </GridItem>
   );

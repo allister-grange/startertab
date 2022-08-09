@@ -1,5 +1,8 @@
 import { TileGrid } from "@/components/grid/TileGrid";
-import { userSettingState } from "@/components/recoil/UserSettingsAtom";
+import {
+  colorModeState,
+  userSettingState,
+} from "@/components/recoil/UserSettingsAtom";
 import { Tutorial } from "@/components/tutorial/Tutorial";
 import { MobileWarning } from "@/components/ui/MobileWarning";
 import { SettingsToggle } from "@/components/ui/SettingsToggle";
@@ -29,6 +32,7 @@ const Home: NextPage = () => {
   const [showingMobileWarning, setShowingMobileWarning] = useState(false);
   const { colorMode } = useColorMode();
 
+  const setColorModeState = useSetRecoilState(colorModeState);
   const setUserSettings = useSetRecoilState(userSettingState);
 
   setUserSettings(settings);
@@ -47,9 +51,10 @@ const Home: NextPage = () => {
   }, []);
 
   useEffect(() => {
+    setColorModeState(colorMode);
     const themeToChange = getCurrentTheme(settings, colorMode);
     applyTheme(themeToChange);
-  }, [settings, colorMode]);
+  }, [settings, colorMode, setColorModeState]);
 
   const currentTheme = getCurrentTheme(settings, colorMode);
   const gridGap = currentTheme.globalSettings.gridGap;
