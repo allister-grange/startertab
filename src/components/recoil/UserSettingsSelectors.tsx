@@ -10,7 +10,6 @@ export const redditFeedSelector = selectorFamily({
     ({ get }) => {
       const settings = get(userSettingState);
       const colorMode = get(colorModeState);
-
       const currentTheme = getCurrentTheme(settings, colorMode);
 
       return currentTheme[tileId].subReddit;
@@ -36,7 +35,6 @@ export const hackerNewsFeedSelector = selectorFamily({
     ({ get }) => {
       const settings = get(userSettingState);
       const colorMode = get(colorModeState);
-
       const currentTheme = getCurrentTheme(settings, colorMode);
 
       return currentTheme[tileId].hackerNewsFeedType;
@@ -62,7 +60,6 @@ export const cityForWeatherSelector = selectorFamily({
     ({ get }) => {
       const settings = get(userSettingState);
       const colorMode = get(colorModeState);
-
       const currentTheme = getCurrentTheme(settings, colorMode);
 
       return currentTheme[tileId].cityForWeather;
@@ -88,7 +85,6 @@ export const tempDisplayInCelsiusSelector = selectorFamily({
     ({ get }) => {
       const settings = get(userSettingState);
       const colorMode = get(colorModeState);
-
       const currentTheme = getCurrentTheme(settings, colorMode);
 
       return currentTheme[tileId].tempDisplayInCelsius;

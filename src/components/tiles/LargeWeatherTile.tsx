@@ -1,8 +1,10 @@
+import {
+  cityForWeatherSelector,
+  tempDisplayInCelsiusSelector,
+} from "@/components/recoil/UserSettingsSelectors";
 import { LargeWeatherTileSkeleton } from "@/components/skeletons/LargeWeatherTileSkeleton";
 import { OutlinedButton } from "@/components/ui/OutlinedButton";
-import { SettingsContext } from "@/context/UserSettingsContext";
-import { getCurrentTheme } from "@/helpers/settingsHelpers";
-import { TileId, UserSettingsContextInterface } from "@/types";
+import { TileId } from "@/types";
 import { WeatherData } from "@/types/weather";
 import {
   Box,
@@ -13,9 +15,8 @@ import {
   InputGroup,
   InputRightElement,
   Text,
-  useColorMode,
 } from "@chakra-ui/react";
-import React, { useContext, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   WiCloud,
   WiDaySunny,
@@ -23,11 +24,6 @@ import {
   WiRain,
 } from "react-icons/wi";
 import { useRecoilState } from "recoil";
-import {
-  cityForWeatherSelector,
-  redditFeedSelector,
-  tempDisplayInCelsiusSelector,
-} from "@/components/recoil/UserSettingsSelectors";
 
 interface LargeWeatherTileProps {
   tileId: TileId;

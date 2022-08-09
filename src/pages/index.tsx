@@ -6,18 +6,17 @@ import {
 import { Tutorial } from "@/components/tutorial/Tutorial";
 import { MobileWarning } from "@/components/ui/MobileWarning";
 import { SettingsToggle } from "@/components/ui/SettingsToggle";
-import { SettingsContext } from "@/context/UserSettingsContext";
 import { applyTheme, getCurrentTheme } from "@/helpers/settingsHelpers";
-import { TileId, UserSettingsContextInterface } from "@/types";
+import { TileId } from "@/types";
 import { Box, Flex, useColorMode, useDisclosure } from "@chakra-ui/react";
 import type { NextPage } from "next";
 import dynamic from "next/dynamic";
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { isMobile } from "react-device-detect";
+import { useRecoilValue, useSetRecoilState } from "recoil";
 const SettingsSideBar = dynamic(
   () => import("@/components/sidebar/SettingsSidebar")
 );
-import { useSetRecoilState } from "recoil";
 
 const Home: NextPage = () => {
   // Sidebar hook
@@ -26,9 +25,10 @@ const Home: NextPage = () => {
   const [optionHovered, setOptionHovered] = useState<TileId | undefined>();
   const [showingTutorial, setShowingTutorial] = useState(false);
   const [tutorialProgress, setTutorialProgress] = useState<number>(-1);
-  const { settings } = useContext(
-    SettingsContext
-  ) as UserSettingsContextInterface;
+  // const { settings } = useContext(
+  //   SettingsContext
+  // ) as UserSettingsContextInterface;
+  const settings = useRecoilValue(userSettingState);
   const [showingMobileWarning, setShowingMobileWarning] = useState(false);
   const { colorMode } = useColorMode();
 

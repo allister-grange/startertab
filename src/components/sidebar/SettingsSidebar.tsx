@@ -1,4 +1,10 @@
-import { SettingsContext } from "@/context/UserSettingsContext";
+import { userSettingState } from "@/components/recoil/UserSettingsAtom";
+import {
+  SideBarFooter,
+  SideBarTitle,
+  ThemeToChangeSelector,
+} from "@/components/sidebar";
+import SettingOptionContainer from "@/components/sidebar/SettingOptionContainer";
 import {
   getCurrentTheme,
   getDefaultSettingForOption,
@@ -7,8 +13,13 @@ import {
 } from "@/helpers/settingsHelpers";
 import { sideBarOptions } from "@/helpers/sideBarOptions";
 import styles from "@/styles/Home.module.css";
-import { Option, UserSettingsContextInterface } from "@/types";
-import { ThemeSettings, TileId, TileSettings } from "@/types/settings";
+import { Option } from "@/types";
+import {
+  ThemeSettings,
+  TileId,
+  TileSettings,
+  UserSettings,
+} from "@/types/settings";
 import {
   Accordion,
   AccordionButton,
@@ -19,19 +30,8 @@ import {
   useColorMode,
 } from "@chakra-ui/react";
 import cloneDeep from "lodash.clonedeep";
-import React, {
-  Dispatch,
-  SetStateAction,
-  useContext,
-  useRef,
-  useState,
-} from "react";
-import {
-  SideBarFooter,
-  SideBarTitle,
-  ThemeToChangeSelector,
-} from "@/components/sidebar";
-import SettingOptionContainer from "@/components/sidebar/SettingOptionContainer";
+import React, { Dispatch, SetStateAction, useRef, useState } from "react";
+import { useRecoilState } from "recoil";
 
 interface SettingsSideBarProps {
   isOpen: boolean;
@@ -54,9 +54,7 @@ const SettingsSideBar: React.FC<SettingsSideBarProps> = ({
   tutorialProgress,
 }) => {
   const { colorMode } = useColorMode();
-  const { settings, setSettings, changeSetting } = useContext(
-    SettingsContext
-  ) as UserSettingsContextInterface;
+  const [settings, setSettings] = useRecoilState(userSettingState);
   const inMemorySettingsRef = useRef(settings);
   const [accordionIndex, setAccordionIndex] = useState<ExpandedIndex>([]);
 
@@ -97,6 +95,18 @@ const SettingsSideBar: React.FC<SettingsSideBarProps> = ({
     setSettings(inMemorySettingsRef.current);
   };
 
+  const changeSetting = React.useCallback(
+    (key: keyof TileSettings, value: any, tileId: TileId) => {
+      const userSettings = JSON.parse(JSON.stringify(settings)) as UserSettings;
+      const themeToChange = getCurrentTheme(userSettings, colorMode);
+
+      themeToChange[tileId][key] = value;
+
+      setSettings(userSettings);
+    },
+    [colorMode, setSettings, settings]
+  );
+
   const resetOptionToDefault = React.useCallback(
     (option: Option) => {
       const defaultSetting = getDefaultSettingForOption(option, colorMode);
@@ -105,6 +115,10 @@ const SettingsSideBar: React.FC<SettingsSideBarProps> = ({
         defaultSetting,
         option.tileId
       );
+
+      // userSettings.themes[
+      //   getCurrentTheme(settings, colorMode) as keyof ThemeSettings
+      // ][option.tileId] = defaultSetting;
     },
     [changeSetting, colorMode]
   );
