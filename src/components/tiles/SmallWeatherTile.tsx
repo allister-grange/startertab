@@ -1,6 +1,5 @@
 import {
   cityForWeatherSelector,
-  redditFeedSelector,
   tempDisplayInCelsiusSelector,
 } from "@/components/recoil/UserSettingsSelectors";
 import { SmallWeatherTileSkeleton } from "@/components/skeletons/SmallWeatherTileSkeleton";

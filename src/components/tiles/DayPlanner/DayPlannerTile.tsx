@@ -1,12 +1,8 @@
+import { bookingsSelector } from "@/components/recoil/UserSettingsSelectors";
+import DayPlannerForm from "@/components/tiles/DayPlanner/DayPlannerForm";
 import { OutlinedButton } from "@/components/ui/OutlinedButton";
-import { SettingsContext } from "@/context/UserSettingsContext";
 import { times } from "@/helpers/tileHelpers";
-import {
-  TileId,
-  TileSettings,
-  UserSettings,
-  UserSettingsContextInterface,
-} from "@/types";
+import { TileId } from "@/types";
 import {
   Box,
   Flex,
@@ -20,23 +16,20 @@ import {
 import { clone } from "lodash";
 import React, {
   useCallback,
-  useContext,
   useEffect,
   useLayoutEffect,
   useRef,
   useState,
 } from "react";
-import DayPlannerForm from "@/components/tiles/DayPlanner/DayPlannerForm";
-import { SetterOrUpdater } from "recoil";
-import { userSettingState } from "@/components/recoil/UserSettingsAtom";
+import { SetterOrUpdater, useRecoilState, useSetRecoilState } from "recoil";
 
 const PopoverTrigger: React.FC<{ children: React.ReactNode }> =
   OrigPopoverTrigger;
 
 interface DayPlannerTileProps {
-  tileId: string;
+  tileId: TileId;
   bookings?: Booking[];
-  changeSetting: (key: keyof TileSettings, value: any, tileId: TileId) => void;
+  setBookings: SetterOrUpdater<Booking[] | undefined>;
 }
 
 export type Booking = {
@@ -56,7 +49,7 @@ const defaultFormValues = {
 const DayPlannerTile: React.FC<DayPlannerTileProps> = ({
   tileId,
   bookings,
-  changeSetting,
+  setBookings,
 }) => {
   const color = `var(--text-color-${tileId})`;
   const containerRef = useRef<HTMLDivElement>(null);
@@ -66,10 +59,6 @@ const DayPlannerTile: React.FC<DayPlannerTileProps> = ({
   >();
   const [pixelsToPushTimerAcross, setPixelsToPushTimerAcross] = useState(0);
   const [formValues, setFormValues] = useState<Booking>(defaultFormValues);
-
-  // const { changeSetting } = useContext(
-  //   SettingsContext
-  // ) as UserSettingsContextInterface;
 
   // calculating what hour to put the hand on
   // 6 is taken off current hours as we start the clock at 6:00am
@@ -117,11 +106,7 @@ const DayPlannerTile: React.FC<DayPlannerTileProps> = ({
       return;
     }
 
-    // changeSetting(
-    //   "bookings",
-    //   [...(bookings || []), formValues],
-    //   tileId as TileId
-    // );
+    setBookings([...(bookings || []), formValues]);
     setFormValues(defaultFormValues);
     setShowingTimePicker(undefined);
   };
@@ -186,26 +171,10 @@ const DayPlannerTile: React.FC<DayPlannerTileProps> = ({
       if (time >= booking.startTime && time <= booking.endTime) {
         newBookings.splice(i, 1);
 
-        changeSetting("bookings", newBookings, tileId as TileId);
+        setBookings(newBookings);
       }
     }
   };
-
-  // const changeSetting = (
-  //   key: keyof TileSettings,
-  //   value: any,
-  //   tileId: TileId
-  // ) => {
-  //   console.log("bookings", value);
-
-  //   setUserSettings((userSettings) => {
-  //     const newSettings = clone(userSettings);
-  //     newSettings.themes.forEach(
-  //       (theme) => (theme[tileId as TileId].bookings = value)
-  //     );
-  //     return newSettings;
-  //   });
-  // };
 
   return (
     <Flex

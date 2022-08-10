@@ -1,83 +1,53 @@
+import { bookingsSelector } from "@/components/recoil/UserSettingsSelectors";
 import {
   BonsaiTile,
-  RedditFeedTile,
-  SearchBarTile,
-  SmallSpotifyTile,
-  SmallWeatherTile,
-  TimeTile,
-  UvGraphTile,
   HackerNewsFeedTile,
   LargeSpotifyTile,
   LargeStockTile,
-  SmallStockTile,
-  SpotifyTopArtistsTile,
   LargeWeatherTile,
+  RedditFeedTile,
+  SearchBarTile,
+  SmallSpotifyTile,
+  SmallStockTile,
+  SmallWeatherTile,
+  SpotifyTopArtistsTile,
+  TimeTile,
   TodoListTile,
-  Booking,
+  UvGraphTile,
 } from "@/components/tiles";
+import DayPlannerTile from "@/components/tiles/DayPlanner/DayPlannerTile";
+import StravaGraphTile from "@/components/tiles/StravaGraphTile";
+import ThemePickerTile from "@/components/tiles/ThemePickerTile";
+import { TileErrorBoundary } from "@/components/tiles/TileErrorBoundary";
 import SpotifyContextProvider from "@/context/SpotifyContext";
 import StravaContextProvider from "@/context/StravaContext";
-import {
-  TileId,
-  TileSettings,
-  TileType,
-  TodoObject,
-  UserSettings,
-} from "@/types";
+import { TileId, TileType, TodoObject } from "@/types";
 import { Box, Center, Heading } from "@chakra-ui/react";
-import StravaGraphTile from "@/components/tiles/StravaGraphTile";
 import React from "react";
 import { ErrorBoundary } from "react-error-boundary";
-import { TileErrorBoundary } from "@/components/tiles/TileErrorBoundary";
-import ThemePickerTile from "@/components/tiles/ThemePickerTile";
-import DayPlannerTile from "@/components/tiles/DayPlanner/DayPlannerTile";
-import { useSetRecoilState } from "recoil";
-import { userSettingState } from "../recoil/UserSettingsAtom";
+import { useRecoilState } from "recoil";
 
 interface TileContainerProps {
   tileId: TileId;
   tileType: TileType;
-  cityForWeather?: string;
-  cityForUv?: string;
-  stockName?: string;
   todoList?: TodoObject[];
   bonsaiBaseColor?: string;
   bonsaiTrunkColor?: string;
-  tempDisplayInCelsius?: string;
   hackerNewsFeed?: string;
-  bookings?: Booking[];
 }
 
 const TileContainer: React.FC<TileContainerProps> = ({
   tileId,
   tileType,
-  cityForWeather,
-  tempDisplayInCelsius,
-  stockName,
-  cityForUv,
   todoList,
   bonsaiBaseColor,
   bonsaiTrunkColor,
-  bookings,
 }) => {
   let tileToRender;
-  const setUserSettings = useSetRecoilState(userSettingState);
-
-  const changeSetting = (
-    key: keyof TileSettings,
-    value: any,
-    tileId: TileId
-  ) => {
-    setUserSettings((userSettings) => {
-      const newSettings = JSON.parse(
-        JSON.stringify(userSettings)
-      ) as UserSettings;
-      newSettings.themes.forEach(
-        (theme) => (theme[tileId as TileId][key] = value)
-      );
-      return newSettings;
-    });
-  };
+  // need to pass in these states as props as they're objects
+  // and recoil only uses '===' as comparison, to prevent a
+  // rerender I need to go a deep comparison on the Component itself
+  const [bookings, setBookings] = useRecoilState(bookingsSelector(tileId));
 
   switch (tileType) {
     case "Reddit Feed":
@@ -121,7 +91,7 @@ const TileContainer: React.FC<TileContainerProps> = ({
       );
       break;
     case "UV Graph":
-      tileToRender = <UvGraphTile city={cityForUv} tileId={tileId} />;
+      tileToRender = <UvGraphTile tileId={tileId} />;
       break;
     case "Time":
       tileToRender = <TimeTile tileId={tileId} />;
@@ -147,16 +117,14 @@ const TileContainer: React.FC<TileContainerProps> = ({
       );
       break;
     case "Small Stock Tile":
-      tileToRender = (
-        <SmallStockTile tileId={tileId} stockNameFromSettings={stockName} />
-      );
+      tileToRender = <SmallStockTile tileId={tileId} />;
       break;
     case "Day Planner":
       tileToRender = (
         <DayPlannerTile
           tileId={tileId}
           bookings={bookings}
-          changeSetting={changeSetting}
+          setBookings={setBookings}
         />
       );
       break;

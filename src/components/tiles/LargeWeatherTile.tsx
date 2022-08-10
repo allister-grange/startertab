@@ -167,9 +167,6 @@ export const LargeWeatherTile: React.FC<LargeWeatherTileProps> = ({
   }, []);
 
   useEffect(() => {
-    // const currentTheme = getCurrentTheme(settings, colorMode);
-    // const cityFromSettings = currentTheme[tileId].cityForWeather;
-
     if (!cityForWeather) {
       setState({ status: "waitingForInput" });
     } else {
