@@ -44,13 +44,7 @@ const Tile: React.FC<TileProps> = ({
       className={styles.disableScrollbars}
       {...props}
     >
-      <TileContainer
-        tileId={tileId}
-        todoList={theme[tileId].todoList}
-        tileType={theme[tileId].tileType}
-        bonsaiBaseColor={theme[tileId].bonsaiBaseColor}
-        bonsaiTrunkColor={theme[tileId].bonsaiTrunkColor}
-      />
+      <TileContainer tileId={tileId} tileType={theme[tileId].tileType} />
     </GridItem>
   );
 };

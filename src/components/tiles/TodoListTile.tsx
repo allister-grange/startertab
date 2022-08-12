@@ -1,6 +1,4 @@
-import { SettingsContext } from "@/context/UserSettingsContext";
-import { getCurrentTheme } from "@/helpers/settingsHelpers";
-import { TileId, TodoObject, UserSettingsContextInterface } from "@/types";
+import { TileId, TodoObject } from "@/types";
 import {
   CheckIcon,
   ChevronDownIcon,
@@ -8,30 +6,22 @@ import {
   EditIcon,
   SmallCloseIcon,
 } from "@chakra-ui/icons";
-import {
-  Box,
-  Flex,
-  Heading,
-  Input,
-  Text,
-  useColorMode,
-} from "@chakra-ui/react";
-import React, { useContext, useEffect, useState } from "react";
+import { Box, Flex, Heading, Input, Text } from "@chakra-ui/react";
+import React, { useState } from "react";
+import { SetterOrUpdater } from "recoil";
 
 export interface TodoListProps {
   tileId: TileId;
   todoList: TodoObject[] | undefined;
+  setTodoList: SetterOrUpdater<TodoObject[] | undefined>;
 }
 
-export const TodoListTile: React.FC<TodoListProps> = ({ tileId, todoList }) => {
+const TodoListTile: React.FC<TodoListProps> = ({
+  tileId,
+  todoList,
+  setTodoList,
+}) => {
   const color = `var(--text-color-${tileId})`;
-  const { settings, changeSetting } = useContext(
-    SettingsContext
-  ) as UserSettingsContextInterface;
-  const { colorMode } = useColorMode();
-  const [todos, setTodos] = useState<TodoObject[]>(
-    todoList ? todoList : [{ date: 0, done: false, title: "Add some todos ✔️" }]
-  );
   const [inputValue, setInputValue] = useState("");
   const [showingDelete, setShowingDelete] = useState<TodoObject | undefined>();
   const [showingCompletedItems, setShowingCompletedItems] = useState(false);
@@ -47,11 +37,11 @@ export const TodoListTile: React.FC<TodoListProps> = ({ tileId, todoList }) => {
   };
 
   const updateSettingsWithTodo = (todos: TodoObject[]) => {
-    changeSetting("todoList", todos, tileId as TileId);
+    setTodoList(todos);
   };
 
   const handleTodoTicked = (todo: TodoObject) => {
-    const todosToUpdates = [...todos];
+    const todosToUpdates = JSON.parse(JSON.stringify(todoList)) as TodoObject[];
     const todoInState = todosToUpdates.find(
       (todoToFind) => todoToFind.date === todo.date
     );
@@ -65,8 +55,8 @@ export const TodoListTile: React.FC<TodoListProps> = ({ tileId, todoList }) => {
   };
 
   const handleTodoDelete = (todo: TodoObject) => {
-    const newTodos = [...todos];
-    const todoInStateIndex = newTodos.findIndex(
+    const todosToUpdates = [...(todoList || [])];
+    const todoInStateIndex = todosToUpdates.findIndex(
       (todoToFind) => todoToFind.date === todo.date
     );
 
@@ -74,33 +64,26 @@ export const TodoListTile: React.FC<TodoListProps> = ({ tileId, todoList }) => {
       return;
     }
 
-    newTodos.splice(todoInStateIndex, 1);
-    updateSettingsWithTodo(newTodos);
+    todosToUpdates.splice(todoInStateIndex, 1);
+    updateSettingsWithTodo(todosToUpdates);
   };
 
   const handleInputIconClick = () => {
     if (inputValue === "") {
       return;
     }
-    let newTodos = [...todos];
+    let newTodos = [...(todoList || [])];
     newTodos.push({ done: false, title: inputValue, date: Date.now() });
     updateSettingsWithTodo(newTodos);
     setInputValue("");
   };
 
-  useEffect(() => {
-    const currentTheme = getCurrentTheme(settings, colorMode);
-    const todosFromSettings = currentTheme[tileId].todoList;
+  if (!todoList) {
+    setTodoList([{ date: 0, done: false, title: "Add some todos ✔️" }]);
+  }
 
-    if (!todosFromSettings) {
-      setTodos([{ date: 0, done: false, title: "Add some todos ✔️" }]);
-    } else {
-      setTodos(todosFromSettings);
-    }
-  }, [colorMode, settings, tileId]);
-
-  const finishedTodos = todos.filter((todo) => todo.done === true);
-  const unfinishedTodos = todos.filter((todo) => todo.done === false);
+  const finishedTodos = todoList!.filter((todo) => todo.done === true);
+  const unfinishedTodos = todoList!.filter((todo) => todo.done === false);
 
   return (
     <Box color={color} p="4" pt="4" height="100%">
@@ -208,3 +191,26 @@ export const TodoListTile: React.FC<TodoListProps> = ({ tileId, todoList }) => {
     </Box>
   );
 };
+
+const areEqual = (prevProps: TodoListProps, nextProps: TodoListProps) => {
+  if (!prevProps.todoList || !nextProps.todoList) {
+    return false;
+  }
+
+  if (prevProps.todoList.length !== nextProps.todoList.length) {
+    return false;
+  }
+
+  for (let i = 0; i < prevProps.todoList.length; i++) {
+    const a = prevProps.todoList[i];
+    const b = nextProps.todoList[i];
+
+    if (a.title != b.title || a.date != b.date || a.done != b.done) {
+      return false;
+    }
+  }
+
+  return true;
+};
+
+export default React.memo(TodoListTile, areEqual);

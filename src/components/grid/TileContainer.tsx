@@ -1,4 +1,7 @@
-import { bookingsSelector } from "@/components/recoil/UserSettingsSelectors";
+import {
+  bookingsSelector,
+  todoListSelector,
+} from "@/components/recoil/UserSettingsSelectors";
 import {
   BonsaiTile,
   HackerNewsFeedTile,
@@ -12,10 +15,10 @@ import {
   SmallWeatherTile,
   SpotifyTopArtistsTile,
   TimeTile,
-  TodoListTile,
   UvGraphTile,
 } from "@/components/tiles";
 import DayPlannerTile from "@/components/tiles/DayPlanner/DayPlannerTile";
+import TodoListTile from "@/components/tiles/TodoListTile";
 import StravaGraphTile from "@/components/tiles/StravaGraphTile";
 import ThemePickerTile from "@/components/tiles/ThemePickerTile";
 import { TileErrorBoundary } from "@/components/tiles/TileErrorBoundary";
@@ -30,24 +33,16 @@ import { useRecoilState } from "recoil";
 interface TileContainerProps {
   tileId: TileId;
   tileType: TileType;
-  todoList?: TodoObject[];
-  bonsaiBaseColor?: string;
-  bonsaiTrunkColor?: string;
   hackerNewsFeed?: string;
 }
 
-const TileContainer: React.FC<TileContainerProps> = ({
-  tileId,
-  tileType,
-  todoList,
-  bonsaiBaseColor,
-  bonsaiTrunkColor,
-}) => {
+const TileContainer: React.FC<TileContainerProps> = ({ tileId, tileType }) => {
   let tileToRender;
   // need to pass in these states as props as they're objects
   // and recoil only uses '===' as comparison, to prevent a
   // rerender I need to go a deep comparison on the Component itself
   const [bookings, setBookings] = useRecoilState(bookingsSelector(tileId));
+  const [todoList, setTodoList] = useRecoilState(todoListSelector(tileId));
 
   switch (tileType) {
     case "Reddit Feed":
@@ -70,9 +65,7 @@ const TileContainer: React.FC<TileContainerProps> = ({
       tileToRender = <SearchBarTile tileId={tileId} />;
       break;
     case "Bonsai":
-      tileToRender = (
-        <BonsaiTile baseColor={bonsaiBaseColor} trunkColor={bonsaiTrunkColor} />
-      );
+      tileToRender = <BonsaiTile tileId={tileId} />;
       break;
     case "Large Stock Tile":
       tileToRender = <LargeStockTile tileId={tileId} />;
@@ -100,7 +93,13 @@ const TileContainer: React.FC<TileContainerProps> = ({
       tileToRender = <ThemePickerTile />;
       break;
     case "Todo List":
-      tileToRender = <TodoListTile tileId={tileId} todoList={todoList} />;
+      tileToRender = (
+        <TodoListTile
+          tileId={tileId}
+          todoList={todoList}
+          setTodoList={setTodoList}
+        />
+      );
       break;
     case "Spotify Top Artist Tile":
       tileToRender = (
@@ -140,7 +139,6 @@ const TileContainer: React.FC<TileContainerProps> = ({
   }
 
   return (
-    // SSR screws up the styles of the divs, TODO look into this later
     <ErrorBoundary FallbackComponent={TileErrorBoundary}>
       {tileToRender}
     </ErrorBoundary>

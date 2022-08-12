@@ -90,7 +90,7 @@ export const TileGrid: React.FC<TileGridProps> = ({
         optionHovered={optionHovered === "tile9"}
         tileId={"tile9"}
       ></Tile>
-      {/* <Tile
+      <Tile
         colSpan={1}
         rowSpan={2}
         pos="relative"
@@ -108,7 +108,7 @@ export const TileGrid: React.FC<TileGridProps> = ({
         rowSpan={2}
         tileId={"tile11"}
         optionHovered={optionHovered === "tile11"}
-      ></Tile>  */}
+      ></Tile>
     </Grid>
   );
 };

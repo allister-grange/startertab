@@ -129,13 +129,13 @@ export const SmallStockTile: React.FC<SmallStockTileProps> = ({ tileId }) => {
     <Center height="100%" color={color} p="4">
       {toDisplay}
       <OutlinedButton
-        size="xs"
+        fontSize="11px"
         pos="absolute"
-        right="2"
-        bottom="2"
+        right="0"
+        bottom="-2"
         borderColor={"none"}
         shadow="none"
-        borderWidth="1px"
+        borderWidth="0px"
         onClick={() =>
           setState((state) => ({ ...state, status: "waitingForInput" }))
         }
