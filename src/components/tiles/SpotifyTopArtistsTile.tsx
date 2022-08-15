@@ -1,17 +1,12 @@
+import { spotifyTopArtistTimeLengthSelector } from "@/components/recoil/UserSettingsSelectors";
 import { TextFeedSkeleton } from "@/components/skeletons/TextFeedSkeleton";
 import { OptionBadge } from "@/components/ui/OptionBadge";
+import { OutlinedButton } from "@/components/ui/OutlinedButton";
 import { SpotifyLogo } from "@/components/ui/SpotifyLogo";
 import { SpotifyContext } from "@/context/SpotifyContext";
-import { SettingsContext } from "@/context/UserSettingsContext";
-import { getCurrentTheme } from "@/helpers/settingsHelpers";
-import {
-  SpotifyContextInterface,
-  TileId,
-  UserSettingsContextInterface,
-} from "@/types";
+import { SpotifyContextInterface, TileId } from "@/types";
 import {
   Box,
-  Button,
   Center,
   Flex,
   Heading,
@@ -20,9 +15,8 @@ import {
   UnorderedList,
   useColorMode,
 } from "@chakra-ui/react";
-import { clone } from "lodash";
 import React, { useContext } from "react";
-import { OutlinedButton } from "@/components/ui/OutlinedButton";
+import { useRecoilState } from "recoil";
 
 type SmallSpotifyTileProps = {
   tileId: TileId;
@@ -31,31 +25,30 @@ type SmallSpotifyTileProps = {
 export const SpotifyTopArtistsTile: React.FC<SmallSpotifyTileProps> = ({
   tileId,
 }) => {
-  const { settings, changeSetting } = useContext(
-    SettingsContext
-  ) as UserSettingsContextInterface;
+  // const { settings, changeSetting } = useContext(
+  //   SettingsContext
+  // ) as UserSettingsContextInterface;
   const { colorMode } = useColorMode();
-  const theme = getCurrentTheme(settings, colorMode);
-  const spotifyTimeLengthFromSettings =
-    theme[tileId].spotifyArtistSearchTimeLength;
+  // const theme = getCurrentTheme(settings, colorMode);
+  // const spotifyTimeLengthFromSettings =
+  //   theme[tileId].spotifyArtistSearchTimeLength;
+  const [timeLength, setTimeLength] = useRecoilState(
+    spotifyTopArtistTimeLengthSelector(tileId)
+  );
 
   const { topArtists, isAuthenticated, loginWithSpotify, fetchTopArtistData } =
     useContext(SpotifyContext) as SpotifyContextInterface;
 
   React.useEffect(() => {
-    if (!spotifyTimeLengthFromSettings) {
+    if (!timeLength) {
       return;
     }
 
-    fetchTopArtistData(spotifyTimeLengthFromSettings);
-  }, [fetchTopArtistData, spotifyTimeLengthFromSettings]);
+    fetchTopArtistData(timeLength);
+  }, [fetchTopArtistData, timeLength]);
 
   const changeSpotifyTimeLength = (timeLength: string) => {
-    changeSetting(
-      "spotifyArtistSearchTimeLength",
-      timeLength,
-      tileId as TileId
-    );
+    setTimeLength(timeLength);
   };
 
   const color = `var(--text-color-${tileId})`;

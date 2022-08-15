@@ -1,5 +1,5 @@
 import { AppErrorBoundary } from "@/components/ui/AppErrorBoundary";
-import SettingsContext from "@/context/UserSettingsContext";
+import { defaultSettings } from "@/helpers/themes";
 import {
   ChakraProvider,
   cookieStorageManager,
@@ -7,6 +7,7 @@ import {
 } from "@chakra-ui/react";
 import App, { AppContext, AppInitialProps, AppProps } from "next/app";
 import Head from "next/head";
+import { useEffect } from "react";
 import { ErrorBoundary } from "react-error-boundary";
 import NoSSR from "react-no-ssr";
 import { RecoilRoot } from "recoil";
@@ -24,6 +25,13 @@ export function MyApp({
     typeof cookies === "string"
       ? cookieStorageManager(cookies)
       : localStorageManager;
+
+  // setting defaults settings in local storage if the user is new
+  useEffect(() => {
+    if (!localStorage.getItem("user_settings")) {
+      localStorage.setItem("user_settings", JSON.stringify(defaultSettings));
+    }
+  }, []);
 
   return (
     <ErrorBoundary FallbackComponent={AppErrorBoundary}>
@@ -50,9 +58,7 @@ export function MyApp({
         they can only be found when the application is rendered on the client. */}
         <NoSSR>
           <RecoilRoot>
-            <SettingsContext>
-              <Component {...pageProps} />
-            </SettingsContext>
+            <Component {...pageProps} />
           </RecoilRoot>
         </NoSSR>
       </ChakraProvider>

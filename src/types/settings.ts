@@ -114,10 +114,3 @@ export type TileId =
   | "tile10"
   | "tile11"
   | "globalSettings";
-
-export interface UserSettingsContextInterface {
-  settings: UserSettings;
-  setSettings: (value: UserSettings) => void;
-  theme: ThemeSettings;
-  changeSetting: (key: keyof TileSettings, value: any, tileId: TileId) => void;
-}

@@ -1,7 +1,7 @@
-import { SettingsContext } from "@/context/UserSettingsContext";
-import { UserSettingsContextInterface } from "@/types";
+import { userSettingState } from "@/components/recoil/UserSettingsAtom";
 import { Box, BoxProps, Flex, Grid, useColorMode } from "@chakra-ui/react";
-import React, { useContext } from "react";
+import React from "react";
+import { useRecoilValue } from "recoil";
 
 const ThemePickerBubble = (props: BoxProps) => {
   return (
@@ -19,9 +19,7 @@ const ThemePickerBubble = (props: BoxProps) => {
 
 const ThemePickerTile: React.FC = () => {
   const { setColorMode } = useColorMode();
-  const { settings } = useContext(
-    SettingsContext
-  ) as UserSettingsContextInterface;
+  const settings = useRecoilValue(userSettingState);
 
   return (
     <Flex

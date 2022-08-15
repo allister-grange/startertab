@@ -13,7 +13,7 @@ import type { NextPage } from "next";
 import dynamic from "next/dynamic";
 import { useEffect, useState } from "react";
 import { isMobile } from "react-device-detect";
-import { useRecoilValue, useSetRecoilState } from "recoil";
+import { useRecoilState, useSetRecoilState } from "recoil";
 const SettingsSideBar = dynamic(
   () => import("@/components/sidebar/SettingsSidebar")
 );
@@ -25,10 +25,8 @@ const Home: NextPage = () => {
   const [optionHovered, setOptionHovered] = useState<TileId | undefined>();
   const [showingTutorial, setShowingTutorial] = useState(false);
   const [tutorialProgress, setTutorialProgress] = useState<number>(-1);
-  // const { settings } = useContext(
-  //   SettingsContext
-  // ) as UserSettingsContextInterface;
-  const settings = useRecoilValue(userSettingState);
+
+  const [settings, setSettings] = useRecoilState(userSettingState);
   const [showingMobileWarning, setShowingMobileWarning] = useState(false);
   const { colorMode } = useColorMode();
 
@@ -52,6 +50,8 @@ const Home: NextPage = () => {
     setColorModeState(colorMode);
     applyTheme(themeToChange);
   }, [settings, colorMode, setColorModeState]);
+
+  console.log("settings", settings);
 
   const currentTheme = getCurrentTheme(settings, colorMode);
   const gridGap = currentTheme.globalSettings.gridGap;

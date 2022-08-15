@@ -82,15 +82,15 @@ const TodoListTile: React.FC<TodoListProps> = ({
     setTodoList([{ date: 0, done: false, title: "Add some todos ✔️" }]);
   }
 
-  const finishedTodos = todoList!.filter((todo) => todo.done === true);
-  const unfinishedTodos = todoList!.filter((todo) => todo.done === false);
+  const finishedTodos = todoList?.filter((todo) => todo.done === true);
+  const unfinishedTodos = todoList?.filter((todo) => todo.done === false);
 
   return (
     <Box color={color} p="4" pt="4" height="100%">
       <Flex minWidth="50%" flexDir="column" mt="4">
         <Box>
           <ol>
-            {unfinishedTodos.map((todo) => (
+            {unfinishedTodos?.map((todo) => (
               <li key={todo.title} style={{ listStyle: "none" }}>
                 <Flex
                   alignItems="center"
@@ -138,7 +138,11 @@ const TodoListTile: React.FC<TodoListProps> = ({
             borderColor={color}
             onChange={onInputChange}
             onKeyDown={onKeyPress}
-            placeholder={unfinishedTodos.length <= 0 ? "Add a to-do" : ""}
+            placeholder={
+              (!unfinishedTodos || unfinishedTodos.length) <= 0
+                ? "Add a to-do"
+                : ""
+            }
             _focus={{ borderColor: color }}
             _hover={{ borderColor: color }}
           />
@@ -154,13 +158,15 @@ const TodoListTile: React.FC<TodoListProps> = ({
           ) : (
             <ChevronRightIcon color={color} width="5" height="5" />
           )}
-          <Text>{finishedTodos.length} completed items</Text>
+          <Text>
+            {finishedTodos ? finishedTodos.length : 0} completed items
+          </Text>
         </Flex>
 
         {showingCompletedItems ? (
           <Box>
             <ol>
-              {finishedTodos.map((todo) => (
+              {finishedTodos?.map((todo) => (
                 <li key={todo.title} style={{ listStyle: "none" }}>
                   <Flex alignItems="center" mb="3">
                     <CheckIcon

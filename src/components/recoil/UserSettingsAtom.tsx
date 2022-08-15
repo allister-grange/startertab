@@ -14,7 +14,6 @@ const localStorageEffect: <T>(key: string) => AtomEffect<T> =
     }
 
     onSet((newValue) => {
-      console.log("newValue", newValue);
       localStorage.setItem(key, JSON.stringify(newValue));
     });
   };
@@ -22,7 +21,7 @@ const localStorageEffect: <T>(key: string) => AtomEffect<T> =
 export const userSettingState = atom({
   key: "UserSettings",
   default: {} as UserSettings,
-  effects: [localStorageEffect("recoil_settings")],
+  effects: [localStorageEffect("user_settings")],
 });
 
 export const colorModeState = atom({

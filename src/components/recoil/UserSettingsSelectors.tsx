@@ -256,3 +256,29 @@ export const todoListSelector = selectorFamily({
       set(userSettingState, userSettings);
     },
 });
+
+export const spotifyTopArtistTimeLengthSelector = selectorFamily({
+  key: "SpotifyTopArtistTimeLength",
+  get:
+    (tileId: TileId) =>
+    ({ get }) => {
+      const settings = get(userSettingState);
+      const colorMode = get(colorModeState);
+      const currentTheme = getCurrentTheme(settings, colorMode);
+
+      return currentTheme[tileId].spotifyArtistSearchTimeLength;
+    },
+  set:
+    (tileId: TileId) =>
+    ({ get, set }, newValue) => {
+      const userSettings = JSON.parse(
+        JSON.stringify(get(userSettingState))
+      ) as UserSettings;
+
+      userSettings.themes.forEach(
+        (theme) =>
+          (theme[tileId].spotifyArtistSearchTimeLength = newValue as string)
+      );
+      set(userSettingState, userSettings);
+    },
+});
