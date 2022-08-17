@@ -1,5 +1,9 @@
 import { userSettingState } from "@/components/recoil/UserSettingsAtom";
-import { SideBarTitle, ThemeToChangeSelector } from "@/components/sidebar";
+import {
+  Footer,
+  SideBarTitle,
+  ThemeToChangeSelector,
+} from "@/components/sidebar";
 import SettingOptionContainer from "@/components/sidebar/SettingOptionContainer";
 import {
   getCurrentTheme,
@@ -28,7 +32,6 @@ import {
 import cloneDeep from "lodash.clonedeep";
 import React, { Dispatch, SetStateAction, useRef, useState } from "react";
 import { useRecoilState } from "recoil";
-import { SideBarFooter } from "@/components/sidebar/SideBarFooter";
 
 interface SettingsSideBarProps {
   isOpen: boolean;
@@ -278,7 +281,7 @@ const SettingsSideBar: React.FC<SettingsSideBarProps> = ({
           })}
         </Accordion>
       </Box>
-      <SideBarFooter textColor={textColor} />
+      <Footer textColor={textColor} />
     </Box>
   );
 };

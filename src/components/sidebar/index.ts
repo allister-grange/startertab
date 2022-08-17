@@ -7,3 +7,4 @@ export * from "./SettingsSidebar";
 export * from "./SideBarTitle";
 export * from "./ThemeToChangeSelector";
 export * from "./TileTypePicker";
+export * from "./Footer";

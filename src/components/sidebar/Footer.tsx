@@ -6,7 +6,7 @@ interface SideBarFooterProps {
   textColor: string;
 }
 
-export const SideBarFooter: React.FC<SideBarFooterProps> = ({ textColor }) => {
+export const Footer: React.FC<SideBarFooterProps> = ({ textColor }) => {
   return (
     <Box
       marginTop="auto"
