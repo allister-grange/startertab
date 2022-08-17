@@ -1,9 +1,8 @@
+import { userSettingState } from "@/components/recoil/UserSettingsAtom";
 import { ColorPicker } from "@/components/theme-creator/ColorPicker";
 import { SettingTitle } from "@/components/theme-creator/SettingTitle";
 import { SidebarThemePicker } from "@/components/theme-creator/SidebarThemePicker";
 import { OutlinedButton } from "@/components/ui/OutlinedButton";
-import { SettingsContext } from "@/context/UserSettingsContext";
-import { UserSettingsContextInterface } from "@/types";
 import {
   Box,
   Flex,
@@ -16,7 +15,8 @@ import {
 import { clone } from "lodash";
 import Image from "next/image";
 import Router from "next/router";
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
+import { useRecoilState } from "recoil";
 
 type FormInputs = {
   themeName: string;
@@ -29,9 +29,6 @@ type FormInputs = {
 
 export const ThemeCreator: React.FC = ({}) => {
   const { setColorMode } = useColorMode();
-  const { settings, setSettings } = useContext(
-    SettingsContext
-  ) as UserSettingsContextInterface;
   const [formInputs, setFormInputs] = useState<FormInputs>({
     themeName: "",
     backgroundColor: "#f3b4b4",
@@ -40,6 +37,7 @@ export const ThemeCreator: React.FC = ({}) => {
     iconColor: "linear-gradient(90deg, #f3b4b4 50%, #5bbdff 50%)",
     textColorOfTiles: "#202020",
   });
+  const [settings, setSettings] = useRecoilState(userSettingState);
 
   React.useLayoutEffect(() => {
     document.body.style.background = "#F6F9F9";

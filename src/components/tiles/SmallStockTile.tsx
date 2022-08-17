@@ -1,8 +1,7 @@
+import { stockSelector } from "@/components/recoil/UserSettingsSelectors";
 import { SmallStockTickerSkeleton } from "@/components/skeletons/SmallStockTickerSkeleton";
 import { OutlinedButton } from "@/components/ui/OutlinedButton";
-import { SettingsContext } from "@/context/UserSettingsContext";
-import { getCurrentTheme } from "@/helpers/settingsHelpers";
-import { TileId, UserSettingsContextInterface } from "@/types";
+import { TileId } from "@/types";
 import { StockTickers } from "@/types/stocks";
 import {
   Box,
@@ -13,13 +12,12 @@ import {
   InputGroup,
   InputRightElement,
   Text,
-  useColorMode,
 } from "@chakra-ui/react";
-import React, { useContext, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
+import { SetterOrUpdater, useRecoilState } from "recoil";
 
 interface SmallStockTileProps {
   tileId: TileId;
-  stockNameFromSettings?: string;
 }
 
 type Status = "loading" | "resolved" | "waitingForInput" | "rejected";
@@ -30,15 +28,12 @@ type State = {
   stockTickerName?: string;
 };
 
-export const SmallStockTile: React.FC<SmallStockTileProps> = ({
-  tileId,
-  stockNameFromSettings,
-}) => {
+export const SmallStockTile: React.FC<SmallStockTileProps> = ({ tileId }) => {
   const color = `var(--text-color-${tileId})`;
-  const { settings, changeSetting } = useContext(
-    SettingsContext
-  ) as UserSettingsContextInterface;
-  const { colorMode } = useColorMode();
+  const [stock, setStock] = useRecoilState(stockSelector(tileId)) as [
+    string | undefined,
+    SetterOrUpdater<string | undefined>
+  ];
   const [stockInput, setStockInput] = useState<string>("");
   const [state, setState] = useState<State>({
     status: "waitingForInput",
@@ -71,29 +66,16 @@ export const SmallStockTile: React.FC<SmallStockTileProps> = ({
 
   const handleSubmitStockName = (e: React.FormEvent) => {
     e.preventDefault();
-    changeSetting("stockName", stockInput, tileId as TileId);
+    setStock(stockInput);
   };
 
   useEffect(() => {
-    const currentTheme = getCurrentTheme(settings, colorMode);
-    const stockFromSettings = currentTheme[tileId].stockName;
-
-    if (!stockFromSettings) {
+    if (!stock) {
       setState({ status: "waitingForInput" });
-    } else if (
-      stockFromSettings !== state.stockTickerName &&
-      stockFromSettings
-    ) {
-      getStocks(stockFromSettings);
+    } else {
+      getStocks(stock);
     }
-  }, [
-    colorMode,
-    stockNameFromSettings,
-    settings,
-    tileId,
-    state.stockTickerName,
-    getStocks,
-  ]);
+  }, [tileId, getStocks, stock]);
 
   let toDisplay;
 
@@ -150,13 +132,13 @@ export const SmallStockTile: React.FC<SmallStockTileProps> = ({
     <Center height="100%" color={color} p="4">
       {toDisplay}
       <OutlinedButton
-        size="xs"
+        fontSize="11px"
         pos="absolute"
-        right="2"
-        bottom="2"
+        right="0"
+        bottom="-2"
         borderColor={"none"}
         shadow="none"
-        borderWidth="1px"
+        borderWidth="0px"
         onClick={() =>
           setState((state) => ({ ...state, status: "waitingForInput" }))
         }

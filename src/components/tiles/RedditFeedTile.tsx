@@ -1,21 +1,9 @@
+import { redditFeedSelector } from "@/components/recoil/UserSettingsSelectors";
 import { TextFeedSkeleton } from "@/components/skeletons/TextFeedSkeleton";
-import { SettingsContext } from "@/context/UserSettingsContext";
-import { getCurrentTheme } from "@/helpers/settingsHelpers";
-import {
-  RedditAPIResponse,
-  RedditDataHolder,
-  TileId,
-  UserSettingsContextInterface,
-} from "@/types";
-import {
-  Box,
-  Heading,
-  Input,
-  Link,
-  Text,
-  useColorMode,
-} from "@chakra-ui/react";
-import React, { useCallback, useContext, useEffect, useState } from "react";
+import { RedditAPIResponse, RedditDataHolder, TileId } from "@/types";
+import { Box, Heading, Input, Link, Text } from "@chakra-ui/react";
+import React, { useCallback, useEffect, useState } from "react";
+import { SetterOrUpdater, useRecoilState } from "recoil";
 
 interface RedditFeedProps {
   tileId: TileId;
@@ -36,14 +24,13 @@ type State = {
 };
 
 export const RedditFeedTile: React.FC<RedditFeedProps> = ({ tileId }) => {
-  const { settings, changeSetting } = useContext(
-    SettingsContext
-  ) as UserSettingsContextInterface;
-  const { colorMode } = useColorMode();
   const [subRedditInput, setSubRedditInput] = useState<string>("");
   const [state, setState] = useState<State>({
     status: "waitingForInput",
   });
+  const [subRedditFeed, setSubRedditFeed] = useRecoilState(
+    redditFeedSelector(tileId)
+  ) as [string | undefined, SetterOrUpdater<string | undefined>];
 
   const textColor = `var(--text-color-${tileId})`;
   const underlineColor = textColor;
@@ -98,22 +85,16 @@ export const RedditFeedTile: React.FC<RedditFeedProps> = ({ tileId }) => {
 
   const handleSubredditSubmit = (e: React.SyntheticEvent) => {
     e.preventDefault();
-    changeSetting("subReddit", subRedditInput, tileId as TileId);
+    setSubRedditFeed(subRedditInput);
   };
 
   useEffect(() => {
-    const currentTheme = getCurrentTheme(settings, colorMode);
-    const subRedditFromSettings = currentTheme[tileId].subReddit;
-
-    if (!subRedditFromSettings) {
+    if (!subRedditFeed) {
       setState({ status: "waitingForInput" });
-    } else if (
-      subRedditFromSettings !== state.currentSubreddit &&
-      subRedditFromSettings
-    ) {
-      loadRedditData(subRedditFromSettings);
+    } else {
+      loadRedditData(subRedditFeed);
     }
-  }, [colorMode, loadRedditData, settings, state.currentSubreddit, tileId]);
+  }, [loadRedditData, subRedditFeed]);
 
   let display;
 

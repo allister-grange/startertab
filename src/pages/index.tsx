@@ -1,15 +1,19 @@
 import { TileGrid } from "@/components/grid/TileGrid";
+import {
+  colorModeState,
+  userSettingState,
+} from "@/components/recoil/UserSettingsAtom";
 import { Tutorial } from "@/components/tutorial/Tutorial";
 import { MobileWarning } from "@/components/ui/MobileWarning";
 import { SettingsToggle } from "@/components/ui/SettingsToggle";
-import { SettingsContext } from "@/context/UserSettingsContext";
 import { applyTheme, getCurrentTheme } from "@/helpers/settingsHelpers";
-import { TileId, UserSettingsContextInterface } from "@/types";
+import { TileId } from "@/types";
 import { Box, Flex, useColorMode, useDisclosure } from "@chakra-ui/react";
 import type { NextPage } from "next";
 import dynamic from "next/dynamic";
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { isMobile } from "react-device-detect";
+import { useRecoilState, useSetRecoilState } from "recoil";
 const SettingsSideBar = dynamic(
   () => import("@/components/sidebar/SettingsSidebar")
 );
@@ -21,11 +25,12 @@ const Home: NextPage = () => {
   const [optionHovered, setOptionHovered] = useState<TileId | undefined>();
   const [showingTutorial, setShowingTutorial] = useState(false);
   const [tutorialProgress, setTutorialProgress] = useState<number>(-1);
-  const { settings } = useContext(
-    SettingsContext
-  ) as UserSettingsContextInterface;
+
+  const [settings, setSettings] = useRecoilState(userSettingState);
   const [showingMobileWarning, setShowingMobileWarning] = useState(false);
   const { colorMode } = useColorMode();
+
+  const setColorModeState = useSetRecoilState(colorModeState);
 
   useEffect(() => {
     if (isMobile) {
@@ -42,8 +47,11 @@ const Home: NextPage = () => {
 
   useEffect(() => {
     const themeToChange = getCurrentTheme(settings, colorMode);
+    setColorModeState(colorMode);
     applyTheme(themeToChange);
-  }, [settings, colorMode]);
+  }, [settings, colorMode, setColorModeState]);
+
+  console.log("settings", settings);
 
   const currentTheme = getCurrentTheme(settings, colorMode);
   const gridGap = currentTheme.globalSettings.gridGap;

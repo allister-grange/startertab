@@ -3,28 +3,38 @@ import { getBonsaiBase, grow } from "@/helpers/bonsaiHelpers";
 import * as BONSAI from "@/helpers/bonsaiHelpers";
 import { ShootType } from "@/types/bonsai";
 import { Box, Text } from "@chakra-ui/react";
+import { TileId } from "@/types";
+import { SetterOrUpdater, useRecoilState } from "recoil";
+import {
+  bonsaiBaseColorSelector,
+  bonsaiTrunkColorSelector,
+} from "@/components/recoil/UserSettingsSelectors";
 
 type BonsaiProps = {
-  baseColor?: string;
-  trunkColor?: string;
+  tileId: TileId;
 };
 
-export const BonsaiTile: React.FC<BonsaiProps> = ({
-  baseColor,
-  trunkColor,
-}): JSX.Element => {
-  const getEmptyBonsai = (): string[][] => {
-    const arrayOfSpaces = [];
-    for (let i = 0; i < BONSAI.rows; i += 1) {
-      arrayOfSpaces[i] = new Array(BONSAI.cols);
-      for (let j = 0; j < BONSAI.cols; j += 1) {
-        arrayOfSpaces[i][j] = "\u00A0";
-      }
+const getEmptyBonsai = (): string[][] => {
+  const arrayOfSpaces = [];
+  for (let i = 0; i < BONSAI.rows; i += 1) {
+    arrayOfSpaces[i] = new Array(BONSAI.cols);
+    for (let j = 0; j < BONSAI.cols; j += 1) {
+      arrayOfSpaces[i][j] = "\u00A0";
     }
-    return arrayOfSpaces;
-  };
+  }
+  return arrayOfSpaces;
+};
 
+export const BonsaiTile: React.FC<BonsaiProps> = ({ tileId }): JSX.Element => {
   const [bonsai, setBonsai] = useState<string[][]>(getEmptyBonsai());
+  const [baseColor] = useRecoilState(bonsaiBaseColorSelector(tileId)) as [
+    string | undefined,
+    SetterOrUpdater<string | undefined>
+  ];
+  const [trunkColor] = useRecoilState(bonsaiTrunkColorSelector(tileId)) as [
+    string | undefined,
+    SetterOrUpdater<string | undefined>
+  ];
 
   const resetBonsai = async () => {
     const array = getEmptyBonsai();

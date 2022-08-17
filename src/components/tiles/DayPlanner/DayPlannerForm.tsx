@@ -20,6 +20,9 @@ interface DayPlannerFormProps extends StackProps {
   onSubmit: (e: React.FormEvent) => void;
   bookings: Booking[] | undefined;
   startTime: string;
+  setShowingTimePicker: React.Dispatch<
+    React.SetStateAction<string | undefined>
+  >;
 }
 
 const DayPlannerForm: React.FC<DayPlannerFormProps> = ({
@@ -28,6 +31,7 @@ const DayPlannerForm: React.FC<DayPlannerFormProps> = ({
   setFormValues,
   bookings,
   startTime,
+  setShowingTimePicker,
   ...props
 }) => {
   const onTitleChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -60,7 +64,7 @@ const DayPlannerForm: React.FC<DayPlannerFormProps> = ({
       }
     }
 
-    if (formValues.title.length <= 0) {
+    if (formValues.title.length <= 0 || formValues.title.length >= 20) {
       return false;
     }
 
@@ -83,15 +87,15 @@ const DayPlannerForm: React.FC<DayPlannerFormProps> = ({
       pos="relative"
       {...props}
     >
-      {/* <Button
+      <Button
         pos="absolute"
         top="2"
         right="2"
-        onClick={() => onTimeIndicatorClick(undefined)}
+        onClick={() => setShowingTimePicker(undefined)}
         background="transparent"
       >
         <CloseIcon />
-      </Button> */}
+      </Button>
       <form onSubmit={onSubmit}>
         <Box>
           <Flex fontSize="md" mb="4" fontWeight="600">

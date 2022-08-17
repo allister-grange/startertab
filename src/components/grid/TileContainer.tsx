@@ -1,58 +1,56 @@
 import {
+  bookingsSelector,
+  todoListSelector,
+} from "@/components/recoil/UserSettingsSelectors";
+import {
   BonsaiTile,
-  RedditFeedTile,
-  SearchBarTile,
-  SmallSpotifyTile,
-  SmallWeatherTile,
-  TimeTile,
-  UvGraphTile,
   HackerNewsFeedTile,
   LargeSpotifyTile,
   LargeStockTile,
-  SmallStockTile,
-  SpotifyTopArtistsTile,
   LargeWeatherTile,
-  TodoListTile,
-  Booking,
+  RedditFeedTile,
+  SearchBarTile,
+  SmallSpotifyTile,
+  SmallStockTile,
+  SmallWeatherTile,
+  SpotifyTopArtistsTile,
+  TimeTile,
+  UvGraphTile,
 } from "@/components/tiles";
+import DayPlannerTile, {
+  Booking,
+} from "@/components/tiles/DayPlanner/DayPlannerTile";
+import TodoListTile from "@/components/tiles/TodoListTile";
+import StravaGraphTile from "@/components/tiles/StravaGraphTile";
+import ThemePickerTile from "@/components/tiles/ThemePickerTile";
+import { TileErrorBoundary } from "@/components/tiles/TileErrorBoundary";
 import SpotifyContextProvider from "@/context/SpotifyContext";
 import StravaContextProvider from "@/context/StravaContext";
 import { TileId, TileType, TodoObject } from "@/types";
 import { Box, Center, Heading } from "@chakra-ui/react";
-import StravaGraphTile from "@/components/tiles/StravaGraphTile";
 import React from "react";
 import { ErrorBoundary } from "react-error-boundary";
-import { TileErrorBoundary } from "@/components/tiles/TileErrorBoundary";
-import ThemePickerTile from "@/components/tiles/ThemePickerTile";
-import DayPlannerTile from "@/components/tiles/DayPlanner/DayPlannerTile";
+import { SetterOrUpdater, useRecoilState } from "recoil";
 
 interface TileContainerProps {
   tileId: TileId;
   tileType: TileType;
-  cityForWeather?: string;
-  cityForUv?: string;
-  stockName?: string;
-  todoList?: TodoObject[];
-  bonsaiBaseColor?: string;
-  bonsaiTrunkColor?: string;
-  tempDisplayInCelsius?: string;
   hackerNewsFeed?: string;
-  bookings?: Booking[];
 }
 
-const TileContainer: React.FC<TileContainerProps> = ({
-  tileId,
-  tileType,
-  cityForWeather,
-  tempDisplayInCelsius,
-  stockName,
-  cityForUv,
-  todoList,
-  bonsaiBaseColor,
-  bonsaiTrunkColor,
-  bookings,
-}) => {
+const TileContainer: React.FC<TileContainerProps> = ({ tileId, tileType }) => {
   let tileToRender;
+  // need to pass in these states as props as they're objects
+  // and recoil only uses '===' as comparison, to prevent a
+  // rerender I need to go a deep comparison on the Component itself
+  const [bookings, setBookings] = useRecoilState(bookingsSelector(tileId)) as [
+    Booking[] | undefined,
+    SetterOrUpdater<Booking[] | undefined>
+  ];
+  const [todoList, setTodoList] = useRecoilState(todoListSelector(tileId)) as [
+    TodoObject[] | undefined,
+    SetterOrUpdater<TodoObject[] | undefined>
+  ];
 
   switch (tileType) {
     case "Reddit Feed":
@@ -75,30 +73,16 @@ const TileContainer: React.FC<TileContainerProps> = ({
       tileToRender = <SearchBarTile tileId={tileId} />;
       break;
     case "Bonsai":
-      tileToRender = (
-        <BonsaiTile baseColor={bonsaiBaseColor} trunkColor={bonsaiTrunkColor} />
-      );
+      tileToRender = <BonsaiTile tileId={tileId} />;
       break;
     case "Large Stock Tile":
       tileToRender = <LargeStockTile tileId={tileId} />;
       break;
     case "Large Weather Tile":
-      tileToRender = (
-        <LargeWeatherTile
-          tempDisplayInCelsius={tempDisplayInCelsius}
-          city={cityForWeather}
-          tileId={tileId}
-        />
-      );
+      tileToRender = <LargeWeatherTile tileId={tileId} />;
       break;
     case "Small Weather Tile":
-      tileToRender = (
-        <SmallWeatherTile
-          tempDisplayInCelsius={tempDisplayInCelsius}
-          city={cityForWeather}
-          tileId={tileId}
-        />
-      );
+      tileToRender = <SmallWeatherTile tileId={tileId} />;
       break;
     case "Small Spotify Tile":
       tileToRender = (
@@ -108,7 +92,7 @@ const TileContainer: React.FC<TileContainerProps> = ({
       );
       break;
     case "UV Graph":
-      tileToRender = <UvGraphTile city={cityForUv} tileId={tileId} />;
+      tileToRender = <UvGraphTile tileId={tileId} />;
       break;
     case "Time":
       tileToRender = <TimeTile tileId={tileId} />;
@@ -117,7 +101,13 @@ const TileContainer: React.FC<TileContainerProps> = ({
       tileToRender = <ThemePickerTile />;
       break;
     case "Todo List":
-      tileToRender = <TodoListTile tileId={tileId} todoList={todoList} />;
+      tileToRender = (
+        <TodoListTile
+          tileId={tileId}
+          todoList={todoList}
+          setTodoList={setTodoList}
+        />
+      );
       break;
     case "Spotify Top Artist Tile":
       tileToRender = (
@@ -134,12 +124,16 @@ const TileContainer: React.FC<TileContainerProps> = ({
       );
       break;
     case "Small Stock Tile":
-      tileToRender = (
-        <SmallStockTile tileId={tileId} stockNameFromSettings={stockName} />
-      );
+      tileToRender = <SmallStockTile tileId={tileId} />;
       break;
     case "Day Planner":
-      tileToRender = <DayPlannerTile tileId={tileId} bookings={bookings} />;
+      tileToRender = (
+        <DayPlannerTile
+          tileId={tileId}
+          bookings={bookings}
+          setBookings={setBookings}
+        />
+      );
       break;
     default:
       tileToRender = (
@@ -153,7 +147,6 @@ const TileContainer: React.FC<TileContainerProps> = ({
   }
 
   return (
-    // SSR screws up the styles of the divs, TODO look into this later
     <ErrorBoundary FallbackComponent={TileErrorBoundary}>
       {tileToRender}
     </ErrorBoundary>

@@ -1,6 +1,6 @@
-import { SettingsContext } from "@/context/UserSettingsContext";
-import { getCurrentTheme } from "@/helpers/settingsHelpers";
-import { TileId, UserSettingsContextInterface, UvGraphData } from "@/types";
+import { uvCitySelector } from "@/components/recoil/UserSettingsSelectors";
+import { OutlinedButton } from "@/components/ui/OutlinedButton";
+import { TileId, UvGraphData } from "@/types";
 import {
   Box,
   Center,
@@ -10,15 +10,13 @@ import {
   InputRightElement,
   Spinner,
   Text,
-  useColorMode,
 } from "@chakra-ui/react";
-import React, { useContext, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Line, LineChart, ResponsiveContainer, XAxis, YAxis } from "recharts";
-import { OutlinedButton } from "@/components/ui/OutlinedButton";
+import { SetterOrUpdater, useRecoilState } from "recoil";
 
 interface UvGraphProps {
   tileId: TileId;
-  city?: string;
 }
 
 type Status = "loading" | "resolved" | "waitingForInput" | "rejected";
@@ -29,12 +27,12 @@ type State = {
   cityNameOfData?: string;
 };
 
-export const UvGraphTile: React.FC<UvGraphProps> = ({ city, tileId }) => {
+export const UvGraphTile: React.FC<UvGraphProps> = ({ tileId }) => {
   const color = `var(--text-color-${tileId})`;
-  const { settings, changeSetting } = useContext(
-    SettingsContext
-  ) as UserSettingsContextInterface;
-  const { colorMode } = useColorMode();
+  const [city, setCity] = useRecoilState(uvCitySelector(tileId)) as [
+    string | undefined,
+    SetterOrUpdater<string | undefined>
+  ];
   const [cityInput, setCityInput] = useState<string>("");
   const [state, setState] = useState<State>({
     status: city ? "loading" : "waitingForInput",
@@ -72,19 +70,16 @@ export const UvGraphTile: React.FC<UvGraphProps> = ({ city, tileId }) => {
   }, []);
 
   useEffect(() => {
-    const currentTheme = getCurrentTheme(settings, colorMode);
-    const cityFromSettings = currentTheme[tileId].cityForUv;
-
-    if (!cityFromSettings) {
+    if (!city) {
       setState({ status: "waitingForInput" });
-    } else if (cityFromSettings !== state.cityNameOfData && cityFromSettings) {
-      fetchUVData(cityFromSettings);
+    } else {
+      fetchUVData(city);
     }
-  }, [colorMode, fetchUVData, settings, state.cityNameOfData, tileId]);
+  }, [city, fetchUVData, tileId]);
 
   const handleSubmitCityName = (e: React.FormEvent) => {
     e.preventDefault();
-    changeSetting("cityForUv", cityInput, tileId as TileId);
+    setCity(cityInput);
   };
 
   let toDisplay;

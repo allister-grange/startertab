@@ -1,12 +1,10 @@
+import { stockSelector } from "@/components/recoil/UserSettingsSelectors";
 import { LargeStockTickerSkeleton } from "@/components/skeletons/LargeStockTickerSkeleton";
 import { OutlinedButton } from "@/components/ui/OutlinedButton";
-import { SettingsContext } from "@/context/UserSettingsContext";
-import { getCurrentTheme } from "@/helpers/settingsHelpers";
-import { TileId, UserSettingsContextInterface } from "@/types";
+import { TileId } from "@/types";
 import { FinnhubStockResponse, StockTickers } from "@/types/stocks";
 import {
   Box,
-  Button,
   Center,
   Flex,
   Grid,
@@ -16,8 +14,8 @@ import {
   Text,
   useColorMode,
 } from "@chakra-ui/react";
-import cloneDeep from "lodash.clonedeep";
-import React, { useContext, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
+import { SetterOrUpdater, useRecoilState } from "recoil";
 
 interface LargeStockTileProps {
   tileId: TileId;
@@ -108,14 +106,15 @@ const InputDisplay: React.FC<InputDisplayProps> = ({
 
 export const LargeStockTile: React.FC<LargeStockTileProps> = ({ tileId }) => {
   const color = `var(--text-color-${tileId})`;
-  const { settings, changeSetting } = useContext(
-    SettingsContext
-  ) as UserSettingsContextInterface;
   const { colorMode } = useColorMode();
-  const [stockInputs, setStockInputs] = useState<string[]>([]);
+  const [stocks, setStocks] = useRecoilState(stockSelector(tileId)) as [
+    string | undefined,
+    SetterOrUpdater<string | undefined>
+  ];
   const [state, setState] = useState<State>({
     status: "waitingForInput",
   });
+  const [stockInputs, setStockInputs] = useState<string[]>([]);
 
   const getStocks = React.useCallback(async (stockNames: string) => {
     setState((state) => ({
@@ -145,24 +144,17 @@ export const LargeStockTile: React.FC<LargeStockTileProps> = ({ tileId }) => {
     e.preventDefault();
     const stocks = stockInputs.join(",");
     setState((state) => ({ ...state, stockTickerNames: stockInputs }));
-    changeSetting("stockName", stocks, tileId as TileId);
+    setStocks(stocks);
     getStocks(stocks);
   };
 
   useEffect(() => {
-    const currentTheme = getCurrentTheme(settings, colorMode);
-    const stocksFromSettings = currentTheme[tileId].stockName;
-
-    if (!stocksFromSettings) {
+    if (!stocks) {
       setState({ status: "waitingForInput" });
-    } else if (
-      stocksFromSettings !== state.stockTickerNames?.join(",") &&
-      stocksFromSettings
-    ) {
-      getStocks(stocksFromSettings);
-      setStockInputs(stocksFromSettings.split(","));
+    } else {
+      getStocks(stocks);
     }
-  }, [colorMode, settings, tileId, state.stockTickerNames, getStocks]);
+  }, [colorMode, getStocks, stocks]);
 
   let toDisplay;
 

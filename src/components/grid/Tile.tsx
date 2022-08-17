@@ -1,10 +1,12 @@
 import TileContainer from "@/components/grid/TileContainer";
-import { SettingsContext } from "@/context/UserSettingsContext";
+// import { SettingsContext } from "@/context/UserSettingsContext";
 import { getCurrentTheme } from "@/helpers/settingsHelpers";
 import styles from "@/styles/Home.module.css";
-import { TileId, UserSettingsContextInterface } from "@/types";
+import { TileId } from "@/types";
 import { GridItem, GridItemProps, useColorMode } from "@chakra-ui/react";
-import React, { useContext } from "react";
+import React from "react";
+import { useRecoilValue } from "recoil";
+import { userSettingState } from "../recoil/UserSettingsAtom";
 
 interface TileProps extends GridItemProps {
   optionHovered: boolean;
@@ -18,11 +20,8 @@ const Tile: React.FC<TileProps> = ({
   ...props
 }) => {
   const { colorMode } = useColorMode();
-  const { settings } = useContext(
-    SettingsContext
-  ) as UserSettingsContextInterface;
-
-  const theme = getCurrentTheme(settings, colorMode);
+  const userSettings = useRecoilValue(userSettingState);
+  const theme = getCurrentTheme(userSettings, colorMode);
 
   const borderRadius = theme.globalSettings.borderRadius;
   const shadow = theme.globalSettings.dropShadow;
@@ -45,18 +44,7 @@ const Tile: React.FC<TileProps> = ({
       className={styles.disableScrollbars}
       {...props}
     >
-      <TileContainer
-        tileId={tileId}
-        cityForWeather={theme[tileId].cityForWeather}
-        cityForUv={theme[tileId].cityForUv}
-        stockName={theme[tileId].stockName}
-        todoList={theme[tileId].todoList}
-        tileType={theme[tileId].tileType}
-        bonsaiBaseColor={theme[tileId].bonsaiBaseColor}
-        bonsaiTrunkColor={theme[tileId].bonsaiTrunkColor}
-        tempDisplayInCelsius={theme[tileId].tempDisplayInCelsius}
-        bookings={theme[tileId].bookings}
-      />
+      <TileContainer tileId={tileId} tileType={theme[tileId].tileType} />
     </GridItem>
   );
 };

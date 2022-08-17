@@ -1,7 +1,8 @@
+import { bookingsSelector } from "@/components/recoil/UserSettingsSelectors";
+import DayPlannerForm from "@/components/tiles/DayPlanner/DayPlannerForm";
 import { OutlinedButton } from "@/components/ui/OutlinedButton";
-import { SettingsContext } from "@/context/UserSettingsContext";
 import { times } from "@/helpers/tileHelpers";
-import { TileId, UserSettingsContextInterface } from "@/types";
+import { TileId } from "@/types";
 import {
   Box,
   Flex,
@@ -15,20 +16,20 @@ import {
 import { clone } from "lodash";
 import React, {
   useCallback,
-  useContext,
   useEffect,
   useLayoutEffect,
   useRef,
   useState,
 } from "react";
-import DayPlannerForm from "@/components/tiles/DayPlanner/DayPlannerForm";
+import { SetterOrUpdater, useRecoilState, useSetRecoilState } from "recoil";
 
 const PopoverTrigger: React.FC<{ children: React.ReactNode }> =
   OrigPopoverTrigger;
 
 interface DayPlannerTileProps {
-  tileId: string;
+  tileId: TileId;
   bookings?: Booking[];
+  setBookings: SetterOrUpdater<Booking[] | undefined>;
 }
 
 export type Booking = {
@@ -48,6 +49,7 @@ const defaultFormValues = {
 const DayPlannerTile: React.FC<DayPlannerTileProps> = ({
   tileId,
   bookings,
+  setBookings,
 }) => {
   const color = `var(--text-color-${tileId})`;
   const containerRef = useRef<HTMLDivElement>(null);
@@ -57,9 +59,6 @@ const DayPlannerTile: React.FC<DayPlannerTileProps> = ({
   >();
   const [pixelsToPushTimerAcross, setPixelsToPushTimerAcross] = useState(0);
   const [formValues, setFormValues] = useState<Booking>(defaultFormValues);
-  const { changeSetting } = useContext(
-    SettingsContext
-  ) as UserSettingsContextInterface;
 
   // calculating what hour to put the hand on
   // 6 is taken off current hours as we start the clock at 6:00am
@@ -91,8 +90,13 @@ const DayPlannerTile: React.FC<DayPlannerTileProps> = ({
   const onTimeIndicatorClick = (time?: string) => {
     setShowingTimePicker(time);
     if (time) {
-      const endTimeHour = Number.parseInt(time.split(":")[0]) + 1;
+      let endTimeHour: string | number =
+        Number.parseInt(time.split(":")[0]) + 1;
+      if (endTimeHour < 10) {
+        endTimeHour = "0" + endTimeHour;
+      }
       const endTime = endTimeHour + ":" + time.split(":")[1];
+
       setFormValues({ ...formValues, startTime: time, endTime });
     }
   };
@@ -107,11 +111,7 @@ const DayPlannerTile: React.FC<DayPlannerTileProps> = ({
       return;
     }
 
-    changeSetting(
-      "bookings",
-      [...(bookings || []), formValues],
-      tileId as TileId
-    );
+    setBookings([...(bookings || []), formValues]);
     setFormValues(defaultFormValues);
     setShowingTimePicker(undefined);
   };
@@ -145,11 +145,11 @@ const DayPlannerTile: React.FC<DayPlannerTileProps> = ({
     const minutes = time.split(":")[1].slice(0, 2);
 
     if (minutes === "00") {
-      return "90%";
+      return "27px";
     } else if (minutes === "30") {
-      return "70%";
+      return "21px";
     }
-    return "50%";
+    return "15px";
   };
 
   const convert24HourTo12 = (timeToConvert: string) => {
@@ -176,7 +176,7 @@ const DayPlannerTile: React.FC<DayPlannerTileProps> = ({
       if (time >= booking.startTime && time <= booking.endTime) {
         newBookings.splice(i, 1);
 
-        changeSetting("bookings", newBookings, tileId as TileId);
+        setBookings(newBookings);
       }
     }
   };
@@ -193,7 +193,6 @@ const DayPlannerTile: React.FC<DayPlannerTileProps> = ({
       <Flex
         marginTop="auto"
         alignItems="flex-end"
-        // height="100%"
         height="40%"
         justifyContent="center"
         width="max-content"
@@ -223,8 +222,7 @@ const DayPlannerTile: React.FC<DayPlannerTileProps> = ({
           <Box key={time} width={`${width / times.length}px`} pos="relative">
             {
               // means that there's a booking in this time slot
-              getBookingInTimeSlot(time) &&
-              time === getBookingInTimeSlot(time)?.startTime ? (
+              getBookingInTimeSlot(time)?.startTime === time ? (
                 <Popover>
                   <PopoverTrigger>
                     <Text
@@ -256,55 +254,38 @@ const DayPlannerTile: React.FC<DayPlannerTileProps> = ({
                 </Popover>
               ) : null
             }
-
-            <Popover>
-              <Tooltip
-                label={convert24HourTo12(time)}
-                aria-label="tooltip"
-                placement="top"
-              >
-                <Flex height="30px" marginTop={"auto"}>
-                  <PopoverTrigger>
-                    <Box
-                      width={getBoxWidth(time)}
-                      backgroundColor={
-                        getBookingInTimeSlot(time)
-                          ? getBookingInTimeSlot(time)?.color
-                          : color
-                      }
-                      height={getBoxHeight(time)}
-                      mx="auto"
-                      mt="auto"
-                      transition="all .2s"
-                      _hover={{ transform: "scale(1.2)", cursor: "pointer" }}
-                      onClick={() => onTimeIndicatorClick(time)}
-                    />
-                  </PopoverTrigger>
-                </Flex>
-              </Tooltip>
-              <Portal>
-                <PopoverContent>
-                  <Box
-                    pos="fixed"
-                    top="80%"
-                    zIndex={999}
-                    transform="translateY(-50%)"
-                  >
-                    <DayPlannerForm
-                      background="var(--bg-color-sidebar)"
-                      color="var(--text-color-sidebar)"
-                      formValues={formValues}
-                      bookings={bookings}
-                      setFormValues={setFormValues}
-                      onSubmit={onSubmit}
-                      startTime={showingTimePicker!}
-                    />
-                  </Box>
-                </PopoverContent>
-              </Portal>
-            </Popover>
+            <Tooltip
+              label={convert24HourTo12(time)}
+              aria-label="tooltip"
+              placement="top"
+            >
+              <Box
+                width={getBoxWidth(time)}
+                backgroundColor={getBookingInTimeSlot(time)?.color || color}
+                height={getBoxHeight(time)}
+                mx="auto"
+                mt="auto"
+                transition="all .2s"
+                _hover={{ transform: "scale(1.2)", cursor: "pointer" }}
+                onClick={() => onTimeIndicatorClick(time)}
+              />
+            </Tooltip>
           </Box>
         ))}
+        {showingTimePicker && (
+          <Box pos="fixed" top="50%" zIndex={999} transform="translateY(-50%)">
+            <DayPlannerForm
+              background="var(--bg-color-sidebar)"
+              color="var(--text-color-sidebar)"
+              formValues={formValues}
+              bookings={bookings}
+              setFormValues={setFormValues}
+              onSubmit={onSubmit}
+              startTime={showingTimePicker!}
+              setShowingTimePicker={setShowingTimePicker}
+            />
+          </Box>
+        )}
       </Flex>
     </Flex>
   );
@@ -314,11 +295,6 @@ const areEqual = (
   prevProps: DayPlannerTileProps,
   nextProps: DayPlannerTileProps
 ) => {
-  console.log(
-    "poocheck",
-    prevProps.bookings?.length === nextProps.bookings?.length
-  );
-
   return prevProps.bookings?.length === nextProps.bookings?.length;
 };
 
