@@ -17,7 +17,9 @@ import {
   TimeTile,
   UvGraphTile,
 } from "@/components/tiles";
-import DayPlannerTile from "@/components/tiles/DayPlanner/DayPlannerTile";
+import DayPlannerTile, {
+  Booking,
+} from "@/components/tiles/DayPlanner/DayPlannerTile";
 import TodoListTile from "@/components/tiles/TodoListTile";
 import StravaGraphTile from "@/components/tiles/StravaGraphTile";
 import ThemePickerTile from "@/components/tiles/ThemePickerTile";
@@ -28,7 +30,7 @@ import { TileId, TileType, TodoObject } from "@/types";
 import { Box, Center, Heading } from "@chakra-ui/react";
 import React from "react";
 import { ErrorBoundary } from "react-error-boundary";
-import { useRecoilState } from "recoil";
+import { SetterOrUpdater, useRecoilState } from "recoil";
 
 interface TileContainerProps {
   tileId: TileId;
@@ -41,8 +43,14 @@ const TileContainer: React.FC<TileContainerProps> = ({ tileId, tileType }) => {
   // need to pass in these states as props as they're objects
   // and recoil only uses '===' as comparison, to prevent a
   // rerender I need to go a deep comparison on the Component itself
-  const [bookings, setBookings] = useRecoilState(bookingsSelector(tileId));
-  const [todoList, setTodoList] = useRecoilState(todoListSelector(tileId));
+  const [bookings, setBookings] = useRecoilState(bookingsSelector(tileId)) as [
+    Booking[] | undefined,
+    SetterOrUpdater<Booking[] | undefined>
+  ];
+  const [todoList, setTodoList] = useRecoilState(todoListSelector(tileId)) as [
+    TodoObject[] | undefined,
+    SetterOrUpdater<TodoObject[] | undefined>
+  ];
 
   switch (tileType) {
     case "Reddit Feed":

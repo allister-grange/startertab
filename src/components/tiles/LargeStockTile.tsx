@@ -15,7 +15,7 @@ import {
   useColorMode,
 } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
-import { useRecoilState } from "recoil";
+import { SetterOrUpdater, useRecoilState } from "recoil";
 
 interface LargeStockTileProps {
   tileId: TileId;
@@ -107,7 +107,10 @@ const InputDisplay: React.FC<InputDisplayProps> = ({
 export const LargeStockTile: React.FC<LargeStockTileProps> = ({ tileId }) => {
   const color = `var(--text-color-${tileId})`;
   const { colorMode } = useColorMode();
-  const [stocks, setStocks] = useRecoilState(stockSelector(tileId));
+  const [stocks, setStocks] = useRecoilState(stockSelector(tileId)) as [
+    string | undefined,
+    SetterOrUpdater<string | undefined>
+  ];
   const [state, setState] = useState<State>({
     status: "waitingForInput",
   });

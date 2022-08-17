@@ -23,7 +23,7 @@ import {
   WiDaySunnyOvercast,
   WiRain,
 } from "react-icons/wi";
-import { useRecoilState } from "recoil";
+import { SetterOrUpdater, useRecoilState } from "recoil";
 
 interface LargeWeatherTileProps {
   tileId: TileId;
@@ -119,10 +119,10 @@ export const LargeWeatherTile: React.FC<LargeWeatherTileProps> = ({
   const color = `var(--text-color-${tileId})`;
   const [cityForWeather, setCityForWeather] = useRecoilState(
     cityForWeatherSelector(tileId)
-  );
+  ) as [string | undefined, SetterOrUpdater<string | undefined>];
   const [tempDisplayInCelsius, setTempDisplayInCelsius] = useRecoilState(
     tempDisplayInCelsiusSelector(tileId)
-  );
+  ) as [string | undefined, SetterOrUpdater<string | undefined>];
 
   const [cityInput, setCityInput] = useState<string>("");
   const [state, setState] = useState<State>({

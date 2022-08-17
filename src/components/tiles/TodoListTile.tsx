@@ -12,7 +12,7 @@ import { SetterOrUpdater } from "recoil";
 
 export interface TodoListProps {
   tileId: TileId;
-  todoList: TodoObject[] | undefined;
+  todoList?: TodoObject[] | undefined;
   setTodoList: SetterOrUpdater<TodoObject[] | undefined>;
 }
 

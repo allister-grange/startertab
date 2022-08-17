@@ -1,6 +1,5 @@
 import { uvCitySelector } from "@/components/recoil/UserSettingsSelectors";
 import { OutlinedButton } from "@/components/ui/OutlinedButton";
-import { getCurrentTheme } from "@/helpers/settingsHelpers";
 import { TileId, UvGraphData } from "@/types";
 import {
   Box,
@@ -14,7 +13,7 @@ import {
 } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
 import { Line, LineChart, ResponsiveContainer, XAxis, YAxis } from "recharts";
-import { useRecoilState } from "recoil";
+import { SetterOrUpdater, useRecoilState } from "recoil";
 
 interface UvGraphProps {
   tileId: TileId;
@@ -30,7 +29,10 @@ type State = {
 
 export const UvGraphTile: React.FC<UvGraphProps> = ({ tileId }) => {
   const color = `var(--text-color-${tileId})`;
-  const [city, setCity] = useRecoilState(uvCitySelector(tileId));
+  const [city, setCity] = useRecoilState(uvCitySelector(tileId)) as [
+    string | undefined,
+    SetterOrUpdater<string | undefined>
+  ];
   const [cityInput, setCityInput] = useState<string>("");
   const [state, setState] = useState<State>({
     status: city ? "loading" : "waitingForInput",

@@ -14,7 +14,7 @@ import {
   Text,
 } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
-import { useRecoilState } from "recoil";
+import { SetterOrUpdater, useRecoilState } from "recoil";
 
 interface SmallStockTileProps {
   tileId: TileId;
@@ -30,7 +30,10 @@ type State = {
 
 export const SmallStockTile: React.FC<SmallStockTileProps> = ({ tileId }) => {
   const color = `var(--text-color-${tileId})`;
-  const [stock, setStock] = useRecoilState(stockSelector(tileId));
+  const [stock, setStock] = useRecoilState(stockSelector(tileId)) as [
+    string | undefined,
+    SetterOrUpdater<string | undefined>
+  ];
   const [stockInput, setStockInput] = useState<string>("");
   const [state, setState] = useState<State>({
     status: "waitingForInput",

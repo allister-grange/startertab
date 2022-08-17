@@ -4,7 +4,7 @@ export * from "./GenericSelect";
 export * from "./ResetAndRandomizeColors";
 export * from "./SettingOptionContainer";
 export * from "./SettingsSidebar";
-export * from "./SidebarFooter";
+export * from "./SideBarFooter";
 export * from "./SideBarTitle";
 export * from "./ThemeToChangeSelector";
 export * from "./TileTypePicker";

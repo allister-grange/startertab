@@ -16,7 +16,7 @@ import {
   useColorMode,
 } from "@chakra-ui/react";
 import React, { useContext } from "react";
-import { useRecoilState } from "recoil";
+import { SetterOrUpdater, useRecoilState } from "recoil";
 
 type SmallSpotifyTileProps = {
   tileId: TileId;
@@ -25,16 +25,9 @@ type SmallSpotifyTileProps = {
 export const SpotifyTopArtistsTile: React.FC<SmallSpotifyTileProps> = ({
   tileId,
 }) => {
-  // const { settings, changeSetting } = useContext(
-  //   SettingsContext
-  // ) as UserSettingsContextInterface;
-  const { colorMode } = useColorMode();
-  // const theme = getCurrentTheme(settings, colorMode);
-  // const spotifyTimeLengthFromSettings =
-  //   theme[tileId].spotifyArtistSearchTimeLength;
   const [timeLength, setTimeLength] = useRecoilState(
     spotifyTopArtistTimeLengthSelector(tileId)
-  );
+  ) as [string | undefined, SetterOrUpdater<string | undefined>];
 
   const { topArtists, isAuthenticated, loginWithSpotify, fetchTopArtistData } =
     useContext(SpotifyContext) as SpotifyContextInterface;
