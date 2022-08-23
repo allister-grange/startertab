@@ -8,18 +8,6 @@ body {
   height: 100%;
 }
 
-html {
-  position: absolute;
-}
-
-body {
-  /* overflow: hidden; */
-}
-
-a {
-  color: inherit;
-  text-decoration: none;
-}
 
 * {
   box-sizing: border-box;

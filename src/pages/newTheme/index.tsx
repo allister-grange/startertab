@@ -187,7 +187,7 @@ export const ThemeCreator: React.FC = ({}) => {
   };
 
   return (
-    <Box height="100%" width="65%" p="2" color="#526371" mx="auto">
+    <Box height="100%" width="65%" p="2" mx="auto">
       <Flex>
         <span style={{ fontSize: "140px" }}>🎨</span>
         <Box my="auto" ml="8" width="55%">
@@ -293,7 +293,12 @@ export const ThemeCreator: React.FC = ({}) => {
           </Box>
         </Grid>
         <Flex mt="10" mb="10" alignItems="center" width="100%" height="100%">
-          <OutlinedButton fontWeight="800" mt="2" borderColor="#B0AED0">
+          <OutlinedButton
+            fontWeight="800"
+            mt="2"
+            borderColor="var(--chakra-colors-purple-500)"
+            isDisabled={!formValid}
+          >
             CREATE IT
           </OutlinedButton>
         </Flex>

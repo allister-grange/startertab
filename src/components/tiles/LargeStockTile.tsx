@@ -47,7 +47,7 @@ const StockDisplay: React.FC<StockDisplayProps> = ({ stockTicker }) => {
   if (stockTicker?.c === 0) {
     textDisplay = (
       <Box>
-        <Text color="#F1676D" fontSize="xs">
+        <Text color="red.500" fontSize="xs">
           Sorry, that stock doesn&apos;t exist 😔
         </Text>
       </Box>
@@ -55,7 +55,7 @@ const StockDisplay: React.FC<StockDisplayProps> = ({ stockTicker }) => {
   } else {
     textDisplay = (
       <Box>
-        <Text color={stockTicker?.dp! > 0 ? "green" : "#F1676D"}>
+        <Text color={stockTicker?.dp! > 0 ? "green" : "red.500"}>
           {stockTicker?.d} ({stockTicker?.dp}%)
         </Text>
       </Box>

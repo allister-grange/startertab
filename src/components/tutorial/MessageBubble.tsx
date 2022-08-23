@@ -7,7 +7,7 @@ export const MessageBubble: React.FC<BoxProps> = ({ children, ...props }) => {
       fontSize="30px"
       color="black"
       background="rgba(240,240,240,.6)"
-      outline="4px solid #B0AED0"
+      outline="4px solid var(--chakra-colors-purple-500)"
       width="500px"
       borderRadius="20px"
       p="4"

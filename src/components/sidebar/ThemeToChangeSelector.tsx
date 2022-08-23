@@ -12,7 +12,7 @@ interface ThemeToChangeSelectorProps {
 }
 const optionsStyles = {
   color: "white",
-  background: "#42494f",
+  background: "var(--chakra-colors-gray-600)",
 };
 
 export const ThemeToChangeSelector: React.FC<ThemeToChangeSelectorProps> = ({

@@ -40,7 +40,7 @@ export type Booking = {
 };
 
 const defaultFormValues = {
-  color: "#B0AED0",
+  color: "var(--chakra-colors-purple-500)",
   title: "",
   startTime: "06:00",
   endTime: "07:00",

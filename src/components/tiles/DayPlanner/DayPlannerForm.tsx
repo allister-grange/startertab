@@ -105,7 +105,7 @@ const DayPlannerForm: React.FC<DayPlannerFormProps> = ({
             value={formValues.title}
             onChange={onTitleChange}
             width="80%s"
-            outline="3px solid #B0AED0"
+            outline="3px solid var(--chakra-colors-purple-500)"
             step="900"
             _focus={{
               border: "none",
@@ -124,7 +124,7 @@ const DayPlannerForm: React.FC<DayPlannerFormProps> = ({
               min="06:00"
               max="20:45"
               width="120px"
-              outline="3px solid #B0AED0"
+              outline="3px solid var(--chakra-colors-purple-500)"
               step="900"
               _focus={{
                 border: "none",
@@ -139,7 +139,7 @@ const DayPlannerForm: React.FC<DayPlannerFormProps> = ({
               step="900"
               min="06:15"
               max="21:00"
-              outline="3px solid #B0AED0"
+              outline="3px solid var(--chakra-colors-purple-500)"
               _focus={{
                 border: "none",
               }}
@@ -166,7 +166,7 @@ const DayPlannerForm: React.FC<DayPlannerFormProps> = ({
         <OutlinedButton
           fontWeight="500"
           mt="2"
-          borderColor="#B0AED0"
+          borderColor="var(--chakra-colors-purple-500)"
           type="submit"
           disabled={!isFormValid}
         >

@@ -18,7 +18,7 @@ interface TileTypePickerProps extends BoxProps {
 
 const optionsStyles = {
   color: "white",
-  background: "#42494f",
+  background: "var(--chakra-colors-gray-600)",
 };
 
 export const TileTypePicker: React.FC<TileTypePickerProps> = ({

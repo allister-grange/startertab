@@ -25,7 +25,7 @@ interface SettingOptionContainerProps {
 
 const optionsStyles = {
   color: "white",
-  background: "#42494f",
+  background: "var(--chakra-colors-gray-600)",
 };
 
 const SettingOptionContainer: React.FC<SettingOptionContainerProps> = ({
