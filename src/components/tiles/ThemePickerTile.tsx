@@ -28,14 +28,12 @@ const ThemePickerTile: React.FC = () => {
       justifyContent="center"
       flexDir="column"
     >
-      <Grid
-        templateColumns="repeat(auto-fit, minmax(25px, 1fr))"
-        gridGap="7px"
-        gridRowGap="13px"
-        alignContent="center"
+      <Flex
         width="100%"
         py="25px"
         px="55px"
+        flexWrap="wrap"
+        justifyContent="center"
       >
         {settings.themes.map((theme) => {
           if (theme.themeName !== "Global Settings") {
@@ -43,13 +41,15 @@ const ThemePickerTile: React.FC = () => {
               <ThemePickerBubble
                 key={theme.themeName}
                 justifySelf="center"
+                marginX="5px"
+                marginY="7px"
                 onClick={() => setColorMode(theme.themeName)}
                 bg={theme.globalSettings.themePickerBubbleColor}
               />
             );
           }
         })}
-      </Grid>
+      </Flex>
     </Flex>
   );
 };

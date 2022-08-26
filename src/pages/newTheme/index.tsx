@@ -3,6 +3,7 @@ import { ColorPicker } from "@/components/theme-creator/ColorPicker";
 import { SettingTitle } from "@/components/theme-creator/SettingTitle";
 import { SidebarThemePicker } from "@/components/theme-creator/SidebarThemePicker";
 import { OutlinedButton } from "@/components/ui/OutlinedButton";
+import { UserSettings } from "@/types";
 import {
   Box,
   Flex,
@@ -99,7 +100,9 @@ export const ThemeCreator: React.FC = ({}) => {
     }
 
     // put a new theme into local storage
-    const currentSettings = clone(settings);
+    const currentSettings = JSON.parse(
+      JSON.stringify(settings)
+    ) as UserSettings;
 
     if (
       currentSettings.themes.some(
@@ -298,6 +301,7 @@ export const ThemeCreator: React.FC = ({}) => {
             mt="2"
             borderColor="var(--chakra-colors-purple-500)"
             isDisabled={!formValid}
+            type="submit"
           >
             CREATE IT
           </OutlinedButton>
