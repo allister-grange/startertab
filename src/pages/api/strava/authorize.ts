@@ -1,6 +1,5 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import cookie from "cookie";
-import AES from "crypto-js/aes";
 
 const TOKEN_ENDPOINT = `https://www.strava.com/oauth/token`;
 
@@ -36,6 +35,8 @@ export default async function handler(
         .status(500)
         .send("Didn't find access token or refresh token in Spotify response");
     }
+
+    const AES = (await import("crypto-js/aes")).default;
 
     res.setHeader("Set-Cookie", [
       cookie.serialize("stravaRefreshToken", refresh_token, {

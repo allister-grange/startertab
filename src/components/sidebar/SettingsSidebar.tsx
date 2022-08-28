@@ -29,7 +29,6 @@ import {
   ExpandedIndex,
   useColorMode,
 } from "@chakra-ui/react";
-import cloneDeep from "lodash.clonedeep";
 import React, { Dispatch, SetStateAction, useRef, useState } from "react";
 import { useRecoilState } from "recoil";
 
@@ -39,6 +38,10 @@ interface SettingsSideBarProps {
   setOptionHovered: React.Dispatch<SetStateAction<TileId | undefined>>;
   setTutorialProgress: Dispatch<SetStateAction<number>>;
   tutorialProgress: number;
+}
+
+function deepClone<T>(value: T) {
+  return JSON.parse(JSON.stringify(value)) as T;
 }
 
 const randomHexValue = (): string => {
@@ -78,7 +81,7 @@ const SettingsSideBar: React.FC<SettingsSideBarProps> = ({
 
   // apply the in memory settings into localStorage
   const onSaveHandler = () => {
-    const permanentSettings = cloneDeep(settings);
+    const permanentSettings = deepClone(settings);
     setSettings(permanentSettings);
     inMemorySettingsRef.current = permanentSettings;
   };
@@ -89,7 +92,7 @@ const SettingsSideBar: React.FC<SettingsSideBarProps> = ({
     setWidth("0px");
     setTimeout(onClose, 500);
     // reset settings
-    setSettings(cloneDeep(settings));
+    setSettings(deepClone(settings));
     setOptionHovered(undefined);
     setAccordionIndex([]);
     setSettings(inMemorySettingsRef.current);
@@ -124,7 +127,7 @@ const SettingsSideBar: React.FC<SettingsSideBarProps> = ({
   );
 
   const resetAllColorsToDefault = () => {
-    let newSettings = cloneDeep(settings);
+    let newSettings = deepClone(settings);
     const themeToChange = getCurrentTheme(newSettings, colorMode);
 
     sideBarOptions.forEach((option) => {
@@ -144,7 +147,7 @@ const SettingsSideBar: React.FC<SettingsSideBarProps> = ({
   };
 
   const randomizeAllColorValues = () => {
-    let newSettings = cloneDeep(settings);
+    let newSettings = deepClone(settings);
     const themeToChange = getCurrentTheme(newSettings, colorMode);
 
     sideBarOptions.forEach((option) => {

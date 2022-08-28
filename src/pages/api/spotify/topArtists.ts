@@ -1,8 +1,6 @@
 import { TopArtistSpotify, TopArtistSpotifyData } from "@/types/spotify";
 import { NextApiRequest, NextApiResponse } from "next";
 import querystring from "querystring";
-import CryptoJS from "crypto-js";
-import AES from "crypto-js/aes";
 import cookie from "cookie";
 
 const clientId = process.env.SPOTIFY_CLIENT_ID;
@@ -39,6 +37,8 @@ export default async function handler(
           .send("No encryption key found in environment variables");
       }
 
+      const CryptoJS = (await import("crypto-js")).default;
+
       accessToken = CryptoJS.AES.decrypt(accessToken, key).toString(
         CryptoJS.enc.Utf8
       );
@@ -51,6 +51,8 @@ export default async function handler(
         refreshToken as string,
         timeRange as string
       );
+
+      const AES = (await import("crypto-js/aes")).default;
 
       // if a new access token is sent back, set it in cookies
       // and re-fetch the request

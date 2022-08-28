@@ -1,4 +1,3 @@
-import moment from "moment-timezone";
 import { NextApiRequest, NextApiResponse } from "next";
 import {
   StravaActivity,
@@ -6,7 +5,6 @@ import {
   StravaGraphData,
   StravaGraphPoint,
 } from "@/types/strava";
-import CryptoJS from "crypto-js";
 
 const key = process.env.TOKEN_ENCRYPT_KEY;
 
@@ -27,6 +25,8 @@ export default async function handler(
         .status(500)
         .send("No encryption key found in environment variables");
     }
+
+    const CryptoJS = (await import("crypto-js")).default;
 
     accessToken = CryptoJS.AES.decrypt(accessToken, key).toString(
       CryptoJS.enc.Utf8
@@ -91,12 +91,16 @@ export const getStravaData = async (
 };
 
 const getMonsEpoch = (): number => {
-  let NZ = moment.tz(moment(), "Pacific/Auckland");
-  const startOfWeek = NZ.startOf("isoWeek");
+  const date = new Date();
+  const day = date.getDay();
 
-  const startOfWeekEpoch = startOfWeek.unix();
+  // change date to Monday
+  const diff = date.getDate() - day + (day == 0 ? -6 : 1);
+  const monday = new Date(date.setDate(diff));
+  const monday12am = monday.setHours(0, 0, 0, 0);
 
-  return startOfWeekEpoch;
+  // converting to unix timestamp
+  return Math.floor(new Date(monday12am).getTime() / 1000);
 };
 
 const weekday = ["Sun", "Mon", "Tues", "Wed", "Thur", "Fri", "Sat"];

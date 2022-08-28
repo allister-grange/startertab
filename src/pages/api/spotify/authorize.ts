@@ -1,6 +1,5 @@
 import { getSpotifyRedirectUrl } from "@/helpers/getClientUrl";
 import { NextApiRequest, NextApiResponse } from "next";
-import AES from "crypto-js/aes";
 import cookie from "cookie";
 
 const TOKEN_ENDPOINT = `https://accounts.spotify.com/api/token`;
@@ -36,6 +35,8 @@ export default async function handler(
         .status(500)
         .send("Didn't find access token or refresh token in Spotify response");
     }
+
+    const AES = (await import("crypto-js/aes")).default;
 
     res.setHeader("Set-Cookie", [
       cookie.serialize("spotifyRefreshToken", refresh_token, {

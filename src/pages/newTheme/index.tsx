@@ -13,7 +13,6 @@ import {
   Text,
   useColorMode,
 } from "@chakra-ui/react";
-import { clone } from "lodash";
 import Image from "next/image";
 import Router from "next/router";
 import React, { useState } from "react";

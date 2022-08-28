@@ -1,4 +1,3 @@
-import { bookingsSelector } from "@/components/recoil/UserSettingsSelectors";
 import DayPlannerForm from "@/components/tiles/DayPlanner/DayPlannerForm";
 import { OutlinedButton } from "@/components/ui/OutlinedButton";
 import { times } from "@/helpers/tileHelpers";
@@ -13,7 +12,6 @@ import {
   Text,
   Tooltip,
 } from "@chakra-ui/react";
-import { clone } from "lodash";
 import React, {
   useCallback,
   useEffect,
@@ -21,7 +19,7 @@ import React, {
   useRef,
   useState,
 } from "react";
-import { SetterOrUpdater, useRecoilState, useSetRecoilState } from "recoil";
+import { SetterOrUpdater } from "recoil";
 
 const PopoverTrigger: React.FC<{ children: React.ReactNode }> =
   OrigPopoverTrigger;
@@ -169,7 +167,7 @@ const DayPlannerTile: React.FC<DayPlannerTileProps> = ({
       return;
     }
 
-    const newBookings = clone(bookings);
+    const newBookings = JSON.parse(JSON.stringify(bookings)) as Booking[];
 
     for (let i = 0; i < newBookings.length; i++) {
       const booking = newBookings[i];

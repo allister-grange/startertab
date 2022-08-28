@@ -15,7 +15,10 @@ import { useEffect, useState } from "react";
 import { isMobile } from "react-device-detect";
 import { useRecoilState, useSetRecoilState } from "recoil";
 const SettingsSideBar = dynamic(
-  () => import("@/components/sidebar/SettingsSidebar")
+  () => import("@/components/sidebar/SettingsSidebar"),
+  {
+    ssr: false,
+  }
 );
 
 const Home: NextPage = () => {
