@@ -1,12 +1,12 @@
-import TileContainer from "@/components/grid/TileContainer";
-// import { SettingsContext } from "@/context/UserSettingsContext";
 import { getCurrentTheme } from "@/helpers/settingsHelpers";
 import styles from "@/styles/Home.module.css";
 import { TileId } from "@/types";
 import { GridItem, GridItemProps, useColorMode } from "@chakra-ui/react";
 import React from "react";
 import { useRecoilValue } from "recoil";
-import { userSettingState } from "../recoil/UserSettingsAtom";
+import { userSettingState } from "@/components/recoil/UserSettingsAtom";
+import dynamic from "next/dynamic";
+const TileContainer = dynamic(() => import("@/components/grid/TileContainer"));
 
 interface TileProps extends GridItemProps {
   optionHovered: boolean;
