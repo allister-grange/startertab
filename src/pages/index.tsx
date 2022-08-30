@@ -10,16 +10,10 @@ import { applyTheme, getCurrentTheme } from "@/helpers/settingsHelpers";
 import { TileId } from "@/types";
 import { Box, Flex, useColorMode, useDisclosure } from "@chakra-ui/react";
 import type { NextPage } from "next";
-import dynamic from "next/dynamic";
 import { useEffect, useState } from "react";
 import { isMobile } from "react-device-detect";
 import { useRecoilState, useSetRecoilState } from "recoil";
-const SettingsSideBar = dynamic(
-  () => import("@/components/sidebar/SettingsSidebar"),
-  {
-    ssr: false,
-  }
-);
+import SettingsSideBar from "@/components/sidebar/SettingsSidebar";
 
 const Home: NextPage = () => {
   // Sidebar hook
