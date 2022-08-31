@@ -55,7 +55,9 @@ export const RedditFeedTile: React.FC<RedditFeedProps> = ({ tileId }) => {
 
   let display;
 
-  if (isLoading) {
+  if (!subRedditFeed) {
+    display = <></>;
+  } else if (isLoading) {
     display = <TextFeedSkeleton />;
   } else if (data) {
     display = data.map((link) => (

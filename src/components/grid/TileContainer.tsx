@@ -64,7 +64,6 @@ const TileContainer: React.FC<TileContainerProps> = ({ tileId, tileType }) => {
   ];
 
   const persister = createSyncStoragePersister({
-    // storage: localStorage,
     storage: window.localStorage,
   });
 

@@ -6,7 +6,7 @@ import { HackerNewsLinkHolder } from "@/types/hackernews";
 import { Box, Heading, Link, Text } from "@chakra-ui/react";
 import { useQuery } from "@tanstack/react-query";
 import React, { useEffect } from "react";
-import { useRecoilState } from "recoil";
+import { SetterOrUpdater, useRecoilState } from "recoil";
 import { redditFeedSelector } from "../recoil/UserSettingsSelectors";
 
 type PageProps = {
@@ -25,7 +25,7 @@ const fetcher = async (hackerNewsFeed: string) => {
 export const HackerNewsFeedTile: React.FC<PageProps> = ({ tileId }) => {
   const [hackerNewsFeed, setHackerNewsFeed] = useRecoilState(
     redditFeedSelector(tileId)
-  );
+  ) as [string | undefined, SetterOrUpdater<string | undefined>];
 
   const { data, error, isLoading } = useQuery(
     ["hackerNewsFeed", hackerNewsFeed],

@@ -189,7 +189,7 @@ export const ThemeCreator: React.FC = ({}) => {
   };
 
   return (
-    <Box height="100%" width="65%" p="2" mx="auto">
+    <Box height="100%" width="65%" p="2" mx="auto" color="black">
       <Flex>
         <span style={{ fontSize: "140px" }}>🎨</span>
         <Box my="auto" ml="8" width="55%">
@@ -208,24 +208,25 @@ export const ThemeCreator: React.FC = ({}) => {
             mt="6"
             ml="4"
             _focus={{
-              border: "0",
-              borderBottom: "1px",
-              borderColor: "blue",
+              borderBottom: "1px solid var(--chakra-colors-purple-500)",
+            }}
+            _hover={{
+              borderBottom: "1px solid var(--chakra-colors-purple-500)",
             }}
             _placeholder={{
               marginLeft: 0,
               paddingLeft: 0,
               fontSize: "30px",
               paddingBottom: 0,
+              color: "gray.300",
             }}
             fontSize="30px"
             placeholder="Sunset Theme"
             border="0"
-            borderBottom="1px"
+            borderBottom="1px solid var(--chakra-colors-purple-500)"
             borderRadius="0"
-            borderColor="blue"
             size="lg"
-            maxW="350px"
+            maxW="300px"
             onChange={onThemeNameChange}
             value={formInputs.themeName}
           />
