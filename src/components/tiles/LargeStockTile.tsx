@@ -119,7 +119,7 @@ export const LargeStockTile: React.FC<LargeStockTileProps> = ({ tileId }) => {
     ["largeStockTile", stocks],
     () => fetcher(stocks!),
     {
-      enabled: stocks != undefined,
+      enabled: stocks != undefined && stocks !== "",
     }
   );
 

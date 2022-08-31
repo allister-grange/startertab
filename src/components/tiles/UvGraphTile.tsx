@@ -57,7 +57,7 @@ export const UvGraphTile: React.FC<UvGraphProps> = ({ tileId }) => {
     ["uvGraph", city],
     () => fetcher(city!),
     {
-      enabled: city != undefined,
+      enabled: city !== undefined && city !== "",
     }
   );
 

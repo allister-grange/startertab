@@ -62,7 +62,7 @@ export const SmallWeatherTile: React.FC<SmallWeatherTileProps> = ({
     ["smallWeatherTileData", cityForWeather],
     () => fetcher(cityForWeather!),
     {
-      enabled: cityForWeather != undefined,
+      enabled: cityForWeather !== undefined && cityForWeather !== "",
     }
   );
 

@@ -38,11 +38,13 @@ export const SmallStockTile: React.FC<SmallStockTileProps> = ({ tileId }) => {
     SetterOrUpdater<string | undefined>
   ];
   const [stockInput, setStockInput] = useState<string>("");
+  console.log("stock", stock);
+
   const { data, error, isLoading } = useQuery(
     ["smallStockTile", stock],
     () => fetcher(stock!),
     {
-      enabled: stock != undefined,
+      enabled: stock !== undefined && stock !== "",
     }
   );
 

@@ -37,7 +37,7 @@ export const RedditFeedTile: React.FC<RedditFeedProps> = ({ tileId }) => {
         `https://www.reddit.com/r/${subRedditFeed!}/top.json?limit=20&t=day`
       ),
     {
-      enabled: subRedditFeed != undefined,
+      enabled: subRedditFeed !== undefined && subRedditFeed !== "",
     }
   );
 

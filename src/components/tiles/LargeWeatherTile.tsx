@@ -141,7 +141,7 @@ export const LargeWeatherTile: React.FC<LargeWeatherTileProps> = ({
     ["largeWeatherTileData", cityForWeather],
     () => fetcher(cityForWeather!),
     {
-      enabled: cityForWeather != undefined,
+      enabled: cityForWeather != undefined && cityForWeather !== "",
     }
   );
 
