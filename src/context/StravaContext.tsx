@@ -1,5 +1,6 @@
 import { getEmptyStravaData } from "@/pages/api/strava";
 import { StravaContextInterface, StravaGraphData } from "@/types";
+import { useQuery } from "@tanstack/react-query";
 import * as React from "react";
 import { useState } from "react";
 
@@ -11,11 +12,18 @@ interface Props {
   children: React.ReactNode;
 }
 
+const fetcher = async () => {
+  const res = await fetch(`/api/strava`);
+  let data = (await res.json()) as StravaGraphData;
+  return data;
+};
+
 const StravaContextProvider: React.FC<Props> = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState<boolean | undefined>();
-  const [stravaData, setStravaData] = useState<StravaGraphData>(
-    getEmptyStravaData()
-  );
+
+  let { data: stravaData } = useQuery(["stravaData"], fetcher, {
+    enabled: isAuthenticated,
+  });
 
   React.useEffect(() => {
     const checkIfLoggedIn = async () => {
@@ -31,25 +39,6 @@ const StravaContextProvider: React.FC<Props> = ({ children }) => {
     checkIfLoggedIn();
   }, []);
 
-  React.useEffect(() => {
-    if (!isAuthenticated) {
-      return;
-    }
-
-    const fetchStravaData = async () => {
-      try {
-        const res = await fetch(`/api/strava`);
-        let data = (await res.json()) as StravaGraphData;
-
-        setStravaData(data);
-      } catch (err) {
-        throw new Error(err as string);
-      }
-    };
-
-    fetchStravaData();
-  }, [isAuthenticated]);
-
   const loginWithStrava = React.useCallback(async () => {
     try {
       const res = await fetch("/api/strava/redirectUri");
@@ -59,6 +48,8 @@ const StravaContextProvider: React.FC<Props> = ({ children }) => {
       throw new Error(err as string);
     }
   }, []);
+
+  stravaData = stravaData ?? getEmptyStravaData();
 
   return (
     <StravaContext.Provider

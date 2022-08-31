@@ -4,8 +4,7 @@ import {
 } from "@/components/recoil/UserSettingsSelectors";
 import { SmallWeatherTileSkeleton } from "@/components/skeletons/SmallWeatherTileSkeleton";
 import { OutlinedButton } from "@/components/ui/OutlinedButton";
-import { TileId } from "@/types";
-import { WeatherData } from "@/types/weather";
+import { TileId, WeatherData } from "@/types";
 import {
   Box,
   Center,
@@ -16,7 +15,8 @@ import {
   InputRightElement,
   Text,
 } from "@chakra-ui/react";
-import React, { useEffect, useState } from "react";
+import { useQuery } from "@tanstack/react-query";
+import React, { useState } from "react";
 import {
   WiCloud,
   WiDaySunny,
@@ -29,16 +29,23 @@ interface SmallWeatherTileProps {
   tileId: TileId;
 }
 
-type Status = "loading" | "resolved" | "waitingForInput" | "rejected";
-type State = {
-  status: Status;
-  data?: WeatherData;
-  error?: string;
-  cityNameOfData?: string;
-};
-
 const convertCelsiusToFahrenheit = (temp: number): number => {
   return Math.floor((temp * 9) / 5 + 32);
+};
+
+const fetcher = async (cityName: string) => {
+  try {
+    const res = await fetch(`/api/weather?city=${cityName}`);
+    let data = (await res.json()) as WeatherData;
+
+    if (Object.keys(data).length === 0) {
+      throw new Error("That city does not exists");
+    }
+
+    return data;
+  } catch (error) {
+    throw new Error(error as string);
+  }
 };
 
 export const SmallWeatherTile: React.FC<SmallWeatherTileProps> = ({
@@ -51,54 +58,19 @@ export const SmallWeatherTile: React.FC<SmallWeatherTileProps> = ({
     tempDisplayInCelsiusSelector(tileId)
   ) as [string | undefined, SetterOrUpdater<string | undefined>];
 
+  const { data, error, isLoading } = useQuery(
+    ["smallWeatherTileData", cityForWeather],
+    () => fetcher(cityForWeather!),
+    {
+      enabled: cityForWeather != undefined,
+    }
+  );
+
   const color = `var(--text-color-${tileId})`;
   const [cityInput, setCityInput] = useState<string>("");
-  const [state, setState] = useState<State>({
-    status: cityForWeather ? "loading" : "waitingForInput",
-  });
   const [displayInCelsius, setDisplayInCelsius] = useState(
     tempDisplayInCelsius === "true"
   );
-
-  const fetchWeatherData = React.useCallback(async (cityName: string) => {
-    try {
-      setState((state) => ({ ...state, status: "loading" }));
-      const res = await fetch(`/api/weather?city=${cityName}`);
-      let data = await res.json();
-
-      if (Object.keys(data).length === 0) {
-        setState((state) => ({
-          ...state,
-          error: `There's no such city as "${cityName}"`,
-          status: "rejected",
-        }));
-        return;
-      }
-
-      setState((state) => ({
-        ...state,
-        data,
-        error: undefined,
-        status: "resolved",
-        cityNameOfData: cityName,
-      }));
-    } catch (error) {
-      console.error(error);
-      setState((state) => ({
-        ...state,
-        error: `Failed to retrieve data from API`,
-        status: "rejected",
-      }));
-    }
-  }, []);
-
-  useEffect(() => {
-    if (!cityForWeather) {
-      setState({ status: "waitingForInput" });
-    } else {
-      fetchWeatherData(cityForWeather);
-    }
-  }, [cityForWeather, fetchWeatherData]);
 
   const handleSubmitCityName = (e: React.FormEvent) => {
     e.preventDefault();
@@ -108,76 +80,11 @@ export const SmallWeatherTile: React.FC<SmallWeatherTileProps> = ({
   const changeTemperatureDisplayUnits = (celsius: boolean) => {
     setDisplayInCelsius(celsius);
     setTempDisplayInCelsius(celsius ? "true" : "false");
-    setCityForWeather(cityInput);
   };
 
   let toDisplay;
 
-  if (state.status === "loading") {
-    toDisplay = (
-      <Center height="100%" color={color}>
-        <Text size="xs" opacity="0.4" pos="absolute" bottom="2" left="3">
-          {state.cityNameOfData}
-        </Text>
-        <SmallWeatherTileSkeleton />
-      </Center>
-    );
-  } else if (state.status === "resolved" && state.data) {
-    let icon;
-
-    switch (state.data.condition) {
-      case "cloudy":
-        icon = <WiCloud size="70" />;
-        break;
-      case "sunny":
-        icon = <WiDaySunny size="70" />;
-        break;
-      case "partly cloudy":
-        icon = <WiDaySunnyOvercast size="70" />;
-        break;
-      case "rain":
-        icon = <WiRain size="70" />;
-        break;
-    }
-    toDisplay = (
-      <>
-        <Text size="xs" opacity="0.4" pos="absolute" bottom="2" left="3">
-          {state.cityNameOfData}
-        </Text>
-        <IconButton
-          mb="4"
-          aria-label="Weather icon"
-          _hover={{ background: "transparent", cursor: "auto" }}
-          _focus={{ border: "0px", cursor: "auto" }}
-          _active={{ background: "transparent", cursor: "auto" }}
-          backgroundColor={"transparent"}
-          icon={icon}
-        />
-        <Box display="flex" flexDirection="column" mt="2" mb="4">
-          <Heading bg="transparent">
-            {displayInCelsius
-              ? state.data.currentTemp
-              : convertCelsiusToFahrenheit(state.data.currentTemp!)}
-            &#176;
-          </Heading>
-          <Box display="flex" flexDirection="row">
-            <Text>
-              {displayInCelsius
-                ? state.data.dailyMinTemp
-                : convertCelsiusToFahrenheit(state.data.dailyMinTemp)}
-              &#176;
-            </Text>
-            <Text ml="1">
-              {displayInCelsius
-                ? state.data.dailyMaxTemp
-                : convertCelsiusToFahrenheit(state.data.dailyMaxTemp)}
-              &#176;
-            </Text>
-          </Box>
-        </Box>
-      </>
-    );
-  } else if (state.status === "waitingForInput") {
+  if (!cityForWeather) {
     toDisplay = (
       <form onSubmit={handleSubmitCityName}>
         <Text pos="absolute" top="4" left="3" fontSize="lg" fontWeight="500">
@@ -202,7 +109,71 @@ export const SmallWeatherTile: React.FC<SmallWeatherTileProps> = ({
         </InputGroup>
       </form>
     );
-  } else if (state.status === "rejected") {
+  } else if (isLoading) {
+    toDisplay = (
+      <Center height="100%" color={color}>
+        <Text size="xs" opacity="0.4" pos="absolute" bottom="2" left="3">
+          {cityForWeather}
+        </Text>
+        <SmallWeatherTileSkeleton />
+      </Center>
+    );
+  } else if (data) {
+    let icon;
+
+    switch (data.condition) {
+      case "cloudy":
+        icon = <WiCloud size="70" />;
+        break;
+      case "sunny":
+        icon = <WiDaySunny size="70" />;
+        break;
+      case "partly cloudy":
+        icon = <WiDaySunnyOvercast size="70" />;
+        break;
+      case "rain":
+        icon = <WiRain size="70" />;
+        break;
+    }
+    toDisplay = (
+      <>
+        <Text size="xs" opacity="0.4" pos="absolute" bottom="2" left="3">
+          {cityForWeather}
+        </Text>
+        <IconButton
+          mb="4"
+          aria-label="Weather icon"
+          _hover={{ background: "transparent", cursor: "auto" }}
+          _focus={{ border: "0px", cursor: "auto" }}
+          _active={{ background: "transparent", cursor: "auto" }}
+          backgroundColor={"transparent"}
+          icon={icon}
+        />
+        <Box display="flex" flexDirection="column" mt="2" mb="4">
+          <Heading bg="transparent">
+            {displayInCelsius
+              ? data.currentTemp
+              : convertCelsiusToFahrenheit(data.currentTemp!)}
+            &#176;
+          </Heading>
+          <Box display="flex" flexDirection="row">
+            <Text>
+              {displayInCelsius
+                ? data.dailyMinTemp
+                : convertCelsiusToFahrenheit(data.dailyMinTemp)}
+              &#176;
+            </Text>
+            <Text ml="1">
+              {displayInCelsius
+                ? data.dailyMaxTemp
+                : convertCelsiusToFahrenheit(data.dailyMaxTemp)}
+              &#176;
+            </Text>
+          </Box>
+        </Box>
+      </>
+    );
+  } else if (error) {
     toDisplay = <Text>Sorry, that city doesn&apos;t exist 😔</Text>;
   }
 
@@ -219,9 +190,7 @@ export const SmallWeatherTile: React.FC<SmallWeatherTileProps> = ({
       >
         <OutlinedButton
           size="xs"
-          onClick={() =>
-            setState((state) => ({ ...state, status: "waitingForInput" }))
-          }
+          onClick={() => setCityForWeather(undefined)}
           shadow="none"
         >
           Change city

@@ -1,4 +1,7 @@
-import { getStravaRedirectUri, getStravaRedirectUrl } from "@/helpers/getClientUrl";
+import {
+  getStravaRedirectUri,
+  getStravaRedirectUrl,
+} from "@/helpers/apiHelpers";
 import { NextApiResponse } from "next";
 
 const clientId = process.env.STRAVA_CLIENT_ID;
@@ -10,14 +13,11 @@ export default async function handler(
   try {
     const redirectUri = getStravaRedirectUri(
       clientId as string,
-      [
-        "activity:read_all",
-        "activity:read",
-      ],
+      ["activity:read_all", "activity:read"],
       getStravaRedirectUrl()
     );
 
-    res.status(200).send({redirectUri});
+    res.status(200).send({ redirectUri });
   } catch (err) {
     res.status(500).send(err);
   }

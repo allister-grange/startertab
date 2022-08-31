@@ -12,9 +12,9 @@ import {
   Input,
   InputGroup,
   Text,
-  useColorMode,
 } from "@chakra-ui/react";
-import React, { useEffect, useState } from "react";
+import { useQuery } from "@tanstack/react-query";
+import React, { useState } from "react";
 import { SetterOrUpdater, useRecoilState } from "recoil";
 
 interface LargeStockTileProps {
@@ -32,12 +32,15 @@ interface InputDisplayProps {
   index: number;
 }
 
-type Status = "loading" | "resolved" | "waitingForInput" | "rejected";
-type State = {
-  status: Status;
-  data?: StockTickers;
-  error?: unknown;
-  stockTickerNames?: string[];
+const fetcher = async (stockNames: string) => {
+  try {
+    const res = await fetch(`/api/stocks?stocks=${stockNames}`);
+    const data = (await res.json()) as StockTickers;
+
+    return data;
+  } catch (err) {
+    throw new Error(err as string);
+  }
 };
 
 const StockDisplay: React.FC<StockDisplayProps> = ({ stockTicker }) => {
@@ -106,112 +109,83 @@ const InputDisplay: React.FC<InputDisplayProps> = ({
 
 export const LargeStockTile: React.FC<LargeStockTileProps> = ({ tileId }) => {
   const color = `var(--text-color-${tileId})`;
-  const { colorMode } = useColorMode();
   const [stocks, setStocks] = useRecoilState(stockSelector(tileId)) as [
     string | undefined,
     SetterOrUpdater<string | undefined>
   ];
-  const [state, setState] = useState<State>({
-    status: "waitingForInput",
-  });
   const [stockInputs, setStockInputs] = useState<string[]>([]);
 
-  const getStocks = React.useCallback(async (stockNames: string) => {
-    setState((state) => ({
-      ...state,
-      status: "loading",
-    }));
-
-    try {
-      const res = await fetch(`/api/stocks?stocks=${stockNames}`);
-      const data = (await res.json()) as StockTickers;
-
-      setState((state) => ({
-        ...state,
-        status: "resolved",
-        data: data,
-      }));
-    } catch {
-      setState((state) => ({
-        ...state,
-        error: "Couldn't fetch stock data",
-        status: "rejected",
-      }));
+  const { data, error, isLoading } = useQuery(
+    ["largeStockTile", stocks],
+    () => fetcher(stocks!),
+    {
+      enabled: stocks != undefined,
     }
-  }, []);
+  );
 
   const handleSubmitStockName = (e: React.FormEvent) => {
     e.preventDefault();
     const stocks = stockInputs.join(",");
-    setState((state) => ({ ...state, stockTickerNames: stockInputs }));
     setStocks(stocks);
-    getStocks(stocks);
   };
-
-  useEffect(() => {
-    if (!stocks) {
-      setState({ status: "waitingForInput" });
-    } else {
-      getStocks(stocks);
-    }
-  }, [colorMode, getStocks, stocks]);
 
   let toDisplay;
 
-  if (state.status === "loading") {
+  if (!stocks) {
+    toDisplay = (
+      <form onSubmit={handleSubmitStockName}>
+        <Flex justifyContent={"center"} alignItems="center">
+          <Box>
+            <InputDisplay
+              color={color}
+              setStockInputs={setStockInputs}
+              stockInputs={stockInputs}
+              index={0}
+            />
+            <InputDisplay
+              color={color}
+              setStockInputs={setStockInputs}
+              stockInputs={stockInputs}
+              index={1}
+            />
+            <InputDisplay
+              color={color}
+              setStockInputs={setStockInputs}
+              stockInputs={stockInputs}
+              index={2}
+            />
+            <InputDisplay
+              color={color}
+              setStockInputs={setStockInputs}
+              stockInputs={stockInputs}
+              index={3}
+            />
+          </Box>
+          <Box>
+            <OutlinedButton type="submit" ml="4" borderColor={color}>
+              Load stocks
+            </OutlinedButton>
+          </Box>
+        </Flex>
+      </form>
+    );
+  } else if (isLoading) {
     toDisplay = <LargeStockTickerSkeleton />;
-  } else if (state.status === "resolved") {
+  } else if (data) {
     toDisplay = (
       <Grid templateColumns={"150px 150px"} rowGap="30px" columnGap={"100px"}>
-        {state.data?.map((stockTicker) => (
+        {data.map((stockTicker) => (
           <StockDisplay key={stockTicker?.ticker} stockTicker={stockTicker} />
         ))}
       </Grid>
     );
-  } else if (state.status === "rejected") {
+  } else if (error) {
     toDisplay = <Text size="xs">Sorry, that stock doesn&apos;t exist 😔</Text>;
   }
 
   return (
     <Center height="100%" width="100%" color={color} p="8">
       {toDisplay}
-      {state.status === "waitingForInput" && (
-        <form onSubmit={handleSubmitStockName}>
-          <Flex justifyContent={"center"} alignItems="center">
-            <Box>
-              <InputDisplay
-                color={color}
-                setStockInputs={setStockInputs}
-                stockInputs={stockInputs}
-                index={0}
-              />
-              <InputDisplay
-                color={color}
-                setStockInputs={setStockInputs}
-                stockInputs={stockInputs}
-                index={1}
-              />
-              <InputDisplay
-                color={color}
-                setStockInputs={setStockInputs}
-                stockInputs={stockInputs}
-                index={2}
-              />
-              <InputDisplay
-                color={color}
-                setStockInputs={setStockInputs}
-                stockInputs={stockInputs}
-                index={3}
-              />
-            </Box>
-            <Box>
-              <OutlinedButton type="submit" ml="4" borderColor={color}>
-                Load stocks
-              </OutlinedButton>
-            </Box>
-          </Flex>
-        </form>
-      )}
       <OutlinedButton
         size="xs"
         pos="absolute"
@@ -220,9 +194,7 @@ export const LargeStockTile: React.FC<LargeStockTileProps> = ({ tileId }) => {
         color={color}
         borderColor={color}
         borderWidth="1px"
-        onClick={() =>
-          setState((state) => ({ ...state, status: "waitingForInput" }))
-        }
+        onClick={() => setStocks(undefined)}
       >
         Change stocks
       </OutlinedButton>

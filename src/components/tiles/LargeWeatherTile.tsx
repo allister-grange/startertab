@@ -16,6 +16,7 @@ import {
   InputRightElement,
   Text,
 } from "@chakra-ui/react";
+import { useQuery } from "@tanstack/react-query";
 import React, { useEffect, useState } from "react";
 import {
   WiCloud,
@@ -34,16 +35,37 @@ interface DaysWeatherProps {
   displayInCelsius?: boolean;
 }
 
-type Status = "loading" | "resolved" | "waitingForInput" | "rejected";
-type State = {
-  status: Status;
-  data?: WeatherData[];
-  error?: string;
-  cityNameOfData?: string;
-};
-
 const convertCelsiusToFahrenheit = (temp: number): number => {
   return Math.floor((temp * 9) / 5 + 32);
+};
+
+const fetcher = async (cityName: string) => {
+  try {
+    const res = await fetch(`/api/weather?city=${cityName}&weekForecast=true`);
+    let data = (await res.json()) as WeatherData[];
+
+    if (Object.keys(data).length === 0) {
+      throw new Error("That city does not exists");
+    }
+
+    return data;
+  } catch (error) {
+    throw new Error(error as string);
+  }
+};
+
+const convertDateToWeekday = (date: string) => {
+  let d = new Date(date);
+  const weekday = [
+    "Sunday",
+    "Monday",
+    "Tuesday",
+    "Wednesday",
+    "Thursday",
+    "Friday",
+    "Saturday",
+  ];
+  return weekday[d.getDay()].slice(0, 3);
 };
 
 export const DaysWeather: React.FC<DaysWeatherProps> = ({
@@ -66,20 +88,6 @@ export const DaysWeather: React.FC<DaysWeatherProps> = ({
       icon = <WiRain size="90" />;
       break;
   }
-
-  const convertDateToWeekday = (date: string) => {
-    let d = new Date(date);
-    const weekday = [
-      "Sunday",
-      "Monday",
-      "Tuesday",
-      "Wednesday",
-      "Thursday",
-      "Friday",
-      "Saturday",
-    ];
-    return weekday[d.getDay()].slice(0, 3);
-  };
 
   return (
     <Flex flexDir="column">
@@ -125,54 +133,17 @@ export const LargeWeatherTile: React.FC<LargeWeatherTileProps> = ({
   ) as [string | undefined, SetterOrUpdater<string | undefined>];
 
   const [cityInput, setCityInput] = useState<string>("");
-  const [state, setState] = useState<State>({
-    status: cityForWeather ? "loading" : "waitingForInput",
-  });
   const [displayInCelsius, setDisplayInCelsius] = useState(
     tempDisplayInCelsius === "true"
   );
 
-  const fetchWeatherData = React.useCallback(async (cityName: string) => {
-    try {
-      setState((state) => ({ ...state, status: "loading" }));
-      const res = await fetch(
-        `/api/weather?city=${cityName}&weekForecast=true`
-      );
-      let data = await res.json();
-
-      if (Object.keys(data).length === 0) {
-        setState((state) => ({
-          ...state,
-          error: `There's no such city as "${cityName}"`,
-          status: "rejected",
-        }));
-        return;
-      }
-
-      setState((state) => ({
-        ...state,
-        data,
-        error: undefined,
-        status: "resolved",
-        cityNameOfData: cityName,
-      }));
-    } catch (error) {
-      console.error(error);
-      setState((state) => ({
-        ...state,
-        error: `Failed to retrieve data from API`,
-        status: "rejected",
-      }));
+  const { data, error, isLoading } = useQuery(
+    ["largeWeatherTileData", cityForWeather],
+    () => fetcher(cityForWeather!),
+    {
+      enabled: cityForWeather != undefined,
     }
-  }, []);
-
-  useEffect(() => {
-    if (!cityForWeather) {
-      setState({ status: "waitingForInput" });
-    } else {
-      fetchWeatherData(cityForWeather);
-    }
-  }, [cityForWeather, fetchWeatherData]);
+  );
 
   const handleSubmitCityName = (e: React.FormEvent) => {
     e.preventDefault();
@@ -186,36 +157,7 @@ export const LargeWeatherTile: React.FC<LargeWeatherTileProps> = ({
 
   let toDisplay;
 
-  if (state.status === "loading") {
-    toDisplay = (
-      <Flex justifyContent={"space-around"} width="90%">
-        <Text size="xs" opacity="0.4" pos="absolute" bottom="2" left="3">
-          {state.cityNameOfData}
-        </Text>
-        <LargeWeatherTileSkeleton />
-      </Flex>
-    );
-  } else if (state.status === "resolved" && state.data) {
-    toDisplay = (
-      <Flex justifyContent={"space-around"} width="90%">
-        <Text size="xs" opacity="0.4" pos="absolute" bottom="2" left="3">
-          {state.cityNameOfData}
-        </Text>
-        <DaysWeather
-          weatherData={state.data[0]}
-          displayInCelsius={displayInCelsius}
-        />
-        <DaysWeather
-          weatherData={state.data[1]}
-          displayInCelsius={displayInCelsius}
-        />
-        <DaysWeather
-          weatherData={state.data[2]}
-          displayInCelsius={displayInCelsius}
-        />
-      </Flex>
-    );
-  } else if (state.status === "waitingForInput") {
+  if (!cityForWeather) {
     toDisplay = (
       <form onSubmit={handleSubmitCityName}>
         <Text pos="absolute" top="4" left="3" fontSize="lg" fontWeight="500">
@@ -240,7 +182,36 @@ export const LargeWeatherTile: React.FC<LargeWeatherTileProps> = ({
         </InputGroup>
       </form>
     );
-  } else if (state.status === "rejected") {
+  } else if (isLoading) {
+    toDisplay = (
+      <Flex justifyContent={"space-around"} width="90%">
+        <Text size="xs" opacity="0.4" pos="absolute" bottom="2" left="3">
+          {cityForWeather}
+        </Text>
+        <LargeWeatherTileSkeleton />
+      </Flex>
+    );
+  } else if (data && data.length > 0) {
+    toDisplay = (
+      <Flex justifyContent={"space-around"} width="90%">
+        <Text size="xs" opacity="0.4" pos="absolute" bottom="2" left="3">
+          {cityForWeather}
+        </Text>
+        <DaysWeather
+          weatherData={data[0]}
+          displayInCelsius={displayInCelsius}
+        />
+        <DaysWeather
+          weatherData={data[1]}
+          displayInCelsius={displayInCelsius}
+        />
+        <DaysWeather
+          weatherData={data[2]}
+          displayInCelsius={displayInCelsius}
+        />
+      </Flex>
+    );
+  } else if (error) {
     toDisplay = <Text>Sorry, that city doesn&apos;t exist 😔</Text>;
   }
 
@@ -255,12 +226,7 @@ export const LargeWeatherTile: React.FC<LargeWeatherTileProps> = ({
         color={color}
         opacity={0.6}
       >
-        <OutlinedButton
-          size="xs"
-          onClick={() =>
-            setState((state) => ({ ...state, status: "waitingForInput" }))
-          }
-        >
+        <OutlinedButton size="xs" onClick={() => setCityForWeather(undefined)}>
           Change city
         </OutlinedButton>
         |&nbsp;

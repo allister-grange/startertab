@@ -2,82 +2,47 @@ import { redditFeedSelector } from "@/components/recoil/UserSettingsSelectors";
 import { TextFeedSkeleton } from "@/components/skeletons/TextFeedSkeleton";
 import { RedditAPIResponse, RedditDataHolder, TileId } from "@/types";
 import { Box, Heading, Input, Link, Text } from "@chakra-ui/react";
-import React, { useCallback, useEffect, useState } from "react";
+import { useQuery } from "@tanstack/react-query";
+import React, { useState } from "react";
 import { SetterOrUpdater, useRecoilState } from "recoil";
 
 interface RedditFeedProps {
   tileId: TileId;
 }
 
-type Status =
-  | "loading"
-  | "resolved"
-  | "reload"
-  | "waitingForInput"
-  | "rejected";
+const fetcher = async (url: string): Promise<RedditDataHolder[]> => {
+  const res = await fetch(url);
+  const redditData = (await res.json()) as RedditAPIResponse;
 
-type State = {
-  status: Status;
-  data?: RedditDataHolder[];
-  error?: unknown;
-  currentSubreddit?: string;
+  const formattedData: RedditDataHolder[] = redditData.data.children.map(
+    (child) => ({
+      url: `https://www.reddit.com${child.data.permalink}`,
+      title: child.data.title,
+      id: child.data.id,
+    })
+  );
+
+  return formattedData;
 };
 
 export const RedditFeedTile: React.FC<RedditFeedProps> = ({ tileId }) => {
   const [subRedditInput, setSubRedditInput] = useState<string>("");
-  const [state, setState] = useState<State>({
-    status: "waitingForInput",
-  });
   const [subRedditFeed, setSubRedditFeed] = useRecoilState(
     redditFeedSelector(tileId)
   ) as [string | undefined, SetterOrUpdater<string | undefined>];
+  const { data, error, isLoading } = useQuery(
+    ["subRedditFeed", subRedditFeed],
+    () =>
+      fetcher(
+        `https://www.reddit.com/r/${subRedditFeed!}/top.json?limit=20&t=day`
+      ),
+    {
+      enabled: subRedditFeed != undefined,
+    }
+  );
 
   const textColor = `var(--text-color-${tileId})`;
   const underlineColor = textColor;
-
-  const { data, status, error } = state;
-
-  const getRedditData = React.useCallback(
-    async (subReddit: string): Promise<RedditDataHolder[]> => {
-      try {
-        const res = await fetch(
-          `https://www.reddit.com/r/${subReddit}/top.json?limit=20&t=day`
-        );
-        const redditData = (await res.json()) as RedditAPIResponse;
-
-        const formattedData: RedditDataHolder[] = redditData.data.children.map(
-          (child) => ({
-            url: `https://www.reddit.com${child.data.permalink}`,
-            title: child.data.title,
-            id: child.data.id,
-          })
-        );
-
-        return formattedData;
-      } catch (err) {
-        throw new Error();
-      }
-    },
-    []
-  );
-
-  const loadRedditData = useCallback(
-    async (subReddit: string) => {
-      setState((state) => ({ ...state, status: "loading" }));
-      try {
-        const data = await getRedditData(subReddit);
-        setState((state) => ({
-          ...state,
-          status: "resolved",
-          data,
-          currentSubreddit: subReddit,
-        }));
-      } catch (error) {
-        setState((state) => ({ ...state, error, status: "rejected" }));
-      }
-    },
-    [getRedditData]
-  );
 
   const handleSubredditInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSubRedditInput(e.target.value);
@@ -88,19 +53,11 @@ export const RedditFeedTile: React.FC<RedditFeedProps> = ({ tileId }) => {
     setSubRedditFeed(subRedditInput);
   };
 
-  useEffect(() => {
-    if (!subRedditFeed) {
-      setState({ status: "waitingForInput" });
-    } else {
-      loadRedditData(subRedditFeed);
-    }
-  }, [loadRedditData, subRedditFeed]);
-
   let display;
 
-  if (status === "loading") {
+  if (isLoading) {
     display = <TextFeedSkeleton />;
-  } else if (status === "resolved" && data) {
+  } else if (data) {
     display = data.map((link) => (
       <>
         <Box key={link.id} p="2" pt="4" pr="4">
@@ -137,17 +94,17 @@ export const RedditFeedTile: React.FC<RedditFeedProps> = ({ tileId }) => {
         <Link
           aria-label="Link to Reddit"
           href={
-            state.currentSubreddit
-              ? `https://reddit.com/r/${state.currentSubreddit}`
+            subRedditFeed
+              ? `https://reddit.com/r/${subRedditFeed}`
               : "https://reddit.com"
           }
         >
-          {data ? `r/${state.currentSubreddit}` : "Reddit Feed"}
+          {data ? `r/${subRedditFeed}` : "Reddit Feed"}
         </Link>
       </Heading>
       <Box w="80%" bg="white" height="1px" ml="2" bgColor={underlineColor} />
       {display}
-      {status === "resolved" && (
+      {data && (
         <Box
           w="80%"
           bg="white"

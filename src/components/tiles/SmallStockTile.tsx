@@ -13,19 +13,22 @@ import {
   InputRightElement,
   Text,
 } from "@chakra-ui/react";
-import React, { useEffect, useState } from "react";
+import { useQuery } from "@tanstack/react-query";
+import React, { useState } from "react";
 import { SetterOrUpdater, useRecoilState } from "recoil";
 
 interface SmallStockTileProps {
   tileId: TileId;
 }
+const fetcher = async (stockName: string) => {
+  try {
+    const res = await fetch(`/api/stocks?stocks=${stockName}`);
+    const data = (await res.json()) as StockTickers;
 
-type Status = "loading" | "resolved" | "waitingForInput" | "rejected";
-type State = {
-  status: Status;
-  data?: StockTickers;
-  error?: unknown;
-  stockTickerName?: string;
+    return data;
+  } catch (err) {
+    throw new Error(err as string);
+  }
 };
 
 export const SmallStockTile: React.FC<SmallStockTileProps> = ({ tileId }) => {
@@ -35,71 +38,22 @@ export const SmallStockTile: React.FC<SmallStockTileProps> = ({ tileId }) => {
     SetterOrUpdater<string | undefined>
   ];
   const [stockInput, setStockInput] = useState<string>("");
-  const [state, setState] = useState<State>({
-    status: "waitingForInput",
-  });
-
-  const getStocks = React.useCallback(async (stockName: string) => {
-    setState((state) => ({
-      ...state,
-      status: "loading",
-    }));
-
-    try {
-      const res = await fetch(`/api/stocks?stocks=${stockName}`);
-      const data = (await res.json()) as StockTickers;
-
-      setState((state) => ({
-        ...state,
-        status: "resolved",
-        data,
-        stockTickerName: stockName,
-      }));
-    } catch {
-      setState((state) => ({
-        ...state,
-        error: "Couldn't fetch stock data",
-        status: "rejected",
-      }));
+  const { data, error, isLoading } = useQuery(
+    ["smallStockTile", stock],
+    () => fetcher(stock!),
+    {
+      enabled: stock != undefined,
     }
-  }, []);
+  );
 
   const handleSubmitStockName = (e: React.FormEvent) => {
     e.preventDefault();
     setStock(stockInput);
   };
 
-  useEffect(() => {
-    if (!stock) {
-      setState({ status: "waitingForInput" });
-    } else {
-      getStocks(stock);
-    }
-  }, [tileId, getStocks, stock]);
-
   let toDisplay;
 
-  if (state.status === "loading") {
-    toDisplay = <SmallStockTickerSkeleton />;
-  } else if (state.status === "resolved") {
-    toDisplay = state.data?.map((stockTicker) => (
-      <Flex
-        flexDir="column"
-        key={stockTicker?.ticker}
-        borderRadius="10px"
-        mb="4"
-        mr="2"
-      >
-        <Heading size="lg">{stockTicker?.ticker.toUpperCase()}</Heading>
-        <Text fontSize="lg" opacity="0.9">{`$${stockTicker?.c}`}</Text>
-        <Box>
-          <Text color={stockTicker?.dp! > 0 ? "green" : "#F1676D"}>
-            {stockTicker?.d} ({stockTicker?.dp}%)
-          </Text>
-        </Box>
-      </Flex>
-    ));
-  } else if (state.status === "waitingForInput") {
+  if (!stock) {
     toDisplay = (
       <form onSubmit={handleSubmitStockName}>
         <Text pos="absolute" top="4" left="3" fontSize="lg" fontWeight="500">
@@ -124,7 +78,27 @@ export const SmallStockTile: React.FC<SmallStockTileProps> = ({ tileId }) => {
         </InputGroup>
       </form>
     );
-  } else if (state.status === "rejected") {
+  } else if (isLoading) {
+    toDisplay = <SmallStockTickerSkeleton />;
+  } else if (data) {
+    toDisplay = data.map((stockTicker) => (
+      <Flex
+        flexDir="column"
+        key={stockTicker?.ticker}
+        borderRadius="10px"
+        mb="4"
+        mr="2"
+      >
+        <Heading size="lg">{stockTicker?.ticker.toUpperCase()}</Heading>
+        <Text fontSize="lg" opacity="0.9">{`$${stockTicker?.c}`}</Text>
+        <Box>
+          <Text color={stockTicker?.dp! > 0 ? "green" : "#F1676D"}>
+            {stockTicker?.d} ({stockTicker?.dp}%)
+          </Text>
+        </Box>
+      </Flex>
+    ));
+  } else if (error) {
     toDisplay = <Text>Sorry, that stock doesn&apos;t exist 😔&nbsp;</Text>;
   }
 
@@ -139,9 +113,7 @@ export const SmallStockTile: React.FC<SmallStockTileProps> = ({ tileId }) => {
         borderColor={"none"}
         shadow="none"
         borderWidth="0px"
-        onClick={() =>
-          setState((state) => ({ ...state, status: "waitingForInput" }))
-        }
+        onClick={() => setStock(undefined)}
       >
         Change stock
       </OutlinedButton>

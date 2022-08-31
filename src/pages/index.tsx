@@ -3,6 +3,7 @@ import {
   colorModeState,
   userSettingState,
 } from "@/components/recoil/UserSettingsAtom";
+import SettingsSideBar from "@/components/sidebar/SettingsSidebar";
 import { Tutorial } from "@/components/tutorial/Tutorial";
 import { MobileWarning } from "@/components/ui/MobileWarning";
 import { SettingsToggle } from "@/components/ui/SettingsToggle";
@@ -13,7 +14,6 @@ import type { NextPage } from "next";
 import { useEffect, useState } from "react";
 import { isMobile } from "react-device-detect";
 import { useRecoilState, useSetRecoilState } from "recoil";
-import SettingsSideBar from "@/components/sidebar/SettingsSidebar";
 
 const Home: NextPage = () => {
   // Sidebar hook
@@ -23,7 +23,7 @@ const Home: NextPage = () => {
   const [showingTutorial, setShowingTutorial] = useState(false);
   const [tutorialProgress, setTutorialProgress] = useState<number>(-1);
 
-  const [settings, setSettings] = useRecoilState(userSettingState);
+  const [settings] = useRecoilState(userSettingState);
   const [showingMobileWarning, setShowingMobileWarning] = useState(false);
   const { colorMode } = useColorMode();
 

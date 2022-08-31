@@ -31,6 +31,17 @@ import { Box, Center, Heading } from "@chakra-ui/react";
 import React from "react";
 import { ErrorBoundary } from "react-error-boundary";
 import { SetterOrUpdater, useRecoilState } from "recoil";
+import { QueryClient } from "@tanstack/react-query";
+import { createSyncStoragePersister } from "@tanstack/query-sync-storage-persister";
+import { PersistQueryClientProvider } from "@tanstack/react-query-persist-client";
+
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      cacheTime: 1000 * 60 * 60 * 24, // 24 hours
+    },
+  },
+});
 
 interface TileContainerProps {
   tileId: TileId;
@@ -51,6 +62,11 @@ const TileContainer: React.FC<TileContainerProps> = ({ tileId, tileType }) => {
     TodoObject[] | undefined,
     SetterOrUpdater<TodoObject[] | undefined>
   ];
+
+  const persister = createSyncStoragePersister({
+    // storage: localStorage,
+    storage: window.localStorage,
+  });
 
   switch (tileType) {
     case "Reddit Feed":
@@ -148,7 +164,12 @@ const TileContainer: React.FC<TileContainerProps> = ({ tileId, tileType }) => {
 
   return (
     <ErrorBoundary FallbackComponent={TileErrorBoundary}>
-      {tileToRender}
+      <PersistQueryClientProvider
+        client={queryClient}
+        persistOptions={{ persister }}
+      >
+        {tileToRender}
+      </PersistQueryClientProvider>
     </ErrorBoundary>
   );
 };
