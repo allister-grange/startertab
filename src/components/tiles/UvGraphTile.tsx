@@ -8,7 +8,6 @@ import {
   Input,
   InputGroup,
   InputRightElement,
-  Spinner,
   Text,
 } from "@chakra-ui/react";
 import { useQuery } from "@tanstack/react-query";
@@ -19,6 +18,18 @@ import { SetterOrUpdater, useRecoilState } from "recoil";
 interface UvGraphProps {
   tileId: TileId;
 }
+
+const dummyUvData = () => {
+  const dummyData = [] as UvGraphData[];
+  for (let i = 0; i < 24; i++) {
+    dummyData.push({
+      value: 0,
+      time: `${i}:00`,
+    });
+  }
+
+  return dummyData;
+};
 
 const fetcher = async (cityName: string) => {
   try {
@@ -81,9 +92,22 @@ export const UvGraphTile: React.FC<UvGraphProps> = ({ tileId }) => {
     );
   } else if (isLoading) {
     toDisplay = (
-      <Center height="80%" color={color}>
-        <Spinner size="lg" />
-      </Center>
+      <Box mt="4" ml="-10">
+        <ResponsiveContainer width="100%" height={240}>
+          <LineChart data={dummyUvData()}>
+            <XAxis dataKey="time" tick={{ fontSize: 8 }} stroke={color} />
+            <YAxis stroke={color} />
+            <Line
+              dataKey="value"
+              stroke={color}
+              type="basis"
+              strokeWidth={2}
+              width={5}
+              dot={false}
+            />
+          </LineChart>
+        </ResponsiveContainer>
+      </Box>
     );
   } else if (data) {
     toDisplay = (
