@@ -6,6 +6,7 @@ import {
   BonsaiTile,
   HackerNewsFeedTile,
   LargeSpotifyTile,
+  DayPlannerTile,
   LargeStockTile,
   LargeWeatherTile,
   RedditFeedTile,
@@ -17,16 +18,13 @@ import {
   TimeTile,
   UvGraphTile,
 } from "@/components/tiles";
-import DayPlannerTile, {
-  Booking,
-} from "@/components/tiles/DayPlanner/DayPlannerTile";
 import TodoListTile from "@/components/tiles/TodoListTile";
 import StravaGraphTile from "@/components/tiles/StravaGraphTile";
 import ThemePickerTile from "@/components/tiles/ThemePickerTile";
 import { TileErrorBoundary } from "@/components/tiles/TileErrorBoundary";
 import SpotifyContextProvider from "@/context/SpotifyContext";
 import StravaContextProvider from "@/context/StravaContext";
-import { TileId, TileType, TodoObject } from "@/types";
+import { Booking, TileId, TileType, TodoObject } from "@/types";
 import { Box, Center, Heading } from "@chakra-ui/react";
 import React from "react";
 import { ErrorBoundary } from "react-error-boundary";

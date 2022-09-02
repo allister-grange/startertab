@@ -39,7 +39,7 @@ const defaultFormValues: Booking = {
   permanentBooking: false,
 };
 
-const DayPlannerTile: React.FC<DayPlannerTileProps> = ({
+const DayPlannerTileComponent: React.FC<DayPlannerTileProps> = ({
   tileId,
   bookings,
   setBookings,
@@ -312,4 +312,4 @@ const areEqual = (
   return prevProps.bookings?.length === nextProps.bookings?.length;
 };
 
-export default React.memo(DayPlannerTile, areEqual);
+export const DayPlannerTile = React.memo(DayPlannerTileComponent, areEqual);
