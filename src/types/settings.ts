@@ -1,5 +1,4 @@
-import { Booking } from "@/components/tiles";
-import { TodoObject } from "./tiles";
+import { TodoObject, Booking } from "@/types/tiles";
 
 export type Option = {
   title: string;

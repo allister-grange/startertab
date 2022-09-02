@@ -4,8 +4,7 @@ import {
   userSettingState,
 } from "@/components/recoil/UserSettingsAtom";
 import { getCurrentTheme } from "@/helpers/settingsHelpers";
-import { TileId, TodoObject, UserSettings } from "@/types";
-import { Booking } from "@/components/tiles";
+import { TileId, TodoObject, UserSettings, Booking } from "@/types";
 
 export const redditFeedSelector = selectorFamily({
   key: "RedditFeed",
