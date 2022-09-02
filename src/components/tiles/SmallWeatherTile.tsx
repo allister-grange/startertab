@@ -184,7 +184,7 @@ export const SmallWeatherTile: React.FC<SmallWeatherTileProps> = ({
         pos="absolute"
         right="2"
         bottom="1.5"
-        fontSize={"11px"}
+        fontSize="11px"
         color={color}
         opacity={0.6}
       >
@@ -198,6 +198,7 @@ export const SmallWeatherTile: React.FC<SmallWeatherTileProps> = ({
         |&nbsp;
         <OutlinedButton
           size="xxs"
+          shadow="none"
           onClick={() => changeTemperatureDisplayUnits(false)}
         >
           °F
@@ -205,6 +206,7 @@ export const SmallWeatherTile: React.FC<SmallWeatherTileProps> = ({
         &nbsp;
         <OutlinedButton
           size="xxs"
+          shadow="none"
           onClick={() => changeTemperatureDisplayUnits(true)}
         >
           °C

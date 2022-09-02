@@ -1,18 +1,20 @@
 import { NumberedBubble } from "@/components/ui/NumberedBubble";
 import { OutlinedButton } from "@/components/ui/OutlinedButton";
+import { Booking } from "@/types";
 import { CloseIcon } from "@chakra-ui/icons";
 import {
   Box,
   Button,
+  Checkbox,
   Flex,
   Input,
   Stack,
   StackProps,
   Text,
+  Tooltip,
 } from "@chakra-ui/react";
-import React, { ChangeEvent, FormEvent } from "react";
+import React, { ChangeEvent, useState } from "react";
 import { HexColorPicker } from "react-colorful";
-import { Booking } from "./DayPlannerTile";
 
 interface DayPlannerFormProps extends StackProps {
   formValues: Booking;
@@ -34,7 +36,10 @@ const DayPlannerForm: React.FC<DayPlannerFormProps> = ({
   setShowingTimePicker,
   ...props
 }) => {
+  const [userTyped, setUserTyped] = useState(false);
+
   const onTitleChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setUserTyped(true);
     setFormValues({ ...formValues, title: e.target.value });
   };
 
@@ -50,7 +55,11 @@ const DayPlannerForm: React.FC<DayPlannerFormProps> = ({
     setFormValues({ ...formValues, endTime: e.target.value });
   };
 
-  const validateForm = () => {
+  const onPermanentCheckboxChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setFormValues({ ...formValues, permanentBooking: e.target.checked });
+  };
+
+  const validateForm = (): string | undefined => {
     // make sure this booking doesn't overlap with another one
     if (bookings) {
       for (let i = 0; i < bookings.length; i++) {
@@ -59,23 +68,21 @@ const DayPlannerForm: React.FC<DayPlannerFormProps> = ({
           formValues.startTime <= booking.endTime &&
           formValues.endTime >= booking.endTime
         ) {
-          return false;
+          return "Overlaps with another booking";
         }
       }
     }
 
     if (formValues.title.length <= 0 || formValues.title.length >= 20) {
-      return false;
+      return "Title is too long";
     }
 
     if (formValues.endTime < formValues.startTime) {
-      return false;
+      return "End time is before the start time";
     }
-
-    return true;
   };
 
-  const isFormValid = validateForm();
+  const formValidationError = validateForm();
 
   return (
     <Stack
@@ -163,15 +170,29 @@ const DayPlannerForm: React.FC<DayPlannerFormProps> = ({
             }}
           />
         </Box>
-        <OutlinedButton
-          fontWeight="500"
-          mt="2"
-          borderColor="var(--chakra-colors-purple-500)"
-          type="submit"
-          disabled={!isFormValid}
-        >
-          Create Event
-        </OutlinedButton>
+        {formValidationError && userTyped && (
+          <Text mb="2" color="red">
+            Error - {formValidationError}
+          </Text>
+        )}
+        <Flex alignItems="center" mt="2" justifyContent="space-around">
+          <Checkbox colorScheme="purple" onChange={onPermanentCheckboxChange}>
+            <Tooltip
+              aria-label="tooltip"
+              label="This will keep the event over multiple days"
+            >
+              Permanent?
+            </Tooltip>
+          </Checkbox>
+          <OutlinedButton
+            fontWeight="500"
+            borderColor="var(--chakra-colors-purple-500)"
+            type="submit"
+            disabled={formValidationError ? true : false}
+          >
+            Create Event
+          </OutlinedButton>
+        </Flex>
       </form>
     </Stack>
   );

@@ -222,16 +222,21 @@ export const LargeWeatherTile: React.FC<LargeWeatherTileProps> = ({
         pos="absolute"
         right="2"
         bottom="1.5"
-        fontSize={"11px"}
+        fontSize="11px"
         color={color}
         opacity={0.6}
       >
-        <OutlinedButton size="xs" onClick={() => setCityForWeather(undefined)}>
+        <OutlinedButton
+          size="xs"
+          onClick={() => setCityForWeather(undefined)}
+          shadow="none"
+        >
           Change city
         </OutlinedButton>
         |&nbsp;
         <OutlinedButton
           size="xxs"
+          shadow="none"
           onClick={() => changeTemperatureDisplayUnits(false)}
         >
           °F
@@ -239,6 +244,7 @@ export const LargeWeatherTile: React.FC<LargeWeatherTileProps> = ({
         &nbsp;
         <OutlinedButton
           size="xxs"
+          shadow="none"
           onClick={() => changeTemperatureDisplayUnits(true)}
         >
           °C

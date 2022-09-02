@@ -31,7 +31,7 @@ export const HackerNewsFeedTile: React.FC<PageProps> = ({ tileId }) => {
     ["hackerNewsFeed", hackerNewsFeed],
     () => fetcher(hackerNewsFeed!),
     {
-      enabled: hackerNewsFeed != undefined,
+      enabled: hackerNewsFeed != undefined && hackerNewsFeed !== "",
     }
   );
 

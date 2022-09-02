@@ -9,9 +9,9 @@ interface TimeProps {
 
 export const TimeTile: React.FC<TimeProps> = ({ tileId }) => {
   const [time, setTime] = useState("");
-  const [timerPlaceholder, setTimerPlaceholder] = useState<undefined | number>(
-    undefined
-  );
+  const [timerPlaceholder, setTimerPlaceholder] = useState<
+    undefined | number
+  >();
   const [timer, setTimer] = useState<undefined | number>(undefined);
   const intervalRef = useRef<NodeJS.Timer | undefined>();
   const color = `var(--text-color-${tileId})`;
@@ -76,11 +76,18 @@ export const TimeTile: React.FC<TimeProps> = ({ tileId }) => {
       alignItems="center"
       justifyContent="center"
       color={color}
+      position="relative"
     >
-      <Heading marginX="auto" mb="2">
+      <Heading marginX="auto" position="absolute" top="28px">
         {timer ? getMinutesAndSeconds(timer) : time}
       </Heading>
-      <Box display="flex" flexDir="row" height="10">
+      <Box
+        display="flex"
+        flexDir="row"
+        position="absolute"
+        bottom="15px"
+        width="200px"
+      >
         <Input
           borderColor={color}
           type="number"

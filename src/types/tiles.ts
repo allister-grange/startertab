@@ -3,3 +3,12 @@ export type TodoObject = {
   title: string;
   date: number;
 };
+
+export type Booking = {
+  color: string;
+  startTime: string;
+  endTime: string;
+  title: string;
+  creationDate: Date;
+  permanentBooking: boolean;
+};

@@ -1,7 +1,7 @@
 import DayPlannerForm from "@/components/tiles/DayPlanner/DayPlannerForm";
 import { OutlinedButton } from "@/components/ui/OutlinedButton";
 import { times } from "@/helpers/tileHelpers";
-import { TileId } from "@/types";
+import { Booking, TileId } from "@/types";
 import {
   Box,
   Flex,
@@ -30,18 +30,13 @@ interface DayPlannerTileProps {
   setBookings: SetterOrUpdater<Booking[] | undefined>;
 }
 
-export type Booking = {
-  color: string;
-  startTime: string;
-  endTime: string;
-  title: string;
-};
-
-const defaultFormValues = {
-  color: "var(--chakra-colors-purple-500)",
+const defaultFormValues: Booking = {
+  color: "#ffb6b6",
   title: "",
   startTime: "06:00",
   endTime: "07:00",
+  creationDate: new Date(),
+  permanentBooking: false,
 };
 
 const DayPlannerTile: React.FC<DayPlannerTileProps> = ({
@@ -75,11 +70,30 @@ const DayPlannerTile: React.FC<DayPlannerTileProps> = ({
     setPixelsToPushTimerAcross(hourDistance + minuteDistance);
   }, [width]);
 
+  // any bookings from yesterday or before need to go
+  const clearOutOldBookings = useCallback(() => {
+    const todaysDateAtMidnight = new Date(new Date().setHours(0));
+    const bookingsToKeep = [] as Booking[];
+
+    bookings?.forEach((booking) => {
+      if (
+        !(new Date(booking.creationDate) < todaysDateAtMidnight) ||
+        booking.permanentBooking
+      ) {
+        bookingsToKeep.push(booking);
+      }
+    });
+
+    setBookings(bookingsToKeep);
+  }, [bookings, setBookings]);
+
   useEffect(() => {
     calculateTimeHandPosition();
 
     setInterval(calculateTimeHandPosition, 60000);
-  }, [calculateTimeHandPosition]);
+
+    clearOutOldBookings();
+  }, [calculateTimeHandPosition, clearOutOldBookings]);
 
   useLayoutEffect(() => {
     setWidth(containerRef.current!.offsetWidth);
@@ -108,6 +122,8 @@ const DayPlannerTile: React.FC<DayPlannerTileProps> = ({
     ) {
       return;
     }
+
+    formValues.creationDate = new Date();
 
     setBookings([...(bookings || []), formValues]);
     setFormValues(defaultFormValues);
@@ -217,7 +233,7 @@ const DayPlannerTile: React.FC<DayPlannerTileProps> = ({
         </Tooltip>
 
         {times.map((time, idx) => (
-          <Box key={time} width={`${width / times.length}px`} pos="relative">
+          <Box key={time} width={`${width / times.length}px`}>
             {
               // means that there's a booking in this time slot
               getBookingInTimeSlot(time)?.startTime === time ? (
@@ -227,7 +243,7 @@ const DayPlannerTile: React.FC<DayPlannerTileProps> = ({
                       fontSize="xs"
                       fontWeight="700"
                       pos="absolute"
-                      top="-26px"
+                      top="-32px"
                       cursor="pointer"
                       whiteSpace="nowrap"
                     >
