@@ -120,10 +120,10 @@ export const ThemeCreator: React.FC = ({}) => {
       globalSettings: {
         ...currentSettings.themes[0].globalSettings,
         backgroundColor: formInputs.backgroundColor,
-        textColor: formInputs.sidebarIsDarkTheme ? "#33393D" : "#eee",
+        textColor: formInputs.sidebarIsDarkTheme ? "#eee" : "#33393D",
         sidebarBackgroundColor: formInputs.sidebarIsDarkTheme
-          ? "#fff"
-          : "#222222",
+          ? "#222222"
+          : "#fff",
         tileType: "None",
         themePickerBubbleColor: formInputs.iconColor,
       },
