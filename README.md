@@ -1,7 +1,7 @@
 # [StartPage](https://startpage.allistergrange.com/)
 
 <p align="center">
-  <video src='public/demo.mp4' width=600/>
+  <img src="public/demo.png" />
 </p>
 
 ## Inspiration
