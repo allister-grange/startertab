@@ -40,10 +40,10 @@ export const TutorialStage1: React.FC<TutorialStage1Props> = ({
           >
             Start Page ✌
           </Heading>
-          <Text mt="2" fontSize={"28px"} color="gray.800">
+          <Text mt="2" fontSize={"28px"} color="gray.900">
             Your &apos;New Tab&apos; page with a twist
           </Text>
-          <Text mt="4" fontSize={"21px"} color="gray.700" width="80%">
+          <Text mt="4" fontSize={"21px"} color="gray.800" width="80%">
             Heads up, this website does not store any of your personal data
             outside of your own browser, you own everything. If you&apos;d like
             to see the code,{" "}
@@ -59,7 +59,7 @@ export const TutorialStage1: React.FC<TutorialStage1Props> = ({
             <OutlinedButton
               alignSelf="flex-start"
               fontSize="xl"
-              borderColor="purple"
+              borderColor="tomato"
               onClick={() => {
                 setShowingTutorial(false);
                 setTutorialProgress(-1);
@@ -71,7 +71,7 @@ export const TutorialStage1: React.FC<TutorialStage1Props> = ({
               ml="20px"
               onClick={() => setTutorialProgress(1)}
               fontSize="xl"
-              borderColor="green"
+              borderColor="lightgreen"
               mr="2"
             >
               Start Tutorial

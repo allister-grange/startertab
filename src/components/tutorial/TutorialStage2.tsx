@@ -16,7 +16,6 @@ export const TutorialStage2: React.FC = ({}) => {
         height="5rem"
         width="3rem"
         transform={"rotate(320deg)"}
-        color="var(--chakra-colors-purple-500)"
         zIndex="2"
       >
         <BackArrow />

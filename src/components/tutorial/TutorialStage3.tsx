@@ -16,7 +16,6 @@ export const TutorialStage3: React.FC = ({}) => {
         height="70px"
         zIndex="3"
         width="3rem"
-        color="var(--chakra-colors-purple-500)"
       >
         <BackArrow />
       </Box>

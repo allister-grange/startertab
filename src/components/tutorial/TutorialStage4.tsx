@@ -10,16 +10,17 @@ export const TutorialStage4: React.FC = ({}) => {
         fontSize="24px"
         pos="absolute"
         left="430px"
-        top="315px"
+        top="280px"
         width="520px"
       >
-        Click on a dropdown to personalize your tiles
+        You&apos;re now ready to go! Click on a dropdown to personalize your
+        tiles, this will end the tutorial.
       </MessageBubble>
       <MessageBubble
         fontSize="24px"
         pos="absolute"
         left="430px"
-        top="150px"
+        top="130px"
         width="520px"
       >
         See, it&apos;s a breeze to customize the site. If you want this page to
@@ -30,6 +31,7 @@ export const TutorialStage4: React.FC = ({}) => {
         >
           this one
         </a>
+        .
       </MessageBubble>
       <Box
         pos="absolute"
@@ -38,7 +40,6 @@ export const TutorialStage4: React.FC = ({}) => {
         height="70px"
         zIndex="3"
         width="3rem"
-        color="var(--chakra-colors-purple-500)"
       >
         <BackArrow />
       </Box>
