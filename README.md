@@ -1,7 +1,7 @@
 # [StartPage](https://startpage.allistergrange.com/)
 
 <p align="center">
-  <video src='public/demo.mp4' width=600/>
+  <img src="public/demo.gif" alt="Demo of StartPage" width="500"/>
 </p>
 
 ## Inspiration
@@ -58,6 +58,7 @@ yarn install && yarn dev
 ## Adding in a New Tile
 
 1) Create your new Tile component in the ```src/components/tiles``` folder. Make sure to accept a 'tileId' prop, this enables you to change the color of the text based off the settings changed in the sidebar.
+
 ```js
 type PageProps = {
   tileId: TileId;
@@ -69,14 +70,8 @@ export const YourNewTile: React.FC<PageProps> = ({ tileId }) => {
   return ();
 }
 ```
-2) Add your tile type to the TileType in ```src/types/settings.ts```.
-3) Add your new option into the corresponding size in the switch statement for ```sizeOfTileForTypes``` in ```src/components/sidebar/TypePicker.tsx```
-4) Add your tile type to the switch statement for the ```tileType``` in ```src/components/TileContainer.tsx```
 
-### Adding in Custom Settings in the Sidebar for Your New Custom Components
-
-If you want to have extra settings provided in the sidebar for your tile type, you will need to follow these steps:
-
-1) Create a new component in ```src/components/sidebar/``` if needed. For generic situations the components already exist, such as a color picker, select and input components.
-2) This next step is a little ugly, and potentially needs some refactoring. You will need to the title of the setting, along with what you're calling it in the local storage and some other details into this file ```src/helpers/sideBarOptions.ts```. The tricky bit is that you will need to add the option in multiple times for each different tile size. So if your tile is a "Medium" tile size, you will need to add in your new option 4 times, for tiles 1, 3, 4 and 6.
-3) If you've created your own new settings component, you will need to add it into the switch case in ```src/components/sidebar/SettingOptionContainer.tsx```
+1) Add your tile type to the TileType in ```src/types/settings.ts```.
+2) Add your new option into the corresponding size in the switch statement for ```sizeOfTileForTypes``` in ```src/components/sidebar/TypePicker.tsx```
+3) Add your tile type to the switch statement for the ```tileType``` in ```src/components/TileContainer.tsx```
+4) If you want to add in persistent storage to the tile, use Recoil. Look at how another tile uses a FamilySelector and the useRecoilState hook
