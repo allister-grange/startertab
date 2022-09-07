@@ -64,6 +64,7 @@ export const TutorialStage1: React.FC<TutorialStage1Props> = ({
                 setShowingTutorial(false);
                 setTutorialProgress(-1);
               }}
+              background="white"
             >
               Skip Tutorial
             </OutlinedButton>
@@ -73,6 +74,7 @@ export const TutorialStage1: React.FC<TutorialStage1Props> = ({
               fontSize="xl"
               borderColor="lightgreen"
               mr="2"
+              background="white"
             >
               Start Tutorial
             </OutlinedButton>

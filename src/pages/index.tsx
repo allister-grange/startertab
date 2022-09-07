@@ -20,8 +20,8 @@ const Home: NextPage = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   // to highlight what tile you are looking to edit from the sidebar
   const [optionHovered, setOptionHovered] = useState<TileId | undefined>();
-  const [showingTutorial, setShowingTutorial] = useState(true);
-  const [tutorialProgress, setTutorialProgress] = useState<number>(0);
+  const [showingTutorial, setShowingTutorial] = useState(false);
+  const [tutorialProgress, setTutorialProgress] = useState<number>(-1);
 
   const [settings] = useRecoilState(userSettingState);
   const [showingMobileWarning, setShowingMobileWarning] = useState(false);
@@ -34,12 +34,12 @@ const Home: NextPage = () => {
       setShowingMobileWarning(true);
     }
 
-    // const hasVisitedBefore = localStorage.getItem("hasVisitedBefore");
-    // if (!hasVisitedBefore) {
-    //   setShowingTutorial(true);
-    //   setTutorialProgress(0);
-    //   localStorage.setItem("hasVisitedBefore", "true");
-    // }
+    const hasVisitedBefore = localStorage.getItem("hasVisitedBefore");
+    if (!hasVisitedBefore) {
+      setShowingTutorial(true);
+      setTutorialProgress(0);
+      localStorage.setItem("hasVisitedBefore", "true");
+    }
   }, []);
 
   useEffect(() => {
