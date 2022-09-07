@@ -1,7 +1,7 @@
 # [StartPage](https://startpage.allistergrange.com/)
 
 <p align="center">
-  <img src="public/demo.gif" alt="Demo of StartPage" width="500"/>
+  <img src="public/demo.png" />
 </p>
 
 ## Inspiration
