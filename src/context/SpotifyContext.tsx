@@ -43,18 +43,26 @@ const SpotifyContextProvider: React.FC<Props> = ({ children }) => {
   }, []);
 
   const fetchCurrentSong = React.useCallback(async () => {
-    const res = await fetch(`/api/spotify`);
-    let data = (await res.json()) as NowPlayingSpotifyData;
+    try {
+      const res = await fetch(`/api/spotify`);
+      let data = (await res.json()) as NowPlayingSpotifyData;
 
-    setSpotifyData(data);
+      setSpotifyData(data);
+    } catch (err) {
+      console.error("Failed fetching current song", err);
+    }
   }, []);
 
   const fetchTopArtistData = React.useCallback(async (timeRage: string) => {
     setTopArtists([]);
-    const res = await fetch(`/api/spotify/topArtists?timeRange=${timeRage}`);
-    let data = (await res.json()) as TopArtistSpotifyData;
+    try {
+      const res = await fetch(`/api/spotify/topArtists?timeRange=${timeRage}`);
+      let data = (await res.json()) as TopArtistSpotifyData;
 
-    setTopArtists(data.topArtists);
+      setTopArtists(data.topArtists);
+    } catch (err) {
+      console.error("Failed fetching top artists", err);
+    }
   }, []);
 
   const setRefreshingInterval = React.useCallback(() => {

@@ -42,7 +42,7 @@ export const defaultSettings: UserSettings = {
       tile5: {
         backgroundColor: "#F06808",
         textColor: "#222222",
-        tileType: "Search Bar",
+        tileType: "Day Planner",
       },
       tile6: {
         backgroundColor: "#E89C4B",
@@ -54,7 +54,7 @@ export const defaultSettings: UserSettings = {
       tile7: {
         backgroundColor: "#65abc1",
         textColor: "#222222",
-        tileType: "Small Weather Tile",
+        tileType: "Small Stock Tile",
       },
       tile8: {
         backgroundColor: "#9AB899",
@@ -127,7 +127,7 @@ export const defaultSettings: UserSettings = {
       tile7: {
         backgroundColor: "#E89C4B",
         textColor: "#ffffff",
-        tileType: "Small Weather Tile",
+        tileType: "Small Stock Tile",
       },
       tile8: {
         backgroundColor: "#65abc1",
@@ -187,7 +187,7 @@ export const defaultSettings: UserSettings = {
       tile5: {
         backgroundColor: "rgba(255, 255, 255, 0.2)",
         textColor: "#222222",
-        tileType: "Search Bar",
+        tileType: "Day Planner",
       },
       tile6: {
         backgroundColor: "rgba(255, 255, 255, 0.2)",
@@ -199,7 +199,7 @@ export const defaultSettings: UserSettings = {
       tile7: {
         backgroundColor: "rgba(255, 255, 255, 0.2)",
         textColor: "#222222",
-        tileType: "Small Weather Tile",
+        tileType: "Small Stock Tile",
       },
       tile8: {
         backgroundColor: "rgba(255, 255, 255, 0.2)",
@@ -261,7 +261,7 @@ export const defaultSettings: UserSettings = {
       tile5: {
         backgroundColor: "rgba(255, 255, 255, 0.2)",
         textColor: "#222222",
-        tileType: "Search Bar",
+        tileType: "Day Planner",
       },
       tile6: {
         backgroundColor: "rgba(255, 255, 255, 0.2)",
@@ -273,7 +273,7 @@ export const defaultSettings: UserSettings = {
       tile7: {
         backgroundColor: "rgba(255, 255, 255, 0.2)",
         textColor: "#222222",
-        tileType: "Small Weather Tile",
+        tileType: "Small Stock Tile",
       },
       tile8: {
         backgroundColor: "rgba(255, 255, 255, 0.2)",
@@ -345,7 +345,7 @@ export const defaultSettings: UserSettings = {
       tile7: {
         backgroundColor: "#ffffff",
         textColor: "#222222",
-        tileType: "Small Weather Tile",
+        tileType: "Small Stock Tile",
       },
       tile8: {
         backgroundColor: "#ffffff",
@@ -418,7 +418,7 @@ export const defaultSettings: UserSettings = {
       tile7: {
         backgroundColor: "#1A1C1D",
         textColor: "#E0E0E0",
-        tileType: "Small Weather Tile",
+        tileType: "Small Stock Tile",
       },
       tile8: {
         backgroundColor: "#1A1C1D",
@@ -480,7 +480,7 @@ export const defaultSettings: UserSettings = {
       tile5: {
         backgroundColor: "rgba(255, 255, 255, 0.2)",
         textColor: "#222222",
-        tileType: "Search Bar",
+        tileType: "Day Planner",
       },
       tile6: {
         backgroundColor: "rgba(255, 255, 255, 0.2)",
@@ -492,7 +492,7 @@ export const defaultSettings: UserSettings = {
       tile7: {
         backgroundColor: "rgba(255, 255, 255, 0.2)",
         textColor: "#222222",
-        tileType: "Small Weather Tile",
+        tileType: "Small Stock Tile",
       },
       tile8: {
         backgroundColor: "rgba(255, 255, 255, 0.2)",
@@ -556,7 +556,7 @@ export const defaultSettings: UserSettings = {
       tile5: {
         backgroundColor: "rgba(255, 255, 255, 0.2)",
         textColor: "#222222",
-        tileType: "Search Bar",
+        tileType: "Day Planner",
       },
       tile6: {
         backgroundColor: "rgba(255, 255, 255, 0.2)",
@@ -568,7 +568,7 @@ export const defaultSettings: UserSettings = {
       tile7: {
         backgroundColor: "rgba(255, 255, 255, 0.2)",
         textColor: "#222222",
-        tileType: "Small Weather Tile",
+        tileType: "Small Stock Tile",
       },
       tile8: {
         backgroundColor: "rgba(255, 255, 255, 0.2)",
