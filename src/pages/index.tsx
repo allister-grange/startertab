@@ -9,15 +9,24 @@ import { MobileWarning } from "@/components/ui/MobileWarning";
 import { SettingsToggle } from "@/components/ui/SettingsToggle";
 import { applyTheme, getCurrentTheme } from "@/helpers/settingsHelpers";
 import { TileId } from "@/types";
-import { Box, Flex, useColorMode, useDisclosure } from "@chakra-ui/react";
+import {
+  Box,
+  Flex,
+  useColorMode,
+  useDisclosure,
+  useToast,
+  Text,
+  Link,
+} from "@chakra-ui/react";
 import type { NextPage } from "next";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { isMobile } from "react-device-detect";
 import { useRecoilState, useSetRecoilState } from "recoil";
 
 const Home: NextPage = () => {
   // Sidebar hook
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const toast = useToast();
   // to highlight what tile you are looking to edit from the sidebar
   const [optionHovered, setOptionHovered] = useState<TileId | undefined>();
   const [showingTutorial, setShowingTutorial] = useState(false);
@@ -29,6 +38,29 @@ const Home: NextPage = () => {
 
   const setColorModeState = useSetRecoilState(colorModeState);
 
+  const showNewTabToast = useCallback(() => {
+    toast({
+      title: "Want this to be your New Tab Page?",
+      description: (
+        <Text>
+          You&apos;ll have to use{" "}
+          <Link
+            color="coral"
+            href="https://chrome.google.com/webstore/detail/custom-new-tab-url/mmjbdbjnoablegbkcklggeknkfcjkjia?hl=en"
+          >
+            this extension
+          </Link>{" "}
+          or a similar one. This notification will never appear again,
+          don&apos;t worry 🙂
+        </Text>
+      ),
+      status: "info",
+      duration: 9000,
+      isClosable: true,
+      position: "top",
+    });
+  }, [toast]);
+
   useEffect(() => {
     if (isMobile) {
       setShowingMobileWarning(true);
@@ -39,8 +71,9 @@ const Home: NextPage = () => {
       setShowingTutorial(true);
       setTutorialProgress(0);
       localStorage.setItem("hasVisitedBefore", "true");
+      setTimeout(showNewTabToast, 45000);
     }
-  }, []);
+  }, [showNewTabToast]);
 
   useEffect(() => {
     const themeToChange = getCurrentTheme(settings, colorMode);
