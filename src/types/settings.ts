@@ -40,6 +40,7 @@ export type TileType =
   | "Theme Picker"
   | "Small Spotify Tile"
   | "Time"
+  | "Twitter Feed Tile"
   | "Todo List"
   | "Large Spotify Tile"
   | "Small Stock Tile"

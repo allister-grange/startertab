@@ -33,7 +33,9 @@ export default async function handler(
     if (!access_token || !refresh_token) {
       return res
         .status(500)
-        .send("Didn't find access token or refresh token in Spotify response");
+        .send(
+          "Didn't find access token or refresh token in Strava token retrieval"
+        );
     }
 
     const AES = (await import("crypto-js/aes")).default;
