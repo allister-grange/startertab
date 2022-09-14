@@ -2,6 +2,8 @@ export type TwitterContextInterface = {
   isAuthenticated?: boolean;
   loginWithTwitter: () => void;
   twitterData: Tweet[];
+  isLoading: boolean;
+  error: unknown;
 };
 
 export interface TwitterFeedResponse {

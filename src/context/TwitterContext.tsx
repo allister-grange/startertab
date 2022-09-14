@@ -1,11 +1,4 @@
-import { getEmptyStravaData } from "@/pages/api/strava";
-import {
-  StravaContextInterface,
-  StravaGraphData,
-  Tweet,
-  TwitterContextInterface,
-  TwitterFeedResponse,
-} from "@/types";
+import { Tweet, TwitterContextInterface } from "@/types";
 import { useQuery } from "@tanstack/react-query";
 import * as React from "react";
 import { useState } from "react";
@@ -24,9 +17,13 @@ const fetcher = async () => {
 };
 
 const TwitterContextProvider: React.FC<Props> = ({ children }) => {
-  const [isAuthenticated, setIsAuthenticated] = useState<boolean | undefined>();
+  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
 
-  let { data: twitterData } = useQuery(["twitterData"], fetcher, {
+  let {
+    data: twitterData,
+    isLoading,
+    error,
+  } = useQuery(["twitterData"], fetcher, {
     enabled: isAuthenticated,
   });
 
@@ -48,15 +45,11 @@ const TwitterContextProvider: React.FC<Props> = ({ children }) => {
     try {
       const res = await fetch("/api/twitter/redirectUri");
       const redirectUri = (await res.json()).redirectUri;
-      console.log("redirectUri", redirectUri);
-
       window.location = redirectUri as (string | Location) & Location;
     } catch (err) {
       throw new Error(err as string);
     }
   }, []);
-
-  console.log(twitterData);
 
   twitterData = twitterData ?? [];
 
@@ -66,6 +59,8 @@ const TwitterContextProvider: React.FC<Props> = ({ children }) => {
         isAuthenticated,
         twitterData: twitterData,
         loginWithTwitter,
+        isLoading,
+        error,
       }}
     >
       {children}

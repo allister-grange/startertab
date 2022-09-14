@@ -1,12 +1,12 @@
-import { TwitterFeedResponse } from "@/types";
+import { Tweet, TwitterFeedResponse } from "@/types";
 import { NextApiRequest, NextApiResponse } from "next";
 import querystring from "querystring";
 
-const clientId = process.env.SPOTIFY_CLIENT_ID;
-const clientSecret = process.env.SPOTIFY_CLIENT_SECRET;
-const key = process.env.TOKEN_ENCRYPT_KEY;
+const CLIENT_ID = process.env.SPOTIFY_CLIENT_ID;
+const CLIENT_SECRET = process.env.SPOTIFY_CLIENT_SECRET;
+const ENCRYPT_KEY = process.env.TOKEN_ENCRYPT_KEY;
 
-const basic = Buffer.from(`${clientId}:${clientSecret}`).toString(`base64`);
+const basic = Buffer.from(`${CLIENT_ID}:${CLIENT_SECRET}`).toString(`base64`);
 
 const TWITTER_FEED_ENDPOINT = `https://api.twitter.com/2/users`;
 const REFRESH_TOKEN_ENDPOINT = `https://api.twitter.com/2/oauth2/token`;
@@ -27,7 +27,7 @@ export default async function handler(
     return res.status(400).send("Couldn't find userId cookie");
   }
 
-  if (!key) {
+  if (!ENCRYPT_KEY) {
     return res
       .status(500)
       .send("No encryption key found in environment variables");
@@ -35,10 +35,10 @@ export default async function handler(
 
   const CryptoJS = (await import("crypto-js")).default;
 
-  accessToken = CryptoJS.AES.decrypt(accessToken, key).toString(
+  accessToken = CryptoJS.AES.decrypt(accessToken, ENCRYPT_KEY).toString(
     CryptoJS.enc.Utf8
   );
-  refreshToken = CryptoJS.AES.decrypt(refreshToken, key).toString(
+  refreshToken = CryptoJS.AES.decrypt(refreshToken, ENCRYPT_KEY).toString(
     CryptoJS.enc.Utf8
   );
 
@@ -56,34 +56,15 @@ export default async function handler(
   }
 }
 
-const getAccessToken = async (refreshToken: string) => {
-  try {
-    const response = await fetch(REFRESH_TOKEN_ENDPOINT, {
-      method: `POST`,
-      headers: {
-        Authorization: `Basic ${basic}`,
-        "Content-Type": `application/x-www-form-urlencoded`,
-      },
-      body: querystring.stringify({
-        grant_type: `refresh_token`,
-        refresh_token: refreshToken,
-      }),
-    });
-
-    const data = await response.json();
-
-    return data.access_token;
-  } catch (err) {
-    throw new Error("Error fetching access token " + err);
-  }
-};
-
 export const getTwitterFeedData = async (
   accessToken: string,
   refreshToken: string,
   userId: string
-): Promise<any> => {
-  const endpoint = `${TWITTER_FEED_ENDPOINT}/${userId}/timelines/reverse_chronological?tweet.fields=created_at&expansions=author_id&user.fields=created_at&max_results=10`;
+): Promise<Tweet[]> => {
+  const endpoint =
+    `${TWITTER_FEED_ENDPOINT}/${userId}/timelines/` +
+    `reverse_chronological?tweet.fields=created_at&expansions=author_id` +
+    `&user.fields=created_at&max_results=10`;
   const res = await fetch(endpoint, {
     headers: {
       Authorization: `Bearer ${accessToken}`,
@@ -96,7 +77,7 @@ export const getTwitterFeedData = async (
     const newAccessToken = await getAccessToken(refreshToken);
     //todo set new cookies here?
     console.log("New access token grabbed", newAccessToken);
-    return await getTwitterFeedData(newAccessToken, refreshToken, userId);
+    // return await getTwitterFeedData(newAccessToken, refreshToken, userId);
   }
 
   const tweetResData = (await res.json()) as TwitterFeedResponse;
@@ -109,4 +90,24 @@ export const getTwitterFeedData = async (
   });
 
   return tweets;
+};
+
+const getAccessToken = async (refreshToken: string) => {
+  try {
+    const endpoint = `${REFRESH_TOKEN_ENDPOINT}?refresh_token=${refreshToken}&grant_type=refresh_token`;
+
+    const response = await fetch(endpoint, {
+      method: `POST`,
+      headers: {
+        Authorization: `Basic ${basic}`,
+        "Content-Type": `application/x-www-form-urlencoded`,
+      },
+    });
+
+    const data = await response.json();
+
+    return data.access_token;
+  } catch (err) {
+    throw new Error("Error fetching access token " + err);
+  }
 };
