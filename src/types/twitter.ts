@@ -18,6 +18,14 @@ export interface Tweet {
   author_id: string;
   id: string;
   author: string;
+  public_metrics: PublicMetric;
+}
+
+export interface PublicMetric {
+  retweet_count: number;
+  reply_count: number;
+  like_count: number;
+  quote_count: number;
 }
 
 export interface Includes {

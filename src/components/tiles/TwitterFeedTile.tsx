@@ -30,12 +30,17 @@ export const TwitterFeedTile: React.FC<TwitterFeedTileProps> = ({ tileId }) => {
       </Center>
     );
   }
-  console.log(twitterData);
 
   let display;
 
   if (isLoading) {
     display = <TextFeedSkeleton />;
+  } else if (error) {
+    display = (
+      <Text p="4">
+        There was an error fetching twitter data, please try again later!
+      </Text>
+    );
   } else if (twitterData) {
     display = twitterData.map((tweet) => (
       <>
@@ -46,16 +51,11 @@ export const TwitterFeedTile: React.FC<TwitterFeedTileProps> = ({ tileId }) => {
             <Text fontSize="md" fontWeight="normal">
               {tweet.text}
             </Text>
+            <Text size="xs">{tweet.public_metrics.like_count}</Text>
           </Link>
         </Box>
       </>
     ));
-  } else if (error) {
-    display = (
-      <Text p="4">
-        There was an error fetching twitter data, please try again later!
-      </Text>
-    );
   }
 
   return (

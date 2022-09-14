@@ -63,13 +63,15 @@ export const getTwitterFeedData = async (
 ): Promise<Tweet[]> => {
   const endpoint =
     `${TWITTER_FEED_ENDPOINT}/${userId}/timelines/` +
-    `reverse_chronological?tweet.fields=created_at&expansions=author_id` +
+    `reverse_chronological?tweet.fields=created_at,public_metrics&expansions=author_id` +
     `&user.fields=created_at&max_results=10`;
   const res = await fetch(endpoint, {
     headers: {
       Authorization: `Bearer ${accessToken}`,
     },
   });
+
+  console.log(res);
 
   // access token is stale, get a new token and re-call this method
   if (res.status === 401) {
@@ -80,7 +82,17 @@ export const getTwitterFeedData = async (
     // return await getTwitterFeedData(newAccessToken, refreshToken, userId);
   }
 
+  if (res.status !== 200) {
+    throw new Error("Failed pulling tweets from Twitter");
+  }
+
   const tweetResData = (await res.json()) as TwitterFeedResponse;
+
+  console.log(tweetResData);
+
+  if (!tweetResData.data) {
+    throw new Error("Bad request to Twitter API");
+  }
 
   const tweets = tweetResData.data.map((tweet) => {
     tweet.author = tweetResData.includes.users.find(
@@ -88,6 +100,8 @@ export const getTwitterFeedData = async (
     )?.username!;
     return tweet;
   });
+
+  console.log(tweets);
 
   return tweets;
 };

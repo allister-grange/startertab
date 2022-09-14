@@ -12,6 +12,9 @@ interface Props {
 
 const fetcher = async () => {
   const res = await fetch(`/api/twitter`);
+  if (res.status !== 200) {
+    throw new Error("Failed to get Tweets");
+  }
   let data = (await res.json()) as Tweet[];
   return data;
 };
