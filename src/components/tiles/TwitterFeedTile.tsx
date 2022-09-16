@@ -57,7 +57,7 @@ export const TwitterFeedTile: React.FC<TwitterFeedTileProps> = ({ tileId }) => {
       </>
     ));
   } else {
-    display = <></>;
+    return <></>;
   }
 
   return (
