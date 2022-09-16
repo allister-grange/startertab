@@ -7,3 +7,4 @@ export * from "./reddit";
 export * from "./weather";
 export * from "./settings";
 export * from "./tiles";
+export * from "./twitter";

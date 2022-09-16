@@ -17,6 +17,7 @@ import {
   SpotifyTopArtistsTile,
   TimeTile,
   UvGraphTile,
+  TwitterFeedTile,
 } from "@/components/tiles";
 import TodoListTile from "@/components/tiles/TodoListTile";
 import StravaGraphTile from "@/components/tiles/StravaGraphTile";
@@ -32,6 +33,7 @@ import { SetterOrUpdater, useRecoilState } from "recoil";
 import { QueryClient } from "@tanstack/react-query";
 import { createSyncStoragePersister } from "@tanstack/query-sync-storage-persister";
 import { PersistQueryClientProvider } from "@tanstack/react-query-persist-client";
+import TwitterContextProvider from "@/context/TwitterContext";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -146,6 +148,13 @@ const TileContainer: React.FC<TileContainerProps> = ({ tileId, tileType }) => {
           bookings={bookings}
           setBookings={setBookings}
         />
+      );
+      break;
+    case "Twitter Feed Tile":
+      tileToRender = (
+        <TwitterContextProvider>
+          <TwitterFeedTile tileId={tileId} />
+        </TwitterContextProvider>
       );
       break;
     default:

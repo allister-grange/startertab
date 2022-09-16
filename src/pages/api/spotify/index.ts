@@ -143,9 +143,7 @@ export const getSpotifyStatus = async (
 
   // access token is stale, get a new token and re-call this method
   if (spotifyStatusRes.status === 401) {
-    console.log("Refreshing old access token", accessToken);
     const newAccessToken = await getAccessToken(refreshToken);
-    console.log("New access token grabbed", newAccessToken);
     return newAccessToken;
   }
 
@@ -255,9 +253,7 @@ export const changeSongSpotify = async (
   });
 
   if (res.status === 401) {
-    console.log("Refreshing old access token", accessToken);
     const newAccessToken = await getAccessToken(refreshToken);
-    console.log("New access token grabbed", newAccessToken);
     await changeSongSpotify(forward, newAccessToken, refreshToken);
     return;
   }
@@ -284,9 +280,7 @@ export const pausePlaySongSpotify = async (
     });
 
     if (res.status === 401) {
-      console.log("Refreshing old access token", accessToken);
       const newAccessToken = await getAccessToken(refreshToken);
-      console.log("New access token grabbed", newAccessToken);
       await pausePlaySongSpotify(pause, newAccessToken, refreshToken);
       return;
     }

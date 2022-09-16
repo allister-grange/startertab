@@ -88,6 +88,9 @@ export const TileTypePicker: React.FC<TileTypePickerProps> = ({
           <option style={optionsStyles} value="Todo List">
             Todo List
           </option>
+          <option style={optionsStyles} value="Twitter Feed Tile">
+            Twitter Feed
+          </option>
         </>
       );
       break;

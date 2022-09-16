@@ -15,3 +15,4 @@ export * from "./SpotifyTopArtistsTile";
 export * from "./SpotifyTopArtistsTile";
 export * from "./TodoListTile";
 export * from "./DayPlanner/DayPlannerTile";
+export * from "./TwitterFeedTile";
