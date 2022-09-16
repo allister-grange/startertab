@@ -21,7 +21,7 @@ export const defaultSettings: UserSettings = {
       tile1: {
         backgroundColor: "#65abc1",
         textColor: "#222222",
-        tileType: "Hacker News Feed",
+        tileType: "Twitter Feed Tile",
         hackerNewsFeedType: "Top",
       },
       tile2: {
@@ -166,7 +166,7 @@ export const defaultSettings: UserSettings = {
       tile1: {
         backgroundColor: "rgba(255, 255, 255, 0.2)",
         textColor: "#222222",
-        tileType: "Hacker News Feed",
+        tileType: "Twitter Feed Tile",
         hackerNewsFeedType: "Top",
       },
       tile2: {
@@ -459,7 +459,7 @@ export const defaultSettings: UserSettings = {
       tile1: {
         backgroundColor: "rgba(255, 255, 255, 0.2)",
         textColor: "#222222",
-        tileType: "Hacker News Feed",
+        tileType: "Twitter Feed Tile",
         hackerNewsFeedType: "Top",
       },
       tile2: {
@@ -535,7 +535,7 @@ export const defaultSettings: UserSettings = {
       tile1: {
         backgroundColor: "rgba(255, 255, 255, 0.2)",
         textColor: "#222222",
-        tileType: "Hacker News Feed",
+        tileType: "Twitter Feed Tile",
         hackerNewsFeedType: "Top",
       },
       tile2: {
