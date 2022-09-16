@@ -5,8 +5,9 @@ import {
   StravaGraphData,
   StravaGraphPoint,
 } from "@/types/strava";
+import cookie from "cookie";
 
-const key = process.env.TOKEN_ENCRYPT_KEY;
+const ENCRYPT_KEY = process.env.TOKEN_ENCRYPT_KEY;
 
 export default async function handler(
   req: NextApiRequest,
@@ -20,7 +21,7 @@ export default async function handler(
       return res.status(400).send("Failed to provide access or refresh token");
     }
 
-    if (!key) {
+    if (!ENCRYPT_KEY) {
       return res
         .status(500)
         .send("No encryption key found in environment variables");
@@ -28,57 +29,42 @@ export default async function handler(
 
     const CryptoJS = (await import("crypto-js")).default;
 
-    accessToken = CryptoJS.AES.decrypt(accessToken, key).toString(
+    accessToken = CryptoJS.AES.decrypt(accessToken, ENCRYPT_KEY).toString(
       CryptoJS.enc.Utf8
     );
-    refreshToken = CryptoJS.AES.decrypt(refreshToken, key).toString(
+    refreshToken = CryptoJS.AES.decrypt(refreshToken, ENCRYPT_KEY).toString(
       CryptoJS.enc.Utf8
     );
 
-    const stravaData = await getStravaData(
-      accessToken as string,
-      refreshToken as string
-    );
+    let stravaData = await getStravaData(accessToken as string);
+
+    if (!stravaData) {
+      const { accessToken: newAccessToken, refreshToken: newRefreshToken } =
+        await getNewOAuthTokens(refreshToken);
+      stravaData = await getStravaData(newAccessToken);
+      await setNewTokenCookies(newAccessToken, newRefreshToken, res);
+    }
+
     res.status(200).json(stravaData);
   } catch (err) {
     res.status(500).json(err);
   }
 }
 
-export const getStravaData = async (
-  accessToken: string,
-  refreshToken: string
-) => {
+export const getStravaData = async (accessToken: string) => {
   if (!process.env.STRAVA_CLIENT_ID || !process.env.STRAVA_SECRET) {
     throw new Error("No environment variables set for Strava API");
   }
-
-  const body = JSON.stringify({
-    client_id: process.env.STRAVA_CLIENT_ID,
-    refresh_token: refreshToken,
-    client_secret: process.env.STRAVA_SECRET,
-    grant_type: "refresh_token",
-  });
-
-  const headers = {
-    Accept: "application/json, text/plain",
-    "Content-Type": "application/json",
-  };
-
   try {
-    const reAuthorizeRes = await fetch("https://www.strava.com/oauth/token", {
-      body: body,
-      headers: headers,
-      method: "post",
-    });
-
-    const reAuthorizeData = await reAuthorizeRes.json();
-
     const MonEpoch = getMonsEpoch();
 
     const activitiesRes = await fetch(
-      `https://www.strava.com/api/v3/athlete/activities?access_token=${reAuthorizeData.access_token}&after=${MonEpoch}`
+      `https://www.strava.com/api/v3/athlete/activities?access_token=${accessToken}&after=${MonEpoch}`
     );
+
+    if (activitiesRes.status === 403 || activitiesRes.status === 401) {
+      return null;
+    }
 
     const activitiesJson: StravaActivity[] = await activitiesRes.json();
 
@@ -230,4 +216,68 @@ export const getEmptyStravaData = (): StravaGraphData => {
   });
 
   return formattedStravaData;
+};
+
+const getNewOAuthTokens = async (refreshToken: string) => {
+  const body = JSON.stringify({
+    client_id: process.env.STRAVA_CLIENT_ID,
+    refresh_token: refreshToken,
+    client_secret: process.env.STRAVA_SECRET,
+    grant_type: "refresh_token",
+  });
+
+  const headers = {
+    Accept: "application/json, text/plain",
+    "Content-Type": "application/json",
+  };
+
+  try {
+    const reAuthorizeRes = await fetch("https://www.strava.com/oauth/token", {
+      body: body,
+      headers: headers,
+      method: "post",
+    });
+
+    const { access_token, refresh_token } = await reAuthorizeRes.json();
+
+    if (!access_token || !refresh_token) {
+      throw new Error(
+        "Could not find tokens from Strava when grabbing fresh tokens"
+      );
+    }
+
+    return {
+      accessToken: access_token,
+      refreshToken: refresh_token,
+    };
+  } catch (err) {
+    throw new Error(err as string);
+  }
+};
+
+const setNewTokenCookies = async (
+  accessToken: string,
+  refreshToken: string,
+  res: NextApiResponse
+) => {
+  const AES = (await import("crypto-js/aes")).default;
+
+  res.setHeader("Set-Cookie", [
+    cookie.serialize("twitterAccessToken", accessToken, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV !== "development",
+      maxAge: 34560000,
+      sameSite: "strict",
+      path: "/",
+      encode: (value) => AES.encrypt(value, ENCRYPT_KEY!).toString(),
+    }),
+    cookie.serialize("twitterRefreshToken", refreshToken, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV !== "development",
+      maxAge: 34560000,
+      sameSite: "strict",
+      path: "/",
+      encode: (value) => AES.encrypt(value, ENCRYPT_KEY!).toString(),
+    }),
+  ]);
 };

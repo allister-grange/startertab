@@ -3,11 +3,11 @@ import { NextApiRequest, NextApiResponse } from "next";
 import querystring from "querystring";
 import cookie from "cookie";
 
-const clientId = process.env.SPOTIFY_CLIENT_ID;
-const clientSecret = process.env.SPOTIFY_CLIENT_SECRET;
-const key = process.env.TOKEN_ENCRYPT_KEY;
+const CLIENT_ID = process.env.SPOTIFY_CLIENT_ID;
+const CLIENT_SECRET = process.env.SPOTIFY_CLIENT_SECRET;
+const ENCRYPT_KEY = process.env.TOKEN_ENCRYPT_KEY;
 
-const basic = Buffer.from(`${clientId}:${clientSecret}`).toString(`base64`);
+const basic = Buffer.from(`${CLIENT_ID}:${CLIENT_SECRET}`).toString(`base64`);
 
 const STATUS_ENDPOINT = `https://api.spotify.com/v1/me/player?additional_types=episode,track`;
 const RECENTLY_PLAYED_ENDPOINT = `https://api.spotify.com/v1/me/player/recently-played`;
@@ -28,7 +28,7 @@ export default async function handler(
     return res.status(400).send("Failed to provide access or refresh token");
   }
 
-  if (!key) {
+  if (!ENCRYPT_KEY) {
     return res
       .status(500)
       .send("No encryption key found in environment variables");
@@ -36,10 +36,10 @@ export default async function handler(
 
   const CryptoJS = (await import("crypto-js")).default;
 
-  accessToken = CryptoJS.AES.decrypt(accessToken, key).toString(
+  accessToken = CryptoJS.AES.decrypt(accessToken, ENCRYPT_KEY).toString(
     CryptoJS.enc.Utf8
   );
-  refreshToken = CryptoJS.AES.decrypt(refreshToken, key).toString(
+  refreshToken = CryptoJS.AES.decrypt(refreshToken, ENCRYPT_KEY).toString(
     CryptoJS.enc.Utf8
   );
 
@@ -51,20 +51,12 @@ export default async function handler(
 
       if (forward !== undefined) {
         const forwardBool = forward === "true" ? true : false;
-        await changeSongSpotify(
-          forwardBool,
-          accessToken as string,
-          refreshToken as string
-        );
+        await changeSongSpotify(forwardBool, accessToken as string);
 
         res.status(200).json({ success: true });
       } else if (pause !== undefined) {
         const pauseBool = pause === "true" ? true : false;
-        await pausePlaySongSpotify(
-          pauseBool,
-          accessToken as string,
-          refreshToken as string
-        );
+        await pausePlaySongSpotify(pauseBool, accessToken as string);
 
         res.status(200).json({ success: true });
       }
@@ -73,30 +65,15 @@ export default async function handler(
     }
   } else if (req.method === "GET") {
     try {
-      let spotifyData = await getSpotifyStatus(
-        accessToken as string,
-        refreshToken as string
-      );
-
-      const AES = (await import("crypto-js/aes")).default;
+      let spotifyData = await getSpotifyStatus(accessToken as string);
 
       // if a new access token is sent back, set it in cookies
       // and re-fetch the request
-      if (typeof spotifyData === "string") {
-        res.setHeader("Set-Cookie", [
-          cookie.serialize("spotifyAccessToken", spotifyData, {
-            httpOnly: true,
-            secure: process.env.NODE_ENV !== "development",
-            maxAge: 34560000,
-            sameSite: "strict",
-            path: "/",
-            encode: (value) => AES.encrypt(value, key!).toString(),
-          }),
-        ]);
-        spotifyData = await getSpotifyStatus(
-          spotifyData as string,
-          refreshToken as string
-        );
+      if (!spotifyData) {
+        const { accessToken: newAccessToken, refreshToken: newRefreshToken } =
+          await getNewOAuthTokens(refreshToken);
+        spotifyData = await getSpotifyStatus(newAccessToken);
+        await setNewTokenCookies(newAccessToken, newRefreshToken, res);
       }
 
       res.status(200).json(spotifyData);
@@ -109,32 +86,9 @@ export default async function handler(
   }
 }
 
-const getAccessToken = async (refreshToken: string) => {
-  try {
-    const response = await fetch(TOKEN_ENDPOINT, {
-      method: `POST`,
-      headers: {
-        Authorization: `Basic ${basic}`,
-        "Content-Type": `application/x-www-form-urlencoded`,
-      },
-      body: querystring.stringify({
-        grant_type: `refresh_token`,
-        refresh_token: refreshToken,
-      }),
-    });
-
-    const data = await response.json();
-
-    return data.access_token;
-  } catch (err) {
-    throw new Error("Error fetching access token " + err);
-  }
-};
-
 export const getSpotifyStatus = async (
-  accessToken: string,
-  refreshToken: string
-): Promise<NowPlayingSpotifyData | string> => {
+  accessToken: string
+): Promise<NowPlayingSpotifyData | null> => {
   const spotifyStatusRes = await fetch(STATUS_ENDPOINT, {
     headers: {
       Authorization: `Bearer ${accessToken}`,
@@ -143,8 +97,7 @@ export const getSpotifyStatus = async (
 
   // access token is stale, get a new token and re-call this method
   if (spotifyStatusRes.status === 401) {
-    const newAccessToken = await getAccessToken(refreshToken);
-    return newAccessToken;
+    return null;
   }
 
   if (spotifyStatusRes.status === 204) {
@@ -239,8 +192,7 @@ export const getRecentlyPlayed = async (
 
 export const changeSongSpotify = async (
   forward: boolean,
-  accessToken: string,
-  refreshToken: string
+  accessToken: string
 ) => {
   const endpointUrl = forward ? NEXT_SONG_ENDPOINT : PREVIOUS_SONG_ENDPOINT;
 
@@ -252,12 +204,6 @@ export const changeSongSpotify = async (
     },
   });
 
-  if (res.status === 401) {
-    const newAccessToken = await getAccessToken(refreshToken);
-    await changeSongSpotify(forward, newAccessToken, refreshToken);
-    return;
-  }
-
   if (res.status !== 204) {
     throw new Error("Failed to change spotify song");
   }
@@ -265,8 +211,7 @@ export const changeSongSpotify = async (
 
 export const pausePlaySongSpotify = async (
   pause: boolean,
-  accessToken: string,
-  refreshToken: string
+  accessToken: string
 ) => {
   const endpointUrl = pause ? PAUSE_SONG_ENDPOINT : PLAY_SONG_ENDPOINT;
 
@@ -279,12 +224,6 @@ export const pausePlaySongSpotify = async (
       },
     });
 
-    if (res.status === 401) {
-      const newAccessToken = await getAccessToken(refreshToken);
-      await pausePlaySongSpotify(pause, newAccessToken, refreshToken);
-      return;
-    }
-
     if (res.status !== 204) {
       throw new Error("Failed to pause/play spotify song " + res.statusText);
     }
@@ -293,4 +232,57 @@ export const pausePlaySongSpotify = async (
   } catch (err) {
     throw new Error("Failed to pause/play spotify song " + err);
   }
+};
+
+const getNewOAuthTokens = async (refreshToken: string) => {
+  try {
+    const response = await fetch(TOKEN_ENDPOINT, {
+      method: `POST`,
+      headers: {
+        Authorization: `Basic ${basic}`,
+        "Content-Type": `application/x-www-form-urlencoded`,
+      },
+      body: querystring.stringify({
+        grant_type: `refresh_token`,
+        refresh_token: refreshToken,
+      }),
+    });
+
+    const data = await response.json();
+
+    if (!data.access_token || !data.refresh_token) {
+      throw new Error("Missing token on response from Twitter");
+    }
+
+    return { refreshToken: data.refresh_token, accessToken: data.access_token };
+  } catch (err) {
+    throw new Error("Error fetching access token " + err);
+  }
+};
+
+const setNewTokenCookies = async (
+  accessToken: string,
+  refreshToken: string,
+  res: NextApiResponse
+) => {
+  const AES = (await import("crypto-js/aes")).default;
+
+  res.setHeader("Set-Cookie", [
+    cookie.serialize("twitterAccessToken", accessToken, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV !== "development",
+      maxAge: 34560000,
+      sameSite: "strict",
+      path: "/",
+      encode: (value) => AES.encrypt(value, ENCRYPT_KEY!).toString(),
+    }),
+    cookie.serialize("twitterRefreshToken", refreshToken, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV !== "development",
+      maxAge: 34560000,
+      sameSite: "strict",
+      path: "/",
+      encode: (value) => AES.encrypt(value, ENCRYPT_KEY!).toString(),
+    }),
+  ]);
 };
