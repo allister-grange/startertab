@@ -3,10 +3,9 @@ import cookie from "cookie";
 import { NextApiRequest, NextApiResponse } from "next";
 
 const TOKEN_ENDPOINT = `https://api.twitter.com/2/oauth2/token`;
-
-const key = process.env.TOKEN_ENCRYPT_KEY;
 const CLIENT_ID = process.env.TWITTER_CLIENT_ID;
 const CLIENT_SECRET = process.env.TWITTER_CLIENT_SECRET;
+const ENCRYPT_KEY = process.env.TOKEN_ENCRYPT_KEY;
 const CODE_CHALLENGE_KEY = process.env.TWITTER_CODE_CHALLENGE_KEY;
 
 const basic = Buffer.from(`${CLIENT_ID}:${CLIENT_SECRET}`).toString(`base64`);
@@ -24,7 +23,7 @@ export default async function handler(
       return res.status(500).send("No code on the redirect from Twitter");
     }
 
-    if (!key) {
+    if (!ENCRYPT_KEY) {
       return res
         .status(500)
         .send("No encryption key found in environment variables");
@@ -44,9 +43,10 @@ export default async function handler(
 
     const userId = await getUserId(access_token as string);
 
-    console.log("userId", userId);
-
     const AES = (await import("crypto-js/aes")).default;
+
+    console.log("access token", access_token);
+    console.log("refresh token", refresh_token);
 
     res.setHeader("Set-Cookie", [
       cookie.serialize("twitterRefreshToken", refresh_token, {
@@ -55,7 +55,7 @@ export default async function handler(
         maxAge: 34560000,
         sameSite: "strict",
         path: "/",
-        encode: (value) => AES.encrypt(value, key).toString(),
+        encode: (value) => AES.encrypt(value, ENCRYPT_KEY).toString(),
       }),
       cookie.serialize("twitterAccessToken", access_token, {
         httpOnly: true,
@@ -63,7 +63,7 @@ export default async function handler(
         maxAge: 34560000,
         sameSite: "strict",
         path: "/",
-        encode: (value) => AES.encrypt(value, key).toString(),
+        encode: (value) => AES.encrypt(value, ENCRYPT_KEY).toString(),
       }),
       cookie.serialize("twitterUserId", userId, {
         httpOnly: true,

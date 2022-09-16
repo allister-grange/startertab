@@ -20,7 +20,7 @@ const fetcher = async () => {
 };
 
 const TwitterContextProvider: React.FC<Props> = ({ children }) => {
-  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
+  const [isAuthenticated, setIsAuthenticated] = useState<boolean | undefined>();
 
   let {
     data: twitterData,
