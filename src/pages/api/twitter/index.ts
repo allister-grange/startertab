@@ -45,7 +45,7 @@ export default async function handler(
     try {
       let data = await getTwitterFeedData(accessToken, userId);
 
-      // access token is stale, get a new token and re-call this method
+      // access token is stale, get a new token and re-call the fetch method
       if (!data) {
         const { accessToken: newAccessToken, refreshToken: newRefreshToken } =
           await getNewTokens(refreshToken);
@@ -55,7 +55,7 @@ export default async function handler(
 
       return res.status(200).send(data);
     } catch (err) {
-      return res.status(500).json(err);
+      return res.status(500).json(err as string);
     }
   } else {
     res.setHeader("Allow", ["GET"]);
@@ -78,11 +78,11 @@ export const getTwitterFeedData = async (
   });
 
   // access token is stale, get a new token and re-call this method
-  if (res.status === 401 || res.status === 403) {
+  if (res.status === 401) {
     return null;
   }
 
-  if (res.status !== 200) {
+  if (res.status >= 400) {
     throw new Error("Failed pulling tweets from Twitter");
   }
 
