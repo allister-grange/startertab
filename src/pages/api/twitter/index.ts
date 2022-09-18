@@ -47,10 +47,16 @@ export default async function handler(
 
       // access token is stale, get a new token and re-call the fetch method
       if (!data) {
-        const { accessToken: newAccessToken, refreshToken: newRefreshToken } =
-          await getNewTokens(refreshToken);
-        data = await getTwitterFeedData(newAccessToken, userId);
-        await setNewTokenCookies(newAccessToken, newRefreshToken, res);
+        const tokens = await getNewTokens(refreshToken);
+        if (tokens) {
+          const { accessToken: newAccessToken, refreshToken: newRefreshToken } =
+            tokens;
+          data = await getTwitterFeedData(newAccessToken, userId);
+          await setNewTokenCookies(newAccessToken, newRefreshToken, res);
+        } else {
+          setExpiredCookies(res);
+          res.status(401).send("Your refresh token is invalid");
+        }
       }
 
       return res.status(200).send(data);
@@ -78,7 +84,7 @@ export const getTwitterFeedData = async (
   });
 
   // access token is stale, get a new token and re-call this method
-  if (res.status === 401) {
+  if (res.status === 401 || res.status === 403) {
     return null;
   }
 
@@ -121,12 +127,13 @@ const getNewTokens = async (refreshToken: string) => {
     const data = await response.json();
 
     if (!data.access_token || !data.refresh_token) {
-      throw new Error("Missing token on response from Twitter");
+      return null;
     }
 
     return { accessToken: data.access_token, refreshToken: data.refresh_token };
   } catch (err) {
-    throw new Error("Error fetching access token " + err);
+    console.error("Error fetching access token " + err);
+    return null;
   }
 };
 
@@ -153,6 +160,25 @@ const setNewTokenCookies = async (
       sameSite: "strict",
       path: "/",
       encode: (value) => AES.encrypt(value, ENCRYPT_KEY!).toString(),
+    }),
+  ]);
+};
+
+const setExpiredCookies = async (res: NextApiResponse) => {
+  res.setHeader("Set-Cookie", [
+    cookie.serialize("twitterAccessToken", "deleted", {
+      httpOnly: true,
+      secure: process.env.NODE_ENV !== "development",
+      maxAge: -1,
+      sameSite: "strict",
+      path: "/",
+    }),
+    cookie.serialize("twitterRefreshToken", "deleted", {
+      httpOnly: true,
+      secure: process.env.NODE_ENV !== "development",
+      maxAge: -1,
+      sameSite: "strict",
+      path: "/",
     }),
   ]);
 };
