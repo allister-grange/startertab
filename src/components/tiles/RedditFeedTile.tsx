@@ -65,7 +65,7 @@ export const RedditFeedTile: React.FC<RedditFeedProps> = ({ tileId }) => {
         <Box key={link.id} p="2" pt="4" pr="4">
           <Link href={link.url}>
             <Heading fontSize="md" fontWeight="normal">
-              {link.title}
+              {link.title.replace("&amp;", "&")}
             </Heading>
           </Link>
         </Box>
