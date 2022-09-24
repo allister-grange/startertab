@@ -50,7 +50,12 @@ export const RedditFeedTile: React.FC<RedditFeedProps> = ({ tileId }) => {
 
   const handleSubredditSubmit = (e: React.SyntheticEvent) => {
     e.preventDefault();
-    setSubRedditFeed(subRedditInput);
+    // for people who think they need to include "r/" in the search bar
+    if (subRedditInput.startsWith("r/")) {
+      setSubRedditFeed(subRedditInput.split("r/")[1]);
+    } else {
+      setSubRedditFeed(subRedditInput);
+    }
   };
 
   let display;
