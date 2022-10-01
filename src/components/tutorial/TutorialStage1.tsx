@@ -48,7 +48,7 @@ export const TutorialStage1: React.FC<TutorialStage1Props> = ({
             outside of your own browser, you own everything. If you&apos;d like
             to see the code,{" "}
             <a
-              href="https://github.com/allister-grange/startpage"
+              href="https://github.com/allister-grange/startertab"
               style={{ textDecoration: "underline" }}
             >
               take a peek

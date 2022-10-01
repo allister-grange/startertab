@@ -13,7 +13,7 @@ export const TileErrorBoundary: React.FC<TileErrorBoundaryProps> = ({}) => {
       <Text width="100%" textAlign="center">
         If this error keeps happening, please leave a ticket on{" "}
         <a
-          href="https://github.com/allister-grange/startpage"
+          href="https://github.com/allister-grange/startertab"
           style={{ textDecoration: "underline" }}
         >
           Github

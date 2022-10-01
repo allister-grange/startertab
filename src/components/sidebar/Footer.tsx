@@ -19,7 +19,7 @@ export const Footer: React.FC<SideBarFooterProps> = ({ textColor }) => {
       color={textColor}
     >
       <a
-        href="https://github.com/allister-grange/startpage"
+        href="https://github.com/allister-grange/startertab"
         aria-label="Link to this website's code"
       >
         <GithubSvg fill={textColor} />

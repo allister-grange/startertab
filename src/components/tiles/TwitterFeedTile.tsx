@@ -47,7 +47,7 @@ export const TwitterFeedTile: React.FC<TwitterFeedTileProps> = ({ tileId }) => {
       <>
         <Box key={tweet.id} p="2" pt="4" pr="4">
           <Link
-            href={`https://twitter.com/startpageeasteregg/statuses/${tweet.id}`}
+            href={`https://twitter.com/startertabeasteregg/statuses/${tweet.id}`}
           >
             <Text fontSize="md" fontWeight="normal">
               {tweet.text}

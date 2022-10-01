@@ -1,5 +1,5 @@
 {
-  "name": "startpage",
+  "name": "startertab",
   "private": true,
   "scripts": {
     "dev": "next dev",
