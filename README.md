@@ -8,7 +8,7 @@
 
 Do you want to have a dashboard with all of the information (addictions) you'd want to see handy in one spot on every new tab? I do, so I am building it!
 
-I use [this](https://chrome.google.com/webstore/detail/custom-new-tab-url/mmjbdbjnoablegbkcklggeknkfcjkjia?hl=en) extension to make that start page open up on every new tab of mine.
+I use [this](https://chrome.google.com/webstore/detail/custom-new-tab-url/mmjbdbjnoablegbkcklggeknkfcjkjia?hl=en) extension to make the Starter Tab app open up on every new tab of mine.
 
 ## Tech
 

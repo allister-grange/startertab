@@ -31,7 +31,7 @@ export const Footer: React.FC<SideBarFooterProps> = ({ textColor }) => {
         width="1px"
       />
       <Text ml="3" fontSize="smaller">
-        &copy; 2022, Start Page - v1.00
+        &copy; 2022, Starter Tab - v1.00
       </Text>
     </Box>
   );

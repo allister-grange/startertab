@@ -49,7 +49,7 @@ export function MyApp({
           <meta property="og:image" content={"/demo.png"} />
           <meta
             property="og:title"
-            content="Start Page - A customizable homepage"
+            content="Starter Tab - A customizable homepage"
           />
         </Head>
 
