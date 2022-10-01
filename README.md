@@ -1,8 +1,6 @@
 # [Starter Tab](https://startertab.com/)
 
-<p align="center">
-  <img src="public/demo.png" />
-</p>
+https://user-images.githubusercontent.com/18430086/193399563-b3943145-1ccf-4aa9-9766-3a52a900d94b.mp4
 
 ## Inspiration
 
@@ -23,10 +21,10 @@ Written in NextJS with CharkaUI. Hosted in Vercel.
 - [Weather API](https://www.weatherapi.com/) for the weather data for my city
 - [Hacker News](https://hackernews.api-docs.io/) for the top ask posts for the day
 - [Stocks API](https://finnhub.io/docs/api) for the stick ticker info
+- [Tiwtter API](https://developer.twitter.com/en/docs/twitter-api) for your feed
 
 ## Future API Integrations
 
-- Twitter
 - Outlook / Microsoft
 - Gmail
 - Public transport provider
