@@ -1,4 +1,4 @@
-# [StarterTab](https://startertab.com/)
+# [Starter Tab](https://startertab.com/)
 
 <p align="center">
   <img src="public/demo.png" />
