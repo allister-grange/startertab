@@ -37,7 +37,7 @@ export function MyApp({
     <ErrorBoundary FallbackComponent={AppErrorBoundary}>
       <ChakraProvider colorModeManager={colorModeManager}>
         <Head>
-          <title>New Page</title>
+          <title>Starter Tab</title>
           <meta
             name="og:description"
             content="A customizable website to replace your 'New Tab' homepage"
