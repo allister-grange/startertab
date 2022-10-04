@@ -1,6 +1,6 @@
 # [Starter Tab](https://startertab.com/)
 
-https://user-images.githubusercontent.com/18430086/193399563-b3943145-1ccf-4aa9-9766-3a52a900d94b.mp4
+https://user-images.githubusercontent.com/18430086/193910974-1122086f-bd24-42d1-9526-c590af4d754f.mp4
 
 ## Inspiration
 
