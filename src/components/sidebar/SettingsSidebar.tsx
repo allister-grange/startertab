@@ -118,10 +118,6 @@ const SettingsSideBar: React.FC<SettingsSideBarProps> = ({
         defaultSetting,
         option.tileId
       );
-
-      // userSettings.themes[
-      //   getCurrentTheme(settings, colorMode) as keyof ThemeSettings
-      // ][option.tileId] = defaultSetting;
     },
     [changeSetting, colorMode]
   );
@@ -205,14 +201,16 @@ const SettingsSideBar: React.FC<SettingsSideBarProps> = ({
     <Box
       minWidth={width}
       width={width}
-      height="100%"
-      transition={"all 0.4s ease-in-out"}
+      height="100vh"
+      transition="all 0.4s ease-in-out"
       zIndex="10"
       bg={backgroundColor}
       overflowY="auto"
       className={styles.disableScrollbars}
       display="flex"
       flexDirection="column"
+      position="sticky"
+      left="0"
     >
       <SideBarTitle
         textColor={textColor}

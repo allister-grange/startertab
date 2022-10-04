@@ -90,13 +90,7 @@ const Home: NextPage = () => {
     toDisplay = <MobileWarning />;
   } else {
     toDisplay = (
-      <Box
-        height="100vh"
-        width="100%"
-        position="fixed"
-        display="flex"
-        alignItems="center"
-      >
+      <Box width="100%" display="flex" height="100%">
         {isOpen ? (
           <SettingsSideBar
             onClose={onClose}
@@ -114,7 +108,7 @@ const Home: NextPage = () => {
               setTutorialProgress={setTutorialProgress}
             />
           ) : null}
-          <Flex width="100%" height="100%" overflow="auto">
+          <Flex width="100%" overflow="auto" height="100%">
             <TileGrid
               tutorialProgress={tutorialProgress}
               optionHovered={optionHovered}
