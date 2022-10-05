@@ -81,7 +81,7 @@ export const SmallStockTile: React.FC<SmallStockTileProps> = ({ tileId }) => {
     );
   } else if (isLoading) {
     toDisplay = <SmallStockTickerSkeleton />;
-  } else if (data) {
+  } else if (data && Array.isArray(data)) {
     toDisplay = data.map((stockTicker) => (
       <Flex
         flexDir="column"

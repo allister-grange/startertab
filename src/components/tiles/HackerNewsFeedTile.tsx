@@ -52,7 +52,7 @@ export const HackerNewsFeedTile: React.FC<PageProps> = ({ tileId }) => {
 
   if (isLoading) {
     display = <TextFeedSkeleton />;
-  } else if (data) {
+  } else if (data && Array.isArray(data)) {
     display = data.map((link) => (
       <Box key={link.id} p="2" pr="4">
         <Link href={link.url}>

@@ -60,7 +60,7 @@ export const SearchBarTile: React.FC<SearchBarProps> = ({ tileId }) => {
         <StackOverFlowIcon w={10} h={10} fill={color} />
       </OutlinedButton>
       <Input
-        width={400}
+        width="45%"
         color={color}
         _placeholder={{
           color: color,

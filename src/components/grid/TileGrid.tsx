@@ -9,6 +9,44 @@ interface TileGridProps {
   tutorialProgress: number;
 }
 
+const xlArea = `"tall1 wide1 wide1 tall2 tall3"
+"tall1 wide1 wide1 tall2 tall3"
+"tall1 wide2 wide2 wide2 tall3"
+"tall4 small1 wide3 wide3 small3"
+"tall4 small2 wide3 wide3 small4"`;
+
+const lArea = `"tall4 wide1 wide1 "
+"tall4 wide1 wide1"
+"wide2 wide2 wide2"
+"tall2 small1 tall3"
+"tall2 small2 tall3"
+"wide3 wide3 tall1"
+"wide3 wide3 tall1"
+"small3 small4 tall1" `;
+
+const baseArea = `"tall1 small1"
+"tall1 small2"
+"wide1 wide1"
+"wide1 wide1"
+"tall2 small3"
+"tall2 small4"
+"wide2 wide2"
+"wide3 wide3"
+"wide3 wide3"
+"tall3 tall4"
+"tall3 tall4"
+`;
+
+const xlColumns = "270px 250px 250px 250px 250px";
+const xlRows = "150px 150px 60px 150px 150px";
+
+const lColumns = "250px 250px 250px";
+const lRows = "150px 150px 60px 150px 150px 150px 150px 150px";
+
+const baseColumns = "230px 230px";
+const baseRows =
+  "150px 150px 150px 150px 150px 150px 60px 150px 150px 150px 150px";
+
 export const TileGrid: React.FC<TileGridProps> = ({
   optionHovered,
   gridGap,
@@ -18,13 +56,9 @@ export const TileGrid: React.FC<TileGridProps> = ({
     <Grid
       marginX="auto"
       marginY="auto"
-      templateAreas={`"tall1 wide1 wide1 tall2 tall3"
-      "tall1 wide1 wide1 tall2 tall3"
-      "tall1 wide2 wide2 wide2 tall3"
-      "tall4 small1 wide3 wide3 small3"
-      "tall4 small2 wide3 wide3 small4"`}
-      templateColumns="270px 250px 250px 250px 250px"
-      templateRows="150px 150px 60px 150px 150px"
+      templateAreas={{ base: baseArea, md: lArea, xl: xlArea }}
+      templateColumns={{ base: baseColumns, md: lColumns, xl: xlColumns }}
+      templateRows={{ base: baseRows, md: lRows, xl: xlRows }}
       gap={gridGap ?? 4}
       filter={
         tutorialProgress >= 0 && tutorialProgress < 4 ? "blur(8px)" : undefined
