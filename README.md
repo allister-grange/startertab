@@ -10,7 +10,7 @@ I use [this](https://chrome.google.com/webstore/detail/custom-new-tab-url/mmjbdb
 
 ## Tech
 
-Local storage is used for storing your information, meaning you own your data! All of the settings, tokens and themes sit on your own browser. Some may call it laziness that I don't want to maintain a database, others may see it as me helping prevent your data being in yet another cloud service. 
+Local storage is used for storing your information, meaning you own your data! All of the settings, tokens and themes sit on your own browser. Some may call it laziness that I don't want to maintain a database, you could also see it as me helping prevent your data being in yet another cloud service. 
 
 Written in NextJS with CharkaUI. Hosted in Vercel.
 
