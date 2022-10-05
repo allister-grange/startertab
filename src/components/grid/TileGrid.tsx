@@ -56,9 +56,9 @@ export const TileGrid: React.FC<TileGridProps> = ({
     <Grid
       marginX="auto"
       marginY="auto"
-      templateAreas={{ base: baseArea, md: lArea, xl: xlArea }}
-      templateColumns={{ base: baseColumns, md: lColumns, xl: xlColumns }}
-      templateRows={{ base: baseRows, md: lRows, xl: xlRows }}
+      templateAreas={{ base: baseArea, lg: lArea, xl: xlArea }}
+      templateColumns={{ base: baseColumns, lg: lColumns, xl: xlColumns }}
+      templateRows={{ base: baseRows, lg: lRows, xl: xlRows }}
       gap={gridGap ?? 4}
       filter={
         tutorialProgress >= 0 && tutorialProgress < 4 ? "blur(8px)" : undefined

@@ -3,6 +3,7 @@ import { defaultSettings } from "@/helpers/themes";
 import {
   ChakraProvider,
   cookieStorageManager,
+  extendTheme,
   localStorageManager,
 } from "@chakra-ui/react";
 import App, { AppContext, AppInitialProps, AppProps } from "next/app";
@@ -14,6 +15,14 @@ import { RecoilRoot } from "recoil";
 import "../styles/globals.css";
 
 type MyAppProps = { cookies?: string };
+const breakpoints = {
+  base: "0em",
+  sm: "30em",
+  md: "48em",
+  lg: "62em",
+  xl: "85em",
+  "2xl": "96em",
+};
 
 export function MyApp({
   Component,
@@ -33,9 +42,11 @@ export function MyApp({
     }
   }, []);
 
+  const theme = extendTheme({ breakpoints });
+
   return (
     <ErrorBoundary FallbackComponent={AppErrorBoundary}>
-      <ChakraProvider colorModeManager={colorModeManager}>
+      <ChakraProvider colorModeManager={colorModeManager} theme={theme}>
         <Head>
           <title>Starter Tab</title>
           <meta
