@@ -4,7 +4,7 @@ import React from "react";
 
 export const MobileWarning: React.FC = ({}) => {
   return (
-    <Center height="70vh" bg="white" color="black" p="5">
+    <Center height="80vh" bg="white" color="black" p="5">
       <Flex flexDir={"column"} justifyContent="center" alignItems="center">
         <Heading color="orange" size="xl" mb="3">
           🏄‍♂️🚀🧖
