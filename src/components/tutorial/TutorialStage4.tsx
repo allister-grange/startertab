@@ -28,6 +28,7 @@ export const TutorialStage4: React.FC = ({}) => {
         <a
           href="https://chrome.google.com/webstore/detail/custom-new-tab-url/mmjbdbjnoablegbkcklggeknkfcjkjia?hl=en"
           style={{ textDecorationLine: "underline" }}
+          target="_blank"
         >
           this one
         </a>
