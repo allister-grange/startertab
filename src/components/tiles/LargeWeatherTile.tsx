@@ -212,7 +212,7 @@ export const LargeWeatherTile: React.FC<LargeWeatherTileProps> = ({
       </Flex>
     );
   } else if (error) {
-    toDisplay = <Text>Sorry, that city doesn&apos;t exist 😔</Text>;
+    toDisplay = <Text>Sorry, I couldn&apos;t find that city 😔</Text>;
   }
 
   return (

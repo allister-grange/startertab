@@ -131,7 +131,7 @@ export const UvGraphTile: React.FC<UvGraphProps> = ({ tileId }) => {
   } else if (error) {
     toDisplay = (
       <Center height="80%">
-        <Text>Sorry, that city doesn&apos;t exist 😔</Text>
+        <Text>Sorry, I couldn&apos;t find that city 😔</Text>
       </Center>
     );
   }
