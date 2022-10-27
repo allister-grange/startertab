@@ -23,8 +23,11 @@ interface SmallStockTileProps {
 const fetcher = async (stockName: string) => {
   try {
     const res = await fetch(`/api/stocks?stocks=${stockName}`);
-    const data = (await res.json()) as StockTickers;
+    if (res.status >= 400) {
+      throw new Error("Failed request");
+    }
 
+    const data = (await res.json()) as StockTickers;
     return data;
   } catch (err) {
     throw new Error(err as string);
@@ -44,6 +47,7 @@ export const SmallStockTile: React.FC<SmallStockTileProps> = ({ tileId }) => {
     () => fetcher(stock!),
     {
       enabled: stock !== undefined && stock !== "",
+      retry: 2,
     }
   );
 
@@ -100,7 +104,7 @@ export const SmallStockTile: React.FC<SmallStockTileProps> = ({ tileId }) => {
       </Flex>
     ));
   } else if (error) {
-    toDisplay = <Text>Sorry, that stock doesn&apos;t exist 😔&nbsp;</Text>;
+    toDisplay = <Text>Sorry, I couldn&apos;t find that stock 😔</Text>;
   }
 
   return (

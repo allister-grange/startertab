@@ -13,18 +13,18 @@ export default async function handler(
       req.query.stocks === "undefined" ||
       req.query.stocks === ""
     ) {
-      res
+      return res
         .status(404)
         .send("Please provide stock tickers to call this API with");
-      return;
     }
 
     const stockData = await getStockTickerInfo(req.query.stocks as string);
 
     // API sends back a object even when the stock ticker doesn't exist -_-
     if (stockData[0]!.d === null) {
-      res.status(404).send(`Couldn't find ticker with name req.query.stocks`);
-      return;
+      return res
+        .status(404)
+        .send(`Couldn't find ticker with name req.query.stocks`);
     }
 
     res.status(200).json(stockData);

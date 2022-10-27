@@ -35,8 +35,11 @@ interface InputDisplayProps {
 const fetcher = async (stockNames: string) => {
   try {
     const res = await fetch(`/api/stocks?stocks=${stockNames}`);
-    const data = (await res.json()) as StockTickers;
+    if (res.status >= 400) {
+      throw new Error("Failed request");
+    }
 
+    const data = (await res.json()) as StockTickers;
     return data;
   } catch (err) {
     throw new Error(err as string);
@@ -51,7 +54,7 @@ const StockDisplay: React.FC<StockDisplayProps> = ({ stockTicker }) => {
     textDisplay = (
       <Box>
         <Text color="red.500" fontSize="xs">
-          Sorry, that stock doesn&apos;t exist 😔
+          Sorry, I couldn&apos;t find that stock 😔
         </Text>
       </Box>
     );
@@ -120,6 +123,7 @@ export const LargeStockTile: React.FC<LargeStockTileProps> = ({ tileId }) => {
     () => fetcher(stocks!),
     {
       enabled: stocks != undefined && stocks !== "",
+      retry: 2,
     }
   );
 
@@ -180,7 +184,9 @@ export const LargeStockTile: React.FC<LargeStockTileProps> = ({ tileId }) => {
       </Grid>
     );
   } else if (error) {
-    toDisplay = <Text size="xs">Sorry, that stock doesn&apos;t exist 😔</Text>;
+    toDisplay = (
+      <Text size="xs">Sorry, I couldn&apos;t find that stock 😔</Text>
+    );
   }
 
   return (
