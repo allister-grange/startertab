@@ -66,14 +66,14 @@ const Home: NextPage = () => {
     if (isMobile) {
       const isMobileView = localStorage.getItem("isMobileView");
       setShowingMobileWarning(isMobileView == null);
-    }
-
-    const hasVisitedBefore = localStorage.getItem("hasVisitedBefore");
-    if (!hasVisitedBefore) {
-      setShowingTutorial(true);
-      setTutorialProgress(0);
-      localStorage.setItem("hasVisitedBefore", "true");
-      setTimeout(showNewTabToast, 45000);
+    } else {
+      const hasVisitedBefore = localStorage.getItem("hasVisitedBefore");
+      if (!hasVisitedBefore) {
+        setShowingTutorial(true);
+        setTutorialProgress(0);
+        localStorage.setItem("hasVisitedBefore", "true");
+        setTimeout(showNewTabToast, 45000);
+      }
     }
   }, [isMobileView, showNewTabToast]);
 
@@ -125,7 +125,7 @@ const Home: NextPage = () => {
   return (
     <>
       {toDisplay}
-      {!isOpen && !isMobileView && (
+      {!isOpen && !showingMobileWarning && (
         <SettingsToggle
           onOpen={() => {
             onOpen();
