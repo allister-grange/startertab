@@ -1,10 +1,16 @@
 import { Box, Center, Flex, Heading } from "@chakra-ui/react";
-import Image from "next/image";
-import React from "react";
+import React, { Dispatch, SetStateAction } from "react";
+import { OutlinedButton } from "@/components/ui/OutlinedButton";
 
-export const MobileWarning: React.FC = ({}) => {
+type MobileWarningProps = {
+  setIsMobileView: Dispatch<SetStateAction<boolean>>;
+};
+
+export const MobileWarning: React.FC<MobileWarningProps> = ({
+  setIsMobileView,
+}) => {
   return (
-    <Center height="80vh" bg="white" color="black" p="5">
+    <Center height="95vh" bg="white" color="black" p="5">
       <Flex flexDir={"column"} justifyContent="center" alignItems="center">
         <Heading color="orange" size="xl" mb="3">
           🏄‍♂️🚀🧖
@@ -35,6 +41,16 @@ export const MobileWarning: React.FC = ({}) => {
             <source src="/StarterTabDemoV3.mp4" type="video/mp4"></source>
           </video>
         </Box>
+        <OutlinedButton
+          border="2px solid purple"
+          mt="20"
+          onClick={() => {
+            localStorage.setItem("isMobileView", "false");
+            setIsMobileView(false);
+          }}
+        >
+          Take me through anyway
+        </OutlinedButton>
       </Flex>
     </Center>
   );

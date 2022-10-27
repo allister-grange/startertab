@@ -12,11 +12,11 @@ import { TileId } from "@/types";
 import {
   Box,
   Flex,
+  Link,
+  Text,
   useColorMode,
   useDisclosure,
   useToast,
-  Text,
-  Link,
 } from "@chakra-ui/react";
 import type { NextPage } from "next";
 import { useCallback, useEffect, useState } from "react";
@@ -31,6 +31,7 @@ const Home: NextPage = () => {
   const [optionHovered, setOptionHovered] = useState<TileId | undefined>();
   const [showingTutorial, setShowingTutorial] = useState(false);
   const [tutorialProgress, setTutorialProgress] = useState<number>(-1);
+  const [isMobileView, setIsMobileView] = useState<boolean>(() => isMobile);
 
   const [settings] = useRecoilState(userSettingState);
   const [showingMobileWarning, setShowingMobileWarning] = useState(false);
@@ -63,7 +64,8 @@ const Home: NextPage = () => {
 
   useEffect(() => {
     if (isMobile) {
-      setShowingMobileWarning(true);
+      const isMobileView = localStorage.getItem("isMobileView");
+      setShowingMobileWarning(isMobileView == null);
     }
 
     const hasVisitedBefore = localStorage.getItem("hasVisitedBefore");
@@ -73,7 +75,7 @@ const Home: NextPage = () => {
       localStorage.setItem("hasVisitedBefore", "true");
       setTimeout(showNewTabToast, 45000);
     }
-  }, [showNewTabToast]);
+  }, [isMobileView, showNewTabToast]);
 
   useEffect(() => {
     const themeToChange = getCurrentTheme(settings, colorMode);
@@ -87,7 +89,7 @@ const Home: NextPage = () => {
   let toDisplay;
 
   if (showingMobileWarning) {
-    toDisplay = <MobileWarning />;
+    toDisplay = <MobileWarning setIsMobileView={setIsMobileView} />;
   } else {
     toDisplay = (
       <Box width="100%" display="flex" height="100%">
@@ -123,7 +125,7 @@ const Home: NextPage = () => {
   return (
     <>
       {toDisplay}
-      {!isOpen && !isMobile && (
+      {!isOpen && !isMobileView && (
         <SettingsToggle
           onOpen={() => {
             onOpen();
