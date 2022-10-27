@@ -123,7 +123,7 @@ const Home: NextPage = () => {
   return (
     <>
       {toDisplay}
-      {!isOpen && (
+      {!isOpen && !isMobile && (
         <SettingsToggle
           onOpen={() => {
             onOpen();
