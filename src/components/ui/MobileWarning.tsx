@@ -15,8 +15,23 @@ export const MobileWarning: React.FC = ({}) => {
           This website is not designed for mobile devices, it&apos;s a
           dashboarding website designed to replace your New Tab page.
         </Heading>
+        <Heading mt="6" textAlign="center" color="gray.700" size="md">
+          Please visit the site on a computer and check it out :)
+        </Heading>
         <Box width={"100%"} height="30vh" pt="10">
-          <video height="200" width="360" loop autoPlay muted>
+          <video
+            height="200"
+            width="360"
+            loop
+            autoPlay
+            playsInline
+            muted
+            style={{
+              width: "100%",
+              aspectRatio: "17/12",
+              objectFit: "cover",
+            }}
+          >
             <source src="/StarterTabDemoV3.mp4" type="video/mp4"></source>
           </video>
         </Box>
