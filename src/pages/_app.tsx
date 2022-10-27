@@ -12,6 +12,7 @@ import { useEffect } from "react";
 import { ErrorBoundary } from "react-error-boundary";
 import NoSSR from "react-no-ssr";
 import { RecoilRoot } from "recoil";
+import { Analytics } from "@vercel/analytics/react";
 import "../styles/globals.css";
 
 type MyAppProps = { cookies?: string };
@@ -70,6 +71,7 @@ export function MyApp({
         <NoSSR>
           <RecoilRoot>
             <Component {...pageProps} />
+            <Analytics />
           </RecoilRoot>
         </NoSSR>
       </ChakraProvider>
