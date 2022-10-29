@@ -12,7 +12,12 @@ export const ResetAndRandomizeColors: React.FC<
   ResetAndRandomizeColorsProps
 > = ({ resetAllColorsToDefault, randomizeAllColorValues, textColor }) => {
   return (
-    <Flex alignItems="center" justifyContent="space-between" mt="2">
+    <Flex
+      alignItems="center"
+      justifyContent="space-between"
+      mt="2"
+      flexWrap="wrap"
+    >
       <OutlinedButton
         display="block"
         onClick={randomizeAllColorValues}
