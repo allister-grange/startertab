@@ -19,6 +19,7 @@ export const OutlinedButton: React.FC<ButtonProps> = ({
       _hover={{
         transform: "translateY(-2px)",
       }}
+      overflow="hidden"
       _focus={{
         border: `2px solid ${borderColor}`,
         transform: "translateY(-2px)",

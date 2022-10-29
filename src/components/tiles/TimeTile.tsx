@@ -78,16 +78,10 @@ export const TimeTile: React.FC<TimeProps> = ({ tileId }) => {
       color={color}
       position="relative"
     >
-      <Heading marginX="auto" position="absolute" top="28px">
+      <Heading marginX="auto">
         {timer ? getMinutesAndSeconds(timer) : time}
       </Heading>
-      <Box
-        display="flex"
-        flexDir="row"
-        position="absolute"
-        bottom="15px"
-        width="200px"
-      >
+      <Box display="flex" flexDir="row" width="200px" mt="3">
         <Input
           borderColor={color}
           type="number"

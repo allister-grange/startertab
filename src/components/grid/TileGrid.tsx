@@ -38,14 +38,14 @@ const baseArea = `"tall1 small1"
 `;
 
 const xlColumns = "270px 250px 250px 250px 250px";
-const xlRows = "150px 150px 60px 150px 150px";
+const xlRows = "150px 150px 70px 150px 150px";
 
 const lColumns = "250px 250px 250px";
-const lRows = "150px 150px 60px 150px 150px 150px 150px 150px";
+const lRows = "150px 150px 70px 160px 160px 150px 150px 150px";
 
 const baseColumns = "230px 230px";
 const baseRows =
-  "150px 150px 150px 150px 150px 150px 60px 150px 150px 150px 150px";
+  "160px 160px 150px 150px 160px 160px 70px 150px 150px 160px 160px";
 
 export const TileGrid: React.FC<TileGridProps> = ({
   optionHovered,
