@@ -1,5 +1,5 @@
 import { TileId } from "@/types";
-import { Box } from "@chakra-ui/react";
+import { Box, Input } from "@chakra-ui/react";
 import React, { useRef, useState } from "react";
 import ReactMarkdown from "react-markdown";
 
@@ -7,7 +7,11 @@ interface MarkdownFileTileProps {
   tileId: TileId;
 }
 
-export const MarkdownFileTile: React.FC<MarkdownFileTileProps> = ({}) => {
+export const MarkdownFileTile: React.FC<MarkdownFileTileProps> = ({
+  tileId,
+}) => {
+  const color = `var(--text-color-${tileId})`;
+
   // on load, if no markdown file, open it
   const fileInputRef = useRef(null);
   const [markdown, setMarkdown] = useState("");
@@ -25,27 +29,15 @@ export const MarkdownFileTile: React.FC<MarkdownFileTileProps> = ({}) => {
 
     console.log("markdownText", markdownText);
     setMarkdown(markdownText);
-    // 👇️ reset file input
-    // event.target.value = null;
-
-    // // 👇️ is now empty
-    // console.log(event.target.files);
-
-    // // 👇️ can still access file object here
-    // console.log(fileObj);
-    // console.log(fileObj.name);
   };
 
   return (
     <Box p="6">
-      <input
-        // style={{ display: "none" }}
-        ref={fileInputRef}
-        type="file"
-        onChange={handleFileChange}
-      />
+      <Input ref={fileInputRef} type="file" onChange={handleFileChange} />
 
-      <ReactMarkdown>{markdown}</ReactMarkdown>
+      <div className="markdown-body" style={{ color }}>
+        <ReactMarkdown>{markdown}</ReactMarkdown>
+      </div>
     </Box>
   );
 };
