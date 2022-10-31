@@ -76,6 +76,7 @@ export type TileSettings = {
   hackerNewsFeedType?: string;
   spotifyArtistSearchTimeLength?: string;
   bookings?: Booking[];
+  markdownFileText?: string;
 };
 
 export type ThemeSettings = {
