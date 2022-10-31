@@ -41,6 +41,7 @@ export type TileType =
   | "Small Spotify Tile"
   | "Time"
   | "Twitter Feed Tile"
+  | "Markdown File Tile"
   | "Todo List"
   | "Large Spotify Tile"
   | "Small Stock Tile"
@@ -75,6 +76,7 @@ export type TileSettings = {
   hackerNewsFeedType?: string;
   spotifyArtistSearchTimeLength?: string;
   bookings?: Booking[];
+  markdownFileText?: string;
 };
 
 export type ThemeSettings = {

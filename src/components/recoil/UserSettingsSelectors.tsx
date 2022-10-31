@@ -281,3 +281,28 @@ export const spotifyTopArtistTimeLengthSelector = selectorFamily({
       set(userSettingState, userSettings);
     },
 });
+
+export const markdownFileTextSelector = selectorFamily({
+  key: "MarkdownFileText",
+  get:
+    (tileId: TileId) =>
+    ({ get }) => {
+      const settings = get(userSettingState);
+      const colorMode = get(colorModeState);
+      const currentTheme = getCurrentTheme(settings, colorMode);
+
+      return currentTheme[tileId].markdownFileText;
+    },
+  set:
+    (tileId: TileId) =>
+    ({ get, set }, newValue) => {
+      const userSettings = JSON.parse(
+        JSON.stringify(get(userSettingState))
+      ) as UserSettings;
+
+      userSettings.themes.forEach(
+        (theme) => (theme[tileId].markdownFileText = newValue as string)
+      );
+      set(userSettingState, userSettings);
+    },
+});

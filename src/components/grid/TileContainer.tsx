@@ -18,6 +18,7 @@ import {
   TimeTile,
   UvGraphTile,
   TwitterFeedTile,
+  MarkdownFileTile,
 } from "@/components/tiles";
 import TodoListTile from "@/components/tiles/TodoListTile";
 import StravaGraphTile from "@/components/tiles/StravaGraphTile";
@@ -73,6 +74,9 @@ const TileContainer: React.FC<TileContainerProps> = ({ tileId, tileType }) => {
       break;
     case "Hacker News Feed":
       tileToRender = <HackerNewsFeedTile tileId={tileId} />;
+      break;
+    case "Markdown File Tile":
+      tileToRender = <MarkdownFileTile tileId={tileId} />;
       break;
     case "Blank Tile":
       tileToRender = <Box width="100%" height="100%" />;

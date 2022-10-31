@@ -91,6 +91,9 @@ export const TileTypePicker: React.FC<TileTypePickerProps> = ({
           <option style={optionsStyles} value="Twitter Feed Tile">
             Twitter Feed
           </option>
+          <option style={optionsStyles} value="Markdown File Tile">
+            Markdown File
+          </option>
         </>
       );
       break;
@@ -117,6 +120,9 @@ export const TileTypePicker: React.FC<TileTypePickerProps> = ({
           </option>
           <option style={optionsStyles} value="Large Weather Tile">
             Weather Forecast
+          </option>
+          <option style={optionsStyles} value="Markdown File Tile">
+            Markdown File
           </option>
         </>
       );

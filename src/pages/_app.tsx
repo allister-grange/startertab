@@ -13,7 +13,8 @@ import { ErrorBoundary } from "react-error-boundary";
 import NoSSR from "react-no-ssr";
 import { RecoilRoot } from "recoil";
 import { Analytics } from "@vercel/analytics/react";
-import "../styles/globals.css";
+import "@/styles/globals.css";
+import "@/styles/github-markdown.css";
 
 type MyAppProps = { cookies?: string };
 const breakpoints = {
