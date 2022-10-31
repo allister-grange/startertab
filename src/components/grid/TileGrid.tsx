@@ -73,7 +73,6 @@ export const TileGrid: React.FC<TileGridProps> = ({
       <Tile
         tileId={"tile2"}
         optionHovered={optionHovered === "tile2"}
-        overflow="hidden"
         gridArea="wide1"
       />
       <Tile
