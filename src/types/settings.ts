@@ -48,6 +48,7 @@ export type TileType =
   | "Large Stock Tile"
   | "Spotify Top Artist Tile"
   | "Blank Tile"
+  | "Favorite Links Tile"
   | "None";
 
 export type TileSettings = {
@@ -77,6 +78,7 @@ export type TileSettings = {
   spotifyArtistSearchTimeLength?: string;
   bookings?: Booking[];
   markdownFileText?: string;
+  favoriteLinks?: string[];
 };
 
 export type ThemeSettings = {

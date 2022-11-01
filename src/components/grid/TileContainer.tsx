@@ -19,6 +19,7 @@ import {
   UvGraphTile,
   TwitterFeedTile,
   MarkdownFileTile,
+  FavoriteLinksTile,
 } from "@/components/tiles";
 import TodoListTile from "@/components/tiles/TodoListTile";
 import StravaGraphTile from "@/components/tiles/StravaGraphTile";
@@ -71,6 +72,9 @@ const TileContainer: React.FC<TileContainerProps> = ({ tileId, tileType }) => {
   switch (tileType) {
     case "Reddit Feed":
       tileToRender = <RedditFeedTile tileId={tileId} />;
+      break;
+    case "Favorite Links Tile":
+      tileToRender = <FavoriteLinksTile tileId={tileId} />;
       break;
     case "Hacker News Feed":
       tileToRender = <HackerNewsFeedTile tileId={tileId} />;
