@@ -4,7 +4,13 @@ import {
   userSettingState,
 } from "@/components/recoil/UserSettingsAtom";
 import { getCurrentTheme } from "@/helpers/settingsHelpers";
-import { TileId, TodoObject, UserSettings, Booking } from "@/types";
+import {
+  TileId,
+  TodoObject,
+  UserSettings,
+  Booking,
+  FavoriteLink,
+} from "@/types";
 
 export const redditFeedSelector = selectorFamily({
   key: "RedditFeed",
@@ -302,6 +308,31 @@ export const markdownFileTextSelector = selectorFamily({
 
       userSettings.themes.forEach(
         (theme) => (theme[tileId].markdownFileText = newValue as string)
+      );
+      set(userSettingState, userSettings);
+    },
+});
+
+export const favoriteLinksSelector = selectorFamily({
+  key: "FavoriteLinks",
+  get:
+    (tileId: TileId) =>
+    ({ get }) => {
+      const settings = get(userSettingState);
+      const colorMode = get(colorModeState);
+      const currentTheme = getCurrentTheme(settings, colorMode);
+
+      return currentTheme[tileId].favoriteLinks;
+    },
+  set:
+    (tileId: TileId) =>
+    ({ get, set }, newValue) => {
+      const userSettings = JSON.parse(
+        JSON.stringify(get(userSettingState))
+      ) as UserSettings;
+
+      userSettings.themes.forEach(
+        (theme) => (theme[tileId].favoriteLinks = newValue as FavoriteLink[])
       );
       set(userSettingState, userSettings);
     },

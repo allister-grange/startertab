@@ -1,4 +1,4 @@
-import { TodoObject, Booking } from "@/types/tiles";
+import { TodoObject, Booking, FavoriteLink } from "@/types/tiles";
 
 export type Option = {
   title: string;
@@ -78,7 +78,7 @@ export type TileSettings = {
   spotifyArtistSearchTimeLength?: string;
   bookings?: Booking[];
   markdownFileText?: string;
-  favoriteLinks?: string[];
+  favoriteLinks?: FavoriteLink[];
 };
 
 export type ThemeSettings = {
