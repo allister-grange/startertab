@@ -53,12 +53,12 @@ export default async function handler(
         const forwardBool = forward === "true" ? true : false;
         await changeSongSpotify(forwardBool, accessToken as string);
 
-        res.status(200).json({ success: true });
+        return res.status(200).json({ success: true });
       } else if (pause !== undefined) {
         const pauseBool = pause === "true" ? true : false;
         await pausePlaySongSpotify(pauseBool, accessToken as string);
 
-        res.status(200).json({ success: true });
+        return res.status(200).json({ success: true });
       }
     } catch (err) {
       return res.status(500).json(err);
@@ -76,7 +76,7 @@ export default async function handler(
         await setNewTokenCookies(newAccessToken, newRefreshToken, res);
       }
 
-      res.status(200).json(spotifyData);
+      return res.status(200).json(spotifyData);
     } catch (err) {
       return res.status(500).json(err);
     }
@@ -101,8 +101,12 @@ export const getSpotifyStatus = async (
   }
 
   if (spotifyStatusRes.status === 204) {
-    const data = await getRecentlyPlayed(accessToken);
-    return data;
+    try {
+      const data = await getRecentlyPlayed(accessToken);
+      return data;
+    } catch {
+      return null;
+    }
   }
 
   if (spotifyStatusRes.status !== 200) {
