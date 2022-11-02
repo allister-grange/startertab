@@ -83,7 +83,7 @@ export const FavoriteLinksTile: React.FC<FavoriteLinksTileProps> = ({
               <FormLabel>Link</FormLabel>
               <Input
                 width="200px"
-                size="sm"
+                size="md"
                 borderColor={color}
                 name="url"
                 placeholder={"Add a link"}
@@ -98,7 +98,7 @@ export const FavoriteLinksTile: React.FC<FavoriteLinksTileProps> = ({
               <FormLabel>Shortcut Name</FormLabel>
               <Input
                 width="200px"
-                size="sm"
+                size="md"
                 name="shortcutName"
                 borderColor={color}
                 placeholder={"Add a name for the link"}
