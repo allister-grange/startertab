@@ -117,6 +117,17 @@ export const FavoriteLinksTile: React.FC<FavoriteLinksTileProps> = ({
               >
                 Create shortcut
               </OutlinedButton>
+              <OutlinedButton
+                fontSize="xs"
+                display="block"
+                shadow="none"
+                p="0"
+                ml="2px"
+                mt="1"
+                onClick={() => setShowingInputForm(false)}
+              >
+                Take me back
+              </OutlinedButton>
             </FormControl>
           </form>
         </Box>
@@ -164,22 +175,13 @@ export const FavoriteLinksTile: React.FC<FavoriteLinksTileProps> = ({
         </UnorderedList>
       )}
       <Box width="100%" pos="absolute" bottom="1px" right="3">
-        {showingInputForm ? (
+        {!showingInputForm && (
           <OutlinedButton
             fontSize="xs"
             marginLeft="auto"
             display="block"
             shadow="none"
-            onClick={() => setShowingInputForm(false)}
-          >
-            Go back
-          </OutlinedButton>
-        ) : (
-          <OutlinedButton
-            fontSize="xs"
-            marginLeft="auto"
-            display="block"
-            shadow="none"
+            pos="sticky"
             onClick={() => setShowingInputForm(true)}
           >
             Add link
