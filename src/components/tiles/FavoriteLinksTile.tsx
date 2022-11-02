@@ -11,7 +11,7 @@ import {
   ListItem,
   UnorderedList,
 } from "@chakra-ui/react";
-import React, { FormEvent, useState } from "react";
+import React, { FormEvent, useRef, useState } from "react";
 import { SetterOrUpdater, useRecoilState } from "recoil";
 import { OutlinedButton } from "../ui/OutlinedButton";
 
@@ -23,6 +23,7 @@ export const FavoriteLinksTile: React.FC<FavoriteLinksTileProps> = ({
   tileId,
 }) => {
   const color = `var(--text-color-${tileId})`;
+  const divRef = useRef<HTMLDivElement | null>(null);
   const [favoriteLinks, setFavoriteLinks] = useRecoilState(
     favoriteLinksSelector(tileId)
   ) as [
@@ -33,6 +34,21 @@ export const FavoriteLinksTile: React.FC<FavoriteLinksTileProps> = ({
     !(favoriteLinks && favoriteLinks.length > 0)
   );
   const [deleteShortcutId, setDeleteShortcutId] = useState("");
+  const [displayingOnWideTile, setDisplayingOnWideTile] = useState(false);
+  const [displayingOnShortTile, setDisplayingOnShortTile] = useState(false);
+
+  React.useEffect(() => {
+    if (!divRef.current) {
+      return;
+    }
+
+    if (divRef.current.offsetWidth > 300) {
+      setDisplayingOnWideTile(true);
+    }
+    if (divRef.current.offsetHeight < 200) {
+      setDisplayingOnShortTile(true);
+    }
+  }, []);
 
   const onNewShortcutSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -75,7 +91,7 @@ export const FavoriteLinksTile: React.FC<FavoriteLinksTileProps> = ({
   };
 
   return (
-    <Box color={color} px="6" py="4">
+    <Box color={color} px="6" py="4" ref={divRef}>
       {showingInputForm ? (
         <Box width="100%" alignItems="center">
           <form onSubmit={onNewShortcutSubmit}>
@@ -132,7 +148,17 @@ export const FavoriteLinksTile: React.FC<FavoriteLinksTileProps> = ({
           </form>
         </Box>
       ) : (
-        <UnorderedList listStyleType="none" m="0" width="100%">
+        <UnorderedList
+          listStyleType="none"
+          m="0"
+          maxH={displayingOnShortTile ? "110px" : "255px"}
+          overflow={displayingOnWideTile ? "flow" : "hidden"}
+          display="flex"
+          flexDirection="column"
+          flexWrap={displayingOnWideTile ? "wrap" : undefined}
+          gap="4px"
+          columnGap="6"
+        >
           {favoriteLinks?.map((shortcut) => (
             <ListItem
               key={shortcut.id}
@@ -148,7 +174,6 @@ export const FavoriteLinksTile: React.FC<FavoriteLinksTileProps> = ({
                 alignItems="center"
                 flexDir="row"
                 wordBreak="break-word"
-                mt="1"
                 transition="all .2s"
                 _hover={{ transform: "translateY(-2px)" }}
               >
@@ -174,7 +199,7 @@ export const FavoriteLinksTile: React.FC<FavoriteLinksTileProps> = ({
           ))}
         </UnorderedList>
       )}
-      <Box width="100%" pos="absolute" bottom="1px" right="3">
+      <Box pos="absolute" bottom="0" right="3">
         {!showingInputForm && (
           <OutlinedButton
             fontSize="xs"
