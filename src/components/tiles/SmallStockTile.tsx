@@ -60,8 +60,8 @@ export const SmallStockTile: React.FC<SmallStockTileProps> = ({ tileId }) => {
 
   if (!stock) {
     toDisplay = (
-      <form onSubmit={handleSubmitStockName}>
-        <Text pos="absolute" top="4" left="3" fontSize="lg" fontWeight="500">
+      <form onSubmit={handleSubmitStockName} style={{ height: "100%" }}>
+        <Text mb="4" fontSize="lg" fontWeight="500" mt="2">
           Stock Display
         </Text>
         <InputGroup>
@@ -114,7 +114,7 @@ export const SmallStockTile: React.FC<SmallStockTileProps> = ({ tileId }) => {
         fontSize="11px"
         pos="absolute"
         right="0"
-        bottom="-2"
+        bottom="0"
         borderColor={"none"}
         shadow="none"
         borderWidth="0px"
