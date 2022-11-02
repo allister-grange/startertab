@@ -1,10 +1,11 @@
 import { favoriteLinksSelector } from "@/components/recoil/UserSettingsSelectors";
 import { FavoriteLink, TileId } from "@/types";
+import { SmallCloseIcon } from "@chakra-ui/icons";
 import {
   Box,
-  Button,
   FormControl,
   FormLabel,
+  Image,
   Input,
   Link,
   ListItem,
@@ -31,7 +32,7 @@ export const FavoriteLinksTile: React.FC<FavoriteLinksTileProps> = ({
   const [showingInputForm, setShowingInputForm] = useState(
     !(favoriteLinks && favoriteLinks.length > 0)
   );
-  const [deleteShortcutId, setDeleteShortcutId] = useState(-10);
+  const [deleteShortcutId, setDeleteShortcutId] = useState("");
 
   const onNewShortcutSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -42,29 +43,35 @@ export const FavoriteLinksTile: React.FC<FavoriteLinksTileProps> = ({
 
     const url = target.url.value;
     const shortcutName = target.shortcutName.value;
-    const favicon = "https://startertab.com/favicon.ico";
+    const favicon = `https://s2.googleusercontent.com/s2/favicons?domain=${url}&size=64`;
 
-    if (favoriteLinks) {
-      setFavoriteLinks([
-        ...favoriteLinks,
-        {
-          url: url,
-          id: favoriteLinks[favoriteLinks.length - 1].id + 1,
-          name: shortcutName,
-          favicon,
-        },
-      ]);
-    } else {
-      setFavoriteLinks([
-        {
-          url: url,
-          id: 1,
-          name: shortcutName,
-          favicon,
-        },
-      ]);
-    }
+    setFavoriteLinks([
+      ...(favoriteLinks || []),
+      {
+        url: url,
+        id: (Math.random() + 1).toString(36).substring(7),
+        name: shortcutName,
+        favicon,
+      },
+    ]);
     setShowingInputForm(false);
+  };
+
+  const handleShortcutDelete = (shortcutId: string) => {
+    if (!favoriteLinks) {
+      return;
+    }
+
+    const shortcutsToClone = [...favoriteLinks];
+    const shortcutDeletionIndex = shortcutsToClone.findIndex(
+      (shortcut) => shortcut.id === shortcutId
+    );
+    if (shortcutDeletionIndex === undefined) {
+      return;
+    }
+
+    shortcutsToClone.splice(shortcutDeletionIndex, 1);
+    setFavoriteLinks(shortcutsToClone);
   };
 
   return (
@@ -72,7 +79,7 @@ export const FavoriteLinksTile: React.FC<FavoriteLinksTileProps> = ({
       {showingInputForm ? (
         <Box width="100%" alignItems="center">
           <form onSubmit={onNewShortcutSubmit}>
-            <FormControl>
+            <FormControl isRequired>
               <FormLabel>Link</FormLabel>
               <Input
                 width="200px"
@@ -87,7 +94,7 @@ export const FavoriteLinksTile: React.FC<FavoriteLinksTileProps> = ({
                 _hover={{ borderColor: color }}
               />
             </FormControl>
-            <FormControl mt="4">
+            <FormControl mt="4" isRequired>
               <FormLabel>Shortcut Name</FormLabel>
               <Input
                 width="200px"
@@ -101,9 +108,6 @@ export const FavoriteLinksTile: React.FC<FavoriteLinksTileProps> = ({
                 _focus={{ borderColor: color }}
                 _hover={{ borderColor: color }}
               />
-              {/* <FormHelperText color={color}>
-              Short hand name for the link to display as{" "}
-            </FormHelperText> */}
             </FormControl>
             <FormControl mt="6">
               <OutlinedButton
@@ -117,28 +121,70 @@ export const FavoriteLinksTile: React.FC<FavoriteLinksTileProps> = ({
           </form>
         </Box>
       ) : (
-        <UnorderedList>
+        <UnorderedList listStyleType="none" m="0" width="100%">
           {favoriteLinks?.map((shortcut) => (
             <ListItem
-              key={shortcut.url}
+              key={shortcut.id}
               onMouseEnter={() => setDeleteShortcutId(shortcut.id)}
+              onMouseLeave={() => setDeleteShortcutId("")}
+              display="flex"
+              alignItems="center"
+              flexDir="row"
             >
-              <Link href={shortcut.url}>{shortcut.name}</Link>
-              {deleteShortcutId === shortcut.id && <Button>X</Button>}
+              <Link
+                href={shortcut.url}
+                display="flex"
+                alignItems="center"
+                flexDir="row"
+                wordBreak="break-word"
+                mt="1"
+                transition="all .2s"
+                _hover={{ transform: "translateY(-2px)" }}
+              >
+                <Image
+                  height="4"
+                  src={shortcut.favicon}
+                  alt="Favicon for shortcut url"
+                  mr="4"
+                  mt="1px"
+                />
+                {shortcut.name}
+              </Link>
+              {deleteShortcutId === shortcut.id && (
+                <SmallCloseIcon
+                  cursor="pointer"
+                  color={color}
+                  opacity="0.6"
+                  ml="auto"
+                  onClick={() => handleShortcutDelete(shortcut.id)}
+                />
+              )}
             </ListItem>
           ))}
         </UnorderedList>
       )}
-      <Box width="100%" pos="absolute" bottom="1" right="1">
-        <OutlinedButton
-          fontSize="xs"
-          marginLeft="auto"
-          display="block"
-          shadow="none"
-          onClick={() => setShowingInputForm(true)}
-        >
-          Add link
-        </OutlinedButton>
+      <Box width="100%" pos="absolute" bottom="1px" right="3">
+        {showingInputForm ? (
+          <OutlinedButton
+            fontSize="xs"
+            marginLeft="auto"
+            display="block"
+            shadow="none"
+            onClick={() => setShowingInputForm(false)}
+          >
+            Go back
+          </OutlinedButton>
+        ) : (
+          <OutlinedButton
+            fontSize="xs"
+            marginLeft="auto"
+            display="block"
+            shadow="none"
+            onClick={() => setShowingInputForm(true)}
+          >
+            Add link
+          </OutlinedButton>
+        )}
       </Box>
     </Box>
   );

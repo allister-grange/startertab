@@ -14,7 +14,7 @@ export type Booking = {
 };
 
 export type FavoriteLink = {
-  id: number;
+  id: string;
   url: string;
   favicon: string;
   name: string;
