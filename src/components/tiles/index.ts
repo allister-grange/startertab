@@ -17,3 +17,4 @@ export * from "./TodoListTile";
 export * from "./DayPlanner/DayPlannerTile";
 export * from "./TwitterFeedTile";
 export * from "./MarkdownFileTile";
+export * from "./FavoriteLinksTile";

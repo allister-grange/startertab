@@ -139,7 +139,7 @@ const TodoListTile: React.FC<TodoListProps> = ({
             onChange={onInputChange}
             onKeyDown={onKeyPress}
             placeholder={
-              (!unfinishedTodos || unfinishedTodos.length) <= 0
+              !unfinishedTodos || unfinishedTodos.length <= 0
                 ? "Add a to-do"
                 : ""
             }

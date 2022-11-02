@@ -47,3 +47,7 @@ input[type="time"]::-webkit-calendar-picker-indicator {
   --text-color-tile-11: #ffffff;
   --text-color-tile-12: #ffffff;
 }
+
+.chakra-form__required-indicator {
+  display: none;
+}
