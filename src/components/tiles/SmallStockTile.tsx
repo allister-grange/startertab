@@ -114,7 +114,7 @@ export const SmallStockTile: React.FC<SmallStockTileProps> = ({ tileId }) => {
         fontSize="11px"
         pos="absolute"
         right="0"
-        bottom="-2"
+        bottom="-1"
         borderColor={"none"}
         shadow="none"
         borderWidth="0px"

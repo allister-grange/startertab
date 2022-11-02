@@ -49,6 +49,9 @@ export const TileTypePicker: React.FC<TileTypePickerProps> = ({
           <option style={optionsStyles} value="Blank Tile">
             Blank
           </option>
+          <option style={optionsStyles} value="Favorite Links Tile">
+            Favorite Links
+          </option>
           <option style={optionsStyles} value="Small Spotify Tile">
             Spotify
           </option>
@@ -76,8 +79,14 @@ export const TileTypePicker: React.FC<TileTypePickerProps> = ({
           <option style={optionsStyles} value="Bonsai">
             Bonsai
           </option>
+          <option style={optionsStyles} value="Favorite Links Tile">
+            Favorite Links
+          </option>
           <option style={optionsStyles} value="Hacker News Feed">
             Hacker News Feed
+          </option>
+          <option style={optionsStyles} value="Markdown File Tile">
+            Markdown File
           </option>
           <option style={optionsStyles} value="Reddit Feed">
             Reddit Feed
@@ -91,9 +100,6 @@ export const TileTypePicker: React.FC<TileTypePickerProps> = ({
           <option style={optionsStyles} value="Twitter Feed Tile">
             Twitter Feed
           </option>
-          <option style={optionsStyles} value="Markdown File Tile">
-            Markdown File
-          </option>
         </>
       );
       break;
@@ -106,6 +112,12 @@ export const TileTypePicker: React.FC<TileTypePickerProps> = ({
           {/* <option style={optionsStyles} value="Javascript Console Tile">
             Javascript Console Tile
           </option> */}
+          <option style={optionsStyles} value="Favorite Links Tile">
+            Favorite Links
+          </option>
+          <option style={optionsStyles} value="Markdown File Tile">
+            Markdown File
+          </option>
           <option style={optionsStyles} value="Large Spotify Tile">
             Spotify Tile
           </option>
@@ -120,9 +132,6 @@ export const TileTypePicker: React.FC<TileTypePickerProps> = ({
           </option>
           <option style={optionsStyles} value="Large Weather Tile">
             Weather Forecast
-          </option>
-          <option style={optionsStyles} value="Markdown File Tile">
-            Markdown File
           </option>
         </>
       );

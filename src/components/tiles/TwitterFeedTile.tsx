@@ -2,10 +2,9 @@ import { TwitterContext } from "@/context/TwitterContext";
 import { TileId, TwitterContextInterface } from "@/types";
 import { Box, Center, Heading, Link, Text } from "@chakra-ui/react";
 import React, { useContext } from "react";
-import { TextFeedSkeleton } from "../skeletons/TextFeedSkeleton";
-import { OutlinedButton } from "../ui/OutlinedButton";
-import { StravaLogo } from "../ui/StravaLogo";
-import { TwitterLogo } from "../ui/TwitterLogo";
+import { TextFeedSkeleton } from "@/components/skeletons/TextFeedSkeleton";
+import { OutlinedButton } from "@/components/ui/OutlinedButton";
+import { TwitterLogo } from "@/components/ui/TwitterLogo";
 
 interface TwitterFeedTileProps {
   tileId: TileId;

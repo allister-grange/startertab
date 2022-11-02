@@ -12,3 +12,10 @@ export type Booking = {
   creationDate: Date;
   permanentBooking: boolean;
 };
+
+export type FavoriteLink = {
+  id: string;
+  url: string;
+  favicon: string;
+  name: string;
+};
