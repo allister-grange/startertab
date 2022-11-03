@@ -15,7 +15,6 @@ export function useLocalStorage(
       const item = window.localStorage.getItem(key);
 
       if (item) {
-        console.log("Found " + key + " in local storage " + item);
         return JSON.parse(item) as UserSettings;
       }
 
@@ -36,7 +35,7 @@ export function useLocalStorage(
         window.localStorage.setItem(key, JSON.stringify(valueToStore));
       }
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
   };
 

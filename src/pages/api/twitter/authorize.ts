@@ -45,9 +45,6 @@ export default async function handler(
 
     const AES = (await import("crypto-js/aes")).default;
 
-    console.log("access token", access_token);
-    console.log("refresh token", refresh_token);
-
     res.setHeader("Set-Cookie", [
       cookie.serialize("twitterRefreshToken", refresh_token, {
         httpOnly: true,

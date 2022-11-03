@@ -44,9 +44,19 @@ const SpotifyContextProvider: React.FC<Props> = ({ children }) => {
 
   const fetchCurrentSong = React.useCallback(async () => {
     try {
-      const res = await fetch(`/api/spotify`);
-      let data = (await res.json()) as NowPlayingSpotifyData;
+      let res = await fetch(`/api/spotify/currentlyPlaying`);
 
+      // if no music is playing, fetch last song
+      if (res.status === 204) {
+        res = await fetch(`/api/spotify/recentlyPlayed`, { method: "GET" });
+      }
+      // refresh tokens
+      else if (res.status === 401) {
+        await fetch(`/api/spotify/refreshTokens`, { method: "POST" });
+        return;
+      }
+
+      let data = (await res.json()) as NowPlayingSpotifyData;
       setSpotifyData(data);
     } catch (err) {
       console.error("Failed fetching current song", err);
@@ -57,8 +67,14 @@ const SpotifyContextProvider: React.FC<Props> = ({ children }) => {
     setTopArtists([]);
     try {
       const res = await fetch(`/api/spotify/topArtists?timeRange=${timeRage}`);
-      let data = (await res.json()) as TopArtistSpotifyData;
 
+      // refresh tokens
+      if (res.status === 401) {
+        await fetch(`/api/spotify/refreshTokens`, { method: "POST" });
+        return;
+      }
+
+      let data = (await res.json()) as TopArtistSpotifyData;
       setTopArtists(data.topArtists);
     } catch (err) {
       console.error("Failed fetching top artists", err);
@@ -66,7 +82,7 @@ const SpotifyContextProvider: React.FC<Props> = ({ children }) => {
   }, []);
 
   const setRefreshingInterval = React.useCallback(() => {
-    const interval = setInterval(fetchCurrentSong, 750);
+    const interval = setInterval(fetchCurrentSong, 900);
     refreshingInterval.current = interval;
   }, [fetchCurrentSong]);
 
@@ -97,7 +113,15 @@ const SpotifyContextProvider: React.FC<Props> = ({ children }) => {
   const skipSong = async (forward: boolean) => {
     try {
       clearInterval(refreshingInterval.current!);
-      await fetch(`/api/spotify?forward=${forward}`, { method: "POST" });
+      const res = await fetch(`/api/spotify/changeSong?forward=${forward}`, {
+        method: "POST",
+      });
+
+      // refresh tokens
+      if (res.status === 401) {
+        await fetch(`/api/spotify/refreshTokens`, { method: "POST" });
+        return;
+      }
     } catch (err) {
       console.error(err);
     } finally {
@@ -108,9 +132,15 @@ const SpotifyContextProvider: React.FC<Props> = ({ children }) => {
   const pausePlaySong = async (pause: boolean) => {
     try {
       clearInterval(refreshingInterval.current!);
-      await fetch(`/api/spotify?pause=${pause}`, {
-        method: "POST",
+      const res = await fetch(`/api/spotify/pauseOrPlaySong?pause=${pause}`, {
+        method: "PUT",
       });
+
+      // refresh tokens
+      if (res.status === 401) {
+        await fetch(`/api/spotify/refreshTokens`, { method: "POST" });
+        return;
+      }
     } catch (err) {
       console.error(err);
       setSpotifyData({
