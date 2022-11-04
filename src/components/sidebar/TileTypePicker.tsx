@@ -109,6 +109,9 @@ export const TileTypePicker: React.FC<TileTypePickerProps> = ({
           <option style={optionsStyles} value="Blank Tile">
             Blank
           </option>
+          <option style={optionsStyles} value="Bonsai">
+            Bonsai
+          </option>
           {/* <option style={optionsStyles} value="Javascript Console Tile">
             Javascript Console Tile
           </option> */}

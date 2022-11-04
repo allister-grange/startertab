@@ -41,6 +41,7 @@ const Tile: React.FC<TileProps> = ({
       background={`var(--bg-color-${tileId})`}
       pos="relative"
       overflowY="scroll"
+      overflowX="hidden"
       className={styles.disableScrollbars}
       {...props}
     >
