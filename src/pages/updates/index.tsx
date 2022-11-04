@@ -2,6 +2,10 @@ import { Box, Flex, Heading, Link, Text } from "@chakra-ui/react";
 import React from "react";
 
 const UpdatesPage: React.FC = ({}) => {
+  React.useEffect(() => {
+    document.body.style.background = "white";
+  });
+
   return (
     <Box width={["100%", "100%", "90%", "70%"]} mx="auto" p="6">
       <Flex width="80%" direction={["column", "column", "row"]}>
