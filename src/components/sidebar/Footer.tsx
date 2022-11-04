@@ -1,6 +1,7 @@
 import { Box, Text } from "@chakra-ui/react";
 import React from "react";
 import { GithubSvg } from "@/components/ui/GithubSvg";
+import Link from "next/link";
 
 interface SideBarFooterProps {
   textColor: string;
@@ -40,7 +41,7 @@ export const Footer: React.FC<SideBarFooterProps> = ({ textColor }) => {
         width="1px"
       />
       <Text ml="3" fontSize="12px" fontWeight="bold">
-        <a href="/updates">Updates</a>
+        <Link href="/updates">Updates</Link>
       </Text>
     </Box>
   );
