@@ -62,6 +62,26 @@ const Home: NextPage = () => {
     });
   }, [toast]);
 
+  const showUpdateToast = useCallback(() => {
+    toast({
+      title: "I've made an update!",
+      description: (
+        <Text>
+          Check it out{" "}
+          <Link color="coral" href="/updates">
+            here
+          </Link>
+          . This notification will not appear until the next update, don&apos;t
+          worry 🙂
+        </Text>
+      ),
+      status: "info",
+      duration: 10000,
+      isClosable: true,
+      position: "top",
+    });
+  }, [toast]);
+
   useEffect(() => {
     if (isMobile) {
       const isMobileView = localStorage.getItem("isMobileView");
@@ -73,9 +93,15 @@ const Home: NextPage = () => {
         setTutorialProgress(0);
         localStorage.setItem("hasVisitedBefore", "true");
         setTimeout(showNewTabToast, 45000);
+      } else {
+        const hasSeenNewUpdate = localStorage.getItem("hasSeenNewUpdate1.10");
+        if (!hasSeenNewUpdate) {
+          localStorage.setItem("hasSeenNewUpdate1.10", "true");
+          showUpdateToast();
+        }
       }
     }
-  }, [isMobileView, showNewTabToast]);
+  }, [isMobileView, showNewTabToast, showUpdateToast]);
 
   useEffect(() => {
     const themeToChange = getCurrentTheme(settings, colorMode);
