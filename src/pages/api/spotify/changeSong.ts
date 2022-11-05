@@ -9,6 +9,11 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
+  if (req.method !== "POST") {
+    res.setHeader("Allow", ["POST"]);
+    return res.status(405).json({ success: false });
+  }
+
   let accessToken = req.cookies["spotifyAccessToken"];
   let refreshToken = req.cookies["spotifyRefreshToken"];
   if (!accessToken || !refreshToken) {
@@ -35,35 +40,30 @@ export default async function handler(
   } = req;
   const forwardBool = forward === "true" ? true : false;
 
-  if (req.method === "POST") {
-    try {
-      const endpointUrl = forwardBool
-        ? NEXT_SONG_ENDPOINT
-        : PREVIOUS_SONG_ENDPOINT;
+  try {
+    const endpointUrl = forwardBool
+      ? NEXT_SONG_ENDPOINT
+      : PREVIOUS_SONG_ENDPOINT;
 
-      const changeSongRes = await fetch(endpointUrl, {
-        method: "POST",
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-          "Content-Type": "application/json",
-        },
-      });
+    const changeSongRes = await fetch(endpointUrl, {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+        "Content-Type": "application/json",
+      },
+    });
 
-      // access token is out of data, the client should refresh itself
-      if (changeSongRes.status === 401) {
-        return res.status(401).send("Auth token has expired");
-      }
-
-      if (changeSongRes.status >= 400) {
-        return res.status(500).json("Failed to change song");
-      }
-
-      return res.status(200).json("Changed song");
-    } catch (err) {
-      return res.status(500).json(err);
+    // access token is out of data, the client should refresh itself
+    if (changeSongRes.status === 401) {
+      return res.status(401).send("Auth token has expired");
     }
-  } else {
-    res.setHeader("Allow", "POST");
-    return res.status(405).json({ success: false });
+
+    if (changeSongRes.status >= 400) {
+      return res.status(500).json("Failed to change song");
+    }
+
+    return res.status(200).json("Changed song");
+  } catch (err) {
+    return res.status(500).json(err);
   }
 }
