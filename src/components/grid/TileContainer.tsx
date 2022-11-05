@@ -19,6 +19,7 @@ import {
   UvGraphTile,
   TwitterFeedTile,
   MarkdownFileTile,
+  RSSFeedTile,
   FavoriteLinksTile,
 } from "@/components/tiles";
 import TodoListTile from "@/components/tiles/TodoListTile";
@@ -148,6 +149,9 @@ const TileContainer: React.FC<TileContainerProps> = ({ tileId, tileType }) => {
       break;
     case "Small Stock Tile":
       tileToRender = <SmallStockTile tileId={tileId} />;
+      break;
+    case "RSS Feed Tile":
+      tileToRender = <RSSFeedTile tileId={tileId} />;
       break;
     case "Day Planner":
       tileToRender = (

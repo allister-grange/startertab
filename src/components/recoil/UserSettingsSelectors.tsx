@@ -10,6 +10,7 @@ import {
   UserSettings,
   Booking,
   FavoriteLink,
+  RSSFeed,
 } from "@/types";
 
 export const redditFeedSelector = selectorFamily({
@@ -333,6 +334,31 @@ export const favoriteLinksSelector = selectorFamily({
 
       userSettings.themes.forEach(
         (theme) => (theme[tileId].favoriteLinks = newValue as FavoriteLink[])
+      );
+      set(userSettingState, userSettings);
+    },
+});
+
+export const rssFeedsSelector = selectorFamily({
+  key: "RSSFeeds",
+  get:
+    (tileId: TileId) =>
+    ({ get }) => {
+      const settings = get(userSettingState);
+      const colorMode = get(colorModeState);
+      const currentTheme = getCurrentTheme(settings, colorMode);
+
+      return currentTheme[tileId].rssFeeds;
+    },
+  set:
+    (tileId: TileId) =>
+    ({ get, set }, newValue) => {
+      const userSettings = JSON.parse(
+        JSON.stringify(get(userSettingState))
+      ) as UserSettings;
+
+      userSettings.themes.forEach(
+        (theme) => (theme[tileId].rssFeeds = newValue as RSSFeed[])
       );
       set(userSettingState, userSettings);
     },

@@ -91,6 +91,9 @@ export const TileTypePicker: React.FC<TileTypePickerProps> = ({
           <option style={optionsStyles} value="Reddit Feed">
             Reddit Feed
           </option>
+          <option style={optionsStyles} value="RSS Feed Tile">
+            RSS Feed
+          </option>
           <option style={optionsStyles} value="Spotify Top Artist Tile">
             Spotify Top Artist List
           </option>

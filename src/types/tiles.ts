@@ -19,3 +19,16 @@ export type FavoriteLink = {
   favicon: string;
   name: string;
 };
+
+export type RSSFeed = {
+  id: string;
+  url: string;
+  data: any;
+};
+
+export type RSSItem = {
+  title: string;
+  link: string;
+  date: string;
+  author: string;
+};
