@@ -1,9 +1,10 @@
 import { rssFeedsSelector } from "@/components/recoil/UserSettingsSelectors";
 import { OutlinedButton } from "@/components/ui/OutlinedButton";
-import { RSSFeed, TileId } from "@/types";
+import { RSSFeed, RSSItem, TileId } from "@/types";
 import { SmallCloseIcon } from "@chakra-ui/icons";
 import {
   Box,
+  Flex,
   FormControl,
   FormLabel,
   Heading,
@@ -13,6 +14,7 @@ import {
   UnorderedList,
 } from "@chakra-ui/react";
 import { useQuery } from "@tanstack/react-query";
+import Link from "next/link";
 import React, { FormEvent, useState } from "react";
 import { SetterOrUpdater, useRecoilState } from "recoil";
 
@@ -20,10 +22,11 @@ interface RSSFeedTileProps {
   tileId: TileId;
 }
 
+const days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+
 const fetcher = async (rssFeedUrls: string[]) => {
   const res = await fetch(`/api/rssFeeds?rssFeeds=${rssFeedUrls}`);
   const data = (await res.json()) as RSSFeed[];
-
   return data;
 };
 
@@ -35,7 +38,7 @@ export const RSSFeedTile: React.FC<RSSFeedTileProps> = ({ tileId }) => {
     SetterOrUpdater<RSSFeed[] | undefined>
   ];
   const [toDeleteFeedId, setToDeleteFeedId] = useState("");
-  const { data, error, isLoading } = useQuery(
+  const { data, error, isLoading, refetch } = useQuery(
     ["rssFeeds", rssFeeds],
     () =>
       fetcher(
@@ -47,6 +50,38 @@ export const RSSFeedTile: React.FC<RSSFeedTileProps> = ({ tileId }) => {
       enabled: rssFeeds != undefined && rssFeeds.length > 0,
     }
   );
+  const [orderedRssFeedData, setOrderedRssFeedData] = useState<RSSItem[]>([]);
+
+  const calculateTimeAgoString = (date: Date) => {
+    const timeDiff = new Date().getTime() - new Date(date).getTime();
+
+    if (timeDiff < 3600000) {
+      return `${Math.floor(timeDiff / 60000)} minutes ago`;
+    } else if (timeDiff > 86400000) {
+      return `${Math.ceil(timeDiff / (1000 * 60 * 60 * 24))} days ago`;
+    } else {
+      return `${Math.floor(timeDiff / 720000)} hours ago`;
+    }
+  };
+
+  // need to order the RSS data by date
+  React.useEffect(() => {
+    if (!data) {
+      return;
+    }
+
+    let rssFeedData: RSSItem[] = [];
+    for (let i = 0; i < data?.length; i++) {
+      rssFeedData.push(...data[i].data);
+    }
+
+    rssFeedData.sort((a, b) => {
+      return new Date(b.date).getTime() - new Date(a.date).getTime();
+    });
+
+    setOrderedRssFeedData(rssFeedData);
+  }, [data]);
+
   const handleRssFeedDelete = (feedId: string) => {
     const oldFeed = [...(rssFeeds ?? [])];
 
@@ -72,13 +107,14 @@ export const RSSFeedTile: React.FC<RSSFeedTileProps> = ({ tileId }) => {
       {
         url: url,
         id: (Math.random() + 1).toString(36).substring(7),
-        data: null,
+        data: [],
+        name: "",
       },
     ]);
   }
 
   return (
-    <Box p="4">
+    <Box px="4">
       {showingEditFeeds ? (
         <Box width="100%" alignItems="center">
           <UnorderedList m="0">
@@ -145,7 +181,10 @@ export const RSSFeedTile: React.FC<RSSFeedTileProps> = ({ tileId }) => {
                 p="0"
                 ml="2px"
                 mt="1"
-                onClick={() => setShowingEditFeeds(false)}
+                onClick={() => {
+                  refetch();
+                  setShowingEditFeeds(false);
+                }}
               >
                 Take me back
               </OutlinedButton>
@@ -154,22 +193,31 @@ export const RSSFeedTile: React.FC<RSSFeedTileProps> = ({ tileId }) => {
         </Box>
       ) : (
         <Box>
-          {rssFeeds?.map((feed) => (
-            <Text key={feed.id}>{feed.url}</Text>
+          {orderedRssFeedData?.map((feed) => (
+            <Box key={feed.date + feed.author} mt="3">
+              <Link href={feed.link}>{feed.title}</Link>
+              <Flex justifyContent="space-between">
+                <Text fontSize="xs">
+                  {calculateTimeAgoString(new Date(feed.date))}
+                </Text>
+                <Text fontSize="xs">{feed.author ?? feed.feedName}</Text>
+              </Flex>
+            </Box>
           ))}
         </Box>
       )}
-      <Box pos="absolute" bottom="0" right="3">
+      <Box>
+        {/* TODO have a larger/more eye catching button for when there are no rss feeds */}
         {!showingEditFeeds && (
           <OutlinedButton
             fontSize="xs"
-            marginLeft="auto"
             display="block"
             shadow="none"
-            pos="sticky"
+            mt="2"
+            ml="auto"
             onClick={() => setShowingEditFeeds(true)}
           >
-            Edit Feeds
+            {rssFeeds && rssFeeds.length > 0 ? "Edit Feeds" : "Add Feed"}
           </OutlinedButton>
         )}
       </Box>

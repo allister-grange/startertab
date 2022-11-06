@@ -23,7 +23,8 @@ export type FavoriteLink = {
 export type RSSFeed = {
   id: string;
   url: string;
-  data: any;
+  name: string;
+  data: RSSItem[];
 };
 
 export type RSSItem = {
@@ -31,4 +32,5 @@ export type RSSItem = {
   link: string;
   date: string;
   author: string;
+  feedName: string;
 };
