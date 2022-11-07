@@ -57,10 +57,10 @@ export const RSSFeedTile: React.FC<RSSFeedTileProps> = ({ tileId }) => {
 
     if (timeDiff < 3600000) {
       return `${Math.floor(timeDiff / 60000)} minutes ago`;
-    } else if (timeDiff > 86400000) {
-      return `${Math.ceil(timeDiff / (1000 * 60 * 60 * 24))} days ago`;
+    } else if (timeDiff < 86400000) {
+      return `${Math.floor(timeDiff / 3600000)} hours ago`;
     } else {
-      return `${Math.floor(timeDiff / 720000)} hours ago`;
+      return `${Math.ceil(timeDiff / (1000 * 60 * 60 * 24))} days ago`;
     }
   };
 
@@ -113,6 +113,47 @@ export const RSSFeedTile: React.FC<RSSFeedTileProps> = ({ tileId }) => {
     ]);
   }
 
+  let addFeedButton;
+
+  if (!showingEditFeeds && rssFeeds && rssFeeds?.length === 0) {
+    addFeedButton = (
+      <OutlinedButton
+        fontSize="xs"
+        display="block"
+        shadow="none"
+        pos="absolute"
+        top="45%"
+        left="50%"
+        transform={"translateX(-50%) translateY(-50%)"}
+        _hover={{
+          transform: "translateX(-50%) translateY(-52%)",
+        }}
+        _active={{
+          transform: "translateX(-50%) translateY(-50%)",
+        }}
+        border={`1px solid ${color}`}
+        onClick={() => setShowingEditFeeds(true)}
+      >
+        Add an RSS feed
+      </OutlinedButton>
+    );
+  } else if (!showingEditFeeds) {
+    addFeedButton = (
+      <OutlinedButton
+        fontSize="xs"
+        display="block"
+        shadow="none"
+        my="4"
+        p="1"
+        ml="auto"
+        lineHeight="0"
+        onClick={() => setShowingEditFeeds(true)}
+      >
+        Edit feeds
+      </OutlinedButton>
+    );
+  }
+
   return (
     <Box px="4">
       {showingEditFeeds ? (
@@ -126,6 +167,7 @@ export const RSSFeedTile: React.FC<RSSFeedTileProps> = ({ tileId }) => {
                 display="flex"
                 alignItems="center"
                 flexDir="row"
+                mt="4"
               >
                 <Text
                   display="flex"
@@ -206,21 +248,7 @@ export const RSSFeedTile: React.FC<RSSFeedTileProps> = ({ tileId }) => {
           ))}
         </Box>
       )}
-      <Box>
-        {/* TODO have a larger/more eye catching button for when there are no rss feeds */}
-        {!showingEditFeeds && (
-          <OutlinedButton
-            fontSize="xs"
-            display="block"
-            shadow="none"
-            mt="2"
-            ml="auto"
-            onClick={() => setShowingEditFeeds(true)}
-          >
-            {rssFeeds && rssFeeds.length > 0 ? "Edit Feeds" : "Add Feed"}
-          </OutlinedButton>
-        )}
-      </Box>
+      <Box>{addFeedButton}</Box>
     </Box>
   );
 };
