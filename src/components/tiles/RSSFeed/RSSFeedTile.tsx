@@ -17,6 +17,7 @@ import { SetterOrUpdater, useRecoilState } from "recoil";
 import { RSSFeedForm } from "@/components/tiles/RSSFeed/RSSFeedForm";
 import { TextFeedSkeleton } from "@/components/skeletons/TextFeedSkeleton";
 import { RSSLogo } from "@/components/ui/RSSLogo";
+import { calculateTimeAgoString } from "@/helpers/tileHelpers";
 
 interface RSSFeedTileProps {
   tileId: TileId;
@@ -64,18 +65,6 @@ export const RSSFeedTile: React.FC<RSSFeedTileProps> = ({ tileId }) => {
 
   // order the feed data by time
   const orderedRssFeedData = getOrderedFeedData(data ?? []);
-
-  const calculateTimeAgoString = (date: Date) => {
-    const timeDiff = new Date().getTime() - new Date(date).getTime();
-
-    if (timeDiff < 3600000) {
-      return `${Math.floor(timeDiff / 60000)} minutes ago`;
-    } else if (timeDiff < 86400000) {
-      return `${Math.floor(timeDiff / 3600000)} hours ago`;
-    } else {
-      return `${Math.ceil(timeDiff / (1000 * 60 * 60 * 24))} days ago`;
-    }
-  };
 
   const handleRssFeedDelete = (feedId: string) => {
     const oldFeed = [...(rssFeeds ?? [])];
@@ -138,6 +127,7 @@ export const RSSFeedTile: React.FC<RSSFeedTileProps> = ({ tileId }) => {
         display="block"
         shadow="none"
         my="2"
+        mx="auto"
         border="1px solid black"
         onClick={() => setShowingEditFeeds(true)}
       >
@@ -204,7 +194,7 @@ export const RSSFeedTile: React.FC<RSSFeedTileProps> = ({ tileId }) => {
             </ListItem>
           ))}
         </UnorderedList>
-        <Box height="1px" width="90%" bg={color} mt="4" />
+        <Box height="1px" width="100%" bg={color} mt="4" />
       </Box>
     );
   }

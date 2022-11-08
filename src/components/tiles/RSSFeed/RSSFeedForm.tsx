@@ -1,16 +1,14 @@
 import { OutlinedButton } from "@/components/ui/OutlinedButton";
-import rssFeeds from "@/pages/api/rssFeeds";
 import { RSSFeed } from "@/types";
 import { SmallCloseIcon } from "@chakra-ui/icons";
 import {
   Box,
-  UnorderedList,
-  ListItem,
-  color,
   FormControl,
   FormLabel,
   Input,
+  ListItem,
   Text,
+  UnorderedList,
 } from "@chakra-ui/react";
 import React, { FormEvent } from "react";
 

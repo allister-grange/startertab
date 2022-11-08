@@ -56,10 +56,13 @@ export const getHackerNewsData = async (hackerNewsFeed: string) => {
       topPostsTruncated.map(async (askId) => {
         const postDetailRes = await fetch(`${hackerNewsItemUrl}${askId}.json`);
         const postDetail = (await postDetailRes.json()) as HackerNewsApiItem;
+
         postLinks.push({
           title: postDetail.title,
           url: `https://news.ycombinator.com/item?id=${postDetail.id}`,
           id: postDetail.id,
+          time: postDetail.time,
+          author: postDetail.by,
         });
       })
     );
