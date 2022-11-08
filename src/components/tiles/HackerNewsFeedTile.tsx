@@ -1,7 +1,7 @@
 import { TextFeedSkeleton } from "@/components/skeletons/TextFeedSkeleton";
 import { HackerNewsLogo } from "@/components/ui/HackerNewsLogo";
 import { OptionBadge } from "@/components/ui/OptionBadge";
-import { calculateTimeAgoString } from "@/helpers/tileHelpers";
+import { calculateTimeAgoString, truncateString } from "@/helpers/tileHelpers";
 import { TileId } from "@/types";
 import { HackerNewsLinkHolder } from "@/types/hackernews";
 import {
@@ -66,7 +66,7 @@ export const HackerNewsFeedTile: React.FC<PageProps> = ({ tileId }) => {
       <UnorderedList margin="0" mt="4">
         {data?.map((link) => (
           <ListItem listStyleType="none" key={link.time + link.author} mt="3">
-            <Link href={link.url}>{link.title}</Link>
+            <Link href={link.url}>{truncateString(link.title, 90)}</Link>
             <Flex justifyContent="space-between">
               <Text fontSize="xs">
                 {calculateTimeAgoString(new Date(link.time * 1000))}

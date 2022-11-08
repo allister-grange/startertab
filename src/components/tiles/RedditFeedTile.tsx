@@ -1,6 +1,6 @@
 import { redditFeedSelector } from "@/components/recoil/UserSettingsSelectors";
 import { TextFeedSkeleton } from "@/components/skeletons/TextFeedSkeleton";
-import { calculateTimeAgoString } from "@/helpers/tileHelpers";
+import { calculateTimeAgoString, truncateString } from "@/helpers/tileHelpers";
 import { RedditAPIResponse, RedditDataHolder, TileId } from "@/types";
 import {
   Box,
@@ -81,7 +81,7 @@ export const RedditFeedTile: React.FC<RedditFeedProps> = ({ tileId }) => {
       <UnorderedList margin="0" mt="4">
         {data?.map((link) => (
           <ListItem listStyleType="none" key={link.id} mt="3">
-            <Link href={link.url}>{link.title}</Link>
+            <Link href={link.url}>{truncateString(link.title, 90)}</Link>
             <Flex justifyContent="space-between">
               <Text fontSize="xs">
                 {calculateTimeAgoString(new Date(link.date))}

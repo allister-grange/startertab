@@ -17,7 +17,7 @@ import { SetterOrUpdater, useRecoilState } from "recoil";
 import { RSSFeedForm } from "@/components/tiles/RSSFeed/RSSFeedForm";
 import { TextFeedSkeleton } from "@/components/skeletons/TextFeedSkeleton";
 import { RSSLogo } from "@/components/ui/RSSLogo";
-import { calculateTimeAgoString } from "@/helpers/tileHelpers";
+import { calculateTimeAgoString, truncateString } from "@/helpers/tileHelpers";
 
 interface RSSFeedTileProps {
   tileId: TileId;
@@ -184,7 +184,7 @@ export const RSSFeedTile: React.FC<RSSFeedTileProps> = ({ tileId }) => {
         <UnorderedList margin="0" mt="4">
           {orderedRssFeedData?.map((feed) => (
             <ListItem listStyleType="none" key={feed.date + feed.author} mt="3">
-              <Link href={feed.link}>{feed.title}</Link>
+              <Link href={feed.link}>{truncateString(feed.title, 90)}</Link>
               <Flex justifyContent="space-between">
                 <Text fontSize="xs">
                   {calculateTimeAgoString(new Date(feed.date))}

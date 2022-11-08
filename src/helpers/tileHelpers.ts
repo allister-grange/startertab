@@ -73,3 +73,16 @@ export const calculateTimeAgoString = (date: Date) => {
     return `${Math.ceil(timeDiff / (1000 * 60 * 60 * 24))} days ago`;
   }
 };
+
+export const truncateString = (text: string, length: number) => {
+  if (text.length > length) {
+    // strip last " " if there is one
+    if (text[text.length - 1] === " ") {
+      return text.substring(0, length - 1) + "...";
+    } else {
+      return text.substring(0, length - 1) + "...";
+    }
+  } else {
+    return text;
+  }
+};
