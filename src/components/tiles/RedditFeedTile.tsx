@@ -109,17 +109,10 @@ export const RedditFeedTile: React.FC<RedditFeedProps> = ({ tileId }) => {
           {data ? `r/${subRedditFeed}` : "Reddit Feed"}
         </Link>
       </Heading>
-      <Box w="80%" bg="white" height="1px" ml="2" bgColor={underlineColor} />
+      <Box w="80%" height="1px" ml="2" bgColor={underlineColor} />
       {display}
       {data && (
-        <Box
-          w="80%"
-          bg="white"
-          height="1px"
-          ml="2"
-          mt="2"
-          bgColor={underlineColor}
-        />
+        <Box w="80%" height="1px" ml="2" mt="2" bgColor={underlineColor} />
       )}
       <Box mt="3" p="2">
         <Heading fontSize="md" fontWeight="bold">

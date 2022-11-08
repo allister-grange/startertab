@@ -1,14 +1,11 @@
 import { rssFeedsSelector } from "@/components/recoil/UserSettingsSelectors";
 import { OutlinedButton } from "@/components/ui/OutlinedButton";
 import { RSSFeed, RSSItem, TileId } from "@/types";
-import { SmallCloseIcon } from "@chakra-ui/icons";
 import {
   Box,
+  Center,
   Flex,
-  FormControl,
-  FormLabel,
   Heading,
-  Input,
   ListItem,
   Text,
   UnorderedList,
@@ -17,17 +14,31 @@ import { useQuery } from "@tanstack/react-query";
 import Link from "next/link";
 import React, { FormEvent, useState } from "react";
 import { SetterOrUpdater, useRecoilState } from "recoil";
+import { RSSFeedForm } from "@/components/tiles/RSSFeed/RSSFeedForm";
+import { TextFeedSkeleton } from "@/components/skeletons/TextFeedSkeleton";
+import { RSSLogo } from "@/components/ui/RSSLogo";
 
 interface RSSFeedTileProps {
   tileId: TileId;
 }
 
-const days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
-
 const fetcher = async (rssFeedUrls: string[]) => {
   const res = await fetch(`/api/rssFeeds?rssFeeds=${rssFeedUrls}`);
   const data = (await res.json()) as RSSFeed[];
   return data;
+};
+
+const getOrderedFeedData = (feeds: RSSFeed[]): RSSItem[] => {
+  let rssFeedData: RSSItem[] = [];
+  for (let i = 0; i < feeds?.length; i++) {
+    rssFeedData.push(...feeds[i].data);
+  }
+
+  rssFeedData.sort((a, b) => {
+    return new Date(b.date).getTime() - new Date(a.date).getTime();
+  });
+
+  return rssFeedData;
 };
 
 export const RSSFeedTile: React.FC<RSSFeedTileProps> = ({ tileId }) => {
@@ -50,7 +61,9 @@ export const RSSFeedTile: React.FC<RSSFeedTileProps> = ({ tileId }) => {
       enabled: rssFeeds != undefined && rssFeeds.length > 0,
     }
   );
-  const [orderedRssFeedData, setOrderedRssFeedData] = useState<RSSItem[]>([]);
+
+  // order the feed data by time
+  const orderedRssFeedData = getOrderedFeedData(data ?? []);
 
   const calculateTimeAgoString = (date: Date) => {
     const timeDiff = new Date().getTime() - new Date(date).getTime();
@@ -64,24 +77,6 @@ export const RSSFeedTile: React.FC<RSSFeedTileProps> = ({ tileId }) => {
     }
   };
 
-  // need to order the RSS data by date
-  React.useEffect(() => {
-    if (!data) {
-      return;
-    }
-
-    let rssFeedData: RSSItem[] = [];
-    for (let i = 0; i < data?.length; i++) {
-      rssFeedData.push(...data[i].data);
-    }
-
-    rssFeedData.sort((a, b) => {
-      return new Date(b.date).getTime() - new Date(a.date).getTime();
-    });
-
-    setOrderedRssFeedData(rssFeedData);
-  }, [data]);
-
   const handleRssFeedDelete = (feedId: string) => {
     const oldFeed = [...(rssFeeds ?? [])];
 
@@ -90,7 +85,7 @@ export const RSSFeedTile: React.FC<RSSFeedTileProps> = ({ tileId }) => {
     setRssFeeds(oldFeed);
   };
 
-  function onNewFeedSubmit(e: FormEvent<HTMLFormElement>) {
+  const onNewFeedSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const target = e.target as typeof e.target & {
       url: { value: string };
@@ -111,10 +106,9 @@ export const RSSFeedTile: React.FC<RSSFeedTileProps> = ({ tileId }) => {
         name: "",
       },
     ]);
-  }
+  };
 
   let addFeedButton;
-
   if (!showingEditFeeds && rssFeeds && rssFeeds?.length === 0) {
     addFeedButton = (
       <OutlinedButton
@@ -143,10 +137,8 @@ export const RSSFeedTile: React.FC<RSSFeedTileProps> = ({ tileId }) => {
         fontSize="xs"
         display="block"
         shadow="none"
-        my="4"
-        p="1"
-        ml="auto"
-        lineHeight="0"
+        my="2"
+        border="1px solid black"
         onClick={() => setShowingEditFeeds(true)}
       >
         Edit feeds
@@ -154,89 +146,54 @@ export const RSSFeedTile: React.FC<RSSFeedTileProps> = ({ tileId }) => {
     );
   }
 
-  return (
-    <Box px="4">
-      {showingEditFeeds ? (
-        <Box width="100%" alignItems="center">
-          <UnorderedList m="0">
-            {rssFeeds?.map((feed) => (
-              <ListItem
-                key={feed.id}
-                onMouseEnter={() => setToDeleteFeedId(feed.id)}
-                onMouseLeave={() => setToDeleteFeedId("")}
-                display="flex"
-                alignItems="center"
-                flexDir="row"
-                mt="4"
-              >
-                <Text
-                  display="flex"
-                  alignItems="center"
-                  flexDir="row"
-                  wordBreak="break-word"
-                  transition="all .2s"
-                  margin="0"
-                  _hover={{ transform: "translateY(-2px)" }}
-                >
-                  {feed.url}
-                </Text>
-                {toDeleteFeedId === feed.id && (
-                  <SmallCloseIcon
-                    cursor="pointer"
-                    color={color}
-                    opacity="0.6"
-                    ml="auto"
-                    onClick={() => handleRssFeedDelete(feed.id)}
-                  />
-                )}
-              </ListItem>
-            ))}
-          </UnorderedList>
-          <form onSubmit={onNewFeedSubmit}>
-            <FormControl mt="4" isRequired>
-              <FormLabel>RSS Feed Url</FormLabel>
-              <Input
-                width="200px"
-                size="md"
-                name="url"
-                borderColor={color}
-                placeholder={"Add a name for the link"}
-                _placeholder={{
-                  color,
-                }}
-                _focus={{ borderColor: color }}
-                _hover={{ borderColor: color }}
-              />
-            </FormControl>
-            <FormControl mt="6">
-              <OutlinedButton
-                outline={`1px solid ${color}`}
-                type="submit"
-                fontSize="sm"
-              >
-                Add Feed
-              </OutlinedButton>
-              <OutlinedButton
-                fontSize="xs"
-                display="block"
-                shadow="none"
-                p="0"
-                ml="2px"
-                mt="1"
-                onClick={() => {
-                  refetch();
-                  setShowingEditFeeds(false);
-                }}
-              >
-                Take me back
-              </OutlinedButton>
-            </FormControl>
-          </form>
+  let toDisplay;
+  if (error) {
+    toDisplay = (
+      <Box mt="12" textAlign="center">
+        <Text>
+          There was an error fetching RSS feed data, did you put in an invalid
+          URL?
+        </Text>
+        <br />
+        <Text>
+          If this error continues to persist, please open a{" "}
+          <Link
+            style={{ textDecoration: "underline" }}
+            href="https://github.com/allister-grange/startertab/issues"
+          >
+            GitHub issue.
+          </Link>
+        </Text>
+      </Box>
+    );
+  } else if (showingEditFeeds) {
+    toDisplay = (
+      <RSSFeedForm
+        rssFeeds={rssFeeds}
+        setToDeleteFeedId={setToDeleteFeedId}
+        onNewFeedSubmit={onNewFeedSubmit}
+        toDeleteFeedId={toDeleteFeedId}
+        handleRssFeedDelete={handleRssFeedDelete}
+        color={color}
+        setShowingEditFeeds={setShowingEditFeeds}
+        refetch={refetch}
+      />
+    );
+  } else if (isLoading) {
+    toDisplay = <TextFeedSkeleton />;
+  } else {
+    toDisplay = (
+      <Box>
+        <Box pos="absolute" top="4" right="4" height="18px" width="18px">
+          <RSSLogo color={color} />
         </Box>
-      ) : (
-        <Box>
+        <Heading fontSize="xl" mt="3">
+          Rss Feed
+        </Heading>
+        <Box height="1px" width="80%" bg={color} mt="2" />
+        <UnorderedList margin="0" mt="4">
           {orderedRssFeedData?.map((feed) => (
-            <Box key={feed.date + feed.author} mt="3">
+            <ListItem listStyleType="none" key={feed.date + feed.author} mt="3">
               <Link href={feed.link}>{feed.title}</Link>
               <Flex justifyContent="space-between">
                 <Text fontSize="xs">
@@ -244,10 +201,17 @@ export const RSSFeedTile: React.FC<RSSFeedTileProps> = ({ tileId }) => {
                 </Text>
                 <Text fontSize="xs">{feed.author ?? feed.feedName}</Text>
               </Flex>
-            </Box>
+            </ListItem>
           ))}
-        </Box>
-      )}
+        </UnorderedList>
+        <Box height="1px" width="90%" bg={color} mt="4" />
+      </Box>
+    );
+  }
+
+  return (
+    <Box px="4">
+      {toDisplay}
       <Box>{addFeedButton}</Box>
     </Box>
   );

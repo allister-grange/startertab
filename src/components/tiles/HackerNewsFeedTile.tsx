@@ -65,7 +65,7 @@ export const HackerNewsFeedTile: React.FC<PageProps> = ({ tileId }) => {
   } else if (error) {
     display = (
       <Text p="4">
-        There was an error fetching reddit data, please try again later!
+        There was an error fetching HackerNews data, please try again later!
       </Text>
     );
   }
