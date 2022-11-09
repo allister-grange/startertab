@@ -1,8 +1,5 @@
 import { TileGrid } from "@/components/grid/TileGrid";
-import {
-  colorModeState,
-  userSettingState,
-} from "@/components/recoil/UserSettingsAtom";
+import { colorModeState, userSettingState } from "@/recoil/UserSettingsAtom";
 import SettingsSideBar from "@/components/sidebar/SettingsSidebar";
 import { Tutorial } from "@/components/tutorial/Tutorial";
 import { MobileWarning } from "@/components/ui/MobileWarning";

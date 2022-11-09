@@ -1,7 +1,7 @@
 import {
   bookingsSelector,
   todoListSelector,
-} from "@/components/recoil/UserSettingsSelectors";
+} from "@/recoil/UserSettingsSelectors";
 import {
   BonsaiTile,
   HackerNewsFeedTile,

@@ -16,7 +16,7 @@ import {
 import { useQuery } from "@tanstack/react-query";
 import React, { useEffect } from "react";
 import { SetterOrUpdater, useRecoilState } from "recoil";
-import { redditFeedSelector } from "../recoil/UserSettingsSelectors";
+import { redditFeedSelector } from "@/recoil/UserSettingsSelectors";
 
 type PageProps = {
   tileId: TileId;

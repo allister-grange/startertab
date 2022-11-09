@@ -1,8 +1,5 @@
 import { selectorFamily } from "recoil";
-import {
-  colorModeState,
-  userSettingState,
-} from "@/components/recoil/UserSettingsAtom";
+import { colorModeState, userSettingState } from "@/recoil/UserSettingsAtom";
 import { getCurrentTheme } from "@/helpers/settingsHelpers";
 import {
   TileId,

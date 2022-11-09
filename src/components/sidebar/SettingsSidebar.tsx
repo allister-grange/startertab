@@ -1,4 +1,4 @@
-import { userSettingState } from "@/components/recoil/UserSettingsAtom";
+import { userSettingState } from "@/recoil/UserSettingsAtom";
 import {
   Footer,
   SideBarTitle,

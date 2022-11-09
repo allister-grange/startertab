@@ -1,4 +1,4 @@
-import { redditFeedSelector } from "@/components/recoil/UserSettingsSelectors";
+import { redditFeedSelector } from "@/recoil/UserSettingsSelectors";
 import { TextFeedSkeleton } from "@/components/skeletons/TextFeedSkeleton";
 import { calculateTimeAgoString, truncateString } from "@/helpers/tileHelpers";
 import { RedditAPIResponse, RedditDataHolder, TileId } from "@/types";

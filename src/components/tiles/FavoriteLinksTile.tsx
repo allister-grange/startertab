@@ -1,4 +1,4 @@
-import { favoriteLinksSelector } from "@/components/recoil/UserSettingsSelectors";
+import { favoriteLinksSelector } from "@/recoil/UserSettingsSelectors";
 import { FavoriteLink, TileId } from "@/types";
 import { SmallCloseIcon } from "@chakra-ui/icons";
 import {

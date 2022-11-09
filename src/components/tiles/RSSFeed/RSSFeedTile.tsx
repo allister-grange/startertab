@@ -1,4 +1,4 @@
-import { rssFeedsSelector } from "@/components/recoil/UserSettingsSelectors";
+import { rssFeedsSelector } from "@/recoil/UserSettingsSelectors";
 import { TextFeedSkeleton } from "@/components/skeletons/TextFeedSkeleton";
 import { RSSFeedForm } from "@/components/tiles/RSSFeed/RSSFeedForm";
 import { OutlinedButton } from "@/components/ui/OutlinedButton";

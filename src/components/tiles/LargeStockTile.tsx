@@ -1,4 +1,4 @@
-import { stockSelector } from "@/components/recoil/UserSettingsSelectors";
+import { stockSelector } from "@/recoil/UserSettingsSelectors";
 import { LargeStockTickerSkeleton } from "@/components/skeletons/LargeStockTickerSkeleton";
 import { OutlinedButton } from "@/components/ui/OutlinedButton";
 import { TileId } from "@/types";

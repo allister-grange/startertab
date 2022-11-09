@@ -1,4 +1,4 @@
-import { userSettingState } from "@/components/recoil/UserSettingsAtom";
+import { userSettingState } from "@/recoil/UserSettingsAtom";
 import { ColorPicker } from "@/components/theme-creator/ColorPicker";
 import { SettingTitle } from "@/components/theme-creator/SettingTitle";
 import { SidebarThemePicker } from "@/components/theme-creator/SidebarThemePicker";

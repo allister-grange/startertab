@@ -8,7 +8,7 @@ import { SetterOrUpdater, useRecoilState } from "recoil";
 import {
   bonsaiBaseColorSelector,
   bonsaiTrunkColorSelector,
-} from "@/components/recoil/UserSettingsSelectors";
+} from "@/recoil/UserSettingsSelectors";
 
 type BonsaiProps = {
   tileId: TileId;
