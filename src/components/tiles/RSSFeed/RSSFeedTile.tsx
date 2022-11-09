@@ -1,9 +1,12 @@
 import { rssFeedsSelector } from "@/components/recoil/UserSettingsSelectors";
+import { TextFeedSkeleton } from "@/components/skeletons/TextFeedSkeleton";
+import { RSSFeedForm } from "@/components/tiles/RSSFeed/RSSFeedForm";
 import { OutlinedButton } from "@/components/ui/OutlinedButton";
+import { RSSLogo } from "@/components/ui/RSSLogo";
+import { calculateTimeAgoString, truncateString } from "@/helpers/tileHelpers";
 import { RSSFeed, RSSItem, TileId } from "@/types";
 import {
   Box,
-  Center,
   Flex,
   Heading,
   ListItem,
@@ -12,12 +15,8 @@ import {
 } from "@chakra-ui/react";
 import { useQuery } from "@tanstack/react-query";
 import Link from "next/link";
-import React, { FormEvent, useState } from "react";
+import React, { FormEvent, useRef, useState } from "react";
 import { SetterOrUpdater, useRecoilState } from "recoil";
-import { RSSFeedForm } from "@/components/tiles/RSSFeed/RSSFeedForm";
-import { TextFeedSkeleton } from "@/components/skeletons/TextFeedSkeleton";
-import { RSSLogo } from "@/components/ui/RSSLogo";
-import { calculateTimeAgoString, truncateString } from "@/helpers/tileHelpers";
 
 interface RSSFeedTileProps {
   tileId: TileId;
@@ -44,11 +43,13 @@ const getOrderedFeedData = (feeds: RSSFeed[]): RSSItem[] => {
 
 export const RSSFeedTile: React.FC<RSSFeedTileProps> = ({ tileId }) => {
   const color = `var(--text-color-${tileId})`;
-  const [showingEditFeeds, setShowingEditFeeds] = useState(false);
+  const divRef = useRef<HTMLDivElement | null>(null);
   const [rssFeeds, setRssFeeds] = useRecoilState(rssFeedsSelector(tileId)) as [
     RSSFeed[] | undefined,
     SetterOrUpdater<RSSFeed[] | undefined>
   ];
+  const [showingEditFeeds, setShowingEditFeeds] = useState(!rssFeeds);
+  const [displayingOnWideTile, setDisplayingOnWideTile] = useState(false);
   const [toDeleteFeedId, setToDeleteFeedId] = useState("");
   const { data, error, isLoading, refetch } = useQuery(
     ["rssFeeds", rssFeeds],
@@ -59,9 +60,20 @@ export const RSSFeedTile: React.FC<RSSFeedTileProps> = ({ tileId }) => {
         }, [] as string[])
       ),
     {
-      enabled: rssFeeds != undefined && rssFeeds.length > 0,
+      enabled: rssFeeds !== undefined && rssFeeds.length > 0,
     }
   );
+
+  // need to change the amount of text truncated from title depending on width
+  React.useEffect(() => {
+    if (!divRef.current) {
+      return;
+    }
+
+    if (divRef.current.offsetWidth > 300) {
+      setDisplayingOnWideTile(true);
+    }
+  }, []);
 
   // order the feed data by time
   const orderedRssFeedData = getOrderedFeedData(data ?? []);
@@ -126,7 +138,7 @@ export const RSSFeedTile: React.FC<RSSFeedTileProps> = ({ tileId }) => {
         fontSize="xs"
         display="block"
         shadow="none"
-        my="2"
+        my="4"
         mx="auto"
         border="1px solid black"
         onClick={() => setShowingEditFeeds(true)}
@@ -184,7 +196,11 @@ export const RSSFeedTile: React.FC<RSSFeedTileProps> = ({ tileId }) => {
         <UnorderedList margin="0" mt="4">
           {orderedRssFeedData?.map((feed) => (
             <ListItem listStyleType="none" key={feed.date + feed.author} mt="3">
-              <Link href={feed.link}>{truncateString(feed.title, 90)}</Link>
+              <Link href={feed.link}>
+                {displayingOnWideTile
+                  ? feed.title
+                  : truncateString(feed.title, 90)}
+              </Link>
               <Flex justifyContent="space-between">
                 <Text fontSize="xs">
                   {calculateTimeAgoString(new Date(feed.date))}
@@ -200,7 +216,7 @@ export const RSSFeedTile: React.FC<RSSFeedTileProps> = ({ tileId }) => {
   }
 
   return (
-    <Box px="4">
+    <Box px="4" ref={divRef}>
       {toDisplay}
       <Box>{addFeedButton}</Box>
     </Box>

@@ -124,6 +124,9 @@ export const TileTypePicker: React.FC<TileTypePickerProps> = ({
           <option style={optionsStyles} value="Markdown File Tile">
             Markdown File
           </option>
+          <option style={optionsStyles} value="RSS Feed Tile">
+            RSS Feed
+          </option>
           <option style={optionsStyles} value="Large Spotify Tile">
             Spotify Tile
           </option>
