@@ -74,6 +74,26 @@ export const RedditFeedTile: React.FC<RedditFeedProps> = ({ tileId }) => {
 
   if (!subRedditFeed) {
     display = <></>;
+  } else if (error) {
+    display = (
+      <Box mt="6" textAlign="center">
+        <Text>
+          There was an error fetching Reddit data, did you put in an invalid
+          subreddit?
+        </Text>
+        <br />
+        <Text>
+          If this error continues to persist, please open a{" "}
+          <Link
+            style={{ textDecoration: "underline" }}
+            href="https://github.com/allister-grange/startertab/issues"
+          >
+            GitHub issue
+          </Link>
+          .
+        </Text>
+      </Box>
+    );
   } else if (isLoading) {
     display = <TextFeedSkeleton />;
   } else if (data) {
@@ -91,12 +111,6 @@ export const RedditFeedTile: React.FC<RedditFeedProps> = ({ tileId }) => {
           </ListItem>
         ))}
       </UnorderedList>
-    );
-  } else if (error) {
-    display = (
-      <Text p="4">
-        There was an error fetching reddit data, please try again later!
-      </Text>
     );
   }
 

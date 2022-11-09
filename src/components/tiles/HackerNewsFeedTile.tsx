@@ -59,6 +59,24 @@ export const HackerNewsFeedTile: React.FC<PageProps> = ({ tileId }) => {
 
   let display;
 
+  if (error) {
+    display = (
+      <Box my="6" textAlign="center">
+        <Text>There was an error fetching Hacker News data.</Text>
+        <br />
+        <Text>
+          If this error continues to persist, please open a{" "}
+          <Link
+            style={{ textDecoration: "underline" }}
+            href="https://github.com/allister-grange/startertab/issues"
+          >
+            GitHub issue
+          </Link>
+          .
+        </Text>
+      </Box>
+    );
+  }
   if (isLoading) {
     display = <TextFeedSkeleton />;
   } else if (data && Array.isArray(data)) {
@@ -76,12 +94,6 @@ export const HackerNewsFeedTile: React.FC<PageProps> = ({ tileId }) => {
           </ListItem>
         ))}
       </UnorderedList>
-    );
-  } else if (error) {
-    display = (
-      <Text p="4">
-        There was an error fetching HackerNews data, please try again later!
-      </Text>
     );
   }
 

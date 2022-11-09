@@ -163,8 +163,9 @@ export const RSSFeedTile: React.FC<RSSFeedTileProps> = ({ tileId }) => {
             style={{ textDecoration: "underline" }}
             href="https://github.com/allister-grange/startertab/issues"
           >
-            GitHub issue.
+            GitHub issue
           </Link>
+          .
         </Text>
       </Box>
     );
