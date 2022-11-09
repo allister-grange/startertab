@@ -8,9 +8,9 @@ const UpdatesPage: React.FC = ({}) => {
   });
 
   return (
-    <>
-      <Box width={["100%", "100%", "90%", "70%"]} mx="auto" p="6">
-        <Flex width="80%" direction={["column", "column", "row"]}>
+    <Box>
+      <Box width={["100%", "90%", "70%", "60%", "50%"]} mx="auto" py="6" px="2">
+        <Flex direction={["column", "column", "row"]}>
           <Heading mb="2" fontSize="40px">
             Updates
           </Heading>
@@ -23,7 +23,7 @@ const UpdatesPage: React.FC = ({}) => {
             Take me back to Starter Tab 👈
           </Link>
         </Flex>
-        <hr style={{ width: "80%" }} />
+        <hr style={{ width: "100%" }} />
         <Heading as="h2" fontSize="2xl" mt="6">
           Adding in the Markdown Tile and Favorites Tile{" "}
           <span
@@ -36,17 +36,8 @@ const UpdatesPage: React.FC = ({}) => {
           In this update, we welcome two new tiles, along with some API
           optimizations
         </Text>
-        <Flex
-          width="100%"
-          direction={["column", "column", "column", "row"]}
-          gap="6"
-          mt="6"
-        >
-          <Box
-            width={["80%", "20%", "30%", "30%"]}
-            minW="300px"
-            overflow="hidden"
-          >
+        <Flex width="100%" direction="column" gap="6" mt="6">
+          <Box width="40%" overflow="hidden" marginX="auto">
             <Box>
               <Text mb="2">Favorites/Shortcuts Tile</Text>
               <video
@@ -68,9 +59,9 @@ const UpdatesPage: React.FC = ({}) => {
             </Box>
           </Box>
           <Box
-            width={["100%", "70%", "80%", "47%"]}
-            minW="290px"
+            width={["100%", "90%", "80%", "80%"]}
             overflow="hidden"
+            marginX="auto"
           >
             <Box>
               <Text mb="2">Local Markdown Files Tile</Text>
@@ -94,12 +85,7 @@ const UpdatesPage: React.FC = ({}) => {
             </Box>
           </Box>
         </Flex>
-        <Box
-          color="gray.700"
-          width={["100%", "100%", "90%", "90%"]}
-          maxW="700px"
-          mt="6"
-        >
+        <Box color="gray.700" mt="6">
           <Text mt="2">
             A request from a user who wanted to open up local Markdown files for
             viewing came through, so here it is! Hopefully people find this
@@ -139,7 +125,7 @@ const UpdatesPage: React.FC = ({}) => {
         </Box>
       </Box>
       <Footer />
-    </>
+    </Box>
   );
 };
 
