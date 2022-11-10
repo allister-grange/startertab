@@ -34,8 +34,8 @@ export const RSSFeedForm: React.FC<RSSFeedFormProps> = ({
   refetch,
 }) => {
   return (
-    <Box width="100%" alignItems="center">
-      <UnorderedList m="0">
+    <Box width="100%" alignItems="center" textAlign="center">
+      <UnorderedList m="0" display="flex" justifyContent="center">
         {rssFeeds?.map((feed) => (
           <ListItem
             key={feed.id}
@@ -69,18 +69,20 @@ export const RSSFeedForm: React.FC<RSSFeedFormProps> = ({
           </ListItem>
         ))}
       </UnorderedList>
-      <form onSubmit={onNewFeedSubmit}>
+      <form
+        onSubmit={onNewFeedSubmit}
+        style={{ textAlign: "center", width: "100%" }}
+      >
         <FormControl mt="4" isRequired>
-          <FormLabel>RSS Feed Url</FormLabel>
+          <FormLabel textAlign="center">RSS Feed Url</FormLabel>
           <Input
             width="200px"
             size="md"
             name="url"
+            mt="2"
             borderColor={color}
-            placeholder={"Add a name for the link"}
-            _placeholder={{
-              color,
-            }}
+            placeholder={"Url"}
+            _placeholder={{ color }}
             _focus={{ borderColor: color }}
             _hover={{ borderColor: color }}
           />
@@ -96,16 +98,16 @@ export const RSSFeedForm: React.FC<RSSFeedFormProps> = ({
           <OutlinedButton
             fontSize="xs"
             display="block"
+            marginX="auto"
             shadow="none"
             p="0"
-            ml="2px"
             mt="1"
             onClick={() => {
               refetch();
               setShowingEditFeeds(false);
             }}
           >
-            Take me back
+            Back to my feeds &larr;
           </OutlinedButton>
         </FormControl>
       </form>

@@ -109,9 +109,40 @@ export const RSSFeedTile: React.FC<RSSFeedTileProps> = ({ tileId }) => {
     ]);
   };
 
-  let addFeedButton;
-  if (!showingEditFeeds && rssFeeds && rssFeeds?.length === 0) {
-    addFeedButton = (
+  let toDisplay;
+  if (error) {
+    toDisplay = (
+      <Box mt="12" textAlign="center">
+        <Text>
+          There was an error fetching RSS feed data, did you put in an invalid
+          URL?
+        </Text>
+        <br />
+        <Text>
+          If this error continues to persist, please open a{" "}
+          <Link
+            style={{ textDecoration: "underline" }}
+            href="https://github.com/allister-grange/startertab/issues"
+          >
+            GitHub issue
+          </Link>
+          .
+        </Text>
+        <Box height="1px" width="100%" bg={color} mt="2" />
+        <RSSFeedForm
+          rssFeeds={rssFeeds}
+          setToDeleteFeedId={setToDeleteFeedId}
+          onNewFeedSubmit={onNewFeedSubmit}
+          toDeleteFeedId={toDeleteFeedId}
+          handleRssFeedDelete={handleRssFeedDelete}
+          color={color}
+          setShowingEditFeeds={setShowingEditFeeds}
+          refetch={refetch}
+        />
+      </Box>
+    );
+  } else if (!showingEditFeeds && rssFeeds && rssFeeds?.length === 0) {
+    toDisplay = (
       <OutlinedButton
         fontSize="xs"
         display="block"
@@ -132,43 +163,6 @@ export const RSSFeedTile: React.FC<RSSFeedTileProps> = ({ tileId }) => {
         Add an RSS feed
       </OutlinedButton>
     );
-  } else if (!showingEditFeeds) {
-    addFeedButton = (
-      <OutlinedButton
-        fontSize="xs"
-        display="block"
-        shadow="none"
-        my="4"
-        mx="auto"
-        border="1px solid black"
-        onClick={() => setShowingEditFeeds(true)}
-      >
-        Edit feeds
-      </OutlinedButton>
-    );
-  }
-
-  let toDisplay;
-  if (error) {
-    toDisplay = (
-      <Box mt="12" textAlign="center">
-        <Text>
-          There was an error fetching RSS feed data, did you put in an invalid
-          URL?
-        </Text>
-        <br />
-        <Text>
-          If this error continues to persist, please open a{" "}
-          <Link
-            style={{ textDecoration: "underline" }}
-            href="https://github.com/allister-grange/startertab/issues"
-          >
-            GitHub issue
-          </Link>
-          .
-        </Text>
-      </Box>
-    );
   } else if (showingEditFeeds) {
     toDisplay = (
       <RSSFeedForm
@@ -183,7 +177,18 @@ export const RSSFeedTile: React.FC<RSSFeedTileProps> = ({ tileId }) => {
       />
     );
   } else if (isLoading) {
-    toDisplay = <TextFeedSkeleton />;
+    toDisplay = (
+      <Box>
+        <Box pos="absolute" top="4" right="4" height="18px" width="18px">
+          <RSSLogo color={color} />
+        </Box>
+        <Heading fontSize="xl" mt="3">
+          Rss Feed
+        </Heading>
+        <Box height="1px" width="80%" bg={color} mt="2" />
+        <TextFeedSkeleton />
+      </Box>
+    );
   } else {
     toDisplay = (
       <Box>
@@ -212,14 +217,24 @@ export const RSSFeedTile: React.FC<RSSFeedTileProps> = ({ tileId }) => {
           ))}
         </UnorderedList>
         <Box height="1px" width="100%" bg={color} mt="4" />
+        <OutlinedButton
+          fontSize="xs"
+          display="block"
+          shadow="none"
+          my="4"
+          mx="auto"
+          border={`1px solid ${color}`}
+          onClick={() => setShowingEditFeeds(true)}
+        >
+          Edit feeds
+        </OutlinedButton>
       </Box>
     );
   }
 
   return (
-    <Box px="4" ref={divRef}>
+    <Box px="4" ref={divRef} color={color}>
       {toDisplay}
-      <Box>{addFeedButton}</Box>
     </Box>
   );
 };
