@@ -35,7 +35,7 @@ export const RSSFeedForm: React.FC<RSSFeedFormProps> = ({
 }) => {
   return (
     <Box width="100%" alignItems="center" textAlign="center">
-      <UnorderedList m="0" display="flex" justifyContent="center">
+      <UnorderedList m="0" display="flex" flexDir="column" alignItems="center">
         {rssFeeds?.map((feed) => (
           <ListItem
             key={feed.id}
