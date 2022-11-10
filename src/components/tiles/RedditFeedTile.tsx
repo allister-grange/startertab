@@ -13,7 +13,7 @@ import {
   UnorderedList,
 } from "@chakra-ui/react";
 import { useQuery } from "@tanstack/react-query";
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import { SetterOrUpdater, useRecoilState } from "recoil";
 
 interface RedditFeedProps {
@@ -52,9 +52,22 @@ export const RedditFeedTile: React.FC<RedditFeedProps> = ({ tileId }) => {
       enabled: subRedditFeed !== undefined && subRedditFeed !== "",
     }
   );
+  const [displayingOnWideTile, setDisplayingOnWideTile] = useState(false);
+  const divRef = useRef<HTMLDivElement | null>(null);
 
   const textColor = `var(--text-color-${tileId})`;
   const underlineColor = textColor;
+
+  // need to change the amount of text truncated from title depending on width
+  React.useEffect(() => {
+    if (!divRef.current) {
+      return;
+    }
+
+    if (divRef.current.offsetWidth > 300) {
+      setDisplayingOnWideTile(true);
+    }
+  }, []);
 
   const handleSubredditInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSubRedditInput(e.target.value);
@@ -101,7 +114,11 @@ export const RedditFeedTile: React.FC<RedditFeedProps> = ({ tileId }) => {
       <UnorderedList margin="0" mt="4">
         {data?.map((link) => (
           <ListItem listStyleType="none" key={link.id} mt="3">
-            <Link href={link.url}>{truncateString(link.title, 90)}</Link>
+            <Link href={link.url}>
+              {displayingOnWideTile
+                ? link.title
+                : truncateString(link.title, 90)}
+            </Link>
             <Flex justifyContent="space-between">
               <Text fontSize="xs">
                 {calculateTimeAgoString(new Date(link.date))}
@@ -115,7 +132,7 @@ export const RedditFeedTile: React.FC<RedditFeedProps> = ({ tileId }) => {
   }
 
   return (
-    <Box p="2" px="4" color={textColor} position="relative">
+    <Box p="2" px="4" color={textColor} position="relative" ref={divRef}>
       <Box position="absolute" right="4" top="3">
         <svg
           xmlns="http://www.w3.org/2000/svg"

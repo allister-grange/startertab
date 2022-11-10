@@ -14,7 +14,7 @@ import {
   UnorderedList,
 } from "@chakra-ui/react";
 import { useQuery } from "@tanstack/react-query";
-import React, { useEffect } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { SetterOrUpdater, useRecoilState } from "recoil";
 import { redditFeedSelector } from "@/recoil/UserSettingsSelectors";
 
@@ -35,6 +35,8 @@ export const HackerNewsFeedTile: React.FC<PageProps> = ({ tileId }) => {
   const [hackerNewsFeed, setHackerNewsFeed] = useRecoilState(
     redditFeedSelector(tileId)
   ) as [string | undefined, SetterOrUpdater<string | undefined>];
+  const [displayingOnWideTile, setDisplayingOnWideTile] = useState(false);
+  const divRef = useRef<HTMLDivElement | null>(null);
 
   const { data, error, isLoading } = useQuery(
     ["hackerNewsFeed", hackerNewsFeed],
@@ -46,6 +48,17 @@ export const HackerNewsFeedTile: React.FC<PageProps> = ({ tileId }) => {
 
   const color = `var(--text-color-${tileId})`;
   const underlineColor = color;
+
+  // need to change the amount of text truncated from title depending on width
+  React.useEffect(() => {
+    if (!divRef.current) {
+      return;
+    }
+
+    if (divRef.current.offsetWidth > 300) {
+      setDisplayingOnWideTile(true);
+    }
+  }, []);
 
   useEffect(() => {
     if (!hackerNewsFeed) {
@@ -84,7 +97,11 @@ export const HackerNewsFeedTile: React.FC<PageProps> = ({ tileId }) => {
       <UnorderedList margin="0" mt="4">
         {data?.map((link) => (
           <ListItem listStyleType="none" key={link.time + link.author} mt="3">
-            <Link href={link.url}>{truncateString(link.title, 90)}</Link>
+            <Link href={link.url}>
+              {displayingOnWideTile
+                ? link.title
+                : truncateString(link.title, 90)}
+            </Link>
             <Flex justifyContent="space-between">
               <Text fontSize="xs">
                 {calculateTimeAgoString(new Date(link.time * 1000))}
@@ -98,7 +115,7 @@ export const HackerNewsFeedTile: React.FC<PageProps> = ({ tileId }) => {
   }
 
   return (
-    <Box px="4" color={color} position="relative">
+    <Box px="4" color={color} position="relative" ref={divRef}>
       <Heading mt="3" fontSize="xl">
         <Link
           href="https://news.ycombinator.com"
@@ -107,7 +124,7 @@ export const HackerNewsFeedTile: React.FC<PageProps> = ({ tileId }) => {
           Hacker News Feed
         </Link>
       </Heading>
-      <Box position="absolute" right="4" top="4" height="10px" width="20px">
+      <Box position="absolute" right="4" top="1" height="10px" width="20px">
         <HackerNewsLogo color={color} />
       </Box>
       <Box w="80%" bg="white" height="1px" mt="2" bgColor={underlineColor} />
@@ -126,7 +143,11 @@ export const HackerNewsFeedTile: React.FC<PageProps> = ({ tileId }) => {
         >
           Show Stories
         </OptionBadge>
-        <OptionBadge onClick={() => changeFeedType("Ask")} color={color} mt="2">
+        <OptionBadge
+          onClick={() => changeFeedType("Ask")}
+          color={color}
+          mt={displayingOnWideTile ? undefined : "2"}
+        >
           Ask Stories
         </OptionBadge>
       </Box>
