@@ -32,9 +32,9 @@ export const TileErrorBoundary: React.FC<TileErrorBoundaryProps> = ({
     Object.keys(currentTheme[tileId]).forEach(function (key: string, index) {
       const castedKey = key as keyof TileSettings;
       if (castedKey === "backgroundColor") {
-        currentTheme[tileId][castedKey] = "black";
+        currentTheme[tileId][castedKey] = currentTheme[tileId][castedKey];
       } else if (castedKey === "textColor") {
-        currentTheme[tileId][castedKey] = "white";
+        currentTheme[tileId][castedKey] = currentTheme[tileId][castedKey];
       } else if (castedKey === "tileType") {
         currentTheme[tileId][castedKey] = "Blank Tile";
       } else {
