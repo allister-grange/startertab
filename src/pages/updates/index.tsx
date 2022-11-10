@@ -1,8 +1,8 @@
 import { Footer } from "@/components/ui/Footer";
 import { Box, Flex, Heading, Link, Text } from "@chakra-ui/react";
 import React from "react";
-import { Update110 } from "./Update110";
-import { Update120 } from "./Update120";
+import { Update110 } from "@/components/updates/Update110";
+import { Update120 } from "@/components/updates/Update120";
 
 const UpdatesPage: React.FC = ({}) => {
   React.useEffect(() => {
