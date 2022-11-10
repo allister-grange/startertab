@@ -8,6 +8,11 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
+  if (req.method !== "GET") {
+    res.setHeader("Allow", ["GET"]);
+    return res.status(405).json({ success: false });
+  }
+
   const { hackerNewsFeed } = req.query;
 
   if (!hackerNewsFeed || typeof hackerNewsFeed !== "string") {
@@ -51,10 +56,13 @@ export const getHackerNewsData = async (hackerNewsFeed: string) => {
       topPostsTruncated.map(async (askId) => {
         const postDetailRes = await fetch(`${hackerNewsItemUrl}${askId}.json`);
         const postDetail = (await postDetailRes.json()) as HackerNewsApiItem;
+
         postLinks.push({
           title: postDetail.title,
           url: `https://news.ycombinator.com/item?id=${postDetail.id}`,
           id: postDetail.id,
+          time: postDetail.time,
+          author: postDetail.by,
         });
       })
     );

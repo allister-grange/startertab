@@ -14,4 +14,6 @@ export interface HackerNewsLinkHolder {
   title: string;
   url: string;
   id: number;
+  author: string;
+  time: number;
 }

@@ -2,6 +2,8 @@ export interface RedditDataHolder {
   title: string;
   url: string;
   id: string;
+  author: string;
+  date: Date;
 }
 
 export interface RedditAPIResponse {

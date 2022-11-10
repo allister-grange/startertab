@@ -9,6 +9,11 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
+  if (req.method !== "PUT") {
+    res.setHeader("Allow", ["PUT"]);
+    return res.status(405).json({ success: false });
+  }
+
   let accessToken = req.cookies["spotifyAccessToken"];
   let refreshToken = req.cookies["spotifyRefreshToken"];
   if (!accessToken || !refreshToken) {
@@ -36,35 +41,30 @@ export default async function handler(
 
   const pauseBool = pause === "true" ? true : false;
 
-  if (req.method === "PUT") {
-    try {
-      const endpointUrl = pauseBool ? PAUSE_SONG_ENDPOINT : PLAY_SONG_ENDPOINT;
+  try {
+    const endpointUrl = pauseBool ? PAUSE_SONG_ENDPOINT : PLAY_SONG_ENDPOINT;
 
-      const pausePlaySongRes = await fetch(endpointUrl, {
-        method: "PUT",
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-          "Content-Type": "application/json",
-        },
-      });
+    const pausePlaySongRes = await fetch(endpointUrl, {
+      method: "PUT",
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+        "Content-Type": "application/json",
+      },
+    });
 
-      // access token is out of data, the client should refresh itself
-      if (pausePlaySongRes.status === 401) {
-        return res.status(401);
-      }
-
-      if (pausePlaySongRes.status >= 400) {
-        return res
-          .status(pausePlaySongRes.status)
-          .json("Failed to pause or play song");
-      }
-
-      return res.status(200).json("Paused/played song");
-    } catch (err) {
-      return res.status(500).json(err);
+    // access token is out of data, the client should refresh itself
+    if (pausePlaySongRes.status === 401) {
+      return res.status(401);
     }
-  } else {
-    res.setHeader("Allow", "PUT");
-    return res.status(405).json({ success: false });
+
+    if (pausePlaySongRes.status >= 400) {
+      return res
+        .status(pausePlaySongRes.status)
+        .json("Failed to pause or play song");
+    }
+
+    return res.status(200).json("Paused/played song");
+  } catch (err) {
+    return res.status(500).json(err);
   }
 }

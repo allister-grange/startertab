@@ -1,7 +1,7 @@
 import {
   bookingsSelector,
   todoListSelector,
-} from "@/components/recoil/UserSettingsSelectors";
+} from "@/recoil/UserSettingsSelectors";
 import {
   BonsaiTile,
   HackerNewsFeedTile,
@@ -19,6 +19,7 @@ import {
   UvGraphTile,
   TwitterFeedTile,
   MarkdownFileTile,
+  RSSFeedTile,
   FavoriteLinksTile,
 } from "@/components/tiles";
 import TodoListTile from "@/components/tiles/TodoListTile";
@@ -29,7 +30,7 @@ import SpotifyContextProvider from "@/context/SpotifyContext";
 import StravaContextProvider from "@/context/StravaContext";
 import { Booking, TileId, TileType, TodoObject } from "@/types";
 import { Box, Center, Heading } from "@chakra-ui/react";
-import React from "react";
+import React, { useState } from "react";
 import { ErrorBoundary } from "react-error-boundary";
 import { SetterOrUpdater, useRecoilState } from "recoil";
 import { QueryClient } from "@tanstack/react-query";
@@ -64,6 +65,8 @@ const TileContainer: React.FC<TileContainerProps> = ({ tileId, tileType }) => {
     TodoObject[] | undefined,
     SetterOrUpdater<TodoObject[] | undefined>
   ];
+  // error keys to keep a track of the error boundary state, bit of a hack
+  const [errorKeys, setErrorKeys] = useState<string | undefined>();
 
   const persister = createSyncStoragePersister({
     storage: window.localStorage,
@@ -149,6 +152,9 @@ const TileContainer: React.FC<TileContainerProps> = ({ tileId, tileType }) => {
     case "Small Stock Tile":
       tileToRender = <SmallStockTile tileId={tileId} />;
       break;
+    case "RSS Feed Tile":
+      tileToRender = <RSSFeedTile tileId={tileId} />;
+      break;
     case "Day Planner":
       tileToRender = (
         <DayPlannerTile
@@ -177,7 +183,12 @@ const TileContainer: React.FC<TileContainerProps> = ({ tileId, tileType }) => {
   }
 
   return (
-    <ErrorBoundary FallbackComponent={TileErrorBoundary}>
+    <ErrorBoundary
+      resetKeys={[errorKeys]}
+      FallbackComponent={({ error }) => (
+        <TileErrorBoundary tileId={tileId} setErrorKeys={setErrorKeys} />
+      )}
+    >
       <PersistQueryClientProvider
         client={queryClient}
         persistOptions={{ persister }}

@@ -4,7 +4,7 @@ import { Box, Input, Text } from "@chakra-ui/react";
 import React, { useRef, useState } from "react";
 import ReactMarkdown from "react-markdown";
 import { SetterOrUpdater, useRecoilState } from "recoil";
-import { markdownFileTextSelector } from "@/components/recoil/UserSettingsSelectors";
+import { markdownFileTextSelector } from "@/recoil/UserSettingsSelectors";
 
 interface MarkdownFileTileProps {
   tileId: TileId;

@@ -1,4 +1,4 @@
-import { spotifyTopArtistTimeLengthSelector } from "@/components/recoil/UserSettingsSelectors";
+import { spotifyTopArtistTimeLengthSelector } from "@/recoil/UserSettingsSelectors";
 import { TextFeedSkeleton } from "@/components/skeletons/TextFeedSkeleton";
 import { OptionBadge } from "@/components/ui/OptionBadge";
 import { OutlinedButton } from "@/components/ui/OutlinedButton";

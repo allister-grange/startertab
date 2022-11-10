@@ -16,73 +16,71 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  if (req.method === "GET") {
-    try {
-      let {
-        query: { timeRange },
-      } = req;
+  if (req.method !== "GET") {
+    res.setHeader("Allow", ["GET"]);
+    return res.status(405).json({ success: false });
+  }
 
-      let accessToken = req.cookies["spotifyAccessToken"];
-      let refreshToken = req.cookies["spotifyRefreshToken"];
+  try {
+    let {
+      query: { timeRange },
+    } = req;
 
-      if (!accessToken || !refreshToken) {
-        return res
-          .status(400)
-          .send("Failed to provide access or refresh token");
-      }
+    let accessToken = req.cookies["spotifyAccessToken"];
+    let refreshToken = req.cookies["spotifyRefreshToken"];
 
-      if (!key) {
-        return res
-          .status(500)
-          .send("No encryption key found in environment variables");
-      }
+    if (!accessToken || !refreshToken) {
+      return res.status(400).send("Failed to provide access or refresh token");
+    }
 
-      const CryptoJS = (await import("crypto-js")).default;
+    if (!key) {
+      return res
+        .status(500)
+        .send("No encryption key found in environment variables");
+    }
 
-      accessToken = CryptoJS.AES.decrypt(accessToken, key).toString(
-        CryptoJS.enc.Utf8
-      );
-      refreshToken = CryptoJS.AES.decrypt(refreshToken, key).toString(
-        CryptoJS.enc.Utf8
-      );
+    const CryptoJS = (await import("crypto-js")).default;
 
-      let spotifyData = await getSpotifyTopArtists(
+    accessToken = CryptoJS.AES.decrypt(accessToken, key).toString(
+      CryptoJS.enc.Utf8
+    );
+    refreshToken = CryptoJS.AES.decrypt(refreshToken, key).toString(
+      CryptoJS.enc.Utf8
+    );
+
+    let spotifyData = await getSpotifyTopArtists(
+      accessToken as string,
+      refreshToken as string,
+      timeRange as string
+    );
+
+    const AES = (await import("crypto-js/aes")).default;
+
+    // if a new access token is sent back, set it in cookies
+    // and re-fetch the request
+    if (typeof spotifyData === "string") {
+      res.setHeader("Set-Cookie", [
+        cookie.serialize("spotifyAccessToken", spotifyData, {
+          httpOnly: true,
+          secure: process.env.NODE_ENV !== "development",
+          maxAge: 34560000,
+          sameSite: "strict",
+          path: "/",
+          encode: (value) => AES.encrypt(value, key!).toString(),
+        }),
+      ]);
+      spotifyData = (await getSpotifyTopArtists(
         accessToken as string,
         refreshToken as string,
         timeRange as string
-      );
-
-      const AES = (await import("crypto-js/aes")).default;
-
-      // if a new access token is sent back, set it in cookies
-      // and re-fetch the request
-      if (typeof spotifyData === "string") {
-        res.setHeader("Set-Cookie", [
-          cookie.serialize("spotifyAccessToken", spotifyData, {
-            httpOnly: true,
-            secure: process.env.NODE_ENV !== "development",
-            maxAge: 34560000,
-            sameSite: "strict",
-            path: "/",
-            encode: (value) => AES.encrypt(value, key!).toString(),
-          }),
-        ]);
-        spotifyData = (await getSpotifyTopArtists(
-          accessToken as string,
-          refreshToken as string,
-          timeRange as string
-        )) as TopArtistSpotifyData;
-      }
-
-      spotifyData.topArtists.sort((a, b) => b.popularity - a.popularity);
-
-      res.status(200).json(spotifyData);
-    } catch (err) {
-      return res.status(500).json(err);
+      )) as TopArtistSpotifyData;
     }
-  } else {
-    res.setHeader("Allow", ["GET"]);
-    return res.status(405).json({ success: false });
+
+    spotifyData.topArtists.sort((a, b) => b.popularity - a.popularity);
+
+    res.status(200).json(spotifyData);
+  } catch (err) {
+    return res.status(500).json(err);
   }
 }
 

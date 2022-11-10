@@ -1,4 +1,4 @@
-import { uvCitySelector } from "@/components/recoil/UserSettingsSelectors";
+import { uvCitySelector } from "@/recoil/UserSettingsSelectors";
 import { OutlinedButton } from "@/components/ui/OutlinedButton";
 import { TileId, UvGraphData } from "@/types";
 import {

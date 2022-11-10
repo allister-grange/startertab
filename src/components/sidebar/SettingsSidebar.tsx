@@ -1,4 +1,4 @@
-import { userSettingState } from "@/components/recoil/UserSettingsAtom";
+import { userSettingState } from "@/recoil/UserSettingsAtom";
 import {
   Footer,
   SideBarTitle,
@@ -31,6 +31,7 @@ import {
 } from "@chakra-ui/react";
 import React, { Dispatch, SetStateAction, useRef, useState } from "react";
 import { useRecoilState } from "recoil";
+import { deepClone } from "@/helpers/tileHelpers";
 
 interface SettingsSideBarProps {
   isOpen: boolean;
@@ -38,10 +39,6 @@ interface SettingsSideBarProps {
   setOptionHovered: React.Dispatch<SetStateAction<TileId | undefined>>;
   setTutorialProgress: Dispatch<SetStateAction<number>>;
   tutorialProgress: number;
-}
-
-function deepClone<T>(value: T) {
-  return JSON.parse(JSON.stringify(value)) as T;
 }
 
 const randomHexValue = (): string => {

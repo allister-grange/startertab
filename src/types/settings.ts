@@ -1,4 +1,4 @@
-import { TodoObject, Booking, FavoriteLink } from "@/types/tiles";
+import { TodoObject, Booking, FavoriteLink, RSSFeed } from "@/types/tiles";
 
 export type Option = {
   title: string;
@@ -49,6 +49,7 @@ export type TileType =
   | "Spotify Top Artist Tile"
   | "Blank Tile"
   | "Favorite Links Tile"
+  | "RSS Feed Tile"
   | "None";
 
 export type TileSettings = {
@@ -79,6 +80,7 @@ export type TileSettings = {
   bookings?: Booking[];
   markdownFileText?: string;
   favoriteLinks?: FavoriteLink[];
+  rssFeeds?: RSSFeed[];
 };
 
 export type ThemeSettings = {

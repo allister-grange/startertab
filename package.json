@@ -34,7 +34,8 @@
     "react-markdown": "^8.0.3",
     "react-no-ssr": "^1.1.0",
     "recharts": "^2.1.9",
-    "recoil": "^0.7.4"
+    "recoil": "^0.7.4",
+    "rss-parser": "^3.12.0"
   },
   "devDependencies": {
     "@types/crypto-js": "^4.1.1",

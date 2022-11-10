@@ -1,7 +1,7 @@
 import {
   cityForWeatherSelector,
   tempDisplayInCelsiusSelector,
-} from "@/components/recoil/UserSettingsSelectors";
+} from "@/recoil/UserSettingsSelectors";
 import { LargeWeatherTileSkeleton } from "@/components/skeletons/LargeWeatherTileSkeleton";
 import { OutlinedButton } from "@/components/ui/OutlinedButton";
 import { TileId } from "@/types";

@@ -1,8 +1,5 @@
 import { TileGrid } from "@/components/grid/TileGrid";
-import {
-  colorModeState,
-  userSettingState,
-} from "@/components/recoil/UserSettingsAtom";
+import { colorModeState, userSettingState } from "@/recoil/UserSettingsAtom";
 import SettingsSideBar from "@/components/sidebar/SettingsSidebar";
 import { Tutorial } from "@/components/tutorial/Tutorial";
 import { MobileWarning } from "@/components/ui/MobileWarning";
@@ -64,7 +61,7 @@ const Home: NextPage = () => {
 
   const showUpdateToast = useCallback(() => {
     toast({
-      title: "I've made an update!",
+      title: "I've made another update! v1.2",
       description: (
         <Text>
           Check it out{" "}
@@ -94,10 +91,22 @@ const Home: NextPage = () => {
         localStorage.setItem("hasVisitedBefore", "true");
         setTimeout(showNewTabToast, 45000);
       } else {
-        const hasSeenNewUpdate = localStorage.getItem("hasSeenNewUpdate1.10");
+        localStorage.removeItem("hasSeenNewUpdate1.10");
+        const hasSeenNewUpdate = localStorage.getItem(
+          "hasSeenNewUpdate1.20Counter"
+        );
         if (!hasSeenNewUpdate) {
-          localStorage.setItem("hasSeenNewUpdate1.10", "true");
-          showUpdateToast();
+          localStorage.setItem("hasSeenNewUpdate1.20Counter", "1");
+        } else {
+          localStorage.setItem(
+            "hasSeenNewUpdate1.20Counter",
+            (parseInt(hasSeenNewUpdate) + 1).toString()
+          );
+          // only on the sixth visit since the update do we want to show the toast
+          // I don't want to spam people who just finished the tutorial with toasts
+          if (hasSeenNewUpdate === "6") {
+            showUpdateToast();
+          }
         }
       }
     }

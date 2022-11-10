@@ -8,7 +8,7 @@ import { SetterOrUpdater, useRecoilState } from "recoil";
 import {
   bonsaiBaseColorSelector,
   bonsaiTrunkColorSelector,
-} from "@/components/recoil/UserSettingsSelectors";
+} from "@/recoil/UserSettingsSelectors";
 
 type BonsaiProps = {
   tileId: TileId;
@@ -65,7 +65,7 @@ export const BonsaiTile: React.FC<BonsaiProps> = ({ tileId }): JSX.Element => {
   }, []);
 
   return (
-    <>
+    <Box>
       <Box pos="absolute" bottom="3.7rem">
         {bonsai.map((line, idx) => {
           const joinedLine = line.join("");
@@ -79,7 +79,7 @@ export const BonsaiTile: React.FC<BonsaiProps> = ({ tileId }): JSX.Element => {
           );
         })}
       </Box>
-      <Box pos="absolute" bottom="2" left="61">
+      <Box pos="absolute" bottom="1" left="61">
         {getBonsaiBase(trunkColor, baseColor)
           .split("\n")
           .map((val, idx) => (
@@ -92,6 +92,6 @@ export const BonsaiTile: React.FC<BonsaiProps> = ({ tileId }): JSX.Element => {
             />
           ))}
       </Box>
-    </>
+    </Box>
   );
 };

@@ -13,6 +13,11 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
+  if (req.method !== "POST") {
+    res.setHeader("Allow", ["POST"]);
+    return res.status(405).json({ success: false });
+  }
+
   let accessToken = req.cookies["spotifyAccessToken"];
   let refreshToken = req.cookies["spotifyRefreshToken"];
   if (!accessToken || !refreshToken) {
@@ -34,63 +39,56 @@ export default async function handler(
     CryptoJS.enc.Utf8
   );
 
-  if (req.method === "POST") {
-    try {
-      const newTokensResponse = await fetch(TOKEN_ENDPOINT, {
-        method: `POST`,
-        headers: {
-          Authorization: `Basic ${basic}`,
-          "Content-Type": `application/x-www-form-urlencoded`,
-        },
-        body: querystring.stringify({
-          grant_type: `refresh_token`,
-          refresh_token: refreshToken,
-        }),
-      });
+  try {
+    const newTokensResponse = await fetch(TOKEN_ENDPOINT, {
+      method: `POST`,
+      headers: {
+        Authorization: `Basic ${basic}`,
+        "Content-Type": `application/x-www-form-urlencoded`,
+      },
+      body: querystring.stringify({
+        grant_type: `refresh_token`,
+        refresh_token: refreshToken,
+      }),
+    });
 
-      if (newTokensResponse.status >= 400) {
-        return res
-          .status(newTokensResponse.status)
-          .send("There was an error refreshing the access tokens");
-      }
-
-      const data = await newTokensResponse.json();
-
-      if (!data.access_token || !data.refresh_token) {
-        return res
-          .status(500)
-          .send(
-            "Missing tokens on response from Spotify when refreshing tokens"
-          );
-      }
-
-      const AES = (await import("crypto-js/aes")).default;
-
-      res.setHeader("Set-Cookie", [
-        cookie.serialize("spotifyAccessToken", data.access_token, {
-          httpOnly: true,
-          secure: process.env.NODE_ENV !== "development",
-          maxAge: 34560000,
-          sameSite: "strict",
-          path: "/",
-          encode: (value) => AES.encrypt(value, ENCRYPT_KEY!).toString(),
-        }),
-        cookie.serialize("spotifyRefreshToken", data.refresh_token, {
-          httpOnly: true,
-          secure: process.env.NODE_ENV !== "development",
-          maxAge: 34560000,
-          sameSite: "strict",
-          path: "/",
-          encode: (value) => AES.encrypt(value, ENCRYPT_KEY!).toString(),
-        }),
-      ]);
-
-      res.status(200).json("Tokens refreshed");
-    } catch (err) {
-      return res.status(500).json(err);
+    if (newTokensResponse.status >= 400) {
+      return res
+        .status(newTokensResponse.status)
+        .send("There was an error refreshing the access tokens");
     }
-  } else {
-    res.setHeader("Allow", "POST");
-    return res.status(405).json({ success: false });
+
+    const data = await newTokensResponse.json();
+
+    if (!data.access_token || !data.refresh_token) {
+      return res
+        .status(500)
+        .send("Missing tokens on response from Spotify when refreshing tokens");
+    }
+
+    const AES = (await import("crypto-js/aes")).default;
+
+    res.setHeader("Set-Cookie", [
+      cookie.serialize("spotifyAccessToken", data.access_token, {
+        httpOnly: true,
+        secure: process.env.NODE_ENV !== "development",
+        maxAge: 34560000,
+        sameSite: "strict",
+        path: "/",
+        encode: (value) => AES.encrypt(value, ENCRYPT_KEY!).toString(),
+      }),
+      cookie.serialize("spotifyRefreshToken", data.refresh_token, {
+        httpOnly: true,
+        secure: process.env.NODE_ENV !== "development",
+        maxAge: 34560000,
+        sameSite: "strict",
+        path: "/",
+        encode: (value) => AES.encrypt(value, ENCRYPT_KEY!).toString(),
+      }),
+    ]);
+
+    res.status(200).json("Tokens refreshed");
+  } catch (err) {
+    return res.status(500).json(err);
   }
 }

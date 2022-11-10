@@ -91,6 +91,9 @@ export const TileTypePicker: React.FC<TileTypePickerProps> = ({
           <option style={optionsStyles} value="Reddit Feed">
             Reddit Feed
           </option>
+          <option style={optionsStyles} value="RSS Feed Tile">
+            RSS Feed
+          </option>
           <option style={optionsStyles} value="Spotify Top Artist Tile">
             Spotify Top Artist List
           </option>
@@ -109,14 +112,26 @@ export const TileTypePicker: React.FC<TileTypePickerProps> = ({
           <option style={optionsStyles} value="Blank Tile">
             Blank
           </option>
+          <option style={optionsStyles} value="Bonsai">
+            Bonsai
+          </option>
           {/* <option style={optionsStyles} value="Javascript Console Tile">
             Javascript Console Tile
           </option> */}
           <option style={optionsStyles} value="Favorite Links Tile">
             Favorite Links
           </option>
+          <option style={optionsStyles} value="Hacker News Feed">
+            Hacker News Feed
+          </option>
           <option style={optionsStyles} value="Markdown File Tile">
             Markdown File
+          </option>
+          <option style={optionsStyles} value="Reddit Feed">
+            Reddit Feed
+          </option>
+          <option style={optionsStyles} value="RSS Feed Tile">
+            RSS Feed
           </option>
           <option style={optionsStyles} value="Large Spotify Tile">
             Spotify Tile
@@ -126,6 +141,9 @@ export const TileTypePicker: React.FC<TileTypePickerProps> = ({
           </option>
           <option style={optionsStyles} value="Strava Graph">
             Strava Graph
+          </option>
+          <option style={optionsStyles} value="Twitter Feed Tile">
+            Twitter Feed
           </option>
           <option style={optionsStyles} value="UV Graph">
             UV Graph
