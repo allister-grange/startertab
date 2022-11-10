@@ -1,10 +1,10 @@
-import { userSettingState } from "@/recoil/UserSettingsAtom";
-import { TileId, TileSettings, UserSettings } from "@/types";
-import { Text, Center, Heading, useColorMode, Box } from "@chakra-ui/react";
-import React, { useState } from "react";
-import { useRecoilState } from "recoil";
 import { OutlinedButton } from "@/components/ui/OutlinedButton";
 import { deepClone } from "@/helpers/tileHelpers";
+import { userSettingState } from "@/recoil/UserSettingsAtom";
+import { TileId, TileSettings } from "@/types";
+import { Box, Center, Heading, Text, useColorMode } from "@chakra-ui/react";
+import React from "react";
+import { useRecoilState } from "recoil";
 
 interface TileErrorBoundaryProps {
   tileId: TileId;
