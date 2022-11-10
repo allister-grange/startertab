@@ -42,7 +42,7 @@ export const Update110: React.FC = () => {
         <Text mt="2">
           The Favorites Tile! To be honest this probably should have come
           through in this initial release of the website as it&apos;s such a
-          no-brainer. I&apos;ll probably use this tile myself to keep track
+          no-brainer. I&apos;ll probably use this tile myself to keep track of
           sites I need to read.
         </Text>
         <Box

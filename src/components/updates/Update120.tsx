@@ -48,7 +48,7 @@ export const Update120: React.FC = () => {
           glance, and provides a cleaner aesthetic in my opnion. I think it
           would be a step too far to include the &quot;scores&quot; that various
           sites have. The re-tweets, the upvotes and the like. This takes away
-          from the semi-unbiased view the data comes through with the feed tiles
+          from the semi-unbiased view the data comes through in the feed tiles
           at the moment, which is something I personally find pleasing.
         </Text>
         <Text mt="2">
