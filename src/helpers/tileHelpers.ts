@@ -86,3 +86,7 @@ export const truncateString = (text: string, length: number) => {
     return text;
   }
 };
+
+export function deepClone<T>(value: T) {
+  return JSON.parse(JSON.stringify(value)) as T;
+}
