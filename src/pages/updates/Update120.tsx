@@ -1,4 +1,5 @@
-import { Heading, Flex, Box, Text } from "@chakra-ui/react";
+import { Heading, Box, Text } from "@chakra-ui/react";
+import Image from "next/image";
 import React from "react";
 
 export const Update120: React.FC = () => {
@@ -16,6 +17,26 @@ export const Update120: React.FC = () => {
       <Text mt="2" color="black">
         Another tile type! Along with a slew of minor updates to the feed tiles.
       </Text>
+      <Box mt="4" width={["100%", "90%", "80%", "80%"]} marginX="auto">
+        <Text>RSS Feed Tile</Text>
+        <video
+          loop
+          autoPlay
+          playsInline
+          muted
+          style={{
+            width: "100%",
+            aspectRatio: "1.63",
+            objectFit: "cover",
+            marginTop: "15px",
+          }}
+        >
+          <source
+            src="/updates_screenshots/rss_feed_tile_demo.mp4"
+            type="video/mp4"
+          ></source>
+        </video>
+      </Box>
       <Box color="gray.700" mt="6">
         <Heading fontSize="xl" as="h3" color="black">
           Feed Tile Changes
