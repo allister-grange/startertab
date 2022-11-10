@@ -201,7 +201,7 @@ export const RSSFeedTile: React.FC<RSSFeedTileProps> = ({ tileId }) => {
         <Box height="1px" width="80%" bg={color} mt="2" />
         <UnorderedList margin="0" mt="4">
           {orderedRssFeedData?.map((feed) => (
-            <ListItem listStyleType="none" key={feed.date + feed.author} mt="3">
+            <ListItem listStyleType="none" key={feed.date + feed.link} mt="3">
               <Link href={feed.link}>
                 {displayingOnWideTile
                   ? feed.title
