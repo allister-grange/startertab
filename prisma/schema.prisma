@@ -1,0 +1,26 @@
+generator client {
+  provider = "prisma-client-js"
+    previewFeatures = ["referentialIntegrity"]
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+  referentialIntegrity = "prisma"
+}
+
+model Theme {
+  id        Int       @id @default(autoincrement())
+  createdAt DateTime  @default(now())
+  author    String?  
+  name      String    @unique
+  data      Json     
+  votes     Vote[]
+  tags      String
+}
+
+model Vote {
+  id        Int       @id @default(autoincrement())
+  theme     Theme?    @relation(fields: [themeId], references: [id])
+  themeId   Int?
+}

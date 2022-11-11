@@ -28,6 +28,7 @@ import {
   Box,
   ExpandedIndex,
   useColorMode,
+  Link,
 } from "@chakra-ui/react";
 import React, { Dispatch, SetStateAction, useRef, useState } from "react";
 import { useRecoilState } from "recoil";
@@ -223,6 +224,26 @@ const SettingsSideBar: React.FC<SettingsSideBarProps> = ({
           setTutorialProgress={setTutorialProgress}
           themes={getThemeNames(settings)}
         />
+        <Box mt="4" />
+        <Link
+          href="/manage-themes"
+          color={textColor}
+          border={`1px solid ${textColor}`}
+          borderRadius="md"
+          py="2"
+          display="block"
+          textAlign="center"
+          transition="all .2s"
+          _hover={{
+            transform: "translateY(-2px)",
+          }}
+          _focus={{
+            border: `2px solid ${textColor}`,
+            transform: "translateY(-2px)",
+          }}
+        >
+          Manage Themes
+        </Link>
         <Box mt="4" />
         <Accordion
           allowMultiple

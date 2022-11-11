@@ -52,8 +52,8 @@ export default async function handler(
     );
   } catch (err) {
     console.error(err);
-    return res.status(500);
+    return res.status(500).send(err);
   }
 
-  res.status(200).json(feeds);
+  return res.status(200).json(feeds);
 }

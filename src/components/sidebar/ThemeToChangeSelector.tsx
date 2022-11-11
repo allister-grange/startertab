@@ -1,5 +1,4 @@
-import { PlusSquareIcon } from "@chakra-ui/icons";
-import { Button, Flex, Select, Text, useColorMode } from "@chakra-ui/react";
+import { Flex, Select, useColorMode } from "@chakra-ui/react";
 import Router from "next/router";
 import React, { Dispatch, SetStateAction } from "react";
 import { OutlinedButton } from "../ui/OutlinedButton";
