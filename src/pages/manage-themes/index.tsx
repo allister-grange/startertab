@@ -1,4 +1,5 @@
 import { ThemePreview } from "@/components/theme-creator/ThemePreview";
+import { ThemeCard } from "@/components/themes/ThemeCard";
 import { OutlinedButton } from "@/components/ui/OutlinedButton";
 import { deepClone, truncateString } from "@/helpers/tileHelpers";
 import { userSettingState } from "@/recoil/UserSettingsAtom";
@@ -24,7 +25,7 @@ import { useRecoilState } from "recoil";
  * My Themes
  *
  * -> I want to be able to copy my theme to my clipboard
- * -> I want to be able to click a button show my theme publicly
+ * -> I want to be able to click a button share my theme publicly
  * -> I want to be able to choose if it's anon or not
  * -> I want to be able to delete some of my themes
  *
@@ -131,69 +132,11 @@ const ManageThemes: React.FC = ({}) => {
         justifyItems="center"
       >
         {settings.themes.map((theme) => (
-          <Box
+          <ThemeCard
             key={theme.themeName}
-            bg="white"
-            p="4"
-            borderRadius="md"
-            shadow="md"
-            transition="all .2s"
-          >
-            <Box
-              height="250px"
-              width="420px"
-              pos="relative"
-              overflow="hidden"
-              borderRadius="lg"
-              boxShadow="md"
-            >
-              <ThemePreview theme={theme} />
-            </Box>
-            <Flex justifyContent="space-between">
-              <Flex flexDir="column" justifyContent="center">
-                <Text fontSize="2xl" fontWeight="bold">
-                  {theme.themeName}
-                </Text>
-                <Text color="gray.700" fontSize="sm" mt="2">
-                  Background:{" "}
-                  <Badge
-                    bg={theme.globalSettings.backgroundColor}
-                    color={theme.globalSettings.textColor}
-                    _hover={{ cursor: "pointer" }}
-                    onClick={() =>
-                      copyToClipboard(
-                        theme.globalSettings.backgroundColor,
-                        theme.globalSettings.backgroundColor
-                      )
-                    }
-                  >
-                    {truncateString(theme.globalSettings.backgroundColor, 16)}
-                  </Badge>
-                </Text>
-                <Text color="gray.700" fontSize="sm">
-                  Text color:{" "}
-                  <Badge
-                    filter={theme.globalSettings.textColor}
-                    _hover={{ cursor: "pointer" }}
-                    onClick={() =>
-                      copyToClipboard(
-                        theme.globalSettings.textColor,
-                        theme.globalSettings.textColor
-                      )
-                    }
-                  >
-                    {theme.globalSettings.textColor}
-                  </Badge>
-                </Text>
-              </Flex>
-
-              <Flex
-                alignItems="center"
-                color="gray.700"
-                flexDir={"column"}
-                gap="2"
-                mt="4"
-              >
+            theme={theme}
+            buttons={
+              <>
                 <OutlinedButton
                   border={`1px solid black`}
                   onClick={() =>
@@ -219,13 +162,13 @@ const ManageThemes: React.FC = ({}) => {
                   onClick={() => console.log("share")}
                 >
                   <Text fontSize="xs" mr="2">
-                    Share with marketplace
+                    Share to Themes
                   </Text>
                   <ExternalLinkIcon />
                 </OutlinedButton>
-              </Flex>
-            </Flex>
-          </Box>
+              </>
+            }
+          />
         ))}
       </Grid>
     </Box>
