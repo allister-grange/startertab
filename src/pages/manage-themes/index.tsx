@@ -1,5 +1,5 @@
 import { ThemePreview } from "@/components/theme-creator/ThemePreview";
-import { ThemeCard } from "@/components/themes/ThemeCard";
+import { PersonalThemeCard } from "@/components/themes/PersonalThemeCard";
 import { OutlinedButton } from "@/components/ui/OutlinedButton";
 import { deepClone, truncateString } from "@/helpers/tileHelpers";
 import { userSettingState } from "@/recoil/UserSettingsAtom";
@@ -95,7 +95,6 @@ const ManageThemes: React.FC = ({}) => {
       // showSuccessfulToast();
       setShowingAddTheme(false);
     } catch (err) {
-      // TOD
       if (err === "Can't have matching theme names chump") {
         alert("You can't have matching theme names");
       } else {
@@ -132,7 +131,7 @@ const ManageThemes: React.FC = ({}) => {
         justifyItems="center"
       >
         {settings.themes.map((theme) => (
-          <ThemeCard
+          <PersonalThemeCard
             key={theme.themeName}
             theme={theme}
             buttons={

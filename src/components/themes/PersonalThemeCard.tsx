@@ -4,12 +4,15 @@ import { Badge, Box, Flex, Text, useToast } from "@chakra-ui/react";
 import React, { ReactNode, useCallback } from "react";
 import { ThemePreview } from "../theme-creator/ThemePreview";
 
-interface ThemeCardProps {
+interface PersonalThemeCardProps {
   theme: ThemeSettings;
   buttons?: ReactNode;
 }
 
-export const ThemeCard: React.FC<ThemeCardProps> = ({ theme, buttons }) => {
+export const PersonalThemeCard: React.FC<PersonalThemeCardProps> = ({
+  theme,
+  buttons,
+}) => {
   const toast = useToast();
   const showClipboardToast = useCallback(
     (val?: string) => {

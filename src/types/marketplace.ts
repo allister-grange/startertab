@@ -1,3 +1,4 @@
+import { Prisma } from "@prisma/client";
 import { ThemeSettings } from "./settings";
 
 export type CreateThemeRequest = {
@@ -6,3 +7,9 @@ export type CreateThemeRequest = {
   data: ThemeSettings;
   tags: string[];
 };
+
+export type ThemeWithVotes = Prisma.ThemeGetPayload<{
+  include: {
+    votes: true;
+  };
+}>;

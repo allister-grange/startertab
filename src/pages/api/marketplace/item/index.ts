@@ -16,6 +16,9 @@ export default async function handler(
   try {
     const marketplaceItems = await prisma.theme.findMany({
       take: 10,
+      include: {
+        votes: true,
+      },
     });
 
     console.log(marketplaceItems);
