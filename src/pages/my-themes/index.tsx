@@ -1,5 +1,6 @@
 import { ThemePreview } from "@/components/theme-creator/ThemePreview";
 import { PersonalThemeCard } from "@/components/themes/PersonalThemeCard";
+import { Layout } from "@/components/ui/Layout";
 import { OutlinedButton } from "@/components/ui/OutlinedButton";
 import { deepClone, truncateString } from "@/helpers/tileHelpers";
 import { userSettingState } from "@/recoil/UserSettingsAtom";
@@ -11,6 +12,7 @@ import {
   Flex,
   Grid,
   Heading,
+  Link,
   Text,
   Textarea,
   useToast,
@@ -112,6 +114,23 @@ const ManageThemes: React.FC = ({}) => {
       px="2"
       maxW="1500px"
     >
+      <Flex direction={["column", "column", "row"]} mb="2" alignItems="center">
+        <Box>
+          <Heading fontSize="40px">Your Themes</Heading>
+          <Heading as="h2" size="sm" color="gray.700">
+            Manage yours themes from this page
+          </Heading>
+        </Box>
+        <Box marginLeft={["0", "0", "auto"]} mt={["0", "0", "5"]}>
+          <Link display="block" marginLeft={["0", "0", "auto"]} href="/themes">
+            More themes
+          </Link>
+          <Link display="block" href="/">
+            Take me back to Starter Tab 👈
+          </Link>
+        </Box>
+      </Flex>
+      <hr style={{ width: "100%" }} />
       {/* <OutlinedButton>Browse Themes</OutlinedButton>
       <OutlinedButton onClick={() => setShowingAddTheme(true)}>
         Add theme by clipboard
@@ -125,7 +144,6 @@ const ManageThemes: React.FC = ({}) => {
           <OutlinedButton type="submit">Add in new theme</OutlinedButton>
         </form>
       )} */}
-      <Heading>Your themes</Heading>
       <Grid
         templateColumns="repeat(auto-fit, minmax(450px, 1fr))"
         gap="4"
