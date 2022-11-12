@@ -1,22 +1,27 @@
-import { MarketPlaceThemeCard } from "@/components/themes/MarketplaceThemeCard";
+import { PersonalThemes } from "@/components/themes/PersonalThemes";
+import { PublicThemes } from "@/components/themes/PublicThemes";
 import { OutlinedButton } from "@/components/ui/OutlinedButton";
+import { ThemePageHeader } from "@/components/ui/ThemePageHeader";
+import { deepClone } from "@/helpers/tileHelpers";
+import { userSettingState } from "@/recoil/UserSettingsAtom";
 import { ThemeSettings } from "@/types";
 import { CreateThemeRequest, ThemeWithVotes } from "@/types/marketplace";
-import { ArrowUpIcon, ChevronDownIcon } from "@chakra-ui/icons";
-import {
-  Box,
-  Flex,
-  Grid,
-  Heading,
-  Input,
-  Link,
-  Select,
-} from "@chakra-ui/react";
-import React, { FormEvent, useEffect, useState } from "react";
+import { Box, Flex, useToast } from "@chakra-ui/react";
+import React, { FormEvent, useCallback, useEffect, useState } from "react";
+import { useRecoilState } from "recoil";
 
-const Test: React.FC = () => {
+const ManageThemes: React.FC = ({}) => {
+  const [settings, setSettings] = useRecoilState(userSettingState);
+  const [showingAddTheme, setShowingAddTheme] = useState(false);
   const [textAreaValue, setTextAreValue] = useState("");
+  const [showingPublicThemes, setShowingPublicThemes] = useState(false);
   const [items, setItems] = useState<ThemeWithVotes[]>([]);
+
+  const toast = useToast();
+
+  useEffect(() => {
+    document.body.style.background = "#F7F8FA";
+  }, []);
 
   useEffect(() => {
     document.body.style.background = "#F7F8FA";
@@ -24,24 +29,75 @@ const Test: React.FC = () => {
       const items = await fetch("/api/marketplace/item");
       const data = (await items.json()) as ThemeWithVotes[];
 
-      // const convertedThemeSettings = data.map(
-      //   (theme) => theme.data as unknown as ThemeSettings
-      // );
-
       setItems(data);
     }
 
     grabItems();
   }, []);
 
+  const showClipboardToast = useCallback(
+    (val?: string) => {
+      toast({
+        title: `Got it! ${val ?? ""}`,
+        status: "info",
+        duration: 1000,
+        isClosable: true,
+        position: "top",
+      });
+    },
+    [toast]
+  );
+
+  const copyToClipboard = (value: string, message?: string) => {
+    navigator.clipboard.writeText(value);
+    showClipboardToast(message);
+  };
+
+  const deleteTheme = (theme: ThemeSettings) => {
+    const clonedSettings = deepClone(settings);
+    const index = clonedSettings.themes.findIndex(
+      (themeToFind) => themeToFind.themeName === theme.themeName
+    );
+
+    if (index > -1) {
+      clonedSettings.themes.splice(index, 1);
+    }
+
+    setSettings(clonedSettings);
+  };
+
+  const submitNewTheme = (e: FormEvent) => {
+    e.preventDefault();
+    try {
+      const newTheme = JSON.parse(textAreaValue) as ThemeSettings;
+      const newSettings = deepClone(settings);
+      settings.themes.forEach((theme) => {
+        if (theme.themeName === newTheme.themeName) {
+          throw new Error("Can't have matching theme names chump");
+        }
+      });
+      newSettings.themes.unshift(newTheme);
+      setSettings(newSettings);
+      // showSuccessfulToast();
+      setShowingAddTheme(false);
+    } catch (err) {
+      if (err === "Can't have matching theme names chump") {
+        alert("You can't have matching theme names");
+      } else {
+        alert("That theme is malformed, please recheck it");
+      }
+    }
+  };
+
   async function onSubmit(e: FormEvent) {
     e.preventDefault();
 
     const toSend: CreateThemeRequest = {
       name: "Midnight Rider 2.0",
-      data: JSON.parse(textAreaValue) as unknown as ThemeSettings,
+      // data: JSON.parse(textAreaValue) as unknown as ThemeSettings,
       tags: ["productivity", "not", "fast"],
       author: "allig256",
+      data: {} as ThemeSettings,
     };
 
     await fetch("/api/marketplace/item/create", {
@@ -58,61 +114,39 @@ const Test: React.FC = () => {
       px="2"
       maxW="1500px"
     >
-      <Flex direction={["column", "column", "row"]} mb="2" alignItems="center">
-        <Box>
-          <Heading fontSize="40px">Themes</Heading>
-          <Heading as="h2" size="sm" color="gray.700">
-            Find a new theme for yourself
-          </Heading>
-        </Box>
-        <Link
-          display="block"
-          marginLeft={["0", "0", "auto"]}
-          mt={["0", "0", "5"]}
-          href="/"
-        >
-          Take me back to Starter Tab 👈
-        </Link>
-      </Flex>
-      <hr style={{ width: "100%" }} />
+      <ThemePageHeader showingPublicThemes={showingPublicThemes} />
 
-      <Flex justifyContent="center" mt="4" gap="4" alignItems="center">
-        <Input
-          width="60%"
-          border="2px solid black"
-          placeholder="Find a theme"
-        />
-        <Select width="20%" placeholder="Order by">
-          <option>Author</option>
-          <option>Created on</option>
-          <option>Popularity</option>
-        </Select>
-        <OutlinedButton shadow="none" onClick={() => "TODO please finish me"}>
-          <ChevronDownIcon boxSize="8" ml="-2" />
+      <Flex mt="4" gap="4">
+        <OutlinedButton
+          border={showingPublicThemes ? "1px solid black" : "2px solid gray"}
+          background={showingPublicThemes ? undefined : "purple.200"}
+          color={showingPublicThemes ? undefined : "white"}
+          onClick={() => setShowingPublicThemes(false)}
+        >
+          {" "}
+          My themes
+        </OutlinedButton>
+        <OutlinedButton
+          border={showingPublicThemes ? "2px solid gray" : "1px solid black"}
+          background={showingPublicThemes ? "purple.200" : undefined}
+          color={showingPublicThemes ? "white" : undefined}
+          onClick={() => setShowingPublicThemes(true)}
+        >
+          Public themes
         </OutlinedButton>
       </Flex>
 
-      {/* <form onSubmit={onSubmit}>
-        <Textarea
-          mt="4"
-          name="json"
-          value={textAreaValue}
-          onChange={(e) => setTextAreValue(e.target.value)}
+      {showingPublicThemes ? (
+        <PublicThemes items={items} />
+      ) : (
+        <PersonalThemes
+          copyToClipboard={copyToClipboard}
+          deleteTheme={deleteTheme}
+          themes={settings.themes}
         />
-        <OutlinedButton type="submit">submit</OutlinedButton>
-      </form> */}
-      <Grid
-        templateColumns="repeat(auto-fit, minmax(450px, 1fr))"
-        gap="4"
-        mt="8"
-        justifyItems="center"
-      >
-        {items.map((item) => (
-          <MarketPlaceThemeCard key={item.id} theme={item} />
-        ))}
-      </Grid>
+      )}
     </Box>
   );
 };
 
-export default Test;
+export default ManageThemes;
