@@ -3,6 +3,7 @@ import { Box, Flex, Heading, Link, Text } from "@chakra-ui/react";
 import React from "react";
 import { Update110 } from "@/components/updates/Update110";
 import { Update120 } from "@/components/updates/Update120";
+import { Header } from "@/components/ui/Header";
 
 const UpdatesPage: React.FC = ({}) => {
   React.useEffect(() => {
@@ -11,6 +12,7 @@ const UpdatesPage: React.FC = ({}) => {
 
   return (
     <Box>
+      <Header />
       <Box
         width={["100%", "90%", "70%", "60%", "50%"]}
         mx="auto"

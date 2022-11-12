@@ -46,11 +46,11 @@ const Test: React.FC = () => {
 
   return (
     <Box
-      width={["100%", "90%", "80%", "70%", "70%"]}
+      width={["100%", "90%", "80%", "80%", "70%"]}
       mx="auto"
       py="6"
       px="2"
-      maxW="1000px"
+      maxW="1500px"
     >
       <form onSubmit={onSubmit}>
         <Textarea
@@ -61,7 +61,7 @@ const Test: React.FC = () => {
         <OutlinedButton type="submit">submit</OutlinedButton>
       </form>
       <Grid
-        templateColumns="repeat(auto-fit, minmax(400px, 1fr))"
+        templateColumns="repeat(auto-fit, minmax(450px, 1fr))"
         gap="4"
         mt="8"
         justifyItems="center"

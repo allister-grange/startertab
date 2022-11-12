@@ -10,6 +10,7 @@ import {
   Box,
   Flex,
   Grid,
+  Heading,
   Text,
   Textarea,
   useToast,
@@ -105,13 +106,13 @@ const ManageThemes: React.FC = ({}) => {
 
   return (
     <Box
-      width={["100%", "90%", "80%", "70%", "70%"]}
+      width={["100%", "90%", "80%", "80%", "70%"]}
       mx="auto"
       py="6"
       px="2"
-      maxW="1000px"
+      maxW="1500px"
     >
-      <OutlinedButton>Browse Themes</OutlinedButton>
+      {/* <OutlinedButton>Browse Themes</OutlinedButton>
       <OutlinedButton onClick={() => setShowingAddTheme(true)}>
         Add theme by clipboard
       </OutlinedButton>
@@ -123,9 +124,10 @@ const ManageThemes: React.FC = ({}) => {
           />
           <OutlinedButton type="submit">Add in new theme</OutlinedButton>
         </form>
-      )}
+      )} */}
+      <Heading>Your themes</Heading>
       <Grid
-        templateColumns="repeat(auto-fit, minmax(400px, 1fr))"
+        templateColumns="repeat(auto-fit, minmax(450px, 1fr))"
         gap="4"
         mt="8"
         justifyItems="center"

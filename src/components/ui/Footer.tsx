@@ -4,13 +4,7 @@ import React from "react";
 
 export const Footer: React.FC = ({}) => {
   return (
-    <Box
-      background="#F7F8FA"
-      height="150px"
-      width="100vw"
-      display="fixed"
-      color="gray.900"
-    >
+    <Box background="#F7F8FA" height="150px" display="fixed" color="gray.900">
       <Flex
         height="100%"
         width={["100%", "100%", "90%", "70%"]}

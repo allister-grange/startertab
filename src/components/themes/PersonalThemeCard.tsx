@@ -40,6 +40,7 @@ export const PersonalThemeCard: React.FC<PersonalThemeCardProps> = ({
       borderRadius="md"
       shadow="md"
       transition="all .2s"
+      maxW="455px"
     >
       <Box
         height="250px"
