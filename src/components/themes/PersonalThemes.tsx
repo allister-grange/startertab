@@ -1,9 +1,9 @@
+import { PersonalThemeCard } from "@/components/themes/PersonalThemeCard";
+import { OutlinedButton } from "@/components/ui/OutlinedButton";
 import { ThemeSettings } from "@/types";
-import { CopyIcon, ExternalLinkIcon, DeleteIcon } from "@chakra-ui/icons";
+import { CopyIcon, DeleteIcon, ExternalLinkIcon } from "@chakra-ui/icons";
 import { Grid, Text } from "@chakra-ui/react";
 import React from "react";
-import { OutlinedButton } from "../ui/OutlinedButton";
-import { PersonalThemeCard } from "./PersonalThemeCard";
 
 interface PersonalThemesProps {
   themes: ThemeSettings[];
@@ -45,7 +45,7 @@ export const PersonalThemes: React.FC<PersonalThemesProps> = ({
                 onClick={() => console.log("share")}
               >
                 <Text fontSize="xs" mr="2">
-                  Share to Themes
+                  Share publicly
                 </Text>
                 <ExternalLinkIcon />
               </OutlinedButton>

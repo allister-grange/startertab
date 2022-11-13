@@ -16,19 +16,17 @@ const ManageThemes: React.FC = ({}) => {
   const [textAreaValue, setTextAreValue] = useState("");
   const [showingPublicThemes, setShowingPublicThemes] = useState(false);
   const [items, setItems] = useState<ThemeWithVotes[]>([]);
+  const [loading, setLoading] = useState(false);
 
   const toast = useToast();
 
   useEffect(() => {
-    document.body.style.background = "#F7F8FA";
-  }, []);
-
-  useEffect(() => {
+    setLoading(true);
     document.body.style.background = "#F7F8FA";
     async function grabItems() {
       const items = await fetch("/api/marketplace/item");
       const data = (await items.json()) as ThemeWithVotes[];
-
+      setLoading(false);
       setItems(data);
     }
 
@@ -137,7 +135,7 @@ const ManageThemes: React.FC = ({}) => {
       </Flex>
 
       {showingPublicThemes ? (
-        <PublicThemes items={items} />
+        <PublicThemes items={items} loading={loading} />
       ) : (
         <PersonalThemes
           copyToClipboard={copyToClipboard}

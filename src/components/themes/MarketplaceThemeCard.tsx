@@ -1,16 +1,8 @@
 import { truncateString } from "@/helpers/tileHelpers";
 import { ThemeSettings } from "@/types";
 import { ThemeWithVotes } from "@/types/marketplace";
-import { ArrowUpIcon, DownloadIcon } from "@chakra-ui/icons";
-import {
-  Badge,
-  Box,
-  Flex,
-  StatUpArrow,
-  Text,
-  useToast,
-} from "@chakra-ui/react";
-import { Prisma, Theme } from "@prisma/client";
+import { DownloadIcon } from "@chakra-ui/icons";
+import { Badge, Box, Flex, Text, useToast } from "@chakra-ui/react";
 import React, { ReactNode, useCallback, useState } from "react";
 import { HeartIcon } from "../icons/HeartIcon";
 import { ThemePreview } from "../theme-creator/ThemePreview";
