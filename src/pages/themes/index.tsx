@@ -1,12 +1,19 @@
 import { PersonalThemes } from "@/components/themes/PersonalThemes";
 import { PublicThemes } from "@/components/themes/PublicThemes";
-import { OutlinedButton } from "@/components/ui/OutlinedButton";
 import { ThemePageHeader } from "@/components/ui/ThemePageHeader";
 import { deepClone } from "@/helpers/tileHelpers";
 import { userSettingState } from "@/recoil/UserSettingsAtom";
 import { ThemeSettings } from "@/types";
 import { CreateThemeRequest, ThemeWithVotes } from "@/types/marketplace";
-import { Box, Flex, useToast } from "@chakra-ui/react";
+import {
+  Box,
+  Tab,
+  TabList,
+  TabPanel,
+  TabPanels,
+  Tabs,
+  useToast,
+} from "@chakra-ui/react";
 import React, { FormEvent, useCallback, useEffect, useState } from "react";
 import { useRecoilState } from "recoil";
 
@@ -113,36 +120,30 @@ const ManageThemes: React.FC = ({}) => {
       maxW="1500px"
     >
       <ThemePageHeader showingPublicThemes={showingPublicThemes} />
+      <Tabs
+        variant="soft-rounded"
+        colorScheme="green"
+        mt="4"
+        onChange={(index) => setShowingPublicThemes(index == 1)}
+      >
+        <TabList>
+          <Tab>My themes</Tab>
+          <Tab>Public themes</Tab>
+        </TabList>
 
-      <Flex mt="4" gap="4">
-        <OutlinedButton
-          border={showingPublicThemes ? "1px solid black" : "2px solid gray"}
-          background={showingPublicThemes ? undefined : "purple.200"}
-          color={showingPublicThemes ? undefined : "white"}
-          onClick={() => setShowingPublicThemes(false)}
-        >
-          {" "}
-          My themes
-        </OutlinedButton>
-        <OutlinedButton
-          border={showingPublicThemes ? "2px solid gray" : "1px solid black"}
-          background={showingPublicThemes ? "purple.200" : undefined}
-          color={showingPublicThemes ? "white" : undefined}
-          onClick={() => setShowingPublicThemes(true)}
-        >
-          Public themes
-        </OutlinedButton>
-      </Flex>
-
-      {showingPublicThemes ? (
-        <PublicThemes items={items} loading={loading} />
-      ) : (
-        <PersonalThemes
-          copyToClipboard={copyToClipboard}
-          deleteTheme={deleteTheme}
-          themes={settings.themes}
-        />
-      )}
+        <TabPanels>
+          <TabPanel>
+            <PersonalThemes
+              copyToClipboard={copyToClipboard}
+              deleteTheme={deleteTheme}
+              themes={settings.themes}
+            />
+          </TabPanel>
+          <TabPanel>
+            <PublicThemes items={items} loading={loading} />
+          </TabPanel>
+        </TabPanels>
+      </Tabs>
     </Box>
   );
 };
