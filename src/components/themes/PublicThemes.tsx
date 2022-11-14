@@ -17,7 +17,7 @@ export const PublicThemes: React.FC<PublicThemesProps> = ({
 }) => {
   return (
     <Box>
-      <Flex justifyContent="center" mt="4" gap="4" alignItems="center">
+      <Flex justifyContent="center" mt="2" gap="4" alignItems="center">
         <Input
           width="60%"
           border="2px solid black"

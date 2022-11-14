@@ -4,6 +4,7 @@ import { ThemeWithVotes } from "@/types/marketplace";
 import { DownloadIcon } from "@chakra-ui/icons";
 import { Badge, Box, Flex, Text, useToast } from "@chakra-ui/react";
 import React, { ReactNode, useCallback, useState } from "react";
+import { FilledHeartIcon } from "../icons/FilledHeartIcon";
 import { HeartIcon } from "../icons/HeartIcon";
 import { ThemePreview } from "../theme-creator/ThemePreview";
 import { OutlinedButton } from "../ui/OutlinedButton";
@@ -19,6 +20,7 @@ export const MarketPlaceThemeCard: React.FC<MarketPlaceThemeCardProps> = ({
 }) => {
   // used for async voting
   const [votes, setVotes] = useState(theme.votes.length);
+  const [liked, setLiked] = useState(false);
 
   const toast = useToast();
   const showClipboardToast = useCallback(
@@ -40,6 +42,11 @@ export const MarketPlaceThemeCard: React.FC<MarketPlaceThemeCardProps> = ({
   };
 
   const voteForTheme = async () => {
+    // todo set this "liked" in cookies/localstorage
+    if (liked) {
+      return;
+    }
+    setLiked(true);
     try {
       // doesn't matter too much if their vote disappears, c'est la vie
       setVotes((votes) => votes + 1);
@@ -127,7 +134,7 @@ export const MarketPlaceThemeCard: React.FC<MarketPlaceThemeCardProps> = ({
             gap="4"
             onClick={voteForTheme}
           >
-            <HeartIcon />
+            {liked ? <FilledHeartIcon /> : <HeartIcon />}
             <Box borderLeft={`1px solid black`} width="1px" height="70%" />
             <Text>{votes}</Text>
           </OutlinedButton>

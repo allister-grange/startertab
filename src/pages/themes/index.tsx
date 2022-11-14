@@ -94,26 +94,9 @@ const ManageThemes: React.FC = ({}) => {
     }
   };
 
-  async function onSubmit(e: FormEvent) {
-    e.preventDefault();
-
-    const toSend: CreateThemeRequest = {
-      name: "Midnight Rider 2.0",
-      // data: JSON.parse(textAreaValue) as unknown as ThemeSettings,
-      tags: ["productivity", "not", "fast"],
-      author: "allig256",
-      data: {} as ThemeSettings,
-    };
-
-    await fetch("/api/marketplace/item/create", {
-      method: "POST",
-      body: JSON.stringify(toSend),
-    });
-  }
-
   return (
     <Box
-      width={["100%", "90%", "80%", "80%", "70%"]}
+      width={["100%", "90%", "90%", "80%", "70%"]}
       mx="auto"
       py="6"
       px="2"
