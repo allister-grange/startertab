@@ -2,7 +2,7 @@ import { Prisma } from "@prisma/client";
 import { ThemeSettings } from "./settings";
 
 export type CreateThemeRequest = {
-  author?: string;
+  author: string;
   name: string;
   data: ThemeSettings;
   tags: string[];

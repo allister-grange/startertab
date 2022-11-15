@@ -21,7 +21,7 @@
     "cookie": "^0.5.0",
     "cookies-next": "^2.0.4",
     "crypto-js": "^4.1.1",
-    "framer-motion": "^4",
+    "framer-motion": "^6.3.0",
     "moment": "^2.29.1",
     "next": "12.1.6",
     "react": "^18.1.0",

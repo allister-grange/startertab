@@ -1,4 +1,4 @@
-import { truncateString } from "@/helpers/tileHelpers";
+import { calculateTimeAgoString, truncateString } from "@/helpers/tileHelpers";
 import { ThemeSettings } from "@/types";
 import { ThemeWithVotes } from "@/types/marketplace";
 import { DownloadIcon } from "@chakra-ui/icons";
@@ -13,6 +13,8 @@ interface MarketPlaceThemeCardProps {
   theme: ThemeWithVotes;
   buttons?: ReactNode;
 }
+
+const colorThemes = ["green", "teal", "purple", "orange", "red", "cyan"];
 
 export const MarketPlaceThemeCard: React.FC<MarketPlaceThemeCardProps> = ({
   theme,
@@ -85,10 +87,10 @@ export const MarketPlaceThemeCard: React.FC<MarketPlaceThemeCardProps> = ({
       </Box>
       <Flex justifyContent="space-between" minH="120px">
         <Flex flexDir="column" justifyContent="center">
-          <Text fontSize="2xl" fontWeight="bold">
+          <Text fontSize="2xl" fontWeight="bold" mt="1">
             {themeSettings.themeName}
           </Text>
-          <Text color="gray.700" fontSize="sm" mt="2">
+          <Text color="gray.700" fontSize="sm" mt="1">
             Background:{" "}
             <Badge
               bg={themeSettings.globalSettings.backgroundColor}
@@ -105,7 +107,7 @@ export const MarketPlaceThemeCard: React.FC<MarketPlaceThemeCardProps> = ({
             </Badge>
           </Text>
           <Text color="gray.700" fontSize="sm">
-            Text color:{" "}
+            Author:{" "}
             <Badge
               filter={themeSettings.globalSettings.textColor}
               _hover={{ cursor: "pointer" }}
@@ -116,9 +118,44 @@ export const MarketPlaceThemeCard: React.FC<MarketPlaceThemeCardProps> = ({
                 )
               }
             >
-              {themeSettings.globalSettings.textColor}
+              {theme.author}
             </Badge>
           </Text>
+          <Text color="gray.700" fontSize="sm">
+            Posted:{" "}
+            <Badge
+              filter={themeSettings.globalSettings.textColor}
+              _hover={{ cursor: "pointer" }}
+              onClick={() =>
+                copyToClipboard(
+                  themeSettings.globalSettings.textColor,
+                  themeSettings.globalSettings.textColor
+                )
+              }
+            >
+              {calculateTimeAgoString(new Date(theme.createdAt))}
+            </Badge>
+          </Text>
+          <Flex mt="3">
+            {theme.tags.split(",").map((tag, idx) => (
+              <Badge
+                key={idx + tag}
+                filter={themeSettings.globalSettings.textColor}
+                _hover={{ cursor: "pointer" }}
+                maxW="260px"
+                // colorScheme={
+                //   colorThemes[Math.floor(Math.random() * colorThemes.length)]
+                // }
+                onClick={() =>
+                  //add the tag into the search bar
+                  {}
+                }
+                mr="2"
+              >
+                <Text>{tag}</Text>
+              </Badge>
+            ))}
+          </Flex>
         </Flex>
 
         <Flex

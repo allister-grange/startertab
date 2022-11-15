@@ -4,7 +4,7 @@ import { ThemePageHeader } from "@/components/ui/ThemePageHeader";
 import { deepClone } from "@/helpers/tileHelpers";
 import { userSettingState } from "@/recoil/UserSettingsAtom";
 import { ThemeSettings } from "@/types";
-import { CreateThemeRequest, ThemeWithVotes } from "@/types/marketplace";
+import { ThemeWithVotes } from "@/types/marketplace";
 import {
   Box,
   Tab,
@@ -14,30 +14,39 @@ import {
   Tabs,
   useToast,
 } from "@chakra-ui/react";
-import React, { FormEvent, useCallback, useEffect, useState } from "react";
+import {
+  QueryClient,
+  QueryClientProvider,
+  useQuery,
+} from "@tanstack/react-query";
+import React, { useCallback, useEffect, useState } from "react";
 import { useRecoilState } from "recoil";
+
+const queryClient = new QueryClient();
+
+const fetchThemes = async () => {
+  const items = await fetch("/api/marketplace/item");
+  const data = (await items.json()) as ThemeWithVotes[];
+  return data;
+};
 
 const ManageThemes: React.FC = ({}) => {
   const [settings, setSettings] = useRecoilState(userSettingState);
-  const [showingAddTheme, setShowingAddTheme] = useState(false);
-  const [textAreaValue, setTextAreValue] = useState("");
   const [showingPublicThemes, setShowingPublicThemes] = useState(false);
-  const [items, setItems] = useState<ThemeWithVotes[]>([]);
-  const [loading, setLoading] = useState(false);
+
+  const {
+    data: publicThemes,
+    error,
+    isLoading,
+    refetch,
+  } = useQuery(["publicThemes"], fetchThemes, {
+    retry: 2,
+  });
 
   const toast = useToast();
 
   useEffect(() => {
-    setLoading(true);
     document.body.style.background = "#F7F8FA";
-    async function grabItems() {
-      const items = await fetch("/api/marketplace/item");
-      const data = (await items.json()) as ThemeWithVotes[];
-      setLoading(false);
-      setItems(data);
-    }
-
-    grabItems();
   }, []);
 
   const showClipboardToast = useCallback(
@@ -71,64 +80,55 @@ const ManageThemes: React.FC = ({}) => {
     setSettings(clonedSettings);
   };
 
-  const submitNewTheme = (e: FormEvent) => {
-    e.preventDefault();
-    try {
-      const newTheme = JSON.parse(textAreaValue) as ThemeSettings;
-      const newSettings = deepClone(settings);
-      settings.themes.forEach((theme) => {
-        if (theme.themeName === newTheme.themeName) {
-          throw new Error("Can't have matching theme names chump");
-        }
-      });
-      newSettings.themes.unshift(newTheme);
-      setSettings(newSettings);
-      // showSuccessfulToast();
-      setShowingAddTheme(false);
-    } catch (err) {
-      if (err === "Can't have matching theme names chump") {
-        alert("You can't have matching theme names");
-      } else {
-        alert("That theme is malformed, please recheck it");
-      }
-    }
-  };
-
   return (
-    <Box
-      width={["100%", "90%", "90%", "80%", "70%"]}
-      mx="auto"
-      py="6"
-      px="2"
-      maxW="1500px"
-    >
-      <ThemePageHeader showingPublicThemes={showingPublicThemes} />
-      <Tabs
-        variant="soft-rounded"
-        colorScheme="green"
-        mt="4"
-        onChange={(index) => setShowingPublicThemes(index == 1)}
+    <QueryClientProvider client={queryClient}>
+      <Box
+        width={["100%", "90%", "90%", "80%", "70%"]}
+        mx="auto"
+        py="6"
+        px="2"
+        maxW="1500px"
       >
-        <TabList>
-          <Tab>My themes</Tab>
-          <Tab>Public themes</Tab>
-        </TabList>
+        <ThemePageHeader showingPublicThemes={showingPublicThemes} />
+        <Tabs
+          variant="soft-rounded"
+          colorScheme="green"
+          mt="4"
+          onChange={(index) => setShowingPublicThemes(index == 1)}
+          index={showingPublicThemes ? 1 : 0}
+        >
+          <TabList>
+            <Tab>My themes</Tab>
+            <Tab>Public themes</Tab>
+          </TabList>
 
-        <TabPanels>
-          <TabPanel>
-            <PersonalThemes
-              copyToClipboard={copyToClipboard}
-              deleteTheme={deleteTheme}
-              themes={settings.themes}
-            />
-          </TabPanel>
-          <TabPanel>
-            <PublicThemes items={items} loading={loading} />
-          </TabPanel>
-        </TabPanels>
-      </Tabs>
-    </Box>
+          <TabPanels>
+            <TabPanel>
+              <PersonalThemes
+                copyToClipboard={copyToClipboard}
+                deleteTheme={deleteTheme}
+                themes={settings.themes}
+                setShowingPublicThemes={setShowingPublicThemes}
+                refetch={refetch}
+              />
+            </TabPanel>
+            <TabPanel>
+              <PublicThemes themes={publicThemes} loading={isLoading} />
+            </TabPanel>
+          </TabPanels>
+        </Tabs>
+      </Box>
+    </QueryClientProvider>
   );
 };
 
-export default ManageThemes;
+function ManageThemesWrapper() {
+  return (
+    // Initializing another provider here as we don't need the caching in local storage
+    <QueryClientProvider client={queryClient}>
+      <ManageThemes />
+    </QueryClientProvider>
+  );
+}
+
+export default ManageThemesWrapper;

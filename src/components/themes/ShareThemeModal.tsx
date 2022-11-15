@@ -1,9 +1,12 @@
+import { deepClone } from "@/helpers/tileHelpers";
 import { ThemeSettings } from "@/types";
-import { CloseIcon, SmallCloseIcon } from "@chakra-ui/icons";
+import { CreateThemeRequest } from "@/types/marketplace";
+import { SmallCloseIcon } from "@chakra-ui/icons";
 import {
+  Alert,
+  AlertIcon,
   Box,
   Button,
-  color,
   FormControl,
   FormLabel,
   Input,
@@ -14,38 +17,92 @@ import {
   ModalFooter,
   ModalHeader,
   ModalOverlay,
-  ModalProps,
+  Spinner,
   Text,
 } from "@chakra-ui/react";
-import React, { ChangeEvent, FormEvent, useState } from "react";
+import Link from "next/link";
+import React, {
+  ChangeEvent,
+  FormEvent,
+  KeyboardEventHandler,
+  useState,
+} from "react";
+import { ThemePreview } from "../theme-creator/ThemePreview";
 
 type ShareThemeModalProps = {
   onClose: () => void;
   isOpen: boolean;
   theme?: ThemeSettings;
+  setShowingPublicThemes: React.Dispatch<React.SetStateAction<boolean>>;
+  refetch: () => void;
 };
 
 export const ShareThemeModal: React.FC<ShareThemeModalProps> = ({
   isOpen,
   onClose,
+  setShowingPublicThemes,
+  refetch,
   theme,
 }) => {
   const [tags, setTags] = useState<string[]>([]);
+  const [loading, setLoading] = useState<boolean>(false);
   const [tagsValue, setTagsValue] = useState<string>("");
+  const [tooManyTags, setTooManyTags] = useState<boolean>(false);
+  const [errorPostingTheme, setErrorPostingTheme] = useState<boolean>(false);
+  const [showingSuccessMessage, setShowingSuccessMethod] =
+    useState<boolean>(false);
 
-  const onThemeSubmit = (e: FormEvent<HTMLFormElement>) => {
+  const takeUserBackToPublicThemes = () => {
+    setShowingPublicThemes(true);
+    onClose();
+    setShowingSuccessMethod(false);
+  };
+
+  const onThemeSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const target = e.target as typeof e.target & {
-      url: { value: string };
+      author: { value: string };
+      themeName: { value: string };
     };
 
-    const url = target.url.value;
+    setLoading(true);
+    setErrorPostingTheme(false);
 
-    if (!url || typeof url !== "string") {
-      return;
+    const themeName = target.themeName.value;
+    const author = target.author.value;
+    const themeToSend = deepClone(theme!);
+    themeToSend.themeName = themeName;
+
+    const toSend: CreateThemeRequest = {
+      name: themeName,
+      data: themeToSend,
+      tags: tags,
+      author: author,
+    };
+
+    try {
+      const res = await fetch("/api/marketplace/item/create", {
+        method: "POST",
+        body: JSON.stringify(toSend),
+      });
+
+      if (res.status >= 400) {
+        throw new Error("Failed request to create theme");
+      }
+
+      if (res.status === 201) {
+        refetch();
+        setLoading(false);
+        setShowingSuccessMethod(true);
+        setTimeout(takeUserBackToPublicThemes, 1500);
+      }
+      // show success, then debounce and take them to public themes
+    } catch (error) {
+      console.error(error);
+      setErrorPostingTheme(true);
+    } finally {
+      setLoading(false);
     }
-
-    // make sure that the name is unique
   };
 
   const onTagInputChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -53,10 +110,14 @@ export const ShareThemeModal: React.FC<ShareThemeModalProps> = ({
   };
 
   const onTagInputKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === "Enter" && tagsValue.length > 0) {
-      // e.preventDefault();
+    if (e.key === "Enter" && tagsValue.length > 2) {
       setTagsValue("");
-      setTags([...tags, tagsValue]);
+      if (tagsValue.length + tags.join(",").length > 30) {
+        setTooManyTags(true);
+        setTimeout(() => setTooManyTags(false), 4000);
+        return;
+      }
+      setTags([...tags, tagsValue.trimEnd()]);
     }
   };
 
@@ -70,68 +131,95 @@ export const ShareThemeModal: React.FC<ShareThemeModalProps> = ({
     }
   };
 
+  const onKeyDownInForm = (e: React.KeyboardEvent<HTMLFormElement>) => {
+    if (e.key === "Enter") {
+      e.preventDefault();
+    }
+  };
+
   return (
     <Modal isOpen={isOpen} onClose={onClose}>
       <ModalOverlay />
-      <ModalContent bg="#F5F4F5">
-        <ModalHeader fontSize="2xl">Share your theme </ModalHeader>
+      <ModalContent bg="#F5F5F5" minW="470px">
+        <ModalHeader fontSize="2xl">Share your theme</ModalHeader>
         <ModalCloseButton />
-        <ModalBody>
-          <form onSubmit={onThemeSubmit}>
-            <FormControl isRequired>
-              <FormLabel>Theme name</FormLabel>
+        <form onSubmit={onThemeSubmit} onKeyDown={onKeyDownInForm}>
+          <ModalBody>
+            <Box
+              height="250px"
+              width="420px"
+              pos="relative"
+              overflow="hidden"
+              borderRadius="lg"
+              boxShadow="md"
+            >
+              <ThemePreview theme={theme!} />
+            </Box>
+
+            <FormControl isRequired mt="4">
+              <FormLabel>Theme Name</FormLabel>
               <Input
                 width="200px"
                 size="md"
-                name="themeName"
                 bg="white"
                 placeholder="Theme Name"
                 border="none"
+                name="themeName"
+                maxLength={20}
+                minLength={3}
+                defaultValue={theme?.themeName ?? ""}
               />
             </FormControl>
             <FormControl isRequired mt="4">
-              <FormLabel>Author name?</FormLabel>
+              <FormLabel>Author Name</FormLabel>
               <Input
                 bg="white"
                 width="200px"
                 size="md"
-                name="name"
+                maxLength={15}
+                minLength={3}
                 placeholder="Name"
                 border="none"
+                name="author"
               />
             </FormControl>
-            <FormControl isRequired mt="4">
+            <FormControl mt="4">
               <FormLabel>Tags?</FormLabel>
               <Box borderRadius="lg" p="2" bg="white" border="none">
-                {tags.map((tag) => (
-                  <Text
-                    // bite me, rendering performance doesn't matter here
-                    key={tag}
-                    display="inline"
-                    borderRadius="md"
-                    bg="#f7f8fa"
-                    p="1"
-                    color="black"
-                    px="2"
-                    ml="1"
-                    _first={{ marginLeft: "0" }}
-                  >
-                    {tag}
-                    <SmallCloseIcon
-                      _hover={{ cursor: "pointer" }}
-                      onClick={() => deleteTag(tag)}
-                      color="gray.500"
+                <Box display="inline-block">
+                  {tags.map((tag) => (
+                    <Text
+                      // bite me
+                      key={tag}
+                      display="inline-block"
+                      borderRadius="md"
+                      bg="#f7f8fa"
+                      p="1"
+                      color="black"
+                      px="2"
                       ml="1"
-                      mb="2px"
-                    />
-                  </Text>
-                ))}
+                      _first={{ marginLeft: "0" }}
+                    >
+                      {tag}
+                      <SmallCloseIcon
+                        _hover={{ cursor: "pointer" }}
+                        onClick={() => deleteTag(tag)}
+                        color="gray.500"
+                        ml="1"
+                        mb="2px"
+                      />
+                    </Text>
+                  ))}
+                </Box>
                 <Input
                   width="200px"
+                  display="inline-block"
                   name="tags"
                   placeholder="+ Add tag"
                   h="30px"
                   border="none"
+                  maxLength={15}
+                  minLength={3}
                   onChange={onTagInputChange}
                   onKeyDown={onTagInputKeyDown}
                   value={tagsValue}
@@ -139,15 +227,46 @@ export const ShareThemeModal: React.FC<ShareThemeModalProps> = ({
                 ></Input>
               </Box>
             </FormControl>
-          </form>
-        </ModalBody>
+            <Box mt="4">
+              {errorPostingTheme && (
+                <Alert status="error" borderRadius="md">
+                  <AlertIcon />
+                  <Text>
+                    There was an error uploading your theme, please try again
+                    later. If this continues to happen, open a ticket on{" "}
+                    <Link
+                      style={{ textDecoration: "underline" }}
+                      href="https://github.com/allister-grange/startertab/issues"
+                    >
+                      GitHub, here.
+                    </Link>
+                  </Text>
+                </Alert>
+              )}
+              {showingSuccessMessage && (
+                <Alert status="success" borderRadius="md">
+                  <AlertIcon />
+                  <Text>Congratulations, you&apos;ve uploaded your theme!</Text>
+                </Alert>
+              )}
+              {tooManyTags && (
+                <Alert status="info" borderRadius="md">
+                  <AlertIcon />
+                  <Text>Your tags cannot exceed 30 characters</Text>
+                </Alert>
+              )}
+            </Box>
+          </ModalBody>
 
-        <ModalFooter>
-          <Button mr={3} onClick={onClose} bg="white">
-            Close
-          </Button>
-          <Button colorScheme="green">Share!</Button>
-        </ModalFooter>
+          <ModalFooter>
+            <Button mr={3} onClick={onClose} bg="white">
+              Close
+            </Button>
+            <Button colorScheme="green" type="submit">
+              {loading ? <Spinner /> : "Share!"}
+            </Button>
+          </ModalFooter>
+        </form>
       </ModalContent>
     </Modal>
   );

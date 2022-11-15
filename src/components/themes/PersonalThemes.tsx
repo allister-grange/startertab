@@ -1,46 +1,30 @@
 import { PersonalThemeCard } from "@/components/themes/PersonalThemeCard";
+import { ShareThemeModal } from "@/components/themes/ShareThemeModal";
 import { OutlinedButton } from "@/components/ui/OutlinedButton";
 import { ThemeSettings } from "@/types";
-import { CreateThemeRequest } from "@/types/marketplace";
 import { CopyIcon, DeleteIcon, ExternalLinkIcon } from "@chakra-ui/icons";
 import { Box, Grid, Text, useDisclosure } from "@chakra-ui/react";
 import React, { useState } from "react";
-import { ShareThemeModal } from "@/components/themes/ShareThemeModal";
 
 interface PersonalThemesProps {
   themes: ThemeSettings[];
   copyToClipboard: (value: string, message?: string) => void;
   deleteTheme: (theme: ThemeSettings) => void;
+  setShowingPublicThemes: React.Dispatch<React.SetStateAction<boolean>>;
+  refetch: () => void;
 }
 
 export const PersonalThemes: React.FC<PersonalThemesProps> = ({
   themes,
   copyToClipboard,
   deleteTheme,
+  setShowingPublicThemes,
+  refetch,
 }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [themeToBeShared, setThemeToBeShared] = useState<
     ThemeSettings | undefined
   >();
-
-  async function shareTheme(theme: ThemeSettings) {
-    const toSend: CreateThemeRequest = {
-      name: theme.themeName,
-      data: theme,
-      tags: ["productivity", "not", "fast"],
-      author: "allig256",
-    };
-
-    try {
-      await fetch("/api/marketplace/item/create", {
-        method: "POST",
-        body: JSON.stringify(toSend),
-      });
-    } catch (error) {
-      console.error(error);
-      // TODO show some error to the user?
-    }
-  }
 
   const openShareModal = (theme: ThemeSettings) => {
     setThemeToBeShared(theme);
@@ -52,7 +36,9 @@ export const PersonalThemes: React.FC<PersonalThemesProps> = ({
       <ShareThemeModal
         isOpen={isOpen}
         onClose={onClose}
+        refetch={refetch}
         theme={themeToBeShared}
+        setShowingPublicThemes={setShowingPublicThemes}
       />
       <Grid
         templateColumns="repeat(auto-fit, minmax(435px, 1fr))"

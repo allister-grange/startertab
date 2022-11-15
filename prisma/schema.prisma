@@ -12,7 +12,7 @@ datasource db {
 model Theme {
   id        Int       @id @default(autoincrement())
   createdAt DateTime  @default(now())
-  author    String?  
+  author    String  
   name      String    @unique
   data      Json     
   votes     Vote[]

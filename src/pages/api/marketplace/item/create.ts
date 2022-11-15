@@ -15,6 +15,13 @@ export default async function handler(
 
   try {
     const body = (await JSON.parse(req.body)) as CreateThemeRequest;
+    if (body.name.length > 20 || body.author?.length! > 15) {
+      return res.status(400).json("A field length is too long");
+    }
+    if (body.tags.join(",").length > 30) {
+      return res.status(400).json("The length of your tags is too long");
+    }
+
     const marketplaceTheme = await prisma.theme.create({
       data: {
         name: body.name,
