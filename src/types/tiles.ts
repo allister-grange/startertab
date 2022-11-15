@@ -34,3 +34,5 @@ export type RSSItem = {
   author: string;
   feedName: string;
 };
+
+export type ThemeFilteringOptions = "Popularity" | "Author" | "Created on";

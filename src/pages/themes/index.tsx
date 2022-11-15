@@ -3,7 +3,7 @@ import { PublicThemes } from "@/components/themes/PublicThemes";
 import { ThemePageHeader } from "@/components/ui/ThemePageHeader";
 import { deepClone } from "@/helpers/tileHelpers";
 import { userSettingState } from "@/recoil/UserSettingsAtom";
-import { ThemeSettings } from "@/types";
+import { ThemeFilteringOptions, ThemeSettings } from "@/types";
 import { ThemeWithVotes } from "@/types/marketplace";
 import {
   Box,
@@ -33,6 +33,9 @@ const fetchThemes = async () => {
 const ManageThemes: React.FC = ({}) => {
   const [settings, setSettings] = useRecoilState(userSettingState);
   const [showingPublicThemes, setShowingPublicThemes] = useState(false);
+  // lifted this up so that once a new theme is shared, I can show theirs at the top
+  const [orderingMethod, setOrderingMethod] =
+    useState<ThemeFilteringOptions>("Popularity");
 
   const {
     data: publicThemes,
@@ -110,10 +113,16 @@ const ManageThemes: React.FC = ({}) => {
                 themes={settings.themes}
                 setShowingPublicThemes={setShowingPublicThemes}
                 refetch={refetch}
+                setOrderingMethod={setOrderingMethod}
               />
             </TabPanel>
             <TabPanel>
-              <PublicThemes themes={publicThemes} loading={isLoading} />
+              <PublicThemes
+                themes={publicThemes}
+                loading={isLoading}
+                orderingMethod={orderingMethod}
+                setOrderingMethod={setOrderingMethod}
+              />
             </TabPanel>
           </TabPanels>
         </Tabs>

@@ -1,3 +1,4 @@
+import { ThemeFilteringOptions } from "@/types";
 import { ThemeWithVotes } from "@/types/marketplace";
 import { ChevronDownIcon, ChevronUpIcon } from "@chakra-ui/icons";
 import { Box, Flex, Grid, Input, Select } from "@chakra-ui/react";
@@ -9,16 +10,18 @@ import { MarketPlaceThemeCard } from "./MarketplaceThemeCard";
 interface PublicThemesProps {
   themes?: ThemeWithVotes[];
   loading: boolean;
+  setOrderingMethod: React.Dispatch<
+    React.SetStateAction<ThemeFilteringOptions>
+  >;
+  orderingMethod: ThemeFilteringOptions;
 }
-
-type FilteringMethods = "Popularity" | "Author" | "Created on";
 
 export const PublicThemes: React.FC<PublicThemesProps> = ({
   themes,
   loading,
+  setOrderingMethod,
+  orderingMethod,
 }) => {
-  const [orderingMethod, setOrderingMethod] =
-    useState<FilteringMethods>("Popularity");
   const [reverseOrdering, setReverseOrdering] = useState<boolean>(false);
   const [searchFilter, setSearchFilter] = useState<string | undefined>();
 
@@ -67,7 +70,7 @@ export const PublicThemes: React.FC<PublicThemesProps> = ({
           width="20%"
           placeholder="Order by"
           onChange={(e) =>
-            setOrderingMethod(e.target.value as FilteringMethods)
+            setOrderingMethod(e.target.value as ThemeFilteringOptions)
           }
         >
           <option>Author</option>

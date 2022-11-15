@@ -1,7 +1,7 @@
 import { PersonalThemeCard } from "@/components/themes/PersonalThemeCard";
 import { ShareThemeModal } from "@/components/themes/ShareThemeModal";
 import { OutlinedButton } from "@/components/ui/OutlinedButton";
-import { ThemeSettings } from "@/types";
+import { ThemeFilteringOptions, ThemeSettings } from "@/types";
 import { CopyIcon, DeleteIcon, ExternalLinkIcon } from "@chakra-ui/icons";
 import { Box, Grid, Text, useDisclosure } from "@chakra-ui/react";
 import React, { useState } from "react";
@@ -12,6 +12,9 @@ interface PersonalThemesProps {
   deleteTheme: (theme: ThemeSettings) => void;
   setShowingPublicThemes: React.Dispatch<React.SetStateAction<boolean>>;
   refetch: () => void;
+  setOrderingMethod: React.Dispatch<
+    React.SetStateAction<ThemeFilteringOptions>
+  >;
 }
 
 export const PersonalThemes: React.FC<PersonalThemesProps> = ({
@@ -20,6 +23,7 @@ export const PersonalThemes: React.FC<PersonalThemesProps> = ({
   deleteTheme,
   setShowingPublicThemes,
   refetch,
+  setOrderingMethod,
 }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [themeToBeShared, setThemeToBeShared] = useState<
@@ -39,6 +43,7 @@ export const PersonalThemes: React.FC<PersonalThemesProps> = ({
         refetch={refetch}
         theme={themeToBeShared}
         setShowingPublicThemes={setShowingPublicThemes}
+        setOrderingMethod={setOrderingMethod}
       />
       <Grid
         templateColumns="repeat(auto-fit, minmax(435px, 1fr))"

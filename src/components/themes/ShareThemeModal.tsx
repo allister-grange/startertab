@@ -1,5 +1,5 @@
 import { deepClone } from "@/helpers/tileHelpers";
-import { ThemeSettings } from "@/types";
+import { ThemeFilteringOptions, ThemeSettings } from "@/types";
 import { CreateThemeRequest } from "@/types/marketplace";
 import { SmallCloseIcon } from "@chakra-ui/icons";
 import {
@@ -35,6 +35,9 @@ type ShareThemeModalProps = {
   theme?: ThemeSettings;
   setShowingPublicThemes: React.Dispatch<React.SetStateAction<boolean>>;
   refetch: () => void;
+  setOrderingMethod: React.Dispatch<
+    React.SetStateAction<ThemeFilteringOptions>
+  >;
 };
 
 export const ShareThemeModal: React.FC<ShareThemeModalProps> = ({
@@ -43,6 +46,7 @@ export const ShareThemeModal: React.FC<ShareThemeModalProps> = ({
   setShowingPublicThemes,
   refetch,
   theme,
+  setOrderingMethod,
 }) => {
   const [tags, setTags] = useState<string[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
@@ -54,8 +58,11 @@ export const ShareThemeModal: React.FC<ShareThemeModalProps> = ({
 
   const takeUserBackToPublicThemes = () => {
     setShowingPublicThemes(true);
-    onClose();
+    setOrderingMethod("Created on");
     setShowingSuccessMethod(false);
+    window.scrollTo(0, 0);
+    setTags([]);
+    onClose();
   };
 
   const onThemeSubmit = async (e: FormEvent<HTMLFormElement>) => {
@@ -90,13 +97,13 @@ export const ShareThemeModal: React.FC<ShareThemeModalProps> = ({
         throw new Error("Failed request to create theme");
       }
 
+      // show success, then debounce and take them to public themes
       if (res.status === 201) {
         refetch();
         setLoading(false);
         setShowingSuccessMethod(true);
-        setTimeout(takeUserBackToPublicThemes, 1500);
+        setTimeout(takeUserBackToPublicThemes, 1000);
       }
-      // show success, then debounce and take them to public themes
     } catch (error) {
       console.error(error);
       setErrorPostingTheme(true);
