@@ -13,3 +13,8 @@ export type ThemeWithVotes = Prisma.ThemeGetPayload<{
     votes: true;
   };
 }>;
+
+export type ThemeDataFromAPI = {
+  themes: ThemeWithVotes[];
+  nextId: number | undefined;
+};

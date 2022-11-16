@@ -1,6 +1,5 @@
-import { CreateThemeRequest } from "@/types/marketplace";
+import { PrismaClient } from "@prisma/client";
 import { NextApiRequest, NextApiResponse } from "next";
-import { Prisma, PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
 
@@ -13,17 +12,28 @@ export default async function handler(
     return res.status(405).json({ success: false });
   }
 
+  const cursor = req.query.cursor ?? "";
+  const take = 10;
+  const cursorObj =
+    cursor === "" ? undefined : { id: parseInt(cursor as string, 10) };
+
   try {
     const marketplaceItems = await prisma.theme.findMany({
-      take: 10,
+      take,
+      skip: cursor !== "" ? 1 : 0,
+      cursor: cursorObj,
       include: {
         votes: true,
       },
     });
 
-    console.log(marketplaceItems);
-
-    return res.status(200).json(marketplaceItems);
+    return res.status(200).json({
+      themes: marketplaceItems,
+      nextId:
+        marketplaceItems.length === take
+          ? marketplaceItems[take - 1].id
+          : undefined,
+    });
   } catch (error) {
     console.error("Request error", error);
     res

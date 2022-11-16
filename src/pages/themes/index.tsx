@@ -4,7 +4,7 @@ import { ThemePageHeader } from "@/components/ui/ThemePageHeader";
 import { deepClone } from "@/helpers/tileHelpers";
 import { userSettingState } from "@/recoil/UserSettingsAtom";
 import { ThemeFilteringOptions, ThemeSettings } from "@/types";
-import { ThemeWithVotes } from "@/types/marketplace";
+import { ThemeDataFromAPI, ThemeWithVotes } from "@/types/marketplace";
 import {
   Box,
   Tab,
@@ -17,9 +17,10 @@ import {
 import {
   QueryClient,
   QueryClientProvider,
-  useQuery,
+  useInfiniteQuery,
 } from "@tanstack/react-query";
 import React, { useCallback, useEffect, useState } from "react";
+import { useInView } from "react-intersection-observer";
 import { useRecoilState } from "recoil";
 
 const queryClient = new QueryClient();
@@ -31,6 +32,7 @@ const fetchThemes = async () => {
 };
 
 const ManageThemes: React.FC = ({}) => {
+  const { ref, inView } = useInView();
   const [settings, setSettings] = useRecoilState(userSettingState);
   const [showingPublicThemes, setShowingPublicThemes] = useState(false);
   // lifted this up so that once a new theme is shared, I can show theirs at the top
@@ -39,18 +41,39 @@ const ManageThemes: React.FC = ({}) => {
 
   const {
     data: publicThemes,
-    error,
     isLoading,
+    isError,
+    error,
+    isFetchingNextPage,
+    fetchNextPage,
+    hasNextPage,
     refetch,
-  } = useQuery(["publicThemes"], fetchThemes, {
-    retry: 2,
-  });
+  } = useInfiniteQuery(
+    ["publicThemes"],
+    async ({ pageParam = "" }) => {
+      // await new Promise((res) => setTimeout(res, 1000))
+      const res = await fetch("/api/marketplace/item?cursor=" + pageParam);
+      const data = (await res.json()) as ThemeDataFromAPI;
+      return data;
+    },
+    {
+      retry: 2,
+      getNextPageParam: (lastPage) => lastPage.nextId ?? false,
+    }
+  );
 
   const toast = useToast();
 
   useEffect(() => {
     document.body.style.background = "#F7F8FA";
-  }, []);
+    console.log(inView, hasNextPage);
+
+    if (inView && hasNextPage) {
+      console.log("fetching bb");
+
+      fetchNextPage();
+    }
+  }, [fetchNextPage, hasNextPage, inView]);
 
   const showClipboardToast = useCallback(
     (val?: string) => {
@@ -122,6 +145,8 @@ const ManageThemes: React.FC = ({}) => {
                 loading={isLoading}
                 orderingMethod={orderingMethod}
                 setOrderingMethod={setOrderingMethod}
+                scrollRef={ref}
+                isFetchingNextPage={isFetchingNextPage}
               />
             </TabPanel>
           </TabPanels>

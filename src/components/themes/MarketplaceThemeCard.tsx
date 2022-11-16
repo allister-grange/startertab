@@ -12,6 +12,7 @@ import { OutlinedButton } from "../ui/OutlinedButton";
 interface MarketPlaceThemeCardProps {
   theme: ThemeWithVotes;
   buttons?: ReactNode;
+  setSearchFilter: React.Dispatch<React.SetStateAction<string | undefined>>;
 }
 
 const colorThemes = ["green", "teal", "purple", "orange", "red", "cyan"];
@@ -19,6 +20,7 @@ const colorThemes = ["green", "teal", "purple", "orange", "red", "cyan"];
 export const MarketPlaceThemeCard: React.FC<MarketPlaceThemeCardProps> = ({
   theme,
   buttons,
+  setSearchFilter,
 }) => {
   // used for async voting
   const [votes, setVotes] = useState(theme.votes.length);
@@ -146,10 +148,7 @@ export const MarketPlaceThemeCard: React.FC<MarketPlaceThemeCardProps> = ({
                 // colorScheme={
                 //   colorThemes[Math.floor(Math.random() * colorThemes.length)]
                 // }
-                onClick={() =>
-                  //add the tag into the search bar
-                  {}
-                }
+                onClick={() => setSearchFilter(tag)}
                 mr="2"
               >
                 <Text>{tag}</Text>

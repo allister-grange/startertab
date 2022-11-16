@@ -32,6 +32,7 @@
     "react-dom": "18.1.0",
     "react-error-boundary": "^3.1.4",
     "react-icons": "^4.3.1",
+    "react-intersection-observer": "^9.4.1",
     "react-markdown": "^8.0.3",
     "react-no-ssr": "^1.1.0",
     "recharts": "^2.1.9",
@@ -39,6 +40,7 @@
     "rss-parser": "^3.12.0"
   },
   "devDependencies": {
+    "@faker-js/faker": "^7.6.0",
     "@types/crypto-js": "^4.1.1",
     "@types/node": "16.11.12",
     "@types/react": "18.0.1",

@@ -1,19 +1,22 @@
-import { ThemeFilteringOptions } from "@/types";
-import { ThemeWithVotes } from "@/types/marketplace";
+import { ThemeFilteringOptions, ThemeSettings } from "@/types";
+import { ThemeDataFromAPI, ThemeWithVotes } from "@/types/marketplace";
 import { ChevronDownIcon, ChevronUpIcon } from "@chakra-ui/icons";
-import { Box, Flex, Grid, Input, Select } from "@chakra-ui/react";
+import { Box, Flex, Grid, Input, Select, Spinner } from "@chakra-ui/react";
+import { InfiniteData } from "@tanstack/react-query";
 import React, { FormEvent, useState } from "react";
 import { PreviewThemeCardSkeleton } from "../skeletons/PreviewThemeCardSkeleton";
 import { OutlinedButton } from "../ui/OutlinedButton";
 import { MarketPlaceThemeCard } from "./MarketplaceThemeCard";
 
 interface PublicThemesProps {
-  themes?: ThemeWithVotes[];
+  themes?: InfiniteData<ThemeDataFromAPI>;
   loading: boolean;
   setOrderingMethod: React.Dispatch<
     React.SetStateAction<ThemeFilteringOptions>
   >;
   orderingMethod: ThemeFilteringOptions;
+  scrollRef: (node?: Element | null | undefined) => void;
+  isFetchingNextPage: boolean;
 }
 
 export const PublicThemes: React.FC<PublicThemesProps> = ({
@@ -21,6 +24,8 @@ export const PublicThemes: React.FC<PublicThemesProps> = ({
   loading,
   setOrderingMethod,
   orderingMethod,
+  scrollRef,
+  isFetchingNextPage,
 }) => {
   const [reverseOrdering, setReverseOrdering] = useState<boolean>(false);
   const [searchFilter, setSearchFilter] = useState<string | undefined>();
@@ -29,31 +34,39 @@ export const PublicThemes: React.FC<PublicThemesProps> = ({
     setSearchFilter(e.target.value);
   };
 
-  const orderThemes = (themes: ThemeWithVotes[]) => {
-    themes.sort((a, b) => {
+  const orderThemes = (themes?: InfiniteData<ThemeDataFromAPI>) => {
+    const combinedArray: ThemeWithVotes[] = [];
+
+    themes?.pages.map((page) =>
+      page.themes.map((theme) => combinedArray.push(theme))
+    );
+
+    combinedArray.sort((a, b) => {
       switch (orderingMethod) {
         case "Popularity":
           return b.votes.length - a.votes.length;
-
         case "Author":
           return b.author.localeCompare(a.author);
-
         case "Created on":
-          console.log("here");
-
           return (
             new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
           );
       }
     });
     if (reverseOrdering) {
-      themes.reverse();
+      combinedArray.reverse();
     }
+    return combinedArray;
   };
 
-  orderThemes(themes ?? []);
-  if (searchFilter && themes) {
-    themes = themes.filter((theme) => theme.name.includes(searchFilter));
+  // create one array from all the pages, then sort it
+  let orderedThemes = orderThemes(themes);
+  if (searchFilter && orderedThemes) {
+    orderedThemes = orderedThemes.filter(
+      (theme) =>
+        theme.name.toLowerCase().includes(searchFilter.toLowerCase()) ||
+        theme.tags.toLowerCase().includes(searchFilter.toLowerCase())
+    );
   }
 
   return (
@@ -109,12 +122,24 @@ export const PublicThemes: React.FC<PublicThemesProps> = ({
           mt="8"
           justifyItems="center"
         >
-          {themes &&
-            themes.map((theme) => (
-              <MarketPlaceThemeCard key={theme.id} theme={theme} />
-            ))}
+          {orderedThemes.map((theme) => (
+            <MarketPlaceThemeCard
+              key={theme.id}
+              theme={theme}
+              setSearchFilter={setSearchFilter}
+            />
+          ))}
         </Grid>
       )}
+      {isFetchingNextPage ? (
+        <Box width="100%" textAlign="center" mt="12">
+          <Spinner size="xl" color="lightgreen" />
+        </Box>
+      ) : null}
+
+      <span style={{ visibility: "hidden" }} ref={scrollRef}>
+        intersection observer marker
+      </span>
     </Box>
   );
 };
