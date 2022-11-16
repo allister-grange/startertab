@@ -15,11 +15,11 @@ export default async function handler(
   const cursorObj =
     cursor === "" ? undefined : { id: parseInt(cursor as string, 10) };
 
-  const searchTerm = req.query.searchTerm as string;
+  const searchTerm = req.query.searchTerm;
 
   try {
     let marketplaceItems;
-    if (searchTerm) {
+    if (searchTerm !== "undefined" && typeof searchTerm === "string") {
       marketplaceItems = await prisma.theme.findMany({
         take,
         skip: cursor !== "" ? 1 : 0,
@@ -49,20 +49,6 @@ export default async function handler(
         cursor: cursorObj,
         include: {
           votes: true,
-        },
-        where: {
-          OR: [
-            {
-              name: {
-                contains: searchTerm,
-              },
-            },
-            {
-              tags: {
-                contains: searchTerm,
-              },
-            },
-          ],
         },
       });
     }

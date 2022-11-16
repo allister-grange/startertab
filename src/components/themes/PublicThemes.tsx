@@ -33,10 +33,6 @@ export const PublicThemes: React.FC<PublicThemesProps> = ({
 }) => {
   const [reverseOrdering, setReverseOrdering] = useState<boolean>(false);
 
-  // const onSearchFilterChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-  //   setSearchFilter(e.target.value);
-  // };
-
   const orderThemes = (themes?: InfiniteData<ThemeDataFromAPI>) => {
     const combinedArray: ThemeWithVotes[] = [];
 

@@ -17,6 +17,19 @@ interface MarketPlaceThemeCardProps {
 
 const colorThemes = ["green", "teal", "purple", "orange", "red", "cyan"];
 
+const hashString = (toHash: string) => {
+  var hash = 0,
+    i,
+    chr;
+  if (toHash.length === 0) return hash;
+  for (i = 0; i < toHash.length; i++) {
+    chr = toHash.charCodeAt(i);
+    hash = (hash << 5) - hash + chr;
+    hash |= 0; // Convert to 32bit integer
+  }
+  return hash;
+};
+
 export const MarketPlaceThemeCard: React.FC<MarketPlaceThemeCardProps> = ({
   theme,
   buttons,
@@ -145,9 +158,9 @@ export const MarketPlaceThemeCard: React.FC<MarketPlaceThemeCardProps> = ({
                 filter={themeSettings.globalSettings.textColor}
                 _hover={{ cursor: "pointer" }}
                 maxW="260px"
-                // colorScheme={
-                //   colorThemes[Math.floor(Math.random() * colorThemes.length)]
-                // }
+                colorScheme={
+                  colorThemes[Math.abs(hashString(tag) % colorThemes.length)]
+                }
                 onClick={() => setSearchFilter(tag)}
                 mr="2"
               >
