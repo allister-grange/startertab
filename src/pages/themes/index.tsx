@@ -38,6 +38,7 @@ const ManageThemes: React.FC = ({}) => {
   // lifted this up so that once a new theme is shared, I can show theirs at the top
   const [orderingMethod, setOrderingMethod] =
     useState<ThemeFilteringOptions>("Popularity");
+  const [searchFilter, setSearchFilter] = useState<string | undefined>();
 
   const {
     data: publicThemes,
@@ -49,10 +50,12 @@ const ManageThemes: React.FC = ({}) => {
     hasNextPage,
     refetch,
   } = useInfiniteQuery(
-    ["publicThemes"],
+    ["publicThemes", searchFilter],
     async ({ pageParam = "" }) => {
       // await new Promise((res) => setTimeout(res, 1000))
-      const res = await fetch("/api/marketplace/item?cursor=" + pageParam);
+      const res = await fetch(
+        `/api/marketplace/item?cursor=${pageParam}&searchTerm=${searchFilter}`
+      );
       const data = (await res.json()) as ThemeDataFromAPI;
       return data;
     },
@@ -147,6 +150,8 @@ const ManageThemes: React.FC = ({}) => {
                 setOrderingMethod={setOrderingMethod}
                 scrollRef={ref}
                 isFetchingNextPage={isFetchingNextPage}
+                searchFilter={searchFilter}
+                setSearchFilter={setSearchFilter}
               />
             </TabPanel>
           </TabPanels>

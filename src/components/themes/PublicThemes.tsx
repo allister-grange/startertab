@@ -17,6 +17,8 @@ interface PublicThemesProps {
   orderingMethod: ThemeFilteringOptions;
   scrollRef: (node?: Element | null | undefined) => void;
   isFetchingNextPage: boolean;
+  setSearchFilter: React.Dispatch<React.SetStateAction<string | undefined>>;
+  searchFilter?: string;
 }
 
 export const PublicThemes: React.FC<PublicThemesProps> = ({
@@ -26,13 +28,14 @@ export const PublicThemes: React.FC<PublicThemesProps> = ({
   orderingMethod,
   scrollRef,
   isFetchingNextPage,
+  setSearchFilter,
+  searchFilter,
 }) => {
   const [reverseOrdering, setReverseOrdering] = useState<boolean>(false);
-  const [searchFilter, setSearchFilter] = useState<string | undefined>();
 
-  const onSearchFilterChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setSearchFilter(e.target.value);
-  };
+  // const onSearchFilterChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  //   setSearchFilter(e.target.value);
+  // };
 
   const orderThemes = (themes?: InfiniteData<ThemeDataFromAPI>) => {
     const combinedArray: ThemeWithVotes[] = [];
@@ -77,7 +80,7 @@ export const PublicThemes: React.FC<PublicThemesProps> = ({
           border="2px solid black"
           placeholder="Find a theme"
           value={searchFilter}
-          onChange={onSearchFilterChange}
+          onChange={(e) => setSearchFilter(e.target.value)}
         />
         <Select
           width="20%"

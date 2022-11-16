@@ -1,7 +1,5 @@
-import { PrismaClient } from "@prisma/client";
 import { NextApiRequest, NextApiResponse } from "next";
-
-const prisma = new PrismaClient();
+import { prisma } from "@/helpers/prisma";
 
 export default async function handler(
   req: NextApiRequest,
@@ -17,15 +15,57 @@ export default async function handler(
   const cursorObj =
     cursor === "" ? undefined : { id: parseInt(cursor as string, 10) };
 
+  const searchTerm = req.query.searchTerm as string;
+
   try {
-    const marketplaceItems = await prisma.theme.findMany({
-      take,
-      skip: cursor !== "" ? 1 : 0,
-      cursor: cursorObj,
-      include: {
-        votes: true,
-      },
-    });
+    let marketplaceItems;
+    if (searchTerm) {
+      marketplaceItems = await prisma.theme.findMany({
+        take,
+        skip: cursor !== "" ? 1 : 0,
+        cursor: cursorObj,
+        include: {
+          votes: true,
+        },
+        where: {
+          OR: [
+            {
+              name: {
+                contains: searchTerm ? searchTerm : undefined,
+              },
+            },
+            {
+              tags: {
+                contains: searchTerm ? searchTerm : undefined,
+              },
+            },
+          ],
+        },
+      });
+    } else {
+      marketplaceItems = await prisma.theme.findMany({
+        take,
+        skip: cursor !== "" ? 1 : 0,
+        cursor: cursorObj,
+        include: {
+          votes: true,
+        },
+        where: {
+          OR: [
+            {
+              name: {
+                contains: searchTerm,
+              },
+            },
+            {
+              tags: {
+                contains: searchTerm,
+              },
+            },
+          ],
+        },
+      });
+    }
 
     return res.status(200).json({
       themes: marketplaceItems,
