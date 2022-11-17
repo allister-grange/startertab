@@ -226,7 +226,7 @@ const SettingsSideBar: React.FC<SettingsSideBarProps> = ({
         />
         <Box mt="4" />
         <Link
-          href="/manage-themes"
+          href="/themes"
           color={textColor}
           border={`1px solid ${textColor}`}
           borderRadius="md"

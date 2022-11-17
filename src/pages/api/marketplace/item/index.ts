@@ -19,7 +19,11 @@ export default async function handler(
 
   try {
     let marketplaceItems;
-    if (searchTerm !== "undefined" && typeof searchTerm === "string") {
+    if (
+      searchTerm !== "undefined" &&
+      typeof searchTerm === "string" &&
+      searchTerm.length > 0
+    ) {
       marketplaceItems = await prisma.theme.findMany({
         take,
         skip: cursor !== "" ? 1 : 0,
@@ -31,6 +35,11 @@ export default async function handler(
           OR: [
             {
               name: {
+                contains: searchTerm ? searchTerm : undefined,
+              },
+            },
+            {
+              author: {
                 contains: searchTerm ? searchTerm : undefined,
               },
             },

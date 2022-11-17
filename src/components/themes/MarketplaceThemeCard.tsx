@@ -35,9 +35,22 @@ export const MarketPlaceThemeCard: React.FC<MarketPlaceThemeCardProps> = ({
   buttons,
   setSearchFilter,
 }) => {
+  function checkIfFound() {
+    const likedThemes = localStorage.getItem("likedThemes");
+    // "1,4,6,22" etc
+    if (likedThemes) {
+      const found = likedThemes
+        .split(",")
+        .findIndex((id) => id === theme.id.toString());
+      if (found > -1) {
+        return true;
+      }
+    }
+    return false;
+  }
   // used for async voting
   const [votes, setVotes] = useState(theme.votes.length);
-  const [liked, setLiked] = useState(false);
+  const [liked, setLiked] = useState(checkIfFound);
 
   const toast = useToast();
   const showClipboardToast = useCallback(
@@ -59,11 +72,16 @@ export const MarketPlaceThemeCard: React.FC<MarketPlaceThemeCardProps> = ({
   };
 
   const voteForTheme = async () => {
-    // todo set this "liked" in cookies/localstorage
     if (liked) {
       return;
     }
     setLiked(true);
+    const likedThemes = localStorage.getItem("likedThemes");
+    if (likedThemes) {
+      localStorage.setItem("likedThemes", `${likedThemes},${theme.id}`);
+    } else {
+      localStorage.setItem("likedThemes", theme.id.toString());
+    }
     try {
       // doesn't matter too much if their vote disappears, c'est la vie
       setVotes((votes) => votes + 1);
@@ -73,9 +91,14 @@ export const MarketPlaceThemeCard: React.FC<MarketPlaceThemeCardProps> = ({
           method: "POST",
         }
       );
+
+      if (!voteRes.ok) {
+        throw new Error("Failed to vote");
+      }
     } catch (err) {
+      setVotes((votes) => votes - 1);
+      setLiked(false);
       console.error(err);
-      // todo figure out how to handle this
     }
   };
 

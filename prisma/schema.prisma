@@ -20,7 +20,9 @@ model Theme {
 }
 
 model Vote {
-  id        Int       @id @default(autoincrement())
-  theme     Theme?    @relation(fields: [themeId], references: [id])
-  themeId   Int?
+  id          Int       @id @default(autoincrement())
+  createdAt DateTime  @default(now())
+  theme       Theme?    @relation(fields: [themeId], references: [id])
+  themeId     Int?
+  ipAddress   String?
 }

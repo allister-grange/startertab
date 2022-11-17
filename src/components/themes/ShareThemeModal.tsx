@@ -1,5 +1,5 @@
 import { deepClone } from "@/helpers/tileHelpers";
-import { ThemeFilteringOptions, ThemeSettings } from "@/types";
+import { ThemeFilteringOptions, ThemeSettings, TileSettings } from "@/types";
 import { CreateThemeRequest } from "@/types/marketplace";
 import { SmallCloseIcon } from "@chakra-ui/icons";
 import {
@@ -65,6 +65,41 @@ export const ShareThemeModal: React.FC<ShareThemeModalProps> = ({
     onClose();
   };
 
+  const getThemeToCreate = (
+    theme: ThemeSettings,
+    themeName: string
+  ): ThemeSettings => {
+    const themeToSend = deepClone(theme!);
+    themeToSend.themeName = themeName;
+
+    /** optional fields need to be cleared to prevent leaking personal data
+      so we iterate through all the items in the ThemeSettings tiles
+      and set all fields that aren't mandatory (the colors and tile type)
+      to be undefined */
+    for (const [key, value] of Object.entries(themeToSend)) {
+      const castedKey = key as keyof ThemeSettings;
+
+      if (castedKey === "globalSettings" || castedKey === "themeName") {
+        continue;
+      }
+
+      for (const [key, value] of Object.entries(themeToSend[castedKey])) {
+        let myKey = key as keyof TileSettings;
+        if (
+          myKey === "textColor" ||
+          myKey === "backgroundColor" ||
+          myKey === "tileType"
+        ) {
+          continue;
+        }
+
+        themeToSend[castedKey][myKey] = undefined;
+      }
+    }
+
+    return themeToSend;
+  };
+
   const onThemeSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const target = e.target as typeof e.target & {
@@ -77,8 +112,7 @@ export const ShareThemeModal: React.FC<ShareThemeModalProps> = ({
 
     const themeName = target.themeName.value;
     const author = target.author.value;
-    const themeToSend = deepClone(theme!);
-    themeToSend.themeName = themeName;
+    const themeToSend = getThemeToCreate(theme!, themeName);
 
     const toSend: CreateThemeRequest = {
       name: themeName,

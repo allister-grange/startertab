@@ -1,6 +1,5 @@
-import { CreateThemeRequest } from "@/types/marketplace";
+import { PrismaClient } from "@prisma/client";
 import { NextApiRequest, NextApiResponse } from "next";
-import { Prisma, PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
 
@@ -23,12 +22,39 @@ export default async function handler(
   }
 
   const themeIdAsNumber = parseInt(themeId as string);
+  const forwarded = req.headers["x-forwarded-for"];
+  let ip = req.socket.remoteAddress;
+  if (forwarded && typeof forwarded === "string") {
+    ip = forwarded.split(/, /)[0];
+  }
 
   try {
-    // const body = (await JSON.parse(req.body)) as CreateThemeRequest;
+    const ipInDbDate = await prisma.vote.findFirst({
+      where: {
+        ipAddress: ip,
+        themeId: themeIdAsNumber,
+      },
+      select: {
+        createdAt: true,
+      },
+    });
+
+    const ONE_HOUR = 60 * 60 * 1000;
+
+    // check if they've voted for this theme in the last hour
+    // this in conjunction with the localStorage should be enough 🤞
+    // people can have the same IP, hence the ONE_HOUR check
+    if (
+      ipInDbDate &&
+      new Date().getTime() - new Date(ipInDbDate.createdAt).getTime() < ONE_HOUR
+    ) {
+      return res.status(429).send("You've already voted for this theme");
+    }
+
     const marketplaceTheme = await prisma.vote.create({
       data: {
         themeId: themeIdAsNumber,
+        ipAddress: ip,
       },
     });
     return res.status(201).json(marketplaceTheme);

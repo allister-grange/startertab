@@ -52,7 +52,6 @@ const ManageThemes: React.FC = ({}) => {
   } = useInfiniteQuery(
     ["publicThemes", searchFilter],
     async ({ pageParam = "" }) => {
-      // await new Promise((res) => setTimeout(res, 1000))
       const res = await fetch(
         `/api/marketplace/item?cursor=${pageParam}&searchTerm=${searchFilter}`
       );
@@ -69,11 +68,7 @@ const ManageThemes: React.FC = ({}) => {
 
   useEffect(() => {
     document.body.style.background = "#F7F8FA";
-    console.log(inView, hasNextPage);
-
     if (inView && hasNextPage) {
-      console.log("fetching bb");
-
       fetchNextPage();
     }
   }, [fetchNextPage, hasNextPage, inView]);
