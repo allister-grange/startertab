@@ -2,6 +2,7 @@ import { PersonalThemes } from "@/components/themes/PersonalThemes";
 import { PublicThemes } from "@/components/themes/PublicThemes";
 import { ThemePageHeader } from "@/components/ui/ThemePageHeader";
 import { deepClone } from "@/helpers/tileHelpers";
+import useDebounce from "@/hooks/useDebounce";
 import { userSettingState } from "@/recoil/UserSettingsAtom";
 import { ThemeFilteringOptions, ThemeSettings } from "@/types";
 import { ThemeDataFromAPI, ThemeWithVotes } from "@/types/marketplace";
@@ -25,12 +26,6 @@ import { useRecoilState } from "recoil";
 
 const queryClient = new QueryClient();
 
-const fetchThemes = async () => {
-  const items = await fetch("/api/marketplace/item");
-  const data = (await items.json()) as ThemeWithVotes[];
-  return data;
-};
-
 const ManageThemes: React.FC = ({}) => {
   const { ref, inView } = useInView();
   const [settings, setSettings] = useRecoilState(userSettingState);
@@ -39,6 +34,7 @@ const ManageThemes: React.FC = ({}) => {
   const [orderingMethod, setOrderingMethod] =
     useState<ThemeFilteringOptions>("Popularity");
   const [searchFilter, setSearchFilter] = useState<string | undefined>();
+  const debouncedSearchTerm = useDebounce(searchFilter ?? "", 750);
 
   const {
     data: publicThemes,
@@ -50,8 +46,10 @@ const ManageThemes: React.FC = ({}) => {
     hasNextPage,
     refetch,
   } = useInfiniteQuery(
-    ["publicThemes", searchFilter],
+    ["publicThemes", debouncedSearchTerm],
     async ({ pageParam = "" }) => {
+      console.log("searching");
+
       const res = await fetch(
         `/api/marketplace/item?cursor=${pageParam}&searchTerm=${searchFilter}`
       );
