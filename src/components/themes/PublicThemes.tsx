@@ -1,5 +1,5 @@
 import { getThemeIdsFromLocalStorage } from "@/helpers/tileHelpers";
-import { ThemeFilteringOptions, ThemeSettings } from "@/types";
+import { ThemeFilteringOptions } from "@/types";
 import { ThemeDataFromAPI, ThemeWithVotes } from "@/types/marketplace";
 import { ChevronDownIcon, ChevronUpIcon } from "@chakra-ui/icons";
 import {
@@ -8,11 +8,13 @@ import {
   Grid,
   Heading,
   Input,
+  List,
+  ListItem,
   Select,
   Spinner,
 } from "@chakra-ui/react";
 import { InfiniteData } from "@tanstack/react-query";
-import React, { FormEvent, useState } from "react";
+import React, { useState } from "react";
 import { PreviewThemeCardSkeleton } from "../skeletons/PreviewThemeCardSkeleton";
 import { OutlinedButton } from "../ui/OutlinedButton";
 import { MarketPlaceThemeCard } from "./MarketplaceThemeCard";
@@ -45,6 +47,7 @@ export const PublicThemes: React.FC<PublicThemesProps> = ({
   saveThemeToSettings,
 }) => {
   const [reverseOrdering, setReverseOrdering] = useState<boolean>(false);
+  // const { ref, inView } = useInView()
 
   const themesAlreadyDownloaded = getThemeIdsFromLocalStorage();
   const orderThemes = (themes?: InfiniteData<ThemeDataFromAPI>) => {
@@ -70,10 +73,6 @@ export const PublicThemes: React.FC<PublicThemesProps> = ({
       combinedArray.reverse();
     }
     return combinedArray;
-  };
-
-  const checkIfSavingDisabled = (themeId: number) => {
-    const result = themesAlreadyDownloaded.includes(themeId.toString());
   };
 
   // create one array from all the pages, then sort it
@@ -113,23 +112,46 @@ export const PublicThemes: React.FC<PublicThemesProps> = ({
     );
   } else {
     toDisplay = (
-      <Grid
-        templateColumns="repeat(auto-fit, minmax(450px, 1fr))"
+      <List
+        display="flex"
+        flexWrap="wrap"
         gap="4"
         mt="8"
         justifyItems="center"
+        alignItems="center"
       >
         {orderedThemes.map((theme) => (
-          <MarketPlaceThemeCard
-            key={theme.id}
-            theme={theme}
-            setSearchFilter={setSearchFilter}
-            saveThemeToSettings={saveThemeToSettings}
-            saveDisabled={themesAlreadyDownloaded.includes(theme.id.toString())}
-          />
+          <ListItem key={theme.id} mx="auto" mt="4">
+            <MarketPlaceThemeCard
+              theme={theme}
+              setSearchFilter={setSearchFilter}
+              saveThemeToSettings={saveThemeToSettings}
+              saveDisabled={themesAlreadyDownloaded.includes(
+                theme.id.toString()
+              )}
+            />
+          </ListItem>
         ))}
-      </Grid>
+      </List>
     );
+    // toDisplay = (
+    //   <Grid
+    //     templateColumns="repeat(auto-fit, minmax(450px, 1fr))"
+    //     gap="4"
+    //     mt="8"
+    //     justifyItems="center"
+    //   >
+    //     {orderedThemes.map((theme) => (
+    //       <MarketPlaceThemeCard
+    //         key={theme.id}
+    //         theme={theme}
+    //         setSearchFilter={setSearchFilter}
+    //         saveThemeToSettings={saveThemeToSettings}
+    //         saveDisabled={themesAlreadyDownloaded.includes(theme.id.toString())}
+    //       />
+    //     ))}
+    //   </Grid>
+    // );
   }
 
   return (
