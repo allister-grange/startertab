@@ -65,12 +65,7 @@ const ManageThemes: React.FC = ({}) => {
 
   useEffect(() => {
     document.body.style.background = "#F7F8FA";
-    if (
-      inView &&
-      hasNextPage &&
-      publicThemes
-      // publicThemes?.pages[0].themes.length > 1
-    ) {
+    if (inView && hasNextPage && publicThemes) {
       fetchNextPage();
     }
   }, [fetchNextPage, hasNextPage, inView, publicThemes]);
@@ -141,6 +136,30 @@ const ManageThemes: React.FC = ({}) => {
     saveThemeIdToLocalStorage(theme.id);
   };
 
+  const changeThemeNameInSettings = useCallback(
+    (theme: ThemeSettings, newName: string) => {
+      if (theme.themeName === newName) {
+        return;
+      }
+
+      if (newName.length < 3 || newName.length > 20) {
+        return;
+      }
+
+      const newSettings = deepClone(settings);
+      const indexOfOldTheme = newSettings.themes.findIndex(
+        (themeToFind) => themeToFind.themeName === theme.themeName
+      );
+      if (indexOfOldTheme < 0) {
+        return;
+      }
+
+      newSettings.themes[indexOfOldTheme].themeName = newName;
+      setSettings(newSettings);
+    },
+    [setSettings, settings]
+  );
+
   return (
     <QueryClientProvider client={queryClient}>
       <Box
@@ -172,6 +191,7 @@ const ManageThemes: React.FC = ({}) => {
                 setShowingPublicThemes={setShowingPublicThemes}
                 refetch={refetch}
                 setOrderingMethod={setOrderingMethod}
+                changeThemeNameInSettings={changeThemeNameInSettings}
               />
             </TabPanel>
             <TabPanel>

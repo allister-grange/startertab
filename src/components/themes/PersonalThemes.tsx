@@ -15,6 +15,7 @@ interface PersonalThemesProps {
   setOrderingMethod: React.Dispatch<
     React.SetStateAction<ThemeFilteringOptions>
   >;
+  changeThemeNameInSettings: (theme: ThemeSettings, newName: string) => void;
 }
 
 export const PersonalThemes: React.FC<PersonalThemesProps> = ({
@@ -24,6 +25,7 @@ export const PersonalThemes: React.FC<PersonalThemesProps> = ({
   setShowingPublicThemes,
   refetch,
   setOrderingMethod,
+  changeThemeNameInSettings,
 }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [themeToBeShared, setThemeToBeShared] = useState<
@@ -56,6 +58,7 @@ export const PersonalThemes: React.FC<PersonalThemesProps> = ({
           <PersonalThemeCard
             key={theme.themeName}
             theme={theme}
+            changeThemeNameInSettings={changeThemeNameInSettings}
             buttons={
               <>
                 <OutlinedButton
