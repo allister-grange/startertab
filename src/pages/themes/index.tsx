@@ -122,7 +122,7 @@ const ManageThemes: React.FC = ({}) => {
   const saveThemeToSettings = (theme: ThemeWithVotes) => {
     const clonedSettings = deepClone(settings);
     let themeNameCollision = false;
-    let newTheme = theme.data as unknown as ThemeSettings;
+    let newTheme = deepClone(theme.data) as unknown as ThemeSettings;
 
     clonedSettings.themes.forEach((themeToSearch) => {
       if (themeToSearch.themeName === theme.name) {
@@ -131,7 +131,7 @@ const ManageThemes: React.FC = ({}) => {
     });
 
     if (themeNameCollision) {
-      newTheme.themeName === newTheme.themeName + " copy";
+      newTheme.themeName = newTheme.themeName + " copy";
     }
 
     newTheme.downloadedFromMarketplace = true;
