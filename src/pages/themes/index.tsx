@@ -39,6 +39,7 @@ const ManageThemes: React.FC = ({}) => {
   const {
     data: publicThemes,
     isLoading,
+    isFetching,
     isError,
     error,
     isFetchingNextPage,
@@ -48,8 +49,6 @@ const ManageThemes: React.FC = ({}) => {
   } = useInfiniteQuery(
     ["publicThemes", debouncedSearchTerm],
     async ({ pageParam = "" }) => {
-      console.log("searching");
-
       const res = await fetch(
         `/api/marketplace/item?cursor=${pageParam}&searchTerm=${searchFilter}`
       );
@@ -66,10 +65,15 @@ const ManageThemes: React.FC = ({}) => {
 
   useEffect(() => {
     document.body.style.background = "#F7F8FA";
-    if (inView && hasNextPage) {
+    if (
+      inView &&
+      hasNextPage &&
+      publicThemes
+      // publicThemes?.pages[0].themes.length > 1
+    ) {
       fetchNextPage();
     }
-  }, [fetchNextPage, hasNextPage, inView]);
+  }, [fetchNextPage, hasNextPage, inView, publicThemes]);
 
   const showClipboardToast = useCallback(
     (val?: string) => {
@@ -145,6 +149,7 @@ const ManageThemes: React.FC = ({}) => {
                 isFetchingNextPage={isFetchingNextPage}
                 searchFilter={searchFilter}
                 setSearchFilter={setSearchFilter}
+                isFetching={isFetching}
               />
             </TabPanel>
           </TabPanels>

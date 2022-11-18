@@ -1,7 +1,15 @@
 import { ThemeFilteringOptions, ThemeSettings } from "@/types";
 import { ThemeDataFromAPI, ThemeWithVotes } from "@/types/marketplace";
 import { ChevronDownIcon, ChevronUpIcon } from "@chakra-ui/icons";
-import { Box, Flex, Grid, Input, Select, Spinner } from "@chakra-ui/react";
+import {
+  Box,
+  Flex,
+  Grid,
+  Heading,
+  Input,
+  Select,
+  Spinner,
+} from "@chakra-ui/react";
 import { InfiniteData } from "@tanstack/react-query";
 import React, { FormEvent, useState } from "react";
 import { PreviewThemeCardSkeleton } from "../skeletons/PreviewThemeCardSkeleton";
@@ -19,6 +27,7 @@ interface PublicThemesProps {
   isFetchingNextPage: boolean;
   setSearchFilter: React.Dispatch<React.SetStateAction<string | undefined>>;
   searchFilter?: string;
+  isFetching: boolean;
 }
 
 export const PublicThemes: React.FC<PublicThemesProps> = ({
@@ -29,6 +38,7 @@ export const PublicThemes: React.FC<PublicThemesProps> = ({
   scrollRef,
   isFetchingNextPage,
   setSearchFilter,
+  isFetching,
   searchFilter,
 }) => {
   const [reverseOrdering, setReverseOrdering] = useState<boolean>(false);
@@ -68,6 +78,50 @@ export const PublicThemes: React.FC<PublicThemesProps> = ({
     );
   }
 
+  let toDisplay;
+  if (loading) {
+    toDisplay = (
+      <Grid
+        templateColumns="repeat(auto-fit, minmax(450px, 1fr))"
+        gap="4"
+        mt="8"
+        justifyItems="center"
+      >
+        <PreviewThemeCardSkeleton />
+        <PreviewThemeCardSkeleton />
+        <PreviewThemeCardSkeleton />
+        <PreviewThemeCardSkeleton />
+        <PreviewThemeCardSkeleton />
+        <PreviewThemeCardSkeleton />
+      </Grid>
+    );
+  } else if (themes && themes.pages[0].themes.length === 0) {
+    toDisplay = (
+      <Box gap="4" mt="8" justifyItems="center" textAlign="center">
+        <Heading as="h2" fontSize="2xl">
+          No results, sorry
+        </Heading>
+      </Box>
+    );
+  } else {
+    toDisplay = (
+      <Grid
+        templateColumns="repeat(auto-fit, minmax(450px, 1fr))"
+        gap="4"
+        mt="8"
+        justifyItems="center"
+      >
+        {orderedThemes.map((theme) => (
+          <MarketPlaceThemeCard
+            key={theme.id}
+            theme={theme}
+            setSearchFilter={setSearchFilter}
+          />
+        ))}
+      </Grid>
+    );
+  }
+
   return (
     <Box>
       <Flex justifyContent="center" mt="2" gap="4" alignItems="center">
@@ -100,45 +154,18 @@ export const PublicThemes: React.FC<PublicThemesProps> = ({
           )}
         </OutlinedButton>
       </Flex>
-      {loading ? (
-        <Grid
-          templateColumns="repeat(auto-fit, minmax(450px, 1fr))"
-          gap="4"
-          mt="8"
-          justifyItems="center"
-        >
-          <PreviewThemeCardSkeleton />
-          <PreviewThemeCardSkeleton />
-          <PreviewThemeCardSkeleton />
-          <PreviewThemeCardSkeleton />
-          <PreviewThemeCardSkeleton />
-          <PreviewThemeCardSkeleton />
-        </Grid>
-      ) : (
-        <Grid
-          templateColumns="repeat(auto-fit, minmax(450px, 1fr))"
-          gap="4"
-          mt="8"
-          justifyItems="center"
-        >
-          {orderedThemes.map((theme) => (
-            <MarketPlaceThemeCard
-              key={theme.id}
-              theme={theme}
-              setSearchFilter={setSearchFilter}
-            />
-          ))}
-        </Grid>
-      )}
-      {isFetchingNextPage ? (
+      {toDisplay}
+      {isFetchingNextPage || isFetching ? (
         <Box width="100%" textAlign="center" mt="12">
           <Spinner size="xl" color="lightgreen" />
         </Box>
       ) : null}
 
-      <span style={{ visibility: "hidden" }} ref={scrollRef}>
-        intersection observer marker
-      </span>
+      {themes && themes.pages[0].themes.length > 0 ? (
+        <span style={{ visibility: "hidden" }} ref={scrollRef}>
+          intersection observer marker
+        </span>
+      ) : null}
     </Box>
   );
 };
