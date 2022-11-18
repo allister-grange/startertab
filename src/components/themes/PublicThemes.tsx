@@ -1,3 +1,4 @@
+import { getThemeIdsFromLocalStorage } from "@/helpers/tileHelpers";
 import { ThemeFilteringOptions, ThemeSettings } from "@/types";
 import { ThemeDataFromAPI, ThemeWithVotes } from "@/types/marketplace";
 import { ChevronDownIcon, ChevronUpIcon } from "@chakra-ui/icons";
@@ -45,6 +46,7 @@ export const PublicThemes: React.FC<PublicThemesProps> = ({
 }) => {
   const [reverseOrdering, setReverseOrdering] = useState<boolean>(false);
 
+  const themesAlreadyDownloaded = getThemeIdsFromLocalStorage();
   const orderThemes = (themes?: InfiniteData<ThemeDataFromAPI>) => {
     const combinedArray: ThemeWithVotes[] = [];
 
@@ -68,6 +70,10 @@ export const PublicThemes: React.FC<PublicThemesProps> = ({
       combinedArray.reverse();
     }
     return combinedArray;
+  };
+
+  const checkIfSavingDisabled = (themeId: number) => {
+    const result = themesAlreadyDownloaded.includes(themeId.toString());
   };
 
   // create one array from all the pages, then sort it
@@ -119,6 +125,7 @@ export const PublicThemes: React.FC<PublicThemesProps> = ({
             theme={theme}
             setSearchFilter={setSearchFilter}
             saveThemeToSettings={saveThemeToSettings}
+            saveDisabled={themesAlreadyDownloaded.includes(theme.id.toString())}
           />
         ))}
       </Grid>

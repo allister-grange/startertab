@@ -3,7 +3,7 @@ import { ShareThemeModal } from "@/components/themes/ShareThemeModal";
 import { OutlinedButton } from "@/components/ui/OutlinedButton";
 import { ThemeFilteringOptions, ThemeSettings } from "@/types";
 import { CopyIcon, DeleteIcon, ExternalLinkIcon } from "@chakra-ui/icons";
-import { Box, Grid, Text, useDisclosure } from "@chakra-ui/react";
+import { Box, Grid, Text, Tooltip, useDisclosure } from "@chakra-ui/react";
 import React, { useState } from "react";
 
 interface PersonalThemesProps {
@@ -71,11 +71,20 @@ export const PersonalThemes: React.FC<PersonalThemesProps> = ({
                 </OutlinedButton>
                 <OutlinedButton
                   border={`1px solid black`}
+                  disabled={theme.downloadedFromMarketplace}
                   onClick={() => openShareModal(theme)}
                 >
-                  <Text fontSize="xs" mr="2">
-                    Share publicly
-                  </Text>
+                  <Tooltip
+                    isDisabled={!theme.downloadedFromMarketplace}
+                    label="You downloaded this theme, you cannot now share it"
+                    bg="gray.100"
+                    color="black"
+                    textAlign="center"
+                  >
+                    <Text fontSize="xs" mr="2">
+                      Share publicly
+                    </Text>
+                  </Tooltip>
                   <ExternalLinkIcon />
                 </OutlinedButton>
                 <OutlinedButton

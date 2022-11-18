@@ -4,6 +4,7 @@ export const defaultSettings: UserSettings = {
   themes: [
     {
       themeName: "colored dark",
+      downloadedFromMarketplace: false,
       globalSettings: {
         backgroundColor: "#1B202B",
         textColor: "#fff",
@@ -79,6 +80,7 @@ export const defaultSettings: UserSettings = {
     },
     {
       themeName: "colored light",
+      downloadedFromMarketplace: false,
       globalSettings: {
         backgroundColor: "#ffffff",
         textColor: "#222222",
@@ -152,6 +154,7 @@ export const defaultSettings: UserSettings = {
     },
     {
       themeName: "Wavy",
+      downloadedFromMarketplace: false,
       globalSettings: {
         backgroundColor: "url(/wavy.jpeg)",
         textColor: "#222222",
@@ -224,6 +227,7 @@ export const defaultSettings: UserSettings = {
     },
     {
       themeName: "Pink",
+      downloadedFromMarketplace: false,
       globalSettings: {
         backgroundColor:
           "linear-gradient(to bottom right, #ABA1EE , #F29AD8) fixed",
@@ -298,6 +302,7 @@ export const defaultSettings: UserSettings = {
     },
     {
       themeName: "light",
+      downloadedFromMarketplace: false,
       globalSettings: {
         backgroundColor: "white",
         textColor: "#222222",
@@ -370,6 +375,7 @@ export const defaultSettings: UserSettings = {
     },
     {
       themeName: "dark",
+      downloadedFromMarketplace: false,
       globalSettings: {
         backgroundColor: "#000",
         textColor: "#fff",
@@ -443,6 +449,7 @@ export const defaultSettings: UserSettings = {
     },
     {
       themeName: "glassmorphism light",
+      downloadedFromMarketplace: false,
       globalSettings: {
         backgroundColor:
           "linear-gradient(160deg, #0093E9 0%, #80D0C7 100%) fixed",
@@ -517,6 +524,7 @@ export const defaultSettings: UserSettings = {
     },
     {
       themeName: "glassmorphism dark",
+      downloadedFromMarketplace: false,
       globalSettings: {
         backgroundColor:
           "linear-gradient(160deg, black 0%, #80D0C7 100%) fixed",

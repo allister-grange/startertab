@@ -79,7 +79,11 @@ export const ShareThemeModal: React.FC<ShareThemeModalProps> = ({
     for (const [key, value] of Object.entries(themeToSend)) {
       const castedKey = key as keyof ThemeSettings;
 
-      if (castedKey === "globalSettings" || castedKey === "themeName") {
+      if (
+        castedKey === "globalSettings" ||
+        castedKey === "themeName" ||
+        castedKey === "downloadedFromMarketplace"
+      ) {
         continue;
       }
 

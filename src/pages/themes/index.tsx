@@ -1,7 +1,7 @@
 import { PersonalThemes } from "@/components/themes/PersonalThemes";
 import { PublicThemes } from "@/components/themes/PublicThemes";
 import { ThemePageHeader } from "@/components/ui/ThemePageHeader";
-import { deepClone } from "@/helpers/tileHelpers";
+import { deepClone, saveThemeIdToLocalStorage } from "@/helpers/tileHelpers";
 import useDebounce from "@/hooks/useDebounce";
 import { userSettingState } from "@/recoil/UserSettingsAtom";
 import { ThemeFilteringOptions, ThemeSettings } from "@/types";
@@ -78,9 +78,22 @@ const ManageThemes: React.FC = ({}) => {
   const showClipboardToast = useCallback(
     (val?: string) => {
       toast({
-        title: `Got it! ${val ?? ""}`,
+        title: `Copied theme to clipboard ${val ?? ""}`,
         status: "info",
-        duration: 1000,
+        duration: 1500,
+        isClosable: true,
+        position: "top",
+      });
+    },
+    [toast]
+  );
+
+  const showSavedThemeToast = useCallback(
+    (val?: string) => {
+      toast({
+        title: `Saved theme! 🎉`,
+        status: "success",
+        duration: 1500,
         isClosable: true,
         position: "top",
       });
@@ -121,8 +134,11 @@ const ManageThemes: React.FC = ({}) => {
       newTheme.themeName === newTheme.themeName + " copy";
     }
 
-    clonedSettings.themes.push(newTheme);
+    newTheme.downloadedFromMarketplace = true;
+    clonedSettings.themes.unshift(newTheme);
     setSettings(clonedSettings);
+    showSavedThemeToast();
+    saveThemeIdToLocalStorage(theme.id);
   };
 
   return (

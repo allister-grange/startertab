@@ -2,7 +2,7 @@ import { calculateTimeAgoString, truncateString } from "@/helpers/tileHelpers";
 import { ThemeSettings } from "@/types";
 import { ThemeWithVotes } from "@/types/marketplace";
 import { DownloadIcon } from "@chakra-ui/icons";
-import { Badge, Box, Flex, Text, useToast } from "@chakra-ui/react";
+import { Badge, Box, Flex, Text, Tooltip, useToast } from "@chakra-ui/react";
 import React, { ReactNode, useCallback, useState } from "react";
 import { FilledHeartIcon } from "../icons/FilledHeartIcon";
 import { HeartIcon } from "../icons/HeartIcon";
@@ -14,6 +14,7 @@ interface MarketPlaceThemeCardProps {
   buttons?: ReactNode;
   setSearchFilter: React.Dispatch<React.SetStateAction<string | undefined>>;
   saveThemeToSettings: (theme: ThemeWithVotes) => void;
+  saveDisabled: boolean;
 }
 
 const colorThemes = ["green", "teal", "purple", "orange", "red", "cyan"];
@@ -36,6 +37,7 @@ export const MarketPlaceThemeCard: React.FC<MarketPlaceThemeCardProps> = ({
   buttons,
   setSearchFilter,
   saveThemeToSettings,
+  saveDisabled,
 }) => {
   function checkIfFound() {
     const likedThemes = localStorage.getItem("likedThemes");
@@ -215,10 +217,20 @@ export const MarketPlaceThemeCard: React.FC<MarketPlaceThemeCardProps> = ({
           <OutlinedButton
             border={`1px solid black`}
             onClick={() => saveThemeToSettings(theme)}
+            disabled={saveDisabled}
           >
-            <Text fontSize="xs" mr="2">
-              Save theme
-            </Text>
+            <Tooltip
+              isDisabled={!saveDisabled}
+              label="You have already downloaded this theme"
+              bg="gray.100"
+              color="black"
+              textAlign="center"
+            >
+              <Text fontSize="xs" mr="2">
+                Save theme
+              </Text>
+            </Tooltip>
+
             <DownloadIcon />
           </OutlinedButton>
         </Flex>

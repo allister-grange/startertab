@@ -88,6 +88,11 @@ export const PersonalThemeCard: React.FC<PersonalThemeCardProps> = ({
               {theme.globalSettings.textColor}
             </Badge>
           </Text>
+          {theme.downloadedFromMarketplace ? (
+            <Text color="gray.700" fontSize="sm">
+              Downloaded from Themes
+            </Text>
+          ) : null}
         </Flex>
 
         <Flex

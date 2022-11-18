@@ -85,6 +85,7 @@ export type TileSettings = {
 
 export type ThemeSettings = {
   themeName: string;
+  downloadedFromMarketplace: boolean;
   globalSettings: TileSettings;
   tile1: TileSettings;
   tile2: TileSettings;
