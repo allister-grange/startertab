@@ -13,6 +13,7 @@ interface MarketPlaceThemeCardProps {
   theme: ThemeWithVotes;
   buttons?: ReactNode;
   setSearchFilter: React.Dispatch<React.SetStateAction<string | undefined>>;
+  saveThemeToSettings: (theme: ThemeWithVotes) => void;
 }
 
 const colorThemes = ["green", "teal", "purple", "orange", "red", "cyan"];
@@ -34,6 +35,7 @@ export const MarketPlaceThemeCard: React.FC<MarketPlaceThemeCardProps> = ({
   theme,
   buttons,
   setSearchFilter,
+  saveThemeToSettings,
 }) => {
   function checkIfFound() {
     const likedThemes = localStorage.getItem("likedThemes");
@@ -212,7 +214,7 @@ export const MarketPlaceThemeCard: React.FC<MarketPlaceThemeCardProps> = ({
           </OutlinedButton>
           <OutlinedButton
             border={`1px solid black`}
-            onClick={() => console.log("download bb")}
+            onClick={() => saveThemeToSettings(theme)}
           >
             <Text fontSize="xs" mr="2">
               Save theme

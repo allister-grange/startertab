@@ -28,6 +28,7 @@ interface PublicThemesProps {
   setSearchFilter: React.Dispatch<React.SetStateAction<string | undefined>>;
   searchFilter?: string;
   isFetching: boolean;
+  saveThemeToSettings: (theme: ThemeWithVotes) => void;
 }
 
 export const PublicThemes: React.FC<PublicThemesProps> = ({
@@ -40,6 +41,7 @@ export const PublicThemes: React.FC<PublicThemesProps> = ({
   setSearchFilter,
   isFetching,
   searchFilter,
+  saveThemeToSettings,
 }) => {
   const [reverseOrdering, setReverseOrdering] = useState<boolean>(false);
 
@@ -116,6 +118,7 @@ export const PublicThemes: React.FC<PublicThemesProps> = ({
             key={theme.id}
             theme={theme}
             setSearchFilter={setSearchFilter}
+            saveThemeToSettings={saveThemeToSettings}
           />
         ))}
       </Grid>

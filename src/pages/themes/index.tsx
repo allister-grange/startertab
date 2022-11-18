@@ -106,6 +106,25 @@ const ManageThemes: React.FC = ({}) => {
     setSettings(clonedSettings);
   };
 
+  const saveThemeToSettings = (theme: ThemeWithVotes) => {
+    const clonedSettings = deepClone(settings);
+    let themeNameCollision = false;
+    let newTheme = theme.data as unknown as ThemeSettings;
+
+    clonedSettings.themes.forEach((themeToSearch) => {
+      if (themeToSearch.themeName === theme.name) {
+        themeNameCollision = true;
+      }
+    });
+
+    if (themeNameCollision) {
+      newTheme.themeName === newTheme.themeName + " copy";
+    }
+
+    clonedSettings.themes.push(newTheme);
+    setSettings(clonedSettings);
+  };
+
   return (
     <QueryClientProvider client={queryClient}>
       <Box
@@ -150,6 +169,7 @@ const ManageThemes: React.FC = ({}) => {
                 searchFilter={searchFilter}
                 setSearchFilter={setSearchFilter}
                 isFetching={isFetching}
+                saveThemeToSettings={saveThemeToSettings}
               />
             </TabPanel>
           </TabPanels>
