@@ -116,6 +116,7 @@ export const MarketPlaceThemeCard: React.FC<MarketPlaceThemeCardProps> = ({
       borderRadius="md"
       shadow="md"
       transition="all .2s"
+      minH="420px"
     >
       <Box
         height="250px"

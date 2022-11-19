@@ -8,13 +8,13 @@ import {
   Grid,
   Heading,
   Input,
-  List,
-  ListItem,
   Select,
   Spinner,
 } from "@chakra-ui/react";
 import { InfiniteData } from "@tanstack/react-query";
-import React, { useState } from "react";
+import React, { forwardRef, LegacyRef, ReactElement, useState } from "react";
+import AutoSizer from "react-virtualized-auto-sizer";
+import { FixedSizeList as List } from "react-window";
 import { PreviewThemeCardSkeleton } from "../skeletons/PreviewThemeCardSkeleton";
 import { OutlinedButton } from "../ui/OutlinedButton";
 import { MarketPlaceThemeCard } from "./MarketplaceThemeCard";
@@ -33,6 +33,22 @@ interface PublicThemesProps {
   isFetching: boolean;
   saveThemeToSettings: (theme: ThemeWithVotes) => void;
 }
+
+// eslint-disable-next-line react/display-name
+const innerElementType = forwardRef(({ ...rest }, ref) => (
+  <ul
+    ref={ref as LegacyRef<HTMLUListElement>}
+    {...rest}
+    style={{
+      display: "flex",
+      justifyContent: "center",
+      alignItems: "center",
+      flexDirection: "column",
+      width: "100%",
+    }}
+    className="innerClass"
+  />
+));
 
 export const PublicThemes: React.FC<PublicThemesProps> = ({
   themes,
@@ -112,55 +128,74 @@ export const PublicThemes: React.FC<PublicThemesProps> = ({
     );
   } else {
     toDisplay = (
-      <List
-        display="flex"
-        flexWrap="wrap"
-        gap="4"
-        mt="8"
-        justifyItems="center"
-        alignItems="center"
-      >
-        {orderedThemes.map((theme) => (
-          <ListItem key={theme.id} mx="auto" mt="4">
-            <MarketPlaceThemeCard
-              theme={theme}
-              setSearchFilter={setSearchFilter}
-              saveThemeToSettings={saveThemeToSettings}
-              saveDisabled={themesAlreadyDownloaded.includes(
-                theme.id.toString()
-              )}
-            />
-          </ListItem>
-        ))}
-      </List>
+      <AutoSizer>
+        {({ height, width }) => {
+          const itemsPerRow = Math.floor(width / 480);
+          const rowCount = Math.ceil(orderedThemes.length / itemsPerRow);
+
+          return (
+            <List
+              innerElementType={innerElementType}
+              itemData={orderedThemes}
+              itemCount={rowCount}
+              itemSize={420}
+              height={height}
+              width={width}
+              overscanCount={6}
+              style={{
+                marginTop: "20px",
+                overflow: "unset",
+                display: "flex",
+                flexWrap: "wrap",
+                rowGap: "17px",
+              }}
+            >
+              {({ data, index, style }) => {
+                const fromIndex = index * itemsPerRow;
+                const toIndex = Math.min(
+                  fromIndex + itemsPerRow,
+                  orderedThemes.length
+                );
+                const itemsToRender = orderedThemes.slice(fromIndex, toIndex);
+                const toReturn = itemsToRender.map((theme) => (
+                  <MarketPlaceThemeCard
+                    theme={theme}
+                    key={theme.id}
+                    setSearchFilter={setSearchFilter}
+                    saveThemeToSettings={saveThemeToSettings}
+                    saveDisabled={themesAlreadyDownloaded.includes(
+                      theme.id.toString()
+                    )}
+                  />
+                ));
+
+                return (
+                  <div
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      columnGap: "17px",
+                      marginTop: "17px",
+                    }}
+                  >
+                    {toReturn}
+                  </div>
+                );
+              }}
+            </List>
+          );
+        }}
+      </AutoSizer>
     );
-    // toDisplay = (
-    //   <Grid
-    //     templateColumns="repeat(auto-fit, minmax(450px, 1fr))"
-    //     gap="4"
-    //     mt="8"
-    //     justifyItems="center"
-    //   >
-    //     {orderedThemes.map((theme) => (
-    //       <MarketPlaceThemeCard
-    //         key={theme.id}
-    //         theme={theme}
-    //         setSearchFilter={setSearchFilter}
-    //         saveThemeToSettings={saveThemeToSettings}
-    //         saveDisabled={themesAlreadyDownloaded.includes(theme.id.toString())}
-    //       />
-    //     ))}
-    //   </Grid>
-    // );
   }
 
   return (
-    <Box>
+    <Box h="100%">
       <Flex justifyContent="center" mt="2" gap="4" alignItems="center">
         <Input
           width="60%"
           border="2px solid black"
-          placeholder="Find a theme"
+          placeholder="Find a theme (author, name or tag)"
           value={searchFilter}
           onChange={(e) => setSearchFilter(e.target.value)}
         />
@@ -188,16 +223,19 @@ export const PublicThemes: React.FC<PublicThemesProps> = ({
       </Flex>
       {toDisplay}
       {isFetchingNextPage || isFetching ? (
-        <Box width="100%" textAlign="center" mt="12">
+        <Box width="100%" textAlign="center" pos="fixed" bottom="5">
           <Spinner size="xl" color="lightgreen" />
         </Box>
       ) : null}
 
-      {themes && themes.pages[0].themes.length > 0 ? (
-        <span style={{ visibility: "hidden" }} ref={scrollRef}>
+      {/* {themes && themes.pages[0].themes.length > 0 ? (
+        <span
+          style={{ visibility: "hidden", position: "fixed", bottom: "5" }}
+          ref={scrollRef}
+        >
           intersection observer marker
         </span>
-      ) : null}
+      ) : null} */}
     </Box>
   );
 };
