@@ -2,22 +2,30 @@ import { getThemeIdsFromLocalStorage } from "@/helpers/tileHelpers";
 import { ThemeFilteringOptions } from "@/types";
 import { ThemeDataFromAPI, ThemeWithVotes } from "@/types/marketplace";
 import { ChevronDownIcon, ChevronUpIcon } from "@chakra-ui/icons";
+import { Box, Flex, Grid, Heading, Input, Select } from "@chakra-ui/react";
 import {
-  Box,
-  Flex,
-  Grid,
-  Heading,
-  Input,
-  Select,
-  Spinner,
-} from "@chakra-ui/react";
-import { InfiniteData } from "@tanstack/react-query";
-import React, { forwardRef, LegacyRef, ReactElement, useState } from "react";
-import AutoSizer from "react-virtualized-auto-sizer";
-import { FixedSizeList as List } from "react-window";
+  InfiniteData,
+  InfiniteQueryObserverResult,
+} from "@tanstack/react-query";
+import React, { FC, useState } from "react";
+import {
+  AutoSizer as _AutoSizer,
+  AutoSizerProps,
+  InfiniteLoader as _InfiniteLoader,
+  InfiniteLoaderProps,
+  List as _List,
+  ListProps,
+  ListRowProps,
+  WindowScroller as _WindowScroller,
+  WindowScrollerProps,
+} from "react-virtualized";
 import { PreviewThemeCardSkeleton } from "../skeletons/PreviewThemeCardSkeleton";
 import { OutlinedButton } from "../ui/OutlinedButton";
 import { MarketPlaceThemeCard } from "./MarketplaceThemeCard";
+const List = _List as unknown as FC<ListProps>;
+const AutoSizer = _AutoSizer as unknown as FC<AutoSizerProps>;
+const WindowScroller = _WindowScroller as unknown as FC<WindowScrollerProps>;
+const InfiniteLoader = _InfiniteLoader as unknown as FC<InfiniteLoaderProps>;
 
 interface PublicThemesProps {
   themes?: InfiniteData<ThemeDataFromAPI>;
@@ -32,23 +40,10 @@ interface PublicThemesProps {
   searchFilter?: string;
   isFetching: boolean;
   saveThemeToSettings: (theme: ThemeWithVotes) => void;
+  fetchNextPage: () => Promise<
+    InfiniteQueryObserverResult<ThemeDataFromAPI, unknown>
+  >;
 }
-
-// eslint-disable-next-line react/display-name
-const innerElementType = forwardRef(({ ...rest }, ref) => (
-  <ul
-    ref={ref as LegacyRef<HTMLUListElement>}
-    {...rest}
-    style={{
-      display: "flex",
-      justifyContent: "center",
-      alignItems: "center",
-      flexDirection: "column",
-      width: "100%",
-    }}
-    className="innerClass"
-  />
-));
 
 export const PublicThemes: React.FC<PublicThemesProps> = ({
   themes,
@@ -61,18 +56,15 @@ export const PublicThemes: React.FC<PublicThemesProps> = ({
   isFetching,
   searchFilter,
   saveThemeToSettings,
+  fetchNextPage,
 }) => {
   const [reverseOrdering, setReverseOrdering] = useState<boolean>(false);
-  // const { ref, inView } = useInView()
-
   const themesAlreadyDownloaded = getThemeIdsFromLocalStorage();
   const orderThemes = (themes?: InfiniteData<ThemeDataFromAPI>) => {
-    const combinedArray: ThemeWithVotes[] = [];
-
-    themes?.pages.map((page) =>
-      page.themes.map((theme) => combinedArray.push(theme))
-    );
-
+    if (!themes) {
+      return [];
+    }
+    const combinedArray = themes.pages.flatMap((page) => page.themes);
     combinedArray.sort((a, b) => {
       switch (orderingMethod) {
         case "Popularity":
@@ -93,6 +85,8 @@ export const PublicThemes: React.FC<PublicThemesProps> = ({
 
   // create one array from all the pages, then sort it
   let orderedThemes = orderThemes(themes);
+  console.log(orderedThemes.length);
+
   if (searchFilter && orderedThemes) {
     orderedThemes = orderedThemes.filter(
       (theme) =>
@@ -100,6 +94,30 @@ export const PublicThemes: React.FC<PublicThemesProps> = ({
         theme.tags.toLowerCase().includes(searchFilter.toLowerCase())
     );
   }
+
+  const isRowLoaded = (index: number): boolean => {
+    if (index < 40) {
+      return false;
+    }
+
+    return true;
+  };
+
+  const renderRow = (index: ListRowProps) => {
+    const theme = orderedThemes[index.index];
+    return (
+      <Box mt="4" style={index.style}>
+        <MarketPlaceThemeCard
+          theme={theme}
+          key={theme.id}
+          setSearchFilter={setSearchFilter}
+          saveThemeToSettings={saveThemeToSettings}
+          saveDisabled={themesAlreadyDownloaded.includes(theme.id.toString())}
+        />
+      </Box>
+      // <div>{theme.name}</div>
+    );
+  };
 
   let toDisplay;
   if (loading) {
@@ -128,64 +146,37 @@ export const PublicThemes: React.FC<PublicThemesProps> = ({
     );
   } else {
     toDisplay = (
-      <AutoSizer>
-        {({ height, width }) => {
-          const itemsPerRow = Math.floor(width / 480);
-          const rowCount = Math.ceil(orderedThemes.length / itemsPerRow);
-
-          return (
-            <List
-              innerElementType={innerElementType}
-              itemData={orderedThemes}
-              itemCount={rowCount}
-              itemSize={420}
-              height={height}
-              width={width}
-              overscanCount={6}
-              style={{
-                marginTop: "20px",
-                overflow: "unset",
-                display: "flex",
-                flexWrap: "wrap",
-                rowGap: "17px",
-              }}
-            >
-              {({ data, index, style }) => {
-                const fromIndex = index * itemsPerRow;
-                const toIndex = Math.min(
-                  fromIndex + itemsPerRow,
-                  orderedThemes.length
-                );
-                const itemsToRender = orderedThemes.slice(fromIndex, toIndex);
-                const toReturn = itemsToRender.map((theme) => (
-                  <MarketPlaceThemeCard
-                    theme={theme}
-                    key={theme.id}
-                    setSearchFilter={setSearchFilter}
-                    saveThemeToSettings={saveThemeToSettings}
-                    saveDisabled={themesAlreadyDownloaded.includes(
-                      theme.id.toString()
-                    )}
-                  />
-                ));
-
-                return (
-                  <div
-                    style={{
-                      display: "flex",
-                      alignItems: "center",
-                      columnGap: "17px",
-                      marginTop: "17px",
-                    }}
-                  >
-                    {toReturn}
-                  </div>
-                );
-              }}
-            </List>
-          );
-        }}
-      </AutoSizer>
+      <div className="WindowScrollerWrapper">
+        <InfiniteLoader
+          isRowLoaded={(index) => isRowLoaded(index.index)}
+          loadMoreRows={(indexRange) => fetchNextPage()}
+          rowCount={orderedThemes.length}
+          threshold={2}
+        >
+          {({ onRowsRendered, registerChild }) => (
+            <WindowScroller>
+              {({ height, isScrolling, scrollTop }) => (
+                <AutoSizer disableHeight>
+                  {({ width }) => (
+                    <List
+                      ref={registerChild}
+                      className="List"
+                      autoHeight
+                      height={height}
+                      width={width}
+                      onRowsRendered={onRowsRendered}
+                      rowCount={orderedThemes.length}
+                      rowHeight={420}
+                      rowRenderer={(index) => renderRow(index)}
+                      scrollTop={scrollTop}
+                    />
+                  )}
+                </AutoSizer>
+              )}
+            </WindowScroller>
+          )}
+        </InfiniteLoader>
+      </div>
     );
   }
 
@@ -222,11 +213,11 @@ export const PublicThemes: React.FC<PublicThemesProps> = ({
         </OutlinedButton>
       </Flex>
       {toDisplay}
-      {isFetchingNextPage || isFetching ? (
+      {/* {isFetchingNextPage || isFetching ? (
         <Box width="100%" textAlign="center" pos="fixed" bottom="5">
           <Spinner size="xl" color="lightgreen" />
         </Box>
-      ) : null}
+      ) : null} */}
 
       {/* {themes && themes.pages[0].themes.length > 0 ? (
         <span
