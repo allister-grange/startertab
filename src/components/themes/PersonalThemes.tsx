@@ -3,7 +3,7 @@ import { ShareThemeModal } from "@/components/themes/ShareThemeModal";
 import { OutlinedButton } from "@/components/ui/OutlinedButton";
 import { ThemeFilteringOptions, ThemeSettings } from "@/types";
 import { CopyIcon, DeleteIcon, ExternalLinkIcon } from "@chakra-ui/icons";
-import { Box, Grid, Text, Tooltip, useDisclosure } from "@chakra-ui/react";
+import { Box, Flex, Text, Tooltip, useDisclosure } from "@chakra-ui/react";
 import React, { useState } from "react";
 
 interface PersonalThemesProps {
@@ -47,12 +47,13 @@ export const PersonalThemes: React.FC<PersonalThemesProps> = ({
         setShowingPublicThemes={setShowingPublicThemes}
         setOrderingMethod={setOrderingMethod}
       />
-      <Grid
-        templateColumns="repeat(auto-fit, minmax(435px, 1fr))"
-        columnGap="4"
+      <Flex
         mt="8"
-        justifyItems="center"
-        rowGap="8"
+        flexWrap="wrap"
+        width="100%"
+        justifyContent="center"
+        rowGap="10"
+        columnGap="12"
       >
         {themes.map((theme) => (
           <PersonalThemeCard
@@ -103,7 +104,7 @@ export const PersonalThemes: React.FC<PersonalThemesProps> = ({
             }
           />
         ))}
-      </Grid>
+      </Flex>
     </Box>
   );
 };

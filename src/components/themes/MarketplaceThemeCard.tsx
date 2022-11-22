@@ -52,6 +52,7 @@ export const MarketPlaceThemeCard: React.FC<MarketPlaceThemeCardProps> = ({
     }
     return false;
   }
+
   // used for async voting
   const [votes, setVotes] = useState(theme.votes.length);
   const [liked, setLiked] = useState(checkIfFound);
@@ -117,6 +118,8 @@ export const MarketPlaceThemeCard: React.FC<MarketPlaceThemeCardProps> = ({
       shadow="md"
       transition="all .2s"
       minH="420px"
+      maxH="420px"
+      maxW="480px"
     >
       <Box
         height="250px"
@@ -130,7 +133,11 @@ export const MarketPlaceThemeCard: React.FC<MarketPlaceThemeCardProps> = ({
       </Box>
       <Flex justifyContent="space-between" minH="120px">
         <Flex flexDir="column" justifyContent="center">
-          <Text fontSize="2xl" fontWeight="bold" mt="1">
+          <Text
+            fontSize={themeSettings.themeName.length > 24 ? "xl" : "2xl"}
+            fontWeight="bold"
+            mt="1"
+          >
             {themeSettings.themeName}
           </Text>
           <Text color="gray.700" fontSize="sm" mt="1">

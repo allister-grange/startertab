@@ -1,3 +1,6 @@
+import { PreviewThemeCardSkeleton } from "@/components/skeletons/PreviewThemeCardSkeleton";
+import { MarketPlaceThemeCard } from "@/components/themes/MarketplaceThemeCard";
+import { OutlinedButton } from "@/components/ui/OutlinedButton";
 import { getThemeIdsFromLocalStorage } from "@/helpers/tileHelpers";
 import { ThemeFilteringOptions } from "@/types";
 import { ThemeDataFromAPI, ThemeWithVotes } from "@/types/marketplace";
@@ -7,7 +10,7 @@ import {
   InfiniteData,
   InfiniteQueryObserverResult,
 } from "@tanstack/react-query";
-import React, { FC, useState } from "react";
+import React, { FC, useRef, useState } from "react";
 import {
   AutoSizer as _AutoSizer,
   AutoSizerProps,
@@ -15,13 +18,9 @@ import {
   InfiniteLoaderProps,
   List as _List,
   ListProps,
-  ListRowProps,
   WindowScroller as _WindowScroller,
   WindowScrollerProps,
 } from "react-virtualized";
-import { PreviewThemeCardSkeleton } from "../skeletons/PreviewThemeCardSkeleton";
-import { OutlinedButton } from "../ui/OutlinedButton";
-import { MarketPlaceThemeCard } from "./MarketplaceThemeCard";
 const List = _List as unknown as FC<ListProps>;
 const AutoSizer = _AutoSizer as unknown as FC<AutoSizerProps>;
 const WindowScroller = _WindowScroller as unknown as FC<WindowScrollerProps>;
@@ -34,7 +33,6 @@ interface PublicThemesProps {
     React.SetStateAction<ThemeFilteringOptions>
   >;
   orderingMethod: ThemeFilteringOptions;
-  scrollRef: (node?: Element | null | undefined) => void;
   isFetchingNextPage: boolean;
   setSearchFilter: React.Dispatch<React.SetStateAction<string | undefined>>;
   searchFilter?: string;
@@ -43,6 +41,7 @@ interface PublicThemesProps {
   fetchNextPage: () => Promise<
     InfiniteQueryObserverResult<ThemeDataFromAPI, unknown>
   >;
+  hasNextPage?: boolean;
 }
 
 export const PublicThemes: React.FC<PublicThemesProps> = ({
@@ -50,21 +49,45 @@ export const PublicThemes: React.FC<PublicThemesProps> = ({
   loading,
   setOrderingMethod,
   orderingMethod,
-  scrollRef,
-  isFetchingNextPage,
   setSearchFilter,
-  isFetching,
   searchFilter,
   saveThemeToSettings,
+  isFetchingNextPage,
   fetchNextPage,
+  hasNextPage,
 }) => {
   const [reverseOrdering, setReverseOrdering] = useState<boolean>(false);
   const themesAlreadyDownloaded = getThemeIdsFromLocalStorage();
+  const divRef = useRef<HTMLDivElement | null>(null);
+  const [listDivWidth, setListDivWidth] = useState(1000);
+
+  React.useLayoutEffect(() => {
+    // when the component gets mounted
+    setListDivWidth(divRef.current ? divRef.current.offsetWidth : 1000);
+
+    // to handle page resize
+    const getWidth = () => {
+      setListDivWidth(divRef.current ? divRef.current.offsetWidth : 1000);
+    };
+
+    window.addEventListener("resize", getWidth);
+    return () => window.removeEventListener("resize", getWidth);
+  }, []);
+
   const orderThemes = (themes?: InfiniteData<ThemeDataFromAPI>) => {
     if (!themes) {
       return [];
     }
-    const combinedArray = themes.pages.flatMap((page) => page.themes);
+
+    const combinedArray: ThemeWithVotes[] = [];
+    themes.pages.map((page) => {
+      if (!page.themes) {
+        console.log("not found g");
+      } else {
+        page.themes.map((theme) => combinedArray.push(theme));
+      }
+    });
+
     combinedArray.sort((a, b) => {
       switch (orderingMethod) {
         case "Popularity":
@@ -85,7 +108,6 @@ export const PublicThemes: React.FC<PublicThemesProps> = ({
 
   // create one array from all the pages, then sort it
   let orderedThemes = orderThemes(themes);
-  console.log(orderedThemes.length);
 
   if (searchFilter && orderedThemes) {
     orderedThemes = orderedThemes.filter(
@@ -95,29 +117,18 @@ export const PublicThemes: React.FC<PublicThemesProps> = ({
     );
   }
 
-  const isRowLoaded = (index: number): boolean => {
-    if (index < 40) {
-      return false;
-    }
+  // Only load 1 page of items at a time.
+  // Pass an empty callback to InfiniteLoader in case it asks us to load more than once.
+  const loadMoreRows = isFetchingNextPage ? async () => {} : fetchNextPage;
 
-    return true;
+  const isRowLoaded = (index: number) => {
+    const itemsOnRowCount = Math.floor(listDivWidth / 480);
+    return !hasNextPage || index < orderedThemes.length / itemsOnRowCount;
   };
 
-  const renderRow = (index: ListRowProps) => {
-    const theme = orderedThemes[index.index];
-    return (
-      <Box mt="4" style={index.style}>
-        <MarketPlaceThemeCard
-          theme={theme}
-          key={theme.id}
-          setSearchFilter={setSearchFilter}
-          saveThemeToSettings={saveThemeToSettings}
-          saveDisabled={themesAlreadyDownloaded.includes(theme.id.toString())}
-        />
-      </Box>
-      // <div>{theme.name}</div>
-    );
-  };
+  const rowCount = hasNextPage
+    ? orderedThemes.length + 1
+    : orderedThemes.length;
 
   let toDisplay;
   if (loading) {
@@ -146,43 +157,94 @@ export const PublicThemes: React.FC<PublicThemesProps> = ({
     );
   } else {
     toDisplay = (
-      <div className="WindowScrollerWrapper">
+      <Box className="WindowScrollerWrapper" mt="8" ref={divRef}>
         <InfiniteLoader
           isRowLoaded={(index) => isRowLoaded(index.index)}
-          loadMoreRows={(indexRange) => fetchNextPage()}
-          rowCount={orderedThemes.length}
-          threshold={2}
+          loadMoreRows={() => loadMoreRows()}
+          rowCount={rowCount}
+          threshold={4}
         >
           {({ onRowsRendered, registerChild }) => (
             <WindowScroller>
               {({ height, isScrolling, scrollTop }) => (
                 <AutoSizer disableHeight>
-                  {({ width }) => (
-                    <List
-                      ref={registerChild}
-                      className="List"
-                      autoHeight
-                      height={height}
-                      width={width}
-                      onRowsRendered={onRowsRendered}
-                      rowCount={orderedThemes.length}
-                      rowHeight={420}
-                      rowRenderer={(index) => renderRow(index)}
-                      scrollTop={scrollTop}
-                    />
-                  )}
+                  {({ width }) => {
+                    const itemsPerRow = Math.floor(width / 480);
+                    const rowCount = Math.ceil(
+                      orderedThemes.length / itemsPerRow
+                    );
+
+                    return (
+                      <List
+                        ref={registerChild}
+                        className="List"
+                        autoHeight
+                        height={height}
+                        width={width}
+                        onRowsRendered={onRowsRendered}
+                        rowCount={rowCount}
+                        rowHeight={456}
+                        scrollTop={scrollTop}
+                        overscanRowCount={4}
+                        rowRenderer={(index) => {
+                          const fromIndex = index.index * itemsPerRow;
+                          const toIndex = Math.min(
+                            fromIndex + itemsPerRow,
+                            orderedThemes.length
+                          );
+
+                          const themesInLine = orderedThemes.slice(
+                            fromIndex,
+                            toIndex
+                          );
+
+                          if (!themesInLine[0]) {
+                            return;
+                          }
+
+                          return (
+                            <Box
+                              display="flex"
+                              justifyContent="center"
+                              columnGap="12"
+                              key={index.key}
+                              style={index.style}
+                            >
+                              {/* {isScrolling && (
+                                <>
+                                  <PreviewThemeCardSkeleton />
+                                  <PreviewThemeCardSkeleton />
+                                </>
+                              )} */}
+                              {themesInLine.map((theme) => (
+                                <MarketPlaceThemeCard
+                                  theme={theme}
+                                  key={theme.id}
+                                  setSearchFilter={setSearchFilter}
+                                  saveThemeToSettings={saveThemeToSettings}
+                                  saveDisabled={themesAlreadyDownloaded.includes(
+                                    theme.id.toString()
+                                  )}
+                                />
+                              ))}
+                            </Box>
+                          );
+                        }}
+                      />
+                    );
+                  }}
                 </AutoSizer>
               )}
             </WindowScroller>
           )}
         </InfiniteLoader>
-      </div>
+      </Box>
     );
   }
 
   return (
     <Box h="100%">
-      <Flex justifyContent="center" mt="2" gap="4" alignItems="center">
+      <Flex justifyContent="center" gap="4" alignItems="center" mt="6">
         <Input
           width="60%"
           border="2px solid black"
@@ -213,20 +275,6 @@ export const PublicThemes: React.FC<PublicThemesProps> = ({
         </OutlinedButton>
       </Flex>
       {toDisplay}
-      {/* {isFetchingNextPage || isFetching ? (
-        <Box width="100%" textAlign="center" pos="fixed" bottom="5">
-          <Spinner size="xl" color="lightgreen" />
-        </Box>
-      ) : null} */}
-
-      {/* {themes && themes.pages[0].themes.length > 0 ? (
-        <span
-          style={{ visibility: "hidden", position: "fixed", bottom: "5" }}
-          ref={scrollRef}
-        >
-          intersection observer marker
-        </span>
-      ) : null} */}
     </Box>
   );
 };

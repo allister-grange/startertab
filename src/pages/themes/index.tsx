@@ -6,28 +6,18 @@ import useDebounce from "@/hooks/useDebounce";
 import { userSettingState } from "@/recoil/UserSettingsAtom";
 import { ThemeFilteringOptions, ThemeSettings } from "@/types";
 import { ThemeDataFromAPI, ThemeWithVotes } from "@/types/marketplace";
-import {
-  Box,
-  Tab,
-  TabList,
-  TabPanel,
-  TabPanels,
-  Tabs,
-  useToast,
-} from "@chakra-ui/react";
+import { Box, Button, Flex, useToast } from "@chakra-ui/react";
 import {
   QueryClient,
   QueryClientProvider,
   useInfiniteQuery,
 } from "@tanstack/react-query";
 import React, { useCallback, useEffect, useState } from "react";
-import { useInView } from "react-intersection-observer";
 import { useRecoilState } from "recoil";
 
 const queryClient = new QueryClient();
 
 const ManageThemes: React.FC = ({}) => {
-  const { ref, inView } = useInView();
   const [settings, setSettings] = useRecoilState(userSettingState);
   const [showingPublicThemes, setShowingPublicThemes] = useState(false);
   // lifted this up so that once a new theme is shared, I can show theirs at the top
@@ -65,10 +55,7 @@ const ManageThemes: React.FC = ({}) => {
 
   useEffect(() => {
     document.body.style.background = "#F7F8FA";
-    if (inView && hasNextPage && publicThemes) {
-      fetchNextPage();
-    }
-  }, [fetchNextPage, hasNextPage, inView, publicThemes]);
+  }, []);
 
   const showClipboardToast = useCallback(
     (val?: string) => {
@@ -163,53 +150,60 @@ const ManageThemes: React.FC = ({}) => {
   return (
     <QueryClientProvider client={queryClient}>
       <Box
-        width={["100%", "90%", "90%", "80%", "70%"]}
+        width={["100%", "95%", "90%", "84%", "72%"]}
         mx="auto"
         py="6"
         px="2"
         maxW="1500px"
+        height="100%"
       >
         <ThemePageHeader showingPublicThemes={showingPublicThemes} />
-        <Tabs
-          variant="soft-rounded"
-          colorScheme="green"
-          mt="4"
-          onChange={(index) => setShowingPublicThemes(index == 1)}
-          index={showingPublicThemes ? 1 : 0}
-        >
-          <TabList>
-            <Tab>My themes</Tab>
-            <Tab>Public themes</Tab>
-          </TabList>
+        <Flex mt="4">
+          <Button
+            variant="soft-rounded"
+            color={showingPublicThemes ? "gray.600" : "#276749"}
+            bg={showingPublicThemes ? undefined : "#C6F6D5"}
+            borderRadius="3xl"
+            onClick={() => setShowingPublicThemes(false)}
+          >
+            My Themes
+          </Button>
+          <Button
+            variant="soft-rounded"
+            bg={showingPublicThemes ? "#C6F6D5" : undefined}
+            color={showingPublicThemes ? "#276749" : "gray.600"}
+            borderRadius="3xl"
+            onClick={() => setShowingPublicThemes(true)}
+          >
+            Public Themes
+          </Button>
+        </Flex>
 
-          <TabPanels>
-            <TabPanel>
-              <PersonalThemes
-                copyToClipboard={copyToClipboard}
-                deleteTheme={deleteTheme}
-                themes={settings.themes}
-                setShowingPublicThemes={setShowingPublicThemes}
-                refetch={refetch}
-                setOrderingMethod={setOrderingMethod}
-                changeThemeNameInSettings={changeThemeNameInSettings}
-              />
-            </TabPanel>
-            <TabPanel>
-              <PublicThemes
-                themes={publicThemes}
-                loading={isLoading}
-                orderingMethod={orderingMethod}
-                setOrderingMethod={setOrderingMethod}
-                scrollRef={ref}
-                isFetchingNextPage={isFetchingNextPage}
-                searchFilter={searchFilter}
-                setSearchFilter={setSearchFilter}
-                isFetching={isFetching}
-                saveThemeToSettings={saveThemeToSettings}
-              />
-            </TabPanel>
-          </TabPanels>
-        </Tabs>
+        {showingPublicThemes ? (
+          <PublicThemes
+            themes={publicThemes}
+            loading={isLoading}
+            orderingMethod={orderingMethod}
+            setOrderingMethod={setOrderingMethod}
+            isFetchingNextPage={isFetchingNextPage}
+            searchFilter={searchFilter}
+            setSearchFilter={setSearchFilter}
+            isFetching={isFetching}
+            saveThemeToSettings={saveThemeToSettings}
+            fetchNextPage={fetchNextPage}
+            hasNextPage={hasNextPage}
+          />
+        ) : (
+          <PersonalThemes
+            copyToClipboard={copyToClipboard}
+            deleteTheme={deleteTheme}
+            themes={settings.themes}
+            setShowingPublicThemes={setShowingPublicThemes}
+            refetch={refetch}
+            setOrderingMethod={setOrderingMethod}
+            changeThemeNameInSettings={changeThemeNameInSettings}
+          />
+        )}
       </Box>
     </QueryClientProvider>
   );

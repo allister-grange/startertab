@@ -73,6 +73,6 @@ export default async function handler(
     console.error("Request error", error);
     res
       .status(500)
-      .json({ error: "Error creating theme in marketplace", success: false });
+      .json({ error: "Error pulling down themes: " + error, success: false });
   }
 }
