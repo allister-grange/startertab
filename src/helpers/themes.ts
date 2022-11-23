@@ -12,6 +12,7 @@ export const defaultSettings: UserSettings = {
         tileType: "None",
         dropShadow: "",
         tileBorder: "",
+        tileLayout: "STANDARD",
         sidebarBackgroundColor: "#33393D",
         themePickerBubbleColor:
           "linear-gradient(90deg, black 50%, #E89B4B 50%);",
@@ -87,6 +88,7 @@ export const defaultSettings: UserSettings = {
         tileType: "None",
         dropShadow: "",
         tileBorder: "",
+        tileLayout: "STANDARD",
         sidebarBackgroundColor: "#eeeeee",
         themePickerBubbleColor:
           "linear-gradient(90deg, white 50%, #E89B4B 50%);",
@@ -161,6 +163,7 @@ export const defaultSettings: UserSettings = {
         tileType: "None",
         dropShadow: "0 4px 30px rgba(0, 0, 0, 0.1)",
         tileBorder: "1px solid rgba(255, 255, 255, 0.3)",
+        tileLayout: "STANDARD",
         sidebarBackgroundColor: "#eeeeee",
         themePickerBubbleColor: "linear-gradient(360deg, blue 50%, white 50%);",
         borderRadius: "15px",
@@ -235,6 +238,7 @@ export const defaultSettings: UserSettings = {
         tileType: "None",
         dropShadow: "0 4px 30px rgba(0, 0, 0, 0.1)",
         tileBorder: "1px solid rgba(255, 255, 255, 0.3)",
+        tileLayout: "STANDARD",
         sidebarBackgroundColor: "#eeeeee",
         themePickerBubbleColor:
           "linear-gradient(90deg, #ABA1EE 50%, #f882ff 50%);",
@@ -309,6 +313,7 @@ export const defaultSettings: UserSettings = {
         tileType: "None",
         dropShadow: "",
         tileBorder: "1px solid black",
+        tileLayout: "STANDARD",
         sidebarBackgroundColor: "#eeeeee",
         themePickerBubbleColor: "white",
         borderRadius: "15px",
@@ -381,6 +386,7 @@ export const defaultSettings: UserSettings = {
         textColor: "#fff",
         subTextColor: "#ddd",
         tileType: "None",
+        tileLayout: "STANDARD",
         sidebarBackgroundColor: "#33393D",
         themePickerBubbleColor: "black",
         sidebarBorderColor: "#666",
@@ -457,6 +463,7 @@ export const defaultSettings: UserSettings = {
         tileType: "None",
         dropShadow: "0 4px 30px rgba(0, 0, 0, 0.1)",
         tileBorder: "1px solid rgba(255, 255, 255, 0.3)",
+        tileLayout: "STANDARD",
         sidebarBackgroundColor: "#eeeeee",
         themePickerBubbleColor:
           "linear-gradient(90deg, white 50%, #77C9CA 50%);",
@@ -532,6 +539,7 @@ export const defaultSettings: UserSettings = {
         tileType: "None",
         dropShadow: "0 4px 30px rgba(0, 0, 0, 0.1)",
         tileBorder: "1px solid rgba(255, 255, 255, 0.3)",
+        tileLayout: "STANDARD",
         sidebarBackgroundColor: "#33393D",
         themePickerBubbleColor:
           "linear-gradient(90deg, black 50%, #2E4C49 50%);",

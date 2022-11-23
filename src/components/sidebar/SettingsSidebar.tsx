@@ -97,7 +97,11 @@ const SettingsSideBar: React.FC<SettingsSideBarProps> = ({
   };
 
   const changeSetting = React.useCallback(
-    (key: keyof TileSettings, value: any, tileId: TileId) => {
+    <K extends keyof TileSettings>(
+      key: K,
+      value: TileSettings[K],
+      tileId: TileId
+    ) => {
       const userSettings = JSON.parse(JSON.stringify(settings)) as UserSettings;
       const themeToChange = getCurrentTheme(userSettings, colorMode);
 
@@ -120,7 +124,7 @@ const SettingsSideBar: React.FC<SettingsSideBarProps> = ({
     [changeSetting, colorMode]
   );
 
-  const resetAllColorsToDefault = () => {
+  const resetAllColorsToDefault = <K extends keyof TileSettings>() => {
     let newSettings = deepClone(settings);
     const themeToChange = getCurrentTheme(newSettings, colorMode);
 
@@ -132,24 +136,23 @@ const SettingsSideBar: React.FC<SettingsSideBarProps> = ({
         return;
       }
       const defaultSetting = getDefaultSettingForOption(option, colorMode);
-      themeToChange[option.tileId][
-        option.localStorageId as keyof TileSettings
-      ] = defaultSetting as any;
+
+      themeToChange[option.tileId][option.localStorageId as K] =
+        defaultSetting as TileSettings[K];
     });
 
     setSettings(newSettings);
   };
 
-  const randomizeAllColorValues = () => {
+  const randomizeAllColorValues = <K extends keyof TileSettings>() => {
     let newSettings = deepClone(settings);
     const themeToChange = getCurrentTheme(newSettings, colorMode);
 
     sideBarOptions.forEach((option) => {
       if (option.localStorageId.toLowerCase().includes("color")) {
         const newColorSetting = randomHexValue();
-        themeToChange[option.tileId][
-          option.localStorageId as keyof TileSettings
-        ] = newColorSetting as any;
+        themeToChange[option.tileId][option.localStorageId as K] =
+          newColorSetting as TileSettings[K];
       }
     });
 
