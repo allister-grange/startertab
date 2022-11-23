@@ -40,7 +40,7 @@ const ManageThemes: React.FC = ({}) => {
     ["publicThemes", debouncedSearchTerm],
     async ({ pageParam = "" }) => {
       const res = await fetch(
-        `/api/marketplace/item?cursor=${pageParam}&searchTerm=${searchFilter}`
+        `/api/themes/item?cursor=${pageParam}&searchTerm=${searchFilter}`
       );
       const data = (await res.json()) as ThemeDataFromAPI;
       return data;

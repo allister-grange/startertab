@@ -126,7 +126,7 @@ export const ShareThemeModal: React.FC<ShareThemeModalProps> = ({
     };
 
     try {
-      const res = await fetch("/api/marketplace/item/create", {
+      const res = await fetch("/api/themes/item/create", {
         method: "POST",
         body: JSON.stringify(toSend),
       });

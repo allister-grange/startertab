@@ -90,12 +90,9 @@ export const MarketPlaceThemeCard: React.FC<MarketPlaceThemeCardProps> = ({
     try {
       // doesn't matter too much if their vote disappears, c'est la vie
       setVotes((votes) => votes + 1);
-      const voteRes = await fetch(
-        `/api/marketplace/item/vote?themeId=${theme.id}`,
-        {
-          method: "POST",
-        }
-      );
+      const voteRes = await fetch(`/api/themes/item/vote?themeId=${theme.id}`, {
+        method: "POST",
+      });
 
       if (!voteRes.ok) {
         throw new Error("Failed to vote");
