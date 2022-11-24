@@ -32,8 +32,16 @@ export default async function handler(
     });
     return res.status(201).json(marketplaceTheme);
   } catch (error) {
-    console.error("Request error", error);
-    res
+    let message;
+    if (error instanceof Error) message = error.message;
+    else message = String(error);
+
+    if (message.includes("Unique constraint failed")) {
+      return res
+        .status(418)
+        .send("Please pick another name, they are unique across all themes");
+    }
+    return res
       .status(500)
       .json({ error: "Error creating theme in marketplace", success: false });
   }

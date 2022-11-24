@@ -5,7 +5,16 @@ import { getThemeIdsFromLocalStorage } from "@/helpers/tileHelpers";
 import { ThemeFilteringOptions } from "@/types";
 import { ThemeDataFromAPI, ThemeWithVotes } from "@/types/marketplace";
 import { ChevronDownIcon, ChevronUpIcon } from "@chakra-ui/icons";
-import { Box, Flex, Grid, Heading, Input, Select } from "@chakra-ui/react";
+import {
+  Box,
+  Center,
+  Flex,
+  Grid,
+  Heading,
+  Input,
+  Select,
+  Spinner,
+} from "@chakra-ui/react";
 import {
   InfiniteData,
   InfiniteQueryObserverResult,
@@ -29,19 +38,19 @@ const InfiniteLoader = _InfiniteLoader as unknown as FC<InfiniteLoaderProps>;
 interface PublicThemesProps {
   themes?: InfiniteData<ThemeDataFromAPI>;
   loading: boolean;
-  setOrderingMethod: React.Dispatch<
-    React.SetStateAction<ThemeFilteringOptions>
-  >;
+  setOrderingMethod: (newValue: ThemeFilteringOptions) => void;
   orderingMethod: ThemeFilteringOptions;
   isFetchingNextPage: boolean;
   setSearchFilter: React.Dispatch<React.SetStateAction<string | undefined>>;
   searchFilter?: string;
-  isFetching: boolean;
   saveThemeToSettings: (theme: ThemeWithVotes) => void;
   fetchNextPage: () => Promise<
     InfiniteQueryObserverResult<ThemeDataFromAPI, unknown>
   >;
   hasNextPage?: boolean;
+  setReverseOrdering: React.Dispatch<React.SetStateAction<boolean>>;
+  reverseOrdering: boolean;
+  errorLoadingThemes: boolean;
 }
 
 export const PublicThemes: React.FC<PublicThemesProps> = ({
@@ -55,8 +64,10 @@ export const PublicThemes: React.FC<PublicThemesProps> = ({
   isFetchingNextPage,
   fetchNextPage,
   hasNextPage,
+  setReverseOrdering,
+  reverseOrdering,
+  errorLoadingThemes,
 }) => {
-  const [reverseOrdering, setReverseOrdering] = useState<boolean>(false);
   const themesAlreadyDownloaded = getThemeIdsFromLocalStorage();
   const divRef = useRef<HTMLDivElement | null>(null);
   const [listDivWidth, setListDivWidth] = useState(1000);
@@ -94,6 +105,8 @@ export const PublicThemes: React.FC<PublicThemesProps> = ({
           return b.votes.length - a.votes.length;
         case "Author":
           return b.author.localeCompare(a.author);
+        case "Name":
+          return b.name.localeCompare(a.name);
         case "Created on":
           return (
             new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
@@ -109,14 +122,6 @@ export const PublicThemes: React.FC<PublicThemesProps> = ({
   // create one array from all the pages, then sort it
   let orderedThemes = orderThemes(themes);
 
-  if (searchFilter && orderedThemes) {
-    orderedThemes = orderedThemes.filter(
-      (theme) =>
-        theme.name.toLowerCase().includes(searchFilter.toLowerCase()) ||
-        theme.tags.toLowerCase().includes(searchFilter.toLowerCase())
-    );
-  }
-
   // Only load 1 page of items at a time.
   // Pass an empty callback to InfiniteLoader in case it asks us to load more than once.
   const loadMoreRows = isFetchingNextPage ? async () => {} : fetchNextPage;
@@ -131,27 +136,40 @@ export const PublicThemes: React.FC<PublicThemesProps> = ({
     : orderedThemes.length;
 
   let toDisplay;
-  if (loading) {
+
+  if (errorLoadingThemes) {
     toDisplay = (
-      <Grid
-        templateColumns="repeat(auto-fit, minmax(450px, 1fr))"
-        gap="4"
-        mt="8"
-        justifyItems="center"
-      >
+      <Box gap="4" mt="8" justifyItems="center" textAlign="center">
+        <Heading as="h2" fontSize="2xl">
+          Error loading themes, sorry 😔
+        </Heading>
+        <Heading as="h2" fontSize="xl" mt="3" color="gray.700">
+          If this persists, please open a ticket on the{" "}
+          <a
+            style={{ textDecoration: "underline" }}
+            href="https://github.com/allister-grange/startertab"
+          >
+            Github
+          </a>
+        </Heading>
+      </Box>
+    );
+  } else if (loading) {
+    toDisplay = (
+      <Flex flexWrap="wrap" gap="10" mt="8" justifyContent="center">
         <PreviewThemeCardSkeleton />
         <PreviewThemeCardSkeleton />
         <PreviewThemeCardSkeleton />
         <PreviewThemeCardSkeleton />
         <PreviewThemeCardSkeleton />
         <PreviewThemeCardSkeleton />
-      </Grid>
+      </Flex>
     );
   } else if (themes && themes.pages[0].themes.length === 0) {
     toDisplay = (
       <Box gap="4" mt="8" justifyItems="center" textAlign="center">
         <Heading as="h2" fontSize="2xl">
-          No results, sorry
+          No results, sorry 😔
         </Heading>
       </Box>
     );
@@ -210,12 +228,6 @@ export const PublicThemes: React.FC<PublicThemesProps> = ({
                               key={index.key}
                               style={index.style}
                             >
-                              {/* {isScrolling && (
-                                <>
-                                  <PreviewThemeCardSkeleton />
-                                  <PreviewThemeCardSkeleton />
-                                </>
-                              )} */}
                               {themesInLine.map((theme) => (
                                 <MarketPlaceThemeCard
                                   theme={theme}
@@ -261,6 +273,7 @@ export const PublicThemes: React.FC<PublicThemesProps> = ({
         >
           <option>Author</option>
           <option>Created on</option>
+          <option>Name</option>
           <option>Popularity</option>
         </Select>
         <OutlinedButton

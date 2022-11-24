@@ -26,3 +26,8 @@ model Vote {
   themeId     Int?
   ipAddress   String?
 }
+
+model ThemeDownload {
+  themeId     Int    @id
+  downloads   Int
+}

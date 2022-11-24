@@ -1,10 +1,14 @@
-import { Layout } from "@/components/ui/Layout";
 import { Update110 } from "@/components/updates/Update110";
 import { Update120 } from "@/components/updates/Update120";
+import { Update200 } from "@/components/updates/Update200";
 import { Box, Flex, Heading, Link } from "@chakra-ui/react";
-import React from "react";
+import React, { useEffect } from "react";
 
 const UpdatesPage: React.FC = ({}) => {
+  useEffect(() => {
+    document.body.style.background = "#fafafa";
+  });
+
   return (
     <Box
       width={["100%", "90%", "70%", "60%", "50%"]}
@@ -27,6 +31,8 @@ const UpdatesPage: React.FC = ({}) => {
         </Link>
       </Flex>
       <hr style={{ width: "100%" }} />
+      <Update200 />
+      <hr style={{ width: "100%", marginTop: "18px" }} />
       <Update120 />
       <hr style={{ width: "100%", marginTop: "18px" }} />
       <Update110 />

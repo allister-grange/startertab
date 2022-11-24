@@ -12,10 +12,10 @@ interface PersonalThemesProps {
   deleteTheme: (theme: ThemeSettings) => void;
   setShowingPublicThemes: React.Dispatch<React.SetStateAction<boolean>>;
   refetch: () => void;
-  setOrderingMethod: React.Dispatch<
-    React.SetStateAction<ThemeFilteringOptions>
-  >;
+  setOrderingMethod: (newValue: ThemeFilteringOptions) => void;
   changeThemeNameInSettings: (theme: ThemeSettings, newName: string) => void;
+  setReverseOrdering: React.Dispatch<React.SetStateAction<boolean>>;
+  cloneTheme: (theme: ThemeSettings) => void;
 }
 
 export const PersonalThemes: React.FC<PersonalThemesProps> = ({
@@ -26,6 +26,8 @@ export const PersonalThemes: React.FC<PersonalThemesProps> = ({
   refetch,
   setOrderingMethod,
   changeThemeNameInSettings,
+  setReverseOrdering,
+  cloneTheme,
 }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [themeToBeShared, setThemeToBeShared] = useState<
@@ -38,7 +40,7 @@ export const PersonalThemes: React.FC<PersonalThemesProps> = ({
   };
 
   return (
-    <Box>
+    <Box pb="8">
       <ShareThemeModal
         isOpen={isOpen}
         onClose={onClose}
@@ -46,6 +48,7 @@ export const PersonalThemes: React.FC<PersonalThemesProps> = ({
         theme={themeToBeShared}
         setShowingPublicThemes={setShowingPublicThemes}
         setOrderingMethod={setOrderingMethod}
+        setReverseOrdering={setReverseOrdering}
       />
       <Flex
         mt="8"
@@ -55,21 +58,19 @@ export const PersonalThemes: React.FC<PersonalThemesProps> = ({
         rowGap="10"
         columnGap="12"
       >
-        {themes.map((theme) => (
+        {themes.map((theme, idx) => (
           <PersonalThemeCard
-            key={theme.themeName}
+            key={theme.themeName + idx}
             theme={theme}
             changeThemeNameInSettings={changeThemeNameInSettings}
             buttons={
               <>
                 <OutlinedButton
                   border={`1px solid black`}
-                  onClick={() =>
-                    copyToClipboard(JSON.stringify(theme), undefined)
-                  }
+                  onClick={() => cloneTheme(theme)}
                 >
                   <Text fontSize="xs" mr="2">
-                    Copy theme
+                    Clone theme
                   </Text>
                   <CopyIcon />
                 </OutlinedButton>
@@ -80,7 +81,7 @@ export const PersonalThemes: React.FC<PersonalThemesProps> = ({
                 >
                   <Tooltip
                     isDisabled={!theme.downloadedFromMarketplace}
-                    label="You downloaded this theme, you cannot now share it"
+                    label="You downloaded this theme, you cannot re-share it"
                     bg="gray.100"
                     color="black"
                     textAlign="center"

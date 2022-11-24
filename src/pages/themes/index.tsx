@@ -24,23 +24,22 @@ const ManageThemes: React.FC = ({}) => {
   const [orderingMethod, setOrderingMethod] =
     useState<ThemeFilteringOptions>("Popularity");
   const [searchFilter, setSearchFilter] = useState<string | undefined>();
+  const [reverseOrdering, setReverseOrdering] = useState<boolean>(false);
   const debouncedSearchTerm = useDebounce(searchFilter ?? "", 750);
 
   const {
     data: publicThemes,
     isLoading,
-    isFetching,
     isError,
-    error,
     isFetchingNextPage,
     fetchNextPage,
     hasNextPage,
     refetch,
   } = useInfiniteQuery(
-    ["publicThemes", debouncedSearchTerm],
+    ["publicThemes", debouncedSearchTerm, orderingMethod, reverseOrdering],
     async ({ pageParam = "" }) => {
       const res = await fetch(
-        `/api/themes/item?cursor=${pageParam}&searchTerm=${searchFilter}`
+        `/api/themes/item?cursor=${pageParam}&searchTerm=${searchFilter}&orderBy=${orderingMethod}&reverseOrdering=${reverseOrdering}`
       );
       const data = (await res.json()) as ThemeDataFromAPI;
       return data;
@@ -54,7 +53,7 @@ const ManageThemes: React.FC = ({}) => {
   const toast = useToast();
 
   useEffect(() => {
-    document.body.style.background = "#F7F8FA";
+    document.body.style.background = "#fafafa";
   }, []);
 
   const showClipboardToast = useCallback(
@@ -83,6 +82,20 @@ const ManageThemes: React.FC = ({}) => {
     [toast]
   );
 
+  const cloneTheme = (theme: ThemeSettings) => {
+    const newSettings = deepClone(settings);
+    const newTheme = deepClone(theme);
+
+    newTheme.themeName =
+      theme.themeName.length >= 15
+        ? theme.themeName.slice(0, 10) + " copy"
+        : theme.themeName + " copy";
+
+    window.scrollTo(0, 0);
+    newSettings.themes.unshift(newTheme);
+    setSettings(newSettings);
+  };
+
   const copyToClipboard = (value: string, message?: string) => {
     navigator.clipboard.writeText(value);
     showClipboardToast(message);
@@ -101,7 +114,7 @@ const ManageThemes: React.FC = ({}) => {
     setSettings(clonedSettings);
   };
 
-  const saveThemeToSettings = (theme: ThemeWithVotes) => {
+  const saveThemeToSettings = async (theme: ThemeWithVotes) => {
     const clonedSettings = deepClone(settings);
     let themeNameCollision = false;
     let newTheme = deepClone(theme.data) as unknown as ThemeSettings;
@@ -121,6 +134,18 @@ const ManageThemes: React.FC = ({}) => {
     setSettings(clonedSettings);
     showSavedThemeToast();
     saveThemeIdToLocalStorage(theme.id);
+
+    // not a biggie if this fails, just updating a download count for each theme
+    try {
+      const res = await fetch(`api/themes/item/download?themeId=${theme.id}`, {
+        method: "POST",
+      });
+      if (!res.ok) {
+        throw new Error("Failed to update download count");
+      }
+    } catch (err) {
+      console.error(err);
+    }
   };
 
   const changeThemeNameInSettings = useCallback(
@@ -146,6 +171,10 @@ const ManageThemes: React.FC = ({}) => {
     },
     [setSettings, settings]
   );
+
+  const handleOrderingMethodChange = (newValue: ThemeFilteringOptions) => {
+    setOrderingMethod(newValue);
+  };
 
   return (
     <QueryClientProvider client={queryClient}>
@@ -184,14 +213,16 @@ const ManageThemes: React.FC = ({}) => {
             themes={publicThemes}
             loading={isLoading}
             orderingMethod={orderingMethod}
-            setOrderingMethod={setOrderingMethod}
+            setOrderingMethod={handleOrderingMethodChange}
             isFetchingNextPage={isFetchingNextPage}
             searchFilter={searchFilter}
             setSearchFilter={setSearchFilter}
-            isFetching={isFetching}
             saveThemeToSettings={saveThemeToSettings}
             fetchNextPage={fetchNextPage}
             hasNextPage={hasNextPage}
+            setReverseOrdering={setReverseOrdering}
+            reverseOrdering={reverseOrdering}
+            errorLoadingThemes={isError}
           />
         ) : (
           <PersonalThemes
@@ -200,8 +231,10 @@ const ManageThemes: React.FC = ({}) => {
             themes={settings.themes}
             setShowingPublicThemes={setShowingPublicThemes}
             refetch={refetch}
-            setOrderingMethod={setOrderingMethod}
+            setOrderingMethod={handleOrderingMethodChange}
             changeThemeNameInSettings={changeThemeNameInSettings}
+            setReverseOrdering={setReverseOrdering}
+            cloneTheme={cloneTheme}
           />
         )}
       </Box>

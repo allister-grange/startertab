@@ -21,12 +21,7 @@ import {
   Text,
 } from "@chakra-ui/react";
 import Link from "next/link";
-import React, {
-  ChangeEvent,
-  FormEvent,
-  KeyboardEventHandler,
-  useState,
-} from "react";
+import React, { ChangeEvent, FormEvent, useState } from "react";
 import { ThemePreview } from "../theme-creator/ThemePreview";
 
 type ShareThemeModalProps = {
@@ -35,9 +30,8 @@ type ShareThemeModalProps = {
   theme?: ThemeSettings;
   setShowingPublicThemes: React.Dispatch<React.SetStateAction<boolean>>;
   refetch: () => void;
-  setOrderingMethod: React.Dispatch<
-    React.SetStateAction<ThemeFilteringOptions>
-  >;
+  setOrderingMethod: (newValue: ThemeFilteringOptions) => void;
+  setReverseOrdering: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
 export const ShareThemeModal: React.FC<ShareThemeModalProps> = ({
@@ -47,6 +41,7 @@ export const ShareThemeModal: React.FC<ShareThemeModalProps> = ({
   refetch,
   theme,
   setOrderingMethod,
+  setReverseOrdering,
 }) => {
   const [tags, setTags] = useState<string[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
@@ -55,14 +50,14 @@ export const ShareThemeModal: React.FC<ShareThemeModalProps> = ({
   const [errorPostingTheme, setErrorPostingTheme] = useState<boolean>(false);
   const [showingSuccessMessage, setShowingSuccessMethod] =
     useState<boolean>(false);
+  const [nameCollision, setNameCollision] = useState(false);
 
   const takeUserBackToPublicThemes = () => {
     setShowingPublicThemes(true);
     setOrderingMethod("Created on");
-    setShowingSuccessMethod(false);
+    setReverseOrdering(false);
     window.scrollTo(0, 0);
-    setTags([]);
-    onClose();
+    onModalClose();
   };
 
   const getThemeToCreate = (
@@ -92,7 +87,8 @@ export const ShareThemeModal: React.FC<ShareThemeModalProps> = ({
         if (
           myKey === "textColor" ||
           myKey === "backgroundColor" ||
-          myKey === "tileType"
+          myKey === "tileType" ||
+          myKey === "tileLayout"
         ) {
           continue;
         }
@@ -131,19 +127,20 @@ export const ShareThemeModal: React.FC<ShareThemeModalProps> = ({
         body: JSON.stringify(toSend),
       });
 
-      if (res.status >= 400) {
+      if (res.status === 418) {
+        setNameCollision(true);
+      } else if (res.status >= 400) {
         throw new Error("Failed request to create theme");
       }
 
       // show success, then debounce and take them to public themes
       if (res.status === 201) {
         refetch();
-        setLoading(false);
+        resetState();
         setShowingSuccessMethod(true);
         setTimeout(takeUserBackToPublicThemes, 1000);
       }
     } catch (error) {
-      console.error(error);
       setErrorPostingTheme(true);
     } finally {
       setLoading(false);
@@ -182,8 +179,24 @@ export const ShareThemeModal: React.FC<ShareThemeModalProps> = ({
     }
   };
 
+  // Chakra modal doesn't unmount, need to reset state
+  const resetState = () => {
+    setErrorPostingTheme(false);
+    setTags([]);
+    setTagsValue("");
+    setShowingSuccessMethod(false);
+    setTooManyTags(false);
+    setLoading(false);
+    setNameCollision(false);
+  };
+
+  const onModalClose = () => {
+    resetState();
+    onClose();
+  };
+
   return (
-    <Modal isOpen={isOpen} onClose={onClose}>
+    <Modal isOpen={isOpen} onClose={onModalClose}>
       <ModalOverlay />
       <ModalContent bg="#F5F5F5" minW="470px">
         <ModalHeader fontSize="2xl">Share your theme</ModalHeader>
@@ -286,6 +299,12 @@ export const ShareThemeModal: React.FC<ShareThemeModalProps> = ({
                       GitHub, here.
                     </Link>
                   </Text>
+                </Alert>
+              )}
+              {nameCollision && (
+                <Alert status="warning" borderRadius="md">
+                  <AlertIcon />
+                  <Text>Sorry, someone else has grabbed that name 😔</Text>
                 </Alert>
               )}
               {showingSuccessMessage && (

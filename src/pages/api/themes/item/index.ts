@@ -1,5 +1,7 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { prisma } from "@/helpers/prisma";
+import { ThemeFilteringOptions } from "@/types";
+import { Prisma } from "@prisma/client";
 
 export default async function handler(
   req: NextApiRequest,
@@ -15,22 +17,66 @@ export default async function handler(
   const cursorObj =
     cursor === "" ? undefined : { id: parseInt(cursor as string, 10) };
 
-  const searchTerm = req.query.searchTerm;
+  let searchTerm = req.query.searchTerm as string | undefined;
+  const orderBy = req.query.orderBy as ThemeFilteringOptions;
+  const isReversed = req.query.reverseOrdering === "true";
+
+  console.log(isReversed);
+
+  const orderByArray = [
+    ...(orderBy === "Popularity"
+      ? [
+          {
+            votes: {
+              _count: isReversed ? Prisma.SortOrder.asc : Prisma.SortOrder.desc,
+            },
+          },
+        ]
+      : []),
+    ...(orderBy === "Created on"
+      ? [
+          {
+            createdAt: isReversed
+              ? Prisma.SortOrder.asc
+              : Prisma.SortOrder.desc,
+          },
+        ]
+      : []),
+    ...(orderBy === "Author"
+      ? [
+          {
+            author: isReversed ? Prisma.SortOrder.asc : Prisma.SortOrder.desc,
+          },
+        ]
+      : []),
+    ...(orderBy === "Name"
+      ? [
+          {
+            name: isReversed ? Prisma.SortOrder.asc : Prisma.SortOrder.desc,
+          },
+        ]
+      : []),
+  ];
 
   try {
-    let marketplaceItems;
+    let themes;
+    console.log("re-quried", orderBy);
+
+    // due to Prisma evaluating OR with 0 filters as an empty list
+    // I need the conditional
     if (
       searchTerm !== "undefined" &&
       typeof searchTerm === "string" &&
       searchTerm.length > 0
     ) {
-      marketplaceItems = await prisma.theme.findMany({
+      themes = await prisma.theme.findMany({
         take,
         skip: cursor !== "" ? 1 : 0,
         cursor: cursorObj,
         include: {
           votes: true,
         },
+        orderBy: orderByArray,
         where: {
           OR: [
             {
@@ -52,22 +98,20 @@ export default async function handler(
         },
       });
     } else {
-      marketplaceItems = await prisma.theme.findMany({
+      themes = await prisma.theme.findMany({
         take,
         skip: cursor !== "" ? 1 : 0,
         cursor: cursorObj,
         include: {
           votes: true,
         },
+        orderBy: orderByArray,
       });
     }
 
     return res.status(200).json({
-      themes: marketplaceItems,
-      nextId:
-        marketplaceItems.length === take
-          ? marketplaceItems[take - 1].id
-          : undefined,
+      themes,
+      nextId: themes.length === take ? themes[take - 1].id : undefined,
     });
   } catch (error) {
     console.error("Request error", error);
