@@ -117,6 +117,7 @@ export const ThemeCreator: React.FC = ({}) => {
       // push all the usual defaults onto the new theme, expect with the new settings
       ...currentSettings.themes[0],
       themeName: formInputs.themeName,
+      downloadedFromMarketplace: false,
       globalSettings: {
         ...currentSettings.themes[0].globalSettings,
         backgroundColor: formInputs.backgroundColor,

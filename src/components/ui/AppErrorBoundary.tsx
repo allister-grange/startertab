@@ -1,9 +1,13 @@
+import { OutlinedButton } from "@/components/ui/OutlinedButton";
 import { Box, Flex, Heading, Text } from "@chakra-ui/react";
 import Router from "next/router";
-import React from "react";
-import { OutlinedButton } from "@/components/ui/OutlinedButton";
+import React, { useEffect } from "react";
 
 export const AppErrorBoundary: React.FC = ({}) => {
+  useEffect(() => {
+    document.body.style.background = "white";
+  }, []);
+
   const deleteAllSettings = () => {
     localStorage.clear();
 
