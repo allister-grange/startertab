@@ -72,10 +72,15 @@ const SettingsSideBar: React.FC<SettingsSideBarProps> = ({
     }
   }, [isOpen]);
 
-  const currentThemeSettings = React.useMemo(
-    () => settings.themes.find((theme) => theme.themeName === colorMode),
-    [colorMode, settings.themes]
-  );
+  const currentThemeSettings = React.useMemo(() => {
+    let currentTheme = settings.themes.find(
+      (theme) => theme.themeName === colorMode
+    );
+    if (!currentTheme) {
+      currentTheme = settings.themes[0];
+    }
+    return currentTheme;
+  }, [colorMode, settings.themes]);
 
   // apply the in memory settings into localStorage
   const onSaveHandler = () => {

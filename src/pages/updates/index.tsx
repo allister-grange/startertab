@@ -6,7 +6,7 @@ import React, { useEffect } from "react";
 
 const UpdatesPage: React.FC = ({}) => {
   useEffect(() => {
-    document.body.style.background = "#fafafa";
+    document.body.style.background = "white";
   });
 
   return (
