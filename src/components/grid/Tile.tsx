@@ -5,6 +5,7 @@ import { GridItem, GridItemProps, useColorMode } from "@chakra-ui/react";
 import React from "react";
 import { useRecoilValue } from "recoil";
 import { userSettingState } from "@/recoil/UserSettingsAtom";
+import { useLongPress } from "@/hooks/useLongPress";
 import dynamic from "next/dynamic";
 const TileContainer = dynamic(() => import("@/components/grid/TileContainer"));
 
@@ -28,6 +29,8 @@ const Tile: React.FC<TileProps> = ({
   const border = theme.globalSettings.tileBorder;
   const borderColor = theme.globalSettings.borderColor;
 
+  const longPress = useLongPress(() => console.log("held g"), 500);
+
   return (
     <GridItem
       borderRadius={borderRadius ?? "15"}
@@ -44,6 +47,7 @@ const Tile: React.FC<TileProps> = ({
       overflowX="hidden"
       className={styles.disableScrollbars}
       {...props}
+      {...longPress}
     >
       <TileContainer tileId={tileId} tileType={theme[tileId].tileType} />
     </GridItem>

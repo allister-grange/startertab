@@ -86,6 +86,7 @@ export type TileSettings = {
 export type ThemeSettings = {
   themeName: string;
   globalSettings: TileSettings;
+  tileOrder: number[];
   tile1: TileSettings;
   tile2: TileSettings;
   tile3: TileSettings;

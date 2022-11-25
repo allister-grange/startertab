@@ -30,7 +30,7 @@ const Home: NextPage = () => {
   const [tutorialProgress, setTutorialProgress] = useState<number>(-1);
   const [isMobileView, setIsMobileView] = useState<boolean>(() => isMobile);
 
-  const [settings] = useRecoilState(userSettingState);
+  const [settings, setSettings] = useRecoilState(userSettingState);
   const [showingMobileWarning, setShowingMobileWarning] = useState(false);
   const { colorMode } = useColorMode();
 
@@ -78,6 +78,8 @@ const Home: NextPage = () => {
       position: "top",
     });
   }, [toast]);
+
+  const updateTileOrder = (id: number, idx: number) => {};
 
   useEffect(() => {
     if (isMobile) {
@@ -150,6 +152,8 @@ const Home: NextPage = () => {
               tutorialProgress={tutorialProgress}
               optionHovered={optionHovered}
               gridGap={gridGap}
+              tileOrder={currentTheme.tileOrder}
+              updateTileOrder={updateTileOrder}
             />
           </Flex>
         </>
