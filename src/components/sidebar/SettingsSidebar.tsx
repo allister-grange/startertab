@@ -28,6 +28,7 @@ import {
   Box,
   ExpandedIndex,
   useColorMode,
+  Link,
 } from "@chakra-ui/react";
 import React, { Dispatch, SetStateAction, useRef, useState } from "react";
 import { useRecoilState } from "recoil";
@@ -71,10 +72,15 @@ const SettingsSideBar: React.FC<SettingsSideBarProps> = ({
     }
   }, [isOpen]);
 
-  const currentThemeSettings = React.useMemo(
-    () => settings.themes.find((theme) => theme.themeName === colorMode),
-    [colorMode, settings.themes]
-  );
+  const currentThemeSettings = React.useMemo(() => {
+    let currentTheme = settings.themes.find(
+      (theme) => theme.themeName === colorMode
+    );
+    if (!currentTheme) {
+      currentTheme = settings.themes[0];
+    }
+    return currentTheme;
+  }, [colorMode, settings.themes]);
 
   // apply the in memory settings into localStorage
   const onSaveHandler = () => {
@@ -96,7 +102,11 @@ const SettingsSideBar: React.FC<SettingsSideBarProps> = ({
   };
 
   const changeSetting = React.useCallback(
-    (key: keyof TileSettings, value: any, tileId: TileId) => {
+    <K extends keyof TileSettings>(
+      key: K,
+      value: TileSettings[K],
+      tileId: TileId
+    ) => {
       const userSettings = JSON.parse(JSON.stringify(settings)) as UserSettings;
       const themeToChange = getCurrentTheme(userSettings, colorMode);
 
@@ -119,7 +129,7 @@ const SettingsSideBar: React.FC<SettingsSideBarProps> = ({
     [changeSetting, colorMode]
   );
 
-  const resetAllColorsToDefault = () => {
+  const resetAllColorsToDefault = <K extends keyof TileSettings>() => {
     let newSettings = deepClone(settings);
     const themeToChange = getCurrentTheme(newSettings, colorMode);
 
@@ -131,24 +141,23 @@ const SettingsSideBar: React.FC<SettingsSideBarProps> = ({
         return;
       }
       const defaultSetting = getDefaultSettingForOption(option, colorMode);
-      themeToChange[option.tileId][
-        option.localStorageId as keyof TileSettings
-      ] = defaultSetting as any;
+
+      themeToChange[option.tileId][option.localStorageId as K] =
+        defaultSetting as TileSettings[K];
     });
 
     setSettings(newSettings);
   };
 
-  const randomizeAllColorValues = () => {
+  const randomizeAllColorValues = <K extends keyof TileSettings>() => {
     let newSettings = deepClone(settings);
     const themeToChange = getCurrentTheme(newSettings, colorMode);
 
     sideBarOptions.forEach((option) => {
       if (option.localStorageId.toLowerCase().includes("color")) {
         const newColorSetting = randomHexValue();
-        themeToChange[option.tileId][
-          option.localStorageId as keyof TileSettings
-        ] = newColorSetting as any;
+        themeToChange[option.tileId][option.localStorageId as K] =
+          newColorSetting as TileSettings[K];
       }
     });
 
@@ -223,6 +232,25 @@ const SettingsSideBar: React.FC<SettingsSideBarProps> = ({
           setTutorialProgress={setTutorialProgress}
           themes={getThemeNames(settings)}
         />
+        <Link
+          href="/themes"
+          color={textColor}
+          border={`1px solid ${textColor}`}
+          borderRadius="md"
+          py="2"
+          display="block"
+          textAlign="center"
+          transition="all .2s"
+          _hover={{
+            transform: "translateY(-2px)",
+          }}
+          _focus={{
+            border: `2px solid ${textColor}`,
+            transform: "translateY(-2px)",
+          }}
+        >
+          Manage Themes
+        </Link>
         <Box mt="4" />
         <Accordion
           allowMultiple

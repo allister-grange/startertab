@@ -90,3 +90,23 @@ export const truncateString = (text: string, length: number) => {
 export function deepClone<T>(value: T) {
   return JSON.parse(JSON.stringify(value)) as T;
 }
+
+export const saveThemeIdToLocalStorage = (themeId: number) => {
+  const idsSaved = localStorage.getItem("themesSaved");
+
+  if (!idsSaved) {
+    localStorage.setItem("themesSaved", themeId.toString());
+  } else {
+    localStorage.setItem("themesSaved", `${idsSaved},${themeId}`);
+  }
+};
+
+export const getThemeIdsFromLocalStorage = () => {
+  const idsSaved = localStorage.getItem("themesSaved");
+
+  if (typeof idsSaved === "string") {
+    return idsSaved.split(",");
+  } else {
+    return [];
+  }
+};

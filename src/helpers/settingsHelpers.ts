@@ -168,10 +168,10 @@ export const getCurrentTheme = (
   settings: UserSettings,
   colorMode: string
 ): ThemeSettings => {
-  const theme = settings.themes.find((theme) => theme.themeName === colorMode);
+  let theme = settings.themes.find((theme) => theme.themeName === colorMode);
 
   if (!theme) {
-    throw new Error("No theme named " + colorMode);
+    theme = settings.themes[0];
   }
 
   return theme;

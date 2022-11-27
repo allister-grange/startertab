@@ -1,5 +1,4 @@
 import { Heading, Box, Text } from "@chakra-ui/react";
-import Image from "next/image";
 import React from "react";
 
 export const Update120: React.FC = () => {

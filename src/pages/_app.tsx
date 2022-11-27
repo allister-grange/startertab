@@ -1,20 +1,20 @@
 import { AppErrorBoundary } from "@/components/ui/AppErrorBoundary";
 import { defaultSettings } from "@/helpers/themes";
+import "@/styles/github-markdown.css";
+import "@/styles/globals.css";
 import {
   ChakraProvider,
-  cookieStorageManager,
+  cookieStorageManagerSSR,
   extendTheme,
   localStorageManager,
 } from "@chakra-ui/react";
+import { Analytics } from "@vercel/analytics/react";
 import App, { AppContext, AppInitialProps, AppProps } from "next/app";
 import Head from "next/head";
 import { useEffect } from "react";
 import { ErrorBoundary } from "react-error-boundary";
 import NoSSR from "react-no-ssr";
 import { RecoilRoot } from "recoil";
-import { Analytics } from "@vercel/analytics/react";
-import "@/styles/globals.css";
-import "@/styles/github-markdown.css";
 
 type MyAppProps = { cookies?: string };
 const breakpoints = {
@@ -34,7 +34,7 @@ export function MyApp({
   // pulls the colorMode from the cookies so that SSR can produce the correct theme
   const colorModeManager =
     typeof cookies === "string"
-      ? cookieStorageManager(cookies)
+      ? cookieStorageManagerSSR(cookies)
       : localStorageManager;
 
   // setting defaults settings in local storage if the user is new

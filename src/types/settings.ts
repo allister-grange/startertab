@@ -27,6 +27,10 @@ export type OptionType =
   | "SpotifyTopArtistsTimeLength"
   | "CityInputForUV";
 
+export type KeyOfTileSettings = keyof TileSettings;
+
+export type TileLayout = "STANDARD" | "COMPACT";
+
 export type TileType =
   | "Reddit Feed"
   | "Hacker News Feed"
@@ -56,6 +60,7 @@ export type TileSettings = {
   textColor: string;
   backgroundColor: string;
   tileType: TileType;
+  tileLayout?: TileLayout;
   themePickerBubbleColor?: string;
   sidebarBackgroundColor?: string;
   sidebarBorderColor?: string;
@@ -85,6 +90,7 @@ export type TileSettings = {
 
 export type ThemeSettings = {
   themeName: string;
+  downloadedFromMarketplace: boolean;
   globalSettings: TileSettings;
   tile1: TileSettings;
   tile2: TileSettings;
