@@ -12,20 +12,25 @@ export const ThemePageHeader: React.FC<ThemePageHeaderProps> = ({
     <Box>
       <Flex direction={["column", "column", "row"]} mb="2" alignItems="center">
         <Box>
-          <Heading fontSize="40px">
+          <Heading fontSize="40px" textAlign={["center", "center", "unset"]}>
             {showingPublicThemes ? "Public Themes" : "Your Themes"}
           </Heading>
-          <Heading as="h2" size="sm" color="gray.700">
+          <Heading
+            as="h2"
+            size="sm"
+            color="gray.700"
+            textAlign={["center", "center", "unset"]}
+          >
             {showingPublicThemes
               ? "Find a new theme for yourself"
               : "Manage your themes from this page"}
           </Heading>
         </Box>
         <Link
-          display="block"
           marginLeft={["0", "0", "auto"]}
-          mt={["0", "0", "5"]}
+          mt={["1", "1", "5"]}
           href="/"
+          fontSize={["sm", "sm", "md"]}
         >
           Take me back to Starter Tab 👈
         </Link>

@@ -187,7 +187,7 @@ export const PublicThemes: React.FC<PublicThemesProps> = ({
               {({ height, isScrolling, scrollTop }) => (
                 <AutoSizer disableHeight>
                   {({ width }) => {
-                    const itemsPerRow = Math.floor(width / 480);
+                    const itemsPerRow = Math.floor(width / 480) || 1;
                     const rowCount = Math.ceil(
                       orderedThemes.length / itemsPerRow
                     );

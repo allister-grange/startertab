@@ -158,12 +158,7 @@ export const MarketPlaceThemeCard: React.FC<MarketPlaceThemeCardProps> = ({
             <Badge
               filter={themeSettings.globalSettings.textColor}
               _hover={{ cursor: "pointer" }}
-              onClick={() =>
-                copyToClipboard(
-                  themeSettings.globalSettings.textColor,
-                  themeSettings.globalSettings.textColor
-                )
-              }
+              onClick={() => copyToClipboard(theme.author, theme.author)}
             >
               {theme.author}
             </Badge>
