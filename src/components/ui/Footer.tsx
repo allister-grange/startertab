@@ -54,7 +54,8 @@ export const Footer: React.FC<BoxProps> = (props) => {
               allig256
             </Link>
           </Flex>
-          <Flex alignItems="center" mt="2">
+          <Text mt="1">🥝 made in nz</Text>
+          <Flex alignItems="center" mt="1">
             <GithubSvg height={16} width={16} fill={"black"} />
             <Box ml="2" />
             <Link href={"https://github.com/allister-grange/startertab"}>
