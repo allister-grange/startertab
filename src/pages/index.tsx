@@ -93,14 +93,15 @@ const Home: NextPage = () => {
         setTimeout(showNewTabToast, 45000);
       } else {
         localStorage.removeItem("hasSeenNewUpdate1.10");
+        localStorage.removeItem("hasSeenNewUpdate1.20");
         const hasSeenNewUpdate = localStorage.getItem(
-          "hasSeenNewUpdate1.20Counter"
+          "hasSeenNewUpdate2.00Counter"
         );
         if (!hasSeenNewUpdate) {
-          localStorage.setItem("hasSeenNewUpdate1.20Counter", "1");
+          localStorage.setItem("hasSeenNewUpdate2.00Counter", "1");
         } else {
           localStorage.setItem(
-            "hasSeenNewUpdate1.20Counter",
+            "hasSeenNewUpdate2.00Counter",
             (parseInt(hasSeenNewUpdate) + 1).toString()
           );
           // only on the sixth visit since the update do we want to show the toast
