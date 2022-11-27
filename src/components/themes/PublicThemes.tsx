@@ -92,9 +92,7 @@ export const PublicThemes: React.FC<PublicThemesProps> = ({
 
     const combinedArray: ThemeWithVotes[] = [];
     themes.pages.map((page) => {
-      if (!page.themes) {
-        console.log("not found g");
-      } else {
+      if (page.themes) {
         page.themes.map((theme) => combinedArray.push(theme));
       }
     });

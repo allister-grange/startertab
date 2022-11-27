@@ -32,16 +32,12 @@ export default async function handler(
 
     let downloadsRes;
     if (!currentDownloads) {
-      console.log("here");
-
       downloadsRes = await prisma.themeDownload.create({
         data: {
           themeId: themeId,
           downloads: 1,
         },
       });
-
-      console.log(downloadsRes);
     } else {
       const newDownloadsNumber = currentDownloads.downloads + 1;
       downloadsRes = await prisma.themeDownload.update({
