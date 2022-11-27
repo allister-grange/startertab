@@ -13,6 +13,7 @@ import {
   QueryClientProvider,
   useInfiniteQuery,
 } from "@tanstack/react-query";
+import { useRouter } from "next/router";
 import React, { useCallback, useEffect, useState } from "react";
 import { useRecoilState } from "recoil";
 
@@ -50,12 +51,15 @@ const ManageThemes: React.FC = ({}) => {
       getNextPageParam: (lastPage) => lastPage.nextId ?? false,
     }
   );
-
+  const router = useRouter();
   const toast = useToast();
 
   useEffect(() => {
     document.body.style.background = "#fafafa";
-  }, []);
+    if (router.asPath.includes("#public")) {
+      setShowingPublicThemes(true);
+    }
+  }, [router]);
 
   const showClipboardToast = useCallback(
     (val?: string) => {

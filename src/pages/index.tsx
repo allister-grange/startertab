@@ -61,15 +61,16 @@ const Home: NextPage = () => {
 
   const showUpdateToast = useCallback(() => {
     toast({
-      title: "I've made another update! v1.2",
+      title: "I've made another update! v2.00",
       description: (
         <Text>
-          Check it out{" "}
-          <Link color="coral" href="/updates">
+          This is a <span style={{ textDecoration: "underline" }}>huge</span>{" "}
+          update. You can now download other people&apos;s themes. Check them
+          out{" "}
+          <Link color="coral" href="/themes#public">
             here
           </Link>
-          . This notification will not appear until the next update, don&apos;t
-          worry 🙂
+          .
         </Text>
       ),
       status: "info",
