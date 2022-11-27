@@ -259,7 +259,7 @@ export const PublicThemes: React.FC<PublicThemesProps> = ({
       <Flex justifyContent="center" gap="4" alignItems="center" mt="6">
         <Input
           width="60%"
-          border="2px solid black"
+          border="1px solid black"
           placeholder="Find a theme (author, name or tag)"
           value={searchFilter}
           onChange={(e) => setSearchFilter(e.target.value)}

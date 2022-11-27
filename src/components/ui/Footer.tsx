@@ -1,21 +1,30 @@
-import { Box, Flex, Heading, Text } from "@chakra-ui/react";
+import { Box, BoxProps, Flex, Heading, Text } from "@chakra-ui/react";
 import Link from "next/link";
 import React from "react";
 import { GithubSvg } from "./GithubSvg";
-import { OutlinedButton } from "./OutlinedButton";
 
-export const Footer: React.FC = ({}) => {
+export const Footer: React.FC<BoxProps> = (props) => {
   return (
-    <Box background="white" height="150px" display="fixed" color="gray.900">
+    <Box
+      background="white"
+      height="150px"
+      display="fixed"
+      color="gray.900"
+      {...props}
+    >
       <Flex
         height="100%"
         width="100%"
         marginX="auto"
         px="2"
+        pb="4"
         alignItems="center"
         justifyContent="space-between"
         flexWrap="wrap"
       >
+        <hr
+          style={{ width: "100%", marginTop: "18px", background: "#e2e8f0" }}
+        />
         <Box>
           <Heading fontSize={["lg", "lg", "2xl"]} as="h3">
             Starter Tab

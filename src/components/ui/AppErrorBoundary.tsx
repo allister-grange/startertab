@@ -25,7 +25,7 @@ export const AppErrorBoundary: React.FC = ({}) => {
   };
 
   return (
-    <Box height="100%" width="65%" p="2" mt="10" mx="auto">
+    <Box height="100%" width="65%" p="2" mt="10" mx="auto" color="black">
       <Flex>
         <span style={{ fontSize: "140px" }}>⚠️</span>
         <Box my="auto" ml="8" width="55%">
