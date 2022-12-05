@@ -61,15 +61,16 @@ const Home: NextPage = () => {
 
   const showUpdateToast = useCallback(() => {
     toast({
-      title: "I've made another update! v1.2",
+      title: "I've made another update! v2.00",
       description: (
         <Text>
-          Check it out{" "}
-          <Link color="coral" href="/updates">
+          This is a <span style={{ textDecoration: "underline" }}>huge</span>{" "}
+          update. You can now download other people&apos;s themes. Check them
+          out{" "}
+          <Link color="coral" href="/themes#public">
             here
           </Link>
-          . This notification will not appear until the next update, don&apos;t
-          worry 🙂
+          .
         </Text>
       ),
       status: "info",
@@ -94,14 +95,15 @@ const Home: NextPage = () => {
         setTimeout(showNewTabToast, 45000);
       } else {
         localStorage.removeItem("hasSeenNewUpdate1.10");
+        localStorage.removeItem("hasSeenNewUpdate1.20");
         const hasSeenNewUpdate = localStorage.getItem(
-          "hasSeenNewUpdate1.20Counter"
+          "hasSeenNewUpdate2.00Counter"
         );
         if (!hasSeenNewUpdate) {
-          localStorage.setItem("hasSeenNewUpdate1.20Counter", "1");
+          localStorage.setItem("hasSeenNewUpdate2.00Counter", "1");
         } else {
           localStorage.setItem(
-            "hasSeenNewUpdate1.20Counter",
+            "hasSeenNewUpdate2.00Counter",
             (parseInt(hasSeenNewUpdate) + 1).toString()
           );
           // only on the sixth visit since the update do we want to show the toast

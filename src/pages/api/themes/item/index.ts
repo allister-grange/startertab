@@ -21,8 +21,6 @@ export default async function handler(
   const orderBy = req.query.orderBy as ThemeFilteringOptions;
   const isReversed = req.query.reverseOrdering === "true";
 
-  console.log(isReversed);
-
   const orderByArray = [
     ...(orderBy === "Popularity"
       ? [
@@ -60,7 +58,6 @@ export default async function handler(
 
   try {
     let themes;
-    console.log("re-quried", orderBy);
 
     // due to Prisma evaluating OR with 0 filters as an empty list
     // I need the conditional

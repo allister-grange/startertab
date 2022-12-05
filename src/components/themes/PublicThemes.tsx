@@ -92,9 +92,7 @@ export const PublicThemes: React.FC<PublicThemesProps> = ({
 
     const combinedArray: ThemeWithVotes[] = [];
     themes.pages.map((page) => {
-      if (!page.themes) {
-        console.log("not found g");
-      } else {
+      if (page.themes) {
         page.themes.map((theme) => combinedArray.push(theme));
       }
     });
@@ -187,7 +185,7 @@ export const PublicThemes: React.FC<PublicThemesProps> = ({
               {({ height, isScrolling, scrollTop }) => (
                 <AutoSizer disableHeight>
                   {({ width }) => {
-                    const itemsPerRow = Math.floor(width / 480);
+                    const itemsPerRow = Math.floor(width / 480) || 1;
                     const rowCount = Math.ceil(
                       orderedThemes.length / itemsPerRow
                     );
@@ -259,7 +257,7 @@ export const PublicThemes: React.FC<PublicThemesProps> = ({
       <Flex justifyContent="center" gap="4" alignItems="center" mt="6">
         <Input
           width="60%"
-          border="2px solid black"
+          border="1px solid black"
           placeholder="Find a theme (author, name or tag)"
           value={searchFilter}
           onChange={(e) => setSearchFilter(e.target.value)}

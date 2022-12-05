@@ -1,5 +1,6 @@
 import { PersonalThemes } from "@/components/themes/PersonalThemes";
 import { PublicThemes } from "@/components/themes/PublicThemes";
+import { Footer } from "@/components/ui/Footer";
 import { ThemePageHeader } from "@/components/ui/ThemePageHeader";
 import { deepClone, saveThemeIdToLocalStorage } from "@/helpers/tileHelpers";
 import useDebounce from "@/hooks/useDebounce";
@@ -12,6 +13,7 @@ import {
   QueryClientProvider,
   useInfiniteQuery,
 } from "@tanstack/react-query";
+import { useRouter } from "next/router";
 import React, { useCallback, useEffect, useState } from "react";
 import { useRecoilState } from "recoil";
 
@@ -49,12 +51,15 @@ const ManageThemes: React.FC = ({}) => {
       getNextPageParam: (lastPage) => lastPage.nextId ?? false,
     }
   );
-
+  const router = useRouter();
   const toast = useToast();
 
   useEffect(() => {
     document.body.style.background = "#fafafa";
-  }, []);
+    if (router.asPath.includes("#public")) {
+      setShowingPublicThemes(true);
+    }
+  }, [router]);
 
   const showClipboardToast = useCallback(
     (val?: string) => {
@@ -185,6 +190,7 @@ const ManageThemes: React.FC = ({}) => {
         px="2"
         maxW="1500px"
         height="100%"
+        color="black"
       >
         <ThemePageHeader showingPublicThemes={showingPublicThemes} />
         <Flex mt="4">
@@ -225,17 +231,20 @@ const ManageThemes: React.FC = ({}) => {
             errorLoadingThemes={isError}
           />
         ) : (
-          <PersonalThemes
-            copyToClipboard={copyToClipboard}
-            deleteTheme={deleteTheme}
-            themes={settings.themes}
-            setShowingPublicThemes={setShowingPublicThemes}
-            refetch={refetch}
-            setOrderingMethod={handleOrderingMethodChange}
-            changeThemeNameInSettings={changeThemeNameInSettings}
-            setReverseOrdering={setReverseOrdering}
-            cloneTheme={cloneTheme}
-          />
+          <>
+            <PersonalThemes
+              copyToClipboard={copyToClipboard}
+              deleteTheme={deleteTheme}
+              themes={settings.themes}
+              setShowingPublicThemes={setShowingPublicThemes}
+              refetch={refetch}
+              setOrderingMethod={handleOrderingMethodChange}
+              changeThemeNameInSettings={changeThemeNameInSettings}
+              setReverseOrdering={setReverseOrdering}
+              cloneTheme={cloneTheme}
+            />
+            <Footer bg="#fafafa" width={["100%", "90%", "80%"]} mx="auto" />
+          </>
         )}
       </Box>
     </QueryClientProvider>

@@ -1,5 +1,4 @@
-import { Heading, Box, Text } from "@chakra-ui/react";
-import Image from "next/image";
+import { Heading, Box, Text, Link } from "@chakra-ui/react";
 import React from "react";
 
 export const Update200: React.FC = () => {
@@ -16,24 +15,32 @@ export const Update200: React.FC = () => {
       </Text>
       <Text mt="2" color="black">
         3 weeks in the making, we now have a way to publicly share our favorite
-        themes.
+        themes.{" "}
+        <Link
+          href="/themes"
+          style={{
+            textDecoration: "underline",
+            textDecorationColor: "#9CB79B",
+          }}
+        >
+          Check it out!
+        </Link>
       </Text>
-      <Box mt="4" width={["100%", "90%", "80%", "80%"]} marginX="auto">
-        <Text>RSS Feed Tile</Text>
+      <Box mt="4" width={["100%", "90%", "90%", "90%"]} marginX="auto">
         <video
           loop
           autoPlay
           playsInline
           muted
           style={{
-            width: "100%",
-            aspectRatio: "1.63",
+            width: "105%",
+            aspectRatio: "1.40",
             objectFit: "cover",
             marginTop: "15px",
           }}
         >
           <source
-            src="/updates_screenshots/rss_feed_tile_demo.mp4"
+            src="/updates_screenshots/themes_demo.mp4"
             type="video/mp4"
           ></source>
         </video>
@@ -44,18 +51,18 @@ export const Update200: React.FC = () => {
         </Heading>
         <Text mt="2">
           I am very pleased to introduce public themes. This site began as a
-          personal tool, and has evolved into a very public one. With other 300
+          personal tool and has evolved into a very public one. With over 300
           people using this site now as their own personal New Tab page, I
           thought it was time to introduce a way to let people share their
           creativity.
         </Text>
         <Text mt="2">
-          You are now able to share your themes, and download others so that
-          everyone&apos;s experience on the site can be shared. Don&apos;t
-          worry, all non-essential data is stripped out from tiles when you
-          share them. Only the Tile Type (feed, todo list etc), background color
-          and text color are shared. I am still quite passionate about not
-          storing your personal data, and this update will not affect that.
+          You are now able to share your own themes, as well as download other
+          people&apos;s. Don&apos;t worry, all non-essential data is stripped
+          out from tiles when you share them. Only the Tile Type background
+          color and text color is shared. I am still quite passionate about not
+          storing your personal data, and this update will not affect that in
+          any way.
         </Text>
       </Box>
       <Box color="gray.700" mt="6">
@@ -63,21 +70,10 @@ export const Update200: React.FC = () => {
           Other Changes
         </Heading>
         <Text mt="2">
-          - The Bonsai Tile is now available on the larger tiles
+          - You can now edit theme names in the Personal Themes page
         </Text>
-        <Text>- There&apos;s a footer on the updates page</Text>
-        <Text>- The error messages across the tiles are more informative</Text>
-        <Text>
-          - More tweaks to the API endpoints to make them more reliable
-        </Text>
-        <Text>
-          - Added truncation of longer titles on the feed tiles, as to not take
-          up 1/3 of your view with a large link
-        </Text>
-        <Text>
-          - A user can now reset the data for a specific tile if it is causing
-          an error caught by the ErrorBoundary
-        </Text>
+        <Text>- General bug fixes</Text>
+        <Text>- Updated the ChakraUi library to the latest version</Text>
       </Box>
       <Box color="gray.700" mt="6">
         <Heading fontSize="xl" as="h3" color="black">
@@ -85,13 +81,21 @@ export const Update200: React.FC = () => {
         </Heading>
         <Text mt="2">
           - I want to add in more &quot;Tile Layouts&quot; so that people can
-          shape their page in more ways
+          shape their page in more ways, or allow people to drag/drop and
+          re-size tiles, whichever provides the best UX. If you have an opinion
+          on this please let me know
         </Text>
         <Text>
-          - Write up a Chrome Store extension that will do the re-directing
-          myself, that was this is a complete product
+          - Have a way to link to a specific theme so that people can share them
         </Text>
-        <Text>- I will build a landing page</Text>
+        <Text>
+          - Make a larger time tile that contains information about the timezone
+          and date
+        </Text>
+        <Text>- Build a landing page</Text>
+        <Text>
+          - Build my own browser extension to do the re-directing on the New Tab
+        </Text>
       </Box>
     </Box>
   );
