@@ -5,7 +5,7 @@ import { Tutorial } from "@/components/tutorial/Tutorial";
 import { MobileWarning } from "@/components/ui/MobileWarning";
 import { SettingsToggle } from "@/components/ui/SettingsToggle";
 import { applyTheme, getCurrentTheme } from "@/helpers/settingsHelpers";
-import { TileId } from "@/types";
+import { TileId, TileShape, UserSettings } from "@/types";
 import {
   Box,
   Flex,
@@ -19,6 +19,7 @@ import type { NextPage } from "next";
 import { useCallback, useEffect, useState } from "react";
 import { isMobile } from "react-device-detect";
 import { useRecoilState, useSetRecoilState } from "recoil";
+import { deepClone } from "@/helpers/tileHelpers";
 
 const Home: NextPage = () => {
   // Sidebar hook
@@ -35,6 +36,14 @@ const Home: NextPage = () => {
   const { colorMode } = useColorMode();
 
   const setColorModeState = useSetRecoilState(colorModeState);
+
+  const updateTileOrderInSettings = (newTiles: TileShape[]) => {
+    const settingsToChange = deepClone(settings) as UserSettings;
+    const themeToChange = getCurrentTheme(settingsToChange, colorMode);
+
+    themeToChange.tileOrder = newTiles;
+    setSettings(settingsToChange);
+  };
 
   const showNewTabToast = useCallback(() => {
     toast({
@@ -79,8 +88,6 @@ const Home: NextPage = () => {
       position: "top",
     });
   }, [toast]);
-
-  const updateTileOrder = (id: number, idx: number) => {};
 
   useEffect(() => {
     if (isMobile) {
@@ -154,8 +161,8 @@ const Home: NextPage = () => {
               tutorialProgress={tutorialProgress}
               optionHovered={optionHovered}
               gridGap={gridGap}
-              tileOrder={currentTheme.tileOrder}
-              updateTileOrder={updateTileOrder}
+              tiles={currentTheme.tileOrder}
+              updateTileOrderInSettings={updateTileOrderInSettings}
             />
           </Flex>
         </>

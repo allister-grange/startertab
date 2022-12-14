@@ -1,10 +1,58 @@
-import { UserSettings } from "@/types";
+import { TileShape, UserSettings } from "@/types";
+
+export const defaultTiles: TileShape[] = [
+  {
+    tileId: "tile1",
+    gridArea: "span 3 / span 1",
+  },
+  {
+    tileId: "tile2",
+    gridArea: "span 2 / span 2",
+  },
+  {
+    tileId: "tile3",
+    gridArea: "span 2 / span 1",
+  },
+  {
+    tileId: "tile4",
+    gridArea: "span 3 / span 1",
+  },
+  {
+    tileId: "tile5",
+    gridArea: "span 1 / span 3",
+  },
+  {
+    tileId: "tile6",
+    gridArea: "span 2 / span 1",
+  },
+  {
+    tileId: "tile7",
+    gridArea: "span 1 / span 1",
+  },
+  {
+    tileId: "tile8",
+    gridArea: "span 1 / span 1",
+  },
+  {
+    tileId: "tile9",
+    gridArea: "span 2 / span 2",
+  },
+  {
+    tileId: "tile10",
+    gridArea: "span 1 / span 1",
+  },
+  {
+    tileId: "tile11",
+    gridArea: "span 1 / span 1",
+  },
+];
 
 export const defaultSettings: UserSettings = {
   themes: [
     {
       themeName: "colored dark",
       downloadedFromMarketplace: false,
+      tileOrder: defaultTiles,
       globalSettings: {
         backgroundColor: "#1B202B",
         textColor: "#fff",
@@ -12,7 +60,6 @@ export const defaultSettings: UserSettings = {
         tileType: "None",
         dropShadow: "",
         tileBorder: "",
-        tileLayout: "STANDARD",
         sidebarBackgroundColor: "#33393D",
         themePickerBubbleColor:
           "linear-gradient(90deg, black 50%, #E89B4B 50%);",
@@ -82,13 +129,13 @@ export const defaultSettings: UserSettings = {
     {
       themeName: "colored light",
       downloadedFromMarketplace: false,
+      tileOrder: defaultTiles,
       globalSettings: {
         backgroundColor: "#ffffff",
         textColor: "#222222",
         tileType: "None",
         dropShadow: "",
         tileBorder: "",
-        tileLayout: "STANDARD",
         sidebarBackgroundColor: "#eeeeee",
         themePickerBubbleColor:
           "linear-gradient(90deg, white 50%, #E89B4B 50%);",
@@ -157,13 +204,13 @@ export const defaultSettings: UserSettings = {
     {
       themeName: "Wavy",
       downloadedFromMarketplace: false,
+      tileOrder: defaultTiles,
       globalSettings: {
         backgroundColor: "url(/wavy.jpeg)",
         textColor: "#222222",
         tileType: "None",
         dropShadow: "0 4px 30px rgba(0, 0, 0, 0.1)",
         tileBorder: "1px solid rgba(255, 255, 255, 0.3)",
-        tileLayout: "STANDARD",
         sidebarBackgroundColor: "#eeeeee",
         themePickerBubbleColor: "linear-gradient(360deg, blue 50%, white 50%);",
         borderRadius: "15px",
@@ -231,6 +278,7 @@ export const defaultSettings: UserSettings = {
     {
       themeName: "Pink",
       downloadedFromMarketplace: false,
+      tileOrder: defaultTiles,
       globalSettings: {
         backgroundColor:
           "linear-gradient(to bottom right, #ABA1EE , #F29AD8) fixed",
@@ -238,7 +286,6 @@ export const defaultSettings: UserSettings = {
         tileType: "None",
         dropShadow: "0 4px 30px rgba(0, 0, 0, 0.1)",
         tileBorder: "1px solid rgba(255, 255, 255, 0.3)",
-        tileLayout: "STANDARD",
         sidebarBackgroundColor: "#eeeeee",
         themePickerBubbleColor:
           "linear-gradient(90deg, #ABA1EE 50%, #f882ff 50%);",
@@ -305,15 +352,15 @@ export const defaultSettings: UserSettings = {
       },
     },
     {
-      themeName: "light",
+      themeName: "basic light",
       downloadedFromMarketplace: false,
+      tileOrder: defaultTiles,
       globalSettings: {
         backgroundColor: "white",
         textColor: "#222222",
         tileType: "None",
         dropShadow: "",
         tileBorder: "1px solid black",
-        tileLayout: "STANDARD",
         sidebarBackgroundColor: "#eeeeee",
         themePickerBubbleColor: "white",
         borderRadius: "15px",
@@ -379,14 +426,14 @@ export const defaultSettings: UserSettings = {
       },
     },
     {
-      themeName: "dark",
+      themeName: "basic dark",
       downloadedFromMarketplace: false,
+      tileOrder: defaultTiles,
       globalSettings: {
         backgroundColor: "#000",
         textColor: "#fff",
         subTextColor: "#ddd",
         tileType: "None",
-        tileLayout: "STANDARD",
         sidebarBackgroundColor: "#33393D",
         themePickerBubbleColor: "black",
         sidebarBorderColor: "#666",
@@ -456,6 +503,7 @@ export const defaultSettings: UserSettings = {
     {
       themeName: "glassmorphism light",
       downloadedFromMarketplace: false,
+      tileOrder: defaultTiles,
       globalSettings: {
         backgroundColor:
           "linear-gradient(160deg, #0093E9 0%, #80D0C7 100%) fixed",
@@ -463,7 +511,6 @@ export const defaultSettings: UserSettings = {
         tileType: "None",
         dropShadow: "0 4px 30px rgba(0, 0, 0, 0.1)",
         tileBorder: "1px solid rgba(255, 255, 255, 0.3)",
-        tileLayout: "STANDARD",
         sidebarBackgroundColor: "#eeeeee",
         themePickerBubbleColor:
           "linear-gradient(90deg, white 50%, #77C9CA 50%);",
@@ -532,6 +579,7 @@ export const defaultSettings: UserSettings = {
     {
       themeName: "glassmorphism dark",
       downloadedFromMarketplace: false,
+      tileOrder: defaultTiles,
       globalSettings: {
         backgroundColor:
           "linear-gradient(160deg, black 0%, #80D0C7 100%) fixed",
@@ -539,7 +587,6 @@ export const defaultSettings: UserSettings = {
         tileType: "None",
         dropShadow: "0 4px 30px rgba(0, 0, 0, 0.1)",
         tileBorder: "1px solid rgba(255, 255, 255, 0.3)",
-        tileLayout: "STANDARD",
         sidebarBackgroundColor: "#33393D",
         themePickerBubbleColor:
           "linear-gradient(90deg, black 50%, #2E4C49 50%);",
