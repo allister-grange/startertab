@@ -198,7 +198,7 @@ export const ShareThemeModal: React.FC<ShareThemeModalProps> = ({
   return (
     <Modal isOpen={isOpen} onClose={onModalClose}>
       <ModalOverlay />
-      <ModalContent bg="#F5F5F5" minW="470px">
+      <ModalContent bg="#F5F5F5" minW="470px" color="black">
         <ModalHeader fontSize="2xl">Share your theme</ModalHeader>
         <ModalCloseButton />
         <form onSubmit={onThemeSubmit} onKeyDown={onKeyDownInForm}>

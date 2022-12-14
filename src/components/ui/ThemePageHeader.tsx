@@ -9,7 +9,7 @@ export const ThemePageHeader: React.FC<ThemePageHeaderProps> = ({
   showingPublicThemes,
 }) => {
   return (
-    <Box>
+    <Box color="black">
       <Flex direction={["column", "column", "row"]} mb="2" alignItems="center">
         <Box>
           <Heading fontSize="40px" textAlign={["center", "center", "unset"]}>
