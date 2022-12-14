@@ -184,7 +184,7 @@ const ManageThemes: React.FC = ({}) => {
   return (
     <QueryClientProvider client={queryClient}>
       <Box
-        width={["100%", "95%", "90%", "84%", "72%"]}
+        width={["500px", "95%", "90%", "84%", "72%"]}
         mx="auto"
         py="6"
         px="2"
