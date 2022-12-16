@@ -9,7 +9,7 @@ import { useLongPress } from "@/hooks/useLongPress";
 import dynamic from "next/dynamic";
 const TileContainer = dynamic(() => import("@/components/grid/TileContainer"));
 
-interface TileProps extends GridItemProps {
+export interface TileProps extends GridItemProps {
   optionHovered: boolean;
   tileId: TileId;
 }
@@ -33,6 +33,7 @@ const Tile: React.FC<TileProps> = ({
 
   return (
     <GridItem
+      height="100%"
       borderRadius={borderRadius ?? "15"}
       transition=".3s ease-in-out"
       minW="230px"

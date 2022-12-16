@@ -3,19 +3,19 @@ import { TileShape, UserSettings } from "@/types";
 export const defaultTiles: TileShape[] = [
   {
     tileId: "tile1",
-    gridArea: "span 3 / span 1",
+    gridArea: "span 5 / span 1",
   },
   {
     tileId: "tile2",
-    gridArea: "span 2 / span 2",
+    gridArea: "span 4 / span 2",
   },
   {
     tileId: "tile3",
-    gridArea: "span 2 / span 1",
+    gridArea: "span 4 / span 1",
   },
   {
     tileId: "tile4",
-    gridArea: "span 3 / span 1",
+    gridArea: "span 5 / span 1",
   },
   {
     tileId: "tile5",
@@ -23,27 +23,27 @@ export const defaultTiles: TileShape[] = [
   },
   {
     tileId: "tile6",
-    gridArea: "span 2 / span 1",
+    gridArea: "span 4 / span 1",
   },
   {
     tileId: "tile7",
-    gridArea: "span 1 / span 1",
+    gridArea: "span 2 / span 1",
   },
   {
     tileId: "tile8",
-    gridArea: "span 1 / span 1",
+    gridArea: "span 2 / span 1",
   },
   {
     tileId: "tile9",
-    gridArea: "span 2 / span 2",
+    gridArea: "span 4 / span 2",
   },
   {
     tileId: "tile10",
-    gridArea: "span 1 / span 1",
+    gridArea: "span 2 / span 1",
   },
   {
     tileId: "tile11",
-    gridArea: "span 1 / span 1",
+    gridArea: "span 2 / span 1",
   },
 ];
 

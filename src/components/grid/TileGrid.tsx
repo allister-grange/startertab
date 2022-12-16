@@ -1,10 +1,14 @@
-import Tile from "@/components/grid/Tile";
 import { defaultTiles } from "@/helpers/themes";
-import { deepClone } from "@/helpers/tileHelpers";
 import { TileId, TileShape } from "@/types";
-import { Grid, useEditable } from "@chakra-ui/react";
-import React, { useEffect, useRef } from "react";
-import styles from "@/styles/Home.module.css";
+import { BoxProps } from "@chakra-ui/react";
+import React, { useRef, useState } from "react";
+import { Layout, Responsive, WidthProvider } from "react-grid-layout";
+import "react-grid-layout/css/styles.css";
+import "react-resizable/css/styles.css";
+import Tile from "@/components/grid/Tile";
+import { gridLayout } from "@/helpers/gridLayout";
+
+const ResponsiveGridLayout = WidthProvider(Responsive);
 
 interface TileGridProps {
   optionHovered?: TileId;
@@ -21,11 +25,14 @@ export const TileGrid: React.FC<TileGridProps> = ({
   tiles,
   updateTileOrderInSettings,
 }) => {
-  const currentlyDraggingElement = useRef<EventTarget | null>(null);
-  const gridRef = useRef<HTMLDivElement | null>(null);
   if (!tiles) {
     tiles = defaultTiles;
   }
+
+  const currentlyDraggingElement = useRef<EventTarget | null>(null);
+  const gridRef = useRef<HTMLDivElement | null>(null);
+
+  const [layout, setLayout] = useState(gridLayout);
 
   const onDragOverEvent = (e: React.DragEvent<HTMLDivElement>) => {
     e.preventDefault();
@@ -122,32 +129,58 @@ export const TileGrid: React.FC<TileGridProps> = ({
   };
 
   return (
-    <Grid
-      marginX="auto"
-      marginY="auto"
-      templateColumns={"repeat(5, 1fr)"}
-      gridTemplateRows={"150px 150px 70px 150px 150px"}
-      gap={gridGap ?? 4}
-      filter={
-        tutorialProgress >= 0 && tutorialProgress < 4 ? "blur(8px)" : undefined
-      }
-      p="4"
-      px="8"
-      id="grid"
-      ref={gridRef}
+    <ResponsiveGridLayout
+      className="layout"
+      layouts={layout}
+      breakpoints={{ lg: 1200, md: 996, sm: 768, xs: 480, xxs: 0 }}
+      cols={{ lg: 5, md: 10, sm: 6, xs: 4, xxs: 2 }}
+      rowHeight={75}
     >
-      {tiles.map((tile) => (
-        <Tile
+      {tiles.map((tile, i) => (
+        <CustomGridItemComponent
           key={tile.tileId}
-          optionHovered={optionHovered === tile.tileId}
-          tileId={tile.tileId}
-          gridArea={tile.gridArea}
-          onDragOver={onDragOverEvent}
-          onDragStart={onDragStartEvent}
-          onDragEnd={onDragStopEvent}
-          id={tile.tileId}
-        />
+          // data-grid={{ x: 0, y: 0, w: 1, h: 2, static: true }}
+        >
+          <Tile
+            optionHovered={optionHovered === tile.tileId}
+            tileId={tile.tileId}
+            gridArea={tile.gridArea}
+            // onDragOver={onDragOverEvent}
+            // onDragStart={onDragStartEvent}
+            // onDragEnd={onDragStopEvent}
+            id={tile.tileId}
+            key={tile.tileId}
+          />
+        </CustomGridItemComponent>
       ))}
-    </Grid>
+    </ResponsiveGridLayout>
   );
 };
+
+const CustomGridItemComponent = React.forwardRef(
+  (
+    {
+      style,
+      className,
+      onMouseDown,
+      onMouseUp,
+      onTouchEnd,
+      ...props
+    }: BoxProps,
+    ref
+  ) => {
+    CustomGridItemComponent.displayName = "CustomGridItemComponent";
+    return (
+      <div
+        style={{ ...style }}
+        className={className}
+        ref={ref as any}
+        onMouseDown={onMouseDown}
+        onMouseUp={onMouseUp}
+        onTouchEnd={onTouchEnd}
+      >
+        {props.children}
+      </div>
+    );
+  }
+);
