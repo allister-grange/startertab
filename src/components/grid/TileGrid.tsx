@@ -1,12 +1,12 @@
-import { defaultTiles } from "@/helpers/themes";
-import { TileId, TileShape } from "@/types";
-import { BoxProps } from "@chakra-ui/react";
-import React, { useRef, useState } from "react";
-import { Layout, Responsive, WidthProvider } from "react-grid-layout";
-import "react-grid-layout/css/styles.css";
-import "react-resizable/css/styles.css";
 import Tile from "@/components/grid/Tile";
 import { gridLayout } from "@/helpers/gridLayout";
+import { defaultTiles } from "@/helpers/themes";
+import { TileId, TileShape } from "@/types";
+import { Box, BoxProps, Flex } from "@chakra-ui/react";
+import React, { useRef, useState } from "react";
+import { Responsive, WidthProvider } from "react-grid-layout";
+import "react-grid-layout/css/styles.css";
+import "react-resizable/css/styles.css";
 
 const ResponsiveGridLayout = WidthProvider(Responsive);
 
@@ -129,31 +129,35 @@ export const TileGrid: React.FC<TileGridProps> = ({
   };
 
   return (
-    <ResponsiveGridLayout
-      className="layout"
-      layouts={layout}
-      breakpoints={{ lg: 1200, md: 996, sm: 768, xs: 480, xxs: 0 }}
-      cols={{ lg: 5, md: 10, sm: 6, xs: 4, xxs: 2 }}
-      rowHeight={75}
-    >
-      {tiles.map((tile, i) => (
-        <CustomGridItemComponent
-          key={tile.tileId}
-          // data-grid={{ x: 0, y: 0, w: 1, h: 2, static: true }}
+    <Flex minH="100vh" w="100%" maxW="1370px" mx="auto" alignItems="center">
+      <Box w="100%">
+        <ResponsiveGridLayout
+          className="layout"
+          layouts={layout}
+          breakpoints={{ lg: 1200, md: 996, sm: 768, xs: 480, xxs: 0 }}
+          cols={{ lg: 5, md: 10, sm: 6, xs: 4, xxs: 2 }}
+          rowHeight={68}
+          margin={[
+            gridGap ? parseInt(gridGap) : 16,
+            gridGap ? parseInt(gridGap) : 16,
+          ]}
+          isDraggable
+          isResizable
         >
-          <Tile
-            optionHovered={optionHovered === tile.tileId}
-            tileId={tile.tileId}
-            gridArea={tile.gridArea}
-            // onDragOver={onDragOverEvent}
-            // onDragStart={onDragStartEvent}
-            // onDragEnd={onDragStopEvent}
-            id={tile.tileId}
-            key={tile.tileId}
-          />
-        </CustomGridItemComponent>
-      ))}
-    </ResponsiveGridLayout>
+          {tiles.map((tile, i) => (
+            <CustomGridItemComponent key={tile.tileId}>
+              <Tile
+                optionHovered={optionHovered === tile.tileId}
+                tileId={tile.tileId}
+                gridArea={tile.gridArea}
+                id={tile.tileId}
+                key={tile.tileId}
+              />
+            </CustomGridItemComponent>
+          ))}
+        </ResponsiveGridLayout>
+      </Box>
+    </Flex>
   );
 };
 

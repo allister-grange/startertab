@@ -12,6 +12,7 @@ export const applyTheme = (theme: ThemeSettings) => {
   document.body.style.background = theme.globalSettings.backgroundColor;
   document.body.style.backgroundRepeat = "no-repeat";
   document.body.style.backgroundSize = "cover";
+  document.body.style.backgroundAttachment = "fixed";
   document.documentElement.style.setProperty(
     "--bg-color-sidebar",
     theme.globalSettings.sidebarBackgroundColor || ""

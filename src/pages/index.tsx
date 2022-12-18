@@ -138,7 +138,7 @@ const Home: NextPage = () => {
     toDisplay = <MobileWarning setIsMobileView={setIsMobileView} />;
   } else {
     toDisplay = (
-      <Box width="100%" display="flex" height="100%">
+      <Box width="100%" display="flex" minH="100%">
         {isOpen ? (
           <SettingsSideBar
             onClose={onClose}
