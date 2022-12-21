@@ -37,3 +37,7 @@ input[type="time"]::-webkit-calendar-picker-indicator {
   width: 10px !important;
   border-color: var(--text-color-0) !important;
 }
+
+.react-grid-item.react-grid-placeholder {
+  background: #454545 !important;
+}

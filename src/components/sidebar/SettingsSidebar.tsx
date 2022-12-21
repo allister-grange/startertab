@@ -22,7 +22,6 @@ import {
   AccordionIcon,
   AccordionItem,
   Box,
-  Button,
   ExpandedIndex,
   Link,
   useColorMode,
@@ -36,6 +35,7 @@ interface SettingsSideBarProps {
   onClose: () => void;
   setOptionHovered: React.Dispatch<SetStateAction<number | undefined>>;
   setTutorialProgress: Dispatch<SetStateAction<number>>;
+  setIsEditingTiles: Dispatch<SetStateAction<boolean>>;
   tutorialProgress: number;
 }
 
@@ -49,6 +49,7 @@ const SettingsSideBar: React.FC<SettingsSideBarProps> = ({
   isOpen,
   setOptionHovered,
   setTutorialProgress,
+  setIsEditingTiles,
   tutorialProgress,
 }) => {
   const { colorMode } = useColorMode();
@@ -273,8 +274,9 @@ const SettingsSideBar: React.FC<SettingsSideBarProps> = ({
             border: `2px solid ${textColor}`,
             transform: "translateY(-2px)",
           }}
+          onClick={() => setIsEditingTiles((isEditing) => !isEditing)}
         >
-          Edit Tiles
+          Edit Tile Grid
         </OutlinedButton>
         <Box mt="4" />
         <Accordion

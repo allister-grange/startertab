@@ -162,6 +162,7 @@ const Home: NextPage = () => {
             setOptionHovered={setOptionHovered}
             setTutorialProgress={setTutorialProgress}
             tutorialProgress={tutorialProgress}
+            setIsEditingTiles={setIsEditingTiles}
           />
         ) : null}
         <>
