@@ -21,33 +21,19 @@ input[type="time"]::-webkit-calendar-picker-indicator {
   display: none;
 }
 
-:root {
-  --bg-color-tile-1: #65abc1;
-  --bg-color-tile-2: #E89C4B;
-  --bg-color-tile-3: #9AB899;
-  --bg-color-tile-4: #65abc1;
-  --bg-color-tile-5: #E89C4B;
-  --bg-color-tile-6: #F06808;
-  --bg-color-tile-7: #E89C4B;
-  --bg-color-tile-8: #65abc1;
-  --bg-color-tile-9: #9AB899;
-  --bg-color-tile-10: #E89C4B;
-  --bg-color-tile-11: #9AB899;
-  --bg-color-tile-12: #65abc1;
-  --text-color-tile-1: #ffffff;
-  --text-color-tile-2: #ffffff;
-  --text-color-tile-3: #ffffff;
-  --text-color-tile-4: #ffffff;
-  --text-color-tile-5: #ffffff;
-  --text-color-tile-6: #ffffff;
-  --text-color-tile-7: #ffffff;
-  --text-color-tile-8: #ffffff;
-  --text-color-tile-9: #ffffff;
-  --text-color-tile-10: #ffffff;
-  --text-color-tile-11: #ffffff;
-  --text-color-tile-12: #ffffff;
-}
-
 .chakra-form__required-indicator {
   display: none;
+}
+
+.react-resizable-handle-se {
+  bottom: 2px !important;
+  right: 2px !important;
+  background-image: none !important;
+}
+
+.react-resizable-handle::after {
+  border-radius: 2px !important;
+  height: 10px !important;
+  width: 10px !important;
+  border-color: var(--text-color-0) !important;
 }
