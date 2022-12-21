@@ -1,10 +1,10 @@
-import { rssFeedsSelector } from "@/recoil/UserSettingsSelectors";
 import { TextFeedSkeleton } from "@/components/skeletons/TextFeedSkeleton";
 import { RSSFeedForm } from "@/components/tiles/RSSFeed/RSSFeedForm";
 import { OutlinedButton } from "@/components/ui/OutlinedButton";
 import { RSSLogo } from "@/components/ui/RSSLogo";
 import { calculateTimeAgoString, truncateString } from "@/helpers/tileHelpers";
-import { RSSFeed, RSSItem, TileId } from "@/types";
+import { rssFeedsSelector } from "@/recoil/UserSettingsSelectors";
+import { RSSFeed, RSSItem } from "@/types";
 import {
   Box,
   Flex,
@@ -19,7 +19,7 @@ import React, { FormEvent, useRef, useState } from "react";
 import { SetterOrUpdater, useRecoilState } from "recoil";
 
 interface RSSFeedTileProps {
-  tileId: TileId;
+  tileId: number;
 }
 
 const fetcher = async (rssFeedUrls: string[]) => {

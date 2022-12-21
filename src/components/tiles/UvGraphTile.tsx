@@ -1,6 +1,6 @@
-import { uvCitySelector } from "@/recoil/UserSettingsSelectors";
 import { OutlinedButton } from "@/components/ui/OutlinedButton";
-import { TileId, UvGraphData } from "@/types";
+import { uvCitySelector } from "@/recoil/UserSettingsSelectors";
+import { UvGraphData } from "@/types";
 import {
   Box,
   Center,
@@ -16,7 +16,7 @@ import { Line, LineChart, ResponsiveContainer, XAxis, YAxis } from "recharts";
 import { SetterOrUpdater, useRecoilState } from "recoil";
 
 interface UvGraphProps {
-  tileId: TileId;
+  tileId: number;
 }
 
 const dummyUvData = () => {

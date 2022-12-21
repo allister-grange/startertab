@@ -1,13 +1,12 @@
 import { OutlinedButton } from "@/components/ui/OutlinedButton";
-import { TileId } from "@/types";
+import { markdownFileTextSelector } from "@/recoil/UserSettingsSelectors";
 import { Box, Input, Text } from "@chakra-ui/react";
 import React, { useRef, useState } from "react";
 import ReactMarkdown from "react-markdown";
 import { SetterOrUpdater, useRecoilState } from "recoil";
-import { markdownFileTextSelector } from "@/recoil/UserSettingsSelectors";
 
 interface MarkdownFileTileProps {
-  tileId: TileId;
+  tileId: number;
 }
 
 export const MarkdownFileTile: React.FC<MarkdownFileTileProps> = ({

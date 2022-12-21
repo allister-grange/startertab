@@ -1,7 +1,6 @@
-import { stockSelector } from "@/recoil/UserSettingsSelectors";
 import { LargeStockTickerSkeleton } from "@/components/skeletons/LargeStockTickerSkeleton";
 import { OutlinedButton } from "@/components/ui/OutlinedButton";
-import { TileId } from "@/types";
+import { stockSelector } from "@/recoil/UserSettingsSelectors";
 import { FinnhubStockResponse, StockTickers } from "@/types/stocks";
 import {
   Box,
@@ -18,7 +17,7 @@ import React, { useState } from "react";
 import { SetterOrUpdater, useRecoilState } from "recoil";
 
 interface LargeStockTileProps {
-  tileId: TileId;
+  tileId: number;
 }
 
 interface StockDisplayProps {

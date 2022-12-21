@@ -4,28 +4,16 @@ import {
   SkipLeft,
   SkipRight,
 } from "@/components/ui/MediaControls";
+import { OutlinedButton } from "@/components/ui/OutlinedButton";
 import { SpotifyLogo } from "@/components/ui/SpotifyLogo";
 import { SpotifyContext } from "@/context/SpotifyContext";
-import {
-  NowPlayingSpotifyData,
-  SpotifyContextInterface,
-  TileId,
-} from "@/types";
-import {
-  Box,
-  Button,
-  Center,
-  Flex,
-  Heading,
-  Link,
-  Skeleton,
-} from "@chakra-ui/react";
+import { NowPlayingSpotifyData, SpotifyContextInterface } from "@/types";
+import { Box, Center, Flex, Heading, Link, Skeleton } from "@chakra-ui/react";
 import React, { useContext } from "react";
 import { MusicControlButton } from "../ui/MusicControlButton";
-import { OutlinedButton } from "@/components/ui/OutlinedButton";
 
 type SmallSpotifyTileProps = {
-  tileId: TileId;
+  tileId: number;
 };
 
 export const SmallSpotifyTile: React.FC<SmallSpotifyTileProps> = ({

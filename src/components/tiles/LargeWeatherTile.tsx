@@ -1,10 +1,9 @@
+import { LargeWeatherTileSkeleton } from "@/components/skeletons/LargeWeatherTileSkeleton";
+import { OutlinedButton } from "@/components/ui/OutlinedButton";
 import {
   cityForWeatherSelector,
   tempDisplayInCelsiusSelector,
 } from "@/recoil/UserSettingsSelectors";
-import { LargeWeatherTileSkeleton } from "@/components/skeletons/LargeWeatherTileSkeleton";
-import { OutlinedButton } from "@/components/ui/OutlinedButton";
-import { TileId } from "@/types";
 import { WeatherData } from "@/types/weather";
 import {
   Box,
@@ -17,7 +16,7 @@ import {
   Text,
 } from "@chakra-ui/react";
 import { useQuery } from "@tanstack/react-query";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import {
   WiCloud,
   WiDaySunny,
@@ -27,7 +26,7 @@ import {
 import { SetterOrUpdater, useRecoilState } from "recoil";
 
 interface LargeWeatherTileProps {
-  tileId: TileId;
+  tileId: number;
 }
 
 interface DaysWeatherProps {

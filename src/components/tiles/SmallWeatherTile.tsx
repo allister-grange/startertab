@@ -1,10 +1,10 @@
+import { SmallWeatherTileSkeleton } from "@/components/skeletons/SmallWeatherTileSkeleton";
+import { OutlinedButton } from "@/components/ui/OutlinedButton";
 import {
   cityForWeatherSelector,
   tempDisplayInCelsiusSelector,
 } from "@/recoil/UserSettingsSelectors";
-import { SmallWeatherTileSkeleton } from "@/components/skeletons/SmallWeatherTileSkeleton";
-import { OutlinedButton } from "@/components/ui/OutlinedButton";
-import { TileId, WeatherData } from "@/types";
+import { WeatherData } from "@/types";
 import {
   Box,
   Center,
@@ -26,7 +26,7 @@ import {
 import { SetterOrUpdater, useRecoilState } from "recoil";
 
 interface SmallWeatherTileProps {
-  tileId: TileId;
+  tileId: number;
 }
 
 const convertCelsiusToFahrenheit = (temp: number): number => {

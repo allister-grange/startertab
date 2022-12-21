@@ -1,7 +1,7 @@
 import DayPlannerForm from "@/components/tiles/DayPlanner/DayPlannerForm";
 import { OutlinedButton } from "@/components/ui/OutlinedButton";
 import { times } from "@/helpers/tileHelpers";
-import { Booking, TileId } from "@/types";
+import { Booking } from "@/types";
 import {
   Box,
   Flex,
@@ -25,7 +25,7 @@ const PopoverTrigger: React.FC<{ children: React.ReactNode }> =
   OrigPopoverTrigger;
 
 interface DayPlannerTileProps {
-  tileId: TileId;
+  tileId: number;
   bookings?: Booking[];
   setBookings: SetterOrUpdater<Booking[] | undefined>;
 }

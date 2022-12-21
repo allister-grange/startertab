@@ -1,17 +1,16 @@
-import React, { useEffect, useState } from "react";
-import { getBonsaiBase, grow } from "@/helpers/bonsaiHelpers";
 import * as BONSAI from "@/helpers/bonsaiHelpers";
-import { ShootType } from "@/types/bonsai";
-import { Box, Text } from "@chakra-ui/react";
-import { TileId } from "@/types";
-import { SetterOrUpdater, useRecoilState } from "recoil";
+import { getBonsaiBase, grow } from "@/helpers/bonsaiHelpers";
 import {
   bonsaiBaseColorSelector,
   bonsaiTrunkColorSelector,
 } from "@/recoil/UserSettingsSelectors";
+import { ShootType } from "@/types/bonsai";
+import { Box, Text } from "@chakra-ui/react";
+import React, { useEffect, useState } from "react";
+import { SetterOrUpdater, useRecoilState } from "recoil";
 
 type BonsaiProps = {
-  tileId: TileId;
+  tileId: number;
 };
 
 const getEmptyBonsai = (): string[][] => {

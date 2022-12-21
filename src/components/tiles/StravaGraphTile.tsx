@@ -1,7 +1,7 @@
 import { OptionBadge } from "@/components/ui/OptionBadge";
+import { OutlinedButton } from "@/components/ui/OutlinedButton";
 import { StravaLogo } from "@/components/ui/StravaLogo";
 import { StravaContext } from "@/context/StravaContext";
-import { TileId } from "@/types";
 import { StravaContextInterface, StravaGraphPoint } from "@/types/strava";
 import { Box, Center, Heading } from "@chakra-ui/react";
 import React, { useContext, useState } from "react";
@@ -13,10 +13,9 @@ import {
   XAxis,
   YAxis,
 } from "recharts";
-import { OutlinedButton } from "@/components/ui/OutlinedButton";
 
 type PageProps = {
-  tileId: TileId;
+  tileId: number;
 };
 
 type ActivityDisplay = "swim" | "ride" | "run";

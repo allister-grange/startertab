@@ -1,7 +1,7 @@
-import { redditFeedSelector } from "@/recoil/UserSettingsSelectors";
 import { TextFeedSkeleton } from "@/components/skeletons/TextFeedSkeleton";
 import { calculateTimeAgoString, truncateString } from "@/helpers/tileHelpers";
-import { RedditAPIResponse, RedditDataHolder, TileId } from "@/types";
+import { redditFeedSelector } from "@/recoil/UserSettingsSelectors";
+import { RedditAPIResponse, RedditDataHolder } from "@/types";
 import {
   Box,
   Flex,
@@ -17,7 +17,7 @@ import React, { useRef, useState } from "react";
 import { SetterOrUpdater, useRecoilState } from "recoil";
 
 interface RedditFeedProps {
-  tileId: TileId;
+  tileId: number;
 }
 
 const fetcher = async (url: string): Promise<RedditDataHolder[]> => {
