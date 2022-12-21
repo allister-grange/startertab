@@ -2,7 +2,7 @@ import { ColorPicker } from "@/components/sidebar/ColorPicker";
 import { GenericInput } from "@/components/sidebar/GenericInput";
 import { GenericSelect } from "@/components/sidebar/GenericSelect";
 import { TileTypePicker } from "@/components/sidebar/TileTypePicker";
-import { Option, TileId, TileSettings, TileType } from "@/types";
+import { Option, TileSettings, TileType } from "@/types";
 import { AccordionPanel, Box, Text } from "@chakra-ui/react";
 import React from "react";
 import { ResetAndRandomizeColors } from "./ResetAndRandomizeColors";
@@ -14,7 +14,7 @@ interface SettingOptionContainerProps {
   changeSetting: (
     key: keyof TileSettings,
     value: string,
-    tileId: TileId
+    tileId: number | string
   ) => void;
   resetOptionToDefault: (option: Option) => void;
   value: any;

@@ -1,11 +1,12 @@
-import { TodoObject, Booking, FavoriteLink, RSSFeed } from "@/types/tiles";
+import { Booking, FavoriteLink, RSSFeed, TodoObject } from "@/types/tiles";
+import { Layouts } from "react-grid-layout";
 
 export type Option = {
   title: string;
   subTitle: string;
   localStorageId: string;
   optionType: OptionType;
-  tileId: TileId;
+  tileId: number | string;
 };
 
 export type OptionType =
@@ -26,8 +27,6 @@ export type OptionType =
   | "HackerNewsFeedType"
   | "SpotifyTopArtistsTimeLength"
   | "CityInputForUV";
-
-export type KeyOfTileSettings = keyof TileSettings;
 
 export type TileType =
   | "Reddit Feed"
@@ -54,7 +53,10 @@ export type TileType =
   | "RSS Feed Tile"
   | "None";
 
+export type TileSettingsKey = keyof TileSettings;
+
 export type TileSettings = {
+  tileId: number;
   textColor: string;
   backgroundColor: string;
   tileType: TileType;
@@ -85,47 +87,14 @@ export type TileSettings = {
   rssFeeds?: RSSFeed[];
 };
 
-export type TileShape = {
-  tileId: TileId;
-  gridArea: string;
-};
-
 export type ThemeSettings = {
   themeName: string;
   downloadedFromMarketplace: boolean;
   globalSettings: TileSettings;
-  tileOrder: TileShape[];
-  tile1: TileSettings;
-  tile2: TileSettings;
-  tile3: TileSettings;
-  tile4: TileSettings;
-  tile5: TileSettings;
-  tile6: TileSettings;
-  tile7: TileSettings;
-  tile8: TileSettings;
-  tile9: TileSettings;
-  tile10: TileSettings;
-  tile11: TileSettings;
+  tileLayout: Layouts;
+  tiles: TileSettings[];
 };
 
 export type UserSettings = {
   themes: ThemeSettings[];
 };
-
-export type SortedOption = {
-  [key in TileId]: Option[];
-};
-
-export type TileId =
-  | "tile1"
-  | "tile2"
-  | "tile3"
-  | "tile4"
-  | "tile5"
-  | "tile6"
-  | "tile7"
-  | "tile8"
-  | "tile9"
-  | "tile10"
-  | "tile11"
-  | "globalSettings";

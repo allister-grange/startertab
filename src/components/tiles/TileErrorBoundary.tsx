@@ -1,13 +1,13 @@
 import { OutlinedButton } from "@/components/ui/OutlinedButton";
 import { deepClone } from "@/helpers/tileHelpers";
 import { userSettingState } from "@/recoil/UserSettingsAtom";
-import { TileId, TileSettings } from "@/types";
+import { TileSettings } from "@/types";
 import { Box, Center, Heading, Text, useColorMode } from "@chakra-ui/react";
 import React from "react";
 import { useRecoilState } from "recoil";
 
 interface TileErrorBoundaryProps {
-  tileId: TileId;
+  tileId: number;
   setErrorKeys: React.Dispatch<React.SetStateAction<string | undefined>>;
 }
 
@@ -29,16 +29,22 @@ export const TileErrorBoundary: React.FC<TileErrorBoundaryProps> = ({
       return;
     }
 
-    Object.keys(currentTheme[tileId]).forEach(function (key: string, index) {
+    Object.keys(currentTheme.tiles[tileId]).forEach(function (
+      key: string,
+      index
+    ) {
       const castedKey = key as keyof TileSettings;
-      if (castedKey === "backgroundColor") {
-        currentTheme[tileId][castedKey] = currentTheme[tileId][castedKey];
-      } else if (castedKey === "textColor") {
-        currentTheme[tileId][castedKey] = currentTheme[tileId][castedKey];
+
+      if (castedKey === "backgroundColor" || castedKey === "textColor") {
+        currentTheme.tiles[tileId][castedKey] =
+          currentTheme.tiles[tileId][castedKey];
       } else if (castedKey === "tileType") {
-        currentTheme[tileId][castedKey] = "Blank Tile";
+        currentTheme.tiles[tileId][castedKey] = "Blank Tile";
+      } else if (castedKey === "tileId") {
+        currentTheme.tiles[tileId][castedKey] =
+          currentTheme.tiles[tileId][castedKey];
       } else {
-        currentTheme[tileId][castedKey] = undefined;
+        currentTheme.tiles[tileId][castedKey] = undefined;
       }
     });
 

@@ -1,4 +1,4 @@
-import { Option, TileId, TileSettings } from "@/types";
+import { Option, TileSettings } from "@/types";
 import {
   Box,
   BoxProps,
@@ -19,7 +19,7 @@ interface ColorPickerProps extends BoxProps {
   changeSetting: (
     key: keyof TileSettings,
     value: string,
-    tileId: TileId
+    tileId: number | string
   ) => void;
   resetOptionToDefault: (option: Option) => void;
 }

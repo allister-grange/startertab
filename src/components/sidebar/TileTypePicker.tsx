@@ -1,4 +1,4 @@
-import { Option, OptionType, TileId, TileSettings } from "@/types";
+import { Option, OptionType, TileSettings } from "@/types";
 import { Box, BoxProps, Select, Text } from "@chakra-ui/react";
 import React from "react";
 
@@ -10,7 +10,7 @@ interface TileTypePickerProps extends BoxProps {
   changeSetting: (
     key: keyof TileSettings,
     value: string,
-    tileId: TileId
+    tileId: number | string
   ) => void;
   resetOptionToDefault: (option: Option) => void;
   sizeOfTileForTypes: OptionType;

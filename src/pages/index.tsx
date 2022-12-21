@@ -1,11 +1,16 @@
 import { TileGrid } from "@/components/grid/TileGrid";
-import { colorModeState, userSettingState } from "@/recoil/UserSettingsAtom";
 import SettingsSideBar from "@/components/sidebar/SettingsSidebar";
 import { Tutorial } from "@/components/tutorial/Tutorial";
 import { MobileWarning } from "@/components/ui/MobileWarning";
 import { SettingsToggle } from "@/components/ui/SettingsToggle";
-import { applyTheme, getCurrentTheme } from "@/helpers/settingsHelpers";
-import { TileId, TileShape, UserSettings } from "@/types";
+import {
+  applyTheme,
+  getCurrentTheme,
+  getNewSettingsFromLegacyTheme,
+} from "@/helpers/settingsHelpers";
+import { deepClone } from "@/helpers/tileHelpers";
+import { colorModeState, userSettingState } from "@/recoil/UserSettingsAtom";
+import { UserSettings } from "@/types";
 import {
   Box,
   Flex,
@@ -18,30 +23,31 @@ import {
 import type { NextPage } from "next";
 import { useCallback, useEffect, useState } from "react";
 import { isMobile } from "react-device-detect";
+import { Layouts } from "react-grid-layout";
 import { useRecoilState, useSetRecoilState } from "recoil";
-import { deepClone } from "@/helpers/tileHelpers";
 
 const Home: NextPage = () => {
   // Sidebar hook
   const { isOpen, onOpen, onClose } = useDisclosure();
   const toast = useToast();
   // to highlight what tile you are looking to edit from the sidebar
-  const [optionHovered, setOptionHovered] = useState<TileId | undefined>();
+  const [optionHovered, setOptionHovered] = useState<number | undefined>();
   const [showingTutorial, setShowingTutorial] = useState(false);
   const [tutorialProgress, setTutorialProgress] = useState<number>(-1);
   const [isMobileView, setIsMobileView] = useState<boolean>(() => isMobile);
 
   const [settings, setSettings] = useRecoilState(userSettingState);
   const [showingMobileWarning, setShowingMobileWarning] = useState(false);
+  const [isEditingTiles, setIsEditingTiles] = useState(false);
   const { colorMode } = useColorMode();
 
   const setColorModeState = useSetRecoilState(colorModeState);
 
-  const updateTileOrderInSettings = (newTiles: TileShape[]) => {
+  const updateTileLayoutInSettings = (newLayout: Layouts) => {
     const settingsToChange = deepClone(settings) as UserSettings;
     const themeToChange = getCurrentTheme(settingsToChange, colorMode);
 
-    themeToChange.tileOrder = newTiles;
+    themeToChange.tileLayout = newLayout;
     setSettings(settingsToChange);
   };
 
@@ -130,6 +136,16 @@ const Home: NextPage = () => {
   }, [settings, colorMode, setColorModeState]);
 
   const currentTheme = getCurrentTheme(settings, colorMode);
+  // legacy settings need to be switched over to new format
+  if ((currentTheme as any).tile1) {
+    const newSettingsFormat = getNewSettingsFromLegacyTheme(
+      settings,
+      colorMode
+    );
+    console.log("settings new settings from old format");
+
+    setSettings(newSettingsFormat);
+  }
   const gridGap = currentTheme.globalSettings.gridGap;
   const settingsToggleColor = currentTheme.globalSettings.textColor;
   let toDisplay;
@@ -156,13 +172,21 @@ const Home: NextPage = () => {
               setTutorialProgress={setTutorialProgress}
             />
           ) : null}
-          <Flex width="100%" overflow="auto" height="100%">
+          <Flex
+            width="100%"
+            overflow="auto"
+            height="100%"
+            onClick={() => setIsEditingTiles(false)}
+          >
             <TileGrid
               tutorialProgress={tutorialProgress}
+              isEditingTiles={isEditingTiles}
+              setIsEditingTiles={setIsEditingTiles}
               optionHovered={optionHovered}
               gridGap={gridGap}
-              tiles={currentTheme.tileOrder}
-              updateTileOrderInSettings={updateTileOrderInSettings}
+              layout={currentTheme.tileLayout}
+              updateTileLayoutInSettings={updateTileLayoutInSettings}
+              tiles={currentTheme.tiles}
             />
           </Flex>
         </>

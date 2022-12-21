@@ -1,4 +1,4 @@
-import { ThemeSettings, TileId } from "@/types";
+import { ThemeSettings, TileSettingsKey } from "@/types";
 import { Box, Grid } from "@chakra-ui/react";
 import React from "react";
 
@@ -40,7 +40,7 @@ export const ThemePreview: React.FC<ThemePreviewProps> = ({ theme }) => {
         p="4"
       >
         <Box
-          background={`${theme["tile1" as TileId].backgroundColor}`}
+          background={`${theme["tile1" as TileSettingsKey].backgroundColor}`}
           shadow={shadow}
           border={border}
           borderColor={borderColor}
@@ -48,7 +48,7 @@ export const ThemePreview: React.FC<ThemePreviewProps> = ({ theme }) => {
           gridArea="tall1"
         />
         <Box
-          background={`${theme["tile2" as TileId].backgroundColor}`}
+          background={`${theme["tile2" as TileSettingsKey].backgroundColor}`}
           shadow={shadow}
           border={border}
           borderColor={borderColor}
@@ -56,7 +56,7 @@ export const ThemePreview: React.FC<ThemePreviewProps> = ({ theme }) => {
           gridArea="wide1"
         />
         <Box
-          background={`${theme["tile3" as TileId].backgroundColor}`}
+          background={`${theme["tile3" as TileSettingsKey].backgroundColor}`}
           shadow={shadow}
           border={border}
           borderColor={borderColor}
@@ -64,7 +64,7 @@ export const ThemePreview: React.FC<ThemePreviewProps> = ({ theme }) => {
           gridArea="tall2"
         />
         <Box
-          background={`${theme["tile4" as TileId].backgroundColor}`}
+          background={`${theme["tile4" as TileSettingsKey].backgroundColor}`}
           shadow={shadow}
           border={border}
           borderColor={borderColor}
@@ -72,7 +72,7 @@ export const ThemePreview: React.FC<ThemePreviewProps> = ({ theme }) => {
           gridArea="tall3"
         />
         <Box
-          background={`${theme["tile5" as TileId].backgroundColor}`}
+          background={`${theme["tile5" as TileSettingsKey].backgroundColor}`}
           shadow={shadow}
           border={border}
           borderColor={borderColor}
@@ -80,7 +80,7 @@ export const ThemePreview: React.FC<ThemePreviewProps> = ({ theme }) => {
           gridArea="wide2"
         />
         <Box
-          background={`${theme["tile6" as TileId].backgroundColor}`}
+          background={`${theme["tile6" as TileSettingsKey].backgroundColor}`}
           shadow={shadow}
           border={border}
           borderColor={borderColor}
@@ -88,7 +88,7 @@ export const ThemePreview: React.FC<ThemePreviewProps> = ({ theme }) => {
           gridArea="tall4"
         />
         <Box
-          background={`${theme["tile7" as TileId].backgroundColor}`}
+          background={`${theme["tile7" as TileSettingsKey].backgroundColor}`}
           shadow={shadow}
           border={border}
           borderColor={borderColor}
@@ -96,7 +96,7 @@ export const ThemePreview: React.FC<ThemePreviewProps> = ({ theme }) => {
           gridArea="small1"
         />
         <Box
-          background={`${theme["tile8" as TileId].backgroundColor}`}
+          background={`${theme["tile8" as TileSettingsKey].backgroundColor}`}
           shadow={shadow}
           border={border}
           borderColor={borderColor}
@@ -104,7 +104,7 @@ export const ThemePreview: React.FC<ThemePreviewProps> = ({ theme }) => {
           gridArea="small2"
         />
         <Box
-          background={`${theme["tile9" as TileId].backgroundColor}`}
+          background={`${theme["tile9" as TileSettingsKey].backgroundColor}`}
           shadow={shadow}
           border={border}
           borderColor={borderColor}
@@ -112,7 +112,7 @@ export const ThemePreview: React.FC<ThemePreviewProps> = ({ theme }) => {
           gridArea="wide3"
         />
         <Box
-          background={`${theme["tile10" as TileId].backgroundColor}`}
+          background={`${theme["tile10" as TileSettingsKey].backgroundColor}`}
           shadow={shadow}
           border={border}
           borderColor={borderColor}
@@ -120,7 +120,7 @@ export const ThemePreview: React.FC<ThemePreviewProps> = ({ theme }) => {
           gridArea="small3"
         />
         <Box
-          background={`${theme["tile11" as TileId].backgroundColor}`}
+          background={`${theme["tile11" as TileSettingsKey].backgroundColor}`}
           shadow={shadow}
           border={border}
           borderColor={borderColor}

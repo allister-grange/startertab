@@ -1,4 +1,4 @@
-import { Option, TileId, TileSettings } from "@/types";
+import { Option, TileSettings } from "@/types";
 import { Box, BoxProps, Input, Text } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
 
@@ -10,7 +10,7 @@ interface GenericInputProps extends BoxProps {
   changeSetting: (
     key: keyof TileSettings,
     value: string,
-    tileId: TileId
+    tileId: number | string
   ) => void;
   resetOptionToDefault: (option: Option) => void;
 }

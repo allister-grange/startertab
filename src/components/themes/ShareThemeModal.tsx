@@ -68,32 +68,23 @@ export const ShareThemeModal: React.FC<ShareThemeModalProps> = ({
     themeToSend.themeName = themeName;
 
     /** optional fields need to be cleared to prevent leaking personal data
-      so we iterate through all the items in the ThemeSettings tiles
+      so we iterate through all the items in the tiles
       and set all fields that aren't mandatory (the colors and tile type)
       to be undefined */
-    for (const [key, value] of Object.entries(themeToSend)) {
-      const castedKey = key as keyof ThemeSettings;
-
-      if (
-        castedKey === "globalSettings" ||
-        castedKey === "themeName" ||
-        castedKey === "downloadedFromMarketplace"
-      ) {
-        continue;
-      }
-
-      for (const [key, value] of Object.entries(themeToSend[castedKey])) {
+    for (let i = 0; i < themeToSend.tiles.length; i++) {
+      for (const [key, value] of Object.entries(themeToSend.tiles[i])) {
         let myKey = key as keyof TileSettings;
+
         if (
           myKey === "textColor" ||
           myKey === "backgroundColor" ||
           myKey === "tileType" ||
-          myKey === "tileLayout"
+          myKey === "tileId"
         ) {
           continue;
         }
 
-        themeToSend[castedKey][myKey] = undefined;
+        themeToSend.tiles[i][myKey] = undefined;
       }
     }
 

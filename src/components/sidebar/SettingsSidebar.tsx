@@ -1,4 +1,3 @@
-import { userSettingState } from "@/recoil/UserSettingsAtom";
 import {
   Footer,
   SideBarTitle,
@@ -12,32 +11,30 @@ import {
   sortOptionsIntoTileGroups,
 } from "@/helpers/settingsHelpers";
 import { sideBarOptions } from "@/helpers/sideBarOptions";
+import { deepClone } from "@/helpers/tileHelpers";
+import { userSettingState } from "@/recoil/UserSettingsAtom";
 import styles from "@/styles/Home.module.css";
 import { Option } from "@/types";
-import {
-  ThemeSettings,
-  TileId,
-  TileSettings,
-  UserSettings,
-} from "@/types/settings";
+import { ThemeSettings, TileSettings, UserSettings } from "@/types/settings";
 import {
   Accordion,
   AccordionButton,
   AccordionIcon,
   AccordionItem,
   Box,
+  Button,
   ExpandedIndex,
-  useColorMode,
   Link,
+  useColorMode,
 } from "@chakra-ui/react";
 import React, { Dispatch, SetStateAction, useRef, useState } from "react";
 import { useRecoilState } from "recoil";
-import { deepClone } from "@/helpers/tileHelpers";
+import { OutlinedButton } from "../ui/OutlinedButton";
 
 interface SettingsSideBarProps {
   isOpen: boolean;
   onClose: () => void;
-  setOptionHovered: React.Dispatch<SetStateAction<TileId | undefined>>;
+  setOptionHovered: React.Dispatch<SetStateAction<number | undefined>>;
   setTutorialProgress: Dispatch<SetStateAction<number>>;
   tutorialProgress: number;
 }
@@ -105,12 +102,16 @@ const SettingsSideBar: React.FC<SettingsSideBarProps> = ({
     <K extends keyof TileSettings>(
       key: K,
       value: TileSettings[K],
-      tileId: TileId
+      tileId: number | string
     ) => {
       const userSettings = JSON.parse(JSON.stringify(settings)) as UserSettings;
       const themeToChange = getCurrentTheme(userSettings, colorMode);
 
-      themeToChange[tileId][key] = value;
+      if (typeof tileId === "string") {
+        themeToChange.globalSettings[key] = value;
+      } else {
+        themeToChange.tiles[tileId][key] = value;
+      }
 
       setSettings(userSettings);
     },
@@ -129,6 +130,7 @@ const SettingsSideBar: React.FC<SettingsSideBarProps> = ({
     [changeSetting, colorMode]
   );
 
+  // TODO fix this method
   const resetAllColorsToDefault = <K extends keyof TileSettings>() => {
     let newSettings = deepClone(settings);
     const themeToChange = getCurrentTheme(newSettings, colorMode);
@@ -140,10 +142,16 @@ const SettingsSideBar: React.FC<SettingsSideBarProps> = ({
       ) {
         return;
       }
+
       const defaultSetting = getDefaultSettingForOption(option, colorMode);
 
-      themeToChange[option.tileId][option.localStorageId as K] =
-        defaultSetting as TileSettings[K];
+      if (typeof option.tileId === "string") {
+        themeToChange.globalSettings[option.localStorageId as K] =
+          defaultSetting as TileSettings[K];
+      } else {
+        themeToChange.tiles[option.tileId][option.localStorageId as K] =
+          defaultSetting as TileSettings[K];
+      }
     });
 
     setSettings(newSettings);
@@ -156,8 +164,14 @@ const SettingsSideBar: React.FC<SettingsSideBarProps> = ({
     sideBarOptions.forEach((option) => {
       if (option.localStorageId.toLowerCase().includes("color")) {
         const newColorSetting = randomHexValue();
-        themeToChange[option.tileId][option.localStorageId as K] =
-          newColorSetting as TileSettings[K];
+
+        if (typeof option.tileId === "string") {
+          themeToChange.globalSettings[option.localStorageId as K] =
+            newColorSetting as TileSettings[K];
+        } else {
+          themeToChange.tiles[option.tileId][option.localStorageId as K] =
+            newColorSetting as TileSettings[K];
+        }
       }
     });
 
@@ -172,25 +186,13 @@ const SettingsSideBar: React.FC<SettingsSideBarProps> = ({
   };
 
   const getOptionTitle = (tileId: keyof ThemeSettings): string => {
-    const tileToSearch = tileId
-      .toLowerCase()
-      .replace(" ", "") as keyof ThemeSettings;
+    const tileIdInt = parseInt(tileId);
 
-    if (currentThemeSettings === undefined) {
-      return tileId;
+    if (tileIdInt >= 0) {
+      return currentThemeSettings.tiles[tileIdInt].tileType;
+    } else {
+      return "Global Settings";
     }
-
-    const optionTitle = currentThemeSettings[tileToSearch] as TileSettings;
-
-    if (optionTitle) {
-      if (optionTitle.tileType === "None") {
-        return "No type";
-      }
-      return optionTitle.tileType ? optionTitle.tileType : "No Tile Type";
-    }
-
-    // catch here for the settings with no tile associated with them
-    return "Global Settings";
   };
 
   if (!currentThemeSettings) {
@@ -202,6 +204,8 @@ const SettingsSideBar: React.FC<SettingsSideBarProps> = ({
   const textColor = currentThemeSettings?.globalSettings.textColor;
   const subTextColor = currentThemeSettings?.globalSettings.subTextColor!;
   const borderColor = currentThemeSettings?.globalSettings.sidebarBorderColor!;
+  const optionGroups = Object.entries(sortedOptions);
+  optionGroups.unshift(optionGroups.pop()!);
 
   return (
     <Box
@@ -252,18 +256,39 @@ const SettingsSideBar: React.FC<SettingsSideBarProps> = ({
           Manage Themes
         </Link>
         <Box mt="4" />
+        <OutlinedButton
+          color={textColor}
+          border={`1px solid ${textColor}`}
+          borderRadius="md"
+          py="2"
+          display="block"
+          textAlign="center"
+          transition="all .2s"
+          width="100%"
+          fontWeight="400"
+          _hover={{
+            transform: "translateY(-2px)",
+          }}
+          _focus={{
+            border: `2px solid ${textColor}`,
+            transform: "translateY(-2px)",
+          }}
+        >
+          Edit Tiles
+        </OutlinedButton>
+        <Box mt="4" />
         <Accordion
           allowMultiple
           onChange={onAccordionChange}
           index={accordionIndex}
         >
-          {Object.entries(sortedOptions).map((tileGroup, index) => {
+          {optionGroups.map((tileGroup, index) => {
             return (
               <AccordionItem
                 key={tileGroup[0]}
                 p="0"
-                onMouseEnter={() => setOptionHovered(tileGroup[0] as TileId)}
-                onFocus={() => setOptionHovered(tileGroup[0] as TileId)}
+                onMouseEnter={() => setOptionHovered(parseInt(tileGroup[0]))}
+                onFocus={() => setOptionHovered(parseInt(tileGroup[0]))}
                 onMouseLeave={() => setOptionHovered(undefined)}
                 onBlur={() => setOptionHovered(undefined)}
                 borderColor={borderColor}
@@ -283,22 +308,35 @@ const SettingsSideBar: React.FC<SettingsSideBarProps> = ({
                   </AccordionButton>
                 </h2>
                 {tileGroup[1].map((option: Option) => {
+                  let tileType;
+                  let value;
+
+                  if (typeof option.tileId === "string") {
+                    tileType = currentThemeSettings.globalSettings.tileType;
+                    value =
+                      currentThemeSettings.globalSettings[
+                        option.localStorageId as keyof TileSettings
+                      ];
+                  } else {
+                    tileType =
+                      currentThemeSettings!.tiles[option.tileId].tileType;
+                    value =
+                      currentThemeSettings!.tiles[option.tileId!][
+                        option.localStorageId as keyof TileSettings
+                      ];
+                  }
                   return (
                     <SettingOptionContainer
                       key={option.localStorageId}
                       option={option}
-                      tileType={currentThemeSettings![option.tileId].tileType}
+                      tileType={tileType}
                       changeSetting={changeSetting}
                       textColor={textColor}
                       subTextColor={subTextColor}
                       resetOptionToDefault={resetOptionToDefault}
                       randomizeAllColorValues={randomizeAllColorValues}
                       resetAllColorsToDefault={resetAllColorsToDefault}
-                      value={
-                        currentThemeSettings![option.tileId!][
-                          option.localStorageId as keyof TileSettings
-                        ]
-                      }
+                      value={value}
                     />
                   );
                 })}

@@ -1,21 +1,22 @@
 import Tile from "@/components/grid/Tile";
-import { gridLayout } from "@/helpers/gridLayout";
-import { defaultTiles } from "@/helpers/themes";
-import { TileId, TileShape } from "@/types";
+import { TileSettings } from "@/types";
 import { Box, BoxProps, Flex } from "@chakra-ui/react";
-import React, { useRef, useState } from "react";
-import { Responsive, WidthProvider } from "react-grid-layout";
+import React, { Dispatch, SetStateAction } from "react";
+import { Layouts, Responsive, WidthProvider } from "react-grid-layout";
 import "react-grid-layout/css/styles.css";
 import "react-resizable/css/styles.css";
 
 const ResponsiveGridLayout = WidthProvider(Responsive);
 
 interface TileGridProps {
-  optionHovered?: TileId;
+  optionHovered?: number;
   gridGap?: string;
   tutorialProgress: number;
-  tiles: TileShape[];
-  updateTileOrderInSettings: (newTiles: TileShape[]) => void;
+  layout: Layouts;
+  tiles: TileSettings[];
+  isEditingTiles: boolean;
+  setIsEditingTiles: Dispatch<SetStateAction<boolean>>;
+  updateTileLayoutInSettings: (newLayout: Layouts) => void;
 }
 
 export const TileGrid: React.FC<TileGridProps> = ({
@@ -23,111 +24,13 @@ export const TileGrid: React.FC<TileGridProps> = ({
   gridGap,
   tutorialProgress,
   tiles,
-  updateTileOrderInSettings,
+  layout,
+  isEditingTiles,
+  updateTileLayoutInSettings,
+  setIsEditingTiles,
 }) => {
-  if (!tiles) {
-    tiles = defaultTiles;
-  }
-
-  const currentlyDraggingElement = useRef<EventTarget | null>(null);
-  const gridRef = useRef<HTMLDivElement | null>(null);
-
-  const [layout, setLayout] = useState(gridLayout);
-
-  const onDragOverEvent = (e: React.DragEvent<HTMLDivElement>) => {
-    e.preventDefault();
-    e.dataTransfer.dropEffect = "move";
-
-    if (currentlyDraggingElement.current == null) {
-      return;
-    }
-    if (!(e.target instanceof HTMLElement)) {
-      return;
-    }
-
-    const target = e.currentTarget;
-
-    const dragEl = currentlyDraggingElement.current;
-
-    if (!(dragEl instanceof HTMLElement)) {
-      return;
-    }
-
-    if (target && target !== dragEl && target.nodeName == "DIV") {
-      if (target.classList.contains("inside")) {
-        e.stopPropagation();
-      } else {
-        //getBoundingClientRect contains location-info about the element (relative to the viewport)
-        var targetPos = target.getBoundingClientRect();
-        //checking that dragEl is dragged over half the target y-axis or x-axis. (therefor the .5)
-        var overlapping =
-          (e.clientY - targetPos.top) / (targetPos.bottom - targetPos.top) >
-            0.5 ||
-          (e.clientX - targetPos.left) / (targetPos.right - targetPos.left) >
-            0.5;
-
-        const grid = dragEl.parentElement;
-
-        if (!grid) {
-          return;
-        }
-
-        // this re-orders the DOM, won't help me after a re-fresh....
-        // I could keep the tileIds in an array that persists to disk, should I worry about this after fixing?
-        grid.insertBefore(
-          dragEl,
-          (overlapping && target.nextSibling) || target
-        );
-      }
-    }
-  };
-
-  const onDragStartEvent = (e: React.DragEvent<HTMLDivElement>) => {
-    currentlyDraggingElement.current = e.target;
-
-    if (!(currentlyDraggingElement.current instanceof HTMLElement)) {
-      return;
-    }
-
-    e.dataTransfer.effectAllowed = "move";
-    e.dataTransfer.setData(
-      "Text",
-      currentlyDraggingElement.current.textContent!
-    );
-  };
-
-  const onDragStopEvent = (e: React.DragEvent<HTMLDivElement>) => {
-    e.preventDefault();
-
-    if (!gridRef) {
-      return;
-    }
-
-    // on the drop of a tile, go through the order of the divs and save them to the settings
-    const childrenDivs = gridRef.current?.children;
-    const newTileOrder: TileShape[] = [];
-
-    for (const divIndexString in childrenDivs) {
-      const divIndex = parseInt(divIndexString);
-
-      if (!divIndex && divIndex !== 0) {
-        continue;
-      }
-
-      const childRef = childrenDivs.item(divIndex);
-      if (childRef) {
-        newTileOrder.push({
-          tileId: childRef.id as unknown as TileId,
-          gridArea: window
-            .getComputedStyle(childRef)
-            .getPropertyValue("grid-area"),
-        });
-      }
-    }
-
-    updateTileOrderInSettings(newTileOrder);
-  };
-
+  const filter =
+    tutorialProgress >= 0 && tutorialProgress < 4 ? "blur(8px)" : undefined;
   return (
     <Flex minH="100vh" w="100%" maxW="1370px" mx="auto" alignItems="center">
       <Box w="100%">
@@ -141,17 +44,24 @@ export const TileGrid: React.FC<TileGridProps> = ({
             gridGap ? parseInt(gridGap) : 16,
             gridGap ? parseInt(gridGap) : 16,
           ]}
-          isDraggable
-          isResizable
+          onLayoutChange={(currentLayout, allLayouts) =>
+            updateTileLayoutInSettings(allLayouts)
+          }
+          style={{
+            filter,
+          }}
+          isDraggable={isEditingTiles}
+          isResizable={isEditingTiles}
         >
           {tiles.map((tile, i) => (
             <CustomGridItemComponent key={tile.tileId}>
               <Tile
                 optionHovered={optionHovered === tile.tileId}
                 tileId={tile.tileId}
-                gridArea={tile.gridArea}
-                id={tile.tileId}
+                id={tile.tileId.toString()}
                 key={tile.tileId}
+                isEditingTiles={isEditingTiles}
+                setIsEditingTiles={setIsEditingTiles}
               />
             </CustomGridItemComponent>
           ))}
@@ -182,6 +92,7 @@ const CustomGridItemComponent = React.forwardRef(
         onMouseDown={onMouseDown}
         onMouseUp={onMouseUp}
         onTouchEnd={onTouchEnd}
+        onClick={(e) => e.stopPropagation()}
       >
         {props.children}
       </div>

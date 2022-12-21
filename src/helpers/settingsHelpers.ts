@@ -1,12 +1,14 @@
 import {
   Option,
   ThemeSettings,
-  TileId,
+  TileSettingsKey,
   TileSettings,
   UserSettings,
 } from "@/types";
 import { defaultSettings } from "@/helpers/themes";
 import { setCookies } from "cookies-next";
+import { deepClone } from "./tileHelpers";
+import { defaultGridLayout } from "./gridLayout";
 
 export const applyTheme = (theme: ThemeSettings) => {
   document.body.style.background = theme.globalSettings.backgroundColor;
@@ -21,98 +23,16 @@ export const applyTheme = (theme: ThemeSettings) => {
     "--text-color-sidebar",
     theme.globalSettings.textColor || ""
   );
-  document.documentElement.style.setProperty(
-    "--bg-color-tile1",
-    theme.tile1.backgroundColor
-  );
-  document.documentElement.style.setProperty(
-    "--bg-color-tile1",
-    theme.tile1.backgroundColor
-  );
-  document.documentElement.style.setProperty(
-    "--bg-color-tile2",
-    theme.tile2.backgroundColor
-  );
-  document.documentElement.style.setProperty(
-    "--bg-color-tile3",
-    theme.tile3.backgroundColor
-  );
-  document.documentElement.style.setProperty(
-    "--bg-color-tile4",
-    theme.tile4.backgroundColor
-  );
-  document.documentElement.style.setProperty(
-    "--bg-color-tile5",
-    theme.tile5.backgroundColor
-  );
-  document.documentElement.style.setProperty(
-    "--bg-color-tile6",
-    theme.tile6.backgroundColor
-  );
-  document.documentElement.style.setProperty(
-    "--bg-color-tile7",
-    theme.tile7.backgroundColor
-  );
-  document.documentElement.style.setProperty(
-    "--bg-color-tile8",
-    theme.tile8.backgroundColor
-  );
-  document.documentElement.style.setProperty(
-    "--bg-color-tile9",
-    theme.tile9.backgroundColor
-  );
-  document.documentElement.style.setProperty(
-    "--bg-color-tile10",
-    theme.tile10.backgroundColor
-  );
-  document.documentElement.style.setProperty(
-    "--bg-color-tile11",
-    theme.tile11.backgroundColor
-  );
-  document.documentElement.style.setProperty(
-    "--text-color-tile1",
-    theme.tile1.textColor
-  );
-  document.documentElement.style.setProperty(
-    "--text-color-tile2",
-    theme.tile2.textColor
-  );
-  document.documentElement.style.setProperty(
-    "--text-color-tile3",
-    theme.tile3.textColor
-  );
-  document.documentElement.style.setProperty(
-    "--text-color-tile4",
-    theme.tile4.textColor
-  );
-  document.documentElement.style.setProperty(
-    "--text-color-tile5",
-    theme.tile5.textColor
-  );
-  document.documentElement.style.setProperty(
-    "--text-color-tile6",
-    theme.tile6.textColor
-  );
-  document.documentElement.style.setProperty(
-    "--text-color-tile7",
-    theme.tile7.textColor
-  );
-  document.documentElement.style.setProperty(
-    "--text-color-tile8",
-    theme.tile8.textColor
-  );
-  document.documentElement.style.setProperty(
-    "--text-color-tile9",
-    theme.tile9.textColor
-  );
-  document.documentElement.style.setProperty(
-    "--text-color-tile10",
-    theme.tile10.textColor
-  );
-  document.documentElement.style.setProperty(
-    "--text-color-tile11",
-    theme.tile11.textColor
-  );
+  for (const tileId in theme.tiles) {
+    document.documentElement.style.setProperty(
+      `--bg-color-${tileId}`,
+      theme.tiles[tileId].backgroundColor
+    );
+    document.documentElement.style.setProperty(
+      `--text-color-${tileId}`,
+      theme.tiles[tileId].textColor
+    );
+  }
   setCookies("background", theme.globalSettings.backgroundColor, {
     maxAge: 34560000,
     sameSite: "strict",
@@ -122,13 +42,10 @@ export const applyTheme = (theme: ThemeSettings) => {
 
 export const sortOptionsIntoTileGroups = (
   options: Option[]
-): Map<TileId, Option[]> => {
+): Map<TileSettingsKey, Option[]> => {
   const optionsInTileGroups: any = {};
 
   options.forEach((option) => {
-    if (!option.tileId) {
-      return;
-    }
     if (!(option.tileId in optionsInTileGroups)) {
       optionsInTileGroups[option.tileId] = [option];
     } else {
@@ -160,9 +77,15 @@ export const getDefaultSettingForOption = (
     throw new Error("No theme named " + currentThemeName);
   }
 
-  return defaultTheme[option.tileId][
-    option.localStorageId as keyof TileSettings
-  ] as string;
+  if (typeof option.tileId === "string") {
+    return defaultTheme.globalSettings[
+      option.localStorageId as keyof TileSettings
+    ] as string;
+  } else {
+    return defaultTheme.tiles[option.tileId][
+      option.localStorageId as keyof TileSettings
+    ] as string;
+  }
 };
 
 export const getCurrentTheme = (
@@ -176,4 +99,50 @@ export const getCurrentTheme = (
   }
 
   return theme;
+};
+
+/** backwards compatibility for the old settings formatting */
+export const getNewSettingsFromLegacyTheme = (
+  settings: UserSettings,
+  colorMode: string
+) => {
+  let theme = settings.themes.find((theme) => theme.themeName === colorMode);
+  const themeToCheck = theme as any;
+  if (themeToCheck.tile1) {
+    const newSettings = deepClone(settings) as any;
+
+    // take each Tile from (1-11) and push them into tiles object, then delete the old reference
+    for (const theme in newSettings.themes) {
+      const themeToLookAt = newSettings.themes[theme] as any;
+      const newTileArray: TileSettings[] = [];
+
+      console.log("what" + themeToLookAt);
+
+      for (const [key, value] of Object.entries(themeToLookAt)) {
+        if (
+          key === "globalSettings" ||
+          key === "themeName" ||
+          key === "downloadedFromMarketplace" ||
+          key === "tiles" ||
+          key === "tileOrder" ||
+          key === "tileLayout"
+        ) {
+          continue;
+        }
+
+        // should only be Tile1, Tile2 object etc once you're here
+        const newTileId = parseInt(key.split("tile")[1]) - 1;
+        newTileArray.push({
+          ...(value as TileSettings),
+          tileId: newTileId,
+        } as TileSettings);
+
+        delete themeToLookAt[key];
+      }
+      const themeToChange = newSettings.themes[theme];
+      themeToChange.tiles = newTileArray;
+      themeToChange.tileLayout = defaultGridLayout;
+    }
+    return newSettings;
+  }
 };

@@ -1,87 +1,83 @@
-const xlArea = `"tall1 wide1 wide1 tall2 tall3"
-"tall1 wide1 wide1 tall2 tall3"
-"tall1 wide2 wide2 wide2 tall3"
-"tall4 small1 wide3 wide3 small3"
-"tall4 small2 wide3 wide3 small4"`;
+import { Layouts } from "react-grid-layout";
 
-export const gridLayout = {
+export const defaultGridLayout: Layouts = {
   lg: [
     {
       w: 1,
       h: 5,
       x: 0,
       y: 0,
-      i: "tile1",
+      i: "0",
     },
     {
       w: 2,
       h: 4,
       x: 1,
       y: 0,
-      i: "tile2",
+      i: "1",
     },
     {
       w: 1,
       h: 4,
       x: 3,
       y: 0,
-      i: "tile3",
+      i: "2",
     },
     {
       w: 1,
       h: 5,
       x: 4,
       y: 0,
-      i: "tile4",
+      i: "3",
     },
     {
       w: 3,
       h: 1,
       x: 1,
       y: 2,
-      i: "tile5",
+      i: "4",
     },
     {
       w: 1,
       h: 4,
       x: 0,
       y: 3,
-      i: "tile6",
+      i: "5",
     },
     {
       w: 1,
       h: 2,
       x: 1,
       y: 3,
-      i: "tile7",
+      i: "6",
     },
     {
       w: 1,
       h: 2,
       x: 1,
       y: 4,
-      i: "tile8",
+      i: "7",
     },
     {
       w: 2,
       h: 4,
       x: 2,
       y: 4,
-      i: "tile9",
+      i: "8",
     },
     {
       w: 1,
       h: 2,
       x: 4,
       y: 2,
-      i: "tile10",
+      i: "9",
     },
     {
       w: 1,
       h: 2,
       x: 4,
       y: 2,
-      i: "tile11",
+      i: "10",
     },
   ],
   md: [

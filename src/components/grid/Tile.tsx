@@ -1,22 +1,34 @@
 import { getCurrentTheme } from "@/helpers/settingsHelpers";
-import styles from "@/styles/Home.module.css";
-import { TileId } from "@/types";
-import { GridItem, GridItemProps, useColorMode } from "@chakra-ui/react";
-import React from "react";
-import { useRecoilValue } from "recoil";
-import { userSettingState } from "@/recoil/UserSettingsAtom";
 import { useLongPress } from "@/hooks/useLongPress";
+import { userSettingState } from "@/recoil/UserSettingsAtom";
+import styles from "@/styles/Home.module.css";
+import { Box, BoxProps, keyframes, useColorMode } from "@chakra-ui/react";
+import { motion } from "framer-motion";
 import dynamic from "next/dynamic";
+import React, { Dispatch, SetStateAction } from "react";
+import { useRecoilValue } from "recoil";
 const TileContainer = dynamic(() => import("@/components/grid/TileContainer"));
 
-export interface TileProps extends GridItemProps {
+export interface TileProps extends BoxProps {
   optionHovered: boolean;
-  tileId: TileId;
+  tileId: number;
+  isEditingTiles: boolean;
+  setIsEditingTiles: Dispatch<SetStateAction<boolean>>;
 }
+
+const animationKeyframes = keyframes`
+  0% { transform: rotate(0deg); }
+  25% { transform: rotate(.5deg); }
+  50% { transform: rotate(0eg); }
+  75% { transform: rotate(-.5deg); }
+  100% { transform: rotate(0deg); }
+`;
 
 const Tile: React.FC<TileProps> = ({
   tileId,
   optionHovered,
+  isEditingTiles,
+  setIsEditingTiles,
   children,
   ...props
 }) => {
@@ -29,10 +41,16 @@ const Tile: React.FC<TileProps> = ({
   const border = theme.globalSettings.tileBorder;
   const borderColor = theme.globalSettings.borderColor;
 
-  const longPress = useLongPress(() => console.log("held g"), 500);
+  const animation = `${animationKeyframes} ${
+    Math.random() * 400 + 300
+  }ms  infinite`;
+
+  const longPress = useLongPress(() => setIsEditingTiles(true), 500);
 
   return (
-    <GridItem
+    <Box
+      as={motion.div}
+      animation={isEditingTiles ? animation : undefined}
       height="100%"
       borderRadius={borderRadius ?? "15"}
       transition=".3s ease-in-out"
@@ -46,14 +64,14 @@ const Tile: React.FC<TileProps> = ({
       pos="relative"
       overflowY="scroll"
       overflowX="hidden"
-      cursor="move"
-      draggable="true"
+      cursor={isEditingTiles ? "move" : undefined}
+      draggable={isEditingTiles}
       className={styles.disableScrollbars}
       {...props}
       {...longPress}
     >
-      <TileContainer tileId={tileId} tileType={theme[tileId].tileType} />
-    </GridItem>
+      <TileContainer tileId={tileId} tileType={theme.tiles[tileId].tileType} />
+    </Box>
   );
 };
 

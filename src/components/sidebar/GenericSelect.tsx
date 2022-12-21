@@ -1,4 +1,4 @@
-import { Option, TileId, TileSettings } from "@/types";
+import { Option, TileSettings } from "@/types";
 import { Box, Select, Text } from "@chakra-ui/react";
 import React, { ReactElement } from "react";
 
@@ -10,7 +10,7 @@ interface GenericSelectProps {
   changeSetting: (
     key: keyof TileSettings,
     value: string,
-    tileId: TileId
+    tileId: number | string
   ) => void;
   resetOptionToDefault: (option: Option) => void;
   options: ReactElement;
