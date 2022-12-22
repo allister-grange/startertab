@@ -21,7 +21,6 @@ interface ColorPickerProps extends BoxProps {
     value: string,
     tileId: number | string
   ) => void;
-  resetOptionToDefault: (option: Option) => void;
 }
 
 export const ColorPicker: React.FC<ColorPickerProps> = ({
@@ -30,7 +29,6 @@ export const ColorPicker: React.FC<ColorPickerProps> = ({
   subTextColor,
   changeSetting,
   value,
-  resetOptionToDefault,
 }) => {
   const { title, subTitle, localStorageId } = option;
   const [inputValue, setInputValue] = useState(value);
@@ -74,12 +72,6 @@ export const ColorPicker: React.FC<ColorPickerProps> = ({
       </Text>
       <Text fontSize="xs" color={subTextColor}>
         {subTitle}
-        <span
-          style={{ cursor: "pointer" }}
-          onClick={() => resetOptionToDefault(option)}
-        >
-          .&nbsp;Reset to default.
-        </span>
       </Text>
       <Box display="flex" flexDir="column" mt="1">
         <Flex>

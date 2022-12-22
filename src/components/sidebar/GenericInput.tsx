@@ -12,7 +12,6 @@ interface GenericInputProps extends BoxProps {
     value: string,
     tileId: number | string
   ) => void;
-  resetOptionToDefault: (option: Option) => void;
 }
 
 export const GenericInput: React.FC<GenericInputProps> = ({
@@ -21,7 +20,6 @@ export const GenericInput: React.FC<GenericInputProps> = ({
   subTextColor,
   changeSetting,
   value,
-  resetOptionToDefault,
 }) => {
   const { title, subTitle, localStorageId } = option;
   const [inputValue, setInputValue] = useState(value);
@@ -65,12 +63,6 @@ export const GenericInput: React.FC<GenericInputProps> = ({
       </Text>
       <Text fontSize="xs" color={subTextColor}>
         {subTitle}
-        <span
-          style={{ cursor: "pointer" }}
-          onClick={() => resetOptionToDefault(option)}
-        >
-          .&nbsp;Reset to default.
-        </span>
       </Text>
       <Box display="flex" flexDir="column" mt="1">
         <Input

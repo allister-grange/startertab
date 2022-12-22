@@ -7,8 +7,8 @@ import {
 } from "@/types";
 import { defaultSettings } from "@/helpers/themes";
 import { setCookies } from "cookies-next";
-import { deepClone } from "./tileHelpers";
-import { defaultGridLayout } from "./gridLayout";
+import { deepClone } from "@/helpers/tileHelpers";
+import { defaultGridLayout } from "@/helpers/gridLayout";
 
 export const applyTheme = (theme: ThemeSettings) => {
   document.body.style.background = theme.globalSettings.backgroundColor;
@@ -65,29 +65,6 @@ export const getThemeNames = (settings: UserSettings): string[] => {
   return themeNames;
 };
 
-export const getDefaultSettingForOption = (
-  option: Option,
-  currentThemeName: string
-): string => {
-  const defaultTheme = defaultSettings.themes.find(
-    (theme) => theme.themeName === currentThemeName
-  );
-
-  if (!defaultTheme) {
-    throw new Error("No theme named " + currentThemeName);
-  }
-
-  if (typeof option.tileId === "string") {
-    return defaultTheme.globalSettings[
-      option.localStorageId as keyof TileSettings
-    ] as string;
-  } else {
-    return defaultTheme.tiles[option.tileId][
-      option.localStorageId as keyof TileSettings
-    ] as string;
-  }
-};
-
 export const getCurrentTheme = (
   settings: UserSettings,
   colorMode: string
@@ -115,8 +92,6 @@ export const getNewSettingsFromLegacyTheme = (
     for (const theme in newSettings.themes) {
       const themeToLookAt = newSettings.themes[theme] as any;
       const newTileArray: TileSettings[] = [];
-
-      console.log("what" + themeToLookAt);
 
       for (const [key, value] of Object.entries(themeToLookAt)) {
         if (

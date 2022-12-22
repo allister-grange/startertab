@@ -6,7 +6,6 @@ import {
 import SettingOptionContainer from "@/components/sidebar/SettingOptionContainer";
 import {
   getCurrentTheme,
-  getDefaultSettingForOption,
   getThemeNames,
   sortOptionsIntoTileGroups,
 } from "@/helpers/settingsHelpers";
@@ -85,6 +84,7 @@ const SettingsSideBar: React.FC<SettingsSideBarProps> = ({
     const permanentSettings = deepClone(settings);
     setSettings(permanentSettings);
     inMemorySettingsRef.current = permanentSettings;
+    setIsEditingTiles(false);
   };
 
   // reset the background, colors etc back to what is in the userSettings before changes
@@ -119,45 +119,6 @@ const SettingsSideBar: React.FC<SettingsSideBarProps> = ({
     [colorMode, setSettings, settings]
   );
 
-  const resetOptionToDefault = React.useCallback(
-    (option: Option) => {
-      const defaultSetting = getDefaultSettingForOption(option, colorMode);
-      changeSetting(
-        option.localStorageId as keyof TileSettings,
-        defaultSetting,
-        option.tileId
-      );
-    },
-    [changeSetting, colorMode]
-  );
-
-  // TODO fix this method
-  const resetAllColorsToDefault = <K extends keyof TileSettings>() => {
-    let newSettings = deepClone(settings);
-    const themeToChange = getCurrentTheme(newSettings, colorMode);
-
-    sideBarOptions.forEach((option) => {
-      if (
-        !option.optionType.toLowerCase().includes("color") &&
-        option.tileId !== "globalSettings"
-      ) {
-        return;
-      }
-
-      const defaultSetting = getDefaultSettingForOption(option, colorMode);
-
-      if (typeof option.tileId === "string") {
-        themeToChange.globalSettings[option.localStorageId as K] =
-          defaultSetting as TileSettings[K];
-      } else {
-        themeToChange.tiles[option.tileId][option.localStorageId as K] =
-          defaultSetting as TileSettings[K];
-      }
-    });
-
-    setSettings(newSettings);
-  };
-
   const randomizeAllColorValues = <K extends keyof TileSettings>() => {
     let newSettings = deepClone(settings);
     const themeToChange = getCurrentTheme(newSettings, colorMode);
@@ -166,7 +127,7 @@ const SettingsSideBar: React.FC<SettingsSideBarProps> = ({
       if (option.localStorageId.toLowerCase().includes("color")) {
         const newColorSetting = randomHexValue();
 
-        if (typeof option.tileId === "string") {
+        if (option.tileId === -1) {
           themeToChange.globalSettings[option.localStorageId as K] =
             newColorSetting as TileSettings[K];
         } else {
@@ -313,13 +274,15 @@ const SettingsSideBar: React.FC<SettingsSideBarProps> = ({
                   let tileType;
                   let value;
 
-                  if (typeof option.tileId === "string") {
+                  if (option.tileId === -1) {
                     tileType = currentThemeSettings.globalSettings.tileType;
                     value =
                       currentThemeSettings.globalSettings[
                         option.localStorageId as keyof TileSettings
                       ];
                   } else {
+                    console.log(option.tileId);
+
                     tileType =
                       currentThemeSettings!.tiles[option.tileId].tileType;
                     value =
@@ -327,6 +290,7 @@ const SettingsSideBar: React.FC<SettingsSideBarProps> = ({
                         option.localStorageId as keyof TileSettings
                       ];
                   }
+
                   return (
                     <SettingOptionContainer
                       key={option.localStorageId}
@@ -335,9 +299,9 @@ const SettingsSideBar: React.FC<SettingsSideBarProps> = ({
                       changeSetting={changeSetting}
                       textColor={textColor}
                       subTextColor={subTextColor}
-                      resetOptionToDefault={resetOptionToDefault}
+                      // resetOptionToDefault={resetOptionToDefault}
+                      // resetAllColorsToDefault={resetAllColorsToDefault}
                       randomizeAllColorValues={randomizeAllColorValues}
-                      resetAllColorsToDefault={resetAllColorsToDefault}
                       value={value}
                     />
                   );

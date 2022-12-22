@@ -5,7 +5,7 @@ import { TileTypePicker } from "@/components/sidebar/TileTypePicker";
 import { Option, TileSettings, TileType } from "@/types";
 import { AccordionPanel, Box, Text } from "@chakra-ui/react";
 import React from "react";
-import { ResetAndRandomizeColors } from "./ResetAndRandomizeColors";
+import { OutlinedButton } from "@/components/ui/OutlinedButton";
 
 interface SettingOptionContainerProps {
   option: Option;
@@ -16,11 +16,9 @@ interface SettingOptionContainerProps {
     value: string,
     tileId: number | string
   ) => void;
-  resetOptionToDefault: (option: Option) => void;
   value: any;
   tileType: TileType;
   randomizeAllColorValues: () => void;
-  resetAllColorsToDefault: () => void;
 }
 
 const optionsStyles = {
@@ -33,22 +31,27 @@ const SettingOptionContainer: React.FC<SettingOptionContainerProps> = ({
   textColor,
   subTextColor,
   changeSetting,
-  resetOptionToDefault,
   randomizeAllColorValues,
-  resetAllColorsToDefault,
   tileType,
   value,
 }) => {
   let optionToDisplay;
 
   switch (option.optionType) {
-    case "ResetColorsAndRandomize":
+    case "RandomizeColors":
       optionToDisplay = (
-        <ResetAndRandomizeColors
-          resetAllColorsToDefault={resetAllColorsToDefault}
-          textColor={textColor}
-          randomizeAllColorValues={randomizeAllColorValues}
-        />
+        <OutlinedButton
+          mx="auto"
+          mt="2"
+          display="block"
+          onClick={randomizeAllColorValues}
+          background="transparent"
+          border={`1px solid ${textColor}`}
+        >
+          <Text fontSize="sm" color={textColor}>
+            Randomize colors
+          </Text>
+        </OutlinedButton>
       );
       break;
     case "ColorPicker":
@@ -62,7 +65,6 @@ const SettingOptionContainer: React.FC<SettingOptionContainerProps> = ({
           textColor={textColor}
           subTextColor={subTextColor}
           value={value}
-          resetOptionToDefault={resetOptionToDefault}
         />
       );
       break;
@@ -75,7 +77,6 @@ const SettingOptionContainer: React.FC<SettingOptionContainerProps> = ({
             textColor={textColor}
             subTextColor={subTextColor}
             value={value}
-            resetOptionToDefault={resetOptionToDefault}
           />
         );
       }
@@ -89,7 +90,6 @@ const SettingOptionContainer: React.FC<SettingOptionContainerProps> = ({
           textColor={textColor}
           subTextColor={subTextColor}
           value={value}
-          resetOptionToDefault={resetOptionToDefault}
         />
       );
       break;
@@ -104,7 +104,6 @@ const SettingOptionContainer: React.FC<SettingOptionContainerProps> = ({
           textColor={textColor}
           subTextColor={subTextColor}
           value={value}
-          resetOptionToDefault={resetOptionToDefault}
           sizeOfTileForTypes={option.optionType}
         />
       );
@@ -117,7 +116,6 @@ const SettingOptionContainer: React.FC<SettingOptionContainerProps> = ({
           textColor={textColor}
           subTextColor={subTextColor}
           value={value}
-          resetOptionToDefault={resetOptionToDefault}
           options={
             <>
               <option value="" style={optionsStyles}>
@@ -158,7 +156,6 @@ const SettingOptionContainer: React.FC<SettingOptionContainerProps> = ({
             textColor={textColor}
             subTextColor={subTextColor}
             value={value}
-            resetOptionToDefault={resetOptionToDefault}
           />
         );
       }
@@ -172,7 +169,6 @@ const SettingOptionContainer: React.FC<SettingOptionContainerProps> = ({
             textColor={textColor}
             subTextColor={subTextColor}
             value={value}
-            resetOptionToDefault={resetOptionToDefault}
           />
         );
       }
@@ -186,7 +182,6 @@ const SettingOptionContainer: React.FC<SettingOptionContainerProps> = ({
             textColor={textColor}
             subTextColor={subTextColor}
             value={value}
-            resetOptionToDefault={resetOptionToDefault}
             options={
               <>
                 <option style={optionsStyles} value="Top">
@@ -213,7 +208,6 @@ const SettingOptionContainer: React.FC<SettingOptionContainerProps> = ({
             textColor={textColor}
             subTextColor={subTextColor}
             value={value}
-            resetOptionToDefault={resetOptionToDefault}
             options={
               <>
                 <option style={optionsStyles} value="short_term">
@@ -240,7 +234,6 @@ const SettingOptionContainer: React.FC<SettingOptionContainerProps> = ({
             textColor={textColor}
             subTextColor={subTextColor}
             value={value}
-            resetOptionToDefault={resetOptionToDefault}
           />
         );
       }
@@ -253,7 +246,6 @@ const SettingOptionContainer: React.FC<SettingOptionContainerProps> = ({
           textColor={textColor}
           subTextColor={subTextColor}
           value={value}
-          resetOptionToDefault={resetOptionToDefault}
           options={
             <>
               <option style={optionsStyles} value="">

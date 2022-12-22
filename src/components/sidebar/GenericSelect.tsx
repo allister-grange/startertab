@@ -12,7 +12,6 @@ interface GenericSelectProps {
     value: string,
     tileId: number | string
   ) => void;
-  resetOptionToDefault: (option: Option) => void;
   options: ReactElement;
 }
 
@@ -22,7 +21,6 @@ export const GenericSelect: React.FC<GenericSelectProps> = ({
   subTextColor,
   changeSetting,
   value,
-  resetOptionToDefault,
   options,
 }) => {
   const { title, subTitle, localStorageId } = option;
@@ -42,12 +40,6 @@ export const GenericSelect: React.FC<GenericSelectProps> = ({
       </Text>
       <Text fontSize="xs" color={subTextColor}>
         {subTitle}
-        <span
-          style={{ cursor: "pointer" }}
-          onClick={() => resetOptionToDefault(option)}
-        >
-          &nbsp;Reset to default.
-        </span>
       </Text>
       <Box display="flex" flexDir="column" mt="1">
         <Select
