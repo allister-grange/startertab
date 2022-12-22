@@ -2,7 +2,7 @@ import { TextFeedSkeleton } from "@/components/skeletons/TextFeedSkeleton";
 import { HackerNewsLogo } from "@/components/ui/HackerNewsLogo";
 import { OptionBadge } from "@/components/ui/OptionBadge";
 import { calculateTimeAgoString, truncateString } from "@/helpers/tileHelpers";
-import { redditFeedSelector } from "@/recoil/UserSettingsSelectors";
+import { hackerNewsFeedSelector } from "@/recoil/UserSettingsSelectors";
 import { HackerNewsLinkHolder } from "@/types/hackernews";
 import {
   Box,
@@ -32,7 +32,7 @@ const fetcher = async (hackerNewsFeed: string) => {
 
 export const HackerNewsFeedTile: React.FC<PageProps> = ({ tileId }) => {
   const [hackerNewsFeed, setHackerNewsFeed] = useRecoilState(
-    redditFeedSelector(tileId)
+    hackerNewsFeedSelector(tileId)
   ) as [string | undefined, SetterOrUpdater<string | undefined>];
   const [displayingOnWideTile, setDisplayingOnWideTile] = useState(false);
   const divRef = useRef<HTMLDivElement | null>(null);
