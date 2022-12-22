@@ -2,6 +2,7 @@ import { Footer } from "@/components/ui/Footer";
 import { Update110 } from "@/components/updates/Update110";
 import { Update120 } from "@/components/updates/Update120";
 import { Update200 } from "@/components/updates/Update200";
+import { Update210 } from "@/components/updates/Update210";
 import { Box, Flex, Heading, Link } from "@chakra-ui/react";
 import React, { useEffect } from "react";
 
@@ -33,6 +34,8 @@ const UpdatesPage: React.FC = ({}) => {
         </Link>
       </Flex>
       <hr style={{ width: "100%", background: "#e2e8f0" }} />
+      <Update210 />
+      <hr style={{ width: "100%", marginTop: "18px", background: "#e2e8f0" }} />
       <Update200 />
       <hr style={{ width: "100%", marginTop: "18px", background: "#e2e8f0" }} />
       <Update120 />
