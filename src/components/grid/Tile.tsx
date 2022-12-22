@@ -2,6 +2,7 @@ import { getCurrentTheme } from "@/helpers/settingsHelpers";
 import { useLongPress } from "@/hooks/useLongPress";
 import { userSettingState } from "@/recoil/UserSettingsAtom";
 import styles from "@/styles/Home.module.css";
+import { SmallCloseIcon } from "@chakra-ui/icons";
 import { Box, BoxProps, keyframes, useColorMode } from "@chakra-ui/react";
 import { motion } from "framer-motion";
 import dynamic from "next/dynamic";
@@ -14,6 +15,7 @@ export interface TileProps extends BoxProps {
   tileId: number;
   isEditingTiles: boolean;
   setIsEditingTiles: Dispatch<SetStateAction<boolean>>;
+  removeTileFromLayout: (tileId: number) => void;
 }
 
 const animationKeyframes = keyframes`
@@ -29,6 +31,7 @@ const Tile: React.FC<TileProps> = ({
   optionHovered,
   isEditingTiles,
   setIsEditingTiles,
+  removeTileFromLayout,
   children,
   ...props
 }) => {
@@ -70,6 +73,20 @@ const Tile: React.FC<TileProps> = ({
       {...props}
       {...longPress}
     >
+      {isEditingTiles && (
+        <SmallCloseIcon
+          pos="absolute"
+          top="1"
+          right="1"
+          cursor="pointer"
+          boxSize="6"
+          color={theme.tiles[tileId].textColor}
+          opacity="0.6"
+          ml="auto"
+          onClick={() => removeTileFromLayout(tileId)}
+          zIndex="100"
+        />
+      )}
       <TileContainer tileId={tileId} tileType={theme.tiles[tileId].tileType} />
     </Box>
   );

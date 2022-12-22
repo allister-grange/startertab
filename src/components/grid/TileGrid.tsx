@@ -1,4 +1,5 @@
 import Tile from "@/components/grid/Tile";
+import { defaultGridLayout } from "@/helpers/gridLayout";
 import { TileSettings } from "@/types";
 import { Box, BoxProps, Flex } from "@chakra-ui/react";
 import React, { Dispatch, SetStateAction } from "react";
@@ -17,6 +18,7 @@ interface TileGridProps {
   isEditingTiles: boolean;
   setIsEditingTiles: Dispatch<SetStateAction<boolean>>;
   updateTileLayoutInSettings: (newLayout: Layouts) => void;
+  removeTileFromLayout: (tileId: number) => void;
 }
 
 export const TileGrid: React.FC<TileGridProps> = ({
@@ -25,6 +27,7 @@ export const TileGrid: React.FC<TileGridProps> = ({
   tutorialProgress,
   tiles,
   layout,
+  removeTileFromLayout,
   isEditingTiles,
   updateTileLayoutInSettings,
   setIsEditingTiles,
@@ -37,8 +40,8 @@ export const TileGrid: React.FC<TileGridProps> = ({
         <ResponsiveGridLayout
           className="layout"
           layouts={layout}
-          breakpoints={{ lg: 1200, md: 996, sm: 768, xs: 480, xxs: 0 }}
-          cols={{ lg: 5, md: 10, sm: 6, xs: 4, xxs: 2 }}
+          breakpoints={{ lg: 1280, md: 950, sm: 800, xs: 590, xxs: 0 }}
+          cols={{ lg: 5, md: 3, sm: 3, xs: 2, xxs: 2 }}
           rowHeight={68}
           margin={[
             gridGap ? parseInt(gridGap) : 16,
@@ -52,6 +55,12 @@ export const TileGrid: React.FC<TileGridProps> = ({
           }}
           isDraggable={isEditingTiles}
           isResizable={isEditingTiles}
+          containerPadding={{
+            lg: [20, 10],
+            md: [130, 55],
+            sm: [40, 55],
+            xs: [60, 55],
+          }}
         >
           {tiles.map((tile, i) => (
             <CustomGridItemComponent key={tile.tileId}>
@@ -62,6 +71,7 @@ export const TileGrid: React.FC<TileGridProps> = ({
                 key={tile.tileId}
                 isEditingTiles={isEditingTiles}
                 setIsEditingTiles={setIsEditingTiles}
+                removeTileFromLayout={removeTileFromLayout}
               />
             </CustomGridItemComponent>
           ))}
