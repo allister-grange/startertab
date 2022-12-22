@@ -1,7 +1,7 @@
-import { ThemeSettings, TileSettingsKey } from "@/types";
-import { Box, BoxProps, Flex, Grid } from "@chakra-ui/react";
+import { ThemeSettings } from "@/types";
+import { Box, BoxProps, Flex } from "@chakra-ui/react";
 import React from "react";
-import { Layouts, Responsive, WidthProvider } from "react-grid-layout";
+import { Responsive, WidthProvider } from "react-grid-layout";
 import "react-grid-layout/css/styles.css";
 import "react-resizable/css/styles.css";
 

@@ -6,7 +6,7 @@ export type Option = {
   subTitle: string;
   localStorageId: string;
   optionType: OptionType;
-  tileId: number | string;
+  tileId: number;
 };
 
 export type OptionType =
@@ -21,7 +21,7 @@ export type OptionType =
   | "BorderSelect"
   | "SmallStockInput"
   | "GridGapInput"
-  | "ResetColorsAndRandomize"
+  | "RandomizeColors"
   | "LargeStockTile"
   | "CityInputForWeather"
   | "HackerNewsFeedType"

@@ -12,7 +12,6 @@ interface TileTypePickerProps extends BoxProps {
     value: string,
     tileId: number | string
   ) => void;
-  resetOptionToDefault: (option: Option) => void;
   sizeOfTileForTypes: OptionType;
 }
 
@@ -27,7 +26,6 @@ export const TileTypePicker: React.FC<TileTypePickerProps> = ({
   subTextColor,
   changeSetting,
   value,
-  resetOptionToDefault,
   sizeOfTileForTypes,
 }) => {
   const { title, subTitle, localStorageId } = option;
@@ -181,12 +179,6 @@ export const TileTypePicker: React.FC<TileTypePickerProps> = ({
       </Text>
       <Text fontSize="xs" color={subTextColor}>
         {subTitle}
-        <span
-          style={{ cursor: "pointer" }}
-          onClick={() => resetOptionToDefault(option)}
-        >
-          .&nbsp;Reset to default.
-        </span>
       </Text>
       <Box display="flex" flexDir="column" mt="1">
         <Select

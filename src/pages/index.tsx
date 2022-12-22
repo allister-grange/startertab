@@ -2,6 +2,7 @@ import { TileGrid } from "@/components/grid/TileGrid";
 import SettingsSideBar from "@/components/sidebar/SettingsSidebar";
 import { Tutorial } from "@/components/tutorial/Tutorial";
 import { MobileWarning } from "@/components/ui/MobileWarning";
+import { OutlinedButton } from "@/components/ui/OutlinedButton";
 import { SettingsToggle } from "@/components/ui/SettingsToggle";
 import {
   applyTheme,
@@ -95,6 +96,33 @@ const Home: NextPage = () => {
     });
   }, [toast]);
 
+  const removeTileFromLayout = (tileId: number) => {
+    const newSettings = deepClone(settings);
+    const themeToEdit = newSettings.themes.find(
+      (theme) => theme.themeName === currentTheme.themeName
+    );
+
+    if (!themeToEdit) {
+      return;
+    }
+
+    // remove tile from the theme
+    const themeIndexToRemove = themeToEdit.tiles.findIndex(
+      (tile) => tile.tileId === tileId
+    );
+    themeToEdit.tiles.splice(themeIndexToRemove, 1);
+    // remove tile from all of the layouts
+    for (const layout in themeToEdit.tileLayout) {
+      const layoutToEdit = themeToEdit.tileLayout[layout];
+      const layoutIndexToRemove = layoutToEdit.findIndex(
+        (tile) => tile.i === tileId.toString()
+      );
+      layoutToEdit.splice(layoutIndexToRemove, 1);
+    }
+
+    setSettings(newSettings);
+  };
+
   useEffect(() => {
     if (isMobile) {
       const isMobileView = localStorage.getItem("isMobileView");
@@ -142,8 +170,6 @@ const Home: NextPage = () => {
       settings,
       colorMode
     );
-    console.log("settings new settings from old format");
-
     setSettings(newSettingsFormat);
   }
   const gridGap = currentTheme.globalSettings.gridGap;
@@ -164,6 +190,21 @@ const Home: NextPage = () => {
             tutorialProgress={tutorialProgress}
             setIsEditingTiles={setIsEditingTiles}
           />
+        ) : null}
+        {isEditingTiles ? (
+          <OutlinedButton
+            position="absolute"
+            top="3"
+            right="3"
+            background="white"
+            shadow="2xl"
+            color="gray.900"
+            fontSize="2xl"
+            onClick={() => setIsEditingTiles(false)}
+            zIndex={100}
+          >
+            save layout
+          </OutlinedButton>
         ) : null}
         <>
           {showingTutorial ? (
@@ -188,6 +229,7 @@ const Home: NextPage = () => {
               layout={currentTheme.tileLayout}
               updateTileLayoutInSettings={updateTileLayoutInSettings}
               tiles={currentTheme.tiles}
+              removeTileFromLayout={removeTileFromLayout}
             />
           </Flex>
         </>
