@@ -1,5 +1,4 @@
 import Tile from "@/components/grid/Tile";
-import { defaultGridLayout } from "@/helpers/gridLayout";
 import { TileSettings } from "@/types";
 import { Box, BoxProps, Flex } from "@chakra-ui/react";
 import React, { Dispatch, SetStateAction } from "react";

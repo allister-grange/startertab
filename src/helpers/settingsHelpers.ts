@@ -5,7 +5,6 @@ import {
   TileSettings,
   UserSettings,
 } from "@/types";
-import { defaultSettings } from "@/helpers/themes";
 import { setCookies } from "cookies-next";
 import { deepClone } from "@/helpers/tileHelpers";
 import { defaultGridLayout } from "@/helpers/gridLayout";

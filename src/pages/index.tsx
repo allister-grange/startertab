@@ -111,6 +111,11 @@ const Home: NextPage = () => {
       (tile) => tile.tileId === tileId
     );
     themeToEdit.tiles.splice(themeIndexToRemove, 1);
+    // shift all the tileId's down one index from the index above the one deleted
+    for (let i = themeIndexToRemove; i < themeToEdit.tiles.length; i++) {
+      themeToEdit.tiles[i].tileId--;
+    }
+
     // remove tile from all of the layouts
     for (const layout in themeToEdit.tileLayout) {
       const layoutToEdit = themeToEdit.tileLayout[layout];
@@ -118,6 +123,9 @@ const Home: NextPage = () => {
         (tile) => tile.i === tileId.toString()
       );
       layoutToEdit.splice(layoutIndexToRemove, 1);
+      for (let i = layoutIndexToRemove; i < layoutToEdit.length; i++) {
+        layoutToEdit[i].i = (parseInt(layoutToEdit[i].i) - 1).toString();
+      }
     }
 
     setSettings(newSettings);

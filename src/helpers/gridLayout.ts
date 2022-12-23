@@ -118,7 +118,7 @@ export const defaultGridLayout: Layouts = {
     },
     {
       w: 1,
-      h: 6,
+      h: 4,
       x: 0,
       y: 4,
       i: "5",
