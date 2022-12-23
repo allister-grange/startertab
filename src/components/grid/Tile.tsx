@@ -68,7 +68,6 @@ const Tile: React.FC<TileProps> = ({
       overflowY="scroll"
       overflowX="hidden"
       cursor={isEditingTiles ? "move" : undefined}
-      draggable={isEditingTiles}
       className={styles.disableScrollbars}
       {...props}
       {...longPress}

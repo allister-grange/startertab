@@ -60,6 +60,7 @@ export const TileGrid: React.FC<TileGridProps> = ({
             sm: [40, 55],
             xs: [60, 55],
           }}
+          compactType={null}
         >
           {tiles.map((tile, i) => (
             <CustomGridItemComponent key={tile.tileId}>
