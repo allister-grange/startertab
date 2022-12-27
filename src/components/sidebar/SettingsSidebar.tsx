@@ -245,13 +245,17 @@ const SettingsSideBar: React.FC<SettingsSideBarProps> = ({
           onChange={onAccordionChange}
           index={accordionIndex}
         >
-          {optionGroups.map((tileGroup, index) => {
+          {currentThemeSettings.tiles.map((tileGroup, index) => {
             return (
               <AccordionItem
-                key={tileGroup[0]}
+                key={optionGroups[index][0]}
                 p="0"
-                onMouseEnter={() => setOptionHovered(parseInt(tileGroup[0]))}
-                onFocus={() => setOptionHovered(parseInt(tileGroup[0]))}
+                onMouseEnter={() =>
+                  setOptionHovered(parseInt(optionGroups[index][0]))
+                }
+                onFocus={() =>
+                  setOptionHovered(parseInt(optionGroups[index][0]))
+                }
                 onMouseLeave={() => setOptionHovered(undefined)}
                 onBlur={() => setOptionHovered(undefined)}
                 borderColor={borderColor}
@@ -265,12 +269,14 @@ const SettingsSideBar: React.FC<SettingsSideBarProps> = ({
                     color={textColor}
                   >
                     <Box flex="1" textAlign="left">
-                      {getOptionTitle(tileGroup[0] as keyof ThemeSettings)}
+                      {getOptionTitle(
+                        optionGroups[index][0] as keyof ThemeSettings
+                      )}
                     </Box>
                     <AccordionIcon />
                   </AccordionButton>
                 </h2>
-                {tileGroup[1].map((option: Option) => {
+                {optionGroups[index][1].map((option: Option) => {
                   let tileType;
                   let value;
 
