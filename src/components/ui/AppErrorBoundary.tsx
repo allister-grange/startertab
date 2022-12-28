@@ -45,6 +45,10 @@ export const AppErrorBoundary: React.FC = ({}) => {
           fontWeight="800"
           onClick={deleteAllSettings}
           px="4"
+          background="white"
+          shadow="2xl"
+          color="gray.900"
+          fontSize="2xl"
         >
           CLEAR SETTINGS
         </OutlinedButton>

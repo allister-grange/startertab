@@ -1,17 +1,18 @@
 import { TileGrid } from "@/components/grid/TileGrid";
+import { TileLayoutActions } from "@/components/grid/TileLayoutActions";
 import SettingsSideBar from "@/components/sidebar/SettingsSidebar";
 import { Tutorial } from "@/components/tutorial/Tutorial";
 import { MobileWarning } from "@/components/ui/MobileWarning";
-import { OutlinedButton } from "@/components/ui/OutlinedButton";
 import { SettingsToggle } from "@/components/ui/SettingsToggle";
 import {
   applyTheme,
+  findNewTileId,
   getCurrentTheme,
   getNewSettingsFromLegacyTheme,
 } from "@/helpers/settingsHelpers";
 import { deepClone } from "@/helpers/tileHelpers";
 import { colorModeState, userSettingState } from "@/recoil/UserSettingsAtom";
-import { UserSettings } from "@/types";
+import { TileSettings, UserSettings } from "@/types";
 import {
   Box,
   Flex,
@@ -49,6 +50,28 @@ const Home: NextPage = () => {
     const themeToChange = getCurrentTheme(settingsToChange, colorMode);
 
     themeToChange.tileLayout = newLayout;
+    setSettings(settingsToChange);
+  };
+
+  const addNewTileIntoGrid = () => {
+    const settingsToChange = deepClone(settings) as UserSettings;
+    const themeToChange = getCurrentTheme(settingsToChange, colorMode);
+
+    const newTileId = findNewTileId(themeToChange.tiles);
+
+    const newTile: TileSettings = {
+      tileId: newTileId,
+      tileType: "None",
+      backgroundColor: themeToChange.tiles[0]
+        ? themeToChange.tiles[0].backgroundColor
+        : "white",
+      textColor: themeToChange.tiles[0]
+        ? themeToChange.tiles[0].textColor
+        : "black",
+    };
+
+    // add tile to tiles and layout on themeToChange
+    themeToChange.tiles.push(newTile);
     setSettings(settingsToChange);
   };
 
@@ -199,21 +222,6 @@ const Home: NextPage = () => {
             setIsEditingTiles={setIsEditingTiles}
           />
         ) : null}
-        {isEditingTiles ? (
-          <OutlinedButton
-            position="absolute"
-            top="3"
-            right="3"
-            background="white"
-            shadow="2xl"
-            color="gray.900"
-            fontSize="2xl"
-            onClick={() => setIsEditingTiles(false)}
-            zIndex={100}
-          >
-            save layout
-          </OutlinedButton>
-        ) : null}
         <>
           {showingTutorial ? (
             <Tutorial
@@ -248,6 +256,12 @@ const Home: NextPage = () => {
   return (
     <>
       {toDisplay}
+      {isEditingTiles ? (
+        <TileLayoutActions
+          setIsEditingTiles={setIsEditingTiles}
+          addNewTileIntoGrid={addNewTileIntoGrid}
+        />
+      ) : null}
       {!isOpen && !showingMobileWarning && (
         <SettingsToggle
           onOpen={() => {

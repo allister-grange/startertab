@@ -120,3 +120,15 @@ export const getNewSettingsFromLegacyTheme = (
     return newSettings;
   }
 };
+
+export const findNewTileId = (tileSettings: TileSettings[]): number => {
+  const tileIds = new Set(tileSettings.map((settings) => settings.tileId));
+
+  let newTileId = 0;
+
+  while (tileIds.has(newTileId)) {
+    newTileId++;
+  }
+
+  return newTileId;
+};
