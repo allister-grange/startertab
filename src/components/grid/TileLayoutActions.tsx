@@ -13,7 +13,7 @@ export const TileLayoutActions: React.FC<TileLayoutActionsProps> = ({
   const [addButtonHovered, setAddButtonHovered] = useState(false);
 
   return (
-    <Flex position="absolute" top="3" right="3" flexDir="column">
+    <Flex position="fixed" top="3" right="3" flexDir="column">
       <Menu>
         <MenuButton
           background={addButtonHovered ? "white" : "rgba(255,255,255,0.8)"}
