@@ -17,6 +17,7 @@ import Image from "next/image";
 import Router from "next/router";
 import React, { useState } from "react";
 import { useRecoilState } from "recoil";
+import { Footer } from "@/components/ui/Footer";
 
 type FormInputs = {
   themeName: string;
@@ -40,7 +41,7 @@ export const ThemeCreator: React.FC = ({}) => {
   const [settings, setSettings] = useRecoilState(userSettingState);
 
   React.useLayoutEffect(() => {
-    document.body.style.background = "#F6F9F9";
+    document.body.style.background = "white";
   }, []);
 
   const onThemeNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -128,61 +129,63 @@ export const ThemeCreator: React.FC = ({}) => {
         tileType: "None",
         themePickerBubbleColor: formInputs.iconColor,
       },
-      tile1: {
-        ...currentSettings.themes[0].tile1,
-        backgroundColor: formInputs.backgroundColorOfTiles,
-        textColor: formInputs.textColorOfTiles,
-      },
-      tile2: {
-        ...currentSettings.themes[0].tile2,
-        backgroundColor: formInputs.backgroundColorOfTiles,
-        textColor: formInputs.textColorOfTiles,
-      },
-      tile3: {
-        ...currentSettings.themes[0].tile3,
-        backgroundColor: formInputs.backgroundColorOfTiles,
-        textColor: formInputs.textColorOfTiles,
-      },
-      tile4: {
-        ...currentSettings.themes[0].tile4,
-        backgroundColor: formInputs.backgroundColorOfTiles,
-        textColor: formInputs.textColorOfTiles,
-      },
-      tile5: {
-        ...currentSettings.themes[0].tile5,
-        backgroundColor: formInputs.backgroundColorOfTiles,
-        textColor: formInputs.textColorOfTiles,
-      },
-      tile6: {
-        ...currentSettings.themes[0].tile6,
-        backgroundColor: formInputs.backgroundColorOfTiles,
-        textColor: formInputs.textColorOfTiles,
-      },
-      tile7: {
-        ...currentSettings.themes[0].tile7,
-        backgroundColor: formInputs.backgroundColorOfTiles,
-        textColor: formInputs.textColorOfTiles,
-      },
-      tile8: {
-        ...currentSettings.themes[0].tile8,
-        backgroundColor: formInputs.backgroundColorOfTiles,
-        textColor: formInputs.textColorOfTiles,
-      },
-      tile9: {
-        ...currentSettings.themes[0].tile9,
-        backgroundColor: formInputs.backgroundColorOfTiles,
-        textColor: formInputs.textColorOfTiles,
-      },
-      tile10: {
-        ...currentSettings.themes[0].tile10,
-        backgroundColor: formInputs.backgroundColorOfTiles,
-        textColor: formInputs.textColorOfTiles,
-      },
-      tile11: {
-        ...currentSettings.themes[0].tile11,
-        backgroundColor: formInputs.backgroundColorOfTiles,
-        textColor: formInputs.textColorOfTiles,
-      },
+      tiles: [
+        {
+          ...currentSettings.themes[0].tiles[0],
+          backgroundColor: formInputs.backgroundColorOfTiles,
+          textColor: formInputs.textColorOfTiles,
+        },
+        {
+          ...currentSettings.themes[0].tiles[1],
+          backgroundColor: formInputs.backgroundColorOfTiles,
+          textColor: formInputs.textColorOfTiles,
+        },
+        {
+          ...currentSettings.themes[0].tiles[2],
+          backgroundColor: formInputs.backgroundColorOfTiles,
+          textColor: formInputs.textColorOfTiles,
+        },
+        {
+          ...currentSettings.themes[0].tiles[3],
+          backgroundColor: formInputs.backgroundColorOfTiles,
+          textColor: formInputs.textColorOfTiles,
+        },
+        {
+          ...currentSettings.themes[0].tiles[4],
+          backgroundColor: formInputs.backgroundColorOfTiles,
+          textColor: formInputs.textColorOfTiles,
+        },
+        {
+          ...currentSettings.themes[0].tiles[5],
+          backgroundColor: formInputs.backgroundColorOfTiles,
+          textColor: formInputs.textColorOfTiles,
+        },
+        {
+          ...currentSettings.themes[0].tiles[6],
+          backgroundColor: formInputs.backgroundColorOfTiles,
+          textColor: formInputs.textColorOfTiles,
+        },
+        {
+          ...currentSettings.themes[0].tiles[7],
+          backgroundColor: formInputs.backgroundColorOfTiles,
+          textColor: formInputs.textColorOfTiles,
+        },
+        {
+          ...currentSettings.themes[0].tiles[8],
+          backgroundColor: formInputs.backgroundColorOfTiles,
+          textColor: formInputs.textColorOfTiles,
+        },
+        {
+          ...currentSettings.themes[0].tiles[9],
+          backgroundColor: formInputs.backgroundColorOfTiles,
+          textColor: formInputs.textColorOfTiles,
+        },
+        {
+          ...currentSettings.themes[0].tiles[10],
+          backgroundColor: formInputs.backgroundColorOfTiles,
+          textColor: formInputs.textColorOfTiles,
+        },
+      ],
     });
     setSettings(currentSettings);
     setColorMode(formInputs.themeName);
@@ -190,7 +193,13 @@ export const ThemeCreator: React.FC = ({}) => {
   };
 
   return (
-    <Box height="100%" width="65%" p="2" mx="auto" color="black">
+    <Box
+      height="100%"
+      width={["100%", "90%", "70%", "60%", "60%"]}
+      p="2"
+      mx="auto"
+      color="black"
+    >
       <Flex>
         <span style={{ fontSize: "140px" }}>🎨</span>
         <Box my="auto" ml="8" width="55%">
@@ -233,7 +242,7 @@ export const ThemeCreator: React.FC = ({}) => {
           />
         </Box>
         <Grid
-          templateColumns="repeat(auto-fit, minmax(380px, 1fr))"
+          templateColumns="repeat(auto-fit, minmax(280px, 1fr))"
           gridGap="20px"
           alignContent="center"
           maxWidth="1100px"
@@ -296,7 +305,7 @@ export const ThemeCreator: React.FC = ({}) => {
             />
           </Box>
         </Grid>
-        <Flex mt="10" mb="10" alignItems="center" width="100%" height="100%">
+        <Flex mt="10" mb="10">
           <OutlinedButton
             fontWeight="800"
             mt="2"
@@ -308,6 +317,7 @@ export const ThemeCreator: React.FC = ({}) => {
           </OutlinedButton>
         </Flex>
       </form>
+      <Footer />
     </Box>
   );
 };
