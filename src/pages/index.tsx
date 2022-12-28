@@ -53,7 +53,7 @@ const Home: NextPage = () => {
     setSettings(settingsToChange);
   };
 
-  const addNewTileIntoGrid = () => {
+  const addNewTileIntoGrid = (size: string) => {
     const settingsToChange = deepClone(settings) as UserSettings;
     const themeToChange = getCurrentTheme(settingsToChange, colorMode);
 
@@ -72,6 +72,28 @@ const Home: NextPage = () => {
 
     // add tile to tiles and layout on themeToChange
     themeToChange.tiles.push(newTile);
+
+    let width = 1,
+      height = 1;
+
+    if (size === "small") {
+      (width = 1), (height = 2);
+    } else if (size === "medium") {
+      (width = 1), (height = 4);
+    } else if (size === "large") {
+      (width = 2), (height = 4);
+    }
+
+    for (const key in themeToChange.tileLayout) {
+      themeToChange.tileLayout[key].push({
+        // depending on the size, I can change the layout size
+        w: width,
+        h: height,
+        x: 0,
+        y: 0,
+        i: newTile.tileId.toString(),
+      });
+    }
     setSettings(settingsToChange);
   };
 
