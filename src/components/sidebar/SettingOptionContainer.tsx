@@ -14,7 +14,7 @@ interface SettingOptionContainerProps {
   changeSetting: (
     key: keyof TileSettings,
     value: string,
-    tileId: number | string
+    tileId: number
   ) => void;
   value: any;
   tileType: TileType;

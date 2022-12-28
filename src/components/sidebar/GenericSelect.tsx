@@ -10,7 +10,7 @@ interface GenericSelectProps {
   changeSetting: (
     key: keyof TileSettings,
     value: string,
-    tileId: number | string
+    tileId: number
   ) => void;
   options: ReactElement;
 }

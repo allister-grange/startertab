@@ -1,6 +1,6 @@
 import { Option } from "@/types";
 
-export const sideBarOptions: Option[] = [
+export const globalSettingsOptions: Option[] = [
   {
     title: "Background color",
     subTitle: "Controls the theme background color of the main page",
@@ -50,6 +50,9 @@ export const sideBarOptions: Option[] = [
     optionType: "RandomizeColors",
     tileId: -1,
   },
+];
+
+export const sideBarOptions: Option[] = [
   {
     title: "Background color",
     subTitle: "Background color of the tile",

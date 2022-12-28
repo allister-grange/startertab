@@ -9,7 +9,10 @@ import {
   getThemeNames,
   sortOptionsIntoTileGroups,
 } from "@/helpers/settingsHelpers";
-import { sideBarOptions } from "@/helpers/sideBarOptions";
+import {
+  globalSettingsOptions,
+  sideBarOptions,
+} from "@/helpers/sideBarOptions";
 import { deepClone } from "@/helpers/tileHelpers";
 import { userSettingState } from "@/recoil/UserSettingsAtom";
 import styles from "@/styles/Home.module.css";
@@ -103,15 +106,15 @@ const SettingsSideBar: React.FC<SettingsSideBarProps> = ({
     <K extends keyof TileSettings>(
       key: K,
       value: TileSettings[K],
-      tileId: number | string
+      tileId: number
     ) => {
       const userSettings = JSON.parse(JSON.stringify(settings)) as UserSettings;
       const themeToChange = getCurrentTheme(userSettings, colorMode);
 
-      if (typeof tileId === "string") {
-        themeToChange.globalSettings[key] = value;
-      } else {
+      if (tileId >= 0) {
         themeToChange.tiles[tileId][key] = value;
+      } else {
+        themeToChange.globalSettings[key] = value;
       }
 
       setSettings(userSettings);
@@ -145,16 +148,6 @@ const SettingsSideBar: React.FC<SettingsSideBarProps> = ({
 
     // for the tutorial, if we open the dropdown we want to progress the tutorial
     setTutorialProgress((prevState) => (prevState === 3 ? 4 : prevState));
-  };
-
-  const getOptionTitle = (tileId: keyof ThemeSettings): string => {
-    const tileIdInt = parseInt(tileId);
-
-    if (tileIdInt >= 0) {
-      return currentThemeSettings.tiles[tileIdInt].tileType;
-    } else {
-      return "Global Settings";
-    }
   };
 
   if (!currentThemeSettings) {
@@ -245,17 +238,53 @@ const SettingsSideBar: React.FC<SettingsSideBarProps> = ({
           onChange={onAccordionChange}
           index={accordionIndex}
         >
+          {/* GLOBAL SETTINGS */}
+          <AccordionItem
+            key={-1}
+            p="0"
+            borderColor={borderColor}
+            isDisabled={tutorialProgress > 1 && tutorialProgress < 4}
+          >
+            <h2>
+              <AccordionButton
+                _expanded={{ backdropFilter: "brightness(0.90)" }}
+                color={textColor}
+              >
+                <Box flex="1" textAlign="left">
+                  {"Global Settings"}
+                </Box>
+                <AccordionIcon />
+              </AccordionButton>
+            </h2>
+            {globalSettingsOptions.map((option: Option) => {
+              const tileType = currentThemeSettings.globalSettings.tileType;
+              const value =
+                currentThemeSettings.globalSettings[
+                  option.localStorageId as keyof TileSettings
+                ];
+              return (
+                <SettingOptionContainer
+                  key={option.localStorageId}
+                  option={option}
+                  tileType={tileType}
+                  changeSetting={changeSetting}
+                  textColor={textColor}
+                  subTextColor={subTextColor}
+                  randomizeAllColorValues={randomizeAllColorValues}
+                  value={value}
+                />
+              );
+            })}
+          </AccordionItem>
+
+          {/* TILE SETTINGS */}
           {currentThemeSettings.tiles.map((tileGroup, index) => {
             return (
               <AccordionItem
-                key={optionGroups[index][0]}
+                key={tileGroup.tileId}
                 p="0"
-                onMouseEnter={() =>
-                  setOptionHovered(parseInt(optionGroups[index][0]))
-                }
-                onFocus={() =>
-                  setOptionHovered(parseInt(optionGroups[index][0]))
-                }
+                onMouseEnter={() => setOptionHovered(tileGroup.tileId)}
+                onFocus={() => setOptionHovered(tileGroup.tileId)}
                 onMouseLeave={() => setOptionHovered(undefined)}
                 onBlur={() => setOptionHovered(undefined)}
                 borderColor={borderColor}
@@ -269,33 +298,18 @@ const SettingsSideBar: React.FC<SettingsSideBarProps> = ({
                     color={textColor}
                   >
                     <Box flex="1" textAlign="left">
-                      {getOptionTitle(
-                        optionGroups[index][0] as keyof ThemeSettings
-                      )}
+                      {currentThemeSettings.tiles[tileGroup.tileId].tileType}
                     </Box>
                     <AccordionIcon />
                   </AccordionButton>
                 </h2>
                 {optionGroups[index][1].map((option: Option) => {
-                  let tileType;
-                  let value;
-
-                  if (option.tileId === -1) {
-                    tileType = currentThemeSettings.globalSettings.tileType;
-                    value =
-                      currentThemeSettings.globalSettings[
-                        option.localStorageId as keyof TileSettings
-                      ];
-                  } else {
-                    console.log(option.tileId);
-
-                    tileType =
-                      currentThemeSettings!.tiles[option.tileId].tileType;
-                    value =
-                      currentThemeSettings!.tiles[option.tileId!][
-                        option.localStorageId as keyof TileSettings
-                      ];
-                  }
+                  const tileType =
+                    currentThemeSettings!.tiles[option.tileId].tileType;
+                  const value =
+                    currentThemeSettings!.tiles[option.tileId!][
+                      option.localStorageId as keyof TileSettings
+                    ];
 
                   return (
                     <SettingOptionContainer
@@ -305,8 +319,6 @@ const SettingsSideBar: React.FC<SettingsSideBarProps> = ({
                       changeSetting={changeSetting}
                       textColor={textColor}
                       subTextColor={subTextColor}
-                      // resetOptionToDefault={resetOptionToDefault}
-                      // resetAllColorsToDefault={resetAllColorsToDefault}
                       randomizeAllColorValues={randomizeAllColorValues}
                       value={value}
                     />

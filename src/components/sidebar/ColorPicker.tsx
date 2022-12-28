@@ -19,7 +19,7 @@ interface ColorPickerProps extends BoxProps {
   changeSetting: (
     key: keyof TileSettings,
     value: string,
-    tileId: number | string
+    tileId: number
   ) => void;
 }
 
