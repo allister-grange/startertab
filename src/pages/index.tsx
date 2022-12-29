@@ -12,7 +12,7 @@ import {
 } from "@/helpers/settingsHelpers";
 import { deepClone } from "@/helpers/tileHelpers";
 import { colorModeState, userSettingState } from "@/recoil/UserSettingsAtom";
-import { TileSettings, UserSettings } from "@/types";
+import { TileSettings, TileSize, UserSettings } from "@/types";
 import {
   Box,
   Flex,
@@ -53,7 +53,7 @@ const Home: NextPage = () => {
     setSettings(settingsToChange);
   };
 
-  const addNewTileIntoGrid = (size: string) => {
+  const addNewTileIntoGrid = (size: TileSize) => {
     const settingsToChange = deepClone(settings) as UserSettings;
     const themeToChange = getCurrentTheme(settingsToChange, colorMode);
 
@@ -62,6 +62,7 @@ const Home: NextPage = () => {
     const newTile: TileSettings = {
       tileId: newTileId,
       tileType: "None",
+      tileSize: size,
       backgroundColor: themeToChange.tiles[0]
         ? themeToChange.tiles[0].backgroundColor
         : "white",
@@ -74,14 +75,30 @@ const Home: NextPage = () => {
     themeToChange.tiles.push(newTile);
 
     let width = 1,
-      height = 1;
+      height = 1,
+      minH = 1,
+      minW = 1;
 
     if (size === "small") {
-      (width = 1), (height = 2);
+      width = 1;
+      height = 2;
+      minH = 2;
+      minW = 1;
     } else if (size === "medium") {
-      (width = 1), (height = 4);
+      width = 1;
+      height = 4;
+      minH = 3;
+      minW = 1;
     } else if (size === "large") {
-      (width = 2), (height = 4);
+      width = 2;
+      height = 4;
+      minH = 4;
+      minW = 2;
+    } else if (size === "long") {
+      width = 3;
+      height = 1;
+      minH = 1;
+      minW = 2;
     }
 
     for (const key in themeToChange.tileLayout) {
@@ -92,6 +109,8 @@ const Home: NextPage = () => {
         x: 0,
         y: 0,
         i: newTile.tileId.toString(),
+        minH,
+        minW,
       });
     }
     setSettings(settingsToChange);
@@ -211,8 +230,8 @@ const Home: NextPage = () => {
   }, [isMobileView, showNewTabToast, showUpdateToast]);
 
   useEffect(() => {
-    const themeToChange = getCurrentTheme(settings, colorMode);
     setColorModeState(colorMode);
+    const themeToChange = getCurrentTheme(settings, colorMode);
     applyTheme(themeToChange);
   }, [settings, colorMode, setColorModeState]);
 

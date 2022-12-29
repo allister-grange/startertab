@@ -79,7 +79,8 @@ export const ShareThemeModal: React.FC<ShareThemeModalProps> = ({
           myKey === "textColor" ||
           myKey === "backgroundColor" ||
           myKey === "tileType" ||
-          myKey === "tileId"
+          myKey === "tileId" ||
+          myKey === "tileSize"
         ) {
           continue;
         }

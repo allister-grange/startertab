@@ -43,6 +43,9 @@ export const TileErrorBoundary: React.FC<TileErrorBoundaryProps> = ({
       } else if (castedKey === "tileId") {
         currentTheme.tiles[tileId][castedKey] =
           currentTheme.tiles[tileId][castedKey];
+      } else if (castedKey === "tileSize") {
+        currentTheme.tiles[tileId][castedKey] =
+          currentTheme.tiles[tileId][castedKey];
       } else {
         currentTheme.tiles[tileId][castedKey] = undefined;
       }

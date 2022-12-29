@@ -8,6 +8,8 @@ export const defaultGridLayout: Layouts = {
       x: 0,
       y: 0,
       i: "0",
+      minH: 3,
+      minW: 1,
     },
     {
       w: 2,
@@ -15,6 +17,8 @@ export const defaultGridLayout: Layouts = {
       x: 1,
       y: 0,
       i: "1",
+      minH: 4,
+      minW: 2,
     },
     {
       w: 1,
@@ -22,6 +26,8 @@ export const defaultGridLayout: Layouts = {
       x: 3,
       y: 0,
       i: "2",
+      minH: 3,
+      minW: 1,
     },
     {
       w: 1,
@@ -29,6 +35,8 @@ export const defaultGridLayout: Layouts = {
       x: 4,
       y: 0,
       i: "3",
+      minH: 3,
+      minW: 1,
     },
     {
       w: 3,
@@ -36,6 +44,8 @@ export const defaultGridLayout: Layouts = {
       x: 1,
       y: 2,
       i: "4",
+      minH: 1,
+      minW: 2,
     },
     {
       w: 1,
@@ -43,6 +53,8 @@ export const defaultGridLayout: Layouts = {
       x: 0,
       y: 3,
       i: "5",
+      minH: 3,
+      minW: 1,
     },
     {
       w: 1,
@@ -50,6 +62,8 @@ export const defaultGridLayout: Layouts = {
       x: 1,
       y: 3,
       i: "6",
+      minH: 2,
+      minW: 1,
     },
     {
       w: 1,
@@ -57,6 +71,8 @@ export const defaultGridLayout: Layouts = {
       x: 1,
       y: 4,
       i: "7",
+      minH: 2,
+      minW: 1,
     },
     {
       w: 2,
@@ -64,6 +80,8 @@ export const defaultGridLayout: Layouts = {
       x: 2,
       y: 4,
       i: "8",
+      minH: 4,
+      minW: 2,
     },
     {
       w: 1,
@@ -71,6 +89,8 @@ export const defaultGridLayout: Layouts = {
       x: 4,
       y: 2,
       i: "9",
+      minH: 2,
+      minW: 1,
     },
     {
       w: 1,
@@ -78,6 +98,8 @@ export const defaultGridLayout: Layouts = {
       x: 4,
       y: 2,
       i: "10",
+      minH: 2,
+      minW: 1,
     },
   ],
   md: [
@@ -87,6 +109,8 @@ export const defaultGridLayout: Layouts = {
       x: 0,
       y: 0,
       i: "0",
+      minH: 3,
+      minW: 1,
     },
     {
       w: 2,
@@ -94,6 +118,8 @@ export const defaultGridLayout: Layouts = {
       x: 1,
       y: 0,
       i: "1",
+      minH: 4,
+      minW: 2,
     },
     {
       w: 1,
@@ -101,6 +127,8 @@ export const defaultGridLayout: Layouts = {
       x: 3,
       y: 6,
       i: "2",
+      minH: 3,
+      minW: 1,
     },
     {
       w: 1,
@@ -108,6 +136,8 @@ export const defaultGridLayout: Layouts = {
       x: 0,
       y: 6,
       i: "3",
+      minH: 3,
+      minW: 1,
     },
     {
       w: 4,
@@ -115,6 +145,8 @@ export const defaultGridLayout: Layouts = {
       x: 1,
       y: 5,
       i: "4",
+      minH: 1,
+      minW: 2,
     },
     {
       w: 1,
@@ -122,6 +154,8 @@ export const defaultGridLayout: Layouts = {
       x: 0,
       y: 4,
       i: "5",
+      minH: 3,
+      minW: 1,
     },
     {
       w: 1,
@@ -129,6 +163,8 @@ export const defaultGridLayout: Layouts = {
       x: 1,
       y: 6,
       i: "6",
+      minH: 2,
+      minW: 1,
     },
     {
       w: 1,
@@ -136,6 +172,8 @@ export const defaultGridLayout: Layouts = {
       x: 1,
       y: 6,
       i: "7",
+      minH: 2,
+      minW: 1,
     },
     {
       w: 2,
@@ -143,6 +181,8 @@ export const defaultGridLayout: Layouts = {
       x: 1,
       y: 7,
       i: "8",
+      minH: 4,
+      minW: 2,
     },
     {
       w: 1,
@@ -150,6 +190,8 @@ export const defaultGridLayout: Layouts = {
       x: 1,
       y: 7,
       i: "9",
+      minH: 2,
+      minW: 1,
     },
     {
       w: 1,
@@ -157,6 +199,8 @@ export const defaultGridLayout: Layouts = {
       x: 2,
       y: 7,
       i: "10",
+      minH: 2,
+      minW: 1,
     },
   ],
   sm: [
@@ -166,6 +210,8 @@ export const defaultGridLayout: Layouts = {
       x: 0,
       y: 0,
       i: "0",
+      minH: 3,
+      minW: 1,
     },
     {
       w: 2,
@@ -173,6 +219,8 @@ export const defaultGridLayout: Layouts = {
       x: 1,
       y: 0,
       i: "1",
+      minH: 4,
+      minW: 2,
     },
     {
       w: 1,
@@ -180,6 +228,8 @@ export const defaultGridLayout: Layouts = {
       x: 3,
       y: 6,
       i: "2",
+      minH: 3,
+      minW: 1,
     },
     {
       w: 1,
@@ -187,6 +237,8 @@ export const defaultGridLayout: Layouts = {
       x: 0,
       y: 6,
       i: "3",
+      minH: 3,
+      minW: 1,
     },
     {
       w: 4,
@@ -194,6 +246,8 @@ export const defaultGridLayout: Layouts = {
       x: 1,
       y: 5,
       i: "4",
+      minH: 1,
+      minW: 2,
     },
     {
       w: 1,
@@ -201,6 +255,8 @@ export const defaultGridLayout: Layouts = {
       x: 0,
       y: 4,
       i: "5",
+      minH: 3,
+      minW: 1,
     },
     {
       w: 1,
@@ -208,6 +264,8 @@ export const defaultGridLayout: Layouts = {
       x: 1,
       y: 6,
       i: "6",
+      minH: 2,
+      minW: 1,
     },
     {
       w: 1,
@@ -215,6 +273,8 @@ export const defaultGridLayout: Layouts = {
       x: 1,
       y: 6,
       i: "7",
+      minH: 2,
+      minW: 1,
     },
     {
       w: 2,
@@ -222,6 +282,8 @@ export const defaultGridLayout: Layouts = {
       x: 1,
       y: 7,
       i: "8",
+      minH: 4,
+      minW: 2,
     },
     {
       w: 1,
@@ -229,6 +291,8 @@ export const defaultGridLayout: Layouts = {
       x: 1,
       y: 7,
       i: "9",
+      minH: 2,
+      minW: 1,
     },
     {
       w: 1,
@@ -236,6 +300,8 @@ export const defaultGridLayout: Layouts = {
       x: 2,
       y: 7,
       i: "10",
+      minH: 2,
+      minW: 1,
     },
   ],
   xs: [
@@ -245,6 +311,8 @@ export const defaultGridLayout: Layouts = {
       x: 0,
       y: 0,
       i: "0",
+      minH: 3,
+      minW: 1,
     },
     {
       w: 2,
@@ -252,6 +320,8 @@ export const defaultGridLayout: Layouts = {
       x: 0,
       y: 5,
       i: "1",
+      minH: 4,
+      minW: 2,
     },
     {
       w: 1,
@@ -259,6 +329,8 @@ export const defaultGridLayout: Layouts = {
       x: 1,
       y: 0,
       i: "2",
+      minH: 3,
+      minW: 1,
     },
     {
       w: 1,
@@ -266,6 +338,8 @@ export const defaultGridLayout: Layouts = {
       x: 0,
       y: 6,
       i: "3",
+      minH: 3,
+      minW: 1,
     },
     {
       w: 2,
@@ -273,6 +347,8 @@ export const defaultGridLayout: Layouts = {
       x: 1,
       y: 4,
       i: "4",
+      minH: 1,
+      minW: 2,
     },
     {
       w: 1,
@@ -280,6 +356,8 @@ export const defaultGridLayout: Layouts = {
       x: 0,
       y: 4,
       i: "5",
+      minH: 3,
+      minW: 1,
     },
     {
       w: 1,
@@ -287,6 +365,8 @@ export const defaultGridLayout: Layouts = {
       x: 1,
       y: 6,
       i: "6",
+      minH: 2,
+      minW: 1,
     },
     {
       w: 1,
@@ -294,6 +374,8 @@ export const defaultGridLayout: Layouts = {
       x: 2,
       y: 6,
       i: "7",
+      minH: 2,
+      minW: 1,
     },
     {
       w: 2,
@@ -301,6 +383,8 @@ export const defaultGridLayout: Layouts = {
       x: 1,
       y: 7,
       i: "8",
+      minH: 4,
+      minW: 2,
     },
     {
       w: 1,
@@ -308,6 +392,8 @@ export const defaultGridLayout: Layouts = {
       x: 1,
       y: 2,
       i: "9",
+      minH: 2,
+      minW: 1,
     },
     {
       w: 1,
@@ -315,6 +401,8 @@ export const defaultGridLayout: Layouts = {
       x: 1,
       y: 2,
       i: "10",
+      minH: 2,
+      minW: 1,
     },
   ],
 };

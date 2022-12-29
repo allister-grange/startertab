@@ -1,10 +1,11 @@
+import { TileSize } from "@/types";
 import { SmallAddIcon } from "@chakra-ui/icons";
 import { Flex, Menu, MenuButton, MenuItem, MenuList } from "@chakra-ui/react";
 import React, { Dispatch, SetStateAction, useState } from "react";
 
 interface TileLayoutActionsProps {
   setIsEditingTiles: Dispatch<SetStateAction<boolean>>;
-  addNewTileIntoGrid: (size: string) => void;
+  addNewTileIntoGrid: (size: TileSize) => void;
 }
 
 export const TileLayoutActions: React.FC<TileLayoutActionsProps> = ({
@@ -40,6 +41,7 @@ export const TileLayoutActions: React.FC<TileLayoutActionsProps> = ({
             medium
           </MenuItem>
           <MenuItem onClick={() => addNewTileIntoGrid("large")}>large</MenuItem>
+          <MenuItem onClick={() => addNewTileIntoGrid("long")}>long</MenuItem>
         </MenuList>
       </Menu>
     </Flex>
