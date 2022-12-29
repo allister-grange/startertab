@@ -26,5 +26,5 @@ export const userSettingState = atom({
 
 export const colorModeState = atom({
   key: "ColorMode",
-  default: "dark" as ColorMode,
+  default: "dark",
 });
