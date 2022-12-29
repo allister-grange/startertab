@@ -4,20 +4,19 @@ import {
   ThemeToChangeSelector,
 } from "@/components/sidebar";
 import SettingOptionContainer from "@/components/sidebar/SettingOptionContainer";
-import {
-  getCurrentTheme,
-  getThemeNames,
-  sortOptionsIntoTileGroups,
-} from "@/helpers/settingsHelpers";
+import { getCurrentTheme, getThemeNames } from "@/helpers/settingsHelpers";
 import {
   globalSettingsOptions,
-  sideBarOptions,
+  sideBarLargeTileOptions,
+  sideBarLongTileOptions,
+  sideBarMediumTileOptions,
+  sideBarSmallTileOptions,
 } from "@/helpers/sideBarOptions";
 import { deepClone } from "@/helpers/tileHelpers";
 import { userSettingState } from "@/recoil/UserSettingsAtom";
 import styles from "@/styles/Home.module.css";
 import { Option } from "@/types";
-import { ThemeSettings, TileSettings, UserSettings } from "@/types/settings";
+import { TileSettings, UserSettings } from "@/types/settings";
 import {
   Accordion,
   AccordionButton,
@@ -61,10 +60,6 @@ const SettingsSideBar: React.FC<SettingsSideBarProps> = ({
 
   // used to animate the width of the sidebar
   const [width, setWidth] = useState("0px");
-  const sortedOptions = React.useMemo(
-    () => sortOptionsIntoTileGroups(sideBarOptions),
-    []
-  );
 
   React.useEffect(() => {
     if (isOpen) {
@@ -97,6 +92,7 @@ const SettingsSideBar: React.FC<SettingsSideBarProps> = ({
     setTimeout(onClose, 500);
     // reset settings
     setSettings(deepClone(settings));
+    setIsEditingTiles(false);
     setOptionHovered(undefined);
     setAccordionIndex([]);
     setSettings(inMemorySettingsRef.current);
@@ -126,16 +122,18 @@ const SettingsSideBar: React.FC<SettingsSideBarProps> = ({
     let newSettings = deepClone(settings);
     const themeToChange = getCurrentTheme(newSettings, colorMode);
 
-    sideBarOptions.forEach((option) => {
-      if (option.localStorageId.toLowerCase().includes("color")) {
-        const newColorSetting = randomHexValue();
+    themeToChange.tiles.forEach((tile) => {
+      for (const item in tile) {
+        if (item.toLowerCase().includes("color")) {
+          const newColorSetting = randomHexValue();
 
-        if (option.tileId === -1) {
-          themeToChange.globalSettings[option.localStorageId as K] =
-            newColorSetting as TileSettings[K];
-        } else {
-          themeToChange.tiles[option.tileId][option.localStorageId as K] =
-            newColorSetting as TileSettings[K];
+          if (tile.tileId === -1) {
+            themeToChange.globalSettings[item as K] =
+              newColorSetting as TileSettings[K];
+          } else {
+            themeToChange.tiles[tile.tileId][item as K] =
+              newColorSetting as TileSettings[K];
+          }
         }
       }
     });
@@ -159,8 +157,7 @@ const SettingsSideBar: React.FC<SettingsSideBarProps> = ({
   const textColor = currentThemeSettings?.globalSettings.textColor;
   const subTextColor = currentThemeSettings?.globalSettings.subTextColor!;
   const borderColor = currentThemeSettings?.globalSettings.sidebarBorderColor!;
-  const optionGroups = Object.entries(sortedOptions);
-  optionGroups.unshift(optionGroups.pop()!);
+  // const optionGroups = Object.entries(sortedOptions);
 
   return (
     <Box
@@ -266,6 +263,7 @@ const SettingsSideBar: React.FC<SettingsSideBarProps> = ({
                 <SettingOptionContainer
                   key={option.localStorageId}
                   option={option}
+                  tileId={-1}
                   tileType={tileType}
                   changeSetting={changeSetting}
                   textColor={textColor}
@@ -278,13 +276,30 @@ const SettingsSideBar: React.FC<SettingsSideBarProps> = ({
           </AccordionItem>
 
           {/* TILE SETTINGS */}
-          {currentThemeSettings.tiles.map((tileGroup, index) => {
+          {currentThemeSettings.tiles.map((tile, index) => {
+            let optionsForTile;
+
+            switch (tile.tileSize) {
+              case "small":
+                optionsForTile = sideBarSmallTileOptions;
+                break;
+              case "medium":
+                optionsForTile = sideBarMediumTileOptions;
+                break;
+              case "large":
+                optionsForTile = sideBarLargeTileOptions;
+                break;
+              case "long":
+                optionsForTile = sideBarLongTileOptions;
+                break;
+            }
+
             return (
               <AccordionItem
-                key={tileGroup.tileId}
+                key={tile.tileId}
                 p="0"
-                onMouseEnter={() => setOptionHovered(tileGroup.tileId)}
-                onFocus={() => setOptionHovered(tileGroup.tileId)}
+                onMouseEnter={() => setOptionHovered(tile.tileId)}
+                onFocus={() => setOptionHovered(tile.tileId)}
                 onMouseLeave={() => setOptionHovered(undefined)}
                 onBlur={() => setOptionHovered(undefined)}
                 borderColor={borderColor}
@@ -298,16 +313,16 @@ const SettingsSideBar: React.FC<SettingsSideBarProps> = ({
                     color={textColor}
                   >
                     <Box flex="1" textAlign="left">
-                      {currentThemeSettings.tiles[tileGroup.tileId].tileType}
+                      {currentThemeSettings.tiles[tile.tileId].tileType}
                     </Box>
                     <AccordionIcon />
                   </AccordionButton>
                 </h2>
-                {optionGroups[index][1].map((option: Option) => {
+                {optionsForTile.map((option: Option) => {
                   const tileType =
-                    currentThemeSettings!.tiles[option.tileId].tileType;
+                    currentThemeSettings!.tiles[tile.tileId].tileType;
                   const value =
-                    currentThemeSettings!.tiles[option.tileId!][
+                    currentThemeSettings!.tiles[tile.tileId][
                       option.localStorageId as keyof TileSettings
                     ];
 
@@ -316,6 +331,7 @@ const SettingsSideBar: React.FC<SettingsSideBarProps> = ({
                       key={option.localStorageId}
                       option={option}
                       tileType={tileType}
+                      tileId={tile.tileId}
                       changeSetting={changeSetting}
                       textColor={textColor}
                       subTextColor={subTextColor}

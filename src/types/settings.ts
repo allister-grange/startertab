@@ -6,7 +6,6 @@ export type Option = {
   subTitle: string;
   localStorageId: string;
   optionType: OptionType;
-  tileId: number;
 };
 
 export type OptionType =
@@ -55,11 +54,14 @@ export type TileType =
 
 export type TileSettingsKey = keyof TileSettings;
 
+export type TileSize = "small" | "large" | "medium" | "long";
+
 export type TileSettings = {
   tileId: number;
   textColor: string;
   backgroundColor: string;
   tileType: TileType;
+  tileSize: TileSize;
   themePickerBubbleColor?: string;
   sidebarBackgroundColor?: string;
   sidebarBorderColor?: string;

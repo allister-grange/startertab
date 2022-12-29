@@ -6,6 +6,7 @@ interface TileTypePickerProps extends BoxProps {
   option: Option;
   textColor: string;
   subTextColor: string;
+  tileId: number;
   value: string;
   changeSetting: (
     key: keyof TileSettings,
@@ -24,6 +25,7 @@ export const TileTypePicker: React.FC<TileTypePickerProps> = ({
   option,
   textColor,
   subTextColor,
+  tileId,
   changeSetting,
   value,
   sizeOfTileForTypes,
@@ -34,7 +36,7 @@ export const TileTypePicker: React.FC<TileTypePickerProps> = ({
     changeSetting(
       option.localStorageId as keyof TileSettings,
       e.target.value,
-      option.tileId
+      tileId
     );
   };
 

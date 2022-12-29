@@ -16,6 +16,7 @@ interface ColorPickerProps extends BoxProps {
   textColor: string;
   subTextColor: string;
   value: string;
+  tileId: number;
   changeSetting: (
     key: keyof TileSettings,
     value: string,
@@ -28,6 +29,7 @@ export const ColorPicker: React.FC<ColorPickerProps> = ({
   textColor,
   subTextColor,
   changeSetting,
+  tileId,
   value,
 }) => {
   const { title, subTitle, localStorageId } = option;
@@ -53,7 +55,7 @@ export const ColorPicker: React.FC<ColorPickerProps> = ({
       changeSetting(
         option.localStorageId as keyof TileSettings,
         inputValue,
-        option.tileId
+        tileId
       );
     }, 500);
 
@@ -63,7 +65,7 @@ export const ColorPicker: React.FC<ColorPickerProps> = ({
       // this is for performance with the color picker
       clearTimeout(timeoutIdentifier);
     };
-  }, [changeSetting, inputValue, option.localStorageId, option.tileId, value]);
+  }, [changeSetting, inputValue, option.localStorageId, tileId, value]);
 
   return (
     <Box key={localStorageId} my="2">

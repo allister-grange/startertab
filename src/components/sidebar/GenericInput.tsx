@@ -7,6 +7,7 @@ interface GenericInputProps extends BoxProps {
   textColor: string;
   subTextColor: string;
   value: string;
+  tileId: number;
   changeSetting: (
     key: keyof TileSettings,
     value: string,
@@ -18,6 +19,7 @@ export const GenericInput: React.FC<GenericInputProps> = ({
   option,
   textColor,
   subTextColor,
+  tileId,
   changeSetting,
   value,
 }) => {
@@ -47,14 +49,14 @@ export const GenericInput: React.FC<GenericInputProps> = ({
       changeSetting(
         option.localStorageId as keyof TileSettings,
         inputValue,
-        option.tileId
+        tileId
       );
     }, 800);
 
     return () => {
       clearTimeout(timeoutIdentifier);
     };
-  }, [changeSetting, inputValue, option.localStorageId, option.tileId, value]);
+  }, [changeSetting, inputValue, option.localStorageId, tileId, value]);
 
   return (
     <Box key={localStorageId} my="2">

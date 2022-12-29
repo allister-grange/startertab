@@ -100,7 +100,7 @@ export const ColorPicker: React.FC<ColorPickerProps> = ({
           p="6"
           borderRadius="10px"
           width="300px"
-          zIndex={999}
+          zIndex="999"
           pos="relative"
           _focus={{
             border: "none",

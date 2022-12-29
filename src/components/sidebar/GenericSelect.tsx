@@ -7,6 +7,7 @@ interface GenericSelectProps {
   textColor: string;
   subTextColor: string;
   value: string;
+  tileId: number;
   changeSetting: (
     key: keyof TileSettings,
     value: string,
@@ -21,6 +22,7 @@ export const GenericSelect: React.FC<GenericSelectProps> = ({
   subTextColor,
   changeSetting,
   value,
+  tileId,
   options,
 }) => {
   const { title, subTitle, localStorageId } = option;
@@ -29,7 +31,7 @@ export const GenericSelect: React.FC<GenericSelectProps> = ({
     changeSetting(
       option.localStorageId as keyof TileSettings,
       e.target.value,
-      option.tileId
+      tileId
     );
   };
 
