@@ -39,25 +39,6 @@ export const applyTheme = (theme: ThemeSettings) => {
   });
 };
 
-export const sortOptionsIntoTileGroups = (
-  options: Option[]
-): Map<TileSettingsKey, Option[]> => {
-  const optionsInTileGroups: any = {};
-
-  options.forEach((option) => {
-    if (!(option.tileId in optionsInTileGroups)) {
-      optionsInTileGroups[option.tileId] = [option];
-    } else {
-      optionsInTileGroups[option.tileId] = [
-        ...optionsInTileGroups[option.tileId],
-        option,
-      ];
-    }
-  });
-
-  return optionsInTileGroups;
-};
-
 export const getThemeNames = (settings: UserSettings): string[] => {
   const themeNames: string[] = [];
   settings.themes.forEach((theme) => themeNames.push(theme.themeName));
