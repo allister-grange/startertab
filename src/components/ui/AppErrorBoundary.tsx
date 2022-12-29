@@ -25,17 +25,23 @@ export const AppErrorBoundary: React.FC = ({}) => {
   };
 
   return (
-    <Box height="100%" width="65%" p="2" mt="10" mx="auto" color="black">
+    <Box
+      height="100%"
+      width={["100%", "90%", "70%", "60%", "50%"]}
+      p="2"
+      mt="10"
+      mx="auto"
+      color="black"
+    >
       <Flex>
         <span style={{ fontSize: "140px" }}>⚠️</span>
-        <Box my="auto" ml="8" width="55%">
+        <Box my="auto" width="100%">
           <Heading color="black">I am in a pickle!</Heading>
           <Text mt="2">
             It seems there is an error that has occurred. Give refreshing your
             browser a shot. If that doesn&apos;t work, please click this
             dangerous button below &darr;. This will delete all of your settings
-            data, as I have likely pushed out a new version of the site and
-            caused you issues.
+            data.
           </Text>
         </Box>
       </Flex>
