@@ -173,6 +173,7 @@ const SettingsSideBar: React.FC<SettingsSideBarProps> = ({
       flexDirection="column"
       position="sticky"
       left="0"
+      top="0"
     >
       <SideBarTitle
         textColor={textColor}
