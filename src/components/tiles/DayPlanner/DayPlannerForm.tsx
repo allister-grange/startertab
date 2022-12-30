@@ -87,7 +87,7 @@ const DayPlannerForm: React.FC<DayPlannerFormProps> = ({
   const formValidationError = validateForm();
 
   return (
-    <Stack shadow="lg" background="white" p="4" {...props}>
+    <Stack shadow="lg" background="white" p="4" zIndex="2000" {...props}>
       <Button
         pos="absolute"
         top="2"
