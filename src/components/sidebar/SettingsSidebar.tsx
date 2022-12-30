@@ -157,7 +157,6 @@ const SettingsSideBar: React.FC<SettingsSideBarProps> = ({
   const textColor = currentThemeSettings?.globalSettings.textColor;
   const subTextColor = currentThemeSettings?.globalSettings.subTextColor!;
   const borderColor = currentThemeSettings?.globalSettings.sidebarBorderColor!;
-  // const optionGroups = Object.entries(sortedOptions);
 
   return (
     <Box

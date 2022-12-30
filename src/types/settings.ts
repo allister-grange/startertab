@@ -27,30 +27,33 @@ export type OptionType =
   | "SpotifyTopArtistsTimeLength"
   | "CityInputForUV";
 
-export type TileType =
-  | "Reddit Feed"
-  | "Hacker News Feed"
-  | "Strava Graph"
-  | "Search Bar"
-  | "Bonsai"
-  | "Small Weather Tile"
-  | "Large Weather Tile"
-  | "UV Graph"
-  | "Day Planner"
-  | "Theme Picker"
-  | "Small Spotify Tile"
-  | "Time"
-  | "Twitter Feed Tile"
-  | "Markdown File Tile"
-  | "Todo List"
-  | "Large Spotify Tile"
-  | "Small Stock Tile"
-  | "Large Stock Tile"
-  | "Spotify Top Artist Tile"
-  | "Blank Tile"
-  | "Favorite Links Tile"
-  | "RSS Feed Tile"
-  | "None";
+export const TileTypes = [
+  "Reddit Feed",
+  "Hacker News Feed",
+  "Strava Graph",
+  "Search Bar",
+  "Bonsai",
+  "Small Weather Tile",
+  "Large Weather Tile",
+  "UV Graph",
+  "Day Planner",
+  "Theme Picker",
+  "Small Spotify Tile",
+  "Time",
+  "Twitter Feed Tile",
+  "Markdown File Tile",
+  "Todo List",
+  "Large Spotify Tile",
+  "Small Stock Tile",
+  "Large Stock Tile",
+  "Spotify Top Artist Tile",
+  "Blank Tile",
+  "Favorite Links Tile",
+  "RSS Feed Tile",
+  "None",
+] as const;
+
+export type TileType = typeof TileTypes[number];
 
 export type TileSettingsKey = keyof TileSettings;
 

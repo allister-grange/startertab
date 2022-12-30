@@ -29,14 +29,15 @@ import {
   bookingsSelector,
   todoListSelector,
 } from "@/recoil/UserSettingsSelectors";
-import { Booking, TileType, TodoObject } from "@/types";
-import { Box, Center, Heading } from "@chakra-ui/react";
+import { Booking, TileSize, TileType, TodoObject } from "@/types";
+import { Box } from "@chakra-ui/react";
 import { createSyncStoragePersister } from "@tanstack/query-sync-storage-persister";
 import { QueryClient } from "@tanstack/react-query";
 import { PersistQueryClientProvider } from "@tanstack/react-query-persist-client";
 import React, { useState } from "react";
 import { ErrorBoundary } from "react-error-boundary";
 import { SetterOrUpdater, useRecoilState } from "recoil";
+import { NoneTile } from "../tiles/NoneTile";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -49,10 +50,15 @@ const queryClient = new QueryClient({
 interface TileContainerProps {
   tileId: number;
   tileType: TileType;
+  tileSize: TileSize;
   hackerNewsFeed?: string;
 }
 
-const TileContainer: React.FC<TileContainerProps> = ({ tileId, tileType }) => {
+const TileContainer: React.FC<TileContainerProps> = ({
+  tileId,
+  tileType,
+  tileSize,
+}) => {
   let tileToRender;
   // need to pass in these states as props as they're objects
   // and recoil only uses '===' as comparison, to prevent a
@@ -172,14 +178,7 @@ const TileContainer: React.FC<TileContainerProps> = ({ tileId, tileType }) => {
       );
       break;
     default:
-      tileToRender = (
-        <Center height="100%" p="6">
-          <Heading
-            size="md"
-            color={`var(--text-color-${tileId})`}
-          >{`Give me a tile type in the settings ✌️`}</Heading>
-        </Center>
-      );
+      tileToRender = <NoneTile tileId={tileId} tileSize={tileSize} />;
   }
 
   return (

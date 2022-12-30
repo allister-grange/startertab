@@ -1,4 +1,4 @@
-import { useState, useEffect, MouseEventHandler } from "react";
+import { useEffect, useState } from "react";
 
 export function useLongPress(callback = () => {}, ms = 300) {
   const [startLongPress, setStartLongPress] = useState(false);

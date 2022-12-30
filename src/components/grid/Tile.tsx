@@ -46,7 +46,7 @@ const Tile: React.FC<TileProps> = ({
 
   const animation = `${animationKeyframes} ${
     Math.random() * 400 + 300
-  }ms  infinite`;
+  }ms infinite`;
 
   const longPress = useLongPress(() => setIsEditingTiles(true), 500);
 
@@ -86,7 +86,11 @@ const Tile: React.FC<TileProps> = ({
           zIndex="100"
         />
       )}
-      <TileContainer tileId={tileId} tileType={theme.tiles[tileId].tileType} />
+      <TileContainer
+        tileId={tileId}
+        tileType={theme.tiles[tileId].tileType}
+        tileSize={theme.tiles[tileId].tileSize}
+      />
     </Box>
   );
 };
