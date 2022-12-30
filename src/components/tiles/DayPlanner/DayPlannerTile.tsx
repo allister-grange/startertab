@@ -4,13 +4,22 @@ import { times } from "@/helpers/tileHelpers";
 import { Booking } from "@/types";
 import {
   Box,
+  Button,
   Flex,
+  Modal,
+  ModalBody,
+  ModalCloseButton,
+  ModalContent,
+  ModalFooter,
+  ModalHeader,
+  ModalOverlay,
   Popover,
   PopoverContent,
   PopoverTrigger as OrigPopoverTrigger,
   Portal,
   Text,
   Tooltip,
+  useDisclosure,
 } from "@chakra-ui/react";
 import React, {
   useCallback,
@@ -47,11 +56,9 @@ const DayPlannerTileComponent: React.FC<DayPlannerTileProps> = ({
   const color = `var(--text-color-${tileId})`;
   const containerRef = useRef<HTMLDivElement>(null);
   const [width, setWidth] = useState(0);
-  const [showingTimePicker, setShowingTimePicker] = useState<
-    undefined | string
-  >();
   const [pixelsToPushTimerAcross, setPixelsToPushTimerAcross] = useState(0);
   const [formValues, setFormValues] = useState<Booking>(defaultFormValues);
+  const { isOpen, onOpen, onClose } = useDisclosure();
 
   // calculating what hour to put the hand on
   // 6 is taken off current hours as we start the clock at 6:00am
@@ -100,7 +107,7 @@ const DayPlannerTileComponent: React.FC<DayPlannerTileProps> = ({
   }, []);
 
   const onTimeIndicatorClick = (time?: string) => {
-    setShowingTimePicker(time);
+    onOpen();
     if (time) {
       let endTimeHour: string | number =
         Number.parseInt(time.split(":")[0]) + 1;
@@ -127,7 +134,7 @@ const DayPlannerTileComponent: React.FC<DayPlannerTileProps> = ({
 
     setBookings([...(bookings || []), formValues]);
     setFormValues(defaultFormValues);
-    setShowingTimePicker(undefined);
+    onClose();
   };
 
   // all times are in the format HH:MM (in 24 hour time)
@@ -198,7 +205,6 @@ const DayPlannerTileComponent: React.FC<DayPlannerTileProps> = ({
   return (
     <Flex
       height="100%"
-      pos="relative"
       justifyContent="center"
       ref={containerRef}
       width="80%"
@@ -286,8 +292,9 @@ const DayPlannerTileComponent: React.FC<DayPlannerTileProps> = ({
             </Tooltip>
           </Box>
         ))}
-        {showingTimePicker && (
-          <Box pos="fixed" top="50%" zIndex={999} transform="translateY(-50%)">
+        <Modal isOpen={isOpen} onClose={onClose}>
+          <ModalOverlay />
+          <ModalContent width="370px" borderRadius="15px" overflow="hidden">
             <DayPlannerForm
               background="var(--bg-color-sidebar)"
               color="var(--text-color-sidebar)"
@@ -295,11 +302,11 @@ const DayPlannerTileComponent: React.FC<DayPlannerTileProps> = ({
               bookings={bookings}
               setFormValues={setFormValues}
               onSubmit={onSubmit}
-              startTime={showingTimePicker!}
-              setShowingTimePicker={setShowingTimePicker}
+              startTime={formValues.startTime}
+              onClose={onClose}
             />
-          </Box>
-        )}
+          </ModalContent>
+        </Modal>
       </Flex>
     </Flex>
   );
