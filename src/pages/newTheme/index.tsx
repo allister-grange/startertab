@@ -18,6 +18,7 @@ import Router from "next/router";
 import React, { useState } from "react";
 import { useRecoilState } from "recoil";
 import { Footer } from "@/components/ui/Footer";
+import { defaultGridLayout } from "@/helpers/gridLayout";
 
 type FormInputs = {
   themeName: string;
@@ -119,6 +120,7 @@ export const ThemeCreator: React.FC = ({}) => {
       ...currentSettings.themes[0],
       themeName: formInputs.themeName,
       downloadedFromMarketplace: false,
+      tileLayout: defaultGridLayout,
       globalSettings: {
         ...currentSettings.themes[0].globalSettings,
         backgroundColor: formInputs.backgroundColor,
