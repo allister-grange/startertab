@@ -58,6 +58,42 @@ export const getCurrentTheme = (
   return theme;
 };
 
+const getTileSizeFromTileId = (tileId: string) => {
+  if (tileId === "tile1") {
+    return "medium";
+  }
+  if (tileId === "tile2") {
+    return "large";
+  }
+  if (tileId === "tile3") {
+    return "medium";
+  }
+  if (tileId === "tile4") {
+    return "medium";
+  }
+  if (tileId === "tile5") {
+    return "long";
+  }
+  if (tileId === "tile6") {
+    return "medium";
+  }
+  if (tileId === "tile7") {
+    return "small";
+  }
+  if (tileId === "tile8") {
+    return "small";
+  }
+  if (tileId === "tile9") {
+    return "large";
+  }
+  if (tileId === "tile10") {
+    return "small";
+  }
+  if (tileId === "tile11") {
+    return "small";
+  }
+};
+
 /** backwards compatibility for the old settings formatting */
 export const getNewSettingsFromLegacyTheme = (settings: UserSettings) => {
   const newSettings = deepClone(settings) as any;
@@ -81,9 +117,12 @@ export const getNewSettingsFromLegacyTheme = (settings: UserSettings) => {
 
       // should only be Tile1, Tile2 object etc once you're here
       const newTileId = parseInt(key.split("tile")[1]) - 1;
+      const tileSize = getTileSizeFromTileId(key);
+
       newTileArray.push({
         ...(value as TileSettings),
         tileId: newTileId,
+        tileSize,
       } as TileSettings);
 
       delete themeToLookAt[key];
