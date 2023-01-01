@@ -65,7 +65,7 @@ export const getNewSettingsFromLegacyTheme = (
 ) => {
   let theme = settings.themes.find((theme) => theme.themeName === colorMode);
   const themeToCheck = theme as any;
-  if (themeToCheck.tile1) {
+  if (themeToCheck?.tile1) {
     const newSettings = deepClone(settings) as any;
 
     // take each Tile from (1-11) and push them into tiles object, then delete the old reference
