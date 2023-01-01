@@ -239,7 +239,9 @@ const Home: NextPage = () => {
   const currentTheme = getCurrentTheme(settings, colorMode);
   // legacy settings need to be switched over to new format
   if ((currentTheme as any).tile1) {
+    console.log("Found the old tile setup");
     const newSettingsFormat = getNewSettingsFromLegacyTheme(settings);
+    console.log("Pulled back new settings", newSettingsFormat);
     setSettings(newSettingsFormat);
   }
   const gridGap = currentTheme.globalSettings.gridGap;

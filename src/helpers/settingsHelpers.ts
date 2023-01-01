@@ -60,43 +60,40 @@ export const getCurrentTheme = (
 
 /** backwards compatibility for the old settings formatting */
 export const getNewSettingsFromLegacyTheme = (settings: UserSettings) => {
-  const themeToCheck = settings.themes[0] as any;
+  const newSettings = deepClone(settings) as any;
+  console.log("newSettings", newSettings);
 
-  if (themeToCheck?.tile1) {
-    const newSettings = deepClone(settings) as any;
+  // take each Tile from (1-11) and push them into tiles object, then delete the old reference
+  for (const theme in newSettings.themes) {
+    const themeToLookAt = newSettings.themes[theme] as any;
+    const newTileArray: TileSettings[] = [];
 
-    // take each Tile from (1-11) and push them into tiles object, then delete the old reference
-    for (const theme in newSettings.themes) {
-      const themeToLookAt = newSettings.themes[theme] as any;
-      const newTileArray: TileSettings[] = [];
-
-      for (const [key, value] of Object.entries(themeToLookAt)) {
-        if (
-          key === "globalSettings" ||
-          key === "themeName" ||
-          key === "downloadedFromMarketplace" ||
-          key === "tiles" ||
-          key === "tileOrder" ||
-          key === "tileLayout"
-        ) {
-          continue;
-        }
-
-        // should only be Tile1, Tile2 object etc once you're here
-        const newTileId = parseInt(key.split("tile")[1]) - 1;
-        newTileArray.push({
-          ...(value as TileSettings),
-          tileId: newTileId,
-        } as TileSettings);
-
-        delete themeToLookAt[key];
+    for (const [key, value] of Object.entries(themeToLookAt)) {
+      if (
+        key === "globalSettings" ||
+        key === "themeName" ||
+        key === "downloadedFromMarketplace" ||
+        key === "tiles" ||
+        key === "tileOrder" ||
+        key === "tileLayout"
+      ) {
+        continue;
       }
-      const themeToChange = newSettings.themes[theme];
-      themeToChange.tiles = newTileArray;
-      themeToChange.tileLayout = defaultGridLayout;
+
+      // should only be Tile1, Tile2 object etc once you're here
+      const newTileId = parseInt(key.split("tile")[1]) - 1;
+      newTileArray.push({
+        ...(value as TileSettings),
+        tileId: newTileId,
+      } as TileSettings);
+
+      delete themeToLookAt[key];
     }
-    return newSettings;
+    const themeToChange = newSettings.themes[theme];
+    themeToChange.tiles = newTileArray;
+    themeToChange.tileLayout = defaultGridLayout;
   }
+  return newSettings;
 };
 
 export const findNewTileId = (tileSettings: TileSettings[]): number => {
