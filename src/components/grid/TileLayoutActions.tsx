@@ -35,7 +35,7 @@ export const TileLayoutActions: React.FC<TileLayoutActionsProps> = ({
         >
           {addButtonHovered ? "add tile" : <SmallAddIcon fontSize={"36"} />}
         </MenuButton>
-        <MenuList>
+        <MenuList color="black">
           <MenuItem onClick={() => addNewTileIntoGrid("small")}>small</MenuItem>
           <MenuItem onClick={() => addNewTileIntoGrid("medium")}>
             medium
