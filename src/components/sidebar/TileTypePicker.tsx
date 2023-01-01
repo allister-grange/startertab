@@ -1,4 +1,4 @@
-import { Option, OptionType, TileId, TileSettings } from "@/types";
+import { Option, OptionType, TileSettings } from "@/types";
 import { Box, BoxProps, Select, Text } from "@chakra-ui/react";
 import React from "react";
 
@@ -6,13 +6,13 @@ interface TileTypePickerProps extends BoxProps {
   option: Option;
   textColor: string;
   subTextColor: string;
+  tileId: number;
   value: string;
   changeSetting: (
     key: keyof TileSettings,
     value: string,
-    tileId: TileId
+    tileId: number
   ) => void;
-  resetOptionToDefault: (option: Option) => void;
   sizeOfTileForTypes: OptionType;
 }
 
@@ -25,9 +25,9 @@ export const TileTypePicker: React.FC<TileTypePickerProps> = ({
   option,
   textColor,
   subTextColor,
+  tileId,
   changeSetting,
   value,
-  resetOptionToDefault,
   sizeOfTileForTypes,
 }) => {
   const { title, subTitle, localStorageId } = option;
@@ -36,7 +36,7 @@ export const TileTypePicker: React.FC<TileTypePickerProps> = ({
     changeSetting(
       option.localStorageId as keyof TileSettings,
       e.target.value,
-      option.tileId
+      tileId
     );
   };
 
@@ -181,12 +181,6 @@ export const TileTypePicker: React.FC<TileTypePickerProps> = ({
       </Text>
       <Text fontSize="xs" color={subTextColor}>
         {subTitle}
-        <span
-          style={{ cursor: "pointer" }}
-          onClick={() => resetOptionToDefault(option)}
-        >
-          .&nbsp;Reset to default.
-        </span>
       </Text>
       <Box display="flex" flexDir="column" mt="1">
         <Select

@@ -1,4 +1,4 @@
-import { Option, TileId, TileSettings } from "@/types";
+import { Option, TileSettings } from "@/types";
 import { Box, BoxProps, Input, Text } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
 
@@ -7,21 +7,21 @@ interface GenericInputProps extends BoxProps {
   textColor: string;
   subTextColor: string;
   value: string;
+  tileId: number;
   changeSetting: (
     key: keyof TileSettings,
     value: string,
-    tileId: TileId
+    tileId: number
   ) => void;
-  resetOptionToDefault: (option: Option) => void;
 }
 
 export const GenericInput: React.FC<GenericInputProps> = ({
   option,
   textColor,
   subTextColor,
+  tileId,
   changeSetting,
   value,
-  resetOptionToDefault,
 }) => {
   const { title, subTitle, localStorageId } = option;
   const [inputValue, setInputValue] = useState(value);
@@ -49,14 +49,14 @@ export const GenericInput: React.FC<GenericInputProps> = ({
       changeSetting(
         option.localStorageId as keyof TileSettings,
         inputValue,
-        option.tileId
+        tileId
       );
     }, 800);
 
     return () => {
       clearTimeout(timeoutIdentifier);
     };
-  }, [changeSetting, inputValue, option.localStorageId, option.tileId, value]);
+  }, [changeSetting, inputValue, option.localStorageId, tileId, value]);
 
   return (
     <Box key={localStorageId} my="2">
@@ -65,12 +65,6 @@ export const GenericInput: React.FC<GenericInputProps> = ({
       </Text>
       <Text fontSize="xs" color={subTextColor}>
         {subTitle}
-        <span
-          style={{ cursor: "pointer" }}
-          onClick={() => resetOptionToDefault(option)}
-        >
-          .&nbsp;Reset to default.
-        </span>
       </Text>
       <Box display="flex" flexDir="column" mt="1">
         <Input

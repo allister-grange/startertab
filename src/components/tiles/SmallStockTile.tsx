@@ -1,7 +1,6 @@
-import { stockSelector } from "@/recoil/UserSettingsSelectors";
 import { SmallStockTickerSkeleton } from "@/components/skeletons/SmallStockTickerSkeleton";
 import { OutlinedButton } from "@/components/ui/OutlinedButton";
-import { TileId } from "@/types";
+import { stockSelector } from "@/recoil/UserSettingsSelectors";
 import { StockTickers } from "@/types/stocks";
 import {
   Box,
@@ -18,7 +17,7 @@ import React, { useState } from "react";
 import { SetterOrUpdater, useRecoilState } from "recoil";
 
 interface SmallStockTileProps {
-  tileId: TileId;
+  tileId: number;
 }
 const fetcher = async (stockName: string) => {
   try {

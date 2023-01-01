@@ -20,6 +20,7 @@ export const SidebarThemePicker: React.FC<SidebarThemePickerProps> = ({
       border={isSelected ? "3px var(--chakra-colors-purple-500) solid" : "none"}
       p="2"
       pos="relative"
+      overflow="visible"
       {...props}
     >
       {isSelected ? (
@@ -31,7 +32,7 @@ export const SidebarThemePicker: React.FC<SidebarThemePickerProps> = ({
           borderRadius="50%"
           top="-3"
           right="-4"
-          zIndex={999}
+          zIndex="999"
           alignItems="center"
           justifyContent="center"
         >

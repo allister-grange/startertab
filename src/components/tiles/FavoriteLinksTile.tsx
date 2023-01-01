@@ -1,5 +1,6 @@
+import { OutlinedButton } from "@/components/ui/OutlinedButton";
 import { favoriteLinksSelector } from "@/recoil/UserSettingsSelectors";
-import { FavoriteLink, TileId } from "@/types";
+import { FavoriteLink } from "@/types";
 import { SmallCloseIcon } from "@chakra-ui/icons";
 import {
   Box,
@@ -13,10 +14,9 @@ import {
 } from "@chakra-ui/react";
 import React, { FormEvent, useRef, useState } from "react";
 import { SetterOrUpdater, useRecoilState } from "recoil";
-import { OutlinedButton } from "@/components/ui/OutlinedButton";
 
 interface FavoriteLinksTileProps {
-  tileId: TileId;
+  tileId: number;
 }
 
 export const FavoriteLinksTile: React.FC<FavoriteLinksTileProps> = ({

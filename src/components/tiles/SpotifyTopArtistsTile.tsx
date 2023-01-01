@@ -1,10 +1,10 @@
-import { spotifyTopArtistTimeLengthSelector } from "@/recoil/UserSettingsSelectors";
 import { TextFeedSkeleton } from "@/components/skeletons/TextFeedSkeleton";
 import { OptionBadge } from "@/components/ui/OptionBadge";
 import { OutlinedButton } from "@/components/ui/OutlinedButton";
 import { SpotifyLogo } from "@/components/ui/SpotifyLogo";
 import { SpotifyContext } from "@/context/SpotifyContext";
-import { SpotifyContextInterface, TileId } from "@/types";
+import { spotifyTopArtistTimeLengthSelector } from "@/recoil/UserSettingsSelectors";
+import { SpotifyContextInterface } from "@/types";
 import {
   Box,
   Center,
@@ -13,13 +13,12 @@ import {
   Link,
   ListItem,
   UnorderedList,
-  useColorMode,
 } from "@chakra-ui/react";
 import React, { useContext } from "react";
 import { SetterOrUpdater, useRecoilState } from "recoil";
 
 type SmallSpotifyTileProps = {
-  tileId: TileId;
+  tileId: number;
 };
 
 export const SpotifyTopArtistsTile: React.FC<SmallSpotifyTileProps> = ({

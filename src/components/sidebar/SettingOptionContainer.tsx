@@ -2,25 +2,24 @@ import { ColorPicker } from "@/components/sidebar/ColorPicker";
 import { GenericInput } from "@/components/sidebar/GenericInput";
 import { GenericSelect } from "@/components/sidebar/GenericSelect";
 import { TileTypePicker } from "@/components/sidebar/TileTypePicker";
-import { Option, TileId, TileSettings, TileType } from "@/types";
+import { Option, TileSettings, TileType } from "@/types";
 import { AccordionPanel, Box, Text } from "@chakra-ui/react";
 import React from "react";
-import { ResetAndRandomizeColors } from "./ResetAndRandomizeColors";
+import { OutlinedButton } from "@/components/ui/OutlinedButton";
 
 interface SettingOptionContainerProps {
   option: Option;
   textColor: string;
   subTextColor: string;
+  tileId: number;
   changeSetting: (
     key: keyof TileSettings,
     value: string,
-    tileId: TileId
+    tileId: number
   ) => void;
-  resetOptionToDefault: (option: Option) => void;
   value: any;
   tileType: TileType;
   randomizeAllColorValues: () => void;
-  resetAllColorsToDefault: () => void;
 }
 
 const optionsStyles = {
@@ -33,22 +32,28 @@ const SettingOptionContainer: React.FC<SettingOptionContainerProps> = ({
   textColor,
   subTextColor,
   changeSetting,
-  resetOptionToDefault,
   randomizeAllColorValues,
-  resetAllColorsToDefault,
   tileType,
+  tileId,
   value,
 }) => {
   let optionToDisplay;
 
   switch (option.optionType) {
-    case "ResetColorsAndRandomize":
+    case "RandomizeColors":
       optionToDisplay = (
-        <ResetAndRandomizeColors
-          resetAllColorsToDefault={resetAllColorsToDefault}
-          textColor={textColor}
-          randomizeAllColorValues={randomizeAllColorValues}
-        />
+        <OutlinedButton
+          mx="auto"
+          mt="2"
+          display="block"
+          onClick={randomizeAllColorValues}
+          background="transparent"
+          border={`1px solid ${textColor}`}
+        >
+          <Text fontSize="sm" color={textColor}>
+            Randomize colors
+          </Text>
+        </OutlinedButton>
       );
       break;
     case "ColorPicker":
@@ -58,11 +63,11 @@ const SettingOptionContainer: React.FC<SettingOptionContainerProps> = ({
       optionToDisplay = (
         <ColorPicker
           option={option}
+          tileId={tileId}
           changeSetting={changeSetting}
           textColor={textColor}
           subTextColor={subTextColor}
           value={value}
-          resetOptionToDefault={resetOptionToDefault}
         />
       );
       break;
@@ -73,9 +78,9 @@ const SettingOptionContainer: React.FC<SettingOptionContainerProps> = ({
             option={option}
             changeSetting={changeSetting}
             textColor={textColor}
+            tileId={tileId}
             subTextColor={subTextColor}
             value={value}
-            resetOptionToDefault={resetOptionToDefault}
           />
         );
       }
@@ -89,7 +94,7 @@ const SettingOptionContainer: React.FC<SettingOptionContainerProps> = ({
           textColor={textColor}
           subTextColor={subTextColor}
           value={value}
-          resetOptionToDefault={resetOptionToDefault}
+          tileId={tileId}
         />
       );
       break;
@@ -101,10 +106,10 @@ const SettingOptionContainer: React.FC<SettingOptionContainerProps> = ({
         <TileTypePicker
           option={option}
           changeSetting={changeSetting}
+          tileId={tileId}
           textColor={textColor}
           subTextColor={subTextColor}
           value={value}
-          resetOptionToDefault={resetOptionToDefault}
           sizeOfTileForTypes={option.optionType}
         />
       );
@@ -113,11 +118,11 @@ const SettingOptionContainer: React.FC<SettingOptionContainerProps> = ({
       optionToDisplay = (
         <GenericSelect
           option={option}
+          tileId={tileId}
           changeSetting={changeSetting}
           textColor={textColor}
           subTextColor={subTextColor}
           value={value}
-          resetOptionToDefault={resetOptionToDefault}
           options={
             <>
               <option value="" style={optionsStyles}>
@@ -156,9 +161,9 @@ const SettingOptionContainer: React.FC<SettingOptionContainerProps> = ({
             option={option}
             changeSetting={changeSetting}
             textColor={textColor}
+            tileId={tileId}
             subTextColor={subTextColor}
             value={value}
-            resetOptionToDefault={resetOptionToDefault}
           />
         );
       }
@@ -170,9 +175,9 @@ const SettingOptionContainer: React.FC<SettingOptionContainerProps> = ({
             option={option}
             changeSetting={changeSetting}
             textColor={textColor}
+            tileId={tileId}
             subTextColor={subTextColor}
             value={value}
-            resetOptionToDefault={resetOptionToDefault}
           />
         );
       }
@@ -182,11 +187,11 @@ const SettingOptionContainer: React.FC<SettingOptionContainerProps> = ({
         optionToDisplay = (
           <GenericSelect
             option={option}
+            tileId={tileId}
             changeSetting={changeSetting}
             textColor={textColor}
             subTextColor={subTextColor}
             value={value}
-            resetOptionToDefault={resetOptionToDefault}
             options={
               <>
                 <option style={optionsStyles} value="Top">
@@ -209,11 +214,11 @@ const SettingOptionContainer: React.FC<SettingOptionContainerProps> = ({
         optionToDisplay = (
           <GenericSelect
             option={option}
+            tileId={tileId}
             changeSetting={changeSetting}
             textColor={textColor}
             subTextColor={subTextColor}
             value={value}
-            resetOptionToDefault={resetOptionToDefault}
             options={
               <>
                 <option style={optionsStyles} value="short_term">
@@ -238,9 +243,9 @@ const SettingOptionContainer: React.FC<SettingOptionContainerProps> = ({
             option={option}
             changeSetting={changeSetting}
             textColor={textColor}
+            tileId={tileId}
             subTextColor={subTextColor}
             value={value}
-            resetOptionToDefault={resetOptionToDefault}
           />
         );
       }
@@ -252,8 +257,8 @@ const SettingOptionContainer: React.FC<SettingOptionContainerProps> = ({
           changeSetting={changeSetting}
           textColor={textColor}
           subTextColor={subTextColor}
+          tileId={tileId}
           value={value}
-          resetOptionToDefault={resetOptionToDefault}
           options={
             <>
               <option style={optionsStyles} value="">
@@ -280,7 +285,7 @@ const SettingOptionContainer: React.FC<SettingOptionContainerProps> = ({
     <AccordionPanel p="2">
       {optionToDisplay}
       <Box mt="6" />
-      <hr />{" "}
+      <hr />
     </AccordionPanel>
   ) : null;
 };

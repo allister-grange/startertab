@@ -1,4 +1,4 @@
-import { TileId, TodoObject } from "@/types";
+import { TodoObject } from "@/types";
 import {
   CheckIcon,
   ChevronDownIcon,
@@ -11,7 +11,7 @@ import React, { useState } from "react";
 import { SetterOrUpdater } from "recoil";
 
 export interface TodoListProps {
-  tileId: TileId;
+  tileId: number;
   todoList?: TodoObject[] | undefined;
   setTodoList: SetterOrUpdater<TodoObject[] | undefined>;
 }

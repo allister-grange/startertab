@@ -3,14 +3,13 @@ import {
   GoogleIcon,
   StackOverFlowIcon,
 } from "@/components/icons";
-import { TileId } from "@/types";
+import { OutlinedButton } from "@/components/ui/OutlinedButton";
 import { Center, Input } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import React, { useState } from "react";
-import { OutlinedButton } from "@/components/ui/OutlinedButton";
 
 type SearchBarProps = {
-  tileId: TileId;
+  tileId: number;
 };
 
 export const SearchBarTile: React.FC<SearchBarProps> = ({ tileId }) => {

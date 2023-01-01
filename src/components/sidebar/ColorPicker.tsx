@@ -1,4 +1,4 @@
-import { Option, TileId, TileSettings } from "@/types";
+import { Option, TileSettings } from "@/types";
 import {
   Box,
   BoxProps,
@@ -16,12 +16,12 @@ interface ColorPickerProps extends BoxProps {
   textColor: string;
   subTextColor: string;
   value: string;
+  tileId: number;
   changeSetting: (
     key: keyof TileSettings,
     value: string,
-    tileId: TileId
+    tileId: number
   ) => void;
-  resetOptionToDefault: (option: Option) => void;
 }
 
 export const ColorPicker: React.FC<ColorPickerProps> = ({
@@ -29,8 +29,8 @@ export const ColorPicker: React.FC<ColorPickerProps> = ({
   textColor,
   subTextColor,
   changeSetting,
+  tileId,
   value,
-  resetOptionToDefault,
 }) => {
   const { title, subTitle, localStorageId } = option;
   const [inputValue, setInputValue] = useState(value);
@@ -55,7 +55,7 @@ export const ColorPicker: React.FC<ColorPickerProps> = ({
       changeSetting(
         option.localStorageId as keyof TileSettings,
         inputValue,
-        option.tileId
+        tileId
       );
     }, 500);
 
@@ -65,7 +65,7 @@ export const ColorPicker: React.FC<ColorPickerProps> = ({
       // this is for performance with the color picker
       clearTimeout(timeoutIdentifier);
     };
-  }, [changeSetting, inputValue, option.localStorageId, option.tileId, value]);
+  }, [changeSetting, inputValue, option.localStorageId, tileId, value]);
 
   return (
     <Box key={localStorageId} my="2">
@@ -74,12 +74,6 @@ export const ColorPicker: React.FC<ColorPickerProps> = ({
       </Text>
       <Text fontSize="xs" color={subTextColor}>
         {subTitle}
-        <span
-          style={{ cursor: "pointer" }}
-          onClick={() => resetOptionToDefault(option)}
-        >
-          .&nbsp;Reset to default.
-        </span>
       </Text>
       <Box display="flex" flexDir="column" mt="1">
         <Flex>

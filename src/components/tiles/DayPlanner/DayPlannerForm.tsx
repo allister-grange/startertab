@@ -22,9 +22,7 @@ interface DayPlannerFormProps extends StackProps {
   onSubmit: (e: React.FormEvent) => void;
   bookings: Booking[] | undefined;
   startTime: string;
-  setShowingTimePicker: React.Dispatch<
-    React.SetStateAction<string | undefined>
-  >;
+  onClose: () => void;
 }
 
 const DayPlannerForm: React.FC<DayPlannerFormProps> = ({
@@ -32,8 +30,8 @@ const DayPlannerForm: React.FC<DayPlannerFormProps> = ({
   onSubmit,
   setFormValues,
   bookings,
+  onClose,
   startTime,
-  setShowingTimePicker,
   ...props
 }) => {
   const [userTyped, setUserTyped] = useState(false);
@@ -73,8 +71,12 @@ const DayPlannerForm: React.FC<DayPlannerFormProps> = ({
       }
     }
 
-    if (formValues.title.length <= 0 || formValues.title.length >= 20) {
+    if (formValues.title.length >= 20) {
       return "Title is too long";
+    }
+
+    if (formValues.title.length <= 0) {
+      return "Title is too short";
     }
 
     if (formValues.endTime < formValues.startTime) {
@@ -85,20 +87,12 @@ const DayPlannerForm: React.FC<DayPlannerFormProps> = ({
   const formValidationError = validateForm();
 
   return (
-    <Stack
-      shadow="lg"
-      background="white"
-      p="4"
-      borderRadius="10px"
-      width="370px"
-      pos="relative"
-      {...props}
-    >
+    <Stack shadow="lg" background="white" p="4" zIndex="2000" {...props}>
       <Button
         pos="absolute"
         top="2"
         right="2"
-        onClick={() => setShowingTimePicker(undefined)}
+        onClick={onClose}
         background="transparent"
       >
         <CloseIcon />

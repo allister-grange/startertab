@@ -1,35 +1,34 @@
-import { selectorFamily } from "recoil";
-import { colorModeState, userSettingState } from "@/recoil/UserSettingsAtom";
 import { getCurrentTheme } from "@/helpers/settingsHelpers";
+import { colorModeState, userSettingState } from "@/recoil/UserSettingsAtom";
 import {
-  TileId,
-  TodoObject,
-  UserSettings,
   Booking,
   FavoriteLink,
   RSSFeed,
+  TodoObject,
+  UserSettings,
 } from "@/types";
+import { selectorFamily } from "recoil";
 
 export const redditFeedSelector = selectorFamily({
   key: "RedditFeed",
   get:
-    (tileId: TileId) =>
+    (tileId: number) =>
     ({ get }) => {
       const settings = get(userSettingState);
       const colorMode = get(colorModeState);
       const currentTheme = getCurrentTheme(settings, colorMode);
 
-      return currentTheme[tileId].subReddit;
+      return currentTheme.tiles[tileId].subReddit;
     },
   set:
-    (tileId: TileId) =>
+    (tileId: number) =>
     ({ get, set }, newValue) => {
       const userSettings = JSON.parse(
         JSON.stringify(get(userSettingState))
       ) as UserSettings;
 
       userSettings.themes.forEach(
-        (theme) => (theme[tileId].subReddit = newValue as string)
+        (theme) => (theme.tiles[tileId].subReddit = newValue as string)
       );
       set(userSettingState, userSettings);
     },
@@ -38,23 +37,23 @@ export const redditFeedSelector = selectorFamily({
 export const hackerNewsFeedSelector = selectorFamily({
   key: "HackerNewsFeed",
   get:
-    (tileId: TileId) =>
+    (tileId: number) =>
     ({ get }) => {
       const settings = get(userSettingState);
       const colorMode = get(colorModeState);
       const currentTheme = getCurrentTheme(settings, colorMode);
 
-      return currentTheme[tileId].hackerNewsFeedType;
+      return currentTheme.tiles[tileId].hackerNewsFeedType;
     },
   set:
-    (tileId: TileId) =>
+    (tileId: number) =>
     ({ get, set }, newValue) => {
       const userSettings = JSON.parse(
         JSON.stringify(get(userSettingState))
       ) as UserSettings;
 
       userSettings.themes.forEach(
-        (theme) => (theme[tileId].hackerNewsFeedType = newValue as string)
+        (theme) => (theme.tiles[tileId].hackerNewsFeedType = newValue as string)
       );
       set(userSettingState, userSettings);
     },
@@ -63,23 +62,23 @@ export const hackerNewsFeedSelector = selectorFamily({
 export const cityForWeatherSelector = selectorFamily({
   key: "CityForWeather",
   get:
-    (tileId: TileId) =>
+    (tileId: number) =>
     ({ get }) => {
       const settings = get(userSettingState);
       const colorMode = get(colorModeState);
       const currentTheme = getCurrentTheme(settings, colorMode);
 
-      return currentTheme[tileId].cityForWeather;
+      return currentTheme.tiles[tileId].cityForWeather;
     },
   set:
-    (tileId: TileId) =>
+    (tileId: number) =>
     ({ get, set }, newValue) => {
       const userSettings = JSON.parse(
         JSON.stringify(get(userSettingState))
       ) as UserSettings;
 
       userSettings.themes.forEach(
-        (theme) => (theme[tileId].cityForWeather = newValue as string)
+        (theme) => (theme.tiles[tileId].cityForWeather = newValue as string)
       );
       set(userSettingState, userSettings);
     },
@@ -88,23 +87,24 @@ export const cityForWeatherSelector = selectorFamily({
 export const tempDisplayInCelsiusSelector = selectorFamily({
   key: "CityForWeather",
   get:
-    (tileId: TileId) =>
+    (tileId: number) =>
     ({ get }) => {
       const settings = get(userSettingState);
       const colorMode = get(colorModeState);
       const currentTheme = getCurrentTheme(settings, colorMode);
 
-      return currentTheme[tileId].tempDisplayInCelsius;
+      return currentTheme.tiles[tileId].tempDisplayInCelsius;
     },
   set:
-    (tileId: TileId) =>
+    (tileId: number) =>
     ({ get, set }, newValue) => {
       const userSettings = JSON.parse(
         JSON.stringify(get(userSettingState))
       ) as UserSettings;
 
       userSettings.themes.forEach(
-        (theme) => (theme[tileId].tempDisplayInCelsius = newValue as string)
+        (theme) =>
+          (theme.tiles[tileId].tempDisplayInCelsius = newValue as string)
       );
       set(userSettingState, userSettings);
     },
@@ -113,23 +113,23 @@ export const tempDisplayInCelsiusSelector = selectorFamily({
 export const bookingsSelector = selectorFamily({
   key: "Bookings",
   get:
-    (tileId: TileId) =>
+    (tileId: number) =>
     ({ get }) => {
       const settings = get(userSettingState);
       const colorMode = get(colorModeState);
       const currentTheme = getCurrentTheme(settings, colorMode);
 
-      return currentTheme[tileId].bookings;
+      return currentTheme.tiles[tileId].bookings;
     },
   set:
-    (tileId: TileId) =>
+    (tileId: number) =>
     ({ get, set }, newValue) => {
       const userSettings = JSON.parse(
         JSON.stringify(get(userSettingState))
       ) as UserSettings;
 
       userSettings.themes.forEach(
-        (theme) => (theme[tileId].bookings = newValue as Booking[])
+        (theme) => (theme.tiles[tileId].bookings = newValue as Booking[])
       );
       set(userSettingState, userSettings);
     },
@@ -138,23 +138,23 @@ export const bookingsSelector = selectorFamily({
 export const stockSelector = selectorFamily({
   key: "Stock",
   get:
-    (tileId: TileId) =>
+    (tileId: number) =>
     ({ get }) => {
       const settings = get(userSettingState);
       const colorMode = get(colorModeState);
       const currentTheme = getCurrentTheme(settings, colorMode);
 
-      return currentTheme[tileId].stockName;
+      return currentTheme.tiles[tileId].stockName;
     },
   set:
-    (tileId: TileId) =>
+    (tileId: number) =>
     ({ get, set }, newValue) => {
       const userSettings = JSON.parse(
         JSON.stringify(get(userSettingState))
       ) as UserSettings;
 
       userSettings.themes.forEach(
-        (theme) => (theme[tileId].stockName = newValue as string)
+        (theme) => (theme.tiles[tileId].stockName = newValue as string)
       );
       set(userSettingState, userSettings);
     },
@@ -163,23 +163,23 @@ export const stockSelector = selectorFamily({
 export const bonsaiTrunkColorSelector = selectorFamily({
   key: "BonsaiTrunkColor",
   get:
-    (tileId: TileId) =>
+    (tileId: number) =>
     ({ get }) => {
       const settings = get(userSettingState);
       const colorMode = get(colorModeState);
       const currentTheme = getCurrentTheme(settings, colorMode);
 
-      return currentTheme[tileId].bonsaiTrunkColor;
+      return currentTheme.tiles[tileId].bonsaiTrunkColor;
     },
   set:
-    (tileId: TileId) =>
+    (tileId: number) =>
     ({ get, set }, newValue) => {
       const userSettings = JSON.parse(
         JSON.stringify(get(userSettingState))
       ) as UserSettings;
 
       userSettings.themes.forEach(
-        (theme) => (theme[tileId].bonsaiTrunkColor = newValue as string)
+        (theme) => (theme.tiles[tileId].bonsaiTrunkColor = newValue as string)
       );
       set(userSettingState, userSettings);
     },
@@ -188,23 +188,23 @@ export const bonsaiTrunkColorSelector = selectorFamily({
 export const bonsaiBaseColorSelector = selectorFamily({
   key: "BonsaiBaseColor",
   get:
-    (tileId: TileId) =>
+    (tileId: number) =>
     ({ get }) => {
       const settings = get(userSettingState);
       const colorMode = get(colorModeState);
       const currentTheme = getCurrentTheme(settings, colorMode);
 
-      return currentTheme[tileId].bonsaiBaseColor;
+      return currentTheme.tiles[tileId].bonsaiBaseColor;
     },
   set:
-    (tileId: TileId) =>
+    (tileId: number) =>
     ({ get, set }, newValue) => {
       const userSettings = JSON.parse(
         JSON.stringify(get(userSettingState))
       ) as UserSettings;
 
       userSettings.themes.forEach(
-        (theme) => (theme[tileId].bonsaiBaseColor = newValue as string)
+        (theme) => (theme.tiles[tileId].bonsaiBaseColor = newValue as string)
       );
       set(userSettingState, userSettings);
     },
@@ -213,23 +213,23 @@ export const bonsaiBaseColorSelector = selectorFamily({
 export const uvCitySelector = selectorFamily({
   key: "UvCity",
   get:
-    (tileId: TileId) =>
+    (tileId: number) =>
     ({ get }) => {
       const settings = get(userSettingState);
       const colorMode = get(colorModeState);
       const currentTheme = getCurrentTheme(settings, colorMode);
 
-      return currentTheme[tileId].cityForUv;
+      return currentTheme.tiles[tileId].cityForUv;
     },
   set:
-    (tileId: TileId) =>
+    (tileId: number) =>
     ({ get, set }, newValue) => {
       const userSettings = JSON.parse(
         JSON.stringify(get(userSettingState))
       ) as UserSettings;
 
       userSettings.themes.forEach(
-        (theme) => (theme[tileId].cityForUv = newValue as string)
+        (theme) => (theme.tiles[tileId].cityForUv = newValue as string)
       );
       set(userSettingState, userSettings);
     },
@@ -238,23 +238,23 @@ export const uvCitySelector = selectorFamily({
 export const todoListSelector = selectorFamily({
   key: "TodoList",
   get:
-    (tileId: TileId) =>
+    (tileId: number) =>
     ({ get }) => {
       const settings = get(userSettingState);
       const colorMode = get(colorModeState);
       const currentTheme = getCurrentTheme(settings, colorMode);
 
-      return currentTheme[tileId].todoList;
+      return currentTheme.tiles[tileId].todoList;
     },
   set:
-    (tileId: TileId) =>
+    (tileId: number) =>
     ({ get, set }, newValue) => {
       const userSettings = JSON.parse(
         JSON.stringify(get(userSettingState))
       ) as UserSettings;
 
       userSettings.themes.forEach(
-        (theme) => (theme[tileId].todoList = newValue as TodoObject[])
+        (theme) => (theme.tiles[tileId].todoList = newValue as TodoObject[])
       );
       set(userSettingState, userSettings);
     },
@@ -263,16 +263,16 @@ export const todoListSelector = selectorFamily({
 export const spotifyTopArtistTimeLengthSelector = selectorFamily({
   key: "SpotifyTopArtistTimeLength",
   get:
-    (tileId: TileId) =>
+    (tileId: number) =>
     ({ get }) => {
       const settings = get(userSettingState);
       const colorMode = get(colorModeState);
       const currentTheme = getCurrentTheme(settings, colorMode);
 
-      return currentTheme[tileId].spotifyArtistSearchTimeLength;
+      return currentTheme.tiles[tileId].spotifyArtistSearchTimeLength;
     },
   set:
-    (tileId: TileId) =>
+    (tileId: number) =>
     ({ get, set }, newValue) => {
       const userSettings = JSON.parse(
         JSON.stringify(get(userSettingState))
@@ -280,7 +280,8 @@ export const spotifyTopArtistTimeLengthSelector = selectorFamily({
 
       userSettings.themes.forEach(
         (theme) =>
-          (theme[tileId].spotifyArtistSearchTimeLength = newValue as string)
+          (theme.tiles[tileId].spotifyArtistSearchTimeLength =
+            newValue as string)
       );
       set(userSettingState, userSettings);
     },
@@ -289,23 +290,23 @@ export const spotifyTopArtistTimeLengthSelector = selectorFamily({
 export const markdownFileTextSelector = selectorFamily({
   key: "MarkdownFileText",
   get:
-    (tileId: TileId) =>
+    (tileId: number) =>
     ({ get }) => {
       const settings = get(userSettingState);
       const colorMode = get(colorModeState);
       const currentTheme = getCurrentTheme(settings, colorMode);
 
-      return currentTheme[tileId].markdownFileText;
+      return currentTheme.tiles[tileId].markdownFileText;
     },
   set:
-    (tileId: TileId) =>
+    (tileId: number) =>
     ({ get, set }, newValue) => {
       const userSettings = JSON.parse(
         JSON.stringify(get(userSettingState))
       ) as UserSettings;
 
       userSettings.themes.forEach(
-        (theme) => (theme[tileId].markdownFileText = newValue as string)
+        (theme) => (theme.tiles[tileId].markdownFileText = newValue as string)
       );
       set(userSettingState, userSettings);
     },
@@ -314,23 +315,24 @@ export const markdownFileTextSelector = selectorFamily({
 export const favoriteLinksSelector = selectorFamily({
   key: "FavoriteLinks",
   get:
-    (tileId: TileId) =>
+    (tileId: number) =>
     ({ get }) => {
       const settings = get(userSettingState);
       const colorMode = get(colorModeState);
       const currentTheme = getCurrentTheme(settings, colorMode);
 
-      return currentTheme[tileId].favoriteLinks;
+      return currentTheme.tiles[tileId].favoriteLinks;
     },
   set:
-    (tileId: TileId) =>
+    (tileId: number) =>
     ({ get, set }, newValue) => {
       const userSettings = JSON.parse(
         JSON.stringify(get(userSettingState))
       ) as UserSettings;
 
       userSettings.themes.forEach(
-        (theme) => (theme[tileId].favoriteLinks = newValue as FavoriteLink[])
+        (theme) =>
+          (theme.tiles[tileId].favoriteLinks = newValue as FavoriteLink[])
       );
       set(userSettingState, userSettings);
     },
@@ -339,23 +341,23 @@ export const favoriteLinksSelector = selectorFamily({
 export const rssFeedsSelector = selectorFamily({
   key: "RSSFeeds",
   get:
-    (tileId: TileId) =>
+    (tileId: number) =>
     ({ get }) => {
       const settings = get(userSettingState);
       const colorMode = get(colorModeState);
       const currentTheme = getCurrentTheme(settings, colorMode);
 
-      return currentTheme[tileId].rssFeeds;
+      return currentTheme.tiles[tileId].rssFeeds;
     },
   set:
-    (tileId: TileId) =>
+    (tileId: number) =>
     ({ get, set }, newValue) => {
       const userSettings = JSON.parse(
         JSON.stringify(get(userSettingState))
       ) as UserSettings;
 
       userSettings.themes.forEach(
-        (theme) => (theme[tileId].rssFeeds = newValue as RSSFeed[])
+        (theme) => (theme.tiles[tileId].rssFeeds = newValue as RSSFeed[])
       );
       set(userSettingState, userSettings);
     },

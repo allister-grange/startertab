@@ -1,11 +1,11 @@
-import { TodoObject, Booking, FavoriteLink, RSSFeed } from "@/types/tiles";
+import { Booking, FavoriteLink, RSSFeed, TodoObject } from "@/types/tiles";
+import { Layouts } from "react-grid-layout";
 
 export type Option = {
   title: string;
   subTitle: string;
   localStorageId: string;
   optionType: OptionType;
-  tileId: TileId;
 };
 
 export type OptionType =
@@ -20,47 +20,51 @@ export type OptionType =
   | "BorderSelect"
   | "SmallStockInput"
   | "GridGapInput"
-  | "ResetColorsAndRandomize"
+  | "RandomizeColors"
   | "LargeStockTile"
   | "CityInputForWeather"
   | "HackerNewsFeedType"
   | "SpotifyTopArtistsTimeLength"
   | "CityInputForUV";
 
-export type KeyOfTileSettings = keyof TileSettings;
+export const TileTypes = [
+  "Reddit Feed",
+  "Hacker News Feed",
+  "Strava Graph",
+  "Search Bar",
+  "Bonsai",
+  "Small Weather Tile",
+  "Large Weather Tile",
+  "UV Graph",
+  "Day Planner",
+  "Theme Picker",
+  "Small Spotify Tile",
+  "Time",
+  "Twitter Feed Tile",
+  "Markdown File Tile",
+  "Todo List",
+  "Large Spotify Tile",
+  "Small Stock Tile",
+  "Large Stock Tile",
+  "Spotify Top Artist Tile",
+  "Blank Tile",
+  "Favorite Links Tile",
+  "RSS Feed Tile",
+  "None",
+] as const;
 
-export type TileLayout = "STANDARD" | "COMPACT";
+export type TileType = typeof TileTypes[number];
 
-export type TileType =
-  | "Reddit Feed"
-  | "Hacker News Feed"
-  | "Strava Graph"
-  | "Search Bar"
-  | "Bonsai"
-  | "Small Weather Tile"
-  | "Large Weather Tile"
-  | "UV Graph"
-  | "Day Planner"
-  | "Theme Picker"
-  | "Small Spotify Tile"
-  | "Time"
-  | "Twitter Feed Tile"
-  | "Markdown File Tile"
-  | "Todo List"
-  | "Large Spotify Tile"
-  | "Small Stock Tile"
-  | "Large Stock Tile"
-  | "Spotify Top Artist Tile"
-  | "Blank Tile"
-  | "Favorite Links Tile"
-  | "RSS Feed Tile"
-  | "None";
+export type TileSettingsKey = keyof TileSettings;
+
+export type TileSize = "small" | "large" | "medium" | "long";
 
 export type TileSettings = {
+  tileId: number;
   textColor: string;
   backgroundColor: string;
   tileType: TileType;
-  tileLayout?: TileLayout;
+  tileSize: TileSize;
   themePickerBubbleColor?: string;
   sidebarBackgroundColor?: string;
   sidebarBorderColor?: string;
@@ -92,37 +96,10 @@ export type ThemeSettings = {
   themeName: string;
   downloadedFromMarketplace: boolean;
   globalSettings: TileSettings;
-  tile1: TileSettings;
-  tile2: TileSettings;
-  tile3: TileSettings;
-  tile4: TileSettings;
-  tile5: TileSettings;
-  tile6: TileSettings;
-  tile7: TileSettings;
-  tile8: TileSettings;
-  tile9: TileSettings;
-  tile10: TileSettings;
-  tile11: TileSettings;
+  tileLayout: Layouts;
+  tiles: TileSettings[];
 };
 
 export type UserSettings = {
   themes: ThemeSettings[];
 };
-
-export type SortedOption = {
-  [key in TileId]: Option[];
-};
-
-export type TileId =
-  | "tile1"
-  | "tile2"
-  | "tile3"
-  | "tile4"
-  | "tile5"
-  | "tile6"
-  | "tile7"
-  | "tile8"
-  | "tile9"
-  | "tile10"
-  | "tile11"
-  | "globalSettings";

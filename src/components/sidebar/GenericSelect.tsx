@@ -1,4 +1,4 @@
-import { Option, TileId, TileSettings } from "@/types";
+import { Option, TileSettings } from "@/types";
 import { Box, Select, Text } from "@chakra-ui/react";
 import React, { ReactElement } from "react";
 
@@ -7,12 +7,12 @@ interface GenericSelectProps {
   textColor: string;
   subTextColor: string;
   value: string;
+  tileId: number;
   changeSetting: (
     key: keyof TileSettings,
     value: string,
-    tileId: TileId
+    tileId: number
   ) => void;
-  resetOptionToDefault: (option: Option) => void;
   options: ReactElement;
 }
 
@@ -22,7 +22,7 @@ export const GenericSelect: React.FC<GenericSelectProps> = ({
   subTextColor,
   changeSetting,
   value,
-  resetOptionToDefault,
+  tileId,
   options,
 }) => {
   const { title, subTitle, localStorageId } = option;
@@ -31,7 +31,7 @@ export const GenericSelect: React.FC<GenericSelectProps> = ({
     changeSetting(
       option.localStorageId as keyof TileSettings,
       e.target.value,
-      option.tileId
+      tileId
     );
   };
 
@@ -42,12 +42,6 @@ export const GenericSelect: React.FC<GenericSelectProps> = ({
       </Text>
       <Text fontSize="xs" color={subTextColor}>
         {subTitle}
-        <span
-          style={{ cursor: "pointer" }}
-          onClick={() => resetOptionToDefault(option)}
-        >
-          &nbsp;Reset to default.
-        </span>
       </Text>
       <Box display="flex" flexDir="column" mt="1">
         <Select

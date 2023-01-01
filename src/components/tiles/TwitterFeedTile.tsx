@@ -1,5 +1,9 @@
+import { TextFeedSkeleton } from "@/components/skeletons/TextFeedSkeleton";
+import { OutlinedButton } from "@/components/ui/OutlinedButton";
+import { TwitterLogo } from "@/components/ui/TwitterLogo";
 import { TwitterContext } from "@/context/TwitterContext";
-import { TileId, TwitterContextInterface } from "@/types";
+import { calculateTimeAgoString, truncateString } from "@/helpers/tileHelpers";
+import { TwitterContextInterface } from "@/types";
 import {
   Box,
   Center,
@@ -11,13 +15,9 @@ import {
   UnorderedList,
 } from "@chakra-ui/react";
 import React, { useContext, useRef, useState } from "react";
-import { TextFeedSkeleton } from "@/components/skeletons/TextFeedSkeleton";
-import { OutlinedButton } from "@/components/ui/OutlinedButton";
-import { TwitterLogo } from "@/components/ui/TwitterLogo";
-import { truncateString, calculateTimeAgoString } from "@/helpers/tileHelpers";
 
 interface TwitterFeedTileProps {
-  tileId: TileId;
+  tileId: number;
 }
 
 export const TwitterFeedTile: React.FC<TwitterFeedTileProps> = ({ tileId }) => {

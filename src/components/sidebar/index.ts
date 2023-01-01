@@ -1,7 +1,6 @@
 export * from "./ColorPicker";
 export * from "./GenericInput";
 export * from "./GenericSelect";
-export * from "./ResetAndRandomizeColors";
 export * from "./SettingOptionContainer";
 export * from "./SettingsSidebar";
 export * from "./SideBarTitle";

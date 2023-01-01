@@ -1,10 +1,9 @@
-import { TileId } from "@/types";
-import { Box, Button, Heading, Input } from "@chakra-ui/react";
-import React, { useEffect, useRef, useState } from "react";
 import { OutlinedButton } from "@/components/ui/OutlinedButton";
+import { Box, Heading, Input } from "@chakra-ui/react";
+import React, { useEffect, useRef, useState } from "react";
 
 interface TimeProps {
-  tileId: TileId;
+  tileId: number;
 }
 
 export const TimeTile: React.FC<TimeProps> = ({ tileId }) => {

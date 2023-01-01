@@ -8,11 +8,7 @@ import { MusicControlButton } from "@/components/ui/MusicControlButton";
 import { OutlinedButton } from "@/components/ui/OutlinedButton";
 import { SpotifyLogo } from "@/components/ui/SpotifyLogo";
 import { SpotifyContext } from "@/context/SpotifyContext";
-import {
-  NowPlayingSpotifyData,
-  SpotifyContextInterface,
-  TileId,
-} from "@/types";
+import { NowPlayingSpotifyData, SpotifyContextInterface } from "@/types";
 import {
   Box,
   Center,
@@ -25,7 +21,7 @@ import {
 import React, { useContext } from "react";
 
 interface LargeSpotifyTileProps {
-  tileId: TileId;
+  tileId: number;
 }
 
 export const LargeSpotifyTile: React.FC<LargeSpotifyTileProps> = ({
