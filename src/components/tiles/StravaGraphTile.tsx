@@ -38,7 +38,7 @@ const StravaGraphTile: React.FC<PageProps> = ({ tileId }) => {
 
   if (isAuthenticated === false) {
     return (
-      <Center height="100%">
+      <Center height="95%">
         <OutlinedButton
           onClick={loginWithStrava}
           color={color}
@@ -79,7 +79,7 @@ const StravaGraphTile: React.FC<PageProps> = ({ tileId }) => {
         </Box>
       </Box>
       <Box mt="4" ml="-10">
-        <ResponsiveContainer width="97%" height={230}>
+        <ResponsiveContainer width="97%" aspect={2}>
           <BarChart data={stravaData.combinedData}>
             <XAxis
               label={undefined}
