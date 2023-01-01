@@ -239,9 +239,7 @@ const Home: NextPage = () => {
   const currentTheme = getCurrentTheme(settings, colorMode);
   // legacy settings need to be switched over to new format
   if ((currentTheme as any).tile1) {
-    console.log("Found the old tile setup");
     const newSettingsFormat = getNewSettingsFromLegacyTheme(settings);
-    console.log("Pulled back new settings", newSettingsFormat);
     setSettings(newSettingsFormat);
   }
   const gridGap = currentTheme.globalSettings.gridGap;
@@ -277,17 +275,19 @@ const Home: NextPage = () => {
             height="100%"
             onClick={() => setIsEditingTiles(false)}
           >
-            <TileGrid
-              tutorialProgress={tutorialProgress}
-              isEditingTiles={isEditingTiles}
-              setIsEditingTiles={setIsEditingTiles}
-              optionHovered={optionHovered}
-              gridGap={gridGap}
-              layout={currentTheme.tileLayout}
-              updateTileLayoutInSettings={updateTileLayoutInSettings}
-              tiles={currentTheme.tiles}
-              removeTileFromLayout={removeTileFromLayout}
-            />
+            {currentTheme.tiles && (
+              <TileGrid
+                tutorialProgress={tutorialProgress}
+                isEditingTiles={isEditingTiles}
+                setIsEditingTiles={setIsEditingTiles}
+                optionHovered={optionHovered}
+                gridGap={gridGap}
+                layout={currentTheme.tileLayout}
+                updateTileLayoutInSettings={updateTileLayoutInSettings}
+                tiles={currentTheme.tiles}
+                removeTileFromLayout={removeTileFromLayout}
+              />
+            )}
           </Flex>
         </>
       </Box>

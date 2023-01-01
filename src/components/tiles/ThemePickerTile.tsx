@@ -45,7 +45,6 @@ const ThemePickerTile: React.FC = () => {
                 marginX="5px"
                 marginY="7px"
                 onClick={() => {
-                  console.log("setting color mode:", theme.themeName);
                   setColorModeState(theme.themeName);
                   setColorMode(theme.themeName);
                 }}

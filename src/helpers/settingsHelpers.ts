@@ -61,7 +61,6 @@ export const getCurrentTheme = (
 /** backwards compatibility for the old settings formatting */
 export const getNewSettingsFromLegacyTheme = (settings: UserSettings) => {
   const newSettings = deepClone(settings) as any;
-  console.log("newSettings", newSettings);
 
   // take each Tile from (1-11) and push them into tiles object, then delete the old reference
   for (const theme in newSettings.themes) {
