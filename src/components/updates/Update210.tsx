@@ -5,7 +5,7 @@ export const Update210: React.FC = () => {
   return (
     <Box>
       <Heading as="h2" fontSize="2xl" mt="6">
-        v2.10 - Customize your layouts
+        v2.10 - Customize your grid
       </Heading>
       <Text
         mt="1"
@@ -24,13 +24,13 @@ export const Update210: React.FC = () => {
           muted
           style={{
             width: "105%",
-            aspectRatio: "1.40",
+            aspectRatio: "1.393",
             objectFit: "cover",
             marginTop: "15px",
           }}
         >
           <source
-            src="/updates_screenshots/themes_demo.mp4"
+            src="/updates_screenshots/tile_manipulation_demo.mp4"
             type="video/mp4"
           ></source>
         </video>
@@ -43,7 +43,7 @@ export const Update210: React.FC = () => {
           In all honesty, I thought that this would be more difficult to build
           that it proved to be. I initially was building all out the logic for
           the grid manipulation myself; I should have realized there would be an
-          open source library perfectly suited my needs earlier.
+          open source library that perfectly suited my needs earlier.
         </Text>
         <Text mt="2">
           Thank you{" "}
