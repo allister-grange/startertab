@@ -40,6 +40,10 @@ export const Update210: React.FC = () => {
           Resizing of Grids
         </Heading>
         <Text mt="2">
+          You can enter into the editing mode by either holding down a click on
+          a tile, or through the settings sidebar.
+        </Text>
+        <Text mt="2">
           In all honesty, I thought that this would be more difficult to build
           that it proved to be. I initially was building all out the logic for
           the grid manipulation myself; I should have realized there would be an
@@ -104,6 +108,10 @@ export const Update210: React.FC = () => {
         <Text>
           - I still want to implement all of the options suggested below in
           Update 2.0, I will work on those for now
+        </Text>
+        <Text>
+          - Make some of the tiles more responsive in nature now that they can
+          be re-sized
         </Text>
       </Box>
     </Box>

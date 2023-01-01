@@ -141,13 +141,13 @@ const Home: NextPage = () => {
 
   const showUpdateToast = useCallback(() => {
     toast({
-      title: "I've made another update! v2.00",
+      title: "I've made another update! v2.10",
       description: (
         <Text>
-          This is a <span style={{ textDecoration: "underline" }}>huge</span>{" "}
-          update. You can now download other people&apos;s themes. Check them
-          out{" "}
-          <Link color="coral" href="/themes#public">
+          This is a another{" "}
+          <span style={{ textDecoration: "underline" }}>huge</span> update. You
+          can now drag, drop, delete and add tiles into your grid. Check it out{" "}
+          <Link color="coral" href="/updates">
             here
           </Link>
           .
@@ -209,14 +209,15 @@ const Home: NextPage = () => {
       } else {
         localStorage.removeItem("hasSeenNewUpdate1.10");
         localStorage.removeItem("hasSeenNewUpdate1.20");
+        localStorage.removeItem("hasSeenNewUpdate2.00Counter");
         const hasSeenNewUpdate = localStorage.getItem(
-          "hasSeenNewUpdate2.00Counter"
+          "hasSeenNewUpdate2.10Counter"
         );
         if (!hasSeenNewUpdate) {
-          localStorage.setItem("hasSeenNewUpdate2.00Counter", "1");
+          localStorage.setItem("hasSeenNewUpdate2.10Counter", "1");
         } else {
           localStorage.setItem(
-            "hasSeenNewUpdate2.00Counter",
+            "hasSeenNewUpdate2.10Counter",
             (parseInt(hasSeenNewUpdate) + 1).toString()
           );
           // only on the sixth visit since the update do we want to show the toast
