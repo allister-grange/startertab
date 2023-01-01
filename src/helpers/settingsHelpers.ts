@@ -59,12 +59,9 @@ export const getCurrentTheme = (
 };
 
 /** backwards compatibility for the old settings formatting */
-export const getNewSettingsFromLegacyTheme = (
-  settings: UserSettings,
-  colorMode: string
-) => {
-  let theme = settings.themes.find((theme) => theme.themeName === colorMode);
-  const themeToCheck = theme as any;
+export const getNewSettingsFromLegacyTheme = (settings: UserSettings) => {
+  const themeToCheck = settings.themes[0] as any;
+
   if (themeToCheck?.tile1) {
     const newSettings = deepClone(settings) as any;
 
