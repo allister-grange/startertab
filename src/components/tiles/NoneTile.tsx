@@ -102,7 +102,11 @@ export const NoneTile: React.FC<NoneTileProps> = ({ tileId, tileSize }) => {
   };
 
   return (
-    <Center height="100%" p="6" flexDir="column">
+    <Center
+      height="100%"
+      p="6"
+      flexDir={tileSize === "long" ? "row" : "column"}
+    >
       <Heading
         size="md"
         color={`var(--text-color-${tileId})`}
@@ -110,7 +114,8 @@ export const NoneTile: React.FC<NoneTileProps> = ({ tileId, tileSize }) => {
       <Box>
         <Select
           width="100%"
-          mt="4"
+          marginTop={tileSize === "long" ? "0" : "4"}
+          marginLeft={tileSize === "long" ? "4" : "0"}
           onChange={handleTileTypeSelected}
           placeholder="Types of tiles"
         >
