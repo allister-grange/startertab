@@ -1,4 +1,5 @@
 import Tile from "@/components/grid/Tile";
+import { defaultGridLayout } from "@/helpers/gridLayout";
 import { TileSettings } from "@/types";
 import { Box, BoxProps, Flex } from "@chakra-ui/react";
 import React, { Dispatch, SetStateAction } from "react";
@@ -39,7 +40,7 @@ export const TileGrid: React.FC<TileGridProps> = ({
         <ResponsiveGridLayout
           className="layout"
           layouts={layout}
-          breakpoints={{ lg: 1280, md: 950, sm: 800, xs: 590, xxs: 0 }}
+          breakpoints={{ lg: 1280, md: 1050, sm: 850, xs: 590, xxs: 0 }}
           cols={{ lg: 5, md: 3, sm: 3, xs: 2, xxs: 2 }}
           rowHeight={68}
           margin={[
@@ -56,8 +57,8 @@ export const TileGrid: React.FC<TileGridProps> = ({
           isResizable={isEditingTiles}
           containerPadding={{
             lg: [20, 10],
-            md: [130, 55],
-            sm: [40, 55],
+            md: [160, 55],
+            sm: [60, 55],
             xs: [60, 55],
           }}
           compactType={"vertical"}
