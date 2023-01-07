@@ -4,6 +4,7 @@ import {
   TileSettingsKey,
   TileSettings,
   UserSettings,
+  TileSize,
 } from "@/types";
 import { setCookies } from "cookies-next";
 import { deepClone } from "@/helpers/tileHelpers";
@@ -144,4 +145,56 @@ export const findNewTileId = (tileSettings: TileSettings[]): number => {
   }
 
   return newTileId;
+};
+
+export const createNewTile = (
+  currentTheme: ThemeSettings,
+  size: TileSize
+): TileSettings => {
+  const newTileId = findNewTileId(currentTheme.tiles);
+
+  const newTile: TileSettings = {
+    tileId: newTileId,
+    tileType: "None",
+    tileSize: size,
+    backgroundColor: currentTheme.tiles[0]
+      ? currentTheme.tiles[0].backgroundColor
+      : "white",
+    textColor: currentTheme.tiles[0]
+      ? currentTheme.tiles[0].textColor
+      : "black",
+  };
+
+  return newTile;
+};
+
+export const getTileLayoutForNewTile = (size: TileSize) => {
+  let width = 1,
+    height = 1,
+    minH = 1,
+    minW = 1;
+
+  if (size === "small") {
+    width = 1;
+    height = 2;
+    minH = 2;
+    minW = 1;
+  } else if (size === "medium") {
+    width = 1;
+    height = 4;
+    minH = 3;
+    minW = 1;
+  } else if (size === "large") {
+    width = 2;
+    height = 4;
+    minH = 4;
+    minW = 2;
+  } else if (size === "long") {
+    width = 3;
+    height = 1;
+    minH = 1;
+    minW = 2;
+  }
+
+  return { width, height, minH, minW };
 };

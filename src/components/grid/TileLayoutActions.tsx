@@ -1,17 +1,48 @@
-import { TileSize } from "@/types";
+import {
+  createNewTile,
+  getCurrentTheme,
+  getTileLayoutForNewTile,
+} from "@/helpers/settingsHelpers";
+import { deepClone } from "@/helpers/tileHelpers";
+import { userSettingState } from "@/recoil/UserSettingsAtom";
+import { TileSize, UserSettings } from "@/types";
 import { SmallAddIcon } from "@chakra-ui/icons";
 import { Flex, Menu, MenuButton, MenuItem, MenuList } from "@chakra-ui/react";
-import React, { Dispatch, SetStateAction, useState } from "react";
+import React, { useState } from "react";
+import { useRecoilState } from "recoil";
 
 interface TileLayoutActionsProps {
-  setIsEditingTiles: Dispatch<SetStateAction<boolean>>;
-  addNewTileIntoGrid: (size: TileSize) => void;
+  colorMode: string;
 }
 
 export const TileLayoutActions: React.FC<TileLayoutActionsProps> = ({
-  addNewTileIntoGrid,
+  colorMode,
 }) => {
   const [addButtonHovered, setAddButtonHovered] = useState(false);
+  const [settings, setSettings] = useRecoilState(userSettingState);
+
+  const addNewTileIntoGrid = (size: TileSize) => {
+    const settingsToChange = deepClone(settings) as UserSettings;
+    const themeToChange = getCurrentTheme(settingsToChange, colorMode);
+    const newTile = createNewTile(themeToChange, size);
+    const newTileLayout = getTileLayoutForNewTile(size);
+
+    // add new tile to tiles and the new layout to the current theme
+    themeToChange.tiles.push(newTile);
+    for (const key in themeToChange.tileLayout) {
+      themeToChange.tileLayout[key].push({
+        w: newTileLayout.width,
+        h: newTileLayout.height,
+        x: 0,
+        y: 8,
+        i: newTile.tileId.toString(),
+        minH: newTileLayout.minH,
+        minW: newTileLayout.minW,
+      });
+    }
+
+    setSettings(settingsToChange);
+  };
 
   return (
     <Flex position="fixed" top="3" right="3" flexDir="column">

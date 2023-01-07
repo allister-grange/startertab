@@ -1,11 +1,14 @@
 import Tile from "@/components/grid/Tile";
-import { defaultGridLayout } from "@/helpers/gridLayout";
-import { TileSettings } from "@/types";
-import { Box, BoxProps, Flex } from "@chakra-ui/react";
+import { getCurrentTheme } from "@/helpers/settingsHelpers";
+import { deepClone } from "@/helpers/tileHelpers";
+import { userSettingState } from "@/recoil/UserSettingsAtom";
+import { TileSettings, UserSettings } from "@/types";
+import { Box, BoxProps, Flex, useColorMode } from "@chakra-ui/react";
 import React, { Dispatch, SetStateAction } from "react";
 import { Layouts, Responsive, WidthProvider } from "react-grid-layout";
 import "react-grid-layout/css/styles.css";
 import "react-resizable/css/styles.css";
+import { useRecoilState } from "recoil";
 
 const ResponsiveGridLayout = WidthProvider(Responsive);
 
@@ -17,8 +20,6 @@ interface TileGridProps {
   tiles?: TileSettings[];
   isEditingTiles: boolean;
   setIsEditingTiles: Dispatch<SetStateAction<boolean>>;
-  updateTileLayoutInSettings: (newLayout: Layouts) => void;
-  removeTileFromLayout: (tileId: number) => void;
 }
 
 export const TileGrid: React.FC<TileGridProps> = ({
@@ -27,13 +28,59 @@ export const TileGrid: React.FC<TileGridProps> = ({
   tutorialProgress,
   tiles,
   layout,
-  removeTileFromLayout,
   isEditingTiles,
-  updateTileLayoutInSettings,
   setIsEditingTiles,
 }) => {
+  const [settings, setSettings] = useRecoilState(userSettingState);
+  const { colorMode } = useColorMode();
+  const currentTheme = getCurrentTheme(settings, colorMode);
+
   const filter =
     tutorialProgress >= 0 && tutorialProgress < 4 ? "blur(8px)" : undefined;
+
+  const updateTileLayoutInSettings = (newLayout: Layouts) => {
+    const settingsToChange = deepClone(settings) as UserSettings;
+    const themeToChange = getCurrentTheme(settingsToChange, colorMode);
+
+    themeToChange.tileLayout = newLayout;
+    setSettings(settingsToChange);
+  };
+
+  const removeTileFromLayout = (tileId: number) => {
+    const newSettings = deepClone(settings);
+    const themeToEdit = newSettings.themes.find(
+      (theme) => theme.themeName === currentTheme.themeName
+    );
+
+    if (!themeToEdit) {
+      return;
+    }
+
+    // remove tile from the theme
+    const themeIndexToRemove = themeToEdit.tiles.findIndex(
+      (tile) => tile.tileId === tileId
+    );
+    themeToEdit.tiles.splice(themeIndexToRemove, 1);
+    // shift all the tileId's down one index from the index above the one deleted
+    for (let i = themeIndexToRemove; i < themeToEdit.tiles.length; i++) {
+      themeToEdit.tiles[i].tileId--;
+    }
+
+    // remove tile from all of the layouts
+    for (const layout in themeToEdit.tileLayout) {
+      const layoutToEdit = themeToEdit.tileLayout[layout];
+      const layoutIndexToRemove = layoutToEdit.findIndex(
+        (tile) => tile.i === tileId.toString()
+      );
+      layoutToEdit.splice(layoutIndexToRemove, 1);
+      for (let i = layoutIndexToRemove; i < layoutToEdit.length; i++) {
+        layoutToEdit[i].i = (parseInt(layoutToEdit[i].i) - 1).toString();
+      }
+    }
+
+    setSettings(newSettings);
+  };
+
   return (
     <Flex minH="100vh" w="100%" maxW="1370px" mx="auto" alignItems="center">
       <Box w="100%">
