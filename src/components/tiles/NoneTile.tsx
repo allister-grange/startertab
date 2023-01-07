@@ -14,6 +14,7 @@ export const NoneTile: React.FC<NoneTileProps> = ({ tileId, tileSize }) => {
   let options;
   const { colorMode } = useColorMode();
   const [settings, setSettings] = useRecoilState(userSettingState);
+  const color = `var(--text-color-${tileId})`;
 
   switch (tileSize) {
     case "small":
@@ -106,6 +107,7 @@ export const NoneTile: React.FC<NoneTileProps> = ({ tileId, tileSize }) => {
       height="100%"
       p="6"
       flexDir={tileSize === "long" ? "row" : "column"}
+      color={color}
     >
       <Heading
         size="md"
