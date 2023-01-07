@@ -275,19 +275,17 @@ const Home: NextPage = () => {
             height="100%"
             onClick={() => setIsEditingTiles(false)}
           >
-            {currentTheme.tiles && (
-              <TileGrid
-                tutorialProgress={tutorialProgress}
-                isEditingTiles={isEditingTiles}
-                setIsEditingTiles={setIsEditingTiles}
-                optionHovered={optionHovered}
-                gridGap={gridGap}
-                layout={currentTheme.tileLayout}
-                updateTileLayoutInSettings={updateTileLayoutInSettings}
-                tiles={currentTheme.tiles}
-                removeTileFromLayout={removeTileFromLayout}
-              />
-            )}
+            <TileGrid
+              tutorialProgress={tutorialProgress}
+              isEditingTiles={isEditingTiles}
+              setIsEditingTiles={setIsEditingTiles}
+              optionHovered={optionHovered}
+              gridGap={gridGap}
+              layout={currentTheme.tileLayout}
+              updateTileLayoutInSettings={updateTileLayoutInSettings}
+              tiles={currentTheme.tiles}
+              removeTileFromLayout={removeTileFromLayout}
+            />
           </Flex>
         </>
       </Box>

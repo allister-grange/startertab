@@ -14,7 +14,7 @@ interface TileGridProps {
   gridGap?: string;
   tutorialProgress: number;
   layout: Layouts;
-  tiles: TileSettings[];
+  tiles?: TileSettings[];
   isEditingTiles: boolean;
   setIsEditingTiles: Dispatch<SetStateAction<boolean>>;
   updateTileLayoutInSettings: (newLayout: Layouts) => void;
@@ -63,19 +63,20 @@ export const TileGrid: React.FC<TileGridProps> = ({
           }}
           compactType={"vertical"}
         >
-          {tiles.map((tile, i) => (
-            <CustomGridItemComponent key={tile.tileId}>
-              <Tile
-                optionHovered={optionHovered === tile.tileId}
-                tileId={tile.tileId}
-                id={tile.tileId.toString()}
-                key={tile.tileId}
-                isEditingTiles={isEditingTiles}
-                setIsEditingTiles={setIsEditingTiles}
-                removeTileFromLayout={removeTileFromLayout}
-              />
-            </CustomGridItemComponent>
-          ))}
+          {tiles &&
+            tiles.map((tile, i) => (
+              <CustomGridItemComponent key={tile.tileId}>
+                <Tile
+                  optionHovered={optionHovered === tile.tileId}
+                  tileId={tile.tileId}
+                  id={tile.tileId.toString()}
+                  key={tile.tileId}
+                  isEditingTiles={isEditingTiles}
+                  setIsEditingTiles={setIsEditingTiles}
+                  removeTileFromLayout={removeTileFromLayout}
+                />
+              </CustomGridItemComponent>
+            ))}
         </ResponsiveGridLayout>
       </Box>
     </Flex>
