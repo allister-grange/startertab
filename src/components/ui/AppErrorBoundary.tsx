@@ -29,23 +29,28 @@ export const AppErrorBoundary: React.FC = ({}) => {
       height="100%"
       width={["100%", "90%", "70%", "60%", "50%"]}
       p="2"
-      mt="10"
+      mt="24"
       mx="auto"
       color="black"
+      textAlign="center"
     >
       <Flex>
-        <span style={{ fontSize: "140px" }}>⚠️</span>
         <Box my="auto" width="100%">
-          <Heading color="black">I am in a pickle!</Heading>
+          <Heading color="black" fontSize="40px">
+            I am in a pickle! ⚠️
+          </Heading>
           <Text mt="2">
             It seems there is an error that has occurred. Give refreshing your
-            browser a shot. If that doesn&apos;t work, please click this
-            dangerous button below &darr;. This will delete all of your settings
-            data.
+            browser a shot. There&apos;s probably an issue with the settings for
+            your tile&apos;s.
+          </Text>
+          <Text>
+            If refreshing doesn&apos; help, please click this dangerous button
+            below &darr;. This will delete all of your settings data.
           </Text>
         </Box>
       </Flex>
-      <Box textAlign="center">
+      <Box textAlign="center" mt="16px">
         <OutlinedButton
           borderColor="red"
           fontWeight="800"
@@ -55,6 +60,8 @@ export const AppErrorBoundary: React.FC = ({}) => {
           shadow="2xl"
           color="gray.900"
           fontSize="2xl"
+          p="12"
+          borderRadius="10"
         >
           CLEAR SETTINGS
         </OutlinedButton>
