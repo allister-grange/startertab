@@ -37,7 +37,7 @@ import { PersistQueryClientProvider } from "@tanstack/react-query-persist-client
 import React, { useState } from "react";
 import { ErrorBoundary } from "react-error-boundary";
 import { SetterOrUpdater, useRecoilState } from "recoil";
-import { NoneTile } from "../tiles/NoneTile";
+import { NoneTile } from "@/components/tiles/NoneTile";
 
 const queryClient = new QueryClient({
   defaultOptions: {

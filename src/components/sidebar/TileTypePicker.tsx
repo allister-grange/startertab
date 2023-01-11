@@ -1,6 +1,7 @@
-import { Option, OptionType, TileSettings } from "@/types";
+import { Option, OptionType, TileSettings, TileSize } from "@/types";
 import { Box, BoxProps, Select, Text } from "@chakra-ui/react";
 import React from "react";
+import { OptionsForTileTypeSelect } from "../ui/OptionsForTileTypeSelect";
 
 interface TileTypePickerProps extends BoxProps {
   option: Option;
@@ -15,11 +16,6 @@ interface TileTypePickerProps extends BoxProps {
   ) => void;
   sizeOfTileForTypes: OptionType;
 }
-
-const optionsStyles = {
-  color: "white",
-  background: "var(--chakra-colors-gray-600)",
-};
 
 export const TileTypePicker: React.FC<TileTypePickerProps> = ({
   option,
@@ -40,138 +36,21 @@ export const TileTypePicker: React.FC<TileTypePickerProps> = ({
     );
   };
 
-  let options;
+  let tileSize;
 
   switch (sizeOfTileForTypes) {
     case "SmallTileTypePicker":
-      options = (
-        <>
-          <option style={optionsStyles} value="Blank Tile">
-            Blank
-          </option>
-          <option style={optionsStyles} value="Favorite Links Tile">
-            Favorite Links
-          </option>
-          <option style={optionsStyles} value="Small Spotify Tile">
-            Spotify
-          </option>
-          <option style={optionsStyles} value="Small Stock Tile">
-            Stock Ticker
-          </option>
-          <option style={optionsStyles} value="Theme Picker">
-            Theme Picker
-          </option>
-          <option style={optionsStyles} value="Time">
-            Time
-          </option>
-          <option style={optionsStyles} value="Small Weather Tile">
-            Weather
-          </option>
-        </>
-      );
+      tileSize = "small";
       break;
     case "MediumTileTypePicker":
-      options = (
-        <>
-          <option style={optionsStyles} value="Blank Tile">
-            Blank
-          </option>
-          <option style={optionsStyles} value="Bonsai">
-            Bonsai
-          </option>
-          <option style={optionsStyles} value="Favorite Links Tile">
-            Favorite Links
-          </option>
-          <option style={optionsStyles} value="Hacker News Feed">
-            Hacker News Feed
-          </option>
-          <option style={optionsStyles} value="Markdown File Tile">
-            Markdown File
-          </option>
-          <option style={optionsStyles} value="Reddit Feed">
-            Reddit Feed
-          </option>
-          <option style={optionsStyles} value="RSS Feed Tile">
-            RSS Feed
-          </option>
-          <option style={optionsStyles} value="Spotify Top Artist Tile">
-            Spotify Top Artist List
-          </option>
-          <option style={optionsStyles} value="Todo List">
-            Todo List
-          </option>
-          <option style={optionsStyles} value="Twitter Feed Tile">
-            Twitter Feed
-          </option>
-        </>
-      );
+      tileSize = "medium";
       break;
     case "LargeTileTypePicker":
-      options = (
-        <>
-          <option style={optionsStyles} value="Blank Tile">
-            Blank
-          </option>
-          <option style={optionsStyles} value="Bonsai">
-            Bonsai
-          </option>
-          {/* <option style={optionsStyles} value="Javascript Console Tile">
-            Javascript Console Tile
-          </option> */}
-          <option style={optionsStyles} value="Favorite Links Tile">
-            Favorite Links
-          </option>
-          <option style={optionsStyles} value="Hacker News Feed">
-            Hacker News Feed
-          </option>
-          <option style={optionsStyles} value="Markdown File Tile">
-            Markdown File
-          </option>
-          <option style={optionsStyles} value="Reddit Feed">
-            Reddit Feed
-          </option>
-          <option style={optionsStyles} value="RSS Feed Tile">
-            RSS Feed
-          </option>
-          <option style={optionsStyles} value="Large Spotify Tile">
-            Spotify Tile
-          </option>
-          <option style={optionsStyles} value="Large Stock Tile">
-            Stock Tile
-          </option>
-          <option style={optionsStyles} value="Strava Graph">
-            Strava Graph
-          </option>
-          <option style={optionsStyles} value="Twitter Feed Tile">
-            Twitter Feed
-          </option>
-          <option style={optionsStyles} value="UV Graph">
-            UV Graph
-          </option>
-          <option style={optionsStyles} value="Large Weather Tile">
-            Weather Forecast
-          </option>
-        </>
-      );
+      tileSize = "large";
       break;
     case "LongTileTypePicker":
-      options = (
-        <>
-          <option style={optionsStyles} value="Blank Tile">
-            Blank
-          </option>
-          <option style={optionsStyles} value="Search Bar">
-            Search Bar
-          </option>
-          <option style={optionsStyles} value="Day Planner">
-            Day Planner
-          </option>
-        </>
-      );
+      tileSize = "long";
       break;
-
-    default:
-      options = null;
   }
 
   return (
@@ -189,7 +68,7 @@ export const TileTypePicker: React.FC<TileTypePickerProps> = ({
           value={value}
           color={textColor}
         >
-          {options}
+          <OptionsForTileTypeSelect tileSize={tileSize as TileSize} />
         </Select>
       </Box>
     </Box>
