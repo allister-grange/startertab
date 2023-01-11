@@ -3,7 +3,7 @@ import React from "react";
 
 export const Update120: React.FC = () => {
   return (
-    <Box>
+    <Box id="v1.20">
       <Heading as="h2" fontSize="2xl" mt="6">
         v1.20 - Adding in the RSS Feed Tile
       </Heading>

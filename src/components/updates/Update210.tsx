@@ -3,7 +3,7 @@ import React from "react";
 
 export const Update210: React.FC = () => {
   return (
-    <Box>
+    <Box id="v2.10">
       <Heading as="h2" fontSize="2xl" mt="6">
         v2.10 - Customize your grid
       </Heading>
