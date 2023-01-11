@@ -27,7 +27,7 @@ export const AppErrorBoundary: React.FC = ({}) => {
   return (
     <Box
       height="100%"
-      width={["100%", "90%", "70%", "60%", "50%"]}
+      width={["100%", "90%", "70%", "50%", "50%"]}
       p="2"
       mt="24"
       mx="auto"
@@ -39,14 +39,14 @@ export const AppErrorBoundary: React.FC = ({}) => {
           <Heading color="black" fontSize="40px">
             I am in a pickle! ⚠️
           </Heading>
-          <Text mt="2">
+          <Text mt="4">
             It seems there is an error that has occurred. Give refreshing your
             browser a shot. There&apos;s probably an issue with the settings for
             your tile&apos;s.
           </Text>
-          <Text>
-            If refreshing doesn&apos; help, please click this dangerous button
-            below &darr;. This will delete all of your settings data.
+          <Text mt="2">
+            If refreshing doesn&apos;t help, please click this dangerous button
+            below &darr; This will delete all of your settings data.
           </Text>
         </Box>
       </Flex>
@@ -57,10 +57,10 @@ export const AppErrorBoundary: React.FC = ({}) => {
           onClick={deleteAllSettings}
           px="4"
           background="white"
-          shadow="2xl"
+          shadow="md"
           color="gray.900"
-          fontSize="2xl"
-          p="12"
+          fontSize="md"
+          py="6"
           borderRadius="10"
         >
           CLEAR SETTINGS
