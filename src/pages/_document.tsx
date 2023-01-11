@@ -43,7 +43,14 @@ class MyDocument extends Document<{ cookies: string }> {
     return (
       <Html>
         <Head />
-        <body style={{ background }}>
+        <body
+          style={{
+            background,
+            backgroundSize: "cover",
+            backgroundAttachment: "fixed",
+            backgroundRepeat: "no-repeat",
+          }}
+        >
           <Main />
           <NextScript />
         </body>
