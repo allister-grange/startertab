@@ -10,7 +10,7 @@ export const TutorialStage4: React.FC = ({}) => {
         fontSize="24px"
         pos="absolute"
         left="430px"
-        top="280px"
+        top="440px"
         width="520px"
       >
         You&apos;re now ready to go! Click on a dropdown to personalize your
@@ -20,7 +20,7 @@ export const TutorialStage4: React.FC = ({}) => {
         fontSize="24px"
         pos="absolute"
         left="430px"
-        top="130px"
+        top="270px"
         width="520px"
       >
         See, it&apos;s a breeze to customize the site. If you want this page to
@@ -38,7 +38,7 @@ export const TutorialStage4: React.FC = ({}) => {
       <Box
         pos="absolute"
         left="350px"
-        top="240px"
+        top="380px"
         height="70px"
         zIndex="3"
         width="3rem"

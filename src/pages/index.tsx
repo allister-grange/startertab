@@ -122,7 +122,10 @@ const Home: NextPage = () => {
         />
       )}
       <ShowUpdateToast />
-      <ShowNewTabToast />
+      <ShowNewTabToast
+        setShowingTutorial={setShowingTutorial}
+        setTutorialProgress={setTutorialProgress}
+      />
     </>
   );
 };
