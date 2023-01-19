@@ -1,6 +1,6 @@
+import { OutlinedButton } from "@/components/ui/OutlinedButton";
 import { Box, Heading, Text } from "@chakra-ui/react";
 import React, { Dispatch, SetStateAction } from "react";
-import { OutlinedButton } from "@/components/ui/OutlinedButton";
 
 interface TutorialStage1Props {
   setShowingTutorial: Dispatch<SetStateAction<boolean>>;

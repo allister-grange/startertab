@@ -1,4 +1,4 @@
-import { useToast, Text, Link } from "@chakra-ui/react";
+import { useToast, Text, Link, useColorMode } from "@chakra-ui/react";
 import React, { Dispatch, SetStateAction, useCallback, useEffect } from "react";
 
 interface ShowNewTabToastProps {
@@ -11,6 +11,7 @@ export const ShowNewTabToast: React.FC<ShowNewTabToastProps> = ({
   setShowingTutorial,
 }) => {
   const toast = useToast();
+  const { setColorMode } = useColorMode();
 
   const showNewTabToast = useCallback(() => {
     toast({
@@ -36,16 +37,15 @@ export const ShowNewTabToast: React.FC<ShowNewTabToastProps> = ({
   }, [toast]);
 
   useEffect(() => {
-    console.log("called");
-
     const hasVisitedBefore = localStorage.getItem("hasVisitedBefore");
     if (!hasVisitedBefore) {
       setTutorialProgress(0);
       setShowingTutorial(true);
       localStorage.setItem("hasVisitedBefore", "true");
       setTimeout(showNewTabToast, 45000);
+      setColorMode("colored light");
     }
-  }, [setShowingTutorial, setTutorialProgress, showNewTabToast]);
+  }, [setColorMode, setShowingTutorial, setTutorialProgress, showNewTabToast]);
 
   return <div />;
 };
