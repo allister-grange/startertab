@@ -1,9 +1,15 @@
 import { useToast, Text, Link } from "@chakra-ui/react";
-import React, { useCallback, useEffect } from "react";
+import React, { Dispatch, SetStateAction, useCallback, useEffect } from "react";
 
-interface ShowNewTabToastProps {}
+interface ShowNewTabToastProps {
+  setTutorialProgress: Dispatch<SetStateAction<number>>;
+  setShowingTutorial: Dispatch<SetStateAction<boolean>>;
+}
 
-export const ShowNewTabToast: React.FC<ShowNewTabToastProps> = ({}) => {
+export const ShowNewTabToast: React.FC<ShowNewTabToastProps> = ({
+  setTutorialProgress,
+  setShowingTutorial,
+}) => {
   const toast = useToast();
 
   const showNewTabToast = useCallback(() => {
@@ -30,12 +36,16 @@ export const ShowNewTabToast: React.FC<ShowNewTabToastProps> = ({}) => {
   }, [toast]);
 
   useEffect(() => {
+    console.log("called");
+
     const hasVisitedBefore = localStorage.getItem("hasVisitedBefore");
     if (!hasVisitedBefore) {
+      setTutorialProgress(0);
+      setShowingTutorial(true);
       localStorage.setItem("hasVisitedBefore", "true");
       setTimeout(showNewTabToast, 45000);
     }
-  }, [showNewTabToast]);
+  }, [setShowingTutorial, setTutorialProgress, showNewTabToast]);
 
   return <div />;
 };
