@@ -1,15 +1,4 @@
-import {
-  Box,
-  Flex,
-  IconButton,
-  Link,
-  Menu,
-  MenuButton,
-  MenuItem,
-  MenuList,
-  Text,
-  useColorMode,
-} from "@chakra-ui/react";
+import { Flex, Link, Text } from "@chakra-ui/react";
 import React, { useState } from "react";
 
 export const LandingThemePageHeader: React.FC = () => {
@@ -24,7 +13,7 @@ export const LandingThemePageHeader: React.FC = () => {
       wrap="wrap"
       bg="rgba(255,255,255,0.72)"
       backdropFilter="saturate(180%) blur(20px) !important"
-      padding="1.5rem"
+      padding="1rem"
       maxWidth="1200px"
       margin="0 auto"
       color="black"
