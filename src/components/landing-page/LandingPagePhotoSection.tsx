@@ -14,7 +14,11 @@ export const LandingPagePhotoSection: React.FC<
 > = ({ title, titleColor, description, image, isPictureOnLeft }) => {
   return (
     <section>
-      <Flex columnGap="4" mt="32" flexDir={["column", "column", "row"]}>
+      <Flex
+        columnGap="4"
+        mt={["14", "14", "32"]}
+        flexDir={["column", "column", "row"]}
+      >
         <Box flex="1">
           <Heading
             color={titleColor}
@@ -30,6 +34,7 @@ export const LandingPagePhotoSection: React.FC<
           </Text>
         </Box>
         <Box
+          order={isPictureOnLeft ? [0, 0, -1] : undefined}
           bg="blue"
           width={["100%", "100%", "70%"]}
           h="400"
