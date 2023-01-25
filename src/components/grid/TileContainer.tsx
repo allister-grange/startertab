@@ -7,6 +7,7 @@ import {
   LargeStockTile,
   LargeWeatherTile,
   MarkdownFileTile,
+  OutlookMeetingsTile,
   RedditFeedTile,
   RSSFeedTile,
   SearchBarTile,
@@ -18,10 +19,12 @@ import {
   TwitterFeedTile,
   UvGraphTile,
 } from "@/components/tiles";
+import { NoneTile } from "@/components/tiles/NoneTile";
 import StravaGraphTile from "@/components/tiles/StravaGraphTile";
 import ThemePickerTile from "@/components/tiles/ThemePickerTile";
 import { TileErrorBoundary } from "@/components/tiles/TileErrorBoundary";
 import TodoListTile from "@/components/tiles/TodoListTile";
+import OutlookContextProvider from "@/context/OutlookContext";
 import SpotifyContextProvider from "@/context/SpotifyContext";
 import StravaContextProvider from "@/context/StravaContext";
 import TwitterContextProvider from "@/context/TwitterContext";
@@ -37,7 +40,6 @@ import { PersistQueryClientProvider } from "@tanstack/react-query-persist-client
 import React, { useState } from "react";
 import { ErrorBoundary } from "react-error-boundary";
 import { SetterOrUpdater, useRecoilState } from "recoil";
-import { NoneTile } from "@/components/tiles/NoneTile";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -175,6 +177,13 @@ const TileContainer: React.FC<TileContainerProps> = ({
         <TwitterContextProvider>
           <TwitterFeedTile tileId={tileId} />
         </TwitterContextProvider>
+      );
+      break;
+    case "Outlook Meetings Tile":
+      tileToRender = (
+        <OutlookContextProvider>
+          <OutlookMeetingsTile tileId={tileId} />
+        </OutlookContextProvider>
       );
       break;
     default:

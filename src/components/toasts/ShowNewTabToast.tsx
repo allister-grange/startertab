@@ -36,8 +36,6 @@ export const ShowNewTabToast: React.FC<ShowNewTabToastProps> = ({
   }, [toast]);
 
   useEffect(() => {
-    console.log("called");
-
     const hasVisitedBefore = localStorage.getItem("hasVisitedBefore");
     if (!hasVisitedBefore) {
       setTutorialProgress(0);
