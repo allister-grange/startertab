@@ -67,3 +67,21 @@ export const getTwitterRedirectUri = (
     `&scope=tweet.read%20offline.access%20users.read&state=state`
   );
 };
+
+export const getOutlookRedirectUri = (
+  clientId: string,
+  redirectUrl: string
+) => {
+  return (
+    "https://login.microsoftonline.com/common/oauth2/v2.0/authorize?" +
+    `client_id=${clientId}` +
+    `&scope=${encodeURIComponent("Calendars.Read offline_access")}` +
+    `&response_type=code&redirect_uri=${encodeURIComponent(redirectUrl)}`
+  );
+};
+
+export const getOutlookRedirectUrl = () => {
+  return process.env.HOSTED_URL
+    ? `https://${process.env.HOSTED_URL}/api/outlook/authorize`
+    : "http://localhost:3000/api/outlook/authorize";
+};
