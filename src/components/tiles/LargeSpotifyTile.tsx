@@ -3,10 +3,10 @@ import {
   PlayIcon,
   SkipLeft,
   SkipRight,
-} from "@/components/ui/MediaControls";
+} from "@/components/icons/MediaControls";
 import { MusicControlButton } from "@/components/ui/MusicControlButton";
 import { OutlinedButton } from "@/components/ui/OutlinedButton";
-import { SpotifyLogo } from "@/components/ui/SpotifyLogo";
+import { SpotifyLogo } from "@/components/icons/SpotifyLogo";
 import { SpotifyContext } from "@/context/SpotifyContext";
 import { NowPlayingSpotifyData, SpotifyContextInterface } from "@/types";
 import {

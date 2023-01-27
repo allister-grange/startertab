@@ -1,7 +1,7 @@
 import { TextFeedSkeleton } from "@/components/skeletons/TextFeedSkeleton";
 import { RSSFeedForm } from "@/components/tiles/RSSFeed/RSSFeedForm";
 import { OutlinedButton } from "@/components/ui/OutlinedButton";
-import { RSSLogo } from "@/components/ui/RSSLogo";
+import { RSSLogo } from "@/components/icons/RSSLogo";
 import { calculateTimeAgoString, truncateString } from "@/helpers/tileHelpers";
 import { rssFeedsSelector } from "@/recoil/UserSettingsSelectors";
 import { RSSFeed, RSSItem } from "@/types";

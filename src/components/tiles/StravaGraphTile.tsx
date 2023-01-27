@@ -1,6 +1,6 @@
 import { OptionBadge } from "@/components/ui/OptionBadge";
 import { OutlinedButton } from "@/components/ui/OutlinedButton";
-import { StravaLogo } from "@/components/ui/StravaLogo";
+import { StravaLogo } from "@/components/icons/StravaLogo";
 import { StravaContext } from "@/context/StravaContext";
 import { StravaContextInterface, StravaGraphPoint } from "@/types/strava";
 import { Box, Center, Heading } from "@chakra-ui/react";

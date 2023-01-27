@@ -1,6 +1,6 @@
 import { TextFeedSkeleton } from "@/components/skeletons/TextFeedSkeleton";
 import { OutlinedButton } from "@/components/ui/OutlinedButton";
-import { TwitterLogo } from "@/components/ui/TwitterLogo";
+import { TwitterLogo } from "@/components/icons/TwitterLogo";
 import { TwitterContext } from "@/context/TwitterContext";
 import { calculateTimeAgoString, truncateString } from "@/helpers/tileHelpers";
 import { TwitterContextInterface } from "@/types";

@@ -1,5 +1,5 @@
 import { TextFeedSkeleton } from "@/components/skeletons/TextFeedSkeleton";
-import { HackerNewsLogo } from "@/components/ui/HackerNewsLogo";
+import { HackerNewsLogo } from "@/components/icons/HackerNewsLogo";
 import { OptionBadge } from "@/components/ui/OptionBadge";
 import { calculateTimeAgoString, truncateString } from "@/helpers/tileHelpers";
 import { hackerNewsFeedSelector } from "@/recoil/UserSettingsSelectors";

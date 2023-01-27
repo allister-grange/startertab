@@ -1,7 +1,7 @@
 import { TextFeedSkeleton } from "@/components/skeletons/TextFeedSkeleton";
 import { OptionBadge } from "@/components/ui/OptionBadge";
 import { OutlinedButton } from "@/components/ui/OutlinedButton";
-import { SpotifyLogo } from "@/components/ui/SpotifyLogo";
+import { SpotifyLogo } from "@/components/icons/SpotifyLogo";
 import { SpotifyContext } from "@/context/SpotifyContext";
 import { spotifyTopArtistTimeLengthSelector } from "@/recoil/UserSettingsSelectors";
 import { SpotifyContextInterface } from "@/types";
