@@ -1,6 +1,6 @@
 import { Box, Text } from "@chakra-ui/react";
 import React from "react";
-import { GithubSvg } from "@/components/ui/GithubSvg";
+import { GithubSvg } from "@/components/icons/GithubSvg";
 import Link from "next/link";
 
 interface SideBarFooterProps {
