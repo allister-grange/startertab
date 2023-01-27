@@ -1,12 +1,12 @@
+import { GoogleCalendarLogo } from "@/components/icons/GoogleCalendarLogo";
 import { TextFeedSkeleton } from "@/components/skeletons/TextFeedSkeleton";
+import { MeetingCard } from "@/components/ui/MeetingCard";
 import { OutlinedButton } from "@/components/ui/OutlinedButton";
 import { GoogleContext } from "@/context/GoogleContext";
 import { GoogleContextInterface } from "@/types";
 import { TimeIcon } from "@chakra-ui/icons";
-import { Badge, Box, Center, Icon, Link, Text } from "@chakra-ui/react";
+import { Badge, Box, Center, Heading, Link, Text } from "@chakra-ui/react";
 import React, { useContext, useRef, useState } from "react";
-import { GoogleCalendarLogo } from "../icons/GoogleCalendarLogo";
-import { MeetingCard } from "../ui/MeetingCard";
 
 interface GoogleFeedTileProps {
   tileId: number;
@@ -81,13 +81,19 @@ export const GoogleMeetingsTile: React.FC<GoogleFeedTileProps> = ({
         new Date(b.start.dateTime).getTime()
     );
     display = (
-      <Box>
-        {googleData.map((event, index) => {
-          console.log(event);
+      <Box height="100%">
+        {googleData.length === 0 && (
+          <Center height="100%" color={color}>
+            <Heading as="h3" fontSize="md" mb="8">
+              You have no events today 🎉
+            </Heading>
+          </Center>
+        )}
 
+        {googleData.map((event, index) => {
           const start = new Date(event.start.dateTime);
           const end = new Date(event.end.dateTime);
-          const startTime = new Date(start).toLocaleString([], {
+          let startTime = new Date(start).toLocaleString([], {
             hour: "numeric",
             minute: "2-digit",
             hour12: true,
@@ -107,6 +113,11 @@ export const GoogleMeetingsTile: React.FC<GoogleFeedTileProps> = ({
           }
 
           const currentTime = new Date();
+
+          if (event.start.date) {
+            startTime = "All day";
+            duration = "";
+          }
 
           if (
             currentTime < start &&
@@ -173,7 +184,7 @@ export const GoogleMeetingsTile: React.FC<GoogleFeedTileProps> = ({
   }
 
   return (
-    <Box p="2" color={color} position="relative" mb="2" ref={divRef}>
+    <Box p="2" color={color} position="relative" ref={divRef} height="100%">
       <Box position="absolute" right="4" top="3">
         <GoogleCalendarLogo color={color} height={24} width={24} />
       </Box>

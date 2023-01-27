@@ -55,7 +55,3 @@ export const MeetingCard: React.FC<MeetingCardProps> = ({
     </Flex>
   );
 };
-
-//   white-space: nowrap;
-// overflow: hidden;
-// text-overflow: ellipsis;

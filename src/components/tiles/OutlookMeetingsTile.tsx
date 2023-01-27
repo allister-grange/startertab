@@ -3,10 +3,10 @@ import { OutlinedButton } from "@/components/ui/OutlinedButton";
 import { OutlookContext } from "@/context/OutlookContext";
 import { OutlookContextInterface } from "@/types";
 import { TimeIcon } from "@chakra-ui/icons";
-import { Badge, Box, Center, Icon, Link, Text } from "@chakra-ui/react";
+import { Badge, Box, Center, Heading, Link, Text } from "@chakra-ui/react";
 import React, { useContext, useRef, useState } from "react";
-import { OutlookLogo } from "../icons/OutlookLogo";
-import { MeetingCard } from "../ui/MeetingCard";
+import { OutlookLogo } from "@/components/icons/OutlookLogo";
+import { MeetingCard } from "@/components/ui/MeetingCard";
 
 interface OutlookFeedTileProps {
   tileId: number;
@@ -76,11 +76,18 @@ export const OutlookMeetingsTile: React.FC<OutlookFeedTileProps> = ({
     );
   } else if (outlookData) {
     display = (
-      <Box>
+      <Box height="100%">
+        {outlookData.length === 0 && (
+          <Center height="100%" color={color}>
+            <Heading as="h3" fontSize="md" mb="8">
+              You have no events today 🎉
+            </Heading>
+          </Center>
+        )}
         {outlookData.map((event, index) => {
           const start = new Date(event.start.dateTime + "Z");
           const end = new Date(event.end.dateTime + "Z");
-          const startTime = new Date(start).toLocaleString([], {
+          let startTime = new Date(start).toLocaleString([], {
             hour: "numeric",
             minute: "2-digit",
             hour12: true,
@@ -96,6 +103,11 @@ export const OutlookMeetingsTile: React.FC<OutlookFeedTileProps> = ({
             duration = (Number.parseInt(duration) / 60).toFixed(0) + " hour";
           } else {
             duration += " min";
+          }
+
+          if (duration === "24.0 hour") {
+            startTime = "All day";
+            duration = "";
           }
 
           const currentTime = new Date();
@@ -165,7 +177,7 @@ export const OutlookMeetingsTile: React.FC<OutlookFeedTileProps> = ({
   }
 
   return (
-    <Box p="2" color={color} position="relative" mb="2" ref={divRef}>
+    <Box p="2" color={color} position="relative" ref={divRef} height="100%">
       <Box position="absolute" right="4" top="3">
         <OutlookLogo color={color} height={24} width={24} />
       </Box>
