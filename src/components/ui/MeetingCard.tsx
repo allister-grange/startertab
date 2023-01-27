@@ -1,4 +1,4 @@
-import { Box, BoxProps, Flex, Text } from "@chakra-ui/react";
+import { Box, BoxProps, Flex, Text, Link } from "@chakra-ui/react";
 import React from "react";
 
 interface MeetingCardProps extends BoxProps {
@@ -9,6 +9,7 @@ interface MeetingCardProps extends BoxProps {
   tileWidth: number;
   color: string;
   organizer: string;
+  link?: string;
 }
 
 export const MeetingCard: React.FC<MeetingCardProps> = ({
@@ -19,6 +20,7 @@ export const MeetingCard: React.FC<MeetingCardProps> = ({
   tileWidth,
   organizer,
   color,
+  link,
   ...props
 }) => {
   return (
@@ -33,15 +35,28 @@ export const MeetingCard: React.FC<MeetingCardProps> = ({
         <Text>{duration}</Text>
       </Box>
       <Box whiteSpace="nowrap" textOverflow="ellipsis" overflow="hidden">
-        <Text
-          fontSize={tileWidth <= 300 ? "sm" : "lg"}
-          fontWeight="bold"
-          whiteSpace="nowrap"
-          textOverflow="ellipsis"
-          overflow="hidden"
-        >
-          {subject}
-        </Text>
+        {link ? (
+          <Link
+            href={link}
+            fontSize={tileWidth <= 300 ? "sm" : "lg"}
+            fontWeight="bold"
+            whiteSpace="nowrap"
+            textOverflow="ellipsis"
+            overflow="hidden"
+          >
+            {subject}
+          </Link>
+        ) : (
+          <Text
+            fontSize={tileWidth <= 300 ? "sm" : "lg"}
+            fontWeight="bold"
+            whiteSpace="nowrap"
+            textOverflow="ellipsis"
+            overflow="hidden"
+          >
+            {subject}
+          </Text>
+        )}
         <Text
           whiteSpace="nowrap"
           textOverflow="ellipsis"

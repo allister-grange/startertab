@@ -76,10 +76,10 @@ export const OutlookMeetingsTile: React.FC<OutlookFeedTileProps> = ({
     );
   } else if (outlookData) {
     display = (
-      <Box height="100%">
+      <Box height="90%">
         {outlookData.length === 0 && (
           <Center height="100%" color={color}>
-            <Heading as="h3" fontSize="md" mb="8">
+            <Heading as="h3" fontSize="md">
               You have no events today 🎉
             </Heading>
           </Center>
@@ -150,6 +150,8 @@ export const OutlookMeetingsTile: React.FC<OutlookFeedTileProps> = ({
                     location={event.location.displayName}
                     color={color}
                     organizer={event.organizer.emailAddress.name}
+                    link={event.webLink}
+                    pb={index === outlookData.length - 1 ? "4" : undefined}
                   />
                 </Box>
               </>
@@ -165,6 +167,8 @@ export const OutlookMeetingsTile: React.FC<OutlookFeedTileProps> = ({
                   location={event.location.displayName}
                   color={color}
                   organizer={event.organizer.emailAddress.name}
+                  link={event.webLink}
+                  pb={index === outlookData.length - 1 ? "4" : undefined}
                 />
               </Box>
             );

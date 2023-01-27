@@ -9,6 +9,7 @@ export type OutlookContextInterface = {
 export type OutlookMeetingEvent = {
   id: string;
   subject: string;
+  webLink: string;
   organizer: {
     emailAddress: {
       name: string;

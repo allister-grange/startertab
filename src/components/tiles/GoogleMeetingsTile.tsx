@@ -81,10 +81,10 @@ export const GoogleMeetingsTile: React.FC<GoogleFeedTileProps> = ({
         new Date(b.start.dateTime).getTime()
     );
     display = (
-      <Box height="100%">
+      <Box height="90%">
         {googleData.length === 0 && (
           <Center height="100%" color={color}>
-            <Heading as="h3" fontSize="md" mb="8">
+            <Heading as="h3" fontSize="md">
               You have no events today 🎉
             </Heading>
           </Center>
@@ -157,6 +157,8 @@ export const GoogleMeetingsTile: React.FC<GoogleFeedTileProps> = ({
                     location={undefined}
                     color={color}
                     organizer={event.organizer.email}
+                    link={event.htmlLink}
+                    pb={index === googleData.length - 1 ? "4" : undefined}
                   />
                 </Box>
               </>
@@ -172,6 +174,8 @@ export const GoogleMeetingsTile: React.FC<GoogleFeedTileProps> = ({
                   location={undefined}
                   color={color}
                   organizer={event.organizer.email}
+                  link={event.htmlLink}
+                  pb={index === googleData.length - 1 ? "4" : undefined}
                 />
               </Box>
             );
