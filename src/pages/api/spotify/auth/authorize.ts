@@ -1,4 +1,4 @@
-import { getSpotifyRedirectUrl } from "@/helpers/apiHelpers";
+import { getSpotifyRedirectUrl } from "@/helpers/redirectHelpers";
 import { NextApiRequest, NextApiResponse } from "next";
 import cookie from "cookie";
 

@@ -3,7 +3,7 @@ import cookie from "cookie";
 import {
   getGoogleRedirectUrl,
   getOutlookRedirectUrl,
-} from "@/helpers/apiHelpers";
+} from "@/helpers/redirectHelpers";
 
 const TOKEN_ENDPOINT = `https://oauth2.googleapis.com/token`;
 

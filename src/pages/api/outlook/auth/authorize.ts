@@ -3,7 +3,7 @@ import cookie from "cookie";
 import {
   getOutlookRedirectUri,
   getOutlookRedirectUrl,
-} from "@/helpers/apiHelpers";
+} from "@/helpers/redirectHelpers";
 
 const TOKEN_ENDPOINT = `https://login.microsoftonline.com/common/oauth2/v2.0/token`;
 

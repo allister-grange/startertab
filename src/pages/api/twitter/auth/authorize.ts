@@ -1,4 +1,4 @@
-import { getTwitterRedirectUrl } from "@/helpers/apiHelpers";
+import { getTwitterRedirectUrl } from "@/helpers/redirectHelpers";
 import cookie from "cookie";
 import { NextApiRequest, NextApiResponse } from "next";
 

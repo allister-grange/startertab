@@ -1,7 +1,7 @@
 import {
   getStravaRedirectUri,
   getStravaRedirectUrl,
-} from "@/helpers/apiHelpers";
+} from "@/helpers/redirectHelpers";
 import { NextApiResponse } from "next";
 
 const clientId = process.env.STRAVA_CLIENT_ID;

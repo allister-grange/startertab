@@ -1,7 +1,7 @@
 import {
   getOutlookRedirectUri,
   getOutlookRedirectUrl,
-} from "@/helpers/apiHelpers";
+} from "@/helpers/redirectHelpers";
 import { NextApiResponse } from "next";
 
 const clientId = process.env.OUTLOOK_CLIENT_ID;

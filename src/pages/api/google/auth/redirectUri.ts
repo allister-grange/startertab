@@ -1,7 +1,7 @@
 import {
   getGoogleRedirectUri,
   getGoogleRedirectUrl,
-} from "@/helpers/apiHelpers";
+} from "@/helpers/redirectHelpers";
 import { NextApiResponse } from "next";
 
 const clientId = process.env.GOOGLE_CLIENT_ID;

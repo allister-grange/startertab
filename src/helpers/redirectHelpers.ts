@@ -10,8 +10,8 @@ export const getApiUrl = (): string => {
 
 export const getSpotifyRedirectUrl = (): string => {
   return process.env.HOSTED_URL
-    ? `https://${process.env.HOSTED_URL}/api/spotify/authorize`
-    : "http://localhost:3000/api/spotify/authorize";
+    ? `https://${process.env.HOSTED_URL}/api/spotify/auth/authorize`
+    : "http://localhost:3000/api/spotify/auth/authorize";
 };
 
 export const getSpotifyRedirectUri = (
@@ -32,8 +32,8 @@ export const getSpotifyRedirectUri = (
 
 export const getStravaRedirectUrl = (): string => {
   return process.env.HOSTED_URL
-    ? `https://${process.env.HOSTED_URL}/api/strava/authorize`
-    : "http://localhost:3000/api/strava/authorize";
+    ? `https://${process.env.HOSTED_URL}/api/strava/auth/authorize`
+    : "http://localhost:3000/api/strava/auth/authorize";
 };
 
 export const getStravaRedirectUri = (
@@ -51,8 +51,8 @@ export const getStravaRedirectUri = (
 
 export const getTwitterRedirectUrl = (): string => {
   return process.env.HOSTED_URL
-    ? `https://${process.env.HOSTED_URL}/api/twitter/authorize`
-    : "http://127.0.0.1:3000/api/twitter/authorize";
+    ? `https://${process.env.HOSTED_URL}/api/twitter/auth/authorize`
+    : "http://127.0.0.1:3000/api/twitter/auth/authorize";
 };
 
 export const getTwitterRedirectUri = (
