@@ -61,6 +61,9 @@ export const OptionsForTileTypeSelect: React.FC<
           <option style={optionsStyles} value="Markdown File Tile">
             Markdown File
           </option>
+          <option style={optionsStyles} value="Google Meetings Tile">
+            Google Meetings Tile
+          </option>
           <option style={optionsStyles} value="Outlook Meetings Tile">
             Outlook Meetings Tile
           </option>
@@ -96,6 +99,9 @@ export const OptionsForTileTypeSelect: React.FC<
           </option> */}
           <option style={optionsStyles} value="Favorite Links Tile">
             Favorite Links
+          </option>
+          <option style={optionsStyles} value="Google Meetings Tile">
+            Google Meetings Tile
           </option>
           <option style={optionsStyles} value="Hacker News Feed">
             Hacker News Feed

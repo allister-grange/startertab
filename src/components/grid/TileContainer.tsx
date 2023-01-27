@@ -24,6 +24,7 @@ import StravaGraphTile from "@/components/tiles/StravaGraphTile";
 import ThemePickerTile from "@/components/tiles/ThemePickerTile";
 import { TileErrorBoundary } from "@/components/tiles/TileErrorBoundary";
 import TodoListTile from "@/components/tiles/TodoListTile";
+import GoogleContextProvider, { GoogleContext } from "@/context/GoogleContext";
 import OutlookContextProvider from "@/context/OutlookContext";
 import SpotifyContextProvider from "@/context/SpotifyContext";
 import StravaContextProvider from "@/context/StravaContext";
@@ -40,6 +41,7 @@ import { PersistQueryClientProvider } from "@tanstack/react-query-persist-client
 import React, { useState } from "react";
 import { ErrorBoundary } from "react-error-boundary";
 import { SetterOrUpdater, useRecoilState } from "recoil";
+import { GoogleMeetingsTile } from "../tiles/GoogleMeetingsTile";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -184,6 +186,13 @@ const TileContainer: React.FC<TileContainerProps> = ({
         <OutlookContextProvider>
           <OutlookMeetingsTile tileId={tileId} />
         </OutlookContextProvider>
+      );
+      break;
+    case "Google Meetings Tile":
+      tileToRender = (
+        <GoogleContextProvider>
+          <GoogleMeetingsTile tileId={tileId} />
+        </GoogleContextProvider>
       );
       break;
     default:

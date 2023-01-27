@@ -1,39 +1,41 @@
-import { OutlookContextInterface, OutlookMeetingEvent } from "@/types";
+import { GoogleContextInterface, GoogleMeetingEvent } from "@/types";
 import { useQuery } from "@tanstack/react-query";
 import * as React from "react";
 import { useState } from "react";
 
-export const OutlookContext =
-  React.createContext<OutlookContextInterface | null>(null);
+export const GoogleContext = React.createContext<GoogleContextInterface | null>(
+  null
+);
 
 interface Props {
   children: React.ReactNode;
 }
 
 const fetcher = async () => {
-  const res = await fetch(`/api/outlook/meetings`);
+  const res = await fetch(`/api/google/meetings`);
   if (res.status !== 200) {
-    throw new Error("Failed to get Outlook meetings");
+    throw new Error("Failed to get Google meetings");
   }
-  let data = (await res.json()) as OutlookMeetingEvent[];
+  let data = (await res.json()) as GoogleMeetingEvent[];
   return data;
 };
 
-const OutlookContextProvider: React.FC<Props> = ({ children }) => {
+const GoogleContextProvider: React.FC<Props> = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState<boolean | undefined>();
 
   let {
-    data: outlookData,
+    data: googleData,
     isLoading,
     error,
-  } = useQuery(["outlookData"], fetcher, {
+  } = useQuery(["googleData"], fetcher, {
     enabled: isAuthenticated,
   });
 
   React.useEffect(() => {
     const checkIfLoggedIn = async () => {
       try {
-        const res = await fetch("/api/outlook/me");
+        const res = await fetch("/api/google/auth/me");
+
         const { loggedIn } = await res.json();
         setIsAuthenticated(loggedIn);
       } catch (err) {
@@ -44,9 +46,9 @@ const OutlookContextProvider: React.FC<Props> = ({ children }) => {
     checkIfLoggedIn();
   }, []);
 
-  const loginWithOutlook = React.useCallback(async () => {
+  const loginWithGoogle = React.useCallback(async () => {
     try {
-      const res = await fetch("/api/outlook/redirectUri");
+      const res = await fetch("/api/google/auth/redirectUri");
       const redirectUri = (await res.json()).redirectUri;
       window.location = redirectUri as (string | Location) & Location;
     } catch (err) {
@@ -54,21 +56,21 @@ const OutlookContextProvider: React.FC<Props> = ({ children }) => {
     }
   }, []);
 
-  outlookData = outlookData ?? [];
+  googleData = googleData ?? [];
 
   return (
-    <OutlookContext.Provider
+    <GoogleContext.Provider
       value={{
         isAuthenticated,
-        outlookData: outlookData,
-        loginWithOutlook,
+        googleData: googleData,
+        loginWithGoogle,
         isLoading,
         error,
       }}
     >
       {children}
-    </OutlookContext.Provider>
+    </GoogleContext.Provider>
   );
 };
 
-export default OutlookContextProvider;
+export default GoogleContextProvider;

@@ -51,6 +51,7 @@ export const TileTypes = [
   "Favorite Links Tile",
   "RSS Feed Tile",
   "Outlook Meetings Tile",
+  "Google Meetings Tile",
   "None",
 ] as const;
 
