@@ -16,8 +16,6 @@ export default async function handler(
       getOutlookRedirectUrl()
     );
 
-    console.log(redirectUri);
-
     res.status(200).send({ redirectUri });
   } catch (err) {
     res.status(500).send(err);

@@ -51,8 +51,6 @@ export default async function handler(
         }
       }
 
-      console.log(data![0].start);
-
       return res.status(200).send(data);
     } catch (err) {
       return res.status(500).json(err as string);
@@ -108,7 +106,6 @@ const getNewTokens = async (refreshToken: string) => {
       body: `client_id=${CLIENT_ID}&client_secret=${CLIENT_SECRET}&refresh_token=${refreshToken}&grant_type=refresh_token`,
     });
     const data = await response.json();
-    console.log("Refreshing access tokens", data);
 
     return { accessToken: data.access_token, refreshToken: data.refresh_token };
   } catch (error) {

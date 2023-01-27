@@ -33,7 +33,7 @@ const OutlookContextProvider: React.FC<Props> = ({ children }) => {
   React.useEffect(() => {
     const checkIfLoggedIn = async () => {
       try {
-        const res = await fetch("/api/outlook/me");
+        const res = await fetch("/api/outlook/auth/me");
         const { loggedIn } = await res.json();
         setIsAuthenticated(loggedIn);
       } catch (err) {
@@ -46,7 +46,7 @@ const OutlookContextProvider: React.FC<Props> = ({ children }) => {
 
   const loginWithOutlook = React.useCallback(async () => {
     try {
-      const res = await fetch("/api/outlook/redirectUri");
+      const res = await fetch("/api/outlook/auth/redirectUri");
       const redirectUri = (await res.json()).redirectUri;
       window.location = redirectUri as (string | Location) & Location;
     } catch (err) {

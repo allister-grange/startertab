@@ -83,8 +83,8 @@ export const getOutlookRedirectUri = (
 
 export const getOutlookRedirectUrl = () => {
   return process.env.HOSTED_URL
-    ? `https://${process.env.HOSTED_URL}/api/outlook/authorize`
-    : "http://localhost:3000/api/outlook/authorize";
+    ? `https://${process.env.HOSTED_URL}/api/outlook/auth/authorize`
+    : "http://localhost:3000/api/outlook/auth/authorize";
 };
 
 export const getGoogleRedirectUri = (clientId: string, redirectUrl: string) => {

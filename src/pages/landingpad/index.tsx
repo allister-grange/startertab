@@ -9,7 +9,7 @@ import React, { useEffect } from "react";
 export const LandingPage: React.FC = ({}) => {
   useEffect(() => {
     document.body.style.background = "white";
-  });
+  }, []);
 
   return (
     <Box>
