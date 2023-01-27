@@ -12,10 +12,12 @@ export type GoogleMeetingEvent = {
   start: {
     dateTime: string;
     timeZone: string;
+    date?: string;
   };
   end: {
     dateTime: string;
     timeZone: string;
+    date?: string;
   };
   organizer: {
     email: string;
