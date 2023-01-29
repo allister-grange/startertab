@@ -47,7 +47,10 @@ export default async function handler(
           data = await getOutlookMeetingsData(newAccessToken);
           await setNewTokenCookies(newAccessToken, newRefreshToken, res);
         } else {
-          res.status(401).send("Your refresh token is invalid");
+          setExpiredCookies(res);
+          res
+            .status(401)
+            .send("Your Outlook refresh token is invalid, please login again");
         }
       }
 
@@ -152,6 +155,25 @@ const setNewTokenCookies = async (
       sameSite: "strict",
       path: "/",
       encode: (value) => AES.encrypt(value, ENCRYPT_KEY!).toString(),
+    }),
+  ]);
+};
+
+const setExpiredCookies = async (res: NextApiResponse) => {
+  res.setHeader("Set-Cookie", [
+    cookie.serialize("outlookAccessToken", "deleted", {
+      httpOnly: true,
+      secure: process.env.NODE_ENV !== "development",
+      maxAge: -1,
+      sameSite: "strict",
+      path: "/",
+    }),
+    cookie.serialize("outlookRefreshToken", "deleted", {
+      httpOnly: true,
+      secure: process.env.NODE_ENV !== "development",
+      maxAge: -1,
+      sameSite: "strict",
+      path: "/",
     }),
   ]);
 };

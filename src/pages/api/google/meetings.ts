@@ -47,7 +47,10 @@ export default async function handler(
           data = await getGoogleMeetingsData(newAccessToken);
           await setNewTokenCookies(newAccessToken, res);
         } else {
-          res.status(401).send("Your refresh token is invalid");
+          setExpiredCookies(res);
+          res
+            .status(401)
+            .send("Your Google refresh token is invalid, please login again");
         }
       }
 
@@ -117,8 +120,6 @@ const getNewTokens = async (refreshToken: string) => {
     });
     const data = await response.json();
 
-    console.log("Refresh token data that is returned from Google", data);
-
     return { accessToken: data.access_token };
   } catch (error) {
     console.error(error);
@@ -140,6 +141,25 @@ const setNewTokenCookies = async (
       sameSite: "strict",
       path: "/",
       encode: (value) => AES.encrypt(value, ENCRYPT_KEY!).toString(),
+    }),
+  ]);
+};
+
+const setExpiredCookies = async (res: NextApiResponse) => {
+  res.setHeader("Set-Cookie", [
+    cookie.serialize("googleAccessToken", "deleted", {
+      httpOnly: true,
+      secure: process.env.NODE_ENV !== "development",
+      maxAge: -1,
+      sameSite: "strict",
+      path: "/",
+    }),
+    cookie.serialize("googleRefreshToken", "deleted", {
+      httpOnly: true,
+      secure: process.env.NODE_ENV !== "development",
+      maxAge: -1,
+      sameSite: "strict",
+      path: "/",
     }),
   ]);
 };

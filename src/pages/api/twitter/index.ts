@@ -55,7 +55,9 @@ export default async function handler(
           await setNewTokenCookies(newAccessToken, newRefreshToken, res);
         } else {
           setExpiredCookies(res);
-          res.status(401).send("Your refresh token is invalid");
+          res
+            .status(401)
+            .send("Your twitter refresh token is invalid, please login again");
         }
       }
 

@@ -61,9 +61,10 @@ export default async function handler(
     const data = await newTokensResponse.json();
 
     if (!data.access_token || !data.refresh_token) {
+      setExpiredCookies(res);
       return res
-        .status(500)
-        .send("Missing tokens on response from Spotify when refreshing tokens");
+        .status(401)
+        .send("Your Spotify refresh token is invalid, please login again");
     }
 
     const AES = (await import("crypto-js/aes")).default;
@@ -92,3 +93,22 @@ export default async function handler(
     return res.status(500).json(err);
   }
 }
+
+const setExpiredCookies = async (res: NextApiResponse) => {
+  res.setHeader("Set-Cookie", [
+    cookie.serialize("spotifyAccessToken", "deleted", {
+      httpOnly: true,
+      secure: process.env.NODE_ENV !== "development",
+      maxAge: -1,
+      sameSite: "strict",
+      path: "/",
+    }),
+    cookie.serialize("spotifyRefreshToken", "deleted", {
+      httpOnly: true,
+      secure: process.env.NODE_ENV !== "development",
+      maxAge: -1,
+      sameSite: "strict",
+      path: "/",
+    }),
+  ]);
+};
