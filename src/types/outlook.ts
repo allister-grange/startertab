@@ -10,6 +10,7 @@ export type OutlookMeetingEvent = {
   id: string;
   subject: string;
   webLink: string;
+  isAllDay: boolean;
   organizer: {
     emailAddress: {
       name: string;

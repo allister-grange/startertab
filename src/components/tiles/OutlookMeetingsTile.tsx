@@ -105,7 +105,7 @@ export const OutlookMeetingsTile: React.FC<OutlookFeedTileProps> = ({
             duration += " min";
           }
 
-          if (duration === "24.0 hour") {
+          if (event.isAllDay) {
             startTime = "All day";
             duration = "";
           }
@@ -116,7 +116,7 @@ export const OutlookMeetingsTile: React.FC<OutlookFeedTileProps> = ({
             currentTime < start &&
             currentTime < end &&
             !renderedNextMeetingLine &&
-            duration !== ""
+            !event.isAllDay
           ) {
             renderedNextMeetingLine = true;
             const timeUntilEvent = start.getTime() - currentTime.getTime();

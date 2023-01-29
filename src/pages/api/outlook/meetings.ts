@@ -96,7 +96,16 @@ export const getOutlookMeetingsData = async (accessToken: string) => {
 
     const data = (await res.json()) as OutlookMeetingResponse;
 
-    console.log(data);
+    data.value.sort((a, b) => {
+      // First, sort events that last 24 hours to the top
+      if (a.isAllDay && !b.isAllDay) return -1;
+      if (!a.isAllDay && b.isAllDay) return 1;
+
+      // Next, sort by start time
+      const startA = new Date(a.start.dateTime);
+      const startB = new Date(b.start.dateTime);
+      return startA.getTime() - startB.getTime();
+    });
 
     return data.value;
   } catch (error) {
