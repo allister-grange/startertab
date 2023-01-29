@@ -1,9 +1,6 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import cookie from "cookie";
-import {
-  getOutlookRedirectUri,
-  getOutlookRedirectUrl,
-} from "@/helpers/redirectHelpers";
+import { getOutlookRedirectUrl } from "@/helpers/redirectHelpers";
 
 const TOKEN_ENDPOINT = `https://login.microsoftonline.com/common/oauth2/v2.0/token`;
 
@@ -85,6 +82,8 @@ const getFirstAccessTokenFromCode = async (code: string) => {
     });
 
     const data = await response.json();
+
+    console.log(data);
 
     return data;
   } catch (err) {

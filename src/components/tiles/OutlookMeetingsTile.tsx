@@ -115,7 +115,8 @@ export const OutlookMeetingsTile: React.FC<OutlookFeedTileProps> = ({
           if (
             currentTime < start &&
             currentTime < end &&
-            !renderedNextMeetingLine
+            !renderedNextMeetingLine &&
+            duration !== ""
           ) {
             renderedNextMeetingLine = true;
             const timeUntilEvent = start.getTime() - currentTime.getTime();

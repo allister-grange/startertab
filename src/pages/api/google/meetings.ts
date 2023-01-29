@@ -64,16 +64,20 @@ export default async function handler(
 export const getGoogleMeetingsData = async (accessToken: string) => {
   try {
     const now = new Date();
-    const today = new Date(
+    let today: string | Date = new Date(
       now.getFullYear(),
       now.getMonth(),
       now.getDate()
-    ).toISOString();
-    const tomorrow = new Date(
+    );
+    today.setTime(today.getTime() + 1000);
+    today = today.toISOString();
+    let tomorrow: string | Date = new Date(
       now.getFullYear(),
       now.getMonth(),
-      now.getDate() + 1
-    ).toISOString();
+      now.getDate()
+    );
+    tomorrow.setTime(tomorrow.getTime() + 23 * 60 * 60 * 1000 + 59 * 60 * 1000);
+    tomorrow = tomorrow.toISOString();
 
     const res = await fetch(
       GOOGLE_MEETINGS_ENDPOINT + `?timeMin=${today}&timeMax=${tomorrow}`,

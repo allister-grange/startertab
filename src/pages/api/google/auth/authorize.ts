@@ -91,8 +91,6 @@ const getFirstAccessTokenFromCode = async (code: string) => {
 
     const data = await tokenRes.json();
 
-    console.log(data);
-
     return data;
   } catch (err) {
     throw new Error(err as string);

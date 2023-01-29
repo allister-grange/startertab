@@ -64,16 +64,20 @@ export default async function handler(
 export const getOutlookMeetingsData = async (accessToken: string) => {
   try {
     const now = new Date();
-    const today = new Date(
+    let today: string | Date = new Date(
       now.getFullYear(),
       now.getMonth(),
       now.getDate()
-    ).toISOString();
-    const tomorrow = new Date(
+    );
+    today.setTime(today.getTime() + 1000);
+    today = today.toISOString();
+    let tomorrow: string | Date = new Date(
       now.getFullYear(),
       now.getMonth(),
-      now.getDate() + 1
-    ).toISOString();
+      now.getDate()
+    );
+    tomorrow.setTime(tomorrow.getTime() + 23 * 60 * 60 * 1000 + 59 * 60 * 1000);
+    tomorrow = tomorrow.toISOString();
 
     const res = await fetch(
       OUTLOOK_MEETINGS_ENDPOINT +
@@ -91,6 +95,8 @@ export const getOutlookMeetingsData = async (accessToken: string) => {
     }
 
     const data = (await res.json()) as OutlookMeetingResponse;
+
+    console.log(data);
 
     return data.value;
   } catch (error) {
