@@ -34,7 +34,12 @@ export const MeetingCard: React.FC<MeetingCardProps> = ({
         <Text>{startTime}</Text>
         <Text>{duration}</Text>
       </Box>
-      <Box whiteSpace="nowrap" textOverflow="ellipsis" overflow="hidden">
+      <Flex
+        flexDir="column"
+        whiteSpace="nowrap"
+        textOverflow="ellipsis"
+        overflow="hidden"
+      >
         {link ? (
           <Link
             href={link}
@@ -66,7 +71,7 @@ export const MeetingCard: React.FC<MeetingCardProps> = ({
           {location ? `${location} | ` : undefined}
           {organizer}
         </Text>
-      </Box>
+      </Flex>
     </Flex>
   );
 };

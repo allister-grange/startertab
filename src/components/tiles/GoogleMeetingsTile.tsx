@@ -22,21 +22,15 @@ export const GoogleMeetingsTile: React.FC<GoogleFeedTileProps> = ({
   const divRef = useRef<HTMLDivElement | null>(null);
   let renderedNextMeetingLine = false;
   const [tileWidth, setTileWidth] = useState(0);
-
-  React.useEffect(() => {
-    if (!divRef.current) {
-      return;
-    }
-
-    setTileWidth(divRef.current.offsetWidth);
-  }, []);
+  const [previousWidth, setPreviousWidth] = useState(0);
 
   // need to change the amount of text truncated from title depending on width
-  React.useEffect(() => {
-    if (!divRef.current) {
-      return;
+  if (divRef.current) {
+    if (divRef.current.offsetWidth !== previousWidth) {
+      setPreviousWidth(divRef.current.offsetWidth);
+      setTileWidth(divRef.current.offsetWidth);
     }
-  }, []);
+  }
 
   if (isAuthenticated === false) {
     return (

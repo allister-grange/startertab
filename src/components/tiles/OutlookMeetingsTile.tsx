@@ -1,10 +1,10 @@
+import React, { useContext, useRef, useState } from "react";
 import { TextFeedSkeleton } from "@/components/skeletons/TextFeedSkeleton";
 import { OutlinedButton } from "@/components/ui/OutlinedButton";
 import { OutlookContext } from "@/context/OutlookContext";
 import { OutlookContextInterface } from "@/types";
 import { TimeIcon } from "@chakra-ui/icons";
 import { Badge, Box, Center, Heading, Link, Text } from "@chakra-ui/react";
-import React, { useContext, useRef, useState } from "react";
 import { OutlookLogo } from "@/components/icons/OutlookLogo";
 import { MeetingCard } from "@/components/ui/MeetingCard";
 
@@ -22,21 +22,15 @@ export const OutlookMeetingsTile: React.FC<OutlookFeedTileProps> = ({
   const divRef = useRef<HTMLDivElement | null>(null);
   let renderedNextMeetingLine = false;
   const [tileWidth, setTileWidth] = useState(0);
-
-  React.useEffect(() => {
-    if (!divRef.current) {
-      return;
-    }
-
-    setTileWidth(divRef.current.offsetWidth);
-  }, []);
+  const [previousWidth, setPreviousWidth] = useState(0);
 
   // need to change the amount of text truncated from title depending on width
-  React.useEffect(() => {
-    if (!divRef.current) {
-      return;
+  if (divRef.current) {
+    if (divRef.current.offsetWidth !== previousWidth) {
+      setPreviousWidth(divRef.current.offsetWidth);
+      setTileWidth(divRef.current.offsetWidth);
     }
-  }, []);
+  }
 
   if (isAuthenticated === false) {
     return (
