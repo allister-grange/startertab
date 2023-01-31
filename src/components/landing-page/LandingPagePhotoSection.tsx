@@ -1,25 +1,37 @@
-import { Flex, Heading, Box, Text } from "@chakra-ui/react";
+import { Flex, Heading, Box, Text, Image } from "@chakra-ui/react";
 import React from "react";
 
 interface LandingPagePhotoSectionProps {
   title: string;
   titleColor: string;
   description: string;
-  image: string;
-  isPictureOnLeft: boolean;
+  subText?: string;
+  button?: JSX.Element;
+  logos?: JSX.Element;
 }
 
 export const LandingPagePhotoSection: React.FC<
   LandingPagePhotoSectionProps
-> = ({ title, titleColor, description, image, isPictureOnLeft }) => {
+> = ({ title, titleColor, description, subText, button, logos }) => {
   return (
     <section>
       <Flex
         columnGap="4"
-        mt={["14", "14", "32"]}
-        flexDir={["column", "column", "row"]}
+        mt="8"
+        width="80%"
+        mx="auto"
+        bg="white"
+        p="6"
+        py="16"
+        borderRadius="16px"
+        flexDir={["column", "column", "column", "row", "row"]}
       >
-        <Box flex="1">
+        <Flex
+          flex="1"
+          // maxH="350px"
+          textAlign={["center", "center", "center", "unset", "unset"]}
+          flexDir="column"
+        >
           <Heading
             color={titleColor}
             fontWeight="800"
@@ -29,18 +41,21 @@ export const LandingPagePhotoSection: React.FC<
           >
             {title}
           </Heading>
-          <Text mt="4" fontSize="lg" color="gray.700">
+          <Text mt="8" fontSize="lg" color="gray.600" mb={logos && "auto"}>
             {description}
           </Text>
-        </Box>
-        <Box
-          order={isPictureOnLeft ? [0, 0, -1] : undefined}
-          bg="blue"
-          width={["100%", "100%", "70%"]}
-          h="400"
-          mt={["10", "10", "0"]}
-          flex={["unset", "unset", "2"]}
-        ></Box>
+          {button}
+          {logos}
+        </Flex>
+        <Image
+          src="/black.jpg"
+          maxW="600px"
+          width="140%"
+          borderRadius="16px"
+          alt="Screenshot of Starter Tab"
+          marginX={["auto", "auto", "auto", "0", "0"]}
+          mt={["10", "10", "10", "0", "0"]}
+        />
       </Flex>
     </section>
   );
