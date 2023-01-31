@@ -41,7 +41,7 @@ export const GoogleMeetingsTile: React.FC<GoogleFeedTileProps> = ({
           borderColor={color}
         >
           Continue with Google&nbsp;
-          <GoogleCalendarLogo height={22} width={22} color={color} />
+          <GoogleCalendarLogo height={22} width={22} fill={color} />
         </OutlinedButton>
       </Center>
     );
@@ -184,7 +184,7 @@ export const GoogleMeetingsTile: React.FC<GoogleFeedTileProps> = ({
   return (
     <Box p="2" color={color} position="relative" ref={divRef} height="100%">
       <Box position="absolute" right="4" top="3">
-        <GoogleCalendarLogo color={color} height={24} width={24} />
+        <GoogleCalendarLogo fill={color} height={24} width={24} />
       </Box>
       {display}
     </Box>

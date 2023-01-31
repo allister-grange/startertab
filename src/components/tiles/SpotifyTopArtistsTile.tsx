@@ -54,7 +54,7 @@ export const SpotifyTopArtistsTile: React.FC<SmallSpotifyTileProps> = ({
           borderColor={color}
         >
           Continue with Spotify&nbsp;
-          <SpotifyLogo color={color} size={20} />
+          <SpotifyLogo fill={color} height={20} width={20} />
         </OutlinedButton>
       </Center>
     );
@@ -72,7 +72,7 @@ export const SpotifyTopArtistsTile: React.FC<SmallSpotifyTileProps> = ({
         top="2"
         opacity="0.7"
       >
-        <SpotifyLogo size={18} color={color} />
+        <SpotifyLogo fill={color} height={18} width={18} />
       </Link>
       <Heading p="2" fontSize="xl" fontWeight="bold">
         Top Spotify Artists

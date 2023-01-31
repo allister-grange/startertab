@@ -1,19 +1,19 @@
 import React from "react";
 
 interface OutlookIconProps {
-  color: string;
+  fill: string;
   height: number;
   width: number;
 }
 
 export const OutlookLogo: React.FC<OutlookIconProps> = ({
-  color,
+  fill,
   height,
   width,
 }) => {
   return (
     <svg
-      fill={color}
+      fill={fill}
       height={height}
       width={width}
       version="1.1"

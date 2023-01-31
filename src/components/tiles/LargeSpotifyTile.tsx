@@ -74,7 +74,7 @@ export const LargeSpotifyTile: React.FC<LargeSpotifyTileProps> = ({
           borderColor={color}
         >
           Continue with Spotify&nbsp;
-          <SpotifyLogo color={color} size={20} />
+          <SpotifyLogo fill={color} height={20} width={20} />
         </OutlinedButton>
       </Center>
     );
@@ -90,7 +90,7 @@ export const LargeSpotifyTile: React.FC<LargeSpotifyTileProps> = ({
         opacity="0.7"
         aria-label="Link to Spotify"
       >
-        <SpotifyLogo size={24} color={color} />
+        <SpotifyLogo fill={color} height={24} width={24} />
       </Link>
       <Flex
         flexDir="column"

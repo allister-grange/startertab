@@ -48,7 +48,7 @@ export const TwitterFeedTile: React.FC<TwitterFeedTileProps> = ({ tileId }) => {
           borderColor={color}
         >
           Continue with Twitter&nbsp;
-          <TwitterLogo color={"#1E9CEA"} />
+          <TwitterLogo fill="#1E9CEA" height={20} width={20} />
         </OutlinedButton>
       </Center>
     );
@@ -103,8 +103,8 @@ export const TwitterFeedTile: React.FC<TwitterFeedTileProps> = ({ tileId }) => {
 
   return (
     <Box p="2" color={color} position="relative" mb="2" ref={divRef}>
-      <Box position="absolute" right="4" top="3">
-        <TwitterLogo color={color} />
+      <Box position="absolute" right="4" top="4">
+        <TwitterLogo fill={color} height={20} width={20} />
       </Box>
       <Heading p="2" fontSize="xl" fontWeight="bold">
         <Link aria-label="Link to Twitter" href="https://twitter.com/home">

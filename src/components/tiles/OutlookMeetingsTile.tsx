@@ -41,7 +41,7 @@ export const OutlookMeetingsTile: React.FC<OutlookFeedTileProps> = ({
           borderColor={color}
         >
           Continue with Outlook&nbsp;
-          <OutlookLogo height={22} width={22} color={color} />
+          <OutlookLogo height={22} width={22} fill={color} />
         </OutlinedButton>
       </Center>
     );
@@ -178,7 +178,7 @@ export const OutlookMeetingsTile: React.FC<OutlookFeedTileProps> = ({
   return (
     <Box p="2" color={color} position="relative" ref={divRef} height="100%">
       <Box position="absolute" right="4" top="3">
-        <OutlookLogo color={color} height={24} width={24} />
+        <OutlookLogo fill={color} height={24} width={24} />
       </Box>
       {display}
     </Box>

@@ -124,7 +124,7 @@ export const HackerNewsFeedTile: React.FC<PageProps> = ({ tileId }) => {
         </Link>
       </Heading>
       <Box position="absolute" right="4" top="1" height="10px" width="20px">
-        <HackerNewsLogo color={color} />
+        <HackerNewsLogo height={20} width={20} fill={color} />
       </Box>
       <Box w="80%" bg="white" height="1px" mt="2" bgColor={underlineColor} />
       {display}

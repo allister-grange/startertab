@@ -180,7 +180,7 @@ export const RSSFeedTile: React.FC<RSSFeedTileProps> = ({ tileId }) => {
     toDisplay = (
       <Box>
         <Box pos="absolute" top="4" right="4" height="18px" width="18px">
-          <RSSLogo color={color} />
+          <RSSLogo height={18} width={18} fill={color} />
         </Box>
         <Heading fontSize="xl" mt="3">
           Rss Feed
@@ -193,7 +193,7 @@ export const RSSFeedTile: React.FC<RSSFeedTileProps> = ({ tileId }) => {
     toDisplay = (
       <Box>
         <Box pos="absolute" top="4" right="4" height="18px" width="18px">
-          <RSSLogo color={color} />
+          <RSSLogo height={18} width={18} fill={color} />
         </Box>
         <Heading fontSize="xl" mt="3">
           Rss Feed
