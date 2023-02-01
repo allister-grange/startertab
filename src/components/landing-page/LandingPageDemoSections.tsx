@@ -25,9 +25,8 @@ export const LandingPageDemoSections: React.FC<
         need to get your shit done at a glance."
         logos={
           <HStack
-            // mt="auto"
             mx={["auto", "auto", "auto", "0", "0"]}
-            mt={["8", "8", "8", "auto", "auto"]}
+            mt={["8", "8", "8", "8", "auto"]}
           >
             <GoogleCalendarLogo height={24} width={24} fill="#718096" />
             <SpotifyLogo height={24} width={24} fill="#718096" />
@@ -43,22 +42,6 @@ export const LandingPageDemoSections: React.FC<
           </HStack>
         }
       />
-      <Flex justifyContent="center" mt="8">
-        <Box
-          bg="white"
-          width="39%"
-          height="400px"
-          mr="1%"
-          borderRadius="16px"
-        ></Box>
-        <Box
-          bg="white"
-          width="39%"
-          height="400px"
-          ml="1%"
-          borderRadius="16px"
-        ></Box>
-      </Flex>
       <LandingPagePhotoSection
         title="Join the community."
         titleColor="#47CE8D"
@@ -78,6 +61,7 @@ export const LandingPageDemoSections: React.FC<
             borderRadius="16px"
             href="/themes#public"
             display="block"
+            mx={["auto", "auto", "auto", "0", "0"]}
             width="max-content"
             mt="8"
           >
