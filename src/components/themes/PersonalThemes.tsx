@@ -51,7 +51,7 @@ export const PersonalThemes: React.FC<PersonalThemesProps> = ({
         setReverseOrdering={setReverseOrdering}
       />
       <Flex
-        mt="8"
+        mt="2"
         flexWrap="wrap"
         width="100%"
         justifyContent="center"

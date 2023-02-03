@@ -1,71 +1,53 @@
 import { Box, BoxProps, Flex, Heading, Text } from "@chakra-ui/react";
 import Link from "next/link";
 import React from "react";
-import { GithubSvg } from "../icons/GithubSvg";
+import { GithubSvg } from "@/components/icons/GithubSvg";
 
 export const Footer: React.FC<BoxProps> = (props) => {
   return (
     <Box
-      background="white"
+      // background="white"
       height="min-content"
       color="gray.900"
-      pb="4"
+      pb="16"
+      borderTop="1px solid #ddd"
       {...props}
     >
-      <hr style={{ width: "100%", marginTop: "18px", background: "#e2e8f0" }} />
       <Flex
-        width="100%"
+        width="90%"
         marginX="auto"
         px="2"
-        justifyContent={["center"]}
+        pt="10"
+        justifyContent={["", "space-between"]}
         flexDirection={["column", "column", "row"]}
-        alignItems={["center", "center", "unset"]}
       >
-        <Box mt={["4", "0"]} pr="4" pt="4">
-          <Heading fontSize={["xl", "xl", "2xl"]} as="h3">
-            Starter Tab
-          </Heading>
-          <Heading
-            fontSize={["md", "md", "md"]}
-            mt="2"
-            as="h3"
-            color="gray.600"
-            whiteSpace="nowrap"
-          >
-            ©2022-23; all rights reserved
-          </Heading>
-          <Text fontSize="sm" width="70%" mt="2">
-            <Link href="mailto:allistergrange@gmail.com">
-              feedback is invaluable
-            </Link>
-          </Text>
-        </Box>
-        <Flex ml={["0", "0", "auto"]}>
-          <Flex flexDir="column" mr="12">
+        <Flex>
+          <Flex flexDir="column" mt="4" pr="4" mb="4">
+            <Heading fontSize={["xl", "xl", "2xl"]} as="h3">
+              Starter Tab
+            </Heading>
             <Heading
-              fontSize={["sm", "md", "lg"]}
+              fontSize={["sm", "md", "md"]}
+              mt="2"
               as="h3"
-              mt="4"
-              mb="1"
+              color="gray.600"
               whiteSpace="nowrap"
             >
-              bad stuff
+              ©2022-23; all rights reserved
             </Heading>
-            <Link href="/legal/privacy">privacy</Link>
-            <Link href="/legal/terms">terms</Link>
+            <Text fontSize="sm" mt="2" whiteSpace="nowrap">
+              <Link href="mailto:allistergrange@gmail.com">
+                Feedback is invaluable
+              </Link>
+            </Text>
           </Flex>
-          <Flex flexDir="column" mr="12" whiteSpace="nowrap">
-            <Heading fontSize={["sm", "md", "lg"]} as="h3" mt="4" mb="1">
-              site things
-            </Heading>
-            <Link href="/themes">public themes</Link>
-            <Link href="/updates">updates</Link>
-          </Flex>
-          <Flex flexDir="column">
-            <Heading fontSize={["sm", "md", "lg"]} as="h3" mt="4" mb="1">
-              code
-            </Heading>
+        </Flex>
 
+        <Flex columnGap="12" flexWrap="wrap">
+          <Flex flexDir="column">
+            <Heading fontSize={["md", "lg"]} as="h3" mt="4" mb="1">
+              Code
+            </Heading>
             <Flex alignItems="center">
               <Box w="2" h="2" bg="lightgreen" borderRadius="100%" />
               <Box ml="2" />
@@ -77,15 +59,31 @@ export const Footer: React.FC<BoxProps> = (props) => {
               </Link>
             </Flex>
             <Text mt="1" whiteSpace="nowrap">
-              🥝 made in nz
+              🥝 Made in nz
             </Text>
             <Flex alignItems="center" mt="1">
               <GithubSvg height={16} width={16} fill={"black"} />
               <Box ml="2" />
               <Link href={"https://github.com/allister-grange/startertab"}>
-                code
+                Code
               </Link>
             </Flex>
+          </Flex>
+
+          <Flex flexDir="column" whiteSpace="nowrap" mt="4">
+            <Heading fontSize={["md", "lg"]} as="h3" mb="1">
+              Product
+            </Heading>
+            <Link href="/themes">Public themes</Link>
+            <Link href="/updates">Updates</Link>
+          </Flex>
+
+          <Flex flexDir="column" mr="12" mt="4">
+            <Heading fontSize={["md", "lg"]} as="h3" mb="1" whiteSpace="nowrap">
+              Legal
+            </Heading>
+            <Link href="/legal/privacy">Privacy</Link>
+            <Link href="/legal/terms">Terms</Link>
           </Flex>
         </Flex>
       </Flex>

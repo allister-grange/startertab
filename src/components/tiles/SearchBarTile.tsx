@@ -56,7 +56,7 @@ export const SearchBarTile: React.FC<SearchBarProps> = ({ tileId }) => {
         onClick={() => searchClick("stackoverflow")}
         aria-label="Search Google with Stack Overflow"
       >
-        <StackOverFlowIcon width={10} height={10} fill={color} />
+        <StackOverFlowIcon width={50} height={50} fill={color} />
       </OutlinedButton>
       <Input
         width="45%"

@@ -5,16 +5,7 @@ import { getThemeIdsFromLocalStorage } from "@/helpers/tileHelpers";
 import { ThemeFilteringOptions } from "@/types";
 import { ThemeDataFromAPI, ThemeWithVotes } from "@/types/marketplace";
 import { ChevronDownIcon, ChevronUpIcon } from "@chakra-ui/icons";
-import {
-  Box,
-  Center,
-  Flex,
-  Grid,
-  Heading,
-  Input,
-  Select,
-  Spinner,
-} from "@chakra-ui/react";
+import { Box, Flex, Heading, Input, Select } from "@chakra-ui/react";
 import {
   InfiniteData,
   InfiniteQueryObserverResult,
@@ -254,7 +245,7 @@ export const PublicThemes: React.FC<PublicThemesProps> = ({
 
   return (
     <Box h="100%">
-      <Flex justifyContent="center" gap="4" alignItems="center" mt="6">
+      <Flex justifyContent="center" gap="4" alignItems="center">
         <Input
           width="60%"
           border="1px solid black"

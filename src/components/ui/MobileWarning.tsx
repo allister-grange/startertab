@@ -1,5 +1,5 @@
 import { Box, Center, Flex, Heading } from "@chakra-ui/react";
-import React, { Dispatch, SetStateAction } from "react";
+import React, { Dispatch, SetStateAction, useEffect } from "react";
 import { OutlinedButton } from "@/components/ui/OutlinedButton";
 
 type MobileWarningProps = {
@@ -9,6 +9,10 @@ type MobileWarningProps = {
 export const MobileWarning: React.FC<MobileWarningProps> = ({
   setIsMobileView,
 }) => {
+  useEffect(() => {
+    document.body.style.background = "white";
+  }, []);
+
   return (
     <Center height="95vh" bg="white" color="black" p="5">
       <Flex flexDir={"column"} justifyContent="center" alignItems="center">
