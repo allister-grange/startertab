@@ -10,9 +10,9 @@ export const LandingPageHero: React.FC<LandingPageHeroProps> = ({}) => {
       <Flex flexDir="column">
         <Heading
           color="coral"
-          width={["100%", "90%", "80%", "60%", "50%"]}
+          width={["90%", "90%", "80%", "60%", "50%"]}
           fontWeight="800"
-          fontSize={["6xl", "7xl", "7xl", "8xl", "8xl"]}
+          fontSize={["5xl", "7xl", "7xl", "8xl", "8xl"]}
           lineHeight={["52px", "60px", "78px", "78px", "78px"]}
           mx="auto"
         >
@@ -23,7 +23,7 @@ export const LandingPageHero: React.FC<LandingPageHeroProps> = ({}) => {
           mt="12"
           fontSize={["lg", "xl", "2xl"]}
           color="#666"
-          width={["90%", "90%", "80%", "55%"]}
+          width={["95%", "90%", "80%", "55%"]}
           lineHeight="38px"
           fontWeight="500"
           mx="auto"

@@ -6,7 +6,6 @@ import { GithubSvg } from "@/components/icons/GithubSvg";
 export const Footer: React.FC<BoxProps> = (props) => {
   return (
     <Box
-      // background="white"
       height="min-content"
       color="gray.900"
       pb="16"

@@ -17,12 +17,17 @@ export const LandingThemePageHeader: React.FC = () => {
         color="black"
       >
         <Flex align="center" mr={5}>
-          <Text fontSize="xl" fontWeight="800" color="black">
+          <Text fontSize={["lg", "3xl"]} fontWeight="800" color="black">
             Starter Tab
           </Text>
         </Flex>
         <Flex justify="flex-end" align="center">
-          <Link display="block" href="/" color="gray.700">
+          <Link
+            display="block"
+            href="/"
+            color="gray.700"
+            fontSize={["sm", "unset"]}
+          >
             Take me to the app 👉
           </Link>
         </Flex>
