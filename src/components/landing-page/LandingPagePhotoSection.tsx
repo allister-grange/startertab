@@ -72,28 +72,33 @@ export const LandingPagePhotoSection: React.FC<
             {button}
             {logos}
           </Flex>
-          <Box ml={["0", "0", "0", "80px", "80px"]}>
+          <Box
+            ml={["0", "0", "0", "80px", "80px"]}
+            mt={["8", "10", "10", "0", "0"]}
+          >
             {isVideo ? (
-              <video
-                autoPlay={true}
-                loop={true}
-                muted={true}
-                playsInline={true}
-                poster="https://startertab.com/landing_page/AnimatedDemoPoster.png"
-                style={{
-                  overflow: "hidden",
-                  borderRadius: "16px",
-                  width: "117%",
-                  overflowClipMargin: "content-box",
-                  objectFit: "contain",
-                  maxHeight: "675px",
-                  maxWidth: "1070px",
-                  boxShadow:
-                    " 0 20px 25px -5px rgba(0, 0, 0, 0.1),0 10px 10px -5px rgba(0, 0, 0, 0.04)",
-                }}
-              >
-                <source src={imagePath} type="video/mp4" />
-              </video>
+              <Box width={["100%", "100%", "100%", "118%"]}>
+                <video
+                  autoPlay={true}
+                  loop={true}
+                  muted={true}
+                  playsInline={true}
+                  poster="https://startertab.com/landing_page/AnimatedDemoPoster.png"
+                  style={{
+                    overflow: "hidden",
+                    borderRadius: "16px",
+                    width: "100%",
+                    overflowClipMargin: "content-box",
+                    objectFit: "contain",
+                    maxHeight: "675px",
+                    maxWidth: "1070px",
+                    boxShadow:
+                      "0 20px 25px -5px rgba(0, 0, 0, 0.1),0 10px 10px -5px rgba(0, 0, 0, 0.04)",
+                  }}
+                >
+                  <source src={imagePath} type="video/mp4" />
+                </video>
+              </Box>
             ) : (
               <Image
                 boxShadow="xl"
@@ -103,7 +108,6 @@ export const LandingPagePhotoSection: React.FC<
                 borderRadius="16px"
                 alt="Screenshot of Starter Tab"
                 marginX={["auto", "auto", "auto", "0", "0"]}
-                mt={["8", "10", "10", "0", "0"]}
               />
             )}
           </Box>
