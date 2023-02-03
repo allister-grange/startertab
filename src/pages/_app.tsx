@@ -64,6 +64,10 @@ export function MyApp({
             property="og:title"
             content="Starter Tab - A customizable homepage"
           />
+          <meta
+            name="viewport"
+            content="width=device-width, initial-scale=1.0"
+          />
         </Head>
 
         {/* NOTE: I have to use client side rendering here because of allowing a user

@@ -8,15 +8,14 @@ export const LandingPageMainVideo: React.FC<
 > = ({}) => {
   return (
     <Box
-      w={"100%"}
+      w="100%"
       display="flex"
       flex="0 0 auto"
       justifyContent="center"
-      paddingInline="40px"
-      marginBottom="120px"
+      paddingInline={["3px", "40px"]}
       bg="white"
       pt="70px"
-      pb="100px"
+      pb="50px"
     >
       <Box
         display="flex"
@@ -27,7 +26,7 @@ export const LandingPageMainVideo: React.FC<
         borderRadius="16px"
         position="relative"
         paddingTop="40px"
-        paddingInline="40px"
+        paddingInline={["7px", "40px"]}
         marginBottom="-190px"
       >
         <video
@@ -35,7 +34,7 @@ export const LandingPageMainVideo: React.FC<
           loop={true}
           muted={true}
           playsInline={true}
-          poster="https://static.conjure.so/_next/static/media/video-poster.430263f4.jpg"
+          poster="https://startertab.com/landing_page/MainDemoPoster.png"
           style={{
             overflow: "hidden",
             borderRadius: "16px",
@@ -49,7 +48,7 @@ export const LandingPageMainVideo: React.FC<
               "rgb(60 66 87 / 10%) 0px 1px 1px 0px, rgb(0 0 0 / 7%) 0px 2px 5px 0px",
           }}
         >
-          <source src="/demo1.mp4" type="video/mp4" />
+          <source src="landing_page/MainDemo.mp4" type="video/mp4" />
         </video>
       </Box>
     </Box>

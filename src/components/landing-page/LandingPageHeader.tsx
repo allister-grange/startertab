@@ -1,10 +1,7 @@
 import { Box, Flex, Link, Text } from "@chakra-ui/react";
-import React, { useState } from "react";
+import React from "react";
 
 export const LandingThemePageHeader: React.FC = () => {
-  const [show, setShow] = useState(false);
-  const handleToggle = () => setShow(!show);
-
   return (
     <Box bg="white" width="100%">
       <Flex
