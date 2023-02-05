@@ -23,7 +23,7 @@ export const LandingPageHero: React.FC<LandingPageHeroProps> = ({}) => {
           mt="12"
           fontSize={["lg", "xl", "2xl"]}
           color="#666"
-          width={["95%", "90%", "80%", "55%"]}
+          width={["85%", "90%", "80%", "55%"]}
           lineHeight="38px"
           fontWeight="500"
           mx="auto"

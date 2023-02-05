@@ -57,7 +57,7 @@ export function MyApp({
           />
           <meta
             name="description"
-            content="A customizable website to replace your 'New Tab' homepage."
+            content="A customizable website to replace your 'New Tab' homepage"
           />
           <meta property="og:image" content={"/demo.png"} />
           <meta

@@ -3,7 +3,7 @@ import { LandingThemePageHeader } from "@/components/landing-page/LandingPageHea
 import { LandingPageHero } from "@/components/landing-page/LandingPageHero";
 import { LandingPageMainVideo } from "@/components/landing-page/LandingPageMainVideo";
 import { Footer } from "@/components/ui/Footer";
-import { Box, Center, Flex } from "@chakra-ui/react";
+import { Box } from "@chakra-ui/react";
 import React, { useEffect } from "react";
 
 export const LandingPage: React.FC = ({}) => {

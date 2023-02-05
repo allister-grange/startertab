@@ -170,7 +170,11 @@ const DayPlannerForm: React.FC<DayPlannerFormProps> = ({
           </Text>
         )}
         <Flex alignItems="center" mt="2" justifyContent="space-around">
-          <Checkbox colorScheme="purple" onChange={onPermanentCheckboxChange}>
+          <Checkbox
+            colorScheme="purple"
+            onChange={onPermanentCheckboxChange}
+            borderColor={props.color}
+          >
             <Tooltip
               aria-label="tooltip"
               label="This will keep the event over multiple days"
