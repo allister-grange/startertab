@@ -1,6 +1,5 @@
 import { defaultSettings } from "@/helpers/themes";
 import { UserSettings } from "@/types";
-import { ColorMode } from "@chakra-ui/react";
 import { atom, AtomEffect } from "recoil";
 
 const localStorageEffect: <T>(key: string) => AtomEffect<T> =

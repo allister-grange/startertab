@@ -48,7 +48,7 @@ const TwitterContextProvider: React.FC<Props> = ({ children }) => {
     try {
       const res = await fetch("/api/twitter/auth/redirectUri");
       const redirectUri = (await res.json()).redirectUri;
-      window.location = redirectUri as (string | Location) & Location;
+      window.open(redirectUri);
     } catch (err) {
       throw new Error(err as string);
     }

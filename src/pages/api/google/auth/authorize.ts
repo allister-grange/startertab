@@ -47,17 +47,17 @@ export default async function handler(
     res.setHeader("Set-Cookie", [
       cookie.serialize("googleRefreshToken", refresh_token, {
         httpOnly: true,
-        secure: process.env.NODE_ENV !== "development",
+        secure: true,
         maxAge: 34560000,
-        sameSite: "strict",
+        sameSite: "none",
         path: "/",
         encode: (value) => AES.encrypt(value, ENCRYPTION_KEY).toString(),
       }),
       cookie.serialize("googleAccessToken", access_token, {
         httpOnly: true,
-        secure: process.env.NODE_ENV !== "development",
+        secure: true,
         maxAge: 34560000,
-        sameSite: "strict",
+        sameSite: "none",
         path: "/",
         encode: (value) => AES.encrypt(value, ENCRYPTION_KEY).toString(),
       }),

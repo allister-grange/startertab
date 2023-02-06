@@ -149,17 +149,17 @@ const setNewTokenCookies = async (
   res.setHeader("Set-Cookie", [
     cookie.serialize("twitterAccessToken", accessToken, {
       httpOnly: true,
-      secure: process.env.NODE_ENV !== "development",
+      secure: true,
       maxAge: 34560000,
-      sameSite: "strict",
+      sameSite: "none",
       path: "/",
       encode: (value) => AES.encrypt(value, ENCRYPT_KEY!).toString(),
     }),
     cookie.serialize("twitterRefreshToken", refreshToken, {
       httpOnly: true,
-      secure: process.env.NODE_ENV !== "development",
+      secure: true,
       maxAge: 34560000,
-      sameSite: "strict",
+      sameSite: "none",
       path: "/",
       encode: (value) => AES.encrypt(value, ENCRYPT_KEY!).toString(),
     }),
@@ -170,16 +170,16 @@ const setExpiredCookies = async (res: NextApiResponse) => {
   res.setHeader("Set-Cookie", [
     cookie.serialize("twitterAccessToken", "deleted", {
       httpOnly: true,
-      secure: process.env.NODE_ENV !== "development",
+      secure: true,
       maxAge: -1,
-      sameSite: "strict",
+      sameSite: "none",
       path: "/",
     }),
     cookie.serialize("twitterRefreshToken", "deleted", {
       httpOnly: true,
-      secure: process.env.NODE_ENV !== "development",
+      secure: true,
       maxAge: -1,
-      sameSite: "strict",
+      sameSite: "none",
       path: "/",
     }),
   ]);

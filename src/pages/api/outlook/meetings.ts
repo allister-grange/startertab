@@ -142,17 +142,17 @@ const setNewTokenCookies = async (
   res.setHeader("Set-Cookie", [
     cookie.serialize("outlookAccessToken", accessToken, {
       httpOnly: true,
-      secure: process.env.NODE_ENV !== "development",
+      secure: true,
       maxAge: 34560000,
-      sameSite: "strict",
+      sameSite: "none",
       path: "/",
       encode: (value) => AES.encrypt(value, ENCRYPT_KEY!).toString(),
     }),
     cookie.serialize("outlookRefreshToken", refreshToken, {
       httpOnly: true,
-      secure: process.env.NODE_ENV !== "development",
+      secure: true,
       maxAge: 34560000,
-      sameSite: "strict",
+      sameSite: "none",
       path: "/",
       encode: (value) => AES.encrypt(value, ENCRYPT_KEY!).toString(),
     }),
@@ -163,16 +163,16 @@ const setExpiredCookies = async (res: NextApiResponse) => {
   res.setHeader("Set-Cookie", [
     cookie.serialize("outlookAccessToken", "deleted", {
       httpOnly: true,
-      secure: process.env.NODE_ENV !== "development",
+      secure: true,
       maxAge: -1,
-      sameSite: "strict",
+      sameSite: "none",
       path: "/",
     }),
     cookie.serialize("outlookRefreshToken", "deleted", {
       httpOnly: true,
-      secure: process.env.NODE_ENV !== "development",
+      secure: true,
       maxAge: -1,
-      sameSite: "strict",
+      sameSite: "none",
       path: "/",
     }),
   ]);
