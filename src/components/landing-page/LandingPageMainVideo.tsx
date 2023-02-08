@@ -30,10 +30,10 @@ export const LandingPageMainVideo: React.FC<
         marginBottom="-190px"
       >
         <video
-          autoPlay={true}
-          loop={true}
-          muted={true}
-          playsInline={true}
+          loop
+          autoPlay
+          playsInline
+          muted
           poster="https://startertab.com/landing_page/MainDemoPoster.png"
           style={{
             overflow: "hidden",
@@ -48,7 +48,10 @@ export const LandingPageMainVideo: React.FC<
               "rgb(60 66 87 / 10%) 0px 1px 1px 0px, rgb(0 0 0 / 7%) 0px 2px 5px 0px",
           }}
         >
-          <source src="landing_page/MainDemo.mp4" type="video/mp4" />
+          <source
+            src="https://startertab.com/landing_page/MainDemo.mp4"
+            type="video/mp4"
+          />
         </video>
       </Box>
     </Box>

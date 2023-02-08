@@ -1,5 +1,6 @@
-import { Box, Flex, Link, Text } from "@chakra-ui/react";
+import { Box, Flex, Link } from "@chakra-ui/react";
 import React from "react";
+import { StarterTabLogo } from "@/components/ui/StarterTabLogo";
 
 export const LandingThemePageHeader: React.FC = () => {
   return (
@@ -17,9 +18,7 @@ export const LandingThemePageHeader: React.FC = () => {
         color="black"
       >
         <Flex align="center" mr={5}>
-          <Text fontSize={["lg", "3xl"]} fontWeight="800" color="black">
-            Starter Tab
-          </Text>
+          <StarterTabLogo />
         </Flex>
         <Flex justify="flex-end" align="center">
           <Link

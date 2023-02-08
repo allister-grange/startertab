@@ -1,6 +1,6 @@
 import { Heading, Button, Box, Text, Flex } from "@chakra-ui/react";
 import React from "react";
-import { ChromeLogo } from "../icons/ChromeLogo";
+import { ChromeLogo } from "@/components/icons/ChromeLogo";
 
 interface LandingPageHeroProps {}
 
@@ -10,10 +10,10 @@ export const LandingPageHero: React.FC<LandingPageHeroProps> = ({}) => {
       <Flex flexDir="column">
         <Heading
           color="coral"
-          width={["90%", "90%", "80%", "60%", "50%"]}
           fontWeight="800"
+          width={["90%", "90%", "80%", "60%", "50%"]}
           fontSize={["5xl", "7xl", "7xl", "8xl", "8xl"]}
-          lineHeight={["52px", "60px", "78px", "78px", "78px"]}
+          lineHeight={["2.9rem", "3.5rem", "3.5rem", "5rem", "4xl"]}
           mx="auto"
         >
           Take control of your new tab page
@@ -24,7 +24,7 @@ export const LandingPageHero: React.FC<LandingPageHeroProps> = ({}) => {
           fontSize={["lg", "xl", "2xl"]}
           color="#666"
           width={["85%", "90%", "80%", "55%"]}
-          lineHeight="38px"
+          lineHeight={["24px", "38px"]}
           fontWeight="500"
           mx="auto"
         >
@@ -42,6 +42,7 @@ export const LandingPageHero: React.FC<LandingPageHeroProps> = ({}) => {
         bg="#ffe8e0"
         borderRadius="3xl"
         py="6"
+        px="6"
         _hover={{
           transform: "translateY(-2px)",
         }}

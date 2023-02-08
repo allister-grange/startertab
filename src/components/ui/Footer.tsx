@@ -2,6 +2,7 @@ import { Box, BoxProps, Flex, Heading, Text } from "@chakra-ui/react";
 import Link from "next/link";
 import React from "react";
 import { GithubSvg } from "@/components/icons/GithubSvg";
+import { StarterTabLogo } from "@/components/ui/StarterTabLogo";
 
 export const Footer: React.FC<BoxProps> = (props) => {
   return (
@@ -22,12 +23,9 @@ export const Footer: React.FC<BoxProps> = (props) => {
       >
         <Flex>
           <Flex flexDir="column" mt="4" pr="4" mb="4">
-            <Heading fontSize={["xl", "xl", "2xl"]} as="h3">
-              Starter Tab
-            </Heading>
+            <StarterTabLogo />
             <Heading
               fontSize={["sm", "md", "md"]}
-              mt="2"
               as="h3"
               color="gray.600"
               whiteSpace="nowrap"

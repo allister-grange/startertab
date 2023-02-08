@@ -47,7 +47,7 @@ export const LandingPagePhotoSection: React.FC<
               color={titleColor}
               fontWeight="800"
               fontSize={["3xl", "4xl", "5xl", "5xl", "5xl"]}
-              lineHeight={["28px", "32px", "40px", "40px", "40px"]}
+              lineHeight={["1.9rem", "2.5rem", "2.8rem", "2.8rem", "2.8rem"]}
               as="h3"
               minW={["0", "350px"]}
             >
@@ -79,10 +79,10 @@ export const LandingPagePhotoSection: React.FC<
             {isVideo ? (
               <Box width={["100%", "100%", "100%", "118%"]}>
                 <video
-                  autoPlay={true}
-                  loop={true}
-                  muted={true}
-                  playsInline={true}
+                  loop
+                  autoPlay
+                  playsInline
+                  muted
                   poster="https://startertab.com/landing_page/AnimatedDemoPoster.png"
                   style={{
                     overflow: "hidden",
