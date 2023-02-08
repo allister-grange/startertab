@@ -63,7 +63,7 @@ const TermsAndConditionsPage: React.FC<indexProps> = ({}) => {
             4. Links
           </Heading>
           <Text mt="2">
-            Starter Tab has not reviewed all of the sites linked to its website
+            StarterTab has not reviewed all of the sites linked to its website
             and is not responsible for the contents of any such linked site. The
             inclusion of any link does not imply endorsement by OpenSay of the
             site. Use of any such linked website is at the user&apos;s own risk.
@@ -76,7 +76,7 @@ const TermsAndConditionsPage: React.FC<indexProps> = ({}) => {
             any time without notice to the user. By using the website, the user
             agrees to be bound by these terms of service.
           </Text>
-          <Text mt="6">Thank you for using Starter Tab 😎</Text>
+          <Text mt="6">Thank you for using StarterTab 😎</Text>
         </Box>
       </Flex>
       <Footer />

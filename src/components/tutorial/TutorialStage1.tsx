@@ -38,7 +38,7 @@ export const TutorialStage1: React.FC<TutorialStage1Props> = ({
             color="black"
             mt="2.5rem"
           >
-            Starter Tab ✌
+            StarterTab ✌
           </Heading>
           <Text mt="2" fontSize={"28px"} color="gray.900">
             Your &apos;New Tab&apos; page with a twist

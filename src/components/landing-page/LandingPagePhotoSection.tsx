@@ -106,7 +106,7 @@ export const LandingPagePhotoSection: React.FC<
                 src={imagePath}
                 width={["100%", "100%", "100%", "120%"]}
                 borderRadius="16px"
-                alt="Screenshot of Starter Tab"
+                alt="Screenshot of StarterTab"
                 marginX={["auto", "auto", "auto", "0", "0"]}
               />
             )}

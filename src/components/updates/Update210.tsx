@@ -3,9 +3,9 @@ import React from "react";
 
 export const Update210: React.FC = () => {
   return (
-    <Box id="v2.10">
+    <Box id="v2.1.0">
       <Heading as="h2" fontSize="2xl" mt="6">
-        v2.10 - Customize your grid
+        v2.1.0 - Customize your grid
       </Heading>
       <Text
         mt="1"

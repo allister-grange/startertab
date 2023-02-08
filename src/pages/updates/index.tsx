@@ -56,7 +56,7 @@ const UpdatesPage: React.FC = ({}) => {
             mt={["0", "0", "5"]}
             href="/"
           >
-            Take me back to Starter Tab 👈
+            Take me back to StarterTab 👈
           </Link>
         </Flex>
         <hr style={{ width: "100%", background: "#e2e8f0" }} />
@@ -65,9 +65,9 @@ const UpdatesPage: React.FC = ({}) => {
             <Link
               onClick={onAnchorClick}
               style={{ color: "green" }}
-              href="#v2.10"
+              href="#v2.1.0"
             >
-              v2.10
+              v2.1.0
             </Link>
           </ListItem>
           <ListItem>

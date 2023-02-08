@@ -29,7 +29,7 @@ const PrivacyPage: React.FC<indexProps> = ({}) => {
             Last update: 27/01/2023
           </Text>
           <Text mt="6">
-            At Starter Tab, we value your privacy. Our open-source codebase does
+            At StarterTab, we value your privacy. Our open-source codebase does
             not collect, store, or share any personal information from users.
           </Text>
           <Text mt="6">
@@ -63,7 +63,7 @@ const PrivacyPage: React.FC<indexProps> = ({}) => {
             </a>
             .
           </Text>
-          <Text mt="6">Thank you for using Starter Tab 😎</Text>
+          <Text mt="6">Thank you for using StarterTab 😎</Text>
         </Box>
       </Flex>
       <Footer />
