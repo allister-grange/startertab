@@ -63,6 +63,7 @@ export const SpotifyTopArtistsTile: React.FC<SmallSpotifyTileProps> = ({
   return (
     <Box color={color} height="100%" p="2" position="relative">
       <Link
+        target="_top"
         fontSize="md"
         pos="absolute"
         color={color}

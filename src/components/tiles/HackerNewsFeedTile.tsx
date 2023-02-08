@@ -79,6 +79,7 @@ export const HackerNewsFeedTile: React.FC<PageProps> = ({ tileId }) => {
         <Text>
           If this error continues to persist, please open a{" "}
           <Link
+            target="_top"
             style={{ textDecoration: "underline" }}
             href="https://github.com/allister-grange/startertab/issues"
           >
@@ -96,7 +97,7 @@ export const HackerNewsFeedTile: React.FC<PageProps> = ({ tileId }) => {
       <UnorderedList margin="0" mt="4">
         {data?.map((link) => (
           <ListItem listStyleType="none" key={link.time + link.author} mt="3">
-            <Link href={link.url}>
+            <Link href={link.url} target="_top">
               {displayingOnWideTile
                 ? link.title
                 : truncateString(link.title, 90)}
@@ -117,6 +118,7 @@ export const HackerNewsFeedTile: React.FC<PageProps> = ({ tileId }) => {
     <Box px="4" color={color} position="relative" ref={divRef}>
       <Heading mt="3" fontSize="xl">
         <Link
+          target="_top"
           href="https://news.ycombinator.com"
           aria-label="Link to Hacker News"
         >

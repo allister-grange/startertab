@@ -48,6 +48,7 @@ export const MeetingCard: React.FC<MeetingCardProps> = ({
             whiteSpace="nowrap"
             textOverflow="ellipsis"
             overflow="hidden"
+            target="_top"
           >
             {subject}
           </Link>

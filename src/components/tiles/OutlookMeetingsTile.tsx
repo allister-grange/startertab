@@ -59,6 +59,7 @@ export const OutlookMeetingsTile: React.FC<OutlookFeedTileProps> = ({
         <Text>
           If this error continues to persist, please open a{" "}
           <Link
+            target="_top"
             style={{ textDecoration: "underline" }}
             href="https://github.com/allister-grange/startertab/issues"
           >

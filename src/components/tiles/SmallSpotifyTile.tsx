@@ -82,6 +82,7 @@ export const SmallSpotifyTile: React.FC<SmallSpotifyTileProps> = ({
   return (
     <Box color={color} height="100%" p="4" position="relative">
       <Link
+        target="_top"
         fontSize="md"
         pos="absolute"
         color={color}
@@ -96,7 +97,7 @@ export const SmallSpotifyTile: React.FC<SmallSpotifyTileProps> = ({
       </Link>
       <Flex dir="row" pl="6" pt="3">
         {songTitle && songArtist ? (
-          <Link href={link}>
+          <Link target="_top" href={link}>
             <Heading fontSize={getFontSize(songTitle)}>{songTitle}</Heading>
             <Heading
               display="inline"

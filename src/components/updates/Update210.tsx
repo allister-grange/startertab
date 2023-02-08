@@ -52,6 +52,7 @@ export const Update210: React.FC = () => {
         <Text mt="2">
           Thank you{" "}
           <Link
+            target="_top"
             style={{
               textDecoration: "underline",
               textDecorationColor: "#9CB79B",
@@ -68,6 +69,7 @@ export const Update210: React.FC = () => {
           that are persisted into local storage. This required writing scripts
           to go into the{" "}
           <Link
+            target="_top"
             style={{
               textDecoration: "underline",
               textDecorationColor: "#9CB79B",

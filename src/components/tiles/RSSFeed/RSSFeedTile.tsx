@@ -121,6 +121,7 @@ export const RSSFeedTile: React.FC<RSSFeedTileProps> = ({ tileId }) => {
         <Text>
           If this error continues to persist, please open a{" "}
           <Link
+            target="_top"
             style={{ textDecoration: "underline" }}
             href="https://github.com/allister-grange/startertab/issues"
           >
@@ -202,7 +203,7 @@ export const RSSFeedTile: React.FC<RSSFeedTileProps> = ({ tileId }) => {
         <UnorderedList margin="0" mt="4">
           {orderedRssFeedData?.map((feed) => (
             <ListItem listStyleType="none" key={feed.date + feed.link} mt="3">
-              <Link href={feed.link}>
+              <Link href={feed.link} target="_top">
                 {displayingOnWideTile
                   ? feed.title
                   : truncateString(feed.title, 90)}

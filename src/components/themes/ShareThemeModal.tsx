@@ -285,6 +285,7 @@ export const ShareThemeModal: React.FC<ShareThemeModalProps> = ({
                     There was an error uploading your theme, please try again
                     later. If this continues to happen, open a ticket on{" "}
                     <Link
+                      target="_top"
                       style={{ textDecoration: "underline" }}
                       href="https://github.com/allister-grange/startertab/issues"
                     >

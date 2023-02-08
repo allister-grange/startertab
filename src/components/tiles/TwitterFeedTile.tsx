@@ -66,6 +66,7 @@ export const TwitterFeedTile: React.FC<TwitterFeedTileProps> = ({ tileId }) => {
         <Text>
           If this error continues to persist, please open a{" "}
           <Link
+            target="_top"
             style={{ textDecoration: "underline" }}
             href="https://github.com/allister-grange/startertab/issues"
           >
@@ -81,6 +82,7 @@ export const TwitterFeedTile: React.FC<TwitterFeedTileProps> = ({ tileId }) => {
         {twitterData.map((tweet) => (
           <ListItem listStyleType="none" key={tweet.id} mt="3">
             <Link
+              target="_top"
               href={`https://twitter.com/startertabeasteregg/statuses/${tweet.id}`}
             >
               {displayingOnWideTile
@@ -107,7 +109,11 @@ export const TwitterFeedTile: React.FC<TwitterFeedTileProps> = ({ tileId }) => {
         <TwitterLogo fill={color} height={20} width={20} />
       </Box>
       <Heading p="2" fontSize="xl" fontWeight="bold">
-        <Link aria-label="Link to Twitter" href="https://twitter.com/home">
+        <Link
+          aria-label="Link to Twitter"
+          target="_top"
+          href="https://twitter.com/home"
+        >
           Twitter Feed
         </Link>
       </Heading>

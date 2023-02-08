@@ -19,6 +19,7 @@ export const ShowNewTabToast: React.FC<ShowNewTabToastProps> = ({
         <Text>
           You&apos;ll have to use{" "}
           <Link
+            target="_top"
             color="coral"
             href="https://chrome.google.com/webstore/detail/custom-new-tab-url/mmjbdbjnoablegbkcklggeknkfcjkjia?hl=en"
           >
