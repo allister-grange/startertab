@@ -53,6 +53,7 @@ export default async function handler(
     });
 
     if (newTokensResponse.status >= 400) {
+      setExpiredCookies(res);
       return res
         .status(newTokensResponse.status)
         .send("There was an error refreshing the access tokens");
@@ -61,7 +62,6 @@ export default async function handler(
     const data = await newTokensResponse.json();
 
     if (!data.access_token || !data.refresh_token) {
-      setExpiredCookies(res);
       return res
         .status(401)
         .send("Your Spotify refresh token is invalid, please login again");

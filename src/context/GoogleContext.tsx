@@ -12,12 +12,16 @@ interface Props {
 }
 
 const fetcher = async () => {
-  const res = await fetch(`/api/google/meetings`);
-  if (res.status !== 200) {
-    throw new Error("Failed to get Google meetings");
+  try {
+    const res = await fetch(`/api/google/meetings`);
+    if (res.status !== 200) {
+      throw new Error("Failed to get Google meetings");
+    }
+    let data = (await res.json()) as GoogleMeetingEvent[];
+    return data;
+  } catch (err) {
+    throw new Error(err as string);
   }
-  let data = (await res.json()) as GoogleMeetingEvent[];
-  return data;
 };
 
 const GoogleContextProvider: React.FC<Props> = ({ children }) => {

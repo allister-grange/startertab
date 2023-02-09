@@ -1,9 +1,6 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import cookie from "cookie";
-import {
-  getGoogleRedirectUrl,
-  getOutlookRedirectUrl,
-} from "@/helpers/redirectHelpers";
+import { getGoogleRedirectUrl } from "@/helpers/redirectHelpers";
 
 const TOKEN_ENDPOINT = `https://oauth2.googleapis.com/token`;
 

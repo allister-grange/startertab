@@ -59,6 +59,7 @@ const SpotifyContextProvider: React.FC<Props> = ({ children }) => {
       let data = (await res.json()) as NowPlayingSpotifyData;
       setSpotifyData(data);
     } catch (err) {
+      clearInterval(refreshingInterval.current!);
       console.error("Failed fetching current song", err);
     }
   }, []);
@@ -81,8 +82,8 @@ const SpotifyContextProvider: React.FC<Props> = ({ children }) => {
     }
   }, []);
 
-  const setRefreshingInterval = React.useCallback(() => {
-    const interval = setInterval(fetchCurrentSong, 900);
+  const setRefreshingInterval = React.useCallback(async () => {
+    const interval = await setInterval(fetchCurrentSong, 900);
     refreshingInterval.current = interval;
   }, [fetchCurrentSong]);
 

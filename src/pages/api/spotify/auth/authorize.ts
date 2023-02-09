@@ -28,25 +28,15 @@ export default async function handler(
 
     const data = await getFirstAccessTokenFromCode(code as string);
 
-    const { access_token, refresh_token } = data;
+    const { access_token } = data;
 
-    if (!access_token || !refresh_token) {
-      res
-        .status(500)
-        .send("Didn't find access token or refresh token in Spotify response");
+    if (!access_token) {
+      res.status(500).send("Didn't find access token in Spotify response");
     }
 
     const AES = (await import("crypto-js/aes")).default;
 
     res.setHeader("Set-Cookie", [
-      cookie.serialize("spotifyRefreshToken", refresh_token, {
-        httpOnly: true,
-        secure: true,
-        maxAge: 34560000,
-        sameSite: "none",
-        path: "/",
-        encode: (value) => AES.encrypt(value, key).toString(),
-      }),
       cookie.serialize("spotifyAccessToken", access_token, {
         httpOnly: true,
         secure: true,

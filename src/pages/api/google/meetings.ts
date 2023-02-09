@@ -41,13 +41,12 @@ export default async function handler(
 
       // access token is stale, get a new token and re-call the fetch method
       if (!data) {
-        const tokens = await getNewTokens(refreshToken);
+        const tokens = await getNewTokens(refreshToken, res);
         if (tokens) {
           const { accessToken: newAccessToken } = tokens;
           data = await getGoogleMeetingsData(newAccessToken);
           await setNewTokenCookies(newAccessToken, res);
         } else {
-          setExpiredCookies(res);
           res
             .status(401)
             .send("Your Google refresh token is invalid, please login again");
@@ -104,7 +103,7 @@ export const getGoogleMeetingsData = async (accessToken: string) => {
   }
 };
 
-const getNewTokens = async (refreshToken: string) => {
+const getNewTokens = async (refreshToken: string, res: NextApiResponse) => {
   try {
     const postData = {
       refresh_token: refreshToken,
@@ -118,6 +117,11 @@ const getNewTokens = async (refreshToken: string) => {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(postData),
     });
+
+    if (response.status >= 400) {
+      setExpiredCookies(res);
+    }
+
     const data = await response.json();
 
     return { accessToken: data.access_token };
