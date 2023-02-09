@@ -34,7 +34,7 @@ export const LandingPageHero: React.FC<LandingPageHeroProps> = ({}) => {
         </Heading>
       </Flex>
 
-      <Button
+      {/* <Button
         variant="soft-rounded"
         mt="10"
         fontSize="xl"
@@ -49,7 +49,7 @@ export const LandingPageHero: React.FC<LandingPageHeroProps> = ({}) => {
       >
         <ChromeLogo />
         <Text ml="2">Add to Chrome</Text>
-      </Button>
+      </Button> */}
     </Box>
   );
 };
