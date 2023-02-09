@@ -11,7 +11,7 @@ const PrivacyPage: React.FC<indexProps> = ({}) => {
   }, []);
 
   return (
-    <Box>
+    <Box color="black">
       <Header />
       <Flex
         width={["100%", "90%", "70%", "60%", "50%"]}
@@ -40,6 +40,12 @@ const PrivacyPage: React.FC<indexProps> = ({}) => {
             from users. We may access or use some information during the
             operation of the software, this is used to track how many visits are
             made to the website. This is not personal information.
+          </Text>
+          <Text mt="6">
+            With third-party integrations the data returned from the services
+            are stored within your own browser. The data does not leave your
+            browser storage at any point. The data is not shared when you
+            publicly share a theme, it is taken out.
           </Text>
           <Text mt="6">
             The source code for our software is available for review, and we
