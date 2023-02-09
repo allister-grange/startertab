@@ -59,12 +59,12 @@ export const TutorialStage1: React.FC<TutorialStage1Props> = ({
             <OutlinedButton
               alignSelf="flex-start"
               fontSize="xl"
-              borderColor="tomato"
+              borderColor="black"
               onClick={() => {
                 setShowingTutorial(false);
                 setTutorialProgress(-1);
               }}
-              background="white"
+              borderRadius="30"
             >
               Skip Tutorial
             </OutlinedButton>
@@ -72,9 +72,11 @@ export const TutorialStage1: React.FC<TutorialStage1Props> = ({
               ml="20px"
               onClick={() => setTutorialProgress(1)}
               fontSize="xl"
-              borderColor="lightgreen"
               mr="2"
               background="white"
+              borderRadius="30"
+              px="6"
+              py="3"
             >
               Start Tutorial
             </OutlinedButton>
