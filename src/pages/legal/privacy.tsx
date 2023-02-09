@@ -1,4 +1,5 @@
 import { Footer } from "@/components/ui/Footer";
+import { Header } from "@/components/landing-page/LandingPageHeader";
 import { Box, Flex, Heading, Text } from "@chakra-ui/react";
 import React, { useEffect } from "react";
 
@@ -11,6 +12,7 @@ const PrivacyPage: React.FC<indexProps> = ({}) => {
 
   return (
     <Box>
+      <Header />
       <Flex
         width={["100%", "90%", "70%", "60%", "50%"]}
         mx="auto"

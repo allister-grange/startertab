@@ -1,5 +1,5 @@
 import { LandingPageDemoSections } from "@/components/landing-page/LandingPageDemoSections";
-import { LandingThemePageHeader } from "@/components/landing-page/LandingPageHeader";
+import { Header } from "@/components/landing-page/LandingPageHeader";
 import { LandingPageHero } from "@/components/landing-page/LandingPageHero";
 import { LandingPageMainVideo } from "@/components/landing-page/LandingPageMainVideo";
 import { Footer } from "@/components/ui/Footer";
@@ -13,7 +13,7 @@ export const LandingPage: React.FC = ({}) => {
 
   return (
     <Box>
-      <LandingThemePageHeader />
+      <Header />
       <LandingPageHero />
       <LandingPageMainVideo />
       <LandingPageDemoSections />

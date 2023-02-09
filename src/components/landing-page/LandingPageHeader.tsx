@@ -2,7 +2,7 @@ import { Box, Flex, Link } from "@chakra-ui/react";
 import React from "react";
 import { StarterTabLogo } from "@/components/ui/StarterTabLogo";
 
-export const LandingThemePageHeader: React.FC = () => {
+export const Header: React.FC = () => {
   return (
     <Box bg="white" width="100%">
       <Flex
