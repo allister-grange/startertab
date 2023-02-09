@@ -50,7 +50,7 @@ export function MyApp({
     <ErrorBoundary FallbackComponent={AppErrorBoundary}>
       <ChakraProvider colorModeManager={colorModeManager} theme={theme}>
         <Head>
-          <title>Starter Tab</title>
+          <title>StarterTab</title>
           <meta
             name="og:description"
             content="A customizable website to replace your 'New Tab' homepage"
@@ -62,7 +62,7 @@ export function MyApp({
           <meta property="og:image" content={"/demo.png"} />
           <meta
             property="og:title"
-            content="Starter Tab - A customizable homepage"
+            content="StarterTab - A customizable homepage"
           />
           <meta
             name="viewport"
