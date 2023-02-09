@@ -1,7 +1,7 @@
 import { TextFeedSkeleton } from "@/components/skeletons/TextFeedSkeleton";
 import { RSSFeedForm } from "@/components/tiles/RSSFeed/RSSFeedForm";
 import { OutlinedButton } from "@/components/ui/OutlinedButton";
-import { RSSLogo } from "@/components/ui/RSSLogo";
+import { RSSLogo } from "@/components/icons/RSSLogo";
 import { calculateTimeAgoString, truncateString } from "@/helpers/tileHelpers";
 import { rssFeedsSelector } from "@/recoil/UserSettingsSelectors";
 import { RSSFeed, RSSItem } from "@/types";
@@ -121,6 +121,7 @@ export const RSSFeedTile: React.FC<RSSFeedTileProps> = ({ tileId }) => {
         <Text>
           If this error continues to persist, please open a{" "}
           <Link
+            target="_top"
             style={{ textDecoration: "underline" }}
             href="https://github.com/allister-grange/startertab/issues"
           >
@@ -180,7 +181,7 @@ export const RSSFeedTile: React.FC<RSSFeedTileProps> = ({ tileId }) => {
     toDisplay = (
       <Box>
         <Box pos="absolute" top="4" right="4" height="18px" width="18px">
-          <RSSLogo color={color} />
+          <RSSLogo height={18} width={18} fill={color} />
         </Box>
         <Heading fontSize="xl" mt="3">
           Rss Feed
@@ -193,7 +194,7 @@ export const RSSFeedTile: React.FC<RSSFeedTileProps> = ({ tileId }) => {
     toDisplay = (
       <Box>
         <Box pos="absolute" top="4" right="4" height="18px" width="18px">
-          <RSSLogo color={color} />
+          <RSSLogo height={18} width={18} fill={color} />
         </Box>
         <Heading fontSize="xl" mt="3">
           Rss Feed
@@ -202,7 +203,7 @@ export const RSSFeedTile: React.FC<RSSFeedTileProps> = ({ tileId }) => {
         <UnorderedList margin="0" mt="4">
           {orderedRssFeedData?.map((feed) => (
             <ListItem listStyleType="none" key={feed.date + feed.link} mt="3">
-              <Link href={feed.link}>
+              <Link href={feed.link} target="_top">
                 {displayingOnWideTile
                   ? feed.title
                   : truncateString(feed.title, 90)}

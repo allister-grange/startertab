@@ -28,7 +28,7 @@ const StravaContextProvider: React.FC<Props> = ({ children }) => {
   React.useEffect(() => {
     const checkIfLoggedIn = async () => {
       try {
-        const res = await fetch("/api/strava/me");
+        const res = await fetch("/api/strava/auth/me");
         const { loggedIn } = await res.json();
         setIsAuthenticated(loggedIn);
       } catch (err) {
@@ -41,9 +41,9 @@ const StravaContextProvider: React.FC<Props> = ({ children }) => {
 
   const loginWithStrava = React.useCallback(async () => {
     try {
-      const res = await fetch("/api/strava/redirectUri");
+      const res = await fetch("/api/strava/auth/redirectUri");
       const redirectUri = (await res.json()).redirectUri;
-      window.location = redirectUri as (string | Location) & Location;
+      window.open(redirectUri);
     } catch (err) {
       throw new Error(err as string);
     }

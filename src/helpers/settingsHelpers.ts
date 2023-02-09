@@ -1,14 +1,7 @@
-import {
-  Option,
-  ThemeSettings,
-  TileSettingsKey,
-  TileSettings,
-  UserSettings,
-  TileSize,
-} from "@/types";
-import { setCookies } from "cookies-next";
-import { deepClone } from "@/helpers/tileHelpers";
 import { defaultGridLayout } from "@/helpers/gridLayout";
+import { deepClone } from "@/helpers/tileHelpers";
+import { ThemeSettings, TileSettings, TileSize, UserSettings } from "@/types";
+import { setCookies } from "cookies-next";
 
 export const applyTheme = (theme: ThemeSettings) => {
   document.body.style.background = theme.globalSettings.backgroundColor;

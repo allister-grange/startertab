@@ -1,6 +1,6 @@
 import { Box, Text } from "@chakra-ui/react";
 import React from "react";
-import { GithubSvg } from "@/components/ui/GithubSvg";
+import { GithubSvg } from "@/components/icons/GithubSvg";
 import Link from "next/link";
 
 interface SideBarFooterProps {
@@ -32,7 +32,7 @@ export const Footer: React.FC<SideBarFooterProps> = ({ textColor }) => {
         width="1px"
       />
       <Text ml="3" fontSize="12px">
-        &copy; 2022, Starter Tab - v2.10
+        &copy; 2022, StarterTab - v2.2.0
       </Text>
       <Box
         ml="3"

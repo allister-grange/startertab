@@ -32,7 +32,7 @@ export const ThemePageHeader: React.FC<ThemePageHeaderProps> = ({
           href="/"
           fontSize={["sm", "sm", "md"]}
         >
-          Take me back to Starter Tab 👈
+          Take me back to StarterTab 👈
         </Link>
       </Flex>
       <hr style={{ width: "100%" }} />

@@ -1,6 +1,6 @@
 import { TextFeedSkeleton } from "@/components/skeletons/TextFeedSkeleton";
 import { OutlinedButton } from "@/components/ui/OutlinedButton";
-import { TwitterLogo } from "@/components/ui/TwitterLogo";
+import { TwitterLogo } from "@/components/icons/TwitterLogo";
 import { TwitterContext } from "@/context/TwitterContext";
 import { calculateTimeAgoString, truncateString } from "@/helpers/tileHelpers";
 import { TwitterContextInterface } from "@/types";
@@ -48,7 +48,7 @@ export const TwitterFeedTile: React.FC<TwitterFeedTileProps> = ({ tileId }) => {
           borderColor={color}
         >
           Continue with Twitter&nbsp;
-          <TwitterLogo color={"#1E9CEA"} />
+          <TwitterLogo fill="#1E9CEA" height={20} width={20} />
         </OutlinedButton>
       </Center>
     );
@@ -66,6 +66,7 @@ export const TwitterFeedTile: React.FC<TwitterFeedTileProps> = ({ tileId }) => {
         <Text>
           If this error continues to persist, please open a{" "}
           <Link
+            target="_top"
             style={{ textDecoration: "underline" }}
             href="https://github.com/allister-grange/startertab/issues"
           >
@@ -81,6 +82,7 @@ export const TwitterFeedTile: React.FC<TwitterFeedTileProps> = ({ tileId }) => {
         {twitterData.map((tweet) => (
           <ListItem listStyleType="none" key={tweet.id} mt="3">
             <Link
+              target="_top"
               href={`https://twitter.com/startertabeasteregg/statuses/${tweet.id}`}
             >
               {displayingOnWideTile
@@ -103,11 +105,15 @@ export const TwitterFeedTile: React.FC<TwitterFeedTileProps> = ({ tileId }) => {
 
   return (
     <Box p="2" color={color} position="relative" mb="2" ref={divRef}>
-      <Box position="absolute" right="4" top="3">
-        <TwitterLogo color={color} />
+      <Box position="absolute" right="4" top="4">
+        <TwitterLogo fill={color} height={20} width={20} />
       </Box>
       <Heading p="2" fontSize="xl" fontWeight="bold">
-        <Link aria-label="Link to Twitter" href="https://twitter.com/home">
+        <Link
+          aria-label="Link to Twitter"
+          target="_top"
+          href="https://twitter.com/home"
+        >
           Twitter Feed
         </Link>
       </Heading>

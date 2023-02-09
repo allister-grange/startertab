@@ -31,7 +31,7 @@ const SpotifyContextProvider: React.FC<Props> = ({ children }) => {
   React.useEffect(() => {
     const checkIfLoggedIn = async () => {
       try {
-        const res = await fetch("/api/spotify/me");
+        const res = await fetch("/api/spotify/auth/me");
         const { loggedIn } = await res.json();
         setIsAuthenticated(loggedIn);
       } catch (err) {
@@ -52,13 +52,14 @@ const SpotifyContextProvider: React.FC<Props> = ({ children }) => {
       }
       // refresh tokens
       else if (res.status === 401) {
-        await fetch(`/api/spotify/refreshTokens`, { method: "POST" });
+        await fetch(`/api/spotify/auth/refreshTokens`, { method: "POST" });
         return;
       }
 
       let data = (await res.json()) as NowPlayingSpotifyData;
       setSpotifyData(data);
     } catch (err) {
+      clearInterval(refreshingInterval.current!);
       console.error("Failed fetching current song", err);
     }
   }, []);
@@ -70,7 +71,7 @@ const SpotifyContextProvider: React.FC<Props> = ({ children }) => {
 
       // refresh tokens
       if (res.status === 401) {
-        await fetch(`/api/spotify/refreshTokens`, { method: "POST" });
+        await fetch(`/api/spotify/auth/refreshTokens`, { method: "POST" });
         return;
       }
 
@@ -81,8 +82,8 @@ const SpotifyContextProvider: React.FC<Props> = ({ children }) => {
     }
   }, []);
 
-  const setRefreshingInterval = React.useCallback(() => {
-    const interval = setInterval(fetchCurrentSong, 900);
+  const setRefreshingInterval = React.useCallback(async () => {
+    const interval = await setInterval(fetchCurrentSong, 900);
     refreshingInterval.current = interval;
   }, [fetchCurrentSong]);
 
@@ -104,10 +105,10 @@ const SpotifyContextProvider: React.FC<Props> = ({ children }) => {
   ]);
 
   const loginWithSpotify = React.useCallback(async () => {
-    const res = await fetch("/api/spotify/redirectUri");
+    const res = await fetch("/api/spotify/auth/redirectUri");
     const redirectUri = (await res.json()).redirectUri;
 
-    window.location = redirectUri as (string | Location) & Location;
+    window.open(redirectUri);
   }, []);
 
   const skipSong = async (forward: boolean) => {
@@ -119,7 +120,7 @@ const SpotifyContextProvider: React.FC<Props> = ({ children }) => {
 
       // refresh tokens
       if (res.status === 401) {
-        await fetch(`/api/spotify/refreshTokens`, { method: "POST" });
+        await fetch(`/api/spotify/auth/refreshTokens`, { method: "POST" });
         return;
       }
     } catch (err) {
@@ -138,7 +139,7 @@ const SpotifyContextProvider: React.FC<Props> = ({ children }) => {
 
       // refresh tokens
       if (res.status === 401) {
-        await fetch(`/api/spotify/refreshTokens`, { method: "POST" });
+        await fetch(`/api/spotify/auth/refreshTokens`, { method: "POST" });
         return;
       }
     } catch (err) {

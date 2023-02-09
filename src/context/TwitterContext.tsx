@@ -33,7 +33,7 @@ const TwitterContextProvider: React.FC<Props> = ({ children }) => {
   React.useEffect(() => {
     const checkIfLoggedIn = async () => {
       try {
-        const res = await fetch("/api/twitter/me");
+        const res = await fetch("/api/twitter/auth/me");
         const { loggedIn } = await res.json();
         setIsAuthenticated(loggedIn);
       } catch (err) {
@@ -46,9 +46,9 @@ const TwitterContextProvider: React.FC<Props> = ({ children }) => {
 
   const loginWithTwitter = React.useCallback(async () => {
     try {
-      const res = await fetch("/api/twitter/redirectUri");
+      const res = await fetch("/api/twitter/auth/redirectUri");
       const redirectUri = (await res.json()).redirectUri;
-      window.location = redirectUri as (string | Location) & Location;
+      window.open(redirectUri);
     } catch (err) {
       throw new Error(err as string);
     }

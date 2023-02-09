@@ -19,3 +19,5 @@ export * from "./TwitterFeedTile";
 export * from "./MarkdownFileTile";
 export * from "./FavoriteLinksTile";
 export * from "./RSSFeed/RSSFeedTile";
+export * from "./OutlookMeetingsTile";
+export * from "./GoogleMeetingsTile";

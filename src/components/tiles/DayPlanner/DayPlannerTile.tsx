@@ -4,14 +4,9 @@ import { times } from "@/helpers/tileHelpers";
 import { Booking } from "@/types";
 import {
   Box,
-  Button,
   Flex,
   Modal,
-  ModalBody,
-  ModalCloseButton,
   ModalContent,
-  ModalFooter,
-  ModalHeader,
   ModalOverlay,
   Popover,
   PopoverContent,
@@ -294,7 +289,12 @@ const DayPlannerTileComponent: React.FC<DayPlannerTileProps> = ({
         ))}
         <Modal isOpen={isOpen} onClose={onClose}>
           <ModalOverlay />
-          <ModalContent width="370px" borderRadius="15px" overflow="hidden">
+          <ModalContent
+            onMouseDown={(e) => e.stopPropagation()}
+            width="370px"
+            borderRadius="15px"
+            overflow="hidden"
+          >
             <DayPlannerForm
               background="var(--bg-color-sidebar)"
               color="var(--text-color-sidebar)"

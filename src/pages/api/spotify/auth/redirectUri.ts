@@ -1,7 +1,7 @@
 import {
   getSpotifyRedirectUri,
   getSpotifyRedirectUrl,
-} from "@/helpers/apiHelpers";
+} from "@/helpers/redirectHelpers";
 import { NextApiRequest, NextApiResponse } from "next";
 
 const clientId = process.env.SPOTIFY_CLIENT_ID;

@@ -1,6 +1,6 @@
 import { OptionBadge } from "@/components/ui/OptionBadge";
 import { OutlinedButton } from "@/components/ui/OutlinedButton";
-import { StravaLogo } from "@/components/ui/StravaLogo";
+import { StravaLogo } from "@/components/icons/StravaLogo";
 import { StravaContext } from "@/context/StravaContext";
 import { StravaContextInterface, StravaGraphPoint } from "@/types/strava";
 import { Box, Center, Heading } from "@chakra-ui/react";
@@ -45,7 +45,7 @@ const StravaGraphTile: React.FC<PageProps> = ({ tileId }) => {
           borderColor={color}
         >
           Continue with Strava&nbsp;
-          <StravaLogo color={color} size={28} />
+          <StravaLogo fill="#FF7F4F" height={20} width={20} />
         </OutlinedButton>
       </Center>
     );

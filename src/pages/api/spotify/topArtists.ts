@@ -62,9 +62,9 @@ export default async function handler(
       res.setHeader("Set-Cookie", [
         cookie.serialize("spotifyAccessToken", spotifyData, {
           httpOnly: true,
-          secure: process.env.NODE_ENV !== "development",
+          secure: true,
           maxAge: 34560000,
-          sameSite: "strict",
+          sameSite: "none",
           path: "/",
           encode: (value) => AES.encrypt(value, key!).toString(),
         }),

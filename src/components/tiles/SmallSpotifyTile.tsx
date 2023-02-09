@@ -3,14 +3,14 @@ import {
   PlayIcon,
   SkipLeft,
   SkipRight,
-} from "@/components/ui/MediaControls";
+} from "@/components/icons/MediaControls";
 import { OutlinedButton } from "@/components/ui/OutlinedButton";
-import { SpotifyLogo } from "@/components/ui/SpotifyLogo";
+import { SpotifyLogo } from "@/components/icons/SpotifyLogo";
 import { SpotifyContext } from "@/context/SpotifyContext";
 import { NowPlayingSpotifyData, SpotifyContextInterface } from "@/types";
 import { Box, Center, Flex, Heading, Link, Skeleton } from "@chakra-ui/react";
 import React, { useContext } from "react";
-import { MusicControlButton } from "../ui/MusicControlButton";
+import { MusicControlButton } from "@/components/ui/MusicControlButton";
 
 type SmallSpotifyTileProps = {
   tileId: number;
@@ -73,7 +73,7 @@ export const SmallSpotifyTile: React.FC<SmallSpotifyTileProps> = ({
           borderColor={color}
         >
           Continue with Spotify&nbsp;
-          <SpotifyLogo color={color} size={20} />
+          <SpotifyLogo fill={color} height={20} width={20} />
         </OutlinedButton>
       </Center>
     );
@@ -82,6 +82,7 @@ export const SmallSpotifyTile: React.FC<SmallSpotifyTileProps> = ({
   return (
     <Box color={color} height="100%" p="4" position="relative">
       <Link
+        target="_top"
         fontSize="md"
         pos="absolute"
         color={color}
@@ -92,11 +93,11 @@ export const SmallSpotifyTile: React.FC<SmallSpotifyTileProps> = ({
         opacity="0.7"
         aria-label="Link to Spotify"
       >
-        <SpotifyLogo size={18} color={color} />
+        <SpotifyLogo fill={color} height={18} width={18} />
       </Link>
       <Flex dir="row" pl="6" pt="3">
         {songTitle && songArtist ? (
-          <Link href={link}>
+          <Link target="_top" href={link}>
             <Heading fontSize={getFontSize(songTitle)}>{songTitle}</Heading>
             <Heading
               display="inline"

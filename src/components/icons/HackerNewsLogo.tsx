@@ -1,10 +1,16 @@
 import React from "react";
 
 interface HackerNewsLogoProps {
-  color: string;
+  fill: string;
+  height: number;
+  width: number;
 }
 
-export const HackerNewsLogo: React.FC<HackerNewsLogoProps> = ({ color }) => {
+export const HackerNewsLogo: React.FC<HackerNewsLogoProps> = ({
+  fill,
+  height,
+  width,
+}) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -12,11 +18,11 @@ export const HackerNewsLogo: React.FC<HackerNewsLogoProps> = ({ color }) => {
       id="Capa_1"
       x="0px"
       y="0px"
-      width="20.961px"
-      height="20.961px"
+      height={height}
+      width={width}
+      fill={fill}
       viewBox="0 0 30.961 30.961"
       xmlSpace="preserve"
-      fill={color}
     >
       <g>
         <g>

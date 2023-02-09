@@ -1,4 +1,4 @@
-import { getTwitterRedirectUri } from "@/helpers/apiHelpers";
+import { getTwitterRedirectUri } from "@/helpers/redirectHelpers";
 import { NextApiResponse } from "next";
 
 const API_KEY = process.env.TWITTER_CLIENT_ID;

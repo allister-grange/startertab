@@ -3,9 +3,9 @@ import React from "react";
 
 export const Update210: React.FC = () => {
   return (
-    <Box>
+    <Box id="v2.1.0">
       <Heading as="h2" fontSize="2xl" mt="6">
-        v2.10 - Customize your grid
+        v2.1.0 - Customize your grid
       </Heading>
       <Text
         mt="1"
@@ -52,6 +52,7 @@ export const Update210: React.FC = () => {
         <Text mt="2">
           Thank you{" "}
           <Link
+            target="_top"
             style={{
               textDecoration: "underline",
               textDecorationColor: "#9CB79B",
@@ -68,6 +69,7 @@ export const Update210: React.FC = () => {
           that are persisted into local storage. This required writing scripts
           to go into the{" "}
           <Link
+            target="_top"
             style={{
               textDecoration: "underline",
               textDecorationColor: "#9CB79B",

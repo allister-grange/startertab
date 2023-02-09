@@ -1,6 +1,6 @@
 import { Box, Fade } from "@chakra-ui/react";
 import React from "react";
-import { BackArrow } from "@/components/ui/BackArrow";
+import { BackArrow } from "@/components/icons/BackArrow";
 import { MessageBubble } from "@/components/tutorial/MessageBubble";
 
 export const TutorialStage4: React.FC = ({}) => {

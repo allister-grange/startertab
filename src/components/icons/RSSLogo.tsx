@@ -1,19 +1,23 @@
 import React from "react";
 
 interface RSSLogoProps {
-  color: string;
+  fill: string;
+  height: number;
+  width: number;
 }
 
-export const RSSLogo: React.FC<RSSLogoProps> = ({ color }) => {
+export const RSSLogo: React.FC<RSSLogoProps> = ({ height, width, fill }) => {
   return (
     <svg
       version="1.1"
       x="0px"
       y="0px"
+      height={height}
+      width={width}
       viewBox="0 0 1000 1000"
       enableBackground="new 0 0 1000 1000"
       xmlSpace="preserve"
-      fill={color}
+      fill={fill}
     >
       <g>
         <g>

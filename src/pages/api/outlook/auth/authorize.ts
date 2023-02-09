@@ -1,10 +1,11 @@
-import { getSpotifyRedirectUrl } from "@/helpers/apiHelpers";
 import { NextApiRequest, NextApiResponse } from "next";
 import cookie from "cookie";
+import { getOutlookRedirectUrl } from "@/helpers/redirectHelpers";
 
-const TOKEN_ENDPOINT = `https://accounts.spotify.com/api/token`;
-const clientId = process.env.SPOTIFY_CLIENT_ID;
-const clientSecret = process.env.SPOTIFY_CLIENT_SECRET;
+const TOKEN_ENDPOINT = `https://login.microsoftonline.com/common/oauth2/v2.0/token`;
+
+const clientId = process.env.OUTLOOK_CLIENT_ID;
+const clientSecret = process.env.OUTLOOK_CLIENT_SECRET;
 const key = process.env.TOKEN_ENCRYPT_KEY;
 
 export default async function handler(
@@ -17,7 +18,7 @@ export default async function handler(
     } = req;
 
     if (!code) {
-      res.status(500).send("No code on the redirect from Spotify");
+      return res.status(500).send("No code on the redirect from Outlook");
     }
 
     if (!key) {
@@ -31,27 +32,29 @@ export default async function handler(
     const { access_token, refresh_token } = data;
 
     if (!access_token || !refresh_token) {
-      res
+      return res
         .status(500)
-        .send("Didn't find access token or refresh token in Spotify response");
+        .send(
+          "Didn't find access token or refresh token in Outlook token retrieval"
+        );
     }
 
     const AES = (await import("crypto-js/aes")).default;
 
     res.setHeader("Set-Cookie", [
-      cookie.serialize("spotifyRefreshToken", refresh_token, {
+      cookie.serialize("outlookRefreshToken", refresh_token, {
         httpOnly: true,
-        secure: process.env.NODE_ENV !== "development",
+        secure: true,
         maxAge: 34560000,
-        sameSite: "strict",
+        sameSite: "none",
         path: "/",
         encode: (value) => AES.encrypt(value, key).toString(),
       }),
-      cookie.serialize("spotifyAccessToken", access_token, {
+      cookie.serialize("outlookAccessToken", access_token, {
         httpOnly: true,
-        secure: process.env.NODE_ENV !== "development",
+        secure: true,
         maxAge: 34560000,
-        sameSite: "strict",
+        sameSite: "none",
         path: "/",
         encode: (value) => AES.encrypt(value, key).toString(),
       }),
@@ -64,25 +67,23 @@ export default async function handler(
 }
 
 const getFirstAccessTokenFromCode = async (code: string) => {
-  const redirectUri = getSpotifyRedirectUrl();
-
   try {
+    const headers = {
+      "Content-Type": "application/x-www-form-urlencoded",
+    };
+
     const response = await fetch(TOKEN_ENDPOINT, {
-      method: `POST`,
-      headers: {
-        Authorization:
-          "Basic " +
-          Buffer.from(clientId + ":" + clientSecret).toString("base64"),
-        "Content-Type": `application/x-www-form-urlencoded`,
-      },
-      body: new URLSearchParams({
-        grant_type: "authorization_code",
-        code,
-        redirect_uri: redirectUri,
-      }),
+      method: "POST",
+      headers: headers,
+      body:
+        `client_id=${clientId}&client_secret=${clientSecret}&` +
+        `code=${code}&grant_type=authorization_code&` +
+        `redirect_uri=${getOutlookRedirectUrl()}`,
     });
 
     const data = await response.json();
+
+    console.log(data);
 
     return data;
   } catch (err) {

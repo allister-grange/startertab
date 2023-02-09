@@ -3,7 +3,7 @@ import React from "react";
 
 export const Update200: React.FC = () => {
   return (
-    <Box>
+    <Box id="v2.00">
       <Heading as="h2" fontSize="2xl" mt="6">
         v2.00 - Build your themes in public
       </Heading>

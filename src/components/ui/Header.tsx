@@ -14,7 +14,7 @@ export const Header: React.FC<HeaderProps> = ({}) => {
         justifyContent="space-between"
       >
         <Box>
-          <Heading fontSize="3xl">Starter Tab</Heading>
+          <Heading fontSize="3xl">StarterTab</Heading>
           <Heading fontSize="sm" color="gray.600">
             Your New Tab solution
           </Heading>

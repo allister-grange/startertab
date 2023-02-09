@@ -98,6 +98,7 @@ export const RedditFeedTile: React.FC<RedditFeedProps> = ({ tileId }) => {
         <Text>
           If this error continues to persist, please open a{" "}
           <Link
+            target="_top"
             style={{ textDecoration: "underline" }}
             href="https://github.com/allister-grange/startertab/issues"
           >
@@ -114,7 +115,7 @@ export const RedditFeedTile: React.FC<RedditFeedProps> = ({ tileId }) => {
       <UnorderedList margin="0" mt="4">
         {data?.map((link) => (
           <ListItem listStyleType="none" key={link.id} mt="3">
-            <Link href={link.url}>
+            <Link target="_top" href={link.url}>
               {displayingOnWideTile
                 ? link.title
                 : truncateString(link.title, 90)}
@@ -146,6 +147,7 @@ export const RedditFeedTile: React.FC<RedditFeedProps> = ({ tileId }) => {
       </Box>
       <Heading py="2" fontSize="xl" fontWeight="bold">
         <Link
+          target="_top"
           aria-label="Link to Reddit"
           href={
             subRedditFeed

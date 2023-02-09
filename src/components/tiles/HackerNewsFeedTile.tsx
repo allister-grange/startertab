@@ -1,5 +1,5 @@
 import { TextFeedSkeleton } from "@/components/skeletons/TextFeedSkeleton";
-import { HackerNewsLogo } from "@/components/ui/HackerNewsLogo";
+import { HackerNewsLogo } from "@/components/icons/HackerNewsLogo";
 import { OptionBadge } from "@/components/ui/OptionBadge";
 import { calculateTimeAgoString, truncateString } from "@/helpers/tileHelpers";
 import { hackerNewsFeedSelector } from "@/recoil/UserSettingsSelectors";
@@ -79,6 +79,7 @@ export const HackerNewsFeedTile: React.FC<PageProps> = ({ tileId }) => {
         <Text>
           If this error continues to persist, please open a{" "}
           <Link
+            target="_top"
             style={{ textDecoration: "underline" }}
             href="https://github.com/allister-grange/startertab/issues"
           >
@@ -96,7 +97,7 @@ export const HackerNewsFeedTile: React.FC<PageProps> = ({ tileId }) => {
       <UnorderedList margin="0" mt="4">
         {data?.map((link) => (
           <ListItem listStyleType="none" key={link.time + link.author} mt="3">
-            <Link href={link.url}>
+            <Link href={link.url} target="_top">
               {displayingOnWideTile
                 ? link.title
                 : truncateString(link.title, 90)}
@@ -117,6 +118,7 @@ export const HackerNewsFeedTile: React.FC<PageProps> = ({ tileId }) => {
     <Box px="4" color={color} position="relative" ref={divRef}>
       <Heading mt="3" fontSize="xl">
         <Link
+          target="_top"
           href="https://news.ycombinator.com"
           aria-label="Link to Hacker News"
         >
@@ -124,7 +126,7 @@ export const HackerNewsFeedTile: React.FC<PageProps> = ({ tileId }) => {
         </Link>
       </Heading>
       <Box position="absolute" right="4" top="1" height="10px" width="20px">
-        <HackerNewsLogo color={color} />
+        <HackerNewsLogo height={20} width={20} fill={color} />
       </Box>
       <Box w="80%" bg="white" height="1px" mt="2" bgColor={underlineColor} />
       {display}

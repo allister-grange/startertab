@@ -183,70 +183,87 @@ const ManageThemes: React.FC = ({}) => {
 
   return (
     <QueryClientProvider client={queryClient}>
-      <Box
-        width={["500px", "95%", "90%", "84%", "72%"]}
-        mx="auto"
-        py="6"
-        px="2"
-        maxW="1500px"
-        height="100%"
-        color="black"
-      >
-        <ThemePageHeader showingPublicThemes={showingPublicThemes} />
-        <Flex mt="4">
-          <Button
-            variant="soft-rounded"
-            color={showingPublicThemes ? "gray.600" : "#276749"}
-            bg={showingPublicThemes ? undefined : "#C6F6D5"}
-            borderRadius="3xl"
-            onClick={() => setShowingPublicThemes(false)}
-          >
-            My Themes
-          </Button>
-          <Button
-            variant="soft-rounded"
-            bg={showingPublicThemes ? "#C6F6D5" : undefined}
-            color={showingPublicThemes ? "#276749" : "gray.600"}
-            borderRadius="3xl"
-            onClick={() => setShowingPublicThemes(true)}
-          >
-            Public Themes
-          </Button>
-        </Flex>
-
+      <>
+        <Box
+          width={["500px", "95%", "90%", "84%", "72%"]}
+          mx="auto"
+          py="6"
+          px="2"
+          maxW="1500px"
+          color="black"
+        >
+          <ThemePageHeader showingPublicThemes={showingPublicThemes} />
+          <Flex mt="4">
+            <Button
+              variant="soft-rounded"
+              color={showingPublicThemes ? "gray.600" : "#276749"}
+              bg={showingPublicThemes ? undefined : "#C6F6D5"}
+              borderRadius="3xl"
+              onClick={() => setShowingPublicThemes(false)}
+            >
+              My Themes
+            </Button>
+            <Button
+              variant="soft-rounded"
+              bg={showingPublicThemes ? "#C6F6D5" : undefined}
+              color={showingPublicThemes ? "#276749" : "gray.600"}
+              borderRadius="3xl"
+              onClick={() => setShowingPublicThemes(true)}
+            >
+              Public Themes
+            </Button>
+          </Flex>
+        </Box>
         {showingPublicThemes ? (
-          <PublicThemes
-            themes={publicThemes}
-            loading={isLoading}
-            orderingMethod={orderingMethod}
-            setOrderingMethod={handleOrderingMethodChange}
-            isFetchingNextPage={isFetchingNextPage}
-            searchFilter={searchFilter}
-            setSearchFilter={setSearchFilter}
-            saveThemeToSettings={saveThemeToSettings}
-            fetchNextPage={fetchNextPage}
-            hasNextPage={hasNextPage}
-            setReverseOrdering={setReverseOrdering}
-            reverseOrdering={reverseOrdering}
-            errorLoadingThemes={isError}
-          />
+          <Box
+            width={["500px", "95%", "90%", "84%", "72%"]}
+            mx="auto"
+            px="2"
+            maxW="1500px"
+            color="black"
+          >
+            <PublicThemes
+              themes={publicThemes}
+              loading={isLoading}
+              orderingMethod={orderingMethod}
+              setOrderingMethod={handleOrderingMethodChange}
+              isFetchingNextPage={isFetchingNextPage}
+              searchFilter={searchFilter}
+              setSearchFilter={setSearchFilter}
+              saveThemeToSettings={saveThemeToSettings}
+              fetchNextPage={fetchNextPage}
+              hasNextPage={hasNextPage}
+              setReverseOrdering={setReverseOrdering}
+              reverseOrdering={reverseOrdering}
+              errorLoadingThemes={isError}
+            />
+          </Box>
         ) : (
           <>
-            <PersonalThemes
-              copyToClipboard={copyToClipboard}
-              deleteTheme={deleteTheme}
-              themes={settings.themes}
-              setShowingPublicThemes={setShowingPublicThemes}
-              refetch={refetch}
-              setOrderingMethod={handleOrderingMethodChange}
-              changeThemeNameInSettings={changeThemeNameInSettings}
-              setReverseOrdering={setReverseOrdering}
-              cloneTheme={cloneTheme}
-            />
-            <Footer bg="#fafafa" width={["100%", "90%", "80%"]} mx="auto" />
+            <Box
+              width={["500px", "95%", "90%", "84%", "72%"]}
+              mx="auto"
+              px="2"
+              maxW="1500px"
+              color="black"
+              pb="16"
+            >
+              <PersonalThemes
+                copyToClipboard={copyToClipboard}
+                deleteTheme={deleteTheme}
+                themes={settings.themes}
+                setShowingPublicThemes={setShowingPublicThemes}
+                refetch={refetch}
+                setOrderingMethod={handleOrderingMethodChange}
+                changeThemeNameInSettings={changeThemeNameInSettings}
+                setReverseOrdering={setReverseOrdering}
+                cloneTheme={cloneTheme}
+              />
+            </Box>
+            <Footer bg="#fafafa" />
           </>
         )}
-      </Box>
+      </>
     </QueryClientProvider>
   );
 };

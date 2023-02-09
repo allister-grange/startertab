@@ -1,29 +1,36 @@
-import { Box, Flex, Heading, Link } from "@chakra-ui/react";
+import { Box, Flex, Link } from "@chakra-ui/react";
 import React from "react";
+import { StarterTabLogo } from "@/components/ui/StarterTabLogo";
 
 export const LandingThemePageHeader: React.FC = () => {
   return (
-    <Box>
-      <Flex direction={["column", "column", "row"]} mb="2" alignItems="center">
-        <Box>
-          <Heading fontSize="40px" color="white">
-            Stater Tab
-          </Heading>
-          <Heading as="h2" size="sm" color="gray.200">
-            Your new tab productivity hack
-          </Heading>
-        </Box>
-        <Link
-          display="block"
-          marginLeft={["0", "0", "auto"]}
-          mt={["0", "0", "5"]}
-          href="/"
-          color="gray.100"
-        >
-          Take me to the app 👉
-        </Link>
+    <Box bg="white" width="100%">
+      <Flex
+        as="nav"
+        align="center"
+        justify="space-between"
+        wrap="wrap"
+        bg="rgba(255,255,255,0.72)"
+        backdropFilter="saturate(180%) blur(20px) !important"
+        padding="1rem"
+        maxWidth="1200px"
+        margin="0 auto"
+        color="black"
+      >
+        <Flex align="center" mr={5}>
+          <StarterTabLogo />
+        </Flex>
+        <Flex justify="flex-end" align="center">
+          <Link
+            display="block"
+            href="/"
+            color="gray.700"
+            fontSize={["sm", "unset"]}
+          >
+            Take me to the app 👉
+          </Link>
+        </Flex>
       </Flex>
-      {/* <hr style={{ width: "100%", color: "white" }} /> */}
     </Box>
   );
 };

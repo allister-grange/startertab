@@ -1,7 +1,7 @@
 import { TextFeedSkeleton } from "@/components/skeletons/TextFeedSkeleton";
 import { OptionBadge } from "@/components/ui/OptionBadge";
 import { OutlinedButton } from "@/components/ui/OutlinedButton";
-import { SpotifyLogo } from "@/components/ui/SpotifyLogo";
+import { SpotifyLogo } from "@/components/icons/SpotifyLogo";
 import { SpotifyContext } from "@/context/SpotifyContext";
 import { spotifyTopArtistTimeLengthSelector } from "@/recoil/UserSettingsSelectors";
 import { SpotifyContextInterface } from "@/types";
@@ -54,7 +54,7 @@ export const SpotifyTopArtistsTile: React.FC<SmallSpotifyTileProps> = ({
           borderColor={color}
         >
           Continue with Spotify&nbsp;
-          <SpotifyLogo color={color} size={20} />
+          <SpotifyLogo fill={color} height={20} width={20} />
         </OutlinedButton>
       </Center>
     );
@@ -63,6 +63,7 @@ export const SpotifyTopArtistsTile: React.FC<SmallSpotifyTileProps> = ({
   return (
     <Box color={color} height="100%" p="2" position="relative">
       <Link
+        target="_top"
         fontSize="md"
         pos="absolute"
         color={color}
@@ -72,7 +73,7 @@ export const SpotifyTopArtistsTile: React.FC<SmallSpotifyTileProps> = ({
         top="2"
         opacity="0.7"
       >
-        <SpotifyLogo size={18} color={color} />
+        <SpotifyLogo fill={color} height={18} width={18} />
       </Link>
       <Heading p="2" fontSize="xl" fontWeight="bold">
         Top Spotify Artists

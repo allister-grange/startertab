@@ -1,0 +1,19 @@
+{
+  "manifest_version": 3,
+  "name": "Example",
+  "description": "A customizable website to replace your 'New Tab' homepage",
+  "version": "1.0",
+  "icons": {
+    "16": "assets/favicon.ico",
+    "32": "assets/favicon.ico",
+    "48": "assets/favicon.ico",
+    "128": "assets/favicon.ico"
+  },
+  "action": {
+    "default_popup": "popup.html"
+  },
+  "permissions": ["storage"],
+  "chrome_url_overrides": {
+    "newtab": "redirect.html"
+  }
+}

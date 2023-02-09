@@ -169,6 +169,7 @@ export const FavoriteLinksTile: React.FC<FavoriteLinksTileProps> = ({
               flexDir="row"
             >
               <Link
+                target="_top"
                 href={shortcut.url}
                 display="flex"
                 alignItems="center"

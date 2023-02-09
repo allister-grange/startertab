@@ -39,10 +39,17 @@ export default async function handler(
     let stravaData = await getStravaData(accessToken as string);
 
     if (!stravaData) {
-      const { accessToken: newAccessToken, refreshToken: newRefreshToken } =
-        await getNewOAuthTokens(refreshToken);
-      stravaData = await getStravaData(newAccessToken);
-      await setNewTokenCookies(newAccessToken, newRefreshToken, res);
+      try {
+        const { accessToken: newAccessToken, refreshToken: newRefreshToken } =
+          await getNewOAuthTokens(refreshToken);
+        stravaData = await getStravaData(newAccessToken);
+        await setNewTokenCookies(newAccessToken, newRefreshToken, res);
+      } catch {
+        setExpiredCookies(res);
+        res
+          .status(401)
+          .send("Your Strava refresh token is invalid, please login again");
+      }
     }
 
     res.status(200).json(stravaData);
@@ -265,19 +272,38 @@ const setNewTokenCookies = async (
   res.setHeader("Set-Cookie", [
     cookie.serialize("twitterAccessToken", accessToken, {
       httpOnly: true,
-      secure: process.env.NODE_ENV !== "development",
+      secure: true,
       maxAge: 34560000,
-      sameSite: "strict",
+      sameSite: "none",
       path: "/",
       encode: (value) => AES.encrypt(value, ENCRYPT_KEY!).toString(),
     }),
     cookie.serialize("twitterRefreshToken", refreshToken, {
       httpOnly: true,
-      secure: process.env.NODE_ENV !== "development",
+      secure: true,
       maxAge: 34560000,
-      sameSite: "strict",
+      sameSite: "none",
       path: "/",
       encode: (value) => AES.encrypt(value, ENCRYPT_KEY!).toString(),
+    }),
+  ]);
+};
+
+const setExpiredCookies = async (res: NextApiResponse) => {
+  res.setHeader("Set-Cookie", [
+    cookie.serialize("stravaAccessToken", "deleted", {
+      httpOnly: true,
+      secure: true,
+      maxAge: -1,
+      sameSite: "none",
+      path: "/",
+    }),
+    cookie.serialize("stravaRefreshToken", "deleted", {
+      httpOnly: true,
+      secure: true,
+      maxAge: -1,
+      sameSite: "none",
+      path: "/",
     }),
   ]);
 };

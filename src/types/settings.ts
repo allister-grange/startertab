@@ -50,6 +50,8 @@ export const TileTypes = [
   "Blank Tile",
   "Favorite Links Tile",
   "RSS Feed Tile",
+  "Outlook Meetings Tile",
+  "Google Meetings Tile",
   "None",
 ] as const;
 

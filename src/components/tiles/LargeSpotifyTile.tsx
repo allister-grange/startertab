@@ -3,10 +3,10 @@ import {
   PlayIcon,
   SkipLeft,
   SkipRight,
-} from "@/components/ui/MediaControls";
+} from "@/components/icons/MediaControls";
 import { MusicControlButton } from "@/components/ui/MusicControlButton";
 import { OutlinedButton } from "@/components/ui/OutlinedButton";
-import { SpotifyLogo } from "@/components/ui/SpotifyLogo";
+import { SpotifyLogo } from "@/components/icons/SpotifyLogo";
 import { SpotifyContext } from "@/context/SpotifyContext";
 import { NowPlayingSpotifyData, SpotifyContextInterface } from "@/types";
 import {
@@ -74,7 +74,7 @@ export const LargeSpotifyTile: React.FC<LargeSpotifyTileProps> = ({
           borderColor={color}
         >
           Continue with Spotify&nbsp;
-          <SpotifyLogo color={color} size={20} />
+          <SpotifyLogo fill={color} height={20} width={20} />
         </OutlinedButton>
       </Center>
     );
@@ -83,6 +83,7 @@ export const LargeSpotifyTile: React.FC<LargeSpotifyTileProps> = ({
   return (
     <Flex color={color} height="100%" p="4" pos="relative">
       <Link
+        target="_top"
         fontSize="md"
         pos="absolute"
         color={color}
@@ -90,7 +91,7 @@ export const LargeSpotifyTile: React.FC<LargeSpotifyTileProps> = ({
         opacity="0.7"
         aria-label="Link to Spotify"
       >
-        <SpotifyLogo size={24} color={color} />
+        <SpotifyLogo fill={color} height={24} width={24} />
       </Link>
       <Flex
         flexDir="column"
@@ -108,7 +109,7 @@ export const LargeSpotifyTile: React.FC<LargeSpotifyTileProps> = ({
             <Skeleton height="15px" mt="3" width="75%" />
           </Box>
         ) : (
-          <Link href={link} pos="absolute" top="20%" width="90%">
+          <Link href={link} target="_top" pos="absolute" top="20%" width="90%">
             <Heading fontSize={getFontSize(songTitle)}>{songTitle}</Heading>
             <Heading fontSize="xl" opacity="0.7">
               {songArtist}

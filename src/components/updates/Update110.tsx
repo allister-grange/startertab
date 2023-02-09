@@ -3,7 +3,7 @@ import React from "react";
 
 export const Update110: React.FC = () => {
   return (
-    <Box>
+    <Box id="v1.10">
       <Heading as="h2" fontSize="2xl" mt="6">
         v1.10 - Adding in the Markdown Tile and Favorites Tile
       </Heading>
