@@ -118,7 +118,11 @@ export const TwitterFeedTile: React.FC<TwitterFeedTileProps> = ({ tileId }) => {
         </Link>
       </Heading>
       <Box w="80%" bg="white" height="1px" ml="2" bgColor={color} />
-      {display}
+      {/* {display} */}
+      <Center mt="8">
+        You can blame{" "}
+        <a href="https://twitter.com/elonmusk/">&nbsp;@ElonMusk</a>
+      </Center>
     </Box>
   );
 };
