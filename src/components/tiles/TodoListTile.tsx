@@ -42,39 +42,29 @@ const TodoListTile: React.FC<TodoListProps> = ({
 
   const handleTodoTicked = (todo: TodoObject) => {
     const todosToUpdates = JSON.parse(JSON.stringify(todoList)) as TodoObject[];
-    const todoInState = todosToUpdates.find(
-      (todoToFind) => todoToFind.date === todo.date
-    );
-
-    if (!todoInState) {
-      return;
-    }
-
-    todoInState.done = !todoInState.done;
-    updateSettingsWithTodo(todosToUpdates);
+    const todos = todosToUpdates.map((todoToFind) => {
+      if (todo.date === todoToFind.date) {
+        return { ...todoToFind, done: !todoToFind.done };
+      }
+      return todoToFind;
+    });
+    updateSettingsWithTodo(todos);
   };
 
   const handleTodoDelete = (todo: TodoObject) => {
-    const todosToUpdates = [...(todoList || [])];
-    const todoInStateIndex = todosToUpdates.findIndex(
-      (todoToFind) => todoToFind.date === todo.date
+    updateSettingsWithTodo(
+      todoList?.filter((todoToFind) => todoToFind.date !== todo.date) || []
     );
-
-    if (todoInStateIndex === -1) {
-      return;
-    }
-
-    todosToUpdates.splice(todoInStateIndex, 1);
-    updateSettingsWithTodo(todosToUpdates);
   };
 
   const handleInputIconClick = () => {
     if (inputValue === "") {
       return;
     }
-    let newTodos = [...(todoList || [])];
-    newTodos.push({ done: false, title: inputValue, date: Date.now() });
-    updateSettingsWithTodo(newTodos);
+    updateSettingsWithTodo([
+      ...(todoList || []),
+      { done: false, title: inputValue, date: Date.now() },
+    ]);
     setInputValue("");
   };
 
