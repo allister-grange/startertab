@@ -26,7 +26,7 @@ export const LandingPagePhotoSection: React.FC<
 }) => {
   return (
     <section>
-      <Box width={["93%", "80%"]} mx="auto">
+      <Box width={["93%", "80%"]} mx="auto" maxW="1170px">
         <Flex
           columnGap="4"
           mt="8"
@@ -36,7 +36,6 @@ export const LandingPagePhotoSection: React.FC<
           borderRadius="16px"
           flexDir={["column", "column", "column", "row", "row"]}
           ml={["0", "0", "0", "-50px", "-50px"]}
-          maxW="100%"
         >
           <Flex
             flex="1"
@@ -76,8 +75,8 @@ export const LandingPagePhotoSection: React.FC<
             ml={["0", "0", "0", "80px", "80px"]}
             mt={["8", "10", "10", "0", "0"]}
           >
-            {isVideo ? (
-              <Box width={["100%", "100%", "100%", "118%"]}>
+            <Box width={["100%", "100%", "100%", "120%"]}>
+              {isVideo ? (
                 <video
                   loop
                   autoPlay
@@ -85,31 +84,31 @@ export const LandingPagePhotoSection: React.FC<
                   muted
                   poster="https://startertab.com/landing_page/AnimatedDemoPoster.png"
                   style={{
-                    overflow: "hidden",
-                    borderRadius: "16px",
                     width: "100%",
                     overflowClipMargin: "content-box",
                     objectFit: "contain",
-                    maxHeight: "675px",
-                    maxWidth: "1070px",
+                    maxWidth: "800px",
+                    overflow: "hidden",
+                    borderRadius: "16px",
                     boxShadow:
                       "0 20px 25px -5px rgba(0, 0, 0, 0.1),0 10px 10px -5px rgba(0, 0, 0, 0.04)",
                   }}
                 >
                   <source src={imagePath} type="video/mp4" />
                 </video>
-              </Box>
-            ) : (
-              <Image
-                boxShadow="xl"
-                maxW="800px"
-                src={imagePath}
-                width={["100%", "100%", "100%", "120%"]}
-                borderRadius="16px"
-                alt="Screenshot of StarterTab"
-                marginX={["auto", "auto", "auto", "0", "0"]}
-              />
-            )}
+              ) : (
+                <Image
+                  maxW="800px"
+                  src={imagePath}
+                  w="100%"
+                  alt="Screenshot of StarterTab"
+                  marginX={["auto", "auto", "auto", "0", "0"]}
+                  overflow="hidden"
+                  borderRadius="16px"
+                  boxShadow="xl"
+                />
+              )}
+            </Box>
           </Box>
         </Flex>
       </Box>
