@@ -74,6 +74,7 @@ export const Footer: React.FC<BoxProps> = (props) => {
             <Heading fontSize={["md", "lg"]} as="h3" mb="1">
               Product
             </Heading>
+            <Link href="/faq">FAQ</Link>
             <Link href="/themes">Public themes</Link>
             <Link href="/updates">Updates</Link>
           </Flex>

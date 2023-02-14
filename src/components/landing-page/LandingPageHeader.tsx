@@ -40,6 +40,9 @@ export const Header: React.FC = () => {
         <HStack columnGap="5" justify="flex-end" align="center">
           {!isSmallScreen ? (
             <>
+              <ChakraLink href="/faq" fontWeight="600">
+                FAQ
+              </ChakraLink>
               <ChakraLink href="/themes#public" fontWeight="600">
                 Themes
               </ChakraLink>
@@ -64,6 +67,9 @@ export const Header: React.FC = () => {
                 color="black"
               />
               <MenuList>
+                <MenuItem onClick={() => (window.location.href = "/faq")}>
+                  FAQ
+                </MenuItem>
                 <MenuItem
                   onClick={() => (window.location.href = "/themes#public")}
                 >
