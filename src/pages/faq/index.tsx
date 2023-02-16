@@ -2,6 +2,7 @@ import { Header } from "@/components/landing-page/LandingPageHeader";
 import { Footer } from "@/components/ui/Footer";
 import { Box, Flex, Heading, Text } from "@chakra-ui/react";
 import React, { useEffect } from "react";
+import Image from "next/image";
 
 export const FAQPage: React.FC = ({}) => {
   useEffect(() => {
@@ -40,7 +41,7 @@ export const FAQPage: React.FC = ({}) => {
             your StarterTab, making it uniquely yours.
           </Text>
 
-          <Heading as="h3" fontSize="md" mt="2" color="gray.600">
+          <Heading as="h3" fontSize="md" mt="4" color="gray.600">
             How do I remove and add tiles to my grid?
           </Heading>
           <Text>
@@ -48,44 +49,53 @@ export const FAQPage: React.FC = ({}) => {
             Tile Grid&apos; option in the settings sidebar to modify your grid
             to your needs.
           </Text>
+          <Box mt="4">
+            <Box
+              overflow="hidden"
+              borderRadius="16px"
+              boxShadow="lg"
+              // width="60%"
+              height="min-content"
+            >
+              <video
+                src={"/faq/EditTileGrid.mp4"}
+                autoPlay
+                playsInline
+                muted
+                loop
+              ></video>
+            </Box>
+            <Text textAlign="center" fontSize="sm" mt="2">
+              How to remove and add tiles to your grid
+            </Text>
+          </Box>
 
           <Heading as="h3" fontSize="md" mt="2" color="gray.600">
             How do I have a video for a background?
           </Heading>
           <Text>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-            eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
-            ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-            aliquip ex ea commodo consequat. Duis aute irure dolor in
-            reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
-            pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
-            culpa qui officia deserunt mollit anim id est laborum.
+            In your Background color input within &quot;Global Settings&quot;,
+            you can point it to a url to have a video for your background. Just
+            surround your url with &quot;url(&lt;YOUR URL HERE&gt;)&quot;. Like
+            this url(https://i.redd.it/glmqqqagx4891.gif). You should now have a
+            video for your background.
           </Text>
 
-          <Heading as="h3" fontSize="md" mt="2" color="gray.600">
+          <Heading as="h3" fontSize="md" mt="4" color="gray.600">
             A color gradient for a background?
           </Heading>
           <Text>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-            eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
-            ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-            aliquip ex ea commodo consequat. Duis aute irure dolor in
-            reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
-            pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
-            culpa qui officia deserunt mollit anim id est laborum.
+            Much like a video background, you have to enter in a special key
+            into the Background color input. This time you will need to use some
+            a css value for a linear gradient. This is an example that you can
+            try out: linear-gradient(to bottom right, #ABA1EE , #F29AD8).
           </Text>
 
-          <Heading as="h3" fontSize="md" mt="2" color="gray.600">
-            How are the tiles made transparent?
+          <Heading as="h3" fontSize="md" mt="4" color="gray.600">
+            How can I make transparent tiles?
           </Heading>
           <Text>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-            eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
-            ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-            aliquip ex ea commodo consequat. Duis aute irure dolor in
-            reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
-            pariatur. Excepteur sint occaecat cupidatat non proident, sunt in
-            culpa qui officia deserunt mollit anim id est laborum.
+            In any tile, set the background color to: rgba(255, 255, 255, 0.2).
           </Text>
         </Box>
         <Box mt="6">
