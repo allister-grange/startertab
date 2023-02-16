@@ -38,7 +38,7 @@ export const LandingPageDemoSections: React.FC<
             <OutlookLogo height={24} width={24} fill="#718096" />
             <GithubSvg height={24} width={24} fill="#718096" />
             <DuckDuckGoIcon height={7} width={7} fill="#718096" />
-            <GoogleIcon height={6} width={6} fill="#718096" />
+            <GoogleIcon height={24} width={24} fill="#718096" />
             <HackerNewsLogo height={24} width={24} fill="#718096" />
             <RSSLogo height={24} width={24} fill="#718096" />
             <StackOverFlowIcon height={24} width={24} fill="#718096" />
