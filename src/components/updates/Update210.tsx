@@ -55,7 +55,7 @@ export const Update210: React.FC = () => {
             target="_top"
             style={{
               textDecoration: "underline",
-              textDecorationColor: "#9CB79B",
+              textDecorationColor: "coral",
             }}
             href="https://github.com/react-grid-layout/react-grid-layout"
           >
@@ -72,7 +72,7 @@ export const Update210: React.FC = () => {
             target="_top"
             style={{
               textDecoration: "underline",
-              textDecorationColor: "#9CB79B",
+              textDecorationColor: "coral",
             }}
             href="https://startertab.com/themes"
           >
