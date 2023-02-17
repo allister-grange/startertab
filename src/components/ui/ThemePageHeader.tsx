@@ -1,4 +1,4 @@
-import { Box, Flex, Heading, Link } from "@chakra-ui/react";
+import { Box, Flex, Heading } from "@chakra-ui/react";
 import React from "react";
 
 interface ThemePageHeaderProps {
@@ -9,14 +9,14 @@ export const ThemePageHeader: React.FC<ThemePageHeaderProps> = ({
   showingPublicThemes,
 }) => {
   return (
-    <Box color="black">
+    <Flex color="black" textAlign="center">
       <Flex direction={["column", "column", "row"]} mb="2" alignItems="center">
         <Box>
-          <Heading fontSize="40px" textAlign={["center", "center", "unset"]}>
-            {showingPublicThemes ? "Public Themes" : "Your Themes"}
+          <Heading as="h2" textAlign={["center", "center", "unset"]}>
+            {showingPublicThemes ? "Public Themes" : "My Themes"}
           </Heading>
           <Heading
-            as="h2"
+            as="h3"
             size="sm"
             color="gray.700"
             textAlign={["center", "center", "unset"]}
@@ -26,16 +26,16 @@ export const ThemePageHeader: React.FC<ThemePageHeaderProps> = ({
               : "Manage your themes from this page"}
           </Heading>
         </Box>
-        <Link
+        {/* <Link
           marginLeft={["0", "0", "auto"]}
           mt={["1", "1", "5"]}
           href="/"
           fontSize={["sm", "sm", "md"]}
         >
           Take me back to StarterTab 👈
-        </Link>
+        </Link> */}
       </Flex>
-      <hr style={{ width: "100%" }} />
-    </Box>
+      {/* <hr style={{ width: "100%" }} /> */}
+    </Flex>
   );
 };

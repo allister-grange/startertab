@@ -12,7 +12,7 @@ export const NumberedBubble: React.FC<NumberedBubbleProps> = ({
   return (
     <Text
       borderRadius="50%"
-      background="var(--chakra-colors-purple-500)"
+      background="coral"
       width="24px"
       height="24px"
       color="white"

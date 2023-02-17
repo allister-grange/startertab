@@ -8,12 +8,10 @@ export const ShowUpdateToast: React.FC<ShowUpdateToastProps> = ({}) => {
 
   const showUpdateToast = useCallback(() => {
     toast({
-      title: "I've made another update! v2.10",
+      title: "I've made another update! v2.20",
       description: (
         <Text>
-          This is a another{" "}
-          <span style={{ textDecoration: "underline" }}>huge</span> update. You
-          can now drag, drop, delete and add tiles into your grid. Check it out{" "}
+          2 more tiles, Google and Outlook calendars. Check it out{" "}
           <Link color="coral" href="/updates">
             here
           </Link>
@@ -31,19 +29,20 @@ export const ShowUpdateToast: React.FC<ShowUpdateToastProps> = ({}) => {
     localStorage.removeItem("hasSeenNewUpdate1.10");
     localStorage.removeItem("hasSeenNewUpdate1.20");
     localStorage.removeItem("hasSeenNewUpdate2.00Counter");
+    localStorage.removeItem("hasSeenNewUpdate2.10Counter");
     const hasSeenNewUpdate = localStorage.getItem(
-      "hasSeenNewUpdate2.10Counter"
+      "hasSeenNewUpdate2.20Counter"
     );
     if (!hasSeenNewUpdate) {
-      localStorage.setItem("hasSeenNewUpdate2.10Counter", "1");
+      localStorage.setItem("hasSeenNewUpdate2.20Counter", "1");
     } else {
       localStorage.setItem(
-        "hasSeenNewUpdate2.10Counter",
+        "hasSeenNewUpdate2.20Counter",
         (parseInt(hasSeenNewUpdate) + 1).toString()
       );
-      // only on the sixth visit since the update do we want to show the toast
+      // only on the twelvth visit since the update do we want to show the toast
       // I don't want to spam people who just finished the tutorial with toasts
-      if (hasSeenNewUpdate === "6") {
+      if (hasSeenNewUpdate === "12") {
         showUpdateToast();
       }
     }
