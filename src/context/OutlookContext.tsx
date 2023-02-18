@@ -11,7 +11,11 @@ interface Props {
 }
 
 const fetcher = async () => {
-  const res = await fetch(`/api/outlook/meetings`);
+  const res = await fetch(
+    `/api/outlook/meetings?timezone=${
+      Intl.DateTimeFormat().resolvedOptions().timeZone
+    }`
+  );
   if (res.status !== 200) {
     throw new Error("Failed to get Outlook meetings");
   }

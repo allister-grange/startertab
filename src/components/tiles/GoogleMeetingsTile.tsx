@@ -93,12 +93,14 @@ export const GoogleMeetingsTile: React.FC<GoogleFeedTileProps> = ({
         {googleData.map((event, index) => {
           const start = new Date(event.start.dateTime);
           const end = new Date(event.end.dateTime);
-          let startTime = new Date(start).toLocaleString([], {
-            hour: "numeric",
-            minute: "2-digit",
-            hour12: true,
-            timeZone: event.start.timeZone,
-          });
+          let startTime = new Date(start).toLocaleString(
+            Intl.DateTimeFormat().resolvedOptions().locale,
+            {
+              hour: "numeric",
+              minute: "2-digit",
+              hourCycle: "h12",
+            }
+          );
           let duration = (
             (end.getTime() - start.getTime()) /
             (1000 * 60)

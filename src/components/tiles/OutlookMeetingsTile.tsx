@@ -82,11 +82,14 @@ export const OutlookMeetingsTile: React.FC<OutlookFeedTileProps> = ({
         {outlookData.map((event, index) => {
           const start = new Date(event.start.dateTime + "Z");
           const end = new Date(event.end.dateTime + "Z");
-          let startTime = new Date(start).toLocaleString([], {
-            hour: "numeric",
-            minute: "2-digit",
-            hour12: true,
-          });
+          let startTime = new Date(start).toLocaleString(
+            Intl.DateTimeFormat().resolvedOptions().locale,
+            {
+              hour: "numeric",
+              minute: "2-digit",
+              hourCycle: "h12",
+            }
+          );
           let duration = (
             (end.getTime() - start.getTime()) /
             (1000 * 60)

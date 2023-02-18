@@ -15,9 +15,14 @@ export default async function handler(
 ) {
   let accessToken = req.cookies["googleAccessToken"];
   let refreshToken = req.cookies["googleRefreshToken"];
+  const timezone = req.query["timezone"] as string | undefined;
 
   if (!accessToken || !refreshToken) {
     return res.status(400).send("Failed to provide access or refresh token");
+  }
+
+  if (!timezone) {
+    return res.status(400).send("Failed to provide timezone");
   }
 
   if (!ENCRYPT_KEY) {
@@ -37,14 +42,14 @@ export default async function handler(
 
   if (req.method === "GET") {
     try {
-      let data = await getGoogleMeetingsData(accessToken);
+      let data = await getGoogleMeetingsData(accessToken, timezone);
 
       // access token is stale, get a new token and re-call the fetch method
       if (!data) {
         const tokens = await getNewTokens(refreshToken, res);
         if (tokens) {
           const { accessToken: newAccessToken } = tokens;
-          data = await getGoogleMeetingsData(newAccessToken);
+          data = await getGoogleMeetingsData(newAccessToken, timezone);
           await setNewTokenCookies(newAccessToken, res);
         } else {
           res
@@ -63,7 +68,10 @@ export default async function handler(
   }
 }
 
-export const getGoogleMeetingsData = async (accessToken: string) => {
+export const getGoogleMeetingsData = async (
+  accessToken: string,
+  timezone: string
+) => {
   try {
     const now = new Date();
     let today: string | Date = new Date(
@@ -82,7 +90,8 @@ export const getGoogleMeetingsData = async (accessToken: string) => {
     tomorrow = tomorrow.toISOString();
 
     const res = await fetch(
-      GOOGLE_MEETINGS_ENDPOINT + `?timeMin=${today}&timeMax=${tomorrow}`,
+      GOOGLE_MEETINGS_ENDPOINT +
+        `?timeMin=${today}&timeMax=${tomorrow}&timeZone=%${timezone}`,
       {
         headers: {
           Authorization: `Bearer ${accessToken}`,

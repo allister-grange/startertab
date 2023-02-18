@@ -14,9 +14,14 @@ export default async function handler(
 ) {
   let accessToken = req.cookies["outlookAccessToken"];
   let refreshToken = req.cookies["outlookRefreshToken"];
+  let timezone = req.query["timezone"] as string | undefined;
 
   if (!accessToken || !refreshToken) {
     return res.status(400).send("Failed to provide access or refresh token");
+  }
+
+  if (!timezone) {
+    return res.status(400).send("Failed to provide a timezone");
   }
 
   if (!ENCRYPT_KEY) {
@@ -36,7 +41,7 @@ export default async function handler(
 
   if (req.method === "GET") {
     try {
-      let data = await getOutlookMeetingsData(accessToken);
+      let data = await getOutlookMeetingsData(accessToken, timezone);
 
       // access token is stale, get a new token and re-call the fetch method
       if (!data) {
@@ -44,7 +49,7 @@ export default async function handler(
         if (tokens) {
           const { accessToken: newAccessToken, refreshToken: newRefreshToken } =
             tokens;
-          data = await getOutlookMeetingsData(newAccessToken);
+          data = await getOutlookMeetingsData(newAccessToken, timezone);
           await setNewTokenCookies(newAccessToken, newRefreshToken, res);
         } else {
           setExpiredCookies(res);
@@ -64,7 +69,10 @@ export default async function handler(
   }
 }
 
-export const getOutlookMeetingsData = async (accessToken: string) => {
+export const getOutlookMeetingsData = async (
+  accessToken: string,
+  timezone: string
+) => {
   try {
     const now = new Date();
     let today: string | Date = new Date(
@@ -88,6 +96,7 @@ export const getOutlookMeetingsData = async (accessToken: string) => {
       {
         headers: {
           Authorization: `Bearer ${accessToken}`,
+          "outlook.timezone": timezone,
         },
       }
     );
@@ -98,6 +107,8 @@ export const getOutlookMeetingsData = async (accessToken: string) => {
     }
 
     const data = (await res.json()) as OutlookMeetingResponse;
+
+    console.log(data.value);
 
     data.value.sort((a, b) => {
       // First, sort events that last 24 hours to the top

@@ -13,7 +13,11 @@ interface Props {
 
 const fetcher = async () => {
   try {
-    const res = await fetch(`/api/google/meetings`);
+    const res = await fetch(
+      `/api/google/meetings?timezone=${
+        Intl.DateTimeFormat().resolvedOptions().timeZone
+      }`
+    );
     if (res.status !== 200) {
       throw new Error("Failed to get Google meetings");
     }
