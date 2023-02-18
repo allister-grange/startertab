@@ -1,5 +1,6 @@
 import { OutlookMeetingResponse } from "@/types";
 import cookie from "cookie";
+import moment from "moment-timezone";
 import { NextApiRequest, NextApiResponse } from "next";
 
 const OUTLOOK_MEETINGS_ENDPOINT = `https://graph.microsoft.com/v1.0/me/calendarview`;
@@ -74,25 +75,16 @@ export const getOutlookMeetingsData = async (
   timezone: string
 ) => {
   try {
-    const now = new Date();
-    let today: string | Date = new Date(
-      now.getFullYear(),
-      now.getMonth(),
-      now.getDate()
-    );
-    today.setTime(today.getTime() + 1000);
-    today = today.toISOString();
-    let tomorrow: string | Date = new Date(
-      now.getFullYear(),
-      now.getMonth(),
-      now.getDate()
-    );
-    tomorrow.setTime(tomorrow.getTime() + 23 * 60 * 60 * 1000 + 59 * 60 * 1000);
-    tomorrow = tomorrow.toISOString();
+    // Get the current date and time in the timezone of the country you want to display meetings for
+    const now = moment().tz(timezone);
+    // Set the time to the start of the day (midnight)
+    const startOfDay = now.startOf("day");
+    // Set the time to the end of the day (11:59 PM)
+    const endOfDay = now.endOf("day");
 
     const res = await fetch(
       OUTLOOK_MEETINGS_ENDPOINT +
-        `?startDateTime=${today}&endDateTime=${tomorrow}`,
+        `?startDateTime=${startOfDay}&endDateTime=${endOfDay}`,
       {
         headers: {
           Authorization: `Bearer ${accessToken}`,

@@ -1,6 +1,7 @@
 import { GoogleMeetingResponse } from "@/types";
 import cookie from "cookie";
 import { NextApiRequest, NextApiResponse } from "next";
+import moment from "moment-timezone";
 
 const CALENDER_ID = "primary";
 const GOOGLE_MEETINGS_ENDPOINT = `https://www.googleapis.com/calendar/v3/calendars/${CALENDER_ID}/events`;
@@ -73,25 +74,16 @@ export const getGoogleMeetingsData = async (
   timezone: string
 ) => {
   try {
-    const now = new Date();
-    let today: string | Date = new Date(
-      now.getFullYear(),
-      now.getMonth(),
-      now.getDate()
-    );
-    today.setTime(today.getTime() + 1000);
-    today = today.toISOString();
-    let tomorrow: string | Date = new Date(
-      now.getFullYear(),
-      now.getMonth(),
-      now.getDate()
-    );
-    tomorrow.setTime(tomorrow.getTime() + 23 * 60 * 60 * 1000 + 59 * 60 * 1000);
-    tomorrow = tomorrow.toISOString();
+    // Get the current date and time in the timezone of the country you want to display meetings for
+    const now = moment().tz(timezone);
+    // Set the time to the start of the day (midnight)
+    const startOfDay = now.startOf("day");
+    // Set the time to the end of the day (11:59 PM)
+    const endOfDay = now.endOf("day");
 
     const res = await fetch(
       GOOGLE_MEETINGS_ENDPOINT +
-        `?timeMin=${today}&timeMax=${tomorrow}&timeZone=%${timezone}`,
+        `?timeMin=${startOfDay}&timeMax=${endOfDay}&timeZone=%${timezone}`,
       {
         headers: {
           Authorization: `Bearer ${accessToken}`,
