@@ -3,7 +3,7 @@ import { SettingTitle } from "@/components/theme-creator/SettingTitle";
 import { SidebarThemePicker } from "@/components/theme-creator/SidebarThemePicker";
 import { Footer } from "@/components/ui/Footer";
 import { OutlinedButton } from "@/components/ui/OutlinedButton";
-import { defaultGridLayout } from "@/helpers/gridLayout";
+import { newThemeGridLayout } from "@/helpers/gridLayout";
 import { userSettingState } from "@/recoil/UserSettingsAtom";
 import { UserSettings } from "@/types";
 import {
@@ -120,7 +120,7 @@ export const ThemeCreator: React.FC = ({}) => {
         ...settings.themes[0],
         themeName: formInputs.themeName,
         downloadedFromMarketplace: false,
-        tileLayout: defaultGridLayout,
+        tileLayout: newThemeGridLayout,
         globalSettings: {
           ...settings.themes[0].globalSettings,
           backgroundColor: formInputs.backgroundColor,
@@ -133,66 +133,25 @@ export const ThemeCreator: React.FC = ({}) => {
         },
         tiles: [
           {
-            ...settings.themes[0].tiles[0],
+            tileId: 0,
             backgroundColor: formInputs.backgroundColorOfTiles,
             textColor: formInputs.textColorOfTiles,
+            tileType: "None",
+            tileSize: "medium",
           },
           {
-            ...settings.themes[0].tiles[1],
+            tileId: 1,
             backgroundColor: formInputs.backgroundColorOfTiles,
             textColor: formInputs.textColorOfTiles,
-          },
-          {
-            ...settings.themes[0].tiles[2],
-            backgroundColor: formInputs.backgroundColorOfTiles,
-            textColor: formInputs.textColorOfTiles,
-          },
-          {
-            ...settings.themes[0].tiles[3],
-            backgroundColor: formInputs.backgroundColorOfTiles,
-            textColor: formInputs.textColorOfTiles,
-          },
-          {
-            ...settings.themes[0].tiles[4],
-            backgroundColor: formInputs.backgroundColorOfTiles,
-            textColor: formInputs.textColorOfTiles,
-          },
-          {
-            ...settings.themes[0].tiles[5],
-            backgroundColor: formInputs.backgroundColorOfTiles,
-            textColor: formInputs.textColorOfTiles,
-          },
-          {
-            ...settings.themes[0].tiles[6],
-            backgroundColor: formInputs.backgroundColorOfTiles,
-            textColor: formInputs.textColorOfTiles,
-          },
-          {
-            ...settings.themes[0].tiles[7],
-            backgroundColor: formInputs.backgroundColorOfTiles,
-            textColor: formInputs.textColorOfTiles,
-          },
-          {
-            ...settings.themes[0].tiles[8],
-            backgroundColor: formInputs.backgroundColorOfTiles,
-            textColor: formInputs.textColorOfTiles,
-          },
-          {
-            ...settings.themes[0].tiles[9],
-            backgroundColor: formInputs.backgroundColorOfTiles,
-            textColor: formInputs.textColorOfTiles,
-          },
-          {
-            ...settings.themes[0].tiles[10],
-            backgroundColor: formInputs.backgroundColorOfTiles,
-            textColor: formInputs.textColorOfTiles,
+            tileType: "None",
+            tileSize: "large",
           },
         ],
       },
     ];
     setSettings(newSettings);
     setColorMode(formInputs.themeName);
-    Router.push("/");
+    window.location.href = "/";
   };
 
   return (
