@@ -1,16 +1,11 @@
+import { Header } from "@/components/landing-page/LandingPageHeader";
 import { Footer } from "@/components/ui/Footer";
 import { Update110 } from "@/components/updates/Update110";
 import { Update120 } from "@/components/updates/Update120";
 import { Update200 } from "@/components/updates/Update200";
 import { Update210 } from "@/components/updates/Update210";
-import {
-  Box,
-  Flex,
-  Heading,
-  Link,
-  ListItem,
-  UnorderedList,
-} from "@chakra-ui/react";
+import { Update220 } from "@/components/updates/Update220";
+import { Box, Heading, Link, ListItem, UnorderedList } from "@chakra-ui/react";
 import React, { useEffect } from "react";
 
 const UpdatesPage: React.FC = ({}) => {
@@ -38,6 +33,7 @@ const UpdatesPage: React.FC = ({}) => {
 
   return (
     <>
+      <Header />
       <Box
         width={["100%", "90%", "70%", "60%", "50%"]}
         mx="auto"
@@ -46,58 +42,58 @@ const UpdatesPage: React.FC = ({}) => {
         maxW="1000px"
         color="black"
       >
-        <Flex direction={["column", "column", "row"]}>
-          <Heading mb="2" fontSize="40px">
-            Updates
-          </Heading>
-          <Link
-            display="block"
-            marginLeft={["0", "0", "auto"]}
-            mt={["0", "0", "5"]}
-            href="/"
-          >
-            Take me back to StarterTab 👈
-          </Link>
-        </Flex>
-        <hr style={{ width: "100%", background: "#e2e8f0" }} />
-        <UnorderedList mt="2" ml="6">
+        <Heading as="h1">Updates</Heading>
+        <UnorderedList listStyleType={"none"} margin="0" mt="6">
           <ListItem>
             <Link
               onClick={onAnchorClick}
-              style={{ color: "green" }}
+              style={{ color: "coral" }}
+              href="#v2.2.0"
+            >
+              v2.2.0 - New Tiles and Pages
+            </Link>
+          </ListItem>
+          <ListItem>
+            <Link
+              onClick={onAnchorClick}
+              style={{ color: "coral" }}
               href="#v2.1.0"
             >
-              v2.1.0
+              v2.1.0 - Customize your grid
             </Link>
           </ListItem>
           <ListItem>
             <Link
               onClick={onAnchorClick}
-              style={{ color: "green" }}
+              style={{ color: "coral" }}
               href="#v2.00"
             >
-              v2.00
+              v2.0.0 - Build your themes in public
             </Link>
           </ListItem>
           <ListItem>
             <Link
               onClick={onAnchorClick}
-              style={{ color: "green" }}
+              style={{ color: "coral" }}
               href="#v1.20"
             >
-              v1.20
+              v1.2.0 - RSS Feed Tile
             </Link>
           </ListItem>
           <ListItem>
             <Link
               onClick={onAnchorClick}
-              style={{ color: "green" }}
+              style={{ color: "coral" }}
               href="#v1.10"
             >
-              v1.10
+              v1.1.0 - Markdown and Favorites Tile
             </Link>
           </ListItem>
         </UnorderedList>
+        <Update220 />
+        <hr
+          style={{ width: "100%", marginTop: "18px", background: "#e2e8f0" }}
+        />
         <Update210 />
         <hr
           style={{ width: "100%", marginTop: "18px", background: "#e2e8f0" }}

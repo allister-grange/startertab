@@ -40,10 +40,10 @@ export const TutorialStage1: React.FC<TutorialStage1Props> = ({
           >
             StarterTab ✌
           </Heading>
-          <Text mt="2" fontSize={"28px"} color="gray.900">
+          <Text mt="-4" fontSize={"38"} color="gray.900">
             Your &apos;New Tab&apos; page with a twist
           </Text>
-          <Text mt="4" fontSize={"21px"} color="gray.800" width="80%">
+          {/* <Text mt="4" fontSize={"28px"} color="gray.800" width="80%">
             Heads up, this website does not store any of your personal data
             outside of your own browser, you own everything. If you&apos;d like
             to see the code,{" "}
@@ -54,7 +54,7 @@ export const TutorialStage1: React.FC<TutorialStage1Props> = ({
               take a peek
             </a>
             .
-          </Text>
+          </Text> */}
           <Box alignItems="flex-start" mt="35px">
             <OutlinedButton
               alignSelf="flex-start"
@@ -78,7 +78,7 @@ export const TutorialStage1: React.FC<TutorialStage1Props> = ({
               px="6"
               py="3"
             >
-              Start Tutorial
+              Start Tutorial (30 sec)
             </OutlinedButton>
           </Box>
         </Box>

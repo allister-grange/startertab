@@ -82,7 +82,10 @@ export const Update110: React.FC = () => {
         <Text mt="2">
           The update also came with some{" "}
           <a
-            style={{ color: "green" }}
+            style={{
+              textDecoration: "underline",
+              textDecorationColor: "coral",
+            }}
             href="https://github.com/allister-grange/startertab/commit/d4f95233d0bf4eebb98b37ead936268f6adbb750#diff-2253cd423eea18a81ea3bd654b9dc534b57c95ace204981c6ec03244cb675ed2"
           >
             fixes
@@ -96,7 +99,13 @@ export const Update110: React.FC = () => {
         </Text>
         <Text mt="2">
           Please feel free to reach out to me at{" "}
-          <a href="mailto:allistergrange@gmail.com" style={{ color: "green" }}>
+          <a
+            href="mailto:allistergrange@gmail.com"
+            style={{
+              textDecoration: "underline",
+              textDecorationColor: "coral",
+            }}
+          >
             allistergrange@gmail.com
           </a>{" "}
           if you have any suggestions! I&apos;d love to hear them.

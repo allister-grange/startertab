@@ -7,6 +7,7 @@ import { GoogleContextInterface } from "@/types";
 import { TimeIcon } from "@chakra-ui/icons";
 import { Badge, Box, Center, Heading, Link, Text } from "@chakra-ui/react";
 import React, { useContext, useRef, useState } from "react";
+import { GoogleIcon } from "@/components/icons";
 
 interface GoogleFeedTileProps {
   tileId: number;
@@ -37,11 +38,15 @@ export const GoogleMeetingsTile: React.FC<GoogleFeedTileProps> = ({
       <Center height="100%">
         <OutlinedButton
           onClick={loginWithGoogle}
-          color={color}
-          borderColor={color}
+          color="gray.700"
+          // borderColor="black"
+          shadow="lg"
+          background="white !important"
         >
-          Continue with Google&nbsp;
-          <GoogleCalendarLogo height={22} width={22} fill={color} />
+          <Box mr="4">
+            <GoogleIcon height={22} width={22} />
+          </Box>
+          Sign in with Google
         </OutlinedButton>
       </Center>
     );

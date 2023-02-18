@@ -406,3 +406,86 @@ export const defaultGridLayout: Layouts = {
     },
   ],
 };
+
+export const newThemeGridLayout: Layouts = {
+  lg: [
+    {
+      w: 1,
+      h: 4,
+      x: 1,
+      y: 0,
+      i: "0",
+      minH: 3,
+      minW: 1,
+    },
+    {
+      w: 2,
+      h: 4,
+      x: 2,
+      y: 0,
+      i: "1",
+      minH: 4,
+      minW: 2,
+    },
+  ],
+  md: [
+    {
+      w: 1,
+      h: 4,
+      x: 0,
+      y: 0,
+      i: "0",
+      minH: 3,
+      minW: 1,
+    },
+    {
+      w: 2,
+      h: 4,
+      x: 1,
+      y: 0,
+      i: "1",
+      minH: 4,
+      minW: 2,
+    },
+  ],
+  sm: [
+    {
+      w: 1,
+      h: 4,
+      x: 0,
+      y: 0,
+      i: "0",
+      minH: 3,
+      minW: 1,
+    },
+    {
+      w: 2,
+      h: 4,
+      x: 1,
+      y: 0,
+      i: "1",
+      minH: 4,
+      minW: 2,
+    },
+  ],
+  xs: [
+    {
+      w: 1,
+      h: 4,
+      x: 0,
+      y: 0,
+      i: "0",
+      minH: 3,
+      minW: 1,
+    },
+    {
+      w: 2,
+      h: 4,
+      x: 0,
+      y: 5,
+      i: "1",
+      minH: 4,
+      minW: 2,
+    },
+  ],
+};

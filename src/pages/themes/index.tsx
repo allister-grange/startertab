@@ -1,3 +1,4 @@
+import { Header } from "@/components/landing-page/LandingPageHeader";
 import { PersonalThemes } from "@/components/themes/PersonalThemes";
 import { PublicThemes } from "@/components/themes/PublicThemes";
 import { Footer } from "@/components/ui/Footer";
@@ -55,7 +56,7 @@ const ManageThemes: React.FC = ({}) => {
   const toast = useToast();
 
   useEffect(() => {
-    document.body.style.background = "#fafafa";
+    document.body.style.background = "white";
     if (router.asPath.includes("#public")) {
       setShowingPublicThemes(true);
     }
@@ -112,7 +113,7 @@ const ManageThemes: React.FC = ({}) => {
       (themeToFind) => themeToFind.themeName === theme.themeName
     );
 
-    if (index > -1) {
+    if (index > -1 && clonedSettings.themes.length > 1) {
       clonedSettings.themes.splice(index, 1);
     }
 
@@ -184,6 +185,7 @@ const ManageThemes: React.FC = ({}) => {
   return (
     <QueryClientProvider client={queryClient}>
       <>
+        <Header />
         <Box
           width={["500px", "95%", "90%", "84%", "72%"]}
           mx="auto"
@@ -192,26 +194,28 @@ const ManageThemes: React.FC = ({}) => {
           maxW="1500px"
           color="black"
         >
-          <ThemePageHeader showingPublicThemes={showingPublicThemes} />
-          <Flex mt="4">
-            <Button
-              variant="soft-rounded"
-              color={showingPublicThemes ? "gray.600" : "#276749"}
-              bg={showingPublicThemes ? undefined : "#C6F6D5"}
-              borderRadius="3xl"
-              onClick={() => setShowingPublicThemes(false)}
-            >
-              My Themes
-            </Button>
-            <Button
-              variant="soft-rounded"
-              bg={showingPublicThemes ? "#C6F6D5" : undefined}
-              color={showingPublicThemes ? "#276749" : "gray.600"}
-              borderRadius="3xl"
-              onClick={() => setShowingPublicThemes(true)}
-            >
-              Public Themes
-            </Button>
+          <Flex alignItems="center" flexDir="column">
+            <ThemePageHeader showingPublicThemes={showingPublicThemes} />
+            <Flex mt="2">
+              <Button
+                variant="soft-rounded"
+                color={showingPublicThemes ? "gray.600" : "#276749"}
+                bg={showingPublicThemes ? undefined : "#C6F6D5"}
+                borderRadius="3xl"
+                onClick={() => setShowingPublicThemes(false)}
+              >
+                My Themes
+              </Button>
+              <Button
+                variant="soft-rounded"
+                bg={showingPublicThemes ? "#C6F6D5" : undefined}
+                color={showingPublicThemes ? "#276749" : "gray.600"}
+                borderRadius="3xl"
+                onClick={() => setShowingPublicThemes(true)}
+              >
+                Public Themes
+              </Button>
+            </Flex>
           </Flex>
         </Box>
         {showingPublicThemes ? (
@@ -260,7 +264,7 @@ const ManageThemes: React.FC = ({}) => {
                 cloneTheme={cloneTheme}
               />
             </Box>
-            <Footer bg="#fafafa" />
+            <Footer bg="white" />
           </>
         )}
       </>

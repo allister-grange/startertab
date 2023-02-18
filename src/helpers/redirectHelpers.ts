@@ -92,7 +92,7 @@ export const getGoogleRedirectUri = (clientId: string, redirectUrl: string) => {
     "https://accounts.google.com/o/oauth2/v2/auth?" +
     `client_id=${clientId}` +
     `&redirect_uri=${encodeURIComponent(redirectUrl)}` +
-    `&scope=https://www.googleapis.com/auth/calendar` +
+    `&scope=https://www.googleapis.com/auth/calendar.events.readonly` +
     `&response_type=code` +
     `&access_type=offline`
   );

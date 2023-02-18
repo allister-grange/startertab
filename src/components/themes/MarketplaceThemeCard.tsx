@@ -109,7 +109,7 @@ export const MarketPlaceThemeCard: React.FC<MarketPlaceThemeCardProps> = ({
   return (
     <Box
       key={theme.id}
-      bg="white"
+      bg="#fafafa"
       p="4"
       borderRadius="md"
       shadow="md"

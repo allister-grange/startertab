@@ -49,7 +49,7 @@ export const SearchBarTile: React.FC<SearchBarProps> = ({ tileId }) => {
         onClick={() => searchClick("google")}
         aria-label="Search with Google"
       >
-        <GoogleIcon w={9} h={9} fill={color} />
+        <GoogleIcon width={32} height={32} fill={color} />
       </OutlinedButton>
       <OutlinedButton
         shadow="none"

@@ -1,8 +1,10 @@
-import { userSettingState } from "@/recoil/UserSettingsAtom";
 import { ColorPicker } from "@/components/theme-creator/ColorPicker";
 import { SettingTitle } from "@/components/theme-creator/SettingTitle";
 import { SidebarThemePicker } from "@/components/theme-creator/SidebarThemePicker";
+import { Footer } from "@/components/ui/Footer";
 import { OutlinedButton } from "@/components/ui/OutlinedButton";
+import { newThemeGridLayout } from "@/helpers/gridLayout";
+import { userSettingState } from "@/recoil/UserSettingsAtom";
 import { UserSettings } from "@/types";
 import {
   Box,
@@ -17,8 +19,6 @@ import Image from "next/image";
 import Router from "next/router";
 import React, { useState } from "react";
 import { useRecoilState } from "recoil";
-import { Footer } from "@/components/ui/Footer";
-import { defaultGridLayout } from "@/helpers/gridLayout";
 
 type FormInputs = {
   themeName: string;
@@ -100,13 +100,9 @@ export const ThemeCreator: React.FC = ({}) => {
       return;
     }
 
-    // put a new theme into local storage
-    const currentSettings = JSON.parse(
-      JSON.stringify(settings)
-    ) as UserSettings;
-
+    // we don't want duplicate them names
     if (
-      currentSettings.themes.some(
+      settings.themes.some(
         (theme) =>
           theme.themeName.toLowerCase() === formInputs.themeName.toLowerCase()
       )
@@ -115,212 +111,183 @@ export const ThemeCreator: React.FC = ({}) => {
       return;
     }
 
-    currentSettings.themes.push({
-      // push all the usual defaults onto the new theme, expect with the new settings
-      ...currentSettings.themes[0],
-      themeName: formInputs.themeName,
-      downloadedFromMarketplace: false,
-      tileLayout: defaultGridLayout,
-      globalSettings: {
-        ...currentSettings.themes[0].globalSettings,
-        backgroundColor: formInputs.backgroundColor,
-        textColor: formInputs.sidebarIsDarkTheme ? "#eee" : "#33393D",
-        sidebarBackgroundColor: formInputs.sidebarIsDarkTheme
-          ? "#222222"
-          : "#fff",
-        tileType: "None",
-        themePickerBubbleColor: formInputs.iconColor,
+    // put a new theme into local storage
+    const newSettings: UserSettings = { themes: [] };
+    newSettings.themes = [
+      ...settings.themes,
+      {
+        // push all the usual defaults onto the new theme, expect with the new settings
+        ...settings.themes[0],
+        themeName: formInputs.themeName,
+        downloadedFromMarketplace: false,
+        tileLayout: newThemeGridLayout,
+        globalSettings: {
+          ...settings.themes[0].globalSettings,
+          backgroundColor: formInputs.backgroundColor,
+          textColor: formInputs.sidebarIsDarkTheme ? "#eee" : "#33393D",
+          sidebarBackgroundColor: formInputs.sidebarIsDarkTheme
+            ? "#222222"
+            : "#fff",
+          tileType: "None",
+          themePickerBubbleColor: formInputs.iconColor,
+        },
+        tiles: [
+          {
+            tileId: 0,
+            backgroundColor: formInputs.backgroundColorOfTiles,
+            textColor: formInputs.textColorOfTiles,
+            tileType: "None",
+            tileSize: "medium",
+          },
+          {
+            tileId: 1,
+            backgroundColor: formInputs.backgroundColorOfTiles,
+            textColor: formInputs.textColorOfTiles,
+            tileType: "None",
+            tileSize: "large",
+          },
+        ],
       },
-      tiles: [
-        {
-          ...currentSettings.themes[0].tiles[0],
-          backgroundColor: formInputs.backgroundColorOfTiles,
-          textColor: formInputs.textColorOfTiles,
-        },
-        {
-          ...currentSettings.themes[0].tiles[1],
-          backgroundColor: formInputs.backgroundColorOfTiles,
-          textColor: formInputs.textColorOfTiles,
-        },
-        {
-          ...currentSettings.themes[0].tiles[2],
-          backgroundColor: formInputs.backgroundColorOfTiles,
-          textColor: formInputs.textColorOfTiles,
-        },
-        {
-          ...currentSettings.themes[0].tiles[3],
-          backgroundColor: formInputs.backgroundColorOfTiles,
-          textColor: formInputs.textColorOfTiles,
-        },
-        {
-          ...currentSettings.themes[0].tiles[4],
-          backgroundColor: formInputs.backgroundColorOfTiles,
-          textColor: formInputs.textColorOfTiles,
-        },
-        {
-          ...currentSettings.themes[0].tiles[5],
-          backgroundColor: formInputs.backgroundColorOfTiles,
-          textColor: formInputs.textColorOfTiles,
-        },
-        {
-          ...currentSettings.themes[0].tiles[6],
-          backgroundColor: formInputs.backgroundColorOfTiles,
-          textColor: formInputs.textColorOfTiles,
-        },
-        {
-          ...currentSettings.themes[0].tiles[7],
-          backgroundColor: formInputs.backgroundColorOfTiles,
-          textColor: formInputs.textColorOfTiles,
-        },
-        {
-          ...currentSettings.themes[0].tiles[8],
-          backgroundColor: formInputs.backgroundColorOfTiles,
-          textColor: formInputs.textColorOfTiles,
-        },
-        {
-          ...currentSettings.themes[0].tiles[9],
-          backgroundColor: formInputs.backgroundColorOfTiles,
-          textColor: formInputs.textColorOfTiles,
-        },
-        {
-          ...currentSettings.themes[0].tiles[10],
-          backgroundColor: formInputs.backgroundColorOfTiles,
-          textColor: formInputs.textColorOfTiles,
-        },
-      ],
-    });
-    setSettings(currentSettings);
+    ];
+    setSettings(newSettings);
     setColorMode(formInputs.themeName);
-    Router.push("/");
+    window.location.href = "/";
   };
 
   return (
-    <Box
-      height="100%"
-      width={["100%", "90%", "70%", "60%", "60%"]}
-      p="2"
-      mx="auto"
-      color="black"
-    >
-      <Flex>
-        <span style={{ fontSize: "140px" }}>🎨</span>
-        <Box my="auto" ml="8" width="55%">
-          <Heading color="black">Theme Creator</Heading>
-          <Text mt="2">
-            Here is a simple tool that allows you to create your own themes. The
-            settings you can change here are the &apos;global&apos; settings.
-            You can edit the rest of the theme once on the main screen.
-          </Text>
-        </Box>
-      </Flex>
-      <form onSubmit={submitThemeForm}>
-        <Box mb="12" mt="4" width="500px">
-          <SettingTitle displayNumber={1} title="THEME NAME" />
-          <Input
-            mt="6"
-            ml="4"
-            _focus={{
-              borderBottom: "1px solid var(--chakra-colors-purple-500)",
-            }}
-            _hover={{
-              borderBottom: "1px solid var(--chakra-colors-purple-500)",
-            }}
-            _placeholder={{
-              marginLeft: 0,
-              paddingLeft: 0,
-              fontSize: "30px",
-              paddingBottom: 0,
-              color: "gray.300",
-            }}
-            fontSize="30px"
-            placeholder="Sunset Theme"
-            border="0"
-            borderBottom="1px solid var(--chakra-colors-purple-500)"
-            borderRadius="0"
-            size="lg"
-            maxW="300px"
-            onChange={onThemeNameChange}
-            value={formInputs.themeName}
-          />
-        </Box>
-        <Grid
-          templateColumns="repeat(auto-fit, minmax(280px, 1fr))"
-          gridGap="20px"
-          alignContent="center"
-          maxWidth="1100px"
-        >
-          <Box>
-            <SettingTitle displayNumber={2} title="BACKGROUND COLOR" />
-            <ColorPicker
-              value={formInputs.backgroundColor}
-              onChange={onBackgroundColorChange}
-            />
+    <>
+      <Box
+        width={["100%", "90%", "70%", "60%", "60%"]}
+        p="2"
+        mx="auto"
+        color="black"
+      >
+        <Flex>
+          <span style={{ fontSize: "140px" }}>🎨</span>
+          <Box my="auto" ml="8" width="55%">
+            <Heading color="black">Theme Creator</Heading>
+            <Text mt="2">
+              Here is a simple tool that allows you to create your own themes.
+              The settings you can change here are the &apos;global&apos;
+              settings. You can edit the rest of the theme once on the main
+              screen.
+            </Text>
           </Box>
-          <Box>
-            <SettingTitle displayNumber={3} title="TILE BACKGROUND COLOR" />
-            <ColorPicker
-              value={formInputs.backgroundColorOfTiles}
-              onChange={onBackgroundColorOfTilesChange}
-            />
-          </Box>
-          <Box>
-            <SettingTitle displayNumber={4} title="TILE TEXT COLOR" />
-            <ColorPicker
-              value={formInputs.textColorOfTiles}
-              onChange={onTextColorOfTilesChange}
-            />
-          </Box>
-          <Box>
-            <SettingTitle displayNumber={5} title="SIDEBAR THEME" />
-            <Flex mt="10">
-              <SidebarThemePicker
-                mr="2"
-                isSelected={formInputs.sidebarIsDarkTheme}
-                onClick={() => onDarkThemeChange(true)}
-              >
-                <Image
-                  src="/darkSidebar.jpg"
-                  alt="dark sidebar option"
-                  layout="fill"
-                  objectFit="contain"
-                />
-              </SidebarThemePicker>
-              <SidebarThemePicker
-                ml="2"
-                isSelected={!formInputs.sidebarIsDarkTheme}
-                onClick={() => onDarkThemeChange(false)}
-              >
-                <Image
-                  src="/lightSidebar.jpg"
-                  alt="light sidebar option"
-                  layout="fill"
-                  objectFit="contain"
-                />
-              </SidebarThemePicker>
-            </Flex>
-          </Box>
-          <Box>
-            <SettingTitle displayNumber={6} title="THEME ICON COLOR" />
-            <ColorPicker
-              value={formInputs.iconColor}
-              onChange={onIconColorChange}
-            />
-          </Box>
-        </Grid>
-        <Flex mt="10" mb="10">
-          <OutlinedButton
-            fontWeight="800"
-            mt="2"
-            borderColor="var(--chakra-colors-purple-500)"
-            isDisabled={!formValid}
-            type="submit"
-          >
-            CREATE IT
-          </OutlinedButton>
         </Flex>
-      </form>
+        <form onSubmit={submitThemeForm}>
+          <Box mb="12" mt="4" width="500px">
+            <SettingTitle displayNumber={1} title="THEME NAME" />
+            <Input
+              mt="6"
+              ml="4"
+              _focus={{
+                borderBottom: "1px solid coral",
+                outline: "none",
+              }}
+              _focusVisible={{
+                borderBottom: "1px solid coral",
+                outline: "none",
+              }}
+              _hover={{
+                borderBottom: "1px solid coral",
+              }}
+              _placeholder={{
+                marginLeft: 0,
+                paddingLeft: 0,
+                fontSize: "30px",
+                paddingBottom: 0,
+                color: "gray.300",
+              }}
+              fontSize="30px"
+              placeholder="Sunset Theme"
+              border="0"
+              borderBottom="1px solid coral"
+              borderRadius="0"
+              size="lg"
+              maxW="300px"
+              onChange={onThemeNameChange}
+              value={formInputs.themeName}
+            />
+          </Box>
+          <Grid
+            templateColumns="repeat(auto-fit, minmax(280px, 1fr))"
+            gridGap="20px"
+            alignContent="center"
+            maxWidth="1100px"
+          >
+            <Box>
+              <SettingTitle displayNumber={2} title="BACKGROUND COLOR" />
+              <ColorPicker
+                value={formInputs.backgroundColor}
+                onChange={onBackgroundColorChange}
+              />
+            </Box>
+            <Box>
+              <SettingTitle displayNumber={3} title="TILE BACKGROUND COLOR" />
+              <ColorPicker
+                value={formInputs.backgroundColorOfTiles}
+                onChange={onBackgroundColorOfTilesChange}
+              />
+            </Box>
+            <Box>
+              <SettingTitle displayNumber={4} title="TILE TEXT COLOR" />
+              <ColorPicker
+                value={formInputs.textColorOfTiles}
+                onChange={onTextColorOfTilesChange}
+              />
+            </Box>
+            <Box>
+              <SettingTitle displayNumber={5} title="SIDEBAR THEME" />
+              <Flex mt="6">
+                <SidebarThemePicker
+                  mr="2"
+                  isSelected={formInputs.sidebarIsDarkTheme}
+                  onClick={() => onDarkThemeChange(true)}
+                >
+                  <Image
+                    src="/darkSidebar.jpg"
+                    alt="dark sidebar option"
+                    layout="fill"
+                    objectFit="contain"
+                  />
+                </SidebarThemePicker>
+                <SidebarThemePicker
+                  ml="2"
+                  isSelected={!formInputs.sidebarIsDarkTheme}
+                  onClick={() => onDarkThemeChange(false)}
+                >
+                  <Image
+                    src="/lightSidebar.jpg"
+                    alt="light sidebar option"
+                    layout="fill"
+                    objectFit="contain"
+                  />
+                </SidebarThemePicker>
+              </Flex>
+            </Box>
+            <Box>
+              <SettingTitle displayNumber={6} title="THEME ICON COLOR" />
+              <ColorPicker
+                value={formInputs.iconColor}
+                onChange={onIconColorChange}
+              />
+            </Box>
+          </Grid>
+          <Flex mt="10" mb="10">
+            <OutlinedButton
+              fontWeight="600"
+              mt="2"
+              borderColor="coral"
+              isDisabled={!formValid}
+              type="submit"
+            >
+              Create Theme
+            </OutlinedButton>
+          </Flex>
+        </form>
+      </Box>
       <Footer />
-    </Box>
+    </>
   );
 };
 

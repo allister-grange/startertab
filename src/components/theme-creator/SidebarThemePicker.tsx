@@ -17,15 +17,16 @@ export const SidebarThemePicker: React.FC<SidebarThemePickerProps> = ({
       width="230px"
       height="140px"
       borderRadius="15px"
-      border={isSelected ? "3px var(--chakra-colors-purple-500) solid" : "none"}
+      border={isSelected ? "3px coral solid" : "none"}
       p="2"
       pos="relative"
       overflow="visible"
+      shadow="none"
       {...props}
     >
       {isSelected ? (
         <Flex
-          background="var(--chakra-colors-purple-500)"
+          background="coral"
           width="32px"
           height="32px"
           pos="absolute"

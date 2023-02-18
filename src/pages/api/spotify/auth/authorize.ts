@@ -28,7 +28,7 @@ export default async function handler(
 
     const data = await getFirstAccessTokenFromCode(code as string);
 
-    const { access_token } = data;
+    const { access_token, refresh_token } = data;
 
     if (!access_token) {
       res.status(500).send("Didn't find access token in Spotify response");
@@ -38,6 +38,14 @@ export default async function handler(
 
     res.setHeader("Set-Cookie", [
       cookie.serialize("spotifyAccessToken", access_token, {
+        httpOnly: true,
+        secure: true,
+        maxAge: 34560000,
+        sameSite: "none",
+        path: "/",
+        encode: (value) => AES.encrypt(value, key).toString(),
+      }),
+      cookie.serialize("spotifyRefreshToken", refresh_token, {
         httpOnly: true,
         secure: true,
         maxAge: 34560000,
@@ -73,6 +81,8 @@ const getFirstAccessTokenFromCode = async (code: string) => {
     });
 
     const data = await response.json();
+
+    console.log(data);
 
     return data;
   } catch (err) {

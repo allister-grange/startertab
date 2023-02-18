@@ -44,7 +44,7 @@ export const PersonalThemeCard: React.FC<PersonalThemeCardProps> = ({
   return (
     <Box
       key={theme.themeName}
-      bg="white"
+      bg="#fafafa"
       p="4"
       borderRadius="md"
       shadow="md"
