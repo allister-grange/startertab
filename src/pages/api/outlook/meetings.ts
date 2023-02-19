@@ -75,20 +75,20 @@ export const getOutlookMeetingsData = async (
   timezone: string
 ) => {
   try {
-    // Get the current date and time in the timezone of the country you want to display meetings for
-    const now = moment().tz(timezone);
-    // Set the time to the start of the day (midnight)
-    const startOfDay = now.startOf("day");
-    // Set the time to the end of the day (11:59 PM)
-    const endOfDay = now.endOf("day");
+    const startOfDatMoment = moment().tz(timezone);
+    const startOfDay = startOfDatMoment.startOf("day");
+
+    const endOfDayMoment = moment().tz(timezone);
+    const endOfDay = endOfDayMoment.endOf("day");
 
     const res = await fetch(
       OUTLOOK_MEETINGS_ENDPOINT +
-        `?startDateTime=${startOfDay}&endDateTime=${endOfDay}`,
+        `?startDateTime=${encodeURIComponent(
+          startOfDay.format()
+        )}&endDateTime=${encodeURIComponent(endOfDay.format())}`,
       {
         headers: {
           Authorization: `Bearer ${accessToken}`,
-          "outlook.timezone": timezone,
         },
       }
     );
@@ -100,7 +100,9 @@ export const getOutlookMeetingsData = async (
 
     const data = (await res.json()) as OutlookMeetingResponse;
 
-    console.log(data.value);
+    if (!data.value) {
+      return [];
+    }
 
     data.value.sort((a, b) => {
       // First, sort events that last 24 hours to the top
@@ -116,6 +118,7 @@ export const getOutlookMeetingsData = async (
     return data.value;
   } catch (error) {
     console.error("Failed to fetch outlook meetings", error);
+    throw error;
   }
 };
 

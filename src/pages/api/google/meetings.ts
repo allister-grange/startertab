@@ -74,16 +74,17 @@ export const getGoogleMeetingsData = async (
   timezone: string
 ) => {
   try {
-    // Get the current date and time in the timezone of the country you want to display meetings for
-    const now = moment().tz(timezone);
-    // Set the time to the start of the day (midnight)
-    const startOfDay = now.startOf("day");
-    // Set the time to the end of the day (11:59 PM)
-    const endOfDay = now.endOf("day");
+    const startOfDatMoment = moment().tz(timezone);
+    const startOfDay = startOfDatMoment.startOf("day");
+
+    const endOfDayMoment = moment().tz(timezone);
+    const endOfDay = endOfDayMoment.endOf("day");
 
     const res = await fetch(
       GOOGLE_MEETINGS_ENDPOINT +
-        `?timeMin=${startOfDay}&timeMax=${endOfDay}&timeZone=%${timezone}`,
+        `?timeMin=${encodeURIComponent(
+          startOfDay.format()
+        )}&timeMax=${encodeURIComponent(endOfDay.format())}`,
       {
         headers: {
           Authorization: `Bearer ${accessToken}`,
@@ -101,6 +102,7 @@ export const getGoogleMeetingsData = async (
     return data.items;
   } catch (error) {
     console.error("Failed to fetch google meetings", error);
+    throw error;
   }
 };
 
