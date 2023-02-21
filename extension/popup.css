@@ -1,16 +1,16 @@
 body {
-  width: max-content;
+  width: 360px;
   margin: 6px;
-  padding-bottom: 1rem;
   background: white;
+  padding-inline: 10px;
 }
 
 header {
   display: flex;
   flex-direction: row;
-  color: #A1C5FD;
+  color: coral;
   align-items: center;
-  font-size: .8rem;
+  font-size: 1rem;
   font-weight: 800;
   line-height: .3rem;
 }
@@ -21,15 +21,49 @@ header {
 }
 
 .main {
-  padding-top: 1rem;
+  padding-top: .5rem;
   display: flex;
   flex-direction: column;
   row-gap: 10px;
-  font-size: 1rem;
+  font-size: .9rem;
 }
 
-.main_switch {
+.sub_heading {
   display: flex;
+  align-items: center;
+  font-size: 1.2rem;
+}
+
+.footer {
+  margin-top: 1rem;
+  display: flex;
+  column-gap: .3rem;
+  width: 100%;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.link_list {
+  padding-top: .7rem;
+  row-gap: .2rem;
+  display: grid;
+  grid-template-columns: 150px 200px;
+}
+
+ul {
+  margin: 0;
+  inset: 0;
+  padding: 0;
+  list-style: none;
+}
+
+a, a:visited, a:active {
+  color: inherit;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
 }
 
 input[type=checkbox] {
@@ -44,7 +78,7 @@ label {
   text-indent: -9999px;
   width: 30px;
   height: 15px;
-  background: grey;
+  background: #20020020;
   display: block;
   border-radius: 100px;
   position: relative;
@@ -53,21 +87,22 @@ label {
 label:after {
   content: '';
   position: absolute;
-  top: .1px;
-  left: .1px;
-  width: 15px;
-  height: 15px;
+  top: 1px;
+  left: 1px;
+  width: 13px;
+  height: 13px;
   background: #fff;
   border-radius: 90px;
   transition: 0.3s;
+  box-shadow: .5px .5px rgba(0, 0, 0, .15);
 }
 
 input:checked+label {
-  background: #bada55;
+  background: coral;
 }
 
 input:checked+label:after {
-  left: calc(100% - .1px);
+  left: calc(100% - 1px);
   transform: translateX(-100%);
 }
 
