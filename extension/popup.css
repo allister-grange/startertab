@@ -35,12 +35,13 @@ header {
 }
 
 .footer {
-  margin-top: 1rem;
+  margin-top: .4rem;
   display: flex;
   column-gap: .3rem;
   width: 100%;
   justify-content: flex-end;
   align-items: center;
+  color: #909090;
 }
 
 .link_list {
