@@ -54,7 +54,7 @@ export const LandingPageDemoSections: React.FC<
         titleColor="#A1C5FD"
         // titleColor="#A7C6DA"
         description="Choose from 15+ tiles designed to give you all the information you
-        need to get your shit done at a glance."
+        need to get your work done at a glance."
         subText="Markdown files your thing? We got you. Need a todo list handy on your new tabs? We got you."
       />
       <LandingPagePhotoSection

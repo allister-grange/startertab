@@ -33,8 +33,8 @@ export const Footer: React.FC<BoxProps> = (props) => {
               ©2022-23; all rights reserved
             </Heading>
             <Text fontSize="sm" mt="2" whiteSpace="nowrap">
-              <Link href="mailto:allistergrange@gmail.com">
-                Feedback is invaluable
+              <Link href="https://www.buymeacoffee.com/startertab">
+                Support the site ☕
               </Link>
             </Text>
           </Flex>

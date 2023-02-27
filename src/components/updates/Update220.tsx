@@ -7,7 +7,7 @@ interface Update220Props {}
 
 export const Update220: React.FC<Update220Props> = ({}) => {
   return (
-    <Box id="v2.1.0">
+    <Box id="v2.2.0">
       <Heading as="h2" fontSize="2xl" mt="6">
         v2.2.0 - New Tiles and Pages
       </Heading>

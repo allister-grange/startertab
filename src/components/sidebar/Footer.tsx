@@ -32,16 +32,18 @@ export const Footer: React.FC<SideBarFooterProps> = ({ textColor }) => {
         width="1px"
       />
       <Text ml="3" fontSize="12px">
-        &copy; 2022, StarterTab - v2.2.3
+        &copy;2023, StarterTab -{" "}
+        <span style={{ textDecoration: "underline" }}>
+          <Link href="/updates" target="_blank">
+            v2.2.3
+          </Link>
+        </span>
       </Text>
-      <Box
-        ml="3"
-        borderLeft={`1px solid ${textColor}`}
-        height="180%"
-        width="1px"
-      />
+      <Box ml="3" borderLeft={`1px solid ${textColor}`} height="180%" />
       <Text ml="3" fontSize="12px" fontWeight="bold">
-        <Link href="/updates">Updates</Link>
+        <Link href="https://www.buymeacoffee.com/startertab" target="_blank">
+          Support ☕
+        </Link>
       </Text>
     </Box>
   );
