@@ -235,6 +235,8 @@ const SettingsSideBar: React.FC<SettingsSideBarProps> = ({
         <ExportImportButtons
           textColor={textColor}
           currentTheme={currentThemeSettings}
+          setSettings={setSettings}
+          settings={settings}
         />
         <Box mt="4" />
 
