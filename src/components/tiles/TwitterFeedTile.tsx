@@ -120,7 +120,7 @@ export const TwitterFeedTile: React.FC<TwitterFeedTileProps> = ({ tileId }) => {
       </Heading>
       <Box w="80%" bg="white" height="1px" ml="2" bgColor={color} />
       {/* {display} */}
-      <Center mt="8" flexDir="column" textAlign="center">
+      <Center mt="8" flexDir="column" textAlign="center" p="2">
         <p>
           You can blame
           <a href="https://twitter.com/elonmusk/">&nbsp;@ElonMusk</a>, the API

@@ -4,6 +4,7 @@ import {
   ThemeToChangeSelector,
 } from "@/components/sidebar";
 import SettingOptionContainer from "@/components/sidebar/SettingOptionContainer";
+import { OutlinedButton } from "@/components/ui/OutlinedButton";
 import { getCurrentTheme, getThemeNames } from "@/helpers/settingsHelpers";
 import {
   globalSettingsOptions,
@@ -29,7 +30,7 @@ import {
 } from "@chakra-ui/react";
 import React, { Dispatch, SetStateAction, useRef, useState } from "react";
 import { useRecoilState } from "recoil";
-import { OutlinedButton } from "../ui/OutlinedButton";
+import { ExportImportButtons } from "@/components/sidebar/ExportImportButtons";
 
 interface SettingsSideBarProps {
   isOpen: boolean;
@@ -188,26 +189,7 @@ const SettingsSideBar: React.FC<SettingsSideBarProps> = ({
           setTutorialProgress={setTutorialProgress}
           themes={getThemeNames(settings)}
         />
-        <Link
-          href="/themes"
-          color={textColor}
-          border={`1px solid ${textColor}`}
-          borderRadius="md"
-          py="2"
-          display="block"
-          textAlign="center"
-          transition="all .2s"
-          _hover={{
-            transform: "translateY(-2px)",
-          }}
-          _focus={{
-            border: `2px solid ${textColor}`,
-            transform: "translateY(-2px)",
-          }}
-        >
-          Manage Themes
-        </Link>
-        <Box mt="4" />
+
         <OutlinedButton
           color={textColor}
           border={`1px solid ${textColor}`}
@@ -230,6 +212,32 @@ const SettingsSideBar: React.FC<SettingsSideBarProps> = ({
           Edit Tile Grid
         </OutlinedButton>
         <Box mt="4" />
+        <Link
+          href="/themes"
+          color={textColor}
+          border={`1px solid ${textColor}`}
+          borderRadius="md"
+          py="2"
+          display="block"
+          textAlign="center"
+          transition="all .2s"
+          _hover={{
+            transform: "translateY(-2px)",
+          }}
+          _focus={{
+            border: `2px solid ${textColor}`,
+            transform: "translateY(-2px)",
+          }}
+        >
+          Manage Themes
+        </Link>
+        <Box mt="4" />
+        <ExportImportButtons
+          textColor={textColor}
+          currentTheme={currentThemeSettings}
+        />
+        <Box mt="4" />
+
         <Accordion
           allowMultiple
           onChange={onAccordionChange}
