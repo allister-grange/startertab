@@ -67,12 +67,12 @@ export const AppErrorBoundary: React.FC = ({}) => {
           fontWeight="800"
           border="1px solid black"
           onClick={deleteAllSettings}
-          px="4"
+          px="8"
           background="white"
           shadow="md"
           color="gray.900"
           fontSize="md"
-          py="6"
+          py="4"
           borderRadius="10"
         >
           Clear all settings! ⚠️
