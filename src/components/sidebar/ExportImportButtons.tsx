@@ -14,6 +14,7 @@ import {
   useToast,
   Text,
   useColorMode,
+  Input,
 } from "@chakra-ui/react";
 import React, { FormEvent, useCallback, useState } from "react";
 import { OutlinedButton } from "@/components/ui/OutlinedButton";
@@ -58,8 +59,15 @@ export const ExportImportButtons: React.FC<ExportImportButtonsProps> = ({
   );
 
   function copyToClipboard() {
-    navigator.clipboard.writeText(JSON.stringify(currentTheme));
-    showClipboardToast("Copied theme");
+    const blob = new Blob([JSON.stringify(currentTheme)], {
+      type: "application/json",
+    });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = `${currentTheme.themeName}.json`;
+    a.click();
+    URL.revokeObjectURL(url);
   }
 
   const isValidTheme = (o: any): o is ThemeSettings => {
@@ -77,9 +85,18 @@ export const ExportImportButtons: React.FC<ExportImportButtonsProps> = ({
     );
   };
 
+  const onFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    e.preventDefault();
+    const reader = new FileReader();
+    reader.onload = async (e) => {
+      const text = e.target?.result as string;
+      setImportText(text);
+    };
+    reader.readAsText(e.target.files?.[0] as Blob);
+  };
+
   const importTheme = (e: FormEvent) => {
     e.preventDefault();
-
     try {
       const newTheme = JSON.parse(importText);
 
@@ -111,17 +128,12 @@ export const ExportImportButtons: React.FC<ExportImportButtonsProps> = ({
         <ModalOverlay />
         <ModalContent>
           <ModalHeader>
-            Import Theme <DownloadIcon />
+            Import Theme <DownloadIcon mb="1" />
           </ModalHeader>
           <ModalCloseButton />
           <form onSubmit={importTheme}>
             <ModalBody>
-              <Textarea
-                placeholder="Paste your theme here"
-                name="importText"
-                onChange={(e) => setImportText(e.target.value)}
-                value={importText}
-              />
+              <Input type="file" onChange={onFileChange} py="1" />
               {errorMessage && (
                 <Text color="tomato" fontWeight="600" mt="2">
                   {errorMessage}
