@@ -106,8 +106,7 @@ export const ExportImportButtons: React.FC<ExportImportButtonsProps> = ({
       if (
         settings.themes.find((theme) => theme.themeName === newTheme.themeName)
       ) {
-        showErrorMessage("You already have a theme with that name");
-        return;
+        newTheme.themeName = `${newTheme.themeName} copy`;
       }
 
       setSettings({

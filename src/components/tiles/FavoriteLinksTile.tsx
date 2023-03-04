@@ -151,7 +151,6 @@ export const FavoriteLinksTile: React.FC<FavoriteLinksTileProps> = ({
         <UnorderedList
           listStyleType="none"
           m="0"
-          maxH={displayingOnShortTile ? "110px" : "255px"}
           overflow={displayingOnWideTile ? "flow" : "hidden"}
           display="flex"
           flexDirection="column"

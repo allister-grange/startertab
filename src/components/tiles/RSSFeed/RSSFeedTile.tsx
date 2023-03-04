@@ -203,7 +203,7 @@ export const RSSFeedTile: React.FC<RSSFeedTileProps> = ({ tileId }) => {
         <UnorderedList margin="0" mt="4">
           {orderedRssFeedData?.map((feed) => (
             <ListItem listStyleType="none" key={feed.date + feed.link} mt="3">
-              <Link href={feed.link} target="_top">
+              <Link href={feed.link} target="_blank">
                 {displayingOnWideTile
                   ? feed.title
                   : truncateString(feed.title, 90)}

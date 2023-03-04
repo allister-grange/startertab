@@ -2,6 +2,7 @@ import {
   BonsaiTile,
   DayPlannerTile,
   FavoriteLinksTile,
+  GoogleMeetingsTile,
   HackerNewsFeedTile,
   LargeSpotifyTile,
   LargeStockTile,
@@ -12,7 +13,6 @@ import {
   RSSFeedTile,
   SearchBarTile,
   SmallSpotifyTile,
-  GoogleMeetingsTile,
   SmallStockTile,
   SmallWeatherTile,
   SpotifyTopArtistsTile,
@@ -30,17 +30,17 @@ import OutlookContextProvider from "@/context/OutlookContext";
 import SpotifyContextProvider from "@/context/SpotifyContext";
 import StravaContextProvider from "@/context/StravaContext";
 import TwitterContextProvider from "@/context/TwitterContext";
+import { userSettingState } from "@/recoil/UserSettingsAtom";
 import {
   bookingsSelector,
   todoListSelector,
 } from "@/recoil/UserSettingsSelectors";
 import { Booking, TileSize, TileType, TodoObject } from "@/types";
-import { Box } from "@chakra-ui/react";
+import { Box, useColorMode } from "@chakra-ui/react";
 import { createSyncStoragePersister } from "@tanstack/query-sync-storage-persister";
 import { QueryClient } from "@tanstack/react-query";
 import { PersistQueryClientProvider } from "@tanstack/react-query-persist-client";
-import React, { useState } from "react";
-import { ErrorBoundary } from "react-error-boundary";
+import React from "react";
 import { SetterOrUpdater, useRecoilState } from "recoil";
 
 const queryClient = new QueryClient({
@@ -75,8 +75,9 @@ const TileContainer: React.FC<TileContainerProps> = ({
     TodoObject[] | undefined,
     SetterOrUpdater<TodoObject[] | undefined>
   ];
-  // error keys to keep a track of the error boundary state, bit of a hack
-  const [errorKeys, setErrorKeys] = useState<string | undefined>();
+  const [settings, setSettings] = useRecoilState(userSettingState);
+  const { colorMode } = useColorMode();
+  const color = `var(--text-color-${tileId})`;
 
   const persister = createSyncStoragePersister({
     storage: window.localStorage,
@@ -200,11 +201,12 @@ const TileContainer: React.FC<TileContainerProps> = ({
   }
 
   return (
-    <ErrorBoundary
-      resetKeys={[errorKeys]}
-      FallbackComponent={({ error }) => (
-        <TileErrorBoundary tileId={tileId} setErrorKeys={setErrorKeys} />
-      )}
+    <TileErrorBoundary
+      tileId={tileId}
+      settings={settings}
+      color={color}
+      setSettings={setSettings}
+      colorMode={colorMode}
     >
       <PersistQueryClientProvider
         client={queryClient}
@@ -212,7 +214,7 @@ const TileContainer: React.FC<TileContainerProps> = ({
       >
         {tileToRender}
       </PersistQueryClientProvider>
-    </ErrorBoundary>
+    </TileErrorBoundary>
   );
 };
 
