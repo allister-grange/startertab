@@ -35,7 +35,7 @@ const Home: NextPage = () => {
 
   const [settings, setSettings] = useRecoilState(userSettingState);
   const [isEditingTiles, setIsEditingTiles] = useState(false);
-  const { colorMode } = useColorMode();
+  const { colorMode, setColorMode } = useColorMode();
 
   const setColorModeState = useSetRecoilState(colorModeState);
 
@@ -53,6 +53,12 @@ const Home: NextPage = () => {
   }, [settings, colorMode, setColorModeState]);
 
   const currentTheme = getCurrentTheme(settings, colorMode);
+
+  // if there's no color mode set in the cookies/local storage
+  if (!colorMode) {
+    setColorMode(currentTheme.themeName);
+  }
+
   // legacy settings need to be switched over to new format
   if ((currentTheme as any).tile1) {
     const newSettingsFormat = getNewSettingsFromLegacyTheme(settings);
