@@ -1,8 +1,10 @@
+import { OutlinedButton } from "@/components/ui/OutlinedButton";
+import { ThemeSettings, UserSettings } from "@/types";
 import { CopyIcon, DownloadIcon } from "@chakra-ui/icons";
 import {
   Button,
   Flex,
-  Textarea,
+  Input,
   Modal,
   ModalBody,
   ModalCloseButton,
@@ -10,15 +12,12 @@ import {
   ModalFooter,
   ModalHeader,
   ModalOverlay,
-  useDisclosure,
-  useToast,
   Text,
   useColorMode,
-  Input,
+  useDisclosure,
+  useToast,
 } from "@chakra-ui/react";
 import React, { FormEvent, useCallback, useState } from "react";
-import { OutlinedButton } from "@/components/ui/OutlinedButton";
-import { ThemeSettings, UserSettings } from "@/types";
 import { SetterOrUpdater } from "recoil";
 
 interface ExportImportButtonsProps {
@@ -126,7 +125,7 @@ export const ExportImportButtons: React.FC<ExportImportButtonsProps> = ({
     <>
       <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
-        <ModalContent>
+        <ModalContent color="black">
           <ModalHeader>
             Import Theme <DownloadIcon mb="1" />
           </ModalHeader>
