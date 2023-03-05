@@ -35,7 +35,6 @@ export const FavoriteLinksTile: React.FC<FavoriteLinksTileProps> = ({
   );
   const [deleteShortcutId, setDeleteShortcutId] = useState("");
   const [displayingOnWideTile, setDisplayingOnWideTile] = useState(false);
-  const [displayingOnShortTile, setDisplayingOnShortTile] = useState(false);
 
   React.useEffect(() => {
     if (!divRef.current) {
@@ -44,9 +43,6 @@ export const FavoriteLinksTile: React.FC<FavoriteLinksTileProps> = ({
 
     if (divRef.current.offsetWidth > 300) {
       setDisplayingOnWideTile(true);
-    }
-    if (divRef.current.offsetHeight < 200) {
-      setDisplayingOnShortTile(true);
     }
   }, []);
 

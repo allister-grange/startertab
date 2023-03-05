@@ -57,7 +57,7 @@ export const ExportImportButtons: React.FC<ExportImportButtonsProps> = ({
     [toast]
   );
 
-  function copyToClipboard() {
+  function downloadTheme() {
     const blob = new Blob([JSON.stringify(currentTheme)], {
       type: "application/json",
     });
@@ -115,6 +115,10 @@ export const ExportImportButtons: React.FC<ExportImportButtonsProps> = ({
       showClipboardToast("Imported theme");
       setColorMode(newTheme.themeName);
       onClose();
+      /** little bit janky, but some tiles (rss feeds, bookmarks) 
+      need a page refresh to not be in the "new" state,
+      everything works as intended but it could be confusing for the users */
+      setTimeout(() => window.location.reload(), 1500);
     } catch {
       showErrorMessage("That's not even a JSON! 🤕");
     }
@@ -167,7 +171,7 @@ export const ExportImportButtons: React.FC<ExportImportButtonsProps> = ({
             border: `2px solid ${textColor}`,
             transform: "translateY(-2px)",
           }}
-          onClick={() => copyToClipboard()}
+          onClick={downloadTheme}
         >
           Export Theme&nbsp;
           <CopyIcon />
