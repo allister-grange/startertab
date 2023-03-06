@@ -27,3 +27,8 @@ export const colorModeState = atom({
   key: "ColorMode",
   default: "dark",
 });
+
+export const settingsSidebarSate = atom({
+  key: "SidebarOpen",
+  default: false,
+});

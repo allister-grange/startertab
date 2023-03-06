@@ -11,7 +11,11 @@ import {
   getCurrentTheme,
   getNewSettingsFromLegacyTheme,
 } from "@/helpers/settingsHelpers";
-import { colorModeState, userSettingState } from "@/recoil/UserSettingsAtom";
+import {
+  colorModeState,
+  settingsSidebarSate,
+  userSettingState,
+} from "@/recoil/UserSettingsAtom";
 import { Box, Flex, useColorMode, useDisclosure } from "@chakra-ui/react";
 import type { NextPage } from "next";
 import { useEffect, useState } from "react";
@@ -38,6 +42,7 @@ const Home: NextPage = () => {
   const { colorMode, setColorMode } = useColorMode();
 
   const setColorModeState = useSetRecoilState(colorModeState);
+  const setSettingsSidebarSate = useSetRecoilState(settingsSidebarSate);
 
   useEffect(() => {
     if (isMobile) {
@@ -51,6 +56,11 @@ const Home: NextPage = () => {
     const themeToChange = getCurrentTheme(settings, colorMode);
     applyTheme(themeToChange);
   }, [settings, colorMode, setColorModeState]);
+
+  // this is used to change tiles conditionally on the sidebar being open
+  useEffect(() => {
+    setSettingsSidebarSate(isOpen);
+  }, [isOpen, setSettingsSidebarSate]);
 
   const currentTheme = getCurrentTheme(settings, colorMode);
 

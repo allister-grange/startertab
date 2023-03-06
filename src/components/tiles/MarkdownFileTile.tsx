@@ -1,9 +1,10 @@
 import { OutlinedButton } from "@/components/ui/OutlinedButton";
+import { settingsSidebarSate } from "@/recoil/UserSettingsAtom";
 import { markdownFileTextSelector } from "@/recoil/UserSettingsSelectors";
 import { Box, Input, Text } from "@chakra-ui/react";
 import React, { useRef, useState } from "react";
 import ReactMarkdown from "react-markdown";
-import { SetterOrUpdater, useRecoilState } from "recoil";
+import { SetterOrUpdater, useRecoilState, useRecoilValue } from "recoil";
 
 interface MarkdownFileTileProps {
   tileId: number;
@@ -13,6 +14,7 @@ export const MarkdownFileTile: React.FC<MarkdownFileTileProps> = ({
   tileId,
 }) => {
   const color = `var(--text-color-${tileId})`;
+  const sidebarOpen = useRecoilValue(settingsSidebarSate);
   const fileInputRef = useRef(null);
   const [markdownFileText, setMarkdownFileText] = useRecoilState(
     markdownFileTextSelector(tileId)
@@ -53,8 +55,7 @@ export const MarkdownFileTile: React.FC<MarkdownFileTileProps> = ({
           <ReactMarkdown>{markdownFileText ?? ""}</ReactMarkdown>
         </div>
       </Box>
-
-      {showingFileInput ? (
+      {showingFileInput && (
         <Box textAlign="center" mb="4">
           <Text>Please select a markdown file:</Text>
           <Input
@@ -68,7 +69,8 @@ export const MarkdownFileTile: React.FC<MarkdownFileTileProps> = ({
             mt="2"
           />
         </Box>
-      ) : (
+      )}
+      {!showingFileInput && sidebarOpen && (
         <Box width="100%">
           <OutlinedButton
             fontSize="xs"

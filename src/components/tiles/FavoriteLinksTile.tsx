@@ -1,4 +1,5 @@
 import { OutlinedButton } from "@/components/ui/OutlinedButton";
+import { settingsSidebarSate } from "@/recoil/UserSettingsAtom";
 import { favoriteLinksSelector } from "@/recoil/UserSettingsSelectors";
 import { FavoriteLink } from "@/types";
 import { SmallCloseIcon } from "@chakra-ui/icons";
@@ -13,7 +14,7 @@ import {
   UnorderedList,
 } from "@chakra-ui/react";
 import React, { FormEvent, useRef, useState } from "react";
-import { SetterOrUpdater, useRecoilState } from "recoil";
+import { SetterOrUpdater, useRecoilState, useRecoilValue } from "recoil";
 
 interface FavoriteLinksTileProps {
   tileId: number;
@@ -24,6 +25,7 @@ export const FavoriteLinksTile: React.FC<FavoriteLinksTileProps> = ({
 }) => {
   const color = `var(--text-color-${tileId})`;
   const divRef = useRef<HTMLDivElement | null>(null);
+  const sidebarOpen = useRecoilValue(settingsSidebarSate);
   const [favoriteLinks, setFavoriteLinks] = useRecoilState(
     favoriteLinksSelector(tileId)
   ) as [
@@ -70,20 +72,7 @@ export const FavoriteLinksTile: React.FC<FavoriteLinksTileProps> = ({
   };
 
   const handleShortcutDelete = (shortcutId: string) => {
-    if (!favoriteLinks) {
-      return;
-    }
-
-    const shortcutsToClone = [...favoriteLinks];
-    const shortcutDeletionIndex = shortcutsToClone.findIndex(
-      (shortcut) => shortcut.id === shortcutId
-    );
-    if (shortcutDeletionIndex === undefined) {
-      return;
-    }
-
-    shortcutsToClone.splice(shortcutDeletionIndex, 1);
-    setFavoriteLinks(shortcutsToClone);
+    setFavoriteLinks(favoriteLinks?.filter((link) => link.id !== shortcutId));
   };
 
   return (
@@ -195,20 +184,22 @@ export const FavoriteLinksTile: React.FC<FavoriteLinksTileProps> = ({
           ))}
         </UnorderedList>
       )}
-      <Box pos="absolute" bottom="0" right="3">
-        {!showingInputForm && (
-          <OutlinedButton
-            fontSize="xs"
-            marginLeft="auto"
-            display="block"
-            shadow="none"
-            pos="sticky"
-            onClick={() => setShowingInputForm(true)}
-          >
-            Add link
-          </OutlinedButton>
-        )}
-      </Box>
+      {sidebarOpen && (
+        <Box pos="absolute" bottom="0" right="3">
+          {!showingInputForm && (
+            <OutlinedButton
+              fontSize="xs"
+              marginLeft="auto"
+              display="block"
+              shadow="none"
+              pos="sticky"
+              onClick={() => setShowingInputForm(true)}
+            >
+              Add link
+            </OutlinedButton>
+          )}
+        </Box>
+      )}
     </Box>
   );
 };
