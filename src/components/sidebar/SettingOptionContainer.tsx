@@ -182,6 +182,34 @@ const SettingOptionContainer: React.FC<SettingOptionContainerProps> = ({
         );
       }
       break;
+    case "TitleForFavorites":
+      if (tileType === "Favorite Links Tile") {
+        optionToDisplay = (
+          <GenericInput
+            option={option}
+            changeSetting={changeSetting}
+            textColor={textColor}
+            tileId={tileId}
+            subTextColor={subTextColor}
+            value={value}
+          />
+        );
+      }
+      break;
+    case "TitleForRSSFeed":
+      if (tileType === "RSS Feed Tile") {
+        optionToDisplay = (
+          <GenericInput
+            option={option}
+            changeSetting={changeSetting}
+            textColor={textColor}
+            tileId={tileId}
+            subTextColor={subTextColor}
+            value={value}
+          />
+        );
+      }
+      break;
     case "HackerNewsFeedType":
       if (tileType === "Hacker News Feed") {
         optionToDisplay = (

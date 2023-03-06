@@ -3,7 +3,10 @@ import { RSSFeedForm } from "@/components/tiles/RSSFeed/RSSFeedForm";
 import { OutlinedButton } from "@/components/ui/OutlinedButton";
 import { RSSLogo } from "@/components/icons/RSSLogo";
 import { calculateTimeAgoString, truncateString } from "@/helpers/tileHelpers";
-import { rssFeedsSelector } from "@/recoil/UserSettingsSelectors";
+import {
+  rssFeedsSelector,
+  rssFeedTitleSelector,
+} from "@/recoil/UserSettingsSelectors";
 import { RSSFeed, RSSItem } from "@/types";
 import {
   Box,
@@ -44,6 +47,10 @@ const getOrderedFeedData = (feeds: RSSFeed[]): RSSItem[] => {
 export const RSSFeedTile: React.FC<RSSFeedTileProps> = ({ tileId }) => {
   const color = `var(--text-color-${tileId})`;
   const divRef = useRef<HTMLDivElement | null>(null);
+  const [rssFeedTitle] = useRecoilState(rssFeedTitleSelector(tileId)) as [
+    string | undefined,
+    SetterOrUpdater<string | undefined>
+  ];
   const [rssFeeds, setRssFeeds] = useRecoilState(rssFeedsSelector(tileId)) as [
     RSSFeed[] | undefined,
     SetterOrUpdater<RSSFeed[] | undefined>
@@ -197,10 +204,10 @@ export const RSSFeedTile: React.FC<RSSFeedTileProps> = ({ tileId }) => {
           <RSSLogo height={18} width={18} fill={color} />
         </Box>
         <Heading fontSize="xl" mt="3">
-          Rss Feed
+          {rssFeedTitle ? rssFeedTitle : "Rss Feed"}
         </Heading>
-        <Box height="1px" width="80%" bg={color} mt="2" />
-        <UnorderedList margin="0" mt="4">
+        {/* <Box height="1px" width="80%" bg={color} mt="2" /> */}
+        <UnorderedList margin="0" mt="4" ml="1">
           {orderedRssFeedData?.map((feed) => (
             <ListItem listStyleType="none" key={feed.date + feed.link} mt="3">
               <Link href={feed.link} target="_blank">

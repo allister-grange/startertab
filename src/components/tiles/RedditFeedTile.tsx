@@ -112,7 +112,7 @@ export const RedditFeedTile: React.FC<RedditFeedProps> = ({ tileId }) => {
     display = <TextFeedSkeleton />;
   } else if (data) {
     display = (
-      <UnorderedList margin="0" mt="4">
+      <UnorderedList margin="0" mt="-2" ml="1">
         {data?.map((link) => (
           <ListItem listStyleType="none" key={link.id} mt="3">
             <Link target="_top" href={link.url}>
@@ -158,7 +158,7 @@ export const RedditFeedTile: React.FC<RedditFeedProps> = ({ tileId }) => {
           {data ? `r/${subRedditFeed}` : "Reddit Feed"}
         </Link>
       </Heading>
-      <Box w="80%" height="1px" bgColor={underlineColor} />
+      {/* <Box w="80%" height="1px" bgColor={underlineColor} /> */}
       {display}
       {data && <Box w="100%" height="1px" mt="4" bgColor={underlineColor} />}
       <Box mt="3" p="2">

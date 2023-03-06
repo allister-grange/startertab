@@ -8,16 +8,16 @@ export const globalSettingsOptions: Option[] = [
     optionType: "ColorPicker",
   },
   {
-    title: "Drop shadow",
-    subTitle: "Controls the drop shadow of all the tiles.",
-    localStorageId: "dropShadow",
-    optionType: "DropShadowInput",
-  },
-  {
     title: "Border",
     subTitle: "Controls the border of all the tiles.",
     localStorageId: "tileBorder",
     optionType: "BorderSelect",
+  },
+  {
+    title: "Border Color",
+    subTitle: "Controls the color of the border for all of the tiles",
+    localStorageId: "borderColor",
+    optionType: "ColorPicker",
   },
   {
     title: "Border Radius",
@@ -26,10 +26,10 @@ export const globalSettingsOptions: Option[] = [
     optionType: "BorderRadiusInput",
   },
   {
-    title: "Border Color",
-    subTitle: "Controls the color of the border for all of the tiles",
-    localStorageId: "borderColor",
-    optionType: "ColorPicker",
+    title: "Drop shadow",
+    subTitle: "Controls the drop shadow of all the tiles.",
+    localStorageId: "dropShadow",
+    optionType: "DropShadowInput",
   },
   {
     title: "Grid Gap",
@@ -59,6 +59,12 @@ export const sideBarSmallTileOptions: Option[] = [
     optionType: "ColorPicker",
   },
   {
+    title: "Type of tile",
+    subTitle: "Choose what you want this tile to display",
+    localStorageId: "tileType",
+    optionType: "SmallTileTypePicker",
+  },
+  {
     title: "City for weather",
     subTitle: "Name of the city you want the weather for",
     localStorageId: "cityForWeather",
@@ -71,10 +77,10 @@ export const sideBarSmallTileOptions: Option[] = [
     optionType: "SmallStockInput",
   },
   {
-    title: "Type of tile",
-    subTitle: "Choose what you want this tile to display",
-    localStorageId: "tileType",
-    optionType: "SmallTileTypePicker",
+    title: "Title for Favorites",
+    subTitle: "Optional title for the favorites tile",
+    localStorageId: "favoriteLinksTitle",
+    optionType: "TitleForFavorites",
   },
 ];
 
@@ -90,6 +96,12 @@ export const sideBarMediumTileOptions: Option[] = [
     subTitle: "Text color of the tile",
     localStorageId: "textColor",
     optionType: "ColorPicker",
+  },
+  {
+    title: "Type of tile",
+    subTitle: "Choose what you want this tile to display",
+    localStorageId: "tileType",
+    optionType: "MediumTileTypePicker",
   },
   {
     title: "Bonsai base color",
@@ -122,10 +134,16 @@ export const sideBarMediumTileOptions: Option[] = [
     optionType: "SpotifyTopArtistsTimeLength",
   },
   {
-    title: "Type of tile",
-    subTitle: "Choose what you want this tile to display",
-    localStorageId: "tileType",
-    optionType: "MediumTileTypePicker",
+    title: "Title for Favorites",
+    subTitle: "Optional title for the favorites tile",
+    localStorageId: "favoriteLinksTitle",
+    optionType: "TitleForFavorites",
+  },
+  {
+    title: "Title for RSS Feed",
+    subTitle: "Optional title for the RSS feeds tile",
+    localStorageId: "rssFeedTitle",
+    optionType: "TitleForRSSFeed",
   },
 ];
 
@@ -143,6 +161,12 @@ export const sideBarLargeTileOptions: Option[] = [
     optionType: "ColorPicker",
   },
   {
+    title: "Type of tile",
+    subTitle: "Type of tile you want to display",
+    localStorageId: "tileType",
+    optionType: "LargeTileTypePicker",
+  },
+  {
     title: "City for UV data",
     subTitle: "Name of the city you want the UV data for",
     localStorageId: "cityForUv",
@@ -155,10 +179,16 @@ export const sideBarLargeTileOptions: Option[] = [
     optionType: "CityInputForWeather",
   },
   {
-    title: "Type of tile",
-    subTitle: "Type of tile you want to display",
-    localStorageId: "tileType",
-    optionType: "LargeTileTypePicker",
+    title: "Title for Favorites",
+    subTitle: "Optional title for the favorites tile",
+    localStorageId: "favoriteLinksTitle",
+    optionType: "TitleForFavorites",
+  },
+  {
+    title: "Title for RSS Feed",
+    subTitle: "Optional title for the RSS feeds tile",
+    localStorageId: "rssFeedTitle",
+    optionType: "TitleForRSSFeed",
   },
 ];
 

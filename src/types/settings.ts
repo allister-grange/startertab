@@ -25,7 +25,9 @@ export type OptionType =
   | "CityInputForWeather"
   | "HackerNewsFeedType"
   | "SpotifyTopArtistsTimeLength"
-  | "CityInputForUV";
+  | "CityInputForUV"
+  | "TitleForFavorites"
+  | "TitleForRSSFeed";
 
 export const TileTypes = [
   "Reddit Feed",
@@ -91,7 +93,9 @@ export type TileSettings = {
   bookings?: Booking[];
   markdownFileText?: string;
   favoriteLinks?: FavoriteLink[];
+  favoriteLinksTitle?: string;
   rssFeeds?: RSSFeed[];
+  rssFeedTitle?: string;
 };
 
 export type ThemeSettings = {
