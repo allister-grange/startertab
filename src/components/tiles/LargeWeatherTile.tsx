@@ -1,5 +1,6 @@
 import { LargeWeatherTileSkeleton } from "@/components/skeletons/LargeWeatherTileSkeleton";
 import { OutlinedButton } from "@/components/ui/OutlinedButton";
+import { settingsSidebarSate } from "@/recoil/UserSettingsAtom";
 import {
   cityForWeatherSelector,
   tempDisplayInCelsiusSelector,
@@ -23,7 +24,7 @@ import {
   WiDaySunnyOvercast,
   WiRain,
 } from "react-icons/wi";
-import { SetterOrUpdater, useRecoilState } from "recoil";
+import { SetterOrUpdater, useRecoilState, useRecoilValue } from "recoil";
 
 interface LargeWeatherTileProps {
   tileId: number;
@@ -124,6 +125,7 @@ export const LargeWeatherTile: React.FC<LargeWeatherTileProps> = ({
   tileId,
 }) => {
   const color = `var(--text-color-${tileId})`;
+  const sidebarOpen = useRecoilValue(settingsSidebarSate);
   const [cityForWeather, setCityForWeather] = useRecoilState(
     cityForWeatherSelector(tileId)
   ) as [string | undefined, SetterOrUpdater<string | undefined>];
@@ -193,9 +195,6 @@ export const LargeWeatherTile: React.FC<LargeWeatherTileProps> = ({
   } else if (data && data.length > 0) {
     toDisplay = (
       <Flex justifyContent={"space-around"} width="90%">
-        <Text size="xs" opacity="0.4" pos="absolute" bottom="2" left="3">
-          {cityForWeather}
-        </Text>
         <DaysWeather
           weatherData={data[0]}
           displayInCelsius={displayInCelsius}
@@ -217,38 +216,46 @@ export const LargeWeatherTile: React.FC<LargeWeatherTileProps> = ({
   return (
     <Center color={color} height="100%" pos="relative">
       {toDisplay}
-      <Box
-        pos="absolute"
-        right="2"
-        bottom="1.5"
-        fontSize="11px"
-        color={color}
-        opacity={0.6}
-      >
-        <OutlinedButton
-          size="xs"
-          onClick={() => setCityForWeather(undefined)}
-          shadow="none"
-        >
-          Change city
-        </OutlinedButton>
-        |&nbsp;
-        <OutlinedButton
-          size="xxs"
-          shadow="none"
-          onClick={() => changeTemperatureDisplayUnits(false)}
-        >
-          °F
-        </OutlinedButton>
-        &nbsp;
-        <OutlinedButton
-          size="xxs"
-          shadow="none"
-          onClick={() => changeTemperatureDisplayUnits(true)}
-        >
-          °C
-        </OutlinedButton>
-      </Box>
+      {sidebarOpen && (
+        <>
+          {" "}
+          <Text size="xs" opacity="0.5" pos="absolute" bottom="2" left="3">
+            {cityForWeather}
+          </Text>
+          <Box
+            pos="absolute"
+            right="2"
+            bottom="1.5"
+            fontSize="xs"
+            color={color}
+            opacity={0.6}
+          >
+            <OutlinedButton
+              size="xs"
+              onClick={() => setCityForWeather(undefined)}
+              shadow="none"
+            >
+              Change city
+            </OutlinedButton>
+            |&nbsp;
+            <OutlinedButton
+              size="xxs"
+              shadow="none"
+              onClick={() => changeTemperatureDisplayUnits(false)}
+            >
+              °F
+            </OutlinedButton>
+            &nbsp;
+            <OutlinedButton
+              size="xxs"
+              shadow="none"
+              onClick={() => changeTemperatureDisplayUnits(true)}
+            >
+              °C
+            </OutlinedButton>
+          </Box>
+        </>
+      )}
     </Center>
   );
 };

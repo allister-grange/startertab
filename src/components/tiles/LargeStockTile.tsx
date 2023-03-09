@@ -1,5 +1,6 @@
 import { LargeStockTickerSkeleton } from "@/components/skeletons/LargeStockTickerSkeleton";
 import { OutlinedButton } from "@/components/ui/OutlinedButton";
+import { settingsSidebarSate } from "@/recoil/UserSettingsAtom";
 import { stockSelector } from "@/recoil/UserSettingsSelectors";
 import { FinnhubStockResponse, StockTickers } from "@/types/stocks";
 import {
@@ -14,7 +15,7 @@ import {
 } from "@chakra-ui/react";
 import { useQuery } from "@tanstack/react-query";
 import React, { useState } from "react";
-import { SetterOrUpdater, useRecoilState } from "recoil";
+import { SetterOrUpdater, useRecoilState, useRecoilValue } from "recoil";
 
 interface LargeStockTileProps {
   tileId: number;
@@ -111,6 +112,7 @@ const InputDisplay: React.FC<InputDisplayProps> = ({
 
 export const LargeStockTile: React.FC<LargeStockTileProps> = ({ tileId }) => {
   const color = `var(--text-color-${tileId})`;
+  const sidebarOpen = useRecoilValue(settingsSidebarSate);
   const [stocks, setStocks] = useRecoilState(stockSelector(tileId)) as [
     string | undefined,
     SetterOrUpdater<string | undefined>
@@ -191,18 +193,20 @@ export const LargeStockTile: React.FC<LargeStockTileProps> = ({ tileId }) => {
   return (
     <Center height="100%" width="100%" color={color} p="8">
       {toDisplay}
-      <OutlinedButton
-        size="xs"
-        pos="absolute"
-        right="2"
-        bottom="2"
-        color={color}
-        borderColor={color}
-        borderWidth="1px"
-        onClick={() => setStocks(undefined)}
-      >
-        Change stocks
-      </OutlinedButton>
+      {sidebarOpen && (
+        <OutlinedButton
+          size="xs"
+          pos="absolute"
+          right="2"
+          bottom="2"
+          color={color}
+          shadow="none"
+          opacity={0.6}
+          onClick={() => setStocks(undefined)}
+        >
+          Change stocks
+        </OutlinedButton>
+      )}
     </Center>
   );
 };

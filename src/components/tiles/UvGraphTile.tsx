@@ -1,4 +1,5 @@
 import { OutlinedButton } from "@/components/ui/OutlinedButton";
+import { settingsSidebarSate } from "@/recoil/UserSettingsAtom";
 import { uvCitySelector } from "@/recoil/UserSettingsSelectors";
 import { UvGraphData } from "@/types";
 import {
@@ -13,7 +14,7 @@ import {
 import { useQuery } from "@tanstack/react-query";
 import React, { useState } from "react";
 import { Line, LineChart, ResponsiveContainer, XAxis, YAxis } from "recharts";
-import { SetterOrUpdater, useRecoilState } from "recoil";
+import { SetterOrUpdater, useRecoilState, useRecoilValue } from "recoil";
 
 interface UvGraphProps {
   tileId: number;
@@ -47,6 +48,7 @@ const fetcher = async (cityName: string) => {
 
 export const UvGraphTile: React.FC<UvGraphProps> = ({ tileId }) => {
   const color = `var(--text-color-${tileId})`;
+  const sidebarOpen = useRecoilValue(settingsSidebarSate);
   const [city, setCity] = useRecoilState(uvCitySelector(tileId)) as [
     string | undefined,
     SetterOrUpdater<string | undefined>
@@ -140,17 +142,19 @@ export const UvGraphTile: React.FC<UvGraphProps> = ({ tileId }) => {
     <Box p="6" color={color} height="100%">
       <Heading fontSize="2xl">UV Index</Heading>
       {toDisplay}
-      <OutlinedButton
-        size="xs"
-        pos="absolute"
-        right="4"
-        top="4"
-        color={color}
-        borderColor={color}
-        onClick={() => setCity(undefined)}
-      >
-        Change city
-      </OutlinedButton>
+      {sidebarOpen && (
+        <OutlinedButton
+          size="xs"
+          pos="absolute"
+          right="4"
+          top="4"
+          color={color}
+          opacity={0.6}
+          onClick={() => setCity(undefined)}
+        >
+          Change city
+        </OutlinedButton>
+      )}
     </Box>
   );
 };

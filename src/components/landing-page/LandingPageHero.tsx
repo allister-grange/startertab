@@ -1,4 +1,4 @@
-import { Heading, Button, Box, Text, Flex } from "@chakra-ui/react";
+import { Heading, Button, Box, Text, Flex, Link } from "@chakra-ui/react";
 import React from "react";
 import { ChromeLogo } from "@/components/icons/ChromeLogo";
 
@@ -34,22 +34,28 @@ export const LandingPageHero: React.FC<LandingPageHeroProps> = ({}) => {
         </Heading>
       </Flex>
 
-      {/* <Button
-        variant="soft-rounded"
+      <Link
+        display="flex"
+        mx="auto"
+        width="225px"
         mt="10"
         fontSize="xl"
         color="#ff652d"
         bg="#ffe8e0"
         borderRadius="3xl"
-        py="6"
+        py="2"
         px="6"
         _hover={{
           transform: "translateY(-2px)",
         }}
+        href="https://chrome.google.com/webstore/detail/startertab/hklfanmakojdijomofibaiepoeobioni?hl=en&authuser=0"
+        target="_blank"
       >
         <ChromeLogo />
-        <Text ml="2">Add to Chrome</Text>
-      </Button> */}
+        <Text ml="2" fontWeight="semibold">
+          Add to Chrome
+        </Text>
+      </Link>
     </Box>
   );
 };

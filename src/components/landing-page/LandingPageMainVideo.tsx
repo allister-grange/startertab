@@ -14,7 +14,7 @@ export const LandingPageMainVideo: React.FC<
       justifyContent="center"
       paddingInline={["3px", "40px"]}
       bg="white"
-      pt="70px"
+      pt="50px"
       pb="50px"
     >
       <Box

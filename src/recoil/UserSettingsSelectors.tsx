@@ -37,6 +37,34 @@ export const redditFeedSelector = selectorFamily({
     },
 });
 
+export const subRedditSortTypeSelector = selectorFamily({
+  key: "SubRedditSortType",
+  get:
+    (tileId: number) =>
+    ({ get }) => {
+      const settings = get(userSettingState);
+      const colorMode = get(colorModeState);
+      const currentTheme = getCurrentTheme(settings, colorMode);
+
+      return currentTheme.tiles[tileId].subRedditSortType;
+    },
+  set:
+    (tileId: number) =>
+    ({ get, set }, newValue) => {
+      const userSettings = JSON.parse(
+        JSON.stringify(get(userSettingState))
+      ) as UserSettings;
+
+      userSettings.themes.forEach((theme) => {
+        if (!theme.tiles[tileId]) {
+          return;
+        }
+        theme.tiles[tileId].subRedditSortType = newValue as string;
+      });
+      set(userSettingState, userSettings);
+    },
+});
+
 export const hackerNewsFeedSelector = selectorFamily({
   key: "HackerNewsFeed",
   get:
@@ -373,6 +401,34 @@ export const favoriteLinksSelector = selectorFamily({
     },
 });
 
+export const favoriteLinksTitleSelector = selectorFamily({
+  key: "FavoriteLinksTitle",
+  get:
+    (tileId: number) =>
+    ({ get }) => {
+      const settings = get(userSettingState);
+      const colorMode = get(colorModeState);
+      const currentTheme = getCurrentTheme(settings, colorMode);
+
+      return currentTheme.tiles[tileId].favoriteLinksTitle;
+    },
+  set:
+    (tileId: number) =>
+    ({ get, set }, newValue) => {
+      const userSettings = JSON.parse(
+        JSON.stringify(get(userSettingState))
+      ) as UserSettings;
+
+      userSettings.themes.forEach((theme) => {
+        if (!theme.tiles[tileId]) {
+          return;
+        }
+        theme.tiles[tileId].favoriteLinksTitle = newValue as string;
+      });
+      set(userSettingState, userSettings);
+    },
+});
+
 export const rssFeedsSelector = selectorFamily({
   key: "RSSFeeds",
   get:
@@ -396,6 +452,34 @@ export const rssFeedsSelector = selectorFamily({
           return;
         }
         theme.tiles[tileId].rssFeeds = newValue as RSSFeed[];
+      });
+      set(userSettingState, userSettings);
+    },
+});
+
+export const rssFeedTitleSelector = selectorFamily({
+  key: "RSSFeedTitle",
+  get:
+    (tileId: number) =>
+    ({ get }) => {
+      const settings = get(userSettingState);
+      const colorMode = get(colorModeState);
+      const currentTheme = getCurrentTheme(settings, colorMode);
+
+      return currentTheme.tiles[tileId].rssFeedTitle;
+    },
+  set:
+    (tileId: number) =>
+    ({ get, set }, newValue) => {
+      const userSettings = JSON.parse(
+        JSON.stringify(get(userSettingState))
+      ) as UserSettings;
+
+      userSettings.themes.forEach((theme) => {
+        if (!theme.tiles[tileId]) {
+          return;
+        }
+        theme.tiles[tileId].rssFeedTitle = newValue as string;
       });
       set(userSettingState, userSettings);
     },

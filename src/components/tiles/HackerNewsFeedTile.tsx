@@ -46,7 +46,6 @@ export const HackerNewsFeedTile: React.FC<PageProps> = ({ tileId }) => {
   );
 
   const color = `var(--text-color-${tileId})`;
-  const underlineColor = color;
 
   // need to change the amount of text truncated from title depending on width
   React.useEffect(() => {
@@ -94,7 +93,7 @@ export const HackerNewsFeedTile: React.FC<PageProps> = ({ tileId }) => {
     display = <TextFeedSkeleton />;
   } else if (data && Array.isArray(data)) {
     display = (
-      <UnorderedList margin="0" mt="4">
+      <UnorderedList margin="0" mt="4" ml="1">
         {data?.map((link) => (
           <ListItem listStyleType="none" key={link.time + link.author} mt="3">
             <Link href={link.url} target="_top">
@@ -128,30 +127,25 @@ export const HackerNewsFeedTile: React.FC<PageProps> = ({ tileId }) => {
       <Box position="absolute" right="4" top="1" height="10px" width="20px">
         <HackerNewsLogo height={20} width={20} fill={color} />
       </Box>
-      <Box w="80%" bg="white" height="1px" mt="2" bgColor={underlineColor} />
       {display}
-      <Box height="1px" width="100%" bg={color} mt="3" />
-
-      <Box width="100%" mt="4" mb="4" textAlign="center">
+      <Flex
+        mt="4"
+        mb="4"
+        flexWrap="wrap"
+        rowGap="2"
+        columnGap="1"
+        justifyContent="center"
+      >
         <OptionBadge onClick={() => changeFeedType("Top")} color={color}>
           Top Stories
         </OptionBadge>
-        <OptionBadge
-          onClick={() => changeFeedType("Show")}
-          color={color}
-          ml="2"
-          mr="2"
-        >
+        <OptionBadge onClick={() => changeFeedType("Show")} color={color}>
           Show Stories
         </OptionBadge>
-        <OptionBadge
-          onClick={() => changeFeedType("Ask")}
-          color={color}
-          mt={displayingOnWideTile ? undefined : "2"}
-        >
+        <OptionBadge onClick={() => changeFeedType("Ask")} color={color}>
           Ask Stories
         </OptionBadge>
-      </Box>
+      </Flex>
     </Box>
   );
 };

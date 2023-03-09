@@ -1,5 +1,6 @@
 import { SmallStockTickerSkeleton } from "@/components/skeletons/SmallStockTickerSkeleton";
 import { OutlinedButton } from "@/components/ui/OutlinedButton";
+import { settingsSidebarSate } from "@/recoil/UserSettingsAtom";
 import { stockSelector } from "@/recoil/UserSettingsSelectors";
 import { StockTickers } from "@/types/stocks";
 import {
@@ -14,7 +15,7 @@ import {
 } from "@chakra-ui/react";
 import { useQuery } from "@tanstack/react-query";
 import React, { useState } from "react";
-import { SetterOrUpdater, useRecoilState } from "recoil";
+import { SetterOrUpdater, useRecoilState, useRecoilValue } from "recoil";
 
 interface SmallStockTileProps {
   tileId: number;
@@ -34,6 +35,7 @@ const fetcher = async (stockName: string) => {
 };
 
 export const SmallStockTile: React.FC<SmallStockTileProps> = ({ tileId }) => {
+  const sidebarOpen = useRecoilValue(settingsSidebarSate);
   const color = `var(--text-color-${tileId})`;
   const [stock, setStock] = useRecoilState(stockSelector(tileId)) as [
     string | undefined,
@@ -86,13 +88,7 @@ export const SmallStockTile: React.FC<SmallStockTileProps> = ({ tileId }) => {
     toDisplay = <SmallStockTickerSkeleton />;
   } else if (data && Array.isArray(data)) {
     toDisplay = data.map((stockTicker) => (
-      <Flex
-        flexDir="column"
-        key={stockTicker?.ticker}
-        borderRadius="10px"
-        mb="4"
-        mr="2"
-      >
+      <Flex flexDir="column" key={stockTicker?.ticker} borderRadius="10px">
         <Heading size="lg">{stockTicker?.ticker.toUpperCase()}</Heading>
         <Text fontSize="lg" opacity="0.9">{`$${stockTicker?.c}`}</Text>
         <Box>
@@ -109,18 +105,20 @@ export const SmallStockTile: React.FC<SmallStockTileProps> = ({ tileId }) => {
   return (
     <Center height="100%" color={color} p="4">
       {toDisplay}
-      <OutlinedButton
-        fontSize="11px"
-        pos="absolute"
-        right="0"
-        bottom="0"
-        borderColor={"none"}
-        shadow="none"
-        borderWidth="0px"
-        onClick={() => setStock(undefined)}
-      >
-        Change stock
-      </OutlinedButton>
+      {sidebarOpen && (
+        <OutlinedButton
+          fontSize="xs"
+          pos="absolute"
+          right="0"
+          bottom="-1"
+          shadow="none"
+          borderWidth="0px"
+          opacity={0.6}
+          onClick={() => setStock(undefined)}
+        >
+          Change stock
+        </OutlinedButton>
+      )}
     </Center>
   );
 };
