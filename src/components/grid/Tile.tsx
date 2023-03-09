@@ -13,8 +13,8 @@ const TileContainer = dynamic(() => import("@/components/grid/TileContainer"));
 export interface TileProps extends BoxProps {
   optionHovered: boolean;
   tileId: number;
-  isEditingTiles: boolean;
-  setIsEditingTiles: Dispatch<SetStateAction<boolean>>;
+  isEditingTileGrid: boolean;
+  setIsEditingTileGrid: Dispatch<SetStateAction<boolean>>;
   removeTileFromLayout: (tileId: number) => void;
 }
 
@@ -29,8 +29,8 @@ const animationKeyframes = keyframes`
 const Tile: React.FC<TileProps> = ({
   tileId,
   optionHovered,
-  isEditingTiles,
-  setIsEditingTiles,
+  isEditingTileGrid,
+  setIsEditingTileGrid,
   removeTileFromLayout,
   children,
   ...props
@@ -48,12 +48,12 @@ const Tile: React.FC<TileProps> = ({
     Math.random() * 400 + 300
   }ms infinite`;
 
-  const longPress = useLongPress(() => setIsEditingTiles(true), 500);
+  const longPress = useLongPress(() => setIsEditingTileGrid(true), 500);
 
   return (
     <Box
       as={motion.div}
-      animation={isEditingTiles ? animation : undefined}
+      animation={isEditingTileGrid ? animation : undefined}
       height="100%"
       borderRadius={borderRadius ?? "15"}
       transition=".3s ease-in-out"
@@ -67,12 +67,12 @@ const Tile: React.FC<TileProps> = ({
       pos="relative"
       overflowY="scroll"
       overflowX="hidden"
-      cursor={isEditingTiles ? "move" : undefined}
+      cursor={isEditingTileGrid ? "move" : undefined}
       className={styles.disableScrollbars}
       {...props}
       {...longPress}
     >
-      {isEditingTiles && (
+      {isEditingTileGrid && (
         <SmallCloseIcon
           pos="absolute"
           top="1"

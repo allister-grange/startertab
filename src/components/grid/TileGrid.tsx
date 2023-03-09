@@ -18,8 +18,8 @@ interface TileGridProps {
   tutorialProgress: number;
   layout: Layouts;
   tiles?: TileSettings[];
-  isEditingTiles: boolean;
-  setIsEditingTiles: Dispatch<SetStateAction<boolean>>;
+  isEditingTileGrid: boolean;
+  setIsEditingTileGrid: Dispatch<SetStateAction<boolean>>;
 }
 
 export const TileGrid: React.FC<TileGridProps> = ({
@@ -28,8 +28,8 @@ export const TileGrid: React.FC<TileGridProps> = ({
   tutorialProgress,
   tiles,
   layout,
-  isEditingTiles,
-  setIsEditingTiles,
+  isEditingTileGrid,
+  setIsEditingTileGrid,
 }) => {
   const [settings, setSettings] = useRecoilState(userSettingState);
   const { colorMode } = useColorMode();
@@ -100,8 +100,8 @@ export const TileGrid: React.FC<TileGridProps> = ({
           style={{
             filter,
           }}
-          isDraggable={isEditingTiles}
-          isResizable={isEditingTiles}
+          isDraggable={isEditingTileGrid}
+          isResizable={isEditingTileGrid}
           containerPadding={{
             lg: [20, 10],
             md: [160, 55],
@@ -118,8 +118,8 @@ export const TileGrid: React.FC<TileGridProps> = ({
                   tileId={tile.tileId}
                   id={tile.tileId.toString()}
                   key={tile.tileId}
-                  isEditingTiles={isEditingTiles}
-                  setIsEditingTiles={setIsEditingTiles}
+                  isEditingTileGrid={isEditingTileGrid}
+                  setIsEditingTileGrid={setIsEditingTileGrid}
                   removeTileFromLayout={removeTileFromLayout}
                 />
               </CustomGridItemComponent>

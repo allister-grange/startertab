@@ -38,7 +38,7 @@ const Home: NextPage = () => {
   const [showingMobileWarning, setShowingMobileWarning] = useState(false);
 
   const [settings, setSettings] = useRecoilState(userSettingState);
-  const [isEditingTiles, setIsEditingTiles] = useState(false);
+  const [isEditingTileGrid, setIsEditingTileGrid] = useState(false);
   const { colorMode, setColorMode } = useColorMode();
 
   const setColorModeState = useSetRecoilState(colorModeState);
@@ -57,10 +57,10 @@ const Home: NextPage = () => {
     applyTheme(themeToChange);
   }, [settings, colorMode, setColorModeState]);
 
-  // this is used to change tiles conditionally on the sidebar being open
+  // this is used to change tiles conditionally on the sidebar being open or tiles being edited
   useEffect(() => {
-    setSettingsSidebarSate(isOpen);
-  }, [isOpen, setSettingsSidebarSate]);
+    setSettingsSidebarSate(isOpen || isEditingTileGrid);
+  }, [isOpen, setSettingsSidebarSate, isEditingTileGrid]);
 
   const currentTheme = getCurrentTheme(settings, colorMode);
 
@@ -90,7 +90,7 @@ const Home: NextPage = () => {
             setOptionHovered={setOptionHovered}
             setTutorialProgress={setTutorialProgress}
             tutorialProgress={tutorialProgress}
-            setIsEditingTiles={setIsEditingTiles}
+            setIsEditingTileGrid={setIsEditingTileGrid}
           />
         )}
         <>
@@ -105,12 +105,12 @@ const Home: NextPage = () => {
             width="100%"
             overflow="auto"
             height="100%"
-            onClick={() => setIsEditingTiles(false)}
+            onClick={() => setIsEditingTileGrid(false)}
           >
             <TileGrid
               tutorialProgress={tutorialProgress}
-              isEditingTiles={isEditingTiles}
-              setIsEditingTiles={setIsEditingTiles}
+              isEditingTileGrid={isEditingTileGrid}
+              setIsEditingTileGrid={setIsEditingTileGrid}
               optionHovered={optionHovered}
               gridGap={gridGap}
               layout={currentTheme.tileLayout}
@@ -125,7 +125,7 @@ const Home: NextPage = () => {
   return (
     <>
       {toDisplay}
-      {isEditingTiles && <TileLayoutActions colorMode={colorMode} />}
+      {isEditingTileGrid && <TileLayoutActions colorMode={colorMode} />}
       {!isOpen && !showingMobileWarning && (
         <SettingsToggle
           onOpen={() => {

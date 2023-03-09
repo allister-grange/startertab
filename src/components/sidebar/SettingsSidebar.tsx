@@ -37,7 +37,7 @@ interface SettingsSideBarProps {
   onClose: () => void;
   setOptionHovered: React.Dispatch<SetStateAction<number | undefined>>;
   setTutorialProgress: Dispatch<SetStateAction<number>>;
-  setIsEditingTiles: Dispatch<SetStateAction<boolean>>;
+  setIsEditingTileGrid: Dispatch<SetStateAction<boolean>>;
   tutorialProgress: number;
 }
 
@@ -51,7 +51,7 @@ const SettingsSideBar: React.FC<SettingsSideBarProps> = ({
   isOpen,
   setOptionHovered,
   setTutorialProgress,
-  setIsEditingTiles,
+  setIsEditingTileGrid,
   tutorialProgress,
 }) => {
   const { colorMode } = useColorMode();
@@ -83,7 +83,7 @@ const SettingsSideBar: React.FC<SettingsSideBarProps> = ({
     const permanentSettings = deepClone(settings);
     setSettings(permanentSettings);
     inMemorySettingsRef.current = permanentSettings;
-    setIsEditingTiles(false);
+    setIsEditingTileGrid(false);
   };
 
   // reset the background, colors etc back to what is in the userSettings before changes
@@ -93,7 +93,7 @@ const SettingsSideBar: React.FC<SettingsSideBarProps> = ({
     setTimeout(onClose, 500);
     // reset settings
     setSettings(deepClone(settings));
-    setIsEditingTiles(false);
+    setIsEditingTileGrid(false);
     setOptionHovered(undefined);
     setAccordionIndex([]);
     setSettings(inMemorySettingsRef.current);
@@ -207,7 +207,9 @@ const SettingsSideBar: React.FC<SettingsSideBarProps> = ({
             border: `2px solid ${textColor}`,
             transform: "translateY(-2px)",
           }}
-          onClick={() => setIsEditingTiles((isEditing) => !isEditing)}
+          onClick={() =>
+            setIsEditingTileGrid((isEditingTileGrid) => !isEditingTileGrid)
+          }
         >
           Edit Tile Grid
         </OutlinedButton>
