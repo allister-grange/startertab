@@ -46,7 +46,6 @@ export const HackerNewsFeedTile: React.FC<PageProps> = ({ tileId }) => {
   );
 
   const color = `var(--text-color-${tileId})`;
-  const underlineColor = color;
 
   // need to change the amount of text truncated from title depending on width
   React.useEffect(() => {
@@ -129,27 +128,24 @@ export const HackerNewsFeedTile: React.FC<PageProps> = ({ tileId }) => {
         <HackerNewsLogo height={20} width={20} fill={color} />
       </Box>
       {display}
-      <Box height="1px" width="100%" bg={color} mt="3" />
-      <Box width="100%" mt="4" mb="4" textAlign="center">
+      <Flex
+        mt="4"
+        mb="4"
+        flexWrap="wrap"
+        rowGap="2"
+        columnGap="1"
+        justifyContent="center"
+      >
         <OptionBadge onClick={() => changeFeedType("Top")} color={color}>
           Top Stories
         </OptionBadge>
-        <OptionBadge
-          onClick={() => changeFeedType("Show")}
-          color={color}
-          ml="2"
-          mr="2"
-        >
+        <OptionBadge onClick={() => changeFeedType("Show")} color={color}>
           Show Stories
         </OptionBadge>
-        <OptionBadge
-          onClick={() => changeFeedType("Ask")}
-          color={color}
-          mt={displayingOnWideTile ? undefined : "2"}
-        >
+        <OptionBadge onClick={() => changeFeedType("Ask")} color={color}>
           Ask Stories
         </OptionBadge>
-      </Box>
+      </Flex>
     </Box>
   );
 };

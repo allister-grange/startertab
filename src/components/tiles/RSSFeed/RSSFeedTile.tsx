@@ -223,7 +223,6 @@ export const RSSFeedTile: React.FC<RSSFeedTileProps> = ({ tileId }) => {
             </ListItem>
           ))}
         </UnorderedList>
-        <Box height="1px" width="100%" bg={color} mt="4" />
         <OutlinedButton
           fontSize="xs"
           display="block"

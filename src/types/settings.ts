@@ -74,6 +74,7 @@ export type TileSettings = {
   sidebarBorderColor?: string;
   subTextColor?: string;
   subReddit?: string;
+  subRedditSortType?: string;
   twitterFeedURL?: string;
   stravaToken?: string;
   dropShadow?: string;

@@ -37,6 +37,34 @@ export const redditFeedSelector = selectorFamily({
     },
 });
 
+export const subRedditSortTypeSelector = selectorFamily({
+  key: "SubRedditSortType",
+  get:
+    (tileId: number) =>
+    ({ get }) => {
+      const settings = get(userSettingState);
+      const colorMode = get(colorModeState);
+      const currentTheme = getCurrentTheme(settings, colorMode);
+
+      return currentTheme.tiles[tileId].subRedditSortType;
+    },
+  set:
+    (tileId: number) =>
+    ({ get, set }, newValue) => {
+      const userSettings = JSON.parse(
+        JSON.stringify(get(userSettingState))
+      ) as UserSettings;
+
+      userSettings.themes.forEach((theme) => {
+        if (!theme.tiles[tileId]) {
+          return;
+        }
+        theme.tiles[tileId].subRedditSortType = newValue as string;
+      });
+      set(userSettingState, userSettings);
+    },
+});
+
 export const hackerNewsFeedSelector = selectorFamily({
   key: "HackerNewsFeed",
   get:
