@@ -31,12 +31,6 @@ export function MyApp({
   pageProps,
   cookies,
 }: AppProps & MyAppProps) {
-  // pulls the colorMode from the cookies so that SSR can produce the correct theme
-  const colorModeManager =
-    typeof cookies === "string"
-      ? cookieStorageManagerSSR(cookies)
-      : localStorageManager;
-
   // setting defaults settings in local storage if the user is new
   useEffect(() => {
     if (!localStorage.getItem("user_settings")) {
@@ -48,7 +42,7 @@ export function MyApp({
 
   return (
     <ErrorBoundary FallbackComponent={AppErrorBoundary}>
-      <ChakraProvider colorModeManager={colorModeManager} theme={theme}>
+      <ChakraProvider colorModeManager={localStorageManager} theme={theme}>
         <Head>
           <title>StarterTab</title>
           <meta
