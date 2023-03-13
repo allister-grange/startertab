@@ -28,8 +28,9 @@ export const applyTheme = (theme: ThemeSettings) => {
   }
   setCookies("background", theme.globalSettings.backgroundColor, {
     maxAge: 34560000,
-    sameSite: "strict",
+    sameSite: "none",
     path: "/",
+    secure: true,
   });
 };
 
