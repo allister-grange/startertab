@@ -1,8 +1,8 @@
 import { Box, Center, Heading, Select, useColorMode } from "@chakra-ui/react";
 import React, { ChangeEvent } from "react";
 import { TileSize, TileType } from "@/types";
-import { userSettingState } from "@/recoil/UserSettingsAtom";
-import { useRecoilState } from "recoil";
+import { colorModeState, userSettingState } from "@/recoil/UserSettingsAtom";
+import { useRecoilState, useRecoilValue } from "recoil";
 import { deepClone } from "@/helpers/tileHelpers";
 import { OptionsForTileTypeSelect } from "@/components/ui/OptionsForTileTypeSelect";
 import { getCurrentTheme } from "@/helpers/settingsHelpers";
@@ -13,7 +13,7 @@ interface NoneTileProps {
 }
 
 export const NoneTile: React.FC<NoneTileProps> = ({ tileId, tileSize }) => {
-  const { colorMode } = useColorMode();
+  const colorMode = useRecoilValue(colorModeState);
   const [settings, setSettings] = useRecoilState(userSettingState);
   const color = `var(--text-color-${tileId})`;
 

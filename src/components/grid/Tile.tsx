@@ -1,9 +1,9 @@
 import { getCurrentTheme } from "@/helpers/settingsHelpers";
 import { useLongPress } from "@/hooks/useLongPress";
-import { userSettingState } from "@/recoil/UserSettingsAtom";
+import { colorModeState, userSettingState } from "@/recoil/UserSettingsAtom";
 import styles from "@/styles/Home.module.css";
 import { SmallCloseIcon } from "@chakra-ui/icons";
-import { Box, BoxProps, keyframes, useColorMode } from "@chakra-ui/react";
+import { Box, BoxProps, keyframes } from "@chakra-ui/react";
 import { motion } from "framer-motion";
 import dynamic from "next/dynamic";
 import React, { Dispatch, SetStateAction } from "react";
@@ -35,7 +35,7 @@ const Tile: React.FC<TileProps> = ({
   children,
   ...props
 }) => {
-  const { colorMode } = useColorMode();
+  const colorMode = useRecoilValue(colorModeState);
   const userSettings = useRecoilValue(userSettingState);
   const theme = getCurrentTheme(userSettings, colorMode);
 
