@@ -49,14 +49,6 @@ const Home: NextPage<HomeProps> = ({ cookies }) => {
   const setSettingsSidebarSate = useSetRecoilState(settingsSidebarSate);
 
   useEffect(() => {
-    // TODO, I need to set the cookie somewhere nice, so that when creating a new theme it doesn't stuff up
-    if (cookies) {
-      const theme = decodeURIComponent(getCookieValue(cookies, "currentTheme"));
-      setColorModeState(theme);
-    }
-  }, [cookies, setColorModeState]);
-
-  useEffect(() => {
     if (isMobile) {
       const isMobileView = localStorage.getItem("isMobileView");
       setShowingMobileWarning(isMobileView == null);
