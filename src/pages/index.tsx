@@ -8,6 +8,7 @@ import { MobileWarning } from "@/components/ui/MobileWarning";
 import { SettingsToggle } from "@/components/ui/SettingsToggle";
 import {
   applyTheme,
+  getCookieValue,
   getCurrentTheme,
   getNewSettingsFromLegacyTheme,
 } from "@/helpers/settingsHelpers";
@@ -22,7 +23,11 @@ import { useEffect, useState } from "react";
 import { isMobile } from "react-device-detect";
 import { useRecoilState, useSetRecoilState } from "recoil";
 
-const Home: NextPage = () => {
+export type HomeProps = {
+  cookies: string | undefined;
+};
+
+const Home: NextPage<HomeProps> = ({ cookies }) => {
   // Sidebar hook
   const { isOpen, onOpen, onClose } = useDisclosure();
 
@@ -45,6 +50,13 @@ const Home: NextPage = () => {
   const setSettingsSidebarSate = useSetRecoilState(settingsSidebarSate);
 
   useEffect(() => {
+    if (cookies) {
+      const theme = decodeURIComponent(getCookieValue(cookies, "currentTheme"));
+      setColorMode(theme);
+    }
+  }, [cookies, setColorMode]);
+
+  useEffect(() => {
     if (isMobile) {
       const isMobileView = localStorage.getItem("isMobileView");
       setShowingMobileWarning(isMobileView == null);
@@ -53,6 +65,7 @@ const Home: NextPage = () => {
 
   useEffect(() => {
     setColorModeState(colorMode);
+
     const themeToChange = getCurrentTheme(settings, colorMode);
     applyTheme(themeToChange);
   }, [settings, colorMode, setColorModeState]);

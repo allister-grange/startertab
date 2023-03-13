@@ -1,3 +1,4 @@
+import { getCookieValue } from "@/helpers/settingsHelpers";
 import Document, {
   DocumentContext,
   DocumentInitialProps,
@@ -8,9 +9,6 @@ import Document, {
 } from "next/document";
 
 type MyDocumentProps = { cookies?: string };
-
-const getCookieValue = (cookies: string, name: string) =>
-  cookies.match("(^|;)\\s*" + name + "\\s*=\\s*([^;]+)")?.pop() || "";
 
 class MyDocument extends Document<{ cookies: string }> {
   static async getInitialProps(

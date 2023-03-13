@@ -32,6 +32,12 @@ export const applyTheme = (theme: ThemeSettings) => {
     path: "/",
     secure: true,
   });
+  setCookies("currentTheme", theme.themeName, {
+    maxAge: 34560000,
+    sameSite: "none",
+    path: "/",
+    secure: true,
+  });
 };
 
 export const getThemeNames = (settings: UserSettings): string[] => {
@@ -192,3 +198,6 @@ export const getTileLayoutForNewTile = (size: TileSize) => {
 
   return { width, height, minH, minW };
 };
+
+export const getCookieValue = (cookies: string, name: string) =>
+  cookies.match("(^|;)\\s*" + name + "\\s*=\\s*([^;]+)")?.pop() || "";

@@ -2,12 +2,7 @@ import { AppErrorBoundary } from "@/components/ui/AppErrorBoundary";
 import { defaultSettings } from "@/helpers/themes";
 import "@/styles/github-markdown.css";
 import "@/styles/globals.css";
-import {
-  ChakraProvider,
-  cookieStorageManagerSSR,
-  extendTheme,
-  localStorageManager,
-} from "@chakra-ui/react";
+import { ChakraProvider, extendTheme } from "@chakra-ui/react";
 import { Analytics } from "@vercel/analytics/react";
 import App, { AppContext, AppInitialProps, AppProps } from "next/app";
 import Head from "next/head";
@@ -42,7 +37,7 @@ export function MyApp({
 
   return (
     <ErrorBoundary FallbackComponent={AppErrorBoundary}>
-      <ChakraProvider colorModeManager={localStorageManager} theme={theme}>
+      <ChakraProvider theme={theme}>
         <Head>
           <title>StarterTab</title>
           <meta
@@ -69,7 +64,7 @@ export function MyApp({
         they can only be found when the application is rendered on the client. */}
         <NoSSR>
           <RecoilRoot>
-            <Component {...pageProps} />
+            <Component cookies={cookies} {...pageProps} />
             <Analytics />
           </RecoilRoot>
         </NoSSR>
