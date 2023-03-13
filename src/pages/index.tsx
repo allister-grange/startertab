@@ -17,7 +17,7 @@ import {
   settingsSidebarSate,
   userSettingState,
 } from "@/recoil/UserSettingsAtom";
-import { Box, Flex, useColorMode, useDisclosure } from "@chakra-ui/react";
+import { Box, Flex, useDisclosure } from "@chakra-ui/react";
 import type { NextPage } from "next";
 import { useEffect, useState } from "react";
 import { isMobile } from "react-device-detect";
@@ -44,17 +44,17 @@ const Home: NextPage<HomeProps> = ({ cookies }) => {
 
   const [settings, setSettings] = useRecoilState(userSettingState);
   const [isEditingTileGrid, setIsEditingTileGrid] = useState(false);
-  const { colorMode, setColorMode } = useColorMode();
 
-  const setColorModeState = useSetRecoilState(colorModeState);
+  const [colorMode, setColorModeState] = useRecoilState(colorModeState);
   const setSettingsSidebarSate = useSetRecoilState(settingsSidebarSate);
 
   useEffect(() => {
+    // TODO, I need to set the cookie somewhere nice, so that when creating a new theme it doesn't stuff up
     if (cookies) {
       const theme = decodeURIComponent(getCookieValue(cookies, "currentTheme"));
-      setColorMode(theme);
+      setColorModeState(theme);
     }
-  }, [cookies, setColorMode]);
+  }, [cookies, setColorModeState]);
 
   useEffect(() => {
     if (isMobile) {
@@ -64,8 +64,6 @@ const Home: NextPage<HomeProps> = ({ cookies }) => {
   }, [isMobileView]);
 
   useEffect(() => {
-    setColorModeState(colorMode);
-
     const themeToChange = getCurrentTheme(settings, colorMode);
     applyTheme(themeToChange);
   }, [settings, colorMode, setColorModeState]);
@@ -76,11 +74,6 @@ const Home: NextPage<HomeProps> = ({ cookies }) => {
   }, [isOpen, setSettingsSidebarSate, isEditingTileGrid]);
 
   const currentTheme = getCurrentTheme(settings, colorMode);
-
-  // if there's no color mode set in the cookies/local storage
-  if (!colorMode) {
-    setColorMode(currentTheme.themeName);
-  }
 
   // legacy settings need to be switched over to new format
   if ((currentTheme as any).tile1) {

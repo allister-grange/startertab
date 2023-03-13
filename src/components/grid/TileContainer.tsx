@@ -30,18 +30,18 @@ import OutlookContextProvider from "@/context/OutlookContext";
 import SpotifyContextProvider from "@/context/SpotifyContext";
 import StravaContextProvider from "@/context/StravaContext";
 import TwitterContextProvider from "@/context/TwitterContext";
-import { userSettingState } from "@/recoil/UserSettingsAtom";
+import { colorModeState, userSettingState } from "@/recoil/UserSettingsAtom";
 import {
   bookingsSelector,
   todoListSelector,
 } from "@/recoil/UserSettingsSelectors";
 import { Booking, TileSize, TileType, TodoObject } from "@/types";
-import { Box, useColorMode } from "@chakra-ui/react";
+import { Box } from "@chakra-ui/react";
 import { createSyncStoragePersister } from "@tanstack/query-sync-storage-persister";
 import { QueryClient } from "@tanstack/react-query";
 import { PersistQueryClientProvider } from "@tanstack/react-query-persist-client";
 import React from "react";
-import { SetterOrUpdater, useRecoilState } from "recoil";
+import { SetterOrUpdater, useRecoilState, useRecoilValue } from "recoil";
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -76,7 +76,7 @@ const TileContainer: React.FC<TileContainerProps> = ({
     SetterOrUpdater<TodoObject[] | undefined>
   ];
   const [settings, setSettings] = useRecoilState(userSettingState);
-  const { colorMode } = useColorMode();
+  const colorMode = useRecoilValue(colorModeState);
   const color = `var(--text-color-${tileId})`;
 
   const persister = createSyncStoragePersister({

@@ -1,14 +1,14 @@
 import Tile from "@/components/grid/Tile";
 import { getCurrentTheme } from "@/helpers/settingsHelpers";
 import { deepClone } from "@/helpers/tileHelpers";
-import { userSettingState } from "@/recoil/UserSettingsAtom";
+import { colorModeState, userSettingState } from "@/recoil/UserSettingsAtom";
 import { TileSettings, UserSettings } from "@/types";
-import { Box, BoxProps, Flex, useColorMode } from "@chakra-ui/react";
+import { Box, BoxProps, Flex } from "@chakra-ui/react";
 import React, { Dispatch, SetStateAction } from "react";
 import { Layouts, Responsive, WidthProvider } from "react-grid-layout";
 import "react-grid-layout/css/styles.css";
 import "react-resizable/css/styles.css";
-import { useRecoilState } from "recoil";
+import { useRecoilState, useRecoilValue } from "recoil";
 
 const ResponsiveGridLayout = WidthProvider(Responsive);
 
@@ -32,7 +32,7 @@ export const TileGrid: React.FC<TileGridProps> = ({
   setIsEditingTileGrid,
 }) => {
   const [settings, setSettings] = useRecoilState(userSettingState);
-  const { colorMode } = useColorMode();
+  const colorMode = useRecoilValue(colorModeState);
   const currentTheme = getCurrentTheme(settings, colorMode);
 
   const filter =

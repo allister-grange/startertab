@@ -1,5 +1,7 @@
-import { useToast, Text, Link, useColorMode } from "@chakra-ui/react";
+import { colorModeState } from "@/recoil/UserSettingsAtom";
+import { Link, Text, useToast } from "@chakra-ui/react";
 import React, { Dispatch, SetStateAction, useCallback, useEffect } from "react";
+import { useSetRecoilState } from "recoil";
 
 interface ShowNewTabToastProps {
   setTutorialProgress: Dispatch<SetStateAction<number>>;
@@ -11,7 +13,7 @@ export const ShowNewTabToast: React.FC<ShowNewTabToastProps> = ({
   setShowingTutorial,
 }) => {
   const toast = useToast();
-  const { setColorMode } = useColorMode();
+  const setColorModeState = useSetRecoilState(colorModeState);
 
   const showNewTabToast = useCallback(() => {
     toast({
@@ -44,9 +46,14 @@ export const ShowNewTabToast: React.FC<ShowNewTabToastProps> = ({
       setShowingTutorial(true);
       localStorage.setItem("hasVisitedBefore", "true");
       setTimeout(showNewTabToast, 45000);
-      setColorMode("colored light");
+      setColorModeState("colored light");
     }
-  }, [setColorMode, setShowingTutorial, setTutorialProgress, showNewTabToast]);
+  }, [
+    setColorModeState,
+    setShowingTutorial,
+    setTutorialProgress,
+    showNewTabToast,
+  ]);
 
   return <div />;
 };

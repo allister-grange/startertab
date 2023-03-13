@@ -1,5 +1,5 @@
 import { colorModeState, userSettingState } from "@/recoil/UserSettingsAtom";
-import { Box, BoxProps, Flex, useColorMode } from "@chakra-ui/react";
+import { Box, BoxProps, Flex } from "@chakra-ui/react";
 import React from "react";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 
@@ -18,7 +18,6 @@ const ThemePickerBubble = (props: BoxProps) => {
 };
 
 const ThemePickerTile: React.FC = () => {
-  const { setColorMode } = useColorMode();
   const settings = useRecoilValue(userSettingState);
   const setColorModeState = useSetRecoilState(colorModeState);
 
@@ -46,7 +45,6 @@ const ThemePickerTile: React.FC = () => {
                 marginY="7px"
                 onClick={() => {
                   setColorModeState(theme.themeName);
-                  setColorMode(theme.themeName);
                 }}
                 bg={theme.globalSettings.themePickerBubbleColor}
               />

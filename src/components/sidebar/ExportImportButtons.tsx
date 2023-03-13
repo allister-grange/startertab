@@ -1,4 +1,5 @@
 import { OutlinedButton } from "@/components/ui/OutlinedButton";
+import { colorModeState } from "@/recoil/UserSettingsAtom";
 import { ThemeSettings, UserSettings } from "@/types";
 import { CopyIcon, DownloadIcon } from "@chakra-ui/icons";
 import {
@@ -13,12 +14,11 @@ import {
   ModalHeader,
   ModalOverlay,
   Text,
-  useColorMode,
   useDisclosure,
   useToast,
 } from "@chakra-ui/react";
 import React, { FormEvent, useCallback, useState } from "react";
-import { SetterOrUpdater } from "recoil";
+import { SetterOrUpdater, useSetRecoilState } from "recoil";
 
 interface ExportImportButtonsProps {
   textColor: string;
@@ -37,7 +37,7 @@ export const ExportImportButtons: React.FC<ExportImportButtonsProps> = ({
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [importText, setImportText] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
-  const { setColorMode } = useColorMode();
+  const setColorModeState = useSetRecoilState(colorModeState);
 
   function showErrorMessage(message: string) {
     setErrorMessage(message);
@@ -113,7 +113,7 @@ export const ExportImportButtons: React.FC<ExportImportButtonsProps> = ({
         themes: [...settings.themes, newTheme],
       });
       showClipboardToast("Imported theme");
-      setColorMode(newTheme.themeName);
+      setColorModeState(newTheme.themeName);
       onClose();
       /** little bit janky, but some tiles (rss feeds, bookmarks) 
       need a page refresh to not be in the "new" state,

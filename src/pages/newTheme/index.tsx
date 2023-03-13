@@ -4,21 +4,13 @@ import { SidebarThemePicker } from "@/components/theme-creator/SidebarThemePicke
 import { Footer } from "@/components/ui/Footer";
 import { OutlinedButton } from "@/components/ui/OutlinedButton";
 import { newThemeGridLayout } from "@/helpers/gridLayout";
-import { userSettingState } from "@/recoil/UserSettingsAtom";
+import { applyTheme } from "@/helpers/settingsHelpers";
+import { colorModeState, userSettingState } from "@/recoil/UserSettingsAtom";
 import { UserSettings } from "@/types";
-import {
-  Box,
-  Flex,
-  Grid,
-  Heading,
-  Input,
-  Text,
-  useColorMode,
-} from "@chakra-ui/react";
+import { Box, Flex, Grid, Heading, Input, Text } from "@chakra-ui/react";
 import Image from "next/image";
-import Router from "next/router";
 import React, { useState } from "react";
-import { useRecoilState } from "recoil";
+import { useRecoilState, useSetRecoilState } from "recoil";
 
 type FormInputs = {
   themeName: string;
@@ -30,7 +22,6 @@ type FormInputs = {
 };
 
 export const ThemeCreator: React.FC = ({}) => {
-  const { setColorMode } = useColorMode();
   const [formInputs, setFormInputs] = useState<FormInputs>({
     themeName: "",
     backgroundColor: "#f3b4b4",
@@ -40,6 +31,7 @@ export const ThemeCreator: React.FC = ({}) => {
     textColorOfTiles: "#202020",
   });
   const [settings, setSettings] = useRecoilState(userSettingState);
+  const setColorModeState = useSetRecoilState(colorModeState);
 
   React.useLayoutEffect(() => {
     document.body.style.background = "white";
@@ -150,7 +142,12 @@ export const ThemeCreator: React.FC = ({}) => {
       },
     ];
     setSettings(newSettings);
-    setColorMode(formInputs.themeName);
+    setColorModeState(formInputs.themeName);
+    applyTheme(
+      newSettings.themes.find(
+        (theme) => theme.themeName === formInputs.themeName
+      )!
+    );
     window.location.href = "/";
   };
 
