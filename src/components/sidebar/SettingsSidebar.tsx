@@ -26,7 +26,6 @@ import {
   Box,
   ExpandedIndex,
   Link,
-  useColorMode,
 } from "@chakra-ui/react";
 import React, { Dispatch, SetStateAction, useRef, useState } from "react";
 import { useRecoilState, useRecoilValue } from "recoil";
@@ -123,7 +122,7 @@ const SettingsSideBar: React.FC<SettingsSideBarProps> = ({
     let newSettings = deepClone(settings);
     const themeToChange = getCurrentTheme(newSettings, colorMode);
 
-    themeToChange.tiles.forEach((tile) => {
+    for (const tile of themeToChange.tiles) {
       for (const item in tile) {
         if (item.toLowerCase().includes("color")) {
           const newColorSetting = randomHexValue();
@@ -137,7 +136,7 @@ const SettingsSideBar: React.FC<SettingsSideBarProps> = ({
           }
         }
       }
-    });
+    }
 
     setSettings(newSettings);
   };
@@ -362,4 +361,4 @@ const SettingsSideBar: React.FC<SettingsSideBarProps> = ({
   );
 };
 
-export default React.memo(SettingsSideBar);
+export default SettingsSideBar;

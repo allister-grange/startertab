@@ -1,6 +1,7 @@
 import { defaultGridLayout } from "@/helpers/gridLayout";
 import { deepClone } from "@/helpers/tileHelpers";
 import { ThemeSettings, TileSettings, TileSize, UserSettings } from "@/types";
+import { theme } from "@chakra-ui/react";
 import { setCookies } from "cookies-next";
 
 export const applyTheme = (theme: ThemeSettings) => {
@@ -17,14 +18,28 @@ export const applyTheme = (theme: ThemeSettings) => {
     theme.globalSettings.textColor || ""
   );
   for (const tileId in theme.tiles) {
-    document.documentElement.style.setProperty(
-      `--bg-color-${tileId}`,
-      theme.tiles[tileId].backgroundColor
-    );
-    document.documentElement.style.setProperty(
-      `--text-color-${tileId}`,
-      theme.tiles[tileId].textColor
-    );
+    if (theme.globalSettings.globalTileBackgroundColor) {
+      document.documentElement.style.setProperty(
+        `--bg-color-${tileId}`,
+        theme.globalSettings.globalTileBackgroundColor
+      );
+    } else {
+      document.documentElement.style.setProperty(
+        `--bg-color-${tileId}`,
+        theme.tiles[tileId].backgroundColor
+      );
+    }
+    if (theme.globalSettings.globalTileTextColor) {
+      document.documentElement.style.setProperty(
+        `--text-color-${tileId}`,
+        theme.globalSettings.globalTileTextColor
+      );
+    } else {
+      document.documentElement.style.setProperty(
+        `--text-color-${tileId}`,
+        theme.tiles[tileId].textColor
+      );
+    }
   }
   setCookies("background", theme.globalSettings.backgroundColor, {
     maxAge: 34560000,
@@ -41,9 +56,11 @@ export const applyTheme = (theme: ThemeSettings) => {
 };
 
 export const getThemeNames = (settings: UserSettings): string[] => {
-  const themeNames: string[] = [];
-  settings.themes.forEach((theme) => themeNames.push(theme.themeName));
-  return themeNames;
+  const themeNames = [];
+  for (const theme of settings.themes) {
+    themeNames.push(theme.themeName);
+  }
+  return themeNames.sort();
 };
 
 export const getCurrentTheme = (

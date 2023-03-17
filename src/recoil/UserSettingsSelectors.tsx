@@ -27,12 +27,12 @@ export const redditFeedSelector = selectorFamily({
         JSON.stringify(get(userSettingState))
       ) as UserSettings;
 
-      userSettings.themes.forEach((theme) => {
+      for (const theme of userSettings.themes) {
         if (!theme.tiles[tileId]) {
-          return;
+          continue;
         }
         theme.tiles[tileId].subReddit = newValue as string;
-      });
+      }
       set(userSettingState, userSettings);
     },
 });
@@ -55,12 +55,12 @@ export const subRedditSortTypeSelector = selectorFamily({
         JSON.stringify(get(userSettingState))
       ) as UserSettings;
 
-      userSettings.themes.forEach((theme) => {
+      for (const theme of userSettings.themes) {
         if (!theme.tiles[tileId]) {
-          return;
+          continue;
         }
         theme.tiles[tileId].subRedditSortType = newValue as string;
-      });
+      }
       set(userSettingState, userSettings);
     },
 });
@@ -83,12 +83,12 @@ export const hackerNewsFeedSelector = selectorFamily({
         JSON.stringify(get(userSettingState))
       ) as UserSettings;
 
-      userSettings.themes.forEach((theme) => {
+      for (const theme of userSettings.themes) {
         if (!theme.tiles[tileId]) {
-          return;
+          continue;
         }
         theme.tiles[tileId].hackerNewsFeedType = newValue as string;
-      });
+      }
       set(userSettingState, userSettings);
     },
 });
@@ -111,12 +111,12 @@ export const cityForWeatherSelector = selectorFamily({
         JSON.stringify(get(userSettingState))
       ) as UserSettings;
 
-      userSettings.themes.forEach((theme) => {
+      for (const theme of userSettings.themes) {
         if (!theme.tiles[tileId]) {
-          return;
+          continue;
         }
         theme.tiles[tileId].cityForWeather = newValue as string;
-      });
+      }
       set(userSettingState, userSettings);
     },
 });
@@ -139,12 +139,12 @@ export const tempDisplayInCelsiusSelector = selectorFamily({
         JSON.stringify(get(userSettingState))
       ) as UserSettings;
 
-      userSettings.themes.forEach((theme) => {
+      for (const theme of userSettings.themes) {
         if (!theme.tiles[tileId]) {
-          return;
+          continue;
         }
         theme.tiles[tileId].tempDisplayInCelsius = newValue as string;
-      });
+      }
       set(userSettingState, userSettings);
     },
 });
@@ -167,12 +167,12 @@ export const bookingsSelector = selectorFamily({
         JSON.stringify(get(userSettingState))
       ) as UserSettings;
 
-      userSettings.themes.forEach((theme) => {
+      for (const theme of userSettings.themes) {
         if (!theme.tiles[tileId]) {
-          return;
+          continue;
         }
         theme.tiles[tileId].bookings = newValue as Booking[];
-      });
+      }
       set(userSettingState, userSettings);
     },
 });
@@ -195,12 +195,12 @@ export const stockSelector = selectorFamily({
         JSON.stringify(get(userSettingState))
       ) as UserSettings;
 
-      userSettings.themes.forEach((theme) => {
+      for (const theme of userSettings.themes) {
         if (!theme.tiles[tileId]) {
-          return;
+          continue;
         }
         theme.tiles[tileId].stockName = newValue as string;
-      });
+      }
       set(userSettingState, userSettings);
     },
 });
@@ -223,12 +223,12 @@ export const bonsaiTrunkColorSelector = selectorFamily({
         JSON.stringify(get(userSettingState))
       ) as UserSettings;
 
-      userSettings.themes.forEach((theme) => {
+      for (const theme of userSettings.themes) {
         if (!theme.tiles[tileId]) {
-          return;
+          continue;
         }
         theme.tiles[tileId].bonsaiTrunkColor = newValue as string;
-      });
+      }
       set(userSettingState, userSettings);
     },
 });
@@ -251,12 +251,12 @@ export const bonsaiBaseColorSelector = selectorFamily({
         JSON.stringify(get(userSettingState))
       ) as UserSettings;
 
-      userSettings.themes.forEach((theme) => {
+      for (const theme of userSettings.themes) {
         if (!theme.tiles[tileId]) {
-          return;
+          continue;
         }
         theme.tiles[tileId].bonsaiBaseColor = newValue as string;
-      });
+      }
       set(userSettingState, userSettings);
     },
 });
@@ -279,12 +279,12 @@ export const uvCitySelector = selectorFamily({
         JSON.stringify(get(userSettingState))
       ) as UserSettings;
 
-      userSettings.themes.forEach((theme) => {
+      for (const theme of userSettings.themes) {
         if (!theme.tiles[tileId]) {
-          return;
+          continue;
         }
         theme.tiles[tileId].cityForUv = newValue as string;
-      });
+      }
       set(userSettingState, userSettings);
     },
 });
@@ -307,12 +307,12 @@ export const todoListSelector = selectorFamily({
         JSON.stringify(get(userSettingState))
       ) as UserSettings;
 
-      userSettings.themes.forEach((theme) => {
+      for (const theme of userSettings.themes) {
         if (!theme.tiles[tileId]) {
-          return;
+          continue;
         }
         theme.tiles[tileId].todoList = newValue as TodoObject[];
-      });
+      }
       set(userSettingState, userSettings);
     },
 });
@@ -335,12 +335,12 @@ export const spotifyTopArtistTimeLengthSelector = selectorFamily({
         JSON.stringify(get(userSettingState))
       ) as UserSettings;
 
-      userSettings.themes.forEach((theme) => {
+      for (const theme of userSettings.themes) {
         if (!theme.tiles[tileId]) {
-          return;
+          continue;
         }
         theme.tiles[tileId].spotifyArtistSearchTimeLength = newValue as string;
-      });
+      }
       set(userSettingState, userSettings);
     },
 });
@@ -363,12 +363,12 @@ export const markdownFileTextSelector = selectorFamily({
         JSON.stringify(get(userSettingState))
       ) as UserSettings;
 
-      userSettings.themes.forEach((theme) => {
+      for (const theme of userSettings.themes) {
         if (!theme.tiles[tileId]) {
-          return;
+          continue;
         }
         theme.tiles[tileId].markdownFileText = newValue as string;
-      });
+      }
       set(userSettingState, userSettings);
     },
 });
@@ -391,12 +391,12 @@ export const favoriteLinksSelector = selectorFamily({
         JSON.stringify(get(userSettingState))
       ) as UserSettings;
 
-      userSettings.themes.forEach((theme) => {
+      for (const theme of userSettings.themes) {
         if (!theme.tiles[tileId]) {
-          return;
+          continue;
         }
         theme.tiles[tileId].favoriteLinks = newValue as FavoriteLink[];
-      });
+      }
       set(userSettingState, userSettings);
     },
 });
@@ -419,12 +419,12 @@ export const favoriteLinksTitleSelector = selectorFamily({
         JSON.stringify(get(userSettingState))
       ) as UserSettings;
 
-      userSettings.themes.forEach((theme) => {
+      for (const theme of userSettings.themes) {
         if (!theme.tiles[tileId]) {
-          return;
+          continue;
         }
         theme.tiles[tileId].favoriteLinksTitle = newValue as string;
-      });
+      }
       set(userSettingState, userSettings);
     },
 });
@@ -447,12 +447,12 @@ export const rssFeedsSelector = selectorFamily({
         JSON.stringify(get(userSettingState))
       ) as UserSettings;
 
-      userSettings.themes.forEach((theme) => {
+      for (const theme of userSettings.themes) {
         if (!theme.tiles[tileId]) {
-          return;
+          continue;
         }
         theme.tiles[tileId].rssFeeds = newValue as RSSFeed[];
-      });
+      }
       set(userSettingState, userSettings);
     },
 });
@@ -475,12 +475,12 @@ export const rssFeedTitleSelector = selectorFamily({
         JSON.stringify(get(userSettingState))
       ) as UserSettings;
 
-      userSettings.themes.forEach((theme) => {
+      for (const theme of userSettings.themes) {
         if (!theme.tiles[tileId]) {
-          return;
+          continue;
         }
         theme.tiles[tileId].rssFeedTitle = newValue as string;
-      });
+      }
       set(userSettingState, userSettings);
     },
 });

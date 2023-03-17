@@ -130,12 +130,12 @@ export const getSpotifyTopArtists = async (
   const spotifyData: TopArtistSpotify[] = [];
   const data = await res.json();
 
-  data.items.forEach((spotifyItem: any) => {
+  for (const spotifyItem of data.items) {
     spotifyData.push({
       name: spotifyItem.name,
       popularity: spotifyItem.popularity,
     });
-  });
+  }
 
   return {
     topArtists: spotifyData,

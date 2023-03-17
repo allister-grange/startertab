@@ -57,7 +57,7 @@ export const getWeatherConditionsForWeek = async (city: string) => {
 
     let forecasts: WeatherData[] = [];
 
-    data.forecast.forecastday!.forEach((forecast) => {
+    for (const forecast of data.forecast.forecastday!) {
       const weatherCondition = getWeatherCondition(forecast);
 
       forecasts.push({
@@ -66,7 +66,7 @@ export const getWeatherConditionsForWeek = async (city: string) => {
         condition: weatherCondition,
         date: forecast.date,
       });
-    });
+    }
 
     return forecasts;
   } catch (err) {
@@ -158,12 +158,13 @@ export const getUVData = async (city: string): Promise<UvGraphData[]> => {
 
     const data = (await weatherRes.json()) as WeatherResponse;
     let uvData = [] as UvGraphData[];
-    data.forecast.forecastday![0].hour!.forEach((hour) => {
+
+    for (const hour of data.forecast.forecastday![0].hour!) {
       uvData.push({
         value: hour.uv,
         time: hour.time.split(" ")[1],
       });
-    });
+    }
 
     return uvData;
   } catch (err) {

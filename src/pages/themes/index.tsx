@@ -125,11 +125,12 @@ const ManageThemes: React.FC = ({}) => {
     let themeNameCollision = false;
     let newTheme = deepClone(theme.data) as unknown as ThemeSettings;
 
-    clonedSettings.themes.forEach((themeToSearch) => {
+    for (const themeToSearch of clonedSettings.themes) {
       if (themeToSearch.themeName === theme.name) {
         themeNameCollision = true;
+        break;
       }
-    });
+    }
 
     if (themeNameCollision) {
       newTheme.themeName = newTheme.themeName + " copy";

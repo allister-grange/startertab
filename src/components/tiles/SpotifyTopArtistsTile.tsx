@@ -69,8 +69,8 @@ export const SpotifyTopArtistsTile: React.FC<SmallSpotifyTileProps> = ({
         color={color}
         href="https://spotify.com"
         height="14px"
-        right="2"
-        top="2"
+        right="3"
+        top="3"
         opacity="0.7"
       >
         <SpotifyLogo fill={color} height={18} width={18} />
@@ -78,10 +78,9 @@ export const SpotifyTopArtistsTile: React.FC<SmallSpotifyTileProps> = ({
       <Heading p="2" fontSize="xl" fontWeight="bold">
         Top Spotify Artists
       </Heading>
-      <Box w="80%" bg="white" height="1px" ml="2" bgColor={color} />
 
       <Flex dir="row" flexDir="column">
-        <UnorderedList mt="2" ml="2" style={{ listStyle: "none" }}>
+        <UnorderedList mt="1" ml="4" style={{ listStyle: "none" }}>
           {topArtists.length > 0 ? (
             topArtists.map((artist, index) => {
               return (

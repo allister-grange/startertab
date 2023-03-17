@@ -51,11 +51,9 @@ export class TileErrorBoundary extends Component<
       return;
     }
 
-    Object.keys(currentTheme.tiles[this.props.tileId]).forEach(function (
-      key: string,
-      index
-    ) {
-      const castedKey = key as keyof TileSettings;
+    const objectKeys = Object.keys(currentTheme.tiles[this.props.tileId]);
+    for (const objectKey of objectKeys) {
+      const castedKey = objectKey as keyof TileSettings;
 
       if (castedKey === "backgroundColor" || castedKey === "textColor") {
         currentTheme.tiles[tileId][castedKey] =
@@ -72,7 +70,7 @@ export class TileErrorBoundary extends Component<
       } else {
         currentTheme.tiles[tileId][castedKey] = undefined;
       }
-    });
+    }
 
     this.props.setSettings(currentSettingsClone);
     this.setState({

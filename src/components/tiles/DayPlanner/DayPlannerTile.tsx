@@ -74,17 +74,21 @@ const DayPlannerTileComponent: React.FC<DayPlannerTileProps> = ({
 
   // any bookings from yesterday or before need to go
   const clearOutOldBookings = useCallback(() => {
+    if (!bookings) {
+      return;
+    }
+
     const todaysDateAtMidnight = new Date(new Date().setHours(0));
     const bookingsToKeep = [] as Booking[];
 
-    bookings?.forEach((booking) => {
+    for (const booking of bookings) {
       if (
         !(new Date(booking.creationDate) < todaysDateAtMidnight) ||
         booking.permanentBooking
       ) {
         bookingsToKeep.push(booking);
       }
-    });
+    }
 
     setBookings(bookingsToKeep);
   }, [bookings, setBookings]);

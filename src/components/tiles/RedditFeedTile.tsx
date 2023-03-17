@@ -193,6 +193,7 @@ export const RedditFeedTile: React.FC<RedditFeedProps> = ({ tileId }) => {
         mt="2"
         value={subRedditSortType}
         onChange={(e) => setSubRedditSortType(e.target.value)}
+        borderColor={color}
       >
         <option value="best">Best Posts</option>
         <option value="top">Top Posts</option>

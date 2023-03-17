@@ -98,58 +98,6 @@ const getMonsEpoch = (): number => {
 
 const weekday = ["Sun", "Mon", "Tues", "Wed", "Thur", "Fri", "Sat"];
 
-// I want two lots of data (swimming and running)
-const formatStravaData = (data: StravaActivity[]) => {
-  const formattedStravaData = getEmptyStravaData();
-
-  data.forEach((activity) => {
-    const dayOfActivity = new Date(activity.start_date_local).getUTCDay();
-
-    if (activity.type === "Run") {
-      formattedStravaData.running.forEach((activityToFind) => {
-        if (activityToFind.day === weekday[dayOfActivity]) {
-          activityToFind.distance +=
-            Math.round((activity.distance / 1000) * 10) / 10;
-        }
-      });
-      formattedStravaData.combinedData.forEach((activityToFind) => {
-        if (activityToFind.day === weekday[dayOfActivity]) {
-          activityToFind.run +=
-            Math.round((activity.distance / 1000) * 10) / 10;
-        }
-      });
-    } else if (activity.type === "Swim") {
-      formattedStravaData.swimming.forEach((activityToFind) => {
-        if (activityToFind.day === weekday[dayOfActivity]) {
-          activityToFind.distance +=
-            Math.round((activity.distance / 1000) * 10) / 10;
-        }
-      });
-      formattedStravaData.combinedData.forEach((activityToFind) => {
-        if (activityToFind.day === weekday[dayOfActivity]) {
-          activityToFind.swim +=
-            Math.round((activity.distance / 1000) * 10) / 10;
-        }
-      });
-    } else if (activity.type === "Ride") {
-      formattedStravaData.riding.forEach((activityToFind) => {
-        if (activityToFind.day === weekday[dayOfActivity]) {
-          activityToFind.distance +=
-            Math.round((activity.distance / 1000) * 10) / 10;
-        }
-      });
-      formattedStravaData.combinedData.forEach((activityToFind) => {
-        if (activityToFind.day === weekday[dayOfActivity]) {
-          activityToFind.ride +=
-            Math.round((activity.distance / 1000) * 10) / 10;
-        }
-      });
-    }
-  });
-
-  return formattedStravaData;
-};
-
 export const getEmptyStravaData = (): StravaGraphData => {
   const formattedStravaData: StravaGraphData = {
     swimming: [] as StravaGraphPoint[],
@@ -221,6 +169,57 @@ export const getEmptyStravaData = (): StravaGraphData => {
     swim: 0,
     ride: 0,
   });
+
+  return formattedStravaData;
+};
+
+const formatStravaData = (data: StravaActivity[]) => {
+  const formattedStravaData = getEmptyStravaData();
+
+  for (const activity of data) {
+    const dayOfActivity = new Date(activity.start_date_local).getUTCDay();
+
+    if (activity.type === "Run") {
+      formattedStravaData.running.forEach((activityToFind) => {
+        if (activityToFind.day === weekday[dayOfActivity]) {
+          activityToFind.distance +=
+            Math.round((activity.distance / 1000) * 10) / 10;
+        }
+      });
+      formattedStravaData.combinedData.forEach((activityToFind) => {
+        if (activityToFind.day === weekday[dayOfActivity]) {
+          activityToFind.run +=
+            Math.round((activity.distance / 1000) * 10) / 10;
+        }
+      });
+    } else if (activity.type === "Swim") {
+      formattedStravaData.swimming.forEach((activityToFind) => {
+        if (activityToFind.day === weekday[dayOfActivity]) {
+          activityToFind.distance +=
+            Math.round((activity.distance / 1000) * 10) / 10;
+        }
+      });
+      formattedStravaData.combinedData.forEach((activityToFind) => {
+        if (activityToFind.day === weekday[dayOfActivity]) {
+          activityToFind.swim +=
+            Math.round((activity.distance / 1000) * 10) / 10;
+        }
+      });
+    } else if (activity.type === "Ride") {
+      formattedStravaData.riding.forEach((activityToFind) => {
+        if (activityToFind.day === weekday[dayOfActivity]) {
+          activityToFind.distance +=
+            Math.round((activity.distance / 1000) * 10) / 10;
+        }
+      });
+      formattedStravaData.combinedData.forEach((activityToFind) => {
+        if (activityToFind.day === weekday[dayOfActivity]) {
+          activityToFind.ride +=
+            Math.round((activity.distance / 1000) * 10) / 10;
+        }
+      });
+    }
+  }
 
   return formattedStravaData;
 };
