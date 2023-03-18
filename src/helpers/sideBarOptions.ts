@@ -2,14 +2,28 @@ import { Option } from "@/types";
 
 export const globalSettingsOptions: Option[] = [
   {
-    title: "Background color",
-    subTitle: "Controls the theme background color of the main page",
+    title: "All Tiles Background Color",
+    subTitle:
+      "Controls the background color of all the tiles at once, leave blank if you want to customize tile by tile",
+    localStorageId: "globalTileBackgroundColor",
+    optionType: "ColorPicker",
+  },
+  {
+    title: "All Tiles Text Color",
+    subTitle:
+      "Controls the text color of all the tiles at once, leave blank if you want to customize tile by tile",
+    localStorageId: "globalTileTextColor",
+    optionType: "ColorPicker",
+  },
+  {
+    title: "Background",
+    subTitle: "Controls the theme background of the main page",
     localStorageId: "backgroundColor",
     optionType: "ColorPicker",
   },
   {
     title: "Border",
-    subTitle: "Controls the border of all the tiles.",
+    subTitle: "Controls the border of all the tiles",
     localStorageId: "tileBorder",
     optionType: "BorderSelect",
   },
@@ -27,7 +41,7 @@ export const globalSettingsOptions: Option[] = [
   },
   {
     title: "Drop shadow",
-    subTitle: "Controls the drop shadow of all the tiles.",
+    subTitle: "Controls the drop shadow of all the tiles",
     localStorageId: "dropShadow",
     optionType: "DropShadowInput",
   },
