@@ -24,14 +24,14 @@ export const TutorialStage4: React.FC = ({}) => {
         width="520px"
       >
         See, it&apos;s a breeze to customize the site. If you want this page to
-        act as your &apos;New Tab&apos; page you&apos;ll need an extension like{" "}
+        act as your &apos;New Tab&apos; page you&apos;ll need{" "}
         <a
-          href="https://chrome.google.com/webstore/detail/custom-new-tab-url/mmjbdbjnoablegbkcklggeknkfcjkjia?hl=en"
+          href="https://chrome.google.com/webstore/detail/startertab/hklfanmakojdijomofibaiepoeobioni"
           style={{ textDecorationLine: "underline" }}
           target="_blank"
           rel="noreferrer"
         >
-          this one
+          the extension!
         </a>
         .
       </MessageBubble>

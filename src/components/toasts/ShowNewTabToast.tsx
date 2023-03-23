@@ -20,16 +20,15 @@ export const ShowNewTabToast: React.FC<ShowNewTabToastProps> = ({
       title: "Want this to be your New Tab Page?",
       description: (
         <Text>
-          You&apos;ll have to use{" "}
+          Install{" "}
           <Link
-            target="_top"
+            target="_blank"
             color="coral"
-            href="https://chrome.google.com/webstore/detail/custom-new-tab-url/mmjbdbjnoablegbkcklggeknkfcjkjia?hl=en"
+            href="https://chrome.google.com/webstore/detail/startertab/hklfanmakojdijomofibaiepoeobioni"
           >
-            this extension
+            the extension!
           </Link>{" "}
-          or a similar one. This notification will never appear again,
-          don&apos;t worry 🙂
+          This notification will never appear again, don&apos;t worry 🙂
         </Text>
       ),
       status: "info",
