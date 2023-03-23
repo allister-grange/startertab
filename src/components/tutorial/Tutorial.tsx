@@ -28,7 +28,7 @@ export const Tutorial: React.FC<TutorialBlurProps> = ({
       {tutorialProgress === 1 && <TutorialStage2 />}
       {tutorialProgress === 2 && <TutorialStage3 />}
       {tutorialProgress === 3 && <TutorialStage4 />}
-      {[0, 1, 2, 3].find((num) => num === tutorialProgress) && (
+      {[0, 1, 2, 3].find((num) => num === tutorialProgress) ? (
         <Button
           pos="absolute"
           top="5"
@@ -41,7 +41,7 @@ export const Tutorial: React.FC<TutorialBlurProps> = ({
         >
           <CloseIcon color="black" boxSize="26" />
         </Button>
-      )}
+      ) : null}
     </>
   );
 };
