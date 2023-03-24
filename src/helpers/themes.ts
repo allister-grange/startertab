@@ -130,7 +130,7 @@ export const defaultSettings: UserSettings = {
           tileId: 0,
           backgroundColor: "#65abc1",
           textColor: "#222222",
-          tileType: "Twitter Feed Tile",
+          tileType: "Hacker News Feed",
           hackerNewsFeedType: "Top",
           tileSize: "medium",
         },
@@ -418,7 +418,7 @@ export const defaultSettings: UserSettings = {
         {
           tileId: 1,
           backgroundColor: "rgba(255, 255, 255, 0.0)",
-          textColor: "#ffeead",
+          textColor: "#99ffff",
           tileType: "Todo List",
           tileSize: "medium",
           todoList: [
@@ -447,7 +447,7 @@ export const defaultSettings: UserSettings = {
         {
           tileId: 4,
           backgroundColor: "rgba(255, 255, 255, 0.0)",
-          textColor: "#99ffff",
+          textColor: "#ffeead",
           tileType: "Small Stock Tile",
           tileSize: "small",
           stockName: "",
