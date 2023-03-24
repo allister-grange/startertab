@@ -45,7 +45,7 @@ const Home: NextPage<HomeProps> = ({ cookies }) => {
   const [settings, setSettings] = useRecoilState(userSettingState);
   const [isEditingTileGrid, setIsEditingTileGrid] = useState(false);
 
-  const [colorMode, setColorModeState] = useRecoilState(colorModeState);
+  const [colorMode] = useRecoilState(colorModeState);
   const setSettingsSidebarSate = useSetRecoilState(settingsSidebarSate);
 
   useEffect(() => {
@@ -58,7 +58,7 @@ const Home: NextPage<HomeProps> = ({ cookies }) => {
   useEffect(() => {
     const themeToChange = getCurrentTheme(settings, colorMode);
     applyTheme(themeToChange);
-  }, [settings, colorMode, setColorModeState]);
+  }, [settings, colorMode]);
 
   // this is used to change tiles conditionally on the sidebar being open or tiles being edited
   useEffect(() => {
@@ -124,7 +124,7 @@ const Home: NextPage<HomeProps> = ({ cookies }) => {
     <>
       {toDisplay}
       {isEditingTileGrid && <TileLayoutActions colorMode={colorMode} />}
-      {!isOpen && !showingMobileWarning && (
+      {!isOpen && !showingMobileWarning && !showingTutorial && (
         <SettingsToggle
           onOpen={() => {
             onOpen();

@@ -41,11 +41,11 @@ export const ShowNewTabToast: React.FC<ShowNewTabToastProps> = ({
   useEffect(() => {
     const hasVisitedBefore = localStorage.getItem("hasVisitedBefore");
     if (!hasVisitedBefore) {
+      setColorModeState("Colored Light");
       setTutorialProgress(0);
       setShowingTutorial(true);
       localStorage.setItem("hasVisitedBefore", "true");
       setTimeout(showNewTabToast, 45000);
-      setColorModeState("colored light");
     }
   }, [
     setColorModeState,
