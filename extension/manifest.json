@@ -1,8 +1,8 @@
 {
   "manifest_version": 3,
-  "name": "StarterTab",
+  "name": "StarterTab - Your next New Tab",
   "description": "A fully customizable webapp to replace your 'New Tab' homepage.",
-  "version": "2.3.0",
+  "version": "2.3.3",
   "icons": {
     "16": "assets/favicon.ico",
     "32": "assets/favicon.ico",
