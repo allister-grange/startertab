@@ -1,7 +1,7 @@
 import { atom } from "recoil";
 
-export const accordionIndex = atom({
-  key: "AccordionIndex",
+export const accordionOpenIndex = atom({
+  key: "AccordionOpenIndex",
   default: [] as number[],
 });
 

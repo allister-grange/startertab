@@ -37,18 +37,6 @@ export const AppErrorBoundary: React.FC = ({}) => {
           <Heading fontSize="4xl" fontWeight="600" color="gray.600">
             Looks like something went wrong!
           </Heading>
-          <Flex mt="4" textAlign="center" justifyContent="center">
-            <Text fontSize="2xl">
-              Open an issue on{" "}
-              <a
-                href="https://github.com/allister-grange/startertab"
-                target="_black"
-                style={{ textDecoration: "underline" }}
-              >
-                GitHub
-              </a>
-            </Text>
-          </Flex>
           <Text mt="8" fontSize="xl">
             It seems there is an error that has occurred. Give refreshing your
             browser a try. There&apos;s probably an issue with the settings for
@@ -78,6 +66,19 @@ export const AppErrorBoundary: React.FC = ({}) => {
           Clear all settings! ⚠️
         </OutlinedButton>
       </Box>
+      <Flex mt="8" textAlign="center" justifyContent="center">
+        <Text fontSize="2xl">
+          Please open an issue on{" "}
+          <a
+            href="https://github.com/allister-grange/startertab"
+            target="_black"
+            style={{ textDecoration: "underline" }}
+          >
+            GitHub
+          </a>{" "}
+          if this is occuring regularly
+        </Text>
+      </Flex>
     </Box>
   );
 };

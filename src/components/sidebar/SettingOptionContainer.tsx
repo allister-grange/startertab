@@ -310,11 +310,11 @@ const SettingOptionContainer: React.FC<SettingOptionContainerProps> = ({
       optionToDisplay = <Text>No option built for this type of tile yet</Text>;
   }
   return optionToDisplay ? (
-    <AccordionPanel p="2">
+    <Box p="2" color={textColor}>
       {optionToDisplay}
       <Box mt="6" />
       <hr />
-    </AccordionPanel>
+    </Box>
   ) : null;
 };
 

@@ -1,8 +1,10 @@
+import { AccordionItem } from "@/components/accordion/AccordionItem";
 import {
   Footer,
   SideBarTitle,
   ThemeToChangeSelector,
 } from "@/components/sidebar";
+import { ExportImportButtons } from "@/components/sidebar/ExportImportButtons";
 import SettingOptionContainer from "@/components/sidebar/SettingOptionContainer";
 import { OutlinedButton } from "@/components/ui/OutlinedButton";
 import { getCurrentTheme, getThemeNames } from "@/helpers/settingsHelpers";
@@ -18,18 +20,9 @@ import { colorModeState, userSettingState } from "@/recoil/UserSettingsAtom";
 import styles from "@/styles/Home.module.css";
 import { Option } from "@/types";
 import { TileSettings, UserSettings } from "@/types/settings";
-import {
-  Accordion,
-  AccordionButton,
-  AccordionIcon,
-  AccordionItem,
-  Box,
-  ExpandedIndex,
-  Link,
-} from "@chakra-ui/react";
+import { Box, Link } from "@chakra-ui/react";
 import React, { Dispatch, SetStateAction, useRef, useState } from "react";
 import { useRecoilState, useRecoilValue } from "recoil";
-import { ExportImportButtons } from "@/components/sidebar/ExportImportButtons";
 
 interface SettingsSideBarProps {
   isOpen: boolean;
@@ -55,7 +48,6 @@ const SettingsSideBar: React.FC<SettingsSideBarProps> = ({
 }) => {
   const [settings, setSettings] = useRecoilState(userSettingState);
   const inMemorySettingsRef = useRef(settings);
-  const [accordionIndex, setAccordionIndex] = useState<ExpandedIndex>([]);
   const colorMode = useRecoilValue(colorModeState);
 
   // used to animate the width of the sidebar
@@ -94,7 +86,6 @@ const SettingsSideBar: React.FC<SettingsSideBarProps> = ({
     setSettings(deepClone(settings));
     setIsEditingTileGrid(false);
     setOptionHovered(undefined);
-    setAccordionIndex([]);
     setSettings(inMemorySettingsRef.current);
   };
 
@@ -139,13 +130,6 @@ const SettingsSideBar: React.FC<SettingsSideBarProps> = ({
     }
 
     setSettings(newSettings);
-  };
-
-  const onAccordionChange = (expandedIndex: ExpandedIndex) => {
-    setAccordionIndex(expandedIndex);
-
-    // for the tutorial, if we open the dropdown we want to progress the tutorial
-    setTutorialProgress((prevState) => (prevState === 3 ? 4 : prevState));
   };
 
   if (!currentThemeSettings) {
@@ -241,29 +225,18 @@ const SettingsSideBar: React.FC<SettingsSideBarProps> = ({
         />
         <Box mt="4" />
 
-        <Accordion
-          allowMultiple
-          onChange={onAccordionChange}
-          index={accordionIndex}
-        >
+        <Box>
           {/* GLOBAL SETTINGS */}
           <AccordionItem
             key={-1}
             p="0"
             borderColor={borderColor}
-            isDisabled={tutorialProgress > 1 && tutorialProgress < 4}
+            accordionIndex={0}
+            title="Global Settings"
+            textColor={textColor}
+            setTutorialProgress={setTutorialProgress}
+            isDisabled={tutorialProgress > 1 && tutorialProgress < 3}
           >
-            <h2>
-              <AccordionButton
-                _expanded={{ backdropFilter: "brightness(0.90)" }}
-                color={textColor}
-              >
-                <Box flex="1" textAlign="left">
-                  {"Global Settings"}
-                </Box>
-                <AccordionIcon />
-              </AccordionButton>
-            </h2>
             {globalSettingsOptions.map((option: Option) => {
               const tileType = currentThemeSettings.globalSettings.tileType;
               const value =
@@ -309,26 +282,22 @@ const SettingsSideBar: React.FC<SettingsSideBarProps> = ({
               <AccordionItem
                 key={tile.tileId}
                 p="0"
+                accordionIndex={index + 1}
+                title={currentThemeSettings.tiles[tile.tileId].tileType}
                 onMouseEnter={() => setOptionHovered(tile.tileId)}
                 onFocus={() => setOptionHovered(tile.tileId)}
                 onMouseLeave={() => setOptionHovered(undefined)}
                 onBlur={() => setOptionHovered(undefined)}
                 borderColor={borderColor}
-                isDisabled={
-                  tutorialProgress > 1 && tutorialProgress < 4 && index !== 2
+                textColor={textColor}
+                setTutorialProgress={setTutorialProgress}
+                borderBottom={
+                  index === currentThemeSettings.tiles.length - 1
+                    ? `1px solid ${borderColor ?? "#E2E8F0"}`
+                    : undefined
                 }
+                isDisabled={tutorialProgress > 1 && tutorialProgress < 3}
               >
-                <h2>
-                  <AccordionButton
-                    _expanded={{ backdropFilter: "brightness(0.90)" }}
-                    color={textColor}
-                  >
-                    <Box flex="1" textAlign="left">
-                      {currentThemeSettings.tiles[tile.tileId].tileType}
-                    </Box>
-                    <AccordionIcon />
-                  </AccordionButton>
-                </h2>
                 {optionsForTile.map((option: Option) => {
                   const tileType =
                     currentThemeSettings!.tiles[tile.tileId].tileType;
@@ -354,7 +323,7 @@ const SettingsSideBar: React.FC<SettingsSideBarProps> = ({
               </AccordionItem>
             );
           })}
-        </Accordion>
+        </Box>
       </Box>
       <Footer textColor={textColor} />
     </Box>
