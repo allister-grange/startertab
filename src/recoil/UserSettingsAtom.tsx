@@ -43,8 +43,3 @@ export const colorModeState = atom({
   default: "uninitilized",
   effects: [localStorageThemeNameEffect("themeName")],
 });
-
-export const settingsSidebarSate = atom({
-  key: "SidebarOpen",
-  default: false,
-});

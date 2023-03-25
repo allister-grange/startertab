@@ -402,6 +402,7 @@ export const defaultSettings: UserSettings = {
         tileBorder: "1px solid rgba(255, 255, 255, 0.3)",
         sidebarBackgroundColor: "#33393D",
         themePickerBubbleColor: "#262641",
+        sidebarBorderColor: "#666",
         borderRadius: "15px",
         gridGap: "16px",
       },
