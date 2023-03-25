@@ -124,7 +124,7 @@ const Home: NextPage<HomeProps> = ({ cookies }) => {
     <>
       {toDisplay}
       {isEditingTileGrid && <TileLayoutActions colorMode={colorMode} />}
-      {!isOpen && !showingMobileWarning && !tutorialProgress !== 0 && (
+      {!isOpen && !showingMobileWarning && tutorialProgress !== 0 && (
         <SettingsToggle
           onOpen={() => {
             onOpen();
