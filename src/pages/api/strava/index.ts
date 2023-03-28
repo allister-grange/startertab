@@ -269,7 +269,7 @@ const setNewTokenCookies = async (
   const AES = (await import("crypto-js/aes")).default;
 
   res.setHeader("Set-Cookie", [
-    cookie.serialize("twitterAccessToken", accessToken, {
+    cookie.serialize("stravaAccessToken", accessToken, {
       httpOnly: true,
       secure: true,
       maxAge: 34560000,
@@ -277,7 +277,7 @@ const setNewTokenCookies = async (
       path: "/",
       encode: (value) => AES.encrypt(value, ENCRYPT_KEY!).toString(),
     }),
-    cookie.serialize("twitterRefreshToken", refreshToken, {
+    cookie.serialize("stravaRefreshToken", refreshToken, {
       httpOnly: true,
       secure: true,
       maxAge: 34560000,

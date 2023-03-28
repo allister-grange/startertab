@@ -83,8 +83,6 @@ const getFirstAccessTokenFromCode = async (code: string) => {
 
     const data = await response.json();
 
-    console.log(data);
-
     return data;
   } catch (err) {
     throw new Error(err as string);
