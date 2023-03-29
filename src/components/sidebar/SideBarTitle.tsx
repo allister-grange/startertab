@@ -28,7 +28,6 @@ export const SideBarTitle: React.FC<SideBarTitleProps> = ({
     >
       <OutlinedButton
         onClick={onExitHandler}
-        bg="gray.400"
         background="transparent"
         border={`1px solid ${textColor}`}
         color={textColor}
@@ -39,7 +38,6 @@ export const SideBarTitle: React.FC<SideBarTitleProps> = ({
       <Text color={textColor}>Preferences</Text>
       <OutlinedButton
         onClick={onSaveHandler}
-        bg="gray.400"
         background="transparent"
         border={`1px solid ${textColor}`}
         color={textColor}

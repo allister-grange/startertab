@@ -118,6 +118,7 @@ export const ThemeCreator: React.FC = ({}) => {
           backgroundColor: formInputs.backgroundColor,
           textColor: formInputs.sidebarIsDarkTheme ? "#eee" : "#33393D",
           sidebarBorderColor: formInputs.sidebarIsDarkTheme ? "#666" : "",
+          subTextColor: formInputs.sidebarIsDarkTheme ? "#ddd" : "#333333",
           sidebarBackgroundColor: formInputs.sidebarIsDarkTheme
             ? "#222222"
             : "#fff",
