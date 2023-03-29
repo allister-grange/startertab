@@ -5,7 +5,7 @@ import { Footer } from "@/components/ui/Footer";
 import { OutlinedButton } from "@/components/ui/OutlinedButton";
 import { newThemeGridLayout } from "@/helpers/gridLayout";
 import { applyTheme } from "@/helpers/settingsHelpers";
-import { colorModeState, userSettingState } from "@/recoil/UserSettingsAtom";
+import { colorModeState, userSettingState } from "@/recoil/UserSettingsAtoms";
 import { UserSettings } from "@/types";
 import { Box, Flex, Grid, Heading, Input, Text } from "@chakra-ui/react";
 import Image from "next/image";

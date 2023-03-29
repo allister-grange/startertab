@@ -4,7 +4,7 @@ import {
   getTileLayoutForNewTile,
 } from "@/helpers/settingsHelpers";
 import { deepClone } from "@/helpers/tileHelpers";
-import { userSettingState } from "@/recoil/UserSettingsAtom";
+import { userSettingState } from "@/recoil/UserSettingsAtoms";
 import { TileSize, UserSettings } from "@/types";
 import { SmallAddIcon } from "@chakra-ui/icons";
 import { Flex, Menu, MenuButton, MenuItem, MenuList } from "@chakra-ui/react";

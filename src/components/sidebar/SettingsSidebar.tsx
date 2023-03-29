@@ -16,7 +16,7 @@ import {
   sideBarSmallTileOptions,
 } from "@/helpers/sideBarOptions";
 import { deepClone } from "@/helpers/tileHelpers";
-import { colorModeState, userSettingState } from "@/recoil/UserSettingsAtom";
+import { colorModeState, userSettingState } from "@/recoil/UserSettingsAtoms";
 import styles from "@/styles/Home.module.css";
 import { Option } from "@/types";
 import { TileSettings, UserSettings } from "@/types/settings";

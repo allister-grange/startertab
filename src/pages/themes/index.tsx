@@ -5,7 +5,7 @@ import { Footer } from "@/components/ui/Footer";
 import { ThemePageHeader } from "@/components/ui/ThemePageHeader";
 import { deepClone, saveThemeIdToLocalStorage } from "@/helpers/tileHelpers";
 import useDebounce from "@/hooks/useDebounce";
-import { userSettingState } from "@/recoil/UserSettingsAtom";
+import { userSettingState } from "@/recoil/UserSettingsAtoms";
 import { ThemeFilteringOptions, ThemeSettings } from "@/types";
 import { ThemeDataFromAPI, ThemeWithVotes } from "@/types/marketplace";
 import { Box, Button, Flex, useToast } from "@chakra-ui/react";

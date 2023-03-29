@@ -1,4 +1,4 @@
-import { colorModeState } from "@/recoil/UserSettingsAtom";
+import { colorModeState } from "@/recoil/UserSettingsAtoms";
 import { Flex, Select } from "@chakra-ui/react";
 import Router from "next/router";
 import React, { Dispatch, SetStateAction } from "react";

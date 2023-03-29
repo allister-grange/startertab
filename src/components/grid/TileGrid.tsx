@@ -1,7 +1,7 @@
 import Tile from "@/components/grid/Tile";
 import { getCurrentTheme } from "@/helpers/settingsHelpers";
 import { deepClone } from "@/helpers/tileHelpers";
-import { colorModeState, userSettingState } from "@/recoil/UserSettingsAtom";
+import { colorModeState, userSettingState } from "@/recoil/UserSettingsAtoms";
 import { TileSettings, UserSettings } from "@/types";
 import { Box, BoxProps, Flex } from "@chakra-ui/react";
 import React, { Dispatch, SetStateAction } from "react";

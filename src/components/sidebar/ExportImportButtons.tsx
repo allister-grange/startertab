@@ -1,5 +1,5 @@
 import { OutlinedButton } from "@/components/ui/OutlinedButton";
-import { colorModeState } from "@/recoil/UserSettingsAtom";
+import { colorModeState } from "@/recoil/UserSettingsAtoms";
 import { ThemeSettings, UserSettings } from "@/types";
 import { CopyIcon, DownloadIcon } from "@chakra-ui/icons";
 import {

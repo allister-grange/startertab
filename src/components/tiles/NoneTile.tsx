@@ -1,7 +1,7 @@
 import { Box, Center, Heading, Select, useColorMode } from "@chakra-ui/react";
 import React, { ChangeEvent } from "react";
 import { TileSize, TileType } from "@/types";
-import { colorModeState, userSettingState } from "@/recoil/UserSettingsAtom";
+import { colorModeState, userSettingState } from "@/recoil/UserSettingsAtoms";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { deepClone } from "@/helpers/tileHelpers";
 import { OptionsForTileTypeSelect } from "@/components/ui/OptionsForTileTypeSelect";

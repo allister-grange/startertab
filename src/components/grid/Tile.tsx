@@ -1,6 +1,6 @@
 import { getCurrentTheme } from "@/helpers/settingsHelpers";
 import { useLongPress } from "@/hooks/useLongPress";
-import { colorModeState, userSettingState } from "@/recoil/UserSettingsAtom";
+import { colorModeState, userSettingState } from "@/recoil/UserSettingsAtoms";
 import styles from "@/styles/Home.module.css";
 import { SmallCloseIcon } from "@chakra-ui/icons";
 import { Box, BoxProps, keyframes } from "@chakra-ui/react";

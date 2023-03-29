@@ -1,4 +1,4 @@
-import { colorModeState } from "@/recoil/UserSettingsAtom";
+import { colorModeState } from "@/recoil/UserSettingsAtoms";
 import { Link, Text, useToast } from "@chakra-ui/react";
 import React, { Dispatch, SetStateAction, useCallback, useEffect } from "react";
 import { useSetRecoilState } from "recoil";

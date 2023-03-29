@@ -30,7 +30,7 @@ import OutlookContextProvider from "@/context/OutlookContext";
 import SpotifyContextProvider from "@/context/SpotifyContext";
 import StravaContextProvider from "@/context/StravaContext";
 import TwitterContextProvider from "@/context/TwitterContext";
-import { colorModeState, userSettingState } from "@/recoil/UserSettingsAtom";
+import { colorModeState, userSettingState } from "@/recoil/UserSettingsAtoms";
 import {
   bookingsSelector,
   todoListSelector,

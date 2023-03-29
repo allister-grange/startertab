@@ -1,4 +1,4 @@
-import { colorModeState, userSettingState } from "@/recoil/UserSettingsAtom";
+import { colorModeState, userSettingState } from "@/recoil/UserSettingsAtoms";
 import { Box, BoxProps, Flex } from "@chakra-ui/react";
 import React from "react";
 import { useRecoilValue, useSetRecoilState } from "recoil";

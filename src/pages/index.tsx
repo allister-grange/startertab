@@ -13,7 +13,7 @@ import {
   getNewSettingsFromLegacyTheme,
 } from "@/helpers/settingsHelpers";
 import { settingsSidebarSate } from "@/recoil/SidebarAtoms";
-import { colorModeState, userSettingState } from "@/recoil/UserSettingsAtom";
+import { colorModeState, userSettingState } from "@/recoil/UserSettingsAtoms";
 import { Box, Flex, useDisclosure } from "@chakra-ui/react";
 import type { NextPage } from "next";
 import { useEffect, useState } from "react";

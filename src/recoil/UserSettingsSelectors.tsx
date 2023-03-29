@@ -1,5 +1,5 @@
 import { getCurrentTheme } from "@/helpers/settingsHelpers";
-import { colorModeState, userSettingState } from "@/recoil/UserSettingsAtom";
+import { colorModeState, userSettingState } from "@/recoil/UserSettingsAtoms";
 import {
   Booking,
   FavoriteLink,
