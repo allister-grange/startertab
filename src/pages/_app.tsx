@@ -1,4 +1,5 @@
 import { AppErrorBoundary } from "@/components/ui/AppErrorBoundary";
+import NoSSR from "@/components/ui/NoSSR";
 import { defaultSettings } from "@/helpers/themes";
 import "@/styles/github-markdown.css";
 import "@/styles/globals.css";
@@ -8,7 +9,6 @@ import App, { AppContext, AppInitialProps, AppProps } from "next/app";
 import Head from "next/head";
 import { useEffect } from "react";
 import { ErrorBoundary } from "react-error-boundary";
-import NoSSR from "react-no-ssr";
 import { RecoilRoot } from "recoil";
 
 type MyAppProps = { cookies?: string };
