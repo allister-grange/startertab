@@ -1,8 +1,8 @@
-import { accordionOpenIndex } from "@/recoil/SidebarAtom";
-import { ChevronDownIcon, ChevronUpIcon } from "@chakra-ui/icons";
-import { Box, BoxProps, Button } from "@chakra-ui/react";
-import React, { Dispatch, SetStateAction } from "react";
-import { useRecoilState, useRecoilValue } from "recoil";
+import { accordionOpenIndex } from "@/recoil/SidebarAtoms";
+import { ChevronUpIcon } from "@chakra-ui/icons";
+import { Box, BoxProps, Button, Collapse } from "@chakra-ui/react";
+import React, { Dispatch, SetStateAction, useEffect, useState } from "react";
+import { useRecoilState } from "recoil";
 
 interface AccordionItemProps extends BoxProps {
   accordionIndex: number;
@@ -24,9 +24,9 @@ export const AccordionItem: React.FC<AccordionItemProps> = ({
   const [accordionsOpenIndex, setOpenIndexes] =
     useRecoilState(accordionOpenIndex);
 
-  // only render the item if this child is "open"
-  const isOpen =
-    accordionsOpenIndex.findIndex((num) => num === accordionIndex) > -1;
+  const [isOpen, setIsOpen] = useState<boolean>(false);
+  const [shouldRenderContent, setShouldRenderContent] =
+    useState<boolean>(false);
 
   function toggleAccordion() {
     // need to move the tutorial along when they open an accordion
@@ -40,6 +40,19 @@ export const AccordionItem: React.FC<AccordionItemProps> = ({
       setOpenIndexes([...accordionsOpenIndex, accordionIndex]);
     }
   }
+
+  // used to animate the dropping down of the accordion
+  useEffect(() => {
+    if (accordionsOpenIndex.includes(accordionIndex)) {
+      setIsOpen(true);
+      setTimeout(() => {
+        setShouldRenderContent(true);
+      }, 5);
+    } else {
+      setIsOpen(false);
+      setShouldRenderContent(false);
+    }
+  }, [accordionsOpenIndex, accordionIndex]);
 
   return (
     <Box {...props} textColor={textColor}>
@@ -64,13 +77,17 @@ export const AccordionItem: React.FC<AccordionItemProps> = ({
         }}
       >
         {title}
-        {isOpen ? (
-          <ChevronUpIcon boxSize="20px" />
-        ) : (
-          <ChevronDownIcon boxSize="20px" />
-        )}
+        <ChevronUpIcon
+          boxSize="20px"
+          transition="transform 0.3s ease-in-out"
+          transform={isOpen ? "rotate(180deg)" : undefined}
+        />
       </Button>
-      {isOpen ? props.children : null}
+      {isOpen && (
+        <Collapse in={shouldRenderContent} animateOpacity>
+          {props.children}
+        </Collapse>
+      )}
     </Box>
   );
 };
