@@ -1,6 +1,6 @@
 import { LargeWeatherTileSkeleton } from "@/components/skeletons/LargeWeatherTileSkeleton";
 import { OutlinedButton } from "@/components/ui/OutlinedButton";
-import { settingsSidebarSate } from "@/recoil/SidebarAtom";
+import { settingsSidebarSate } from "@/recoil/SidebarAtoms";
 import {
   cityForWeatherSelector,
   tempDisplayInCelsiusSelector,

@@ -1,5 +1,5 @@
 import { OutlinedButton } from "@/components/ui/OutlinedButton";
-import { settingsSidebarSate } from "@/recoil/SidebarAtom";
+import { settingsSidebarSate } from "@/recoil/SidebarAtoms";
 import { uvCitySelector } from "@/recoil/UserSettingsSelectors";
 import { UvGraphData } from "@/types";
 import {

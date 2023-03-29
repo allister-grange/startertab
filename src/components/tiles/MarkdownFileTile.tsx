@@ -1,5 +1,5 @@
 import { OutlinedButton } from "@/components/ui/OutlinedButton";
-import { settingsSidebarSate } from "@/recoil/SidebarAtom";
+import { settingsSidebarSate } from "@/recoil/SidebarAtoms";
 import { markdownFileTextSelector } from "@/recoil/UserSettingsSelectors";
 import { Box, Input, Text } from "@chakra-ui/react";
 import React, { useRef, useState } from "react";

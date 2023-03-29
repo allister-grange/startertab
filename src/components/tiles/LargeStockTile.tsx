@@ -1,6 +1,6 @@
 import { LargeStockTickerSkeleton } from "@/components/skeletons/LargeStockTickerSkeleton";
 import { OutlinedButton } from "@/components/ui/OutlinedButton";
-import { settingsSidebarSate } from "@/recoil/SidebarAtom";
+import { settingsSidebarSate } from "@/recoil/SidebarAtoms";
 import { stockSelector } from "@/recoil/UserSettingsSelectors";
 import { FinnhubStockResponse, StockTickers } from "@/types/stocks";
 import {
