@@ -1,5 +1,5 @@
 import { OutlinedButton } from "@/components/ui/OutlinedButton";
-import { settingsSidebarSate } from "@/recoil/SidebarAtoms";
+import { sidebarOpenAtom } from "@/recoil/SidebarAtoms";
 import { uvCitySelector } from "@/recoil/UserSettingsSelectors";
 import { UvGraphData } from "@/types";
 import {
@@ -48,7 +48,7 @@ const fetcher = async (cityName: string) => {
 
 export const UvGraphTile: React.FC<UvGraphProps> = ({ tileId }) => {
   const color = `var(--text-color-${tileId})`;
-  const sidebarOpen = useRecoilValue(settingsSidebarSate);
+  const sidebarOpen = useRecoilValue(sidebarOpenAtom);
   const [city, setCity] = useRecoilState(uvCitySelector(tileId)) as [
     string | undefined,
     SetterOrUpdater<string | undefined>

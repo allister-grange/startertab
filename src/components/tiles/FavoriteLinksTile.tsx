@@ -1,5 +1,5 @@
 import { OutlinedButton } from "@/components/ui/OutlinedButton";
-import { settingsSidebarSate } from "@/recoil/SidebarAtoms";
+import { sidebarOpenAtom } from "@/recoil/SidebarAtoms";
 import {
   favoriteLinksSelector,
   favoriteLinksTitleSelector,
@@ -29,7 +29,7 @@ export const FavoriteLinksTile: React.FC<FavoriteLinksTileProps> = ({
 }) => {
   const color = `var(--text-color-${tileId})`;
   const divRef = useRef<HTMLDivElement | null>(null);
-  const sidebarOpen = useRecoilValue(settingsSidebarSate);
+  const sidebarOpen = useRecoilValue(sidebarOpenAtom);
   const [favoriteLinks, setFavoriteLinks] = useRecoilState(
     favoriteLinksSelector(tileId)
   ) as [

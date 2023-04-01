@@ -12,10 +12,7 @@ import {
   getCurrentTheme,
   getNewSettingsFromLegacyTheme,
 } from "@/helpers/settingsHelpers";
-import {
-  settingsSidebarSate,
-  tutorialProgressAtom,
-} from "@/recoil/SidebarAtoms";
+import { sidebarOpenAtom, tutorialProgressAtom } from "@/recoil/SidebarAtoms";
 import { colorModeState, userSettingState } from "@/recoil/UserSettingsAtoms";
 import { Box, Flex, useDisclosure } from "@chakra-ui/react";
 import type { NextPage } from "next";
@@ -47,7 +44,7 @@ const Home: NextPage<HomeProps> = ({ cookies }) => {
   const [isEditingTileGrid, setIsEditingTileGrid] = useState(false);
 
   const [colorMode] = useRecoilState(colorModeState);
-  const setSettingsSidebarSate = useSetRecoilState(settingsSidebarSate);
+  const setsidebarOpenAtom = useSetRecoilState(sidebarOpenAtom);
 
   useEffect(() => {
     if (isMobile) {
@@ -63,8 +60,8 @@ const Home: NextPage<HomeProps> = ({ cookies }) => {
 
   // this is used to change tiles conditionally on the sidebar being open or tiles being edited
   useEffect(() => {
-    setSettingsSidebarSate(isOpen || isEditingTileGrid);
-  }, [isOpen, setSettingsSidebarSate, isEditingTileGrid]);
+    setsidebarOpenAtom(isOpen || isEditingTileGrid);
+  }, [isOpen, setsidebarOpenAtom, isEditingTileGrid]);
 
   const currentTheme = getCurrentTheme(settings, colorMode);
 

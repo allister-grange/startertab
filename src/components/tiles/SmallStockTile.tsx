@@ -1,6 +1,6 @@
 import { SmallStockTickerSkeleton } from "@/components/skeletons/SmallStockTickerSkeleton";
 import { OutlinedButton } from "@/components/ui/OutlinedButton";
-import { settingsSidebarSate } from "@/recoil/SidebarAtoms";
+import { sidebarOpenAtom } from "@/recoil/SidebarAtoms";
 import { stockSelector } from "@/recoil/UserSettingsSelectors";
 import { StockTickers } from "@/types/stocks";
 import {
@@ -35,7 +35,7 @@ const fetcher = async (stockName: string) => {
 };
 
 export const SmallStockTile: React.FC<SmallStockTileProps> = ({ tileId }) => {
-  const sidebarOpen = useRecoilValue(settingsSidebarSate);
+  const sidebarOpen = useRecoilValue(sidebarOpenAtom);
   const color = `var(--text-color-${tileId})`;
   const [stock, setStock] = useRecoilState(stockSelector(tileId)) as [
     string | undefined,

@@ -5,7 +5,7 @@ export const accordionOpenIndex = atom({
   default: [] as number[],
 });
 
-export const settingsSidebarSate = atom({
+export const sidebarOpenAtom = atom({
   key: "SidebarOpen",
   default: false,
 });

@@ -16,14 +16,17 @@ import {
   sideBarSmallTileOptions,
 } from "@/helpers/sideBarOptions";
 import { deepClone } from "@/helpers/tileHelpers";
-import { tutorialProgressAtom } from "@/recoil/SidebarAtoms";
+import {
+  accordionOpenIndex,
+  tutorialProgressAtom,
+} from "@/recoil/SidebarAtoms";
 import { colorModeState, userSettingState } from "@/recoil/UserSettingsAtoms";
 import styles from "@/styles/Home.module.css";
 import { Option } from "@/types";
 import { TileSettings, UserSettings } from "@/types/settings";
 import { Box, Link } from "@chakra-ui/react";
 import React, { Dispatch, SetStateAction, useRef, useState } from "react";
-import { useRecoilState, useRecoilValue } from "recoil";
+import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 
 interface SettingsSideBarProps {
   isOpen: boolean;
@@ -47,7 +50,7 @@ const SettingsSideBar: React.FC<SettingsSideBarProps> = ({
   const inMemorySettingsRef = useRef(settings);
   const colorMode = useRecoilValue(colorModeState);
   const tutorialProgress = useRecoilValue(tutorialProgressAtom);
-
+  const setAccordionIndexes = useSetRecoilState(accordionOpenIndex);
   // used to animate the width of the sidebar
   const [width, setWidth] = useState("0px");
 
@@ -80,6 +83,7 @@ const SettingsSideBar: React.FC<SettingsSideBarProps> = ({
     // close the sidebar
     setWidth("0px");
     setTimeout(onClose, 500);
+    setTimeout(() => setAccordionIndexes([]), 300);
     // reset settings
     setSettings(deepClone(settings));
     setIsEditingTileGrid(false);

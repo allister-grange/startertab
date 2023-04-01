@@ -1,6 +1,6 @@
 import { SmallWeatherTileSkeleton } from "@/components/skeletons/SmallWeatherTileSkeleton";
 import { OutlinedButton } from "@/components/ui/OutlinedButton";
-import { settingsSidebarSate } from "@/recoil/SidebarAtoms";
+import { sidebarOpenAtom } from "@/recoil/SidebarAtoms";
 import {
   cityForWeatherSelector,
   tempDisplayInCelsiusSelector,
@@ -52,7 +52,7 @@ const fetcher = async (cityName: string) => {
 export const SmallWeatherTile: React.FC<SmallWeatherTileProps> = ({
   tileId,
 }) => {
-  const sidebarOpen = useRecoilValue(settingsSidebarSate);
+  const sidebarOpen = useRecoilValue(sidebarOpenAtom);
   const [cityForWeather, setCityForWeather] = useRecoilState(
     cityForWeatherSelector(tileId)
   ) as [string | undefined, SetterOrUpdater<string | undefined>];

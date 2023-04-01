@@ -1,6 +1,6 @@
 import { LargeStockTickerSkeleton } from "@/components/skeletons/LargeStockTickerSkeleton";
 import { OutlinedButton } from "@/components/ui/OutlinedButton";
-import { settingsSidebarSate } from "@/recoil/SidebarAtoms";
+import { sidebarOpenAtom } from "@/recoil/SidebarAtoms";
 import { stockSelector } from "@/recoil/UserSettingsSelectors";
 import { FinnhubStockResponse, StockTickers } from "@/types/stocks";
 import {
@@ -112,7 +112,7 @@ const InputDisplay: React.FC<InputDisplayProps> = ({
 
 export const LargeStockTile: React.FC<LargeStockTileProps> = ({ tileId }) => {
   const color = `var(--text-color-${tileId})`;
-  const sidebarOpen = useRecoilValue(settingsSidebarSate);
+  const sidebarOpen = useRecoilValue(sidebarOpenAtom);
   const [stocks, setStocks] = useRecoilState(stockSelector(tileId)) as [
     string | undefined,
     SetterOrUpdater<string | undefined>

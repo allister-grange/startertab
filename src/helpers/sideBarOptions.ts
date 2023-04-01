@@ -29,7 +29,8 @@ export const globalSettingsOptions: Option[] = [
   },
   {
     title: "Border Color",
-    subTitle: "Controls the color of the border for all of the tiles",
+    subTitle:
+      "Controls the color of the border for all of the tiles, this will override the natural border color which is the text color of the tile",
     localStorageId: "borderColor",
     optionType: "ColorPicker",
   },
