@@ -1,6 +1,7 @@
 import Tile from "@/components/grid/Tile";
 import { getCurrentTheme } from "@/helpers/settingsHelpers";
 import { deepClone } from "@/helpers/tileHelpers";
+import { tutorialProgressAtom } from "@/recoil/SidebarAtoms";
 import { colorModeState, userSettingState } from "@/recoil/UserSettingsAtoms";
 import { TileSettings, UserSettings } from "@/types";
 import { Box, BoxProps, Flex } from "@chakra-ui/react";
@@ -15,7 +16,6 @@ const ResponsiveGridLayout = WidthProvider(Responsive);
 interface TileGridProps {
   optionHovered?: number;
   gridGap?: string;
-  tutorialProgress: number;
   layout: Layouts;
   tiles?: TileSettings[];
   isEditingTileGrid: boolean;
@@ -25,7 +25,6 @@ interface TileGridProps {
 export const TileGrid: React.FC<TileGridProps> = ({
   optionHovered,
   gridGap,
-  tutorialProgress,
   tiles,
   layout,
   isEditingTileGrid,
@@ -34,6 +33,7 @@ export const TileGrid: React.FC<TileGridProps> = ({
   const [settings, setSettings] = useRecoilState(userSettingState);
   const colorMode = useRecoilValue(colorModeState);
   const currentTheme = getCurrentTheme(settings, colorMode);
+  const tutorialProgress = useRecoilValue(tutorialProgressAtom);
 
   const filter =
     tutorialProgress >= 0 && tutorialProgress < 4 ? "blur(8px)" : undefined;

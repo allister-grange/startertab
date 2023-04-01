@@ -1,8 +1,11 @@
-import { accordionOpenIndex } from "@/recoil/SidebarAtoms";
+import {
+  accordionOpenIndex,
+  tutorialProgressAtom,
+} from "@/recoil/SidebarAtoms";
 import { ChevronUpIcon } from "@chakra-ui/icons";
 import { Box, BoxProps, Button, Collapse } from "@chakra-ui/react";
-import React, { Dispatch, SetStateAction, useEffect, useState } from "react";
-import { useRecoilState } from "recoil";
+import React, { useEffect, useState } from "react";
+import { useRecoilState, useSetRecoilState } from "recoil";
 
 interface AccordionItemProps extends BoxProps {
   accordionIndex: number;
@@ -10,7 +13,6 @@ interface AccordionItemProps extends BoxProps {
   textColor: string;
   borderColor: string;
   isDisabled: boolean;
-  setTutorialProgress: Dispatch<SetStateAction<number>>;
 }
 
 export const AccordionItem: React.FC<AccordionItemProps> = ({
@@ -18,11 +20,11 @@ export const AccordionItem: React.FC<AccordionItemProps> = ({
   title,
   textColor,
   isDisabled,
-  setTutorialProgress,
   ...props
 }) => {
   const [accordionsOpenIndex, setOpenIndexes] =
     useRecoilState(accordionOpenIndex);
+  const setTutorialProgress = useSetRecoilState(tutorialProgressAtom);
 
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [shouldRenderContent, setShouldRenderContent] =

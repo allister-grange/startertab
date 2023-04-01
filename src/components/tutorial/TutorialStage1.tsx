@@ -1,10 +1,11 @@
 import { OutlinedButton } from "@/components/ui/OutlinedButton";
 import { Box, Heading, Text } from "@chakra-ui/react";
 import React, { Dispatch, SetStateAction } from "react";
+import { SetterOrUpdater } from "recoil";
 
 interface TutorialStage1Props {
   setShowingTutorial: Dispatch<SetStateAction<boolean>>;
-  setTutorialProgress: React.Dispatch<React.SetStateAction<number>>;
+  setTutorialProgress: SetterOrUpdater<number>;
 }
 
 export const TutorialStage1: React.FC<TutorialStage1Props> = ({

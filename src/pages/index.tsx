@@ -12,7 +12,10 @@ import {
   getCurrentTheme,
   getNewSettingsFromLegacyTheme,
 } from "@/helpers/settingsHelpers";
-import { settingsSidebarSate } from "@/recoil/SidebarAtoms";
+import {
+  settingsSidebarSate,
+  tutorialProgressAtom,
+} from "@/recoil/SidebarAtoms";
 import { colorModeState, userSettingState } from "@/recoil/UserSettingsAtoms";
 import { Box, Flex, useDisclosure } from "@chakra-ui/react";
 import type { NextPage } from "next";
@@ -33,7 +36,8 @@ const Home: NextPage<HomeProps> = ({ cookies }) => {
 
   // tutorial related state
   const [showingTutorial, setShowingTutorial] = useState(false);
-  const [tutorialProgress, setTutorialProgress] = useState<number>(-1);
+  const [tutorialProgress, setTutorialProgress] =
+    useRecoilState(tutorialProgressAtom);
 
   // need two states for mobile view because people can ignore the warning and continue
   const [isMobileView, setIsMobileView] = useState<boolean>(() => isMobile);
@@ -83,18 +87,12 @@ const Home: NextPage<HomeProps> = ({ cookies }) => {
             onClose={onClose}
             isOpen={isOpen}
             setOptionHovered={setOptionHovered}
-            setTutorialProgress={setTutorialProgress}
-            tutorialProgress={tutorialProgress}
             setIsEditingTileGrid={setIsEditingTileGrid}
           />
         )}
         <>
           {showingTutorial && (
-            <Tutorial
-              setShowingTutorial={setShowingTutorial}
-              tutorialProgress={tutorialProgress}
-              setTutorialProgress={setTutorialProgress}
-            />
+            <Tutorial setShowingTutorial={setShowingTutorial} />
           )}
           <Flex
             width="100%"
@@ -103,7 +101,6 @@ const Home: NextPage<HomeProps> = ({ cookies }) => {
             onClick={() => setIsEditingTileGrid(false)}
           >
             <TileGrid
-              tutorialProgress={tutorialProgress}
               isEditingTileGrid={isEditingTileGrid}
               setIsEditingTileGrid={setIsEditingTileGrid}
               optionHovered={optionHovered}
@@ -133,10 +130,7 @@ const Home: NextPage<HomeProps> = ({ cookies }) => {
         />
       )}
       <ShowUpdateToast />
-      <ShowNewTabToast
-        setShowingTutorial={setShowingTutorial}
-        setTutorialProgress={setTutorialProgress}
-      />
+      <ShowNewTabToast setShowingTutorial={setShowingTutorial} />
     </>
   );
 };

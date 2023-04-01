@@ -16,6 +16,7 @@ import {
   sideBarSmallTileOptions,
 } from "@/helpers/sideBarOptions";
 import { deepClone } from "@/helpers/tileHelpers";
+import { tutorialProgressAtom } from "@/recoil/SidebarAtoms";
 import { colorModeState, userSettingState } from "@/recoil/UserSettingsAtoms";
 import styles from "@/styles/Home.module.css";
 import { Option } from "@/types";
@@ -28,9 +29,7 @@ interface SettingsSideBarProps {
   isOpen: boolean;
   onClose: () => void;
   setOptionHovered: React.Dispatch<SetStateAction<number | undefined>>;
-  setTutorialProgress: Dispatch<SetStateAction<number>>;
   setIsEditingTileGrid: Dispatch<SetStateAction<boolean>>;
-  tutorialProgress: number;
 }
 
 const randomHexValue = (): string => {
@@ -42,13 +41,12 @@ const SettingsSideBar: React.FC<SettingsSideBarProps> = ({
   onClose,
   isOpen,
   setOptionHovered,
-  setTutorialProgress,
   setIsEditingTileGrid,
-  tutorialProgress,
 }) => {
   const [settings, setSettings] = useRecoilState(userSettingState);
   const inMemorySettingsRef = useRef(settings);
   const colorMode = useRecoilValue(colorModeState);
+  const tutorialProgress = useRecoilValue(tutorialProgressAtom);
 
   // used to animate the width of the sidebar
   const [width, setWidth] = useState("0px");
@@ -168,8 +166,6 @@ const SettingsSideBar: React.FC<SettingsSideBarProps> = ({
       <Box p="3">
         <ThemeToChangeSelector
           textColor={textColor}
-          tutorialProgress={tutorialProgress}
-          setTutorialProgress={setTutorialProgress}
           themes={getThemeNames(settings)}
         />
 
@@ -234,7 +230,6 @@ const SettingsSideBar: React.FC<SettingsSideBarProps> = ({
             accordionIndex={0}
             title="Global Settings"
             textColor={textColor}
-            setTutorialProgress={setTutorialProgress}
             isDisabled={tutorialProgress > 1 && tutorialProgress < 3}
           >
             {globalSettingsOptions.map((option: Option) => {
@@ -290,7 +285,6 @@ const SettingsSideBar: React.FC<SettingsSideBarProps> = ({
                 onBlur={() => setOptionHovered(undefined)}
                 borderColor={borderColor}
                 textColor={textColor}
-                setTutorialProgress={setTutorialProgress}
                 borderBottom={
                   index === currentThemeSettings.tiles.length - 1
                     ? `1px solid ${borderColor ?? "#E2E8F0"}`

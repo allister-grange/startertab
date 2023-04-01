@@ -1,3 +1,4 @@
+import { tutorialProgressAtom } from "@/recoil/SidebarAtoms";
 import { colorModeState } from "@/recoil/UserSettingsAtoms";
 import { Flex, Select } from "@chakra-ui/react";
 import Router from "next/router";
@@ -8,8 +9,6 @@ import { OutlinedButton } from "../ui/OutlinedButton";
 interface ThemeToChangeSelectorProps {
   themes: string[];
   textColor: string;
-  tutorialProgress: number;
-  setTutorialProgress: Dispatch<SetStateAction<number>>;
 }
 const optionsStyles = {
   color: "white",
@@ -19,10 +18,10 @@ const optionsStyles = {
 export const ThemeToChangeSelector: React.FC<ThemeToChangeSelectorProps> = ({
   themes,
   textColor,
-  tutorialProgress,
-  setTutorialProgress,
 }) => {
   const [colorMode, setColorModeState] = useRecoilState(colorModeState);
+  const [tutorialProgress, setTutorialProgress] =
+    useRecoilState(tutorialProgressAtom);
 
   const onThemeSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     // for the tutorial, if we change the theme we want to progress the tutorial
