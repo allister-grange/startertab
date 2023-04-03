@@ -220,7 +220,6 @@ export const defaultSettings: UserSettings = {
         tileType: "None",
         subTextColor: "#333333",
         dropShadow: "0 4px 30px rgba(0, 0, 0, 0.1)",
-        tileBorder: "1px solid rgba(255, 255, 255, 0.3)",
         sidebarBackgroundColor: "#eeeeee",
         themePickerBubbleColor: "linear-gradient(360deg, blue 50%, white 50%);",
         borderRadius: "15px",
@@ -294,7 +293,6 @@ export const defaultSettings: UserSettings = {
         tileType: "None",
         subTextColor: "#333333",
         dropShadow: "0 4px 30px rgba(0, 0, 0, 0.1)",
-        tileBorder: "1px solid rgba(255, 255, 255, 0.3)",
         sidebarBackgroundColor: "#eeeeee",
         themePickerBubbleColor:
           "linear-gradient(90deg, #ABA1EE 50%, #f882ff 50%);",
@@ -512,7 +510,6 @@ export const defaultSettings: UserSettings = {
         tileType: "None",
         subTextColor: "#333333",
         dropShadow: "0 4px 30px rgba(0, 0, 0, 0.1)",
-        tileBorder: "1px solid rgba(255, 255, 255, 0.3)",
         sidebarBackgroundColor: "#eeeeee",
         themePickerBubbleColor:
           "linear-gradient(360deg, #f5f4eb 50%, #bce1f7 50%);",
