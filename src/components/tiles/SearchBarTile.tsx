@@ -22,16 +22,21 @@ export const SearchBarTile: React.FC<SearchBarProps> = ({ tileId }) => {
   const searchClick = (app: AppTypes) => {
     switch (app) {
       case "google":
-        router.push(`https://google.com/search?q=${searchTerm}`);
+        window.top!.location.href = `https://google.com/search?q=${searchTerm}`;
         return;
       case "duck":
-        router.push(`https://duckduckgo.com/?q=${searchTerm}`);
+        window.top!.location.href = `https://duckduckgo.com/?q=${searchTerm}`;
         return;
       case "stackoverflow":
-        router.push(
-          `https://google.com/search?q=${searchTerm}+site%3Astackoverflow.com`
-        );
+        window.top!.location.href = `https://google.com/search?q=${searchTerm}+site%3Astackoverflow.com`;
         return;
+    }
+  };
+
+  const onKeyDownInForm = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter") {
+      e.preventDefault();
+      searchClick("google");
     }
   };
 
@@ -66,6 +71,10 @@ export const SearchBarTile: React.FC<SearchBarProps> = ({ tileId }) => {
         }}
         _focus={{
           border: "0",
+          outline: "0",
+          borderBottom: "1px",
+        }}
+        _focusVisible={{
           borderBottom: "1px",
         }}
         border="0"
@@ -73,6 +82,7 @@ export const SearchBarTile: React.FC<SearchBarProps> = ({ tileId }) => {
         borderRadius="0"
         background="transparent"
         placeholder="search me"
+        onKeyDown={onKeyDownInForm}
         onChange={(e) => setSearchTerm(e.target.value)}
         value={searchTerm}
       />
