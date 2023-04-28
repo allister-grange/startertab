@@ -244,7 +244,7 @@ export const ThemeCreator: React.FC = ({}) => {
                   onClick={() => onDarkThemeChange(true)}
                 >
                   <Image
-                    src="/darkSidebar.jpg"
+                    src="/theme_previews/darkSidebar.jpg"
                     alt="dark sidebar option"
                     layout="fill"
                     objectFit="contain"
@@ -256,7 +256,7 @@ export const ThemeCreator: React.FC = ({}) => {
                   onClick={() => onDarkThemeChange(false)}
                 >
                   <Image
-                    src="/lightSidebar.jpg"
+                    src="/theme_previews/lightSidebar.jpg"
                     alt="light sidebar option"
                     layout="fill"
                     objectFit="contain"

@@ -42,7 +42,10 @@ export const MobileWarning: React.FC<MobileWarningProps> = ({
               objectFit: "cover",
             }}
           >
-            <source src="/StarterTabDemoV3.mp4" type="video/mp4"></source>
+            <source
+              src="/theme_previews/StarterTabDemoV3.mp4"
+              type="video/mp4"
+            ></source>
           </video>
         </Box>
         <OutlinedButton
