@@ -37,7 +37,7 @@ export function MyApp({
   const theme = extendTheme({ breakpoints });
 
   // sending through mobile users to the landing page
-  if (isMobile) {
+  if (isMobile && !window.location.href.match("landingpad")) {
     window.location.href = "https://startertab.com/landingpad";
   }
 
