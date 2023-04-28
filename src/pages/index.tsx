@@ -8,7 +8,6 @@ import { MobileWarning } from "@/components/ui/MobileWarning";
 import { SettingsToggle } from "@/components/ui/SettingsToggle";
 import {
   applyTheme,
-  getCookieValue,
   getCurrentTheme,
   getNewSettingsFromLegacyTheme,
 } from "@/helpers/settingsHelpers";
