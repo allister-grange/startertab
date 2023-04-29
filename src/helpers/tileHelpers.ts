@@ -110,3 +110,7 @@ export const getThemeIdsFromLocalStorage = () => {
     return [];
   }
 };
+
+export const getRandomNumber = (min: number, max: number) => {
+  return Math.random() * (max - min) + min;
+};
