@@ -90,7 +90,7 @@ export const LandingPageDemoSections: React.FC<
         titleColor="#536468"
         isVideo={true}
         imagePath="https://startertab.com/landing_page/AnimatedDemo.mp4"
-        description="You have complete customization of your tab. Colors, layouts,
+        description="You have complete control of your tab. Colors, layouts,
         tiles, background, it's all up to you."
         subText="With 20+ different tiles and a grid to snap them too, the possibilities are endless!"
       />

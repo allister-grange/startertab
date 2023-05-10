@@ -1,6 +1,8 @@
 import { Heading, Button, Box, Text, Flex, Link } from "@chakra-ui/react";
 import React from "react";
 import { ChromeLogo } from "@/components/icons/ChromeLogo";
+import { FirefoxLogo } from "@/components/icons/FirefoxLogo";
+import Image from "next/image";
 
 interface LandingPageHeroProps {}
 
@@ -34,28 +36,67 @@ export const LandingPageHero: React.FC<LandingPageHeroProps> = ({}) => {
         </Heading>
       </Flex>
 
-      <Link
-        display="flex"
+      <Flex
+        justifyContent="space-around"
+        w="min-content"
         mx="auto"
-        width="225px"
-        mt="10"
-        fontSize="xl"
-        color="#ff652d"
-        bg="#ffe8e0"
-        borderRadius="3xl"
-        py="2"
-        px="6"
-        _hover={{
-          transform: "translateY(-2px)",
-        }}
-        href="https://chrome.google.com/webstore/detail/startertab/hklfanmakojdijomofibaiepoeobioni?hl=en&authuser=0"
-        target="_blank"
+        columnGap="4"
+        pt="3"
+        pb="3"
+        flexDir={["column", "row"]}
       >
-        <ChromeLogo />
-        <Text ml="2" fontWeight="semibold">
-          Add to Chrome
-        </Text>
-      </Link>
+        <Link
+          display="flex"
+          width="225px"
+          mt="10"
+          fontSize="xl"
+          color="#ff652d"
+          bg="#ffe8e0"
+          borderRadius="3xl"
+          py="2"
+          px="6"
+          _hover={{
+            transform: "translateY(-2px)",
+          }}
+          href="https://chrome.google.com/webstore/detail/startertab/hklfanmakojdijomofibaiepoeobioni?hl=en&authuser=0"
+          target="_blank"
+          alignItems="center"
+          whiteSpace="nowrap"
+        >
+          <ChromeLogo />
+          <Text ml="2" fontWeight="semibold">
+            Add to Chrome
+          </Text>
+        </Link>
+        <Link
+          display="flex"
+          width="225px"
+          mt="10"
+          fontSize="xl"
+          color="#ff652d"
+          bg="#ffe8e0"
+          borderRadius="3xl"
+          py="2"
+          px="6"
+          _hover={{
+            transform: "translateY(-2px)",
+          }}
+          href="https://chrome.google.com/webstore/detail/startertab/hklfanmakojdijomofibaiepoeobioni?hl=en&authuser=0"
+          target="_blank"
+          alignItems="center"
+          whiteSpace="nowrap"
+        >
+          <Image
+            src={"/firefox_logo.png"}
+            alt="Firefox logo"
+            height="28"
+            width="28"
+          />
+          <Text ml="2" fontWeight="semibold">
+            Add to Firefox
+          </Text>
+        </Link>
+      </Flex>
     </Box>
   );
 };
