@@ -1,0 +1,25 @@
+{
+  "manifest_version": 3,
+  "name": "StarterTab - Your next New Tab",
+  "description": "A fully customizable webapp to replace your 'New Tab' homepage.",
+  "version": "2.3.3",
+  "icons": {
+    "16": "assets/favicon.jpeg",
+    "32": "assets/favicon.jpeg",
+    "48": "assets/favicon.jpeg",
+    "128": "assets/favicon.jpeg"
+  },
+  "action": {
+    "default_popup": "popup.html"
+  },
+  "permissions": ["storage"],
+  "chrome_url_overrides": {
+    "newtab": "redirect.html"
+  },
+  "browser_specific_settings": {
+    "gecko": {
+      "id": "allistergrange@gmail.com",
+      "strict_min_version": "109.0"
+    }
+  }
+}
