@@ -81,7 +81,7 @@ export const LandingPageHero: React.FC<LandingPageHeroProps> = ({}) => {
           _hover={{
             transform: "translateY(-2px)",
           }}
-          href="https://chrome.google.com/webstore/detail/startertab/hklfanmakojdijomofibaiepoeobioni?hl=en&authuser=0"
+          href="https://addons.mozilla.org/en-US/firefox/addon/startertab-your-next-new-tab/"
           target="_blank"
           alignItems="center"
           whiteSpace="nowrap"

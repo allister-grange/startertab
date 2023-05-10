@@ -10,7 +10,7 @@ export const TutorialStage4: React.FC = ({}) => {
         fontSize="24px"
         pos="absolute"
         left="430px"
-        top="440px"
+        top="480px"
         width="520px"
       >
         You&apos;re now ready to go! Click on a dropdown to personalize your
@@ -24,14 +24,23 @@ export const TutorialStage4: React.FC = ({}) => {
         width="520px"
       >
         See, it&apos;s a breeze to customize the site. If you want this page to
-        act as your &apos;New Tab&apos; page you&apos;ll need{" "}
+        act as your &apos;New Tab&apos; page you&apos;ll need the{" "}
         <a
           href="https://chrome.google.com/webstore/detail/startertab/hklfanmakojdijomofibaiepoeobioni"
           style={{ textDecorationLine: "underline" }}
           target="_blank"
           rel="noreferrer"
         >
-          the extension!
+          Chrome extension
+        </a>
+        &nbsp;or the&nbsp;
+        <a
+          href="https://chrome.google.com/webstore/detail/startertab/hklfanmakojdijomofibaiepoeobioni"
+          style={{ textDecorationLine: "underline" }}
+          target="_blank"
+          rel="noreferrer"
+        >
+          Firefox extension
         </a>
         .
       </MessageBubble>
