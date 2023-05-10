@@ -1,4 +1,4 @@
-import { Box, Image } from "@chakra-ui/react";
+import { Box } from "@chakra-ui/react";
 import React from "react";
 
 interface LandingPageMainVideoProps {}
@@ -29,17 +29,7 @@ export const LandingPageMainVideo: React.FC<
         paddingInline={["7px", "40px"]}
         marginBottom="-190px"
       >
-        <Image
-          // maxW="800px"
-          src={"/light.jpg  "}
-          w="100%"
-          alt="Screenshot of StarterTab"
-          marginX={["auto", "auto", "auto", "0", "0"]}
-          overflow="hidden"
-          borderRadius="16px"
-          boxShadow="xl"
-        />
-        {/* <video
+        <video
           loop
           autoPlay
           playsInline
@@ -62,7 +52,7 @@ export const LandingPageMainVideo: React.FC<
             src="https://startertab.com/landing_page/MainDemo.mp4"
             type="video/mp4"
           />
-        </video> */}
+        </video>
       </Box>
     </Box>
   );
