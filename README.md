@@ -2,15 +2,15 @@
 
 https://user-images.githubusercontent.com/18430086/193997502-8d9c7c75-e5d8-467f-b378-36328854f0c9.mp4
 
-## Inspiration
+I was getting sick of the same old new tab page. I wanted to have a dashboard for everything I reach for in my typical workday, so I built it. 
 
-Do you want to have a dashboard with all of the information (addictions) you'd want to see handy in one spot on every new tab? I do, so I am building it!
+StarterTab is here to revolutionize the way you start your day on the internet. With a completely customizable webapp to replace your new tab homepage, you can personalize your online experience like never before.
 
-I use [this](https://chrome.google.com/webstore/detail/custom-new-tab-url/mmjbdbjnoablegbkcklggeknkfcjkjia?hl=en) extension to make the Starter Tab app open up on every new tab of mine.
+You can install the [chrome extension here](https://chrome.google.com/webstore/detail/custom-new-tab-url/mmjbdbjnoablegbkcklggeknkfcjkjia?hl=en), or the [firefox extension here](https://addons.mozilla.org/en-US/firefox/addon/startertab-your-next-new-tab/) and make StarterTab the site that opens up on every one of your new tabs.
 
 ## Tech
 
-Local storage is used for storing your information, meaning you own your data! All of the settings, tokens and themes sit on your own browser. Some may call it laziness that I don't want to maintain a database, you could also see it as me helping prevent your data being in yet another cloud service.
+Local storage is being used for storing all of your customizations, meaning you own your data! All of the settings, tokens and themes sit on your own browser. Some may call it laziness that I don't want to maintain a database, you could also see it as me helping prevent your data being in yet another cloud service.
 
 Written in NextJS with CharkaUI. Hosted on Vercel.
 
