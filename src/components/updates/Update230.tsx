@@ -1,11 +1,8 @@
-import { Heading, Box, Text, Link as ChakraLink } from "@chakra-ui/react";
-import React from "react";
+import { Box, Heading, Text } from "@chakra-ui/react";
 import Image from "next/image";
-import Link from "next/link";
+import React from "react";
 
-interface Update220Props {}
-
-export const Update230: React.FC<Update220Props> = ({}) => {
+export const Update230: React.FC = ({}) => {
   return (
     <Box id="v2.3.0">
       <Heading as="h2" fontSize="2xl" mt="6">

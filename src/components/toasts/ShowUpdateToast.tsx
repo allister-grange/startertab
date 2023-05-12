@@ -8,14 +8,13 @@ export const ShowUpdateToast: React.FC<ShowUpdateToastProps> = ({}) => {
 
   const showUpdateToast = useCallback(() => {
     toast({
-      title: "I've made another update! v2.20",
+      title: "I've made another update! v2.40",
       description: (
         <Text>
-          2 more tiles, Google and Outlook calendars. Check it out{" "}
-          <Link color="coral" href="/updates">
+          You can now use a custom StarterTab extension! Get the links{" "}
+          <Link color="coral" href="/landingpad">
             here
           </Link>
-          .
         </Text>
       ),
       status: "info",
@@ -30,14 +29,15 @@ export const ShowUpdateToast: React.FC<ShowUpdateToastProps> = ({}) => {
     localStorage.removeItem("hasSeenNewUpdate1.20");
     localStorage.removeItem("hasSeenNewUpdate2.00Counter");
     localStorage.removeItem("hasSeenNewUpdate2.10Counter");
+    localStorage.removeItem("hasSeenNewUpdate2.20Counter");
     const hasSeenNewUpdate = localStorage.getItem(
-      "hasSeenNewUpdate2.20Counter"
+      "hasSeenNewUpdate2.40Counter"
     );
     if (!hasSeenNewUpdate) {
-      localStorage.setItem("hasSeenNewUpdate2.20Counter", "1");
+      localStorage.setItem("hasSeenNewUpdate2.40Counter", "1");
     } else {
       localStorage.setItem(
-        "hasSeenNewUpdate2.20Counter",
+        "hasSeenNewUpdate2.40Counter",
         (parseInt(hasSeenNewUpdate) + 1).toString()
       );
       // only on the twelvth visit since the update do we want to show the toast
