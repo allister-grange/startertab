@@ -28,6 +28,10 @@ header {
   font-size: .9rem;
 }
 
+.heading_accent {
+  color: black;
+}
+
 .sub_heading {
   display: flex;
   align-items: center;

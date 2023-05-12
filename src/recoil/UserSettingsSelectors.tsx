@@ -484,3 +484,31 @@ export const rssFeedTitleSelector = selectorFamily({
       set(userSettingState, userSettings);
     },
 });
+
+export const subRedditOffsetSelector = selectorFamily({
+  key: "SubRedditOffset",
+  get:
+    (tileId: number) =>
+    ({ get }) => {
+      const settings = get(userSettingState);
+      const colorMode = get(colorModeState);
+      const currentTheme = getCurrentTheme(settings, colorMode);
+
+      return currentTheme.tiles[tileId].subRedditOffset;
+    },
+  set:
+    (tileId: number) =>
+    ({ get, set }, newValue) => {
+      const userSettings = JSON.parse(
+        JSON.stringify(get(userSettingState))
+      ) as UserSettings;
+
+      for (const theme of userSettings.themes) {
+        if (!theme.tiles[tileId]) {
+          continue;
+        }
+        theme.tiles[tileId].subRedditOffset = newValue as number;
+      }
+      set(userSettingState, userSettings);
+    },
+});

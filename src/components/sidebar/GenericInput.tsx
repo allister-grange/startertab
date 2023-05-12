@@ -8,6 +8,7 @@ interface GenericInputProps extends BoxProps {
   subTextColor: string;
   value: string;
   tileId: number;
+  isNumber?: boolean;
   changeSetting: (
     key: keyof TileSettings,
     value: string,
@@ -20,6 +21,7 @@ export const GenericInput: React.FC<GenericInputProps> = ({
   textColor,
   subTextColor,
   tileId,
+  isNumber,
   changeSetting,
   value,
 }) => {
@@ -76,6 +78,7 @@ export const GenericInput: React.FC<GenericInputProps> = ({
           onChange={onInputChange}
           height="8"
           placeholder={title}
+          type={isNumber ? "number" : undefined}
         />
       </Box>
     </Box>

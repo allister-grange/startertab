@@ -3,6 +3,7 @@ import { calculateTimeAgoString, truncateString } from "@/helpers/tileHelpers";
 import {
   redditFeedSelector,
   subRedditSortTypeSelector,
+  subRedditOffsetSelector,
 } from "@/recoil/UserSettingsSelectors";
 import { RedditAPIResponse, RedditDataHolder } from "@/types";
 import {
@@ -18,14 +19,16 @@ import {
 } from "@chakra-ui/react";
 import { useQuery } from "@tanstack/react-query";
 import React, { useRef, useState } from "react";
-import { SetterOrUpdater, useRecoilState } from "recoil";
-import { OptionBadge } from "../ui/OptionBadge";
+import { SetterOrUpdater, useRecoilState, useRecoilValue } from "recoil";
 
 interface RedditFeedProps {
   tileId: number;
 }
 
-const fetcher = async (url: string): Promise<RedditDataHolder[]> => {
+const fetcher = async (
+  url: string,
+  offset?: number
+): Promise<RedditDataHolder[]> => {
   const res = await fetch(url);
   const redditData = (await res.json()) as RedditAPIResponse;
 
@@ -39,7 +42,11 @@ const fetcher = async (url: string): Promise<RedditDataHolder[]> => {
     })
   );
 
-  return formattedData;
+  if (offset) {
+    return formattedData.slice(offset);
+  } else {
+    return formattedData;
+  }
 };
 
 export const RedditFeedTile: React.FC<RedditFeedProps> = ({ tileId }) => {
@@ -50,13 +57,15 @@ export const RedditFeedTile: React.FC<RedditFeedProps> = ({ tileId }) => {
   const [subRedditSortType, setSubRedditSortType] = useRecoilState(
     subRedditSortTypeSelector(tileId)
   ) as [string | undefined, SetterOrUpdater<string | undefined>];
-  const { data, error, isLoading } = useQuery(
+  const subRedditOffset = useRecoilValue(subRedditOffsetSelector(tileId));
+  const { data, error, isLoading, refetch } = useQuery(
     ["subRedditFeed", subRedditFeed, subRedditSortType],
     () =>
       fetcher(
         `https://www.reddit.com/r/${subRedditFeed!}/${
           subRedditSortType ? subRedditSortType : "top"
-        }.json?limit=20&t=day`
+        }.json?limit=20&t=day`,
+        subRedditOffset as number | undefined
       ),
     {
       enabled: subRedditFeed !== undefined && subRedditFeed !== "",
@@ -77,6 +86,10 @@ export const RedditFeedTile: React.FC<RedditFeedProps> = ({ tileId }) => {
       setDisplayingOnWideTile(true);
     }
   }, []);
+
+  React.useEffect(() => {
+    refetch();
+  }, [refetch, subRedditOffset]);
 
   const handleSubredditInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSubRedditInput(e.target.value);

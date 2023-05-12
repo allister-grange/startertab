@@ -35,6 +35,10 @@ header {
   font-size: 1.2rem;
 }
 
+.heading_accent {
+  color: black;
+}
+
 .footer {
   margin-top: .4rem;
   display: flex;

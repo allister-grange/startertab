@@ -3,7 +3,7 @@ import { GenericInput } from "@/components/sidebar/GenericInput";
 import { GenericSelect } from "@/components/sidebar/GenericSelect";
 import { TileTypePicker } from "@/components/sidebar/TileTypePicker";
 import { Option, TileSettings, TileType } from "@/types";
-import { AccordionPanel, Box, Text } from "@chakra-ui/react";
+import { Box, Text } from "@chakra-ui/react";
 import React from "react";
 import { OutlinedButton } from "@/components/ui/OutlinedButton";
 
@@ -72,6 +72,7 @@ const SettingOptionContainer: React.FC<SettingOptionContainerProps> = ({
       );
       break;
     case "SubRedditPicker":
+    case "SubRedditOffset":
       if (tileType === "Reddit Feed") {
         optionToDisplay = (
           <GenericInput
@@ -81,6 +82,7 @@ const SettingOptionContainer: React.FC<SettingOptionContainerProps> = ({
             tileId={tileId}
             subTextColor={subTextColor}
             value={value}
+            isNumber={option.localStorageId === "subRedditOffset"}
           />
         );
       }

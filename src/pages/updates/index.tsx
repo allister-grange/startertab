@@ -6,6 +6,7 @@ import { Update200 } from "@/components/updates/Update200";
 import { Update210 } from "@/components/updates/Update210";
 import { Update220 } from "@/components/updates/Update220";
 import { Update230 } from "@/components/updates/Update230";
+import { Update240 } from "@/components/updates/Update240";
 import { Box, Heading, Link, ListItem, UnorderedList } from "@chakra-ui/react";
 import React, { useEffect } from "react";
 
@@ -45,6 +46,15 @@ const UpdatesPage: React.FC = ({}) => {
       >
         <Heading as="h1">Updates</Heading>
         <UnorderedList listStyleType={"none"} margin="0" mt="6">
+          <ListItem>
+            <Link
+              onClick={onAnchorClick}
+              style={{ color: "coral" }}
+              href="#v2.4.0"
+            >
+              v2.4.0 - Extensions
+            </Link>
+          </ListItem>
           <ListItem>
             <Link
               onClick={onAnchorClick}
@@ -100,6 +110,10 @@ const UpdatesPage: React.FC = ({}) => {
             </Link>
           </ListItem>
         </UnorderedList>
+        <Update240 />
+        <hr
+          style={{ width: "100%", marginTop: "18px", background: "#e2e8f0" }}
+        />
         <Update230 />
         <hr
           style={{ width: "100%", marginTop: "18px", background: "#e2e8f0" }}
