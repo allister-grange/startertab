@@ -1,7 +1,6 @@
 import { Heading, Button, Box, Text, Flex, Link } from "@chakra-ui/react";
 import React from "react";
 import { ChromeLogo } from "@/components/icons/ChromeLogo";
-import { FirefoxLogo } from "@/components/icons/FirefoxLogo";
 import Image from "next/image";
 
 interface LandingPageHeroProps {}

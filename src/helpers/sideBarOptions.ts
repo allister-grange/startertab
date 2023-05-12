@@ -137,6 +137,12 @@ export const sideBarMediumTileOptions: Option[] = [
     optionType: "SubRedditPicker",
   },
   {
+    title: "Reddit feed offset",
+    subTitle: "Number of posts to skip to avoid stickied posts in a subreddit",
+    localStorageId: "subRedditOffset",
+    optionType: "SubRedditOffset",
+  },
+  {
     title: "Hacker News Feed Type",
     subTitle: "What type of feed do you want to see from Hacker News?",
     localStorageId: "hackerNewsFeedType",
@@ -192,6 +198,18 @@ export const sideBarLargeTileOptions: Option[] = [
     subTitle: "Name of the city you want the weather forecast for",
     localStorageId: "cityForWeather",
     optionType: "CityInputForWeather",
+  },
+  {
+    title: "Reddit feed subreddit",
+    subTitle: "Subreddit you want to see the posts from",
+    localStorageId: "subReddit",
+    optionType: "SubRedditPicker",
+  },
+  {
+    title: "Reddit feed offset",
+    subTitle: "Number of posts to skip to avoid stickied posts in a subreddit",
+    localStorageId: "subRedditOffset",
+    optionType: "SubRedditOffset",
   },
   {
     title: "Title for Favorites",

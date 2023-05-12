@@ -9,23 +9,24 @@ export type Option = {
 };
 
 export type OptionType =
-  | "ColorPicker"
-  | "SubRedditPicker"
-  | "MediumTileTypePicker"
-  | "DropShadowInput"
-  | "LargeTileTypePicker"
-  | "SmallTileTypePicker"
-  | "LongTileTypePicker"
   | "BorderRadiusInput"
   | "BorderSelect"
-  | "SmallStockInput"
-  | "GridGapInput"
-  | "RandomizeColors"
-  | "LargeStockTile"
-  | "CityInputForWeather"
-  | "HackerNewsFeedType"
-  | "SpotifyTopArtistsTimeLength"
   | "CityInputForUV"
+  | "CityInputForWeather"
+  | "ColorPicker"
+  | "DropShadowInput"
+  | "GridGapInput"
+  | "HackerNewsFeedType"
+  | "LargeTileTypePicker"
+  | "LongTileTypePicker"
+  | "LargeStockTile"
+  | "MediumTileTypePicker"
+  | "RandomizeColors"
+  | "SmallStockInput"
+  | "SmallTileTypePicker"
+  | "SpotifyTopArtistsTimeLength"
+  | "SubRedditPicker"
+  | "SubRedditOffset"
   | "TitleForFavorites"
   | "TitleForRSSFeed";
 
@@ -57,7 +58,7 @@ export const TileTypes = [
   "None",
 ] as const;
 
-export type TileType = typeof TileTypes[number];
+export type TileType = (typeof TileTypes)[number];
 
 export type TileSettingsKey = keyof TileSettings;
 
@@ -89,6 +90,7 @@ export type TileSettings = {
   stravaToken?: string;
   subReddit?: string;
   subRedditSortType?: string;
+  subRedditOffset?: number;
   subTextColor?: string;
   tempDisplayInCelsius?: string;
   themePickerBubbleColor?: string;
