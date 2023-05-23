@@ -3,7 +3,7 @@ import NoSSR from "@/components/ui/NoSSR";
 import { defaultSettings } from "@/helpers/themes";
 import "@/styles/github-markdown.css";
 import "@/styles/globals.css";
-import { ChakraProvider, extendTheme } from "@chakra-ui/react";
+import { ChakraProvider } from "@chakra-ui/react";
 import { Analytics } from "@vercel/analytics/react";
 import App, { AppContext, AppInitialProps, AppProps } from "next/app";
 import Head from "next/head";
@@ -13,14 +13,6 @@ import { ErrorBoundary } from "react-error-boundary";
 import { RecoilRoot } from "recoil";
 
 type MyAppProps = { cookies?: string };
-const breakpoints = {
-  base: "0em",
-  sm: "30em",
-  md: "48em",
-  lg: "62em",
-  xl: "85em",
-  "2xl": "96em",
-};
 
 export function MyApp({
   Component,
@@ -34,8 +26,6 @@ export function MyApp({
     }
   }, []);
 
-  const theme = extendTheme({ breakpoints });
-
   // sending through mobile users to the landing page
   if (isMobile && !window.location.href.match("landingpad")) {
     window.location.href = "https://startertab.com/landingpad";
@@ -43,7 +33,7 @@ export function MyApp({
 
   return (
     <ErrorBoundary FallbackComponent={AppErrorBoundary}>
-      <ChakraProvider theme={theme}>
+      <ChakraProvider>
         <Head>
           <title>StarterTab</title>
           <meta
