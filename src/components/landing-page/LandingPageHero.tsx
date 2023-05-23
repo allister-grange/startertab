@@ -7,7 +7,7 @@ interface LandingPageHeroProps {}
 
 export const LandingPageHero: React.FC<LandingPageHeroProps> = ({}) => {
   return (
-    <Box pt="14" textAlign="center" bg="white">
+    <Box pt={["10", "14"]} textAlign="center" bg="white">
       <Flex flexDir="column">
         <Heading
           color="coral"
@@ -21,7 +21,7 @@ export const LandingPageHero: React.FC<LandingPageHeroProps> = ({}) => {
         </Heading>
         <Heading
           as="h2"
-          mt="12"
+          mt={["8", "12"]}
           fontSize={["lg", "xl", "2xl"]}
           color="#666"
           width={["85%", "90%", "80%", "55%"]}
@@ -47,7 +47,7 @@ export const LandingPageHero: React.FC<LandingPageHeroProps> = ({}) => {
         <Link
           display="flex"
           width="225px"
-          mt="10"
+          mt={["6", "10"]}
           fontSize="xl"
           color="#ff652d"
           bg="#ffe8e0"
@@ -70,7 +70,7 @@ export const LandingPageHero: React.FC<LandingPageHeroProps> = ({}) => {
         <Link
           display="flex"
           width="225px"
-          mt="10"
+          mt={["6", "10"]}
           fontSize="xl"
           color="#ff652d"
           bg="#ffe8e0"

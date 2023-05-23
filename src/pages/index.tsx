@@ -4,7 +4,6 @@ import SettingsSideBar from "@/components/sidebar/SettingsSidebar";
 import { ShowNewTabToast } from "@/components/toasts/ShowNewTabToast";
 import { ShowUpdateToast } from "@/components/toasts/ShowUpdateToast";
 import { Tutorial } from "@/components/tutorial/Tutorial";
-import { MobileWarning } from "@/components/ui/MobileWarning";
 import { SettingsToggle } from "@/components/ui/SettingsToggle";
 import {
   applyTheme,
@@ -16,7 +15,6 @@ import { colorModeState, userSettingState } from "@/recoil/UserSettingsAtoms";
 import { Box, Flex, useDisclosure } from "@chakra-ui/react";
 import type { NextPage } from "next";
 import { useEffect, useState } from "react";
-import { isMobile } from "react-device-detect";
 import { useRecoilState, useSetRecoilState } from "recoil";
 
 export type HomeProps = {
@@ -35,22 +33,11 @@ const Home: NextPage<HomeProps> = ({ cookies }) => {
   const [tutorialProgress, setTutorialProgress] =
     useRecoilState(tutorialProgressAtom);
 
-  // need two states for mobile view because people can ignore the warning and continue
-  const [isMobileView, setIsMobileView] = useState<boolean>(() => isMobile);
-  const [showingMobileWarning, setShowingMobileWarning] = useState(false);
-
   const [settings, setSettings] = useRecoilState(userSettingState);
   const [isEditingTileGrid, setIsEditingTileGrid] = useState(false);
 
   const [colorMode] = useRecoilState(colorModeState);
   const setsidebarOpenAtom = useSetRecoilState(sidebarOpenAtom);
-
-  useEffect(() => {
-    if (isMobile) {
-      const isMobileView = localStorage.getItem("isMobileView");
-      setShowingMobileWarning(isMobileView == null);
-    }
-  }, [isMobileView]);
 
   useEffect(() => {
     const themeToChange = getCurrentTheme(settings, colorMode);
@@ -73,48 +60,44 @@ const Home: NextPage<HomeProps> = ({ cookies }) => {
   const settingsToggleColor = currentTheme.globalSettings.textColor;
   let toDisplay;
 
-  if (showingMobileWarning) {
-    toDisplay = <MobileWarning setIsMobileView={setIsMobileView} />;
-  } else {
-    toDisplay = (
-      <Box width="100%" display="flex" minH="100%">
-        {isOpen && (
-          <SettingsSideBar
-            onClose={onClose}
-            isOpen={isOpen}
-            setOptionHovered={setOptionHovered}
-            setIsEditingTileGrid={setIsEditingTileGrid}
-          />
+  toDisplay = (
+    <Box width="100%" display="flex" minH="100%">
+      {isOpen && (
+        <SettingsSideBar
+          onClose={onClose}
+          isOpen={isOpen}
+          setOptionHovered={setOptionHovered}
+          setIsEditingTileGrid={setIsEditingTileGrid}
+        />
+      )}
+      <>
+        {showingTutorial && (
+          <Tutorial setShowingTutorial={setShowingTutorial} />
         )}
-        <>
-          {showingTutorial && (
-            <Tutorial setShowingTutorial={setShowingTutorial} />
-          )}
-          <Flex
-            width="100%"
-            overflow="auto"
-            height="100%"
-            onClick={() => setIsEditingTileGrid(false)}
-          >
-            <TileGrid
-              isEditingTileGrid={isEditingTileGrid}
-              setIsEditingTileGrid={setIsEditingTileGrid}
-              optionHovered={optionHovered}
-              gridGap={gridGap}
-              layout={currentTheme.tileLayout}
-              tiles={currentTheme.tiles}
-            />
-          </Flex>
-        </>
-      </Box>
-    );
-  }
+        <Flex
+          width="100%"
+          overflow="auto"
+          height="100%"
+          onClick={() => setIsEditingTileGrid(false)}
+        >
+          <TileGrid
+            isEditingTileGrid={isEditingTileGrid}
+            setIsEditingTileGrid={setIsEditingTileGrid}
+            optionHovered={optionHovered}
+            gridGap={gridGap}
+            layout={currentTheme.tileLayout}
+            tiles={currentTheme.tiles}
+          />
+        </Flex>
+      </>
+    </Box>
+  );
 
   return (
     <>
       {toDisplay}
       {isEditingTileGrid && <TileLayoutActions colorMode={colorMode} />}
-      {!isOpen && !showingMobileWarning && tutorialProgress !== 0 && (
+      {!isOpen && tutorialProgress !== 0 && (
         <SettingsToggle
           onOpen={() => {
             onOpen();
