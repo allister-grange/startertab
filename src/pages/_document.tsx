@@ -17,10 +17,28 @@ class MyDocument extends Document<{ cookies: string }> {
     const ctx = await Document.getInitialProps(context);
 
     const { req, res } = context;
-
     let cookies = "";
-    if (req) {
+
+    if (req && res) {
+      const userAgent = req.headers["user-agent"]
+        ? req.headers["user-agent"]
+        : navigator.userAgent;
+      const isMobile = /Mobi/i.test(userAgent);
+
       cookies = req.headers.cookie ?? "";
+
+      // redirecting a user to the landing page on their first visit
+      // or if they're on mobile (you can't use the app on mobile)
+      // or if they're coming from the extension, skip the landing page
+      if (
+        (isMobile || !getCookieValue(cookies, "background")) &&
+        !req.url?.includes("landingpad") &&
+        !req.url?.includes("?extension=true")
+      ) {
+        res.setHeader("Set-Cookie", "background=%23ffffff");
+        res.writeHead(307, { Location: "/landingpad" });
+        res.end();
+      }
     }
 
     if (res) {

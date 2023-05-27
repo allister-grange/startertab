@@ -1,7 +1,6 @@
 import { defaultGridLayout } from "@/helpers/gridLayout";
 import { deepClone } from "@/helpers/tileHelpers";
 import { ThemeSettings, TileSettings, TileSize, UserSettings } from "@/types";
-import { theme } from "@chakra-ui/react";
 import { setCookies } from "cookies-next";
 
 export const applyTheme = (theme: ThemeSettings) => {

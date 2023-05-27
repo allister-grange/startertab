@@ -35,7 +35,7 @@ export const Footer: React.FC<SideBarFooterProps> = ({ textColor }) => {
         &copy;2023 StarterTab{" "}
         <span style={{ textDecoration: "underline" }}>
           <Link href="/updates" target="_blank">
-            v2.4.0
+            v2.4.1
           </Link>
         </span>
       </Text>

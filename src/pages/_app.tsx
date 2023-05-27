@@ -8,7 +8,6 @@ import { Analytics } from "@vercel/analytics/react";
 import App, { AppContext, AppInitialProps, AppProps } from "next/app";
 import Head from "next/head";
 import { useEffect } from "react";
-import { isMobile } from "react-device-detect";
 import { ErrorBoundary } from "react-error-boundary";
 import { RecoilRoot } from "recoil";
 
@@ -25,11 +24,6 @@ export function MyApp({
       localStorage.setItem("user_settings", JSON.stringify(defaultSettings));
     }
   }, []);
-
-  // sending through mobile users to the landing page
-  if (isMobile && !window.location.href.match("landingpad")) {
-    window.location.href = "https://startertab.com/landingpad";
-  }
 
   return (
     <ErrorBoundary FallbackComponent={AppErrorBoundary}>
