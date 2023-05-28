@@ -1,4 +1,4 @@
-import { Heading, Button, Box, Text, Flex, Link } from "@chakra-ui/react";
+import { Heading, Box, Text, Flex, Link } from "@chakra-ui/react";
 import React from "react";
 import { ChromeLogo } from "@/components/icons/ChromeLogo";
 import Image from "next/image";

@@ -14,34 +14,30 @@ export const TutorialStage1: React.FC<TutorialStage1Props> = ({
 }) => {
   return (
     <Box
-      height="100vh"
-      width="100vw"
       transition="width 0.44s ease-in-out"
       zIndex="3"
-      right="0"
-      top="0"
-      pos="fixed"
+      left="50%"
+      top="40%"
+      transform={"translate(-50%, -50%)"}
+      pos="absolute"
     >
       <header>
-        <Box
-          height="70%"
-          display="flex"
-          flexDir="column"
-          width="65%"
-          minWidth="min-content"
-          marginX="auto"
-          pl="40px"
-          mt="10%"
-        >
+        <Box display="flex" flexDir="column">
           <Heading
             alignItems="flex-start"
-            fontSize={"120px"}
+            fontSize={["50px", "70px", "100px", "100px", "120px"]}
             color="black"
             mt="2.5rem"
+            whiteSpace="nowrap"
           >
             StarterTab ✌
           </Heading>
-          <Text mt="-4" fontSize={"38"} color="gray.900">
+          <Text
+            mt="-4"
+            fontSize={["20px", "26px", "30px", "34px", "38px"]}
+            // fontSize={"38"}
+            color="gray.900"
+          >
             Your &apos;New Tab&apos; page with a twist
           </Text>
           {/* <Text mt="4" fontSize={"28px"} color="gray.800" width="80%">
@@ -56,30 +52,29 @@ export const TutorialStage1: React.FC<TutorialStage1Props> = ({
             </a>
             .
           </Text> */}
-          <Box alignItems="flex-start" mt="35px">
+          <Box mt="20px" display="flex" alignItems="center">
             <OutlinedButton
-              alignSelf="flex-start"
-              fontSize="xl"
-              borderColor="black"
+              fontSize={["20px", "md", "lg", "xl", "xl"]}
               onClick={() => {
                 setShowingTutorial(false);
                 setTutorialProgress(-1);
               }}
+              outlineColor="black"
               borderRadius="30"
+              mr="2"
+              px={["4", "4", "6"]}
             >
               Skip Tutorial
             </OutlinedButton>
             <OutlinedButton
-              ml="20px"
               onClick={() => setTutorialProgress(1)}
-              fontSize="xl"
-              mr="2"
+              fontSize={["20px", "md", "md", "xl", "xl"]}
               background="white"
               borderRadius="30"
-              px="6"
-              py="3"
+              px={["4", "4", "6"]}
+              py="24px"
             >
-              Start Tutorial (30 sec)
+              📚 Start Tutorial (30 sec)
             </OutlinedButton>
           </Box>
         </Box>
