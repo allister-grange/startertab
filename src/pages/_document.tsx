@@ -20,6 +20,8 @@ class MyDocument extends Document<{ cookies: string }> {
     let cookies = "";
 
     if (req && res) {
+      res.setHeader("Cache-Control", "no-store");
+
       const userAgent = req.headers["user-agent"]
         ? req.headers["user-agent"]
         : navigator.userAgent;
@@ -39,10 +41,6 @@ class MyDocument extends Document<{ cookies: string }> {
         res.writeHead(307, { Location: "/landingpad" });
         res.end();
       }
-    }
-
-    if (res) {
-      res.setHeader("Cache-Control", "no-store");
     }
 
     return { ...ctx, cookies };
