@@ -1,6 +1,6 @@
 # [Starter Tab](https://startertab.com/)
 
-https://user-images.githubusercontent.com/18430086/193997502-8d9c7c75-e5d8-467f-b378-36328854f0c9.mp4
+https://github.com/allister-grange/startertab/assets/18430086/e8173522-c566-4cec-a894-061925c8c4ff
 
 I was getting sick of the same old new tab page. I wanted to have a dashboard for everything I reach for in my typical workday, so I built it. 
 
