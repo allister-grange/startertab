@@ -36,23 +36,20 @@ const TodoListTile: React.FC<TodoListProps> = ({
     }
   };
 
-  const updateSettingsWithTodo = (todos: TodoObject[]) => {
-    setTodoList(todos);
-  };
-
   const handleTodoTicked = (todo: TodoObject) => {
     const todosToUpdates = JSON.parse(JSON.stringify(todoList)) as TodoObject[];
-    const todos = todosToUpdates.map((todoToFind) => {
-      if (todo.date === todoToFind.date) {
-        return { ...todoToFind, done: !todoToFind.done };
-      }
-      return todoToFind;
-    });
-    updateSettingsWithTodo(todos);
+    setTodoList(
+      todosToUpdates.map((todoToFind) => {
+        if (todo.date === todoToFind.date) {
+          return { ...todoToFind, done: !todoToFind.done };
+        }
+        return todoToFind;
+      })
+    );
   };
 
   const handleTodoDelete = (todo: TodoObject) => {
-    updateSettingsWithTodo(
+    setTodoList(
       todoList?.filter((todoToFind) => todoToFind.date !== todo.date) || []
     );
   };
@@ -61,7 +58,7 @@ const TodoListTile: React.FC<TodoListProps> = ({
     if (inputValue === "") {
       return;
     }
-    updateSettingsWithTodo([
+    setTodoList([
       ...(todoList || []),
       { done: false, title: inputValue, date: Date.now() },
     ]);

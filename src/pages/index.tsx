@@ -17,12 +17,8 @@ import type { NextPage } from "next";
 import { useEffect, useState } from "react";
 import { useRecoilState, useSetRecoilState } from "recoil";
 
-export type HomeProps = {
-  cookies: string | undefined;
-};
-
-const Home: NextPage<HomeProps> = ({ cookies }) => {
-  // Sidebar hook
+const Home: NextPage = () => {
+  // sidebar hook
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   // to highlight what tile you are looking to edit from the sidebar
@@ -37,7 +33,7 @@ const Home: NextPage<HomeProps> = ({ cookies }) => {
   const [isEditingTileGrid, setIsEditingTileGrid] = useState(false);
 
   const [colorMode] = useRecoilState(colorModeState);
-  const setsidebarOpenAtom = useSetRecoilState(sidebarOpenAtom);
+  const seSidebarOpenAtom = useSetRecoilState(sidebarOpenAtom);
 
   useEffect(() => {
     const themeToChange = getCurrentTheme(settings, colorMode);
@@ -46,8 +42,8 @@ const Home: NextPage<HomeProps> = ({ cookies }) => {
 
   // this is used to change tiles conditionally on the sidebar being open or tiles being edited
   useEffect(() => {
-    setsidebarOpenAtom(isOpen || isEditingTileGrid);
-  }, [isOpen, setsidebarOpenAtom, isEditingTileGrid]);
+    seSidebarOpenAtom(isOpen || isEditingTileGrid);
+  }, [isOpen, seSidebarOpenAtom, isEditingTileGrid]);
 
   const currentTheme = getCurrentTheme(settings, colorMode);
 
@@ -58,44 +54,39 @@ const Home: NextPage<HomeProps> = ({ cookies }) => {
   }
   const gridGap = currentTheme.globalSettings.gridGap;
   const settingsToggleColor = currentTheme.globalSettings.textColor;
-  let toDisplay;
-
-  toDisplay = (
-    <Box width="100%" display="flex" minH="100%">
-      {isOpen && (
-        <SettingsSideBar
-          onClose={onClose}
-          isOpen={isOpen}
-          setOptionHovered={setOptionHovered}
-          setIsEditingTileGrid={setIsEditingTileGrid}
-        />
-      )}
-      <>
-        {showingTutorial && (
-          <Tutorial setShowingTutorial={setShowingTutorial} />
-        )}
-        <Flex
-          width="100%"
-          overflow="auto"
-          height="100%"
-          onClick={() => setIsEditingTileGrid(false)}
-        >
-          <TileGrid
-            isEditingTileGrid={isEditingTileGrid}
-            setIsEditingTileGrid={setIsEditingTileGrid}
-            optionHovered={optionHovered}
-            gridGap={gridGap}
-            layout={currentTheme.tileLayout}
-            tiles={currentTheme.tiles}
-          />
-        </Flex>
-      </>
-    </Box>
-  );
 
   return (
     <>
-      {toDisplay}
+      <Box width="100%" display="flex" minH="100%">
+        {isOpen && (
+          <SettingsSideBar
+            onClose={onClose}
+            isOpen={isOpen}
+            setOptionHovered={setOptionHovered}
+            setIsEditingTileGrid={setIsEditingTileGrid}
+          />
+        )}
+        <>
+          {showingTutorial && (
+            <Tutorial setShowingTutorial={setShowingTutorial} />
+          )}
+          <Flex
+            width="100%"
+            overflow="auto"
+            height="100%"
+            onClick={() => setIsEditingTileGrid(false)}
+          >
+            <TileGrid
+              isEditingTileGrid={isEditingTileGrid}
+              setIsEditingTileGrid={setIsEditingTileGrid}
+              optionHovered={optionHovered}
+              gridGap={gridGap}
+              layout={currentTheme.tileLayout}
+              tiles={currentTheme.tiles}
+            />
+          </Flex>
+        </>
+      </Box>
       {isEditingTileGrid && <TileLayoutActions colorMode={colorMode} />}
       {!isOpen && tutorialProgress !== 0 && (
         <SettingsToggle
