@@ -22,11 +22,11 @@ Written in NextJS with CharkaUI. Hosted on Vercel.
 - [Hacker News](https://hackernews.api-docs.io/) for the top ask posts for the day
 - [Stocks API](https://finnhub.io/docs/api) for the stick ticker info
 - [Twitter API](https://developer.twitter.com/en/docs/twitter-api) for your feed
+- [Google Calendar API](https://developers.google.com/calendar/api/guides/overview) for your Google Calendar
+- [Microsoft Outlook Calendar API](https://learn.microsoft.com/en-us/graph/outlook-calendar-concept-overview) for your Outlook calendar
 
-## Future API Integrations
+## Future API Integrations Ideas
 
-- Outlook / Microsoft
-- Gmail
 - Public transport provider
 
 ## Getting Started
