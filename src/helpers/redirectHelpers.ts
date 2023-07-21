@@ -94,7 +94,8 @@ export const getGoogleRedirectUri = (clientId: string, redirectUrl: string) => {
     `&redirect_uri=${encodeURIComponent(redirectUrl)}` +
     `&scope=https://www.googleapis.com/auth/calendar.events.readonly` +
     `&response_type=code` +
-    `&access_type=offline`
+    `&access_type=offline` +
+    `&prompt=consent`
   );
 };
 
