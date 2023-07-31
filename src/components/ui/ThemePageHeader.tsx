@@ -26,16 +26,7 @@ export const ThemePageHeader: React.FC<ThemePageHeaderProps> = ({
               : "Manage your themes from this page"}
           </Heading>
         </Box>
-        {/* <Link
-          marginLeft={["0", "0", "auto"]}
-          mt={["1", "1", "5"]}
-          href="/"
-          fontSize={["sm", "sm", "md"]}
-        >
-          Take me back to StarterTab 👈
-        </Link> */}
       </Flex>
-      {/* <hr style={{ width: "100%" }} /> */}
     </Flex>
   );
 };

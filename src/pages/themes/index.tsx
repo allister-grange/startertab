@@ -204,6 +204,7 @@ const ManageThemes: React.FC = ({}) => {
                 bg={showingPublicThemes ? undefined : "#C6F6D5"}
                 borderRadius="3xl"
                 onClick={() => setShowingPublicThemes(false)}
+                zIndex={-1}
               >
                 My Themes
               </Button>
@@ -213,6 +214,7 @@ const ManageThemes: React.FC = ({}) => {
                 color={showingPublicThemes ? "#276749" : "gray.600"}
                 borderRadius="3xl"
                 onClick={() => setShowingPublicThemes(true)}
+                zIndex={-1}
               >
                 Public Themes
               </Button>
