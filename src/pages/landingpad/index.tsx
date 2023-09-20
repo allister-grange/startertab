@@ -2,6 +2,7 @@ import { LandingPageDemoSections } from "@/components/landing-page/LandingPageDe
 import { Header } from "@/components/landing-page/LandingPageHeader";
 import { LandingPageHero } from "@/components/landing-page/LandingPageHero";
 import { LandingPageMainVideo } from "@/components/landing-page/LandingPageMainVideo";
+import { LandingPageTestimonials } from "@/components/landing-page/LandingPageTestimonials";
 import { Footer } from "@/components/ui/Footer";
 import { Box } from "@chakra-ui/react";
 import React, { useEffect } from "react";
@@ -16,6 +17,7 @@ export const LandingPage: React.FC = ({}) => {
       <Header />
       <LandingPageHero />
       <LandingPageMainVideo />
+      <LandingPageTestimonials />
       <LandingPageDemoSections />
 
       <Footer mt="40" />

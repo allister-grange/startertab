@@ -10,6 +10,7 @@ import { SpotifyLogo } from "../icons/SpotifyLogo";
 import { StravaLogo } from "../icons/StravaLogo";
 import { TwitterLogo } from "../icons/TwitterLogo";
 import { LandingPagePhotoSection } from "./LandingPagePhotoSection";
+import { LandingPageTestimonials } from "./LandingPageTestimonials";
 
 interface LandingPageDemoSectionsProps {}
 
@@ -17,7 +18,7 @@ export const LandingPageDemoSections: React.FC<
   LandingPageDemoSectionsProps
 > = ({}) => {
   return (
-    <Box mt="300px">
+    <Box mt={[16, 32]}>
       <LandingPagePhotoSection
         title="Integrations are our thing."
         titleColor="#7961E3"
@@ -47,12 +48,10 @@ export const LandingPageDemoSections: React.FC<
           </HStack>
         }
       />
-
       <LandingPagePhotoSection
         title="Productivity like no other."
         imagePath="https://startertab.com/landing_page/ProductivityScreenshot.png"
         titleColor="#A1C5FD"
-        // titleColor="#A7C6DA"
         description="Choose from 15+ tiles designed to give you all the information you
         need to get your work done at a glance."
         subText="Markdown files your thing? We got you. Need a todo list handy on your new tabs? We got you."

@@ -26,7 +26,7 @@ export const LandingPagePhotoSection: React.FC<
 }) => {
   return (
     <section>
-      <Box width={["93%", "80%"]} mx="auto" maxW="1170px">
+      <Box width={["93%", "80%"]} mx="auto" maxWidth="1170px">
         <Flex
           columnGap="4"
           mt="8"
