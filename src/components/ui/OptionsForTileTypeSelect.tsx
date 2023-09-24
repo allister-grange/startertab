@@ -127,6 +127,9 @@ export const OptionsForTileTypeSelect: React.FC<
           <option style={optionsStyles} value="Strava Graph">
             Strava Graph
           </option>
+          <option style={optionsStyles} value="Stock Graph Tile">
+            Stock Graph
+          </option>
           <option style={optionsStyles} value="Todo List">
             Todo List
           </option>

@@ -18,6 +18,7 @@ import {
   SpotifyTopArtistsTile,
   TimeTile,
   TwitterFeedTile,
+  StockGraphTile,
   UvGraphTile,
 } from "@/components/tiles";
 import { NoneTile } from "@/components/tiles/NoneTile";
@@ -120,6 +121,9 @@ const TileContainer: React.FC<TileContainerProps> = ({
       break;
     case "Small Weather Tile":
       tileToRender = <SmallWeatherTile tileId={tileId} />;
+      break;
+    case "Stock Graph Tile":
+      tileToRender = <StockGraphTile tileId={tileId} />;
       break;
     case "Small Spotify Tile":
       tileToRender = (

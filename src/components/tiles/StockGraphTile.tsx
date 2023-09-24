@@ -1,11 +1,12 @@
-import { SmallStockTickerSkeleton } from "@/components/skeletons/SmallStockTickerSkeleton";
-import { OutlinedButton } from "@/components/ui/OutlinedButton";
 import { sidebarOpenAtom } from "@/recoil/SidebarAtoms";
-import { stockSelector } from "@/recoil/UserSettingsSelectors";
-import { StockTickers } from "@/types/stocks";
+import {
+  graphStockSelector,
+  stockSelector,
+} from "@/recoil/UserSettingsSelectors";
 import {
   Box,
   Center,
+  color,
   Flex,
   Heading,
   Input,
@@ -13,11 +14,14 @@ import {
   InputRightElement,
   Text,
 } from "@chakra-ui/react";
-import { useQuery } from "@tanstack/react-query";
 import React, { useState } from "react";
-import { SetterOrUpdater, useRecoilState, useRecoilValue } from "recoil";
+import { useRecoilValue, useRecoilState, SetterOrUpdater } from "recoil";
+import { OutlinedButton } from "@/components/ui/OutlinedButton";
+import { SmallStockTickerSkeleton } from "../skeletons/SmallStockTickerSkeleton";
+import { useQuery } from "@tanstack/react-query";
+import { StockTickers } from "@/types/stocks";
 
-interface SmallStockTileProps {
+interface StockGraphTileProps {
   tileId: number;
 }
 const fetcher = async (stockName: string) => {
@@ -34,17 +38,17 @@ const fetcher = async (stockName: string) => {
   }
 };
 
-export const SmallStockTile: React.FC<SmallStockTileProps> = ({ tileId }) => {
+export const StockGraphTile: React.FC<StockGraphTileProps> = ({ tileId }) => {
   const sidebarOpen = useRecoilValue(sidebarOpenAtom);
-  const color = `var(--text-color-${tileId})`;
-  const [stock, setStock] = useRecoilState(stockSelector(tileId)) as [
+  const textColor = `var(--text-color-${tileId})`;
+  const [stock, setStock] = useRecoilState(graphStockSelector(tileId)) as [
     string | undefined,
     SetterOrUpdater<string | undefined>
   ];
   const [stockInput, setStockInput] = useState<string>("");
 
   const { data, error, isLoading } = useQuery(
-    ["smallStockTile", stock],
+    ["graphStockTile", stock],
     () => fetcher(stock!),
     {
       enabled: stock !== undefined && stock !== "",
@@ -61,7 +65,7 @@ export const SmallStockTile: React.FC<SmallStockTileProps> = ({ tileId }) => {
 
   if (!stock) {
     toDisplay = (
-      <form onSubmit={handleSubmitStockName} style={{ marginBottom: "1rem" }}>
+      <form onSubmit={handleSubmitStockName} style={{ marginBottom: "2rem" }}>
         <Text mb="4" fontSize="lg" fontWeight="500" mt="2" textAlign="center">
           Stock Display
         </Text>
@@ -77,8 +81,8 @@ export const SmallStockTile: React.FC<SmallStockTileProps> = ({ tileId }) => {
             name="Stock Name"
             placeholder="Stock name"
             value={stockInput}
-            borderColor={color}
-            _placeholder={{ color: color }}
+            borderColor={textColor}
+            _placeholder={{ color: textColor }}
             onChange={(e) => setStockInput(e.target.value)}
           />
         </InputGroup>
@@ -102,8 +106,10 @@ export const SmallStockTile: React.FC<SmallStockTileProps> = ({ tileId }) => {
     toDisplay = <Text>Sorry, I couldn&apos;t find that stock 😔</Text>;
   }
 
+  console.log(sidebarOpen);
+
   return (
-    <Center height="100%" color={color} p="4">
+    <Center height="100%" color={textColor} p="4">
       {toDisplay}
       {sidebarOpen && (
         <OutlinedButton

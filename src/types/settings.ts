@@ -20,6 +20,7 @@ export type OptionType =
   | "LargeTileTypePicker"
   | "LongTileTypePicker"
   | "LargeStockTile"
+  | "StockGraphInput"
   | "MediumTileTypePicker"
   | "RandomizeColors"
   | "SmallStockInput"
@@ -48,6 +49,7 @@ export const TileTypes = [
   "Todo List",
   "Large Spotify Tile",
   "Small Stock Tile",
+  "Stock Graph Tile",
   "Large Stock Tile",
   "Spotify Top Artist Tile",
   "Blank Tile",
@@ -78,6 +80,7 @@ export type TileSettings = {
   favoriteLinksTitle?: string;
   globalTileTextColor?: string;
   globalTileBackgroundColor?: string;
+  graphStock?: string;
   gridGap?: string;
   hackerNewsFeedType?: string;
   markdownFileText?: string;
