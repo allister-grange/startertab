@@ -22,7 +22,7 @@ interface SmallStockTileProps {
 }
 const fetcher = async (stockName: string) => {
   try {
-    const res = await fetch(`/api/stocks?stocks=${stockName}`);
+    const res = await fetch(`/api/stocks/quote?stocks=${stockName}`);
     if (res.status >= 400) {
       throw new Error("Failed request");
     }

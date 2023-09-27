@@ -1,4 +1,4 @@
-import { FinnhubStockResponse, StockTickers } from "@/types/stocks";
+import { FinnhubQuoteResponse, StockTickers } from "@/types/stocks";
 import { NextApiRequest, NextApiResponse } from "next";
 
 const finnHubSecret = process.env.FINNHUB_SECRET;
@@ -18,7 +18,7 @@ export default async function handler(
         .send("Please provide stock tickers to call this API with");
     }
 
-    const stockData = await getStockTickerInfo(req.query.stocks as string);
+    const stockData = await fetchStockTickerData(req.query.stocks as string);
 
     // API sends back a object even when the stock ticker doesn't exist -_-
     if (stockData[0]!.d === null) {
@@ -33,7 +33,7 @@ export default async function handler(
   }
 }
 
-export const getStockTickerInfo = async (
+export const fetchStockTickerData = async (
   stocks: string
 ): Promise<StockTickers> => {
   try {
@@ -52,7 +52,7 @@ export const getStockTickerInfo = async (
           }
         );
 
-        const data = (await res.json()) as FinnhubStockResponse;
+        const data = (await res.json()) as FinnhubQuoteResponse;
 
         data.ticker = stockName;
         stockTickers.push(data);

@@ -2,7 +2,7 @@ import { LargeStockTickerSkeleton } from "@/components/skeletons/LargeStockTicke
 import { OutlinedButton } from "@/components/ui/OutlinedButton";
 import { sidebarOpenAtom } from "@/recoil/SidebarAtoms";
 import { stockSelector } from "@/recoil/UserSettingsSelectors";
-import { FinnhubStockResponse, StockTickers } from "@/types/stocks";
+import { FinnhubQuoteResponse, StockTickers } from "@/types/stocks";
 import {
   Box,
   Center,
@@ -22,7 +22,7 @@ interface LargeStockTileProps {
 }
 
 interface StockDisplayProps {
-  stockTicker?: FinnhubStockResponse;
+  stockTicker?: FinnhubQuoteResponse;
 }
 
 interface InputDisplayProps {
@@ -34,7 +34,7 @@ interface InputDisplayProps {
 
 const fetcher = async (stockNames: string) => {
   try {
-    const res = await fetch(`/api/stocks?stocks=${stockNames}`);
+    const res = await fetch(`/api/stocks/quote?stocks=${stockNames}`);
     if (res.status >= 400) {
       throw new Error("Failed request");
     }

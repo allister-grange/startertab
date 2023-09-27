@@ -1,38 +1,67 @@
+import { OutlinedButton } from "@/components/ui/OutlinedButton";
 import { sidebarOpenAtom } from "@/recoil/SidebarAtoms";
-import {
-  graphStockSelector,
-  stockSelector,
-} from "@/recoil/UserSettingsSelectors";
+import { graphStockSelector } from "@/recoil/UserSettingsSelectors";
+import { CandleGraphPoint, FinnhubCandleResponse } from "@/types/stocks";
 import {
   Box,
   Center,
-  color,
-  Flex,
   Heading,
   Input,
   InputGroup,
   InputRightElement,
   Text,
 } from "@chakra-ui/react";
-import React, { useState } from "react";
-import { useRecoilValue, useRecoilState, SetterOrUpdater } from "recoil";
-import { OutlinedButton } from "@/components/ui/OutlinedButton";
-import { SmallStockTickerSkeleton } from "../skeletons/SmallStockTickerSkeleton";
 import { useQuery } from "@tanstack/react-query";
-import { StockTickers } from "@/types/stocks";
+import React, { useState } from "react";
+import { Line, LineChart, ResponsiveContainer, XAxis, YAxis } from "recharts";
+import { SetterOrUpdater, useRecoilState, useRecoilValue } from "recoil";
 
 interface StockGraphTileProps {
   tileId: number;
 }
+
+const dummyData: CandleGraphPoint[] = [
+  {
+    date: "0/0/2000",
+    amount: 0,
+  },
+  {
+    date: "1/0/2000",
+    amount: 0,
+  },
+  {
+    date: "2/0/2000",
+    amount: 0,
+  },
+  {
+    date: "3/0/2000",
+    amount: 0,
+  },
+  {
+    date: "4/0/2000",
+    amount: 0,
+  },
+];
+
 const fetcher = async (stockName: string) => {
   try {
-    const res = await fetch(`/api/stocks?stocks=${stockName}`);
+    const res = await fetch(`/api/stocks/candle?stock=${stockName}`);
     if (res.status >= 400) {
       throw new Error("Failed request");
     }
 
-    const data = (await res.json()) as StockTickers;
-    return data;
+    const data = (await res.json()) as FinnhubCandleResponse;
+
+    // format the data for x,y points on a graph
+    const graphPoints: CandleGraphPoint[] = [];
+    for (let i = 0; i < data.c.length; i++) {
+      graphPoints.push({
+        amount: data.o[i],
+        date: new Date(data.t[i] * 1000).toLocaleDateString(),
+      });
+    }
+
+    return graphPoints;
   } catch (err) {
     throw new Error(err as string);
   }
@@ -65,51 +94,70 @@ export const StockGraphTile: React.FC<StockGraphTileProps> = ({ tileId }) => {
 
   if (!stock) {
     toDisplay = (
-      <form onSubmit={handleSubmitStockName} style={{ marginBottom: "2rem" }}>
-        <Text mb="4" fontSize="lg" fontWeight="500" mt="2" textAlign="center">
-          Stock Display
-        </Text>
-        <InputGroup>
-          <InputRightElement
-            className="InputRight"
-            _hover={{ cursor: "pointer" }}
-            onClick={handleSubmitStockName}
-          >
-            Go
-          </InputRightElement>
-          <Input
-            name="Stock Name"
-            placeholder="Stock name"
-            value={stockInput}
-            borderColor={textColor}
-            _placeholder={{ color: textColor }}
-            onChange={(e) => setStockInput(e.target.value)}
-          />
-        </InputGroup>
-      </form>
-    );
-  } else if (isLoading) {
-    toDisplay = <SmallStockTickerSkeleton />;
-  } else if (data && Array.isArray(data)) {
-    toDisplay = data.map((stockTicker) => (
-      <Flex flexDir="column" key={stockTicker?.ticker} borderRadius="10px">
-        <Heading size="lg">{stockTicker?.ticker.toUpperCase()}</Heading>
-        <Text fontSize="lg" opacity="0.9">{`$${stockTicker?.c}`}</Text>
-        <Box>
-          <Text color={stockTicker?.dp! > 0 ? "green" : "#F1676D"}>
-            {stockTicker?.d} ({stockTicker?.dp}%)
+      <Center h="90%">
+        <form onSubmit={handleSubmitStockName} style={{ marginBottom: "2rem" }}>
+          <Text mb="4" fontSize="lg" fontWeight="500" mt="2" textAlign="center">
+            Stock Graph Display
           </Text>
-        </Box>
-      </Flex>
-    ));
+          <InputGroup>
+            <InputRightElement
+              className="InputRight"
+              _hover={{ cursor: "pointer" }}
+              onClick={handleSubmitStockName}
+            >
+              Go
+            </InputRightElement>
+            <Input
+              name="Stock Name"
+              placeholder="Stock name"
+              value={stockInput}
+              borderColor={textColor}
+              _placeholder={{ color: textColor }}
+              onChange={(e) => setStockInput(e.target.value)}
+            />
+          </InputGroup>
+        </form>
+      </Center>
+    );
   } else if (error) {
-    toDisplay = <Text>Sorry, I couldn&apos;t find that stock 😔</Text>;
+    toDisplay = (
+      <Center h="70%">
+        <Text fontSize="lg">
+          Sorry, I couldn&apos;t find the stock {stock} 😔
+        </Text>
+      </Center>
+    );
+  } else {
+    toDisplay = (
+      <Box mt="6" ml="-8">
+        <ResponsiveContainer width="100%" height={240}>
+          <LineChart data={data ? data : dummyData}>
+            <XAxis dataKey="date" tick={{ fontSize: 8 }} stroke={textColor} />
+            <YAxis
+              stroke={textColor}
+              type="number"
+              domain={["dataMin", "dataMax"]}
+              tick={{ fontSize: 8 }}
+              tickFormatter={(number) => `$${number}`}
+            />
+            <Line
+              dataKey="amount"
+              stroke={textColor}
+              type="monotone"
+              strokeWidth={2}
+              width={5}
+              dot={false}
+            />
+          </LineChart>
+        </ResponsiveContainer>
+      </Box>
+    );
   }
 
-  console.log(sidebarOpen);
-
   return (
-    <Center height="100%" color={textColor} p="4">
+    <Box height="100%" color={textColor} p="4">
+      <Heading fontSize="2xl">{stock?.toLocaleUpperCase()}</Heading>
+
       {toDisplay}
       {sidebarOpen && (
         <OutlinedButton
@@ -125,6 +173,6 @@ export const StockGraphTile: React.FC<StockGraphTileProps> = ({ tileId }) => {
           Change stock
         </OutlinedButton>
       )}
-    </Center>
+    </Box>
   );
 };
