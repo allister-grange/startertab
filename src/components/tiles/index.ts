@@ -21,3 +21,4 @@ export * from "./FavoriteLinksTile";
 export * from "./RSSFeed/RSSFeedTile";
 export * from "./OutlookMeetingsTile";
 export * from "./GoogleMeetingsTile";
+export * from "./StockGraphTile";

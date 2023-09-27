@@ -140,7 +140,9 @@ export const UvGraphTile: React.FC<UvGraphProps> = ({ tileId }) => {
 
   return (
     <Box p="6" color={color} height="100%">
-      <Heading fontSize="2xl">UV Index</Heading>
+      <Heading fontSize="xl">
+        {city ? city?.charAt(0).toUpperCase() + city?.slice(1) : ""} UV Index
+      </Heading>
       {toDisplay}
       {sidebarOpen && (
         <OutlinedButton

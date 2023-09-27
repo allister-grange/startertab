@@ -22,7 +22,7 @@ interface SmallStockTileProps {
 }
 const fetcher = async (stockName: string) => {
   try {
-    const res = await fetch(`/api/stocks?stocks=${stockName}`);
+    const res = await fetch(`/api/stocks/quote?stocks=${stockName}`);
     if (res.status >= 400) {
       throw new Error("Failed request");
     }
@@ -61,8 +61,8 @@ export const SmallStockTile: React.FC<SmallStockTileProps> = ({ tileId }) => {
 
   if (!stock) {
     toDisplay = (
-      <form onSubmit={handleSubmitStockName} style={{ height: "100%" }}>
-        <Text mb="4" fontSize="lg" fontWeight="500" mt="2">
+      <form onSubmit={handleSubmitStockName} style={{ marginBottom: "1rem" }}>
+        <Text mb="4" fontSize="lg" fontWeight="500" mt="2" textAlign="center">
           Stock Display
         </Text>
         <InputGroup>

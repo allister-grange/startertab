@@ -205,6 +205,34 @@ export const stockSelector = selectorFamily({
     },
 });
 
+export const graphStockSelector = selectorFamily({
+  key: "GraphStock",
+  get:
+    (tileId: number) =>
+    ({ get }) => {
+      const settings = get(userSettingState);
+      const colorMode = get(colorModeState);
+      const currentTheme = getCurrentTheme(settings, colorMode);
+
+      return currentTheme.tiles[tileId].graphStock;
+    },
+  set:
+    (tileId: number) =>
+    ({ get, set }, newValue) => {
+      const userSettings = JSON.parse(
+        JSON.stringify(get(userSettingState))
+      ) as UserSettings;
+
+      for (const theme of userSettings.themes) {
+        if (!theme.tiles[tileId]) {
+          continue;
+        }
+        theme.tiles[tileId].graphStock = newValue as string;
+      }
+      set(userSettingState, userSettings);
+    },
+});
+
 export const bonsaiTrunkColorSelector = selectorFamily({
   key: "BonsaiTrunkColor",
   get:
