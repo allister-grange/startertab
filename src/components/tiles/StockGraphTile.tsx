@@ -157,7 +157,6 @@ export const StockGraphTile: React.FC<StockGraphTileProps> = ({ tileId }) => {
   return (
     <Box height="100%" color={textColor} p="4">
       <Heading fontSize="2xl">{stock?.toLocaleUpperCase()}</Heading>
-
       {toDisplay}
       {sidebarOpen && (
         <OutlinedButton
