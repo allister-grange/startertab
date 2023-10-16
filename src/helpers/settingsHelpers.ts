@@ -1,7 +1,7 @@
 import { defaultGridLayout } from "@/helpers/gridLayout";
 import { deepClone } from "@/helpers/tileHelpers";
 import { ThemeSettings, TileSettings, TileSize, UserSettings } from "@/types";
-import { setCookies } from "cookies-next";
+import { setCookie } from "cookies-next";
 
 export const applyTheme = (theme: ThemeSettings) => {
   document.body.style.background = theme.globalSettings.backgroundColor;
@@ -40,13 +40,13 @@ export const applyTheme = (theme: ThemeSettings) => {
       );
     }
   }
-  setCookies("background", theme.globalSettings.backgroundColor, {
+  setCookie("background", theme.globalSettings.backgroundColor, {
     maxAge: 34560000,
     sameSite: "none",
     path: "/",
     secure: true,
   });
-  setCookies("currentTheme", theme.themeName, {
+  setCookie("currentTheme", theme.themeName, {
     maxAge: 34560000,
     sameSite: "none",
     path: "/",

@@ -119,6 +119,7 @@ export const FavoriteLinksTile: React.FC<FavoriteLinksTileProps> = ({
             </FormControl>
             <FormControl mt="6">
               <OutlinedButton
+                borderColor={`1px solid ${color}`}
                 outline={`1px solid ${color}`}
                 type="submit"
                 fontSize="sm"

@@ -57,7 +57,7 @@ export const AccordionItem: React.FC<AccordionItemProps> = ({
   }, [accordionsOpenIndex, accordionIndex]);
 
   return (
-    <Box {...props} textColor={textColor}>
+    <Box {...props}>
       <Button
         isDisabled={isDisabled}
         onClick={toggleAccordion}
@@ -69,6 +69,7 @@ export const AccordionItem: React.FC<AccordionItemProps> = ({
         display="flex"
         justifyContent="space-between"
         transition="all .2s"
+        color={textColor}
         _hover={{
           backgroundColor: "rgba(0,0,0,.1)",
           transform: "translateY(-2px)",

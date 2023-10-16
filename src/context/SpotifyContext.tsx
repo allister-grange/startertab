@@ -26,7 +26,7 @@ const SpotifyContextProvider: React.FC<Props> = ({ children }) => {
     playable: false,
   });
   const [topArtists, setTopArtists] = useState<TopArtistSpotify[]>([]);
-  const refreshingInterval = useRef<NodeJS.Timer | undefined>();
+  const refreshingInterval = useRef<number>();
 
   React.useEffect(() => {
     const checkIfLoggedIn = async () => {
@@ -83,7 +83,11 @@ const SpotifyContextProvider: React.FC<Props> = ({ children }) => {
   }, []);
 
   const setRefreshingInterval = React.useCallback(async () => {
-    const interval = await setInterval(fetchCurrentSong, 900);
+    // will only run on the browser, so we can cast it to number
+    const interval = (await setInterval(
+      fetchCurrentSong,
+      900
+    )) as unknown as number;
     refreshingInterval.current = interval;
   }, [fetchCurrentSong]);
 
