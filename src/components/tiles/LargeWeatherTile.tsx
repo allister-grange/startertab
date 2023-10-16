@@ -33,6 +33,7 @@ interface LargeWeatherTileProps {
 interface DaysWeatherProps {
   weatherData: WeatherData;
   displayInCelsius?: boolean;
+  color: string;
 }
 
 const convertCelsiusToFahrenheit = (temp: number): number => {
@@ -71,21 +72,22 @@ const convertDateToWeekday = (date: string) => {
 export const DaysWeather: React.FC<DaysWeatherProps> = ({
   weatherData,
   displayInCelsius,
+  color,
 }) => {
   let icon;
 
   switch (weatherData.condition) {
     case "cloudy":
-      icon = <WiCloud size="90" />;
+      icon = <WiCloud size="90" color={color} />;
       break;
     case "sunny":
-      icon = <WiDaySunny size="90" />;
+      icon = <WiDaySunny size="90" color={color} />;
       break;
     case "partly cloudy":
-      icon = <WiDaySunnyOvercast size="90" />;
+      icon = <WiDaySunnyOvercast size="90" color={color} />;
       break;
     case "rain":
-      icon = <WiRain size="90" />;
+      icon = <WiRain size="90" color={color} />;
       break;
   }
 
@@ -198,14 +200,17 @@ export const LargeWeatherTile: React.FC<LargeWeatherTileProps> = ({
         <DaysWeather
           weatherData={data[0]}
           displayInCelsius={displayInCelsius}
+          color={color}
         />
         <DaysWeather
           weatherData={data[1]}
           displayInCelsius={displayInCelsius}
+          color={color}
         />
         <DaysWeather
           weatherData={data[2]}
           displayInCelsius={displayInCelsius}
+          color={color}
         />
       </Flex>
     );
@@ -218,7 +223,6 @@ export const LargeWeatherTile: React.FC<LargeWeatherTileProps> = ({
       {toDisplay}
       {sidebarOpen && (
         <>
-          {" "}
           <Text size="xs" opacity="0.5" pos="absolute" bottom="2" left="3">
             {cityForWeather}
           </Text>

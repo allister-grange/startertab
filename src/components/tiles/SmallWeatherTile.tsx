@@ -125,16 +125,16 @@ export const SmallWeatherTile: React.FC<SmallWeatherTileProps> = ({
 
     switch (data.condition) {
       case "cloudy":
-        icon = <WiCloud size="70" />;
+        icon = <WiCloud size="70" color={color} />;
         break;
       case "sunny":
-        icon = <WiDaySunny size="70" />;
+        icon = <WiDaySunny size="70" color={color} />;
         break;
       case "partly cloudy":
-        icon = <WiDaySunnyOvercast size="70" />;
+        icon = <WiDaySunnyOvercast size="70" color={color} />;
         break;
       case "rain":
-        icon = <WiRain size="70" />;
+        icon = <WiRain size="70" color={color} />;
         break;
     }
     toDisplay = (
