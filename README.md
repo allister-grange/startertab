@@ -97,6 +97,6 @@ export const YourNewTile: React.FC<PageProps> = ({ tileId }) => {
 ```
 
 2. Add your tile type to the TileType in `src/types/settings.ts`.
-3. Add your new option into the corresponding size in the switch statement for `sizeOfTileForTypes` in `src/components/sidebar/TypePicker.tsx`
+3. Add your new tile into the corresponding sizes you want available for your tile in the switch statement for `tileSize` in `src/components/sidebar/TypePicker.tsx`
 4. Add your tile type to the switch statement for the `tileType` in `src/components/TileContainer.tsx`
 5. If you want to add in persistent storage to the tile, use Recoil. Look at how another tile uses a FamilySelector and the useRecoilState hook

@@ -15,6 +15,7 @@ export const OutlinedButton: React.FC<ButtonProps> = ({
       background="transparent"
       shadow="sm"
       border={`2px solid ${borderColor}`}
+      color={borderColor}
       transition="all .2s"
       _hover={{
         transform: "translateY(-2px)",

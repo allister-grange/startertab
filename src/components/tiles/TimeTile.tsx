@@ -8,11 +8,9 @@ interface TimeProps {
 
 export const TimeTile: React.FC<TimeProps> = ({ tileId }) => {
   const [time, setTime] = useState("");
-  const [timerPlaceholder, setTimerPlaceholder] = useState<
-    undefined | number
-  >();
-  const [timer, setTimer] = useState<undefined | number>(undefined);
-  const intervalRef = useRef<NodeJS.Timer | undefined>();
+  const [timerPlaceholder, setTimerPlaceholder] = useState<number>();
+  const [timer, setTimer] = useState<number>();
+  const intervalRef = useRef<number>();
   const color = `var(--text-color-${tileId})`;
 
   const updateTime = () => {
@@ -25,7 +23,7 @@ export const TimeTile: React.FC<TimeProps> = ({ tileId }) => {
 
   useEffect(() => {
     if (timer === 0) {
-      alert("timer over!!");
+      alert("Timer finished ⏱️");
       setTimer(undefined);
       clearInterval(intervalRef.current!);
       document.title = "Timer finished!";
@@ -46,7 +44,8 @@ export const TimeTile: React.FC<TimeProps> = ({ tileId }) => {
     setTimer(timerPlaceholder! * 60);
     setTimer(timerPlaceholder! * 60);
     document.title = getMinutesAndSeconds(timerPlaceholder! * 60);
-    const interval = setInterval(tickTimer, 1000);
+    // will only run on the browser, so we can cast it
+    const interval = setInterval(tickTimer, 1000) as unknown as number;
     intervalRef.current = interval;
   };
 
