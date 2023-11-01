@@ -29,10 +29,10 @@ export default async function handler(
   }
 
   try {
-    const ipInDbDate = await prisma.vote.findFirst({
+    const ipInDbDate = await prisma.suggestionVote.findFirst({
       where: {
         ipAddress: ip,
-        themeId: suggestionIdAsNumber,
+        suggestionId: suggestionIdAsNumber,
       },
       select: {
         createdAt: true,
@@ -48,16 +48,16 @@ export default async function handler(
       ipInDbDate &&
       new Date().getTime() - new Date(ipInDbDate.createdAt).getTime() < ONE_HOUR
     ) {
-      return res.status(429).send("You've already voted for this theme");
+      return res.status(429).send("You've already voted for this suggestion");
     }
 
-    const marketplaceTheme = await prisma.suggestionVote.create({
+    const suggestionVote = await prisma.suggestionVote.create({
       data: {
         suggestionId: suggestionIdAsNumber,
         ipAddress: ip,
       },
     });
-    return res.status(201).json(marketplaceTheme);
+    return res.status(201).json(suggestionVote);
   } catch (error) {
     console.error("Request error", error);
     res.status(500).json({

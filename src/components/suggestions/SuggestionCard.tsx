@@ -19,17 +19,47 @@ export const SuggestionCard: React.FC<SuggestionCardProps> = ({
   suggestion,
 }) => {
   const [liked, setLiked] = useState(checkIfLikedInLockedStorage);
+  const [votes, setVotes] = useState(suggestion.votes.length);
   const tags = suggestion.tags.split(",");
 
-  function onUpvote() {
-    throw new Error("Function not implemented.");
+  async function onVoteForSuggestion() {
+    if (liked) {
+      return;
+    }
+    setLiked(true);
+    const likedSuggestions = localStorage.getItem("likedSuggestions");
+    if (likedSuggestions) {
+      localStorage.setItem(
+        "likedSuggestions",
+        `${likedSuggestions},${suggestion.id}`
+      );
+    } else {
+      localStorage.setItem("likedSuggestions", suggestion.id.toString());
+    }
+    try {
+      // doesn't matter too much if their vote disappears, c'est la vie
+      setVotes((votes) => votes + 1);
+      const voteRes = await fetch(
+        `/api/suggestions/vote?suggestionId=${suggestion.id}`,
+        {
+          method: "POST",
+        }
+      );
+      if (!voteRes.ok) {
+        throw new Error("Failed to vote");
+      }
+    } catch (err) {
+      setVotes((votes) => votes - 1);
+      setLiked(false);
+      console.error(err);
+    }
   }
 
   function checkIfLikedInLockedStorage() {
-    const likedThemes = localStorage.getItem("likedThemes");
+    const likedSuggestions = localStorage.getItem("likedSuggestions");
     // "1,4,6,22" etc
-    if (likedThemes) {
-      const found = likedThemes
+    if (likedSuggestions) {
+      const found = likedSuggestions
         .split(",")
         .findIndex((id) => id === suggestion.id.toString());
       if (found > -1) {
@@ -76,10 +106,14 @@ export const SuggestionCard: React.FC<SuggestionCardProps> = ({
         bottom="4"
         right="4"
       >
-        <OutlinedButton border={`1px solid black`} gap="4" onClick={onUpvote}>
+        <OutlinedButton
+          border={`1px solid black`}
+          gap="4"
+          onClick={onVoteForSuggestion}
+        >
           {liked ? <FilledHeartIcon /> : <HeartIcon />}
           <Box borderLeft={`1px solid black`} width="1px" height="70%" />
-          <Text>{suggestion.votes.length}</Text>
+          <Text>{votes}</Text>
         </OutlinedButton>
       </Flex>
     </Flex>
