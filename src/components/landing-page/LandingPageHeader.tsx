@@ -45,6 +45,11 @@ export const Header: React.FC = () => {
                   FAQ
                 </ChakraLink>
               </Link>
+              <Link href="/suggestions" passHref={true}>
+                <ChakraLink href="/suggestions" fontWeight="600">
+                  Suggestions
+                </ChakraLink>
+              </Link>
               <Link href="/themes#public" passHref={true}>
                 <ChakraLink href="/themes#public" fontWeight="600">
                   Themes
@@ -75,6 +80,9 @@ export const Header: React.FC = () => {
               <MenuList>
                 <Link href="/faq" passHref={true}>
                   <MenuItem>FAQ</MenuItem>
+                </Link>
+                <Link href="/suggestions" passHref={true}>
+                  <MenuItem>Suggestions</MenuItem>
                 </Link>
                 <Link href="/themes#public" passHref={true}>
                   <MenuItem>Themes</MenuItem>

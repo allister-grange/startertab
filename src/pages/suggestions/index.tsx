@@ -1,6 +1,5 @@
 import { Header } from "@/components/landing-page/LandingPageHeader";
-import { SuggestionForm } from "@/components/suggestions/SuggestionForm";
-import { SuggestionList } from "@/components/suggestions/SuggestionList";
+import { SuggestionsContainer } from "@/components/suggestions/SuggestionsContainer";
 import { Footer } from "@/components/ui/Footer";
 import { Box, Flex, Heading } from "@chakra-ui/react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
@@ -34,9 +33,7 @@ export const SuggestionsPage: React.FC = ({}) => {
             A place to suggest new tile ideas, as well as give general feedback
             for the app
           </Heading>
-          <SuggestionList />
-
-          <SuggestionForm />
+          <SuggestionsContainer />
         </Flex>
 
         <Footer />

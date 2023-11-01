@@ -1,3 +1,4 @@
+import { SuggestionData } from "@/types/suggestions";
 import { CheckIcon, SmallCloseIcon } from "@chakra-ui/icons";
 import {
   FormControl,
@@ -11,9 +12,18 @@ import {
   AlertIcon,
   Alert,
 } from "@chakra-ui/react";
+import {
+  RefetchOptions,
+  RefetchQueryFilters,
+  QueryObserverResult,
+} from "@tanstack/react-query";
 import React, { FormEvent, useState } from "react";
 
-interface SuggestionFormProps {}
+interface SuggestionFormProps {
+  refetchSuggestions: <TPageData>(
+    options?: (RefetchOptions & RefetchQueryFilters<TPageData>) | undefined
+  ) => Promise<QueryObserverResult<SuggestionData, unknown>>;
+}
 
 const postSuggestion = async (
   author: string,
@@ -51,7 +61,9 @@ const AUTHOR_CHAR_MIN = 4;
 const SUGGESTION_CHAR_LIMIT = 191;
 const SUGGESTION_CHAR_MIN = 4;
 
-export const SuggestionForm: React.FC<SuggestionFormProps> = ({}) => {
+export const SuggestionForm: React.FC<SuggestionFormProps> = ({
+  refetchSuggestions,
+}) => {
   const [creationSuggestionError, setCreatingSuggestionError] = useState("");
   const [isLoadingPostSuggestion, setIsLoadingPostSuggestion] = useState(false);
   const [successLoadingPostSuggestion, setSuccessLoadingPostSuggestion] =
@@ -93,6 +105,7 @@ export const SuggestionForm: React.FC<SuggestionFormProps> = ({}) => {
     setIsLoadingPostSuggestion(true);
     try {
       await postSuggestion(author, suggestion, tags);
+      refetchSuggestions();
       actionSuccessfulSuggestionSubmission();
     } catch {
       setCreatingSuggestionError(
