@@ -46,6 +46,11 @@ async function waitForTime(milliseconds: number): Promise<void> {
   });
 }
 
+const AUTHOR_CHAR_LIMIT = 19;
+const AUTHOR_CHAR_MIN = 4;
+const SUGGESTION_CHAR_LIMIT = 191;
+const SUGGESTION_CHAR_MIN = 4;
+
 export const SuggestionForm: React.FC<SuggestionFormProps> = ({}) => {
   const [creationSuggestionError, setCreatingSuggestionError] = useState("");
   const [isLoadingPostSuggestion, setIsLoadingPostSuggestion] = useState(false);
@@ -57,9 +62,6 @@ export const SuggestionForm: React.FC<SuggestionFormProps> = ({}) => {
   const [tags, setTags] = useState<string[]>([]);
   const [tagValue, setTagValue] = useState<string>("");
   const [tooManyTags, setTooManyTags] = useState<boolean>(false);
-
-  const isAuthorValid = author.length >= 4 && author.length <= 15;
-  const isSuggestionValid = suggestion.length >= 4 && suggestion.length <= 191;
 
   const actionSuccessfulSuggestionSubmission = async () => {
     setSuccessLoadingPostSuggestion(true);
@@ -74,26 +76,30 @@ export const SuggestionForm: React.FC<SuggestionFormProps> = ({}) => {
     e.preventDefault();
     setFormError("");
 
-    if (isAuthorValid && isSuggestionValid) {
-      setIsLoadingPostSuggestion(true);
-      try {
-        await postSuggestion(author, suggestion, tags);
-        actionSuccessfulSuggestionSubmission();
-      } catch {
-        setCreatingSuggestionError(
-          "Failed to create the suggestion, please try again later"
-        );
-      } finally {
-        setIsLoadingPostSuggestion(false);
-      }
-    } else {
-      if (suggestion.length > 190) {
-        setFormError("Please limit suggestions to 190 characters");
-      } else {
-        setFormError(
-          "Both the author name and suggestion must have at least 4 characters"
-        );
-      }
+    if (suggestion.length > SUGGESTION_CHAR_LIMIT) {
+      setFormError(
+        `Please limit suggestions to ${SUGGESTION_CHAR_LIMIT} characters`
+      );
+    } else if (author.length > AUTHOR_CHAR_LIMIT) {
+      setFormError(
+        `Please limit suggestions to ${AUTHOR_CHAR_LIMIT} characters`
+      );
+    } else if (author.length < AUTHOR_CHAR_MIN) {
+      setFormError("The author name must have at least 4 characters");
+    } else if (suggestion.length < SUGGESTION_CHAR_MIN) {
+      setFormError("The suggestion name must have at least 4 characters");
+    }
+
+    setIsLoadingPostSuggestion(true);
+    try {
+      await postSuggestion(author, suggestion, tags);
+      actionSuccessfulSuggestionSubmission();
+    } catch {
+      setCreatingSuggestionError(
+        "Failed to create the suggestion, please try again later"
+      );
+    } finally {
+      setIsLoadingPostSuggestion(false);
     }
   };
 
