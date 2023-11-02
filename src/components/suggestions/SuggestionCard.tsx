@@ -78,6 +78,7 @@ export const SuggestionCard: React.FC<SuggestionCardProps> = ({
       shadow="md"
       position="relative"
       flexDir="column"
+      minH="10rem"
     >
       <Text fontSize="xl" fontWeight="bold" mb="3">
         {suggestion.suggestion}
