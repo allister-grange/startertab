@@ -1,6 +1,7 @@
 import { Heading, Text, Box } from "@chakra-ui/react";
 import React from "react";
 import Image from "next/image";
+import Link from "next/link";
 
 interface Update260Props {}
 
@@ -22,9 +23,9 @@ export const Update260: React.FC<Update260Props> = ({}) => {
       </Text>
       <Text mt="2">
         Please consider leaving feedback for the application{" "}
-        <a href="/suggestions" style={{ color: "coral" }}>
+        <Link href="/suggestions" style={{ color: "coral" }}>
           on the new suggestions page
-        </a>
+        </Link>
         , I&apos;d love to hear anything and everything from users of
         StarterTab!
       </Text>
