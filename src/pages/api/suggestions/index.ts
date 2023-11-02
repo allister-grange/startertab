@@ -49,11 +49,9 @@ export default async function handler(
     });
   } catch (error) {
     console.error("Request error", error);
-    res
-      .status(500)
-      .json({
-        error: "Error pulling down suggestions: " + error,
-        success: false,
-      });
+    res.status(500).json({
+      error: "Error pulling down suggestions: " + error,
+      success: false,
+    });
   }
 }

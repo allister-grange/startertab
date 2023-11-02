@@ -16,6 +16,7 @@ import {
   RefetchOptions,
   RefetchQueryFilters,
   QueryObserverResult,
+  useMutation,
 } from "@tanstack/react-query";
 import React, { FormEvent, useState } from "react";
 
@@ -25,27 +26,31 @@ interface SuggestionFormProps {
   ) => Promise<QueryObserverResult<SuggestionData, unknown>>;
 }
 
-const postSuggestion = async (
-  author: string,
-  suggestion: string,
-  tags: string[]
-) => {
-  try {
-    const res = await fetch("/api/suggestions/create", {
-      method: "POST",
-      body: JSON.stringify({
-        author,
-        suggestion,
-        tags,
-      }),
-    });
+type PostSuggestionVariables = {
+  author: string;
+  suggestion: string;
+  tags: string[];
+};
 
-    if (res.status >= 500) {
-      throw new Error("Failed request to create suggestions");
-    }
-  } catch (error) {
-    throw new Error(error as unknown as string);
+const postSuggestion = async ({
+  author,
+  suggestion,
+  tags,
+}: PostSuggestionVariables) => {
+  const response = await fetch("/api/suggestions/create", {
+    method: "POST",
+    body: JSON.stringify({
+      author,
+      suggestion,
+      tags,
+    }),
+  });
+
+  if (!response.ok) {
+    throw new Error("Failed request to create suggestions");
   }
+
+  return await response.json();
 };
 
 async function waitForTime(milliseconds: number): Promise<void> {
@@ -64,10 +69,6 @@ const SUGGESTION_CHAR_MIN = 4;
 export const SuggestionForm: React.FC<SuggestionFormProps> = ({
   refetchSuggestions,
 }) => {
-  const [creationSuggestionError, setCreatingSuggestionError] = useState("");
-  const [isLoadingPostSuggestion, setIsLoadingPostSuggestion] = useState(false);
-  const [successLoadingPostSuggestion, setSuccessLoadingPostSuggestion] =
-    useState(false);
   const [suggestion, setSuggestion] = useState("");
   const [author, setAuthor] = useState("");
   const [formError, setFormError] = useState("");
@@ -75,13 +76,15 @@ export const SuggestionForm: React.FC<SuggestionFormProps> = ({
   const [tagValue, setTagValue] = useState<string>("");
   const [tooManyTags, setTooManyTags] = useState<boolean>(false);
 
+  const { isError, isLoading, isSuccess, mutateAsync, reset } =
+    useMutation(postSuggestion);
+
   const actionSuccessfulSuggestionSubmission = async () => {
-    setSuccessLoadingPostSuggestion(true);
     setAuthor("");
     setSuggestion("");
     setTags([]);
     await waitForTime(3000);
-    setSuccessLoadingPostSuggestion(false);
+    reset();
   };
 
   const handleSubmission = async (e: FormEvent<HTMLFormElement>) => {
@@ -92,28 +95,23 @@ export const SuggestionForm: React.FC<SuggestionFormProps> = ({
       setFormError(
         `Please limit suggestions to ${SUGGESTION_CHAR_LIMIT} characters`
       );
+      return;
     } else if (author.length > AUTHOR_CHAR_LIMIT) {
       setFormError(
         `Please limit suggestions to ${AUTHOR_CHAR_LIMIT} characters`
       );
+      return;
     } else if (author.length < AUTHOR_CHAR_MIN) {
       setFormError("The author name must have at least 4 characters");
+      return;
     } else if (suggestion.length < SUGGESTION_CHAR_MIN) {
       setFormError("The suggestion name must have at least 4 characters");
+      return;
     }
 
-    setIsLoadingPostSuggestion(true);
-    try {
-      await postSuggestion(author, suggestion, tags);
-      refetchSuggestions();
-      actionSuccessfulSuggestionSubmission();
-    } catch {
-      setCreatingSuggestionError(
-        "Failed to create the suggestion, please try again later"
-      );
-    } finally {
-      setIsLoadingPostSuggestion(false);
-    }
+    await mutateAsync({ author, suggestion, tags });
+    refetchSuggestions();
+    actionSuccessfulSuggestionSubmission();
   };
 
   const onKeyDownInForm = (e: React.KeyboardEvent<HTMLFormElement>) => {
@@ -146,9 +144,9 @@ export const SuggestionForm: React.FC<SuggestionFormProps> = ({
 
   let buttonDisplay;
 
-  if (isLoadingPostSuggestion) {
+  if (isLoading) {
     buttonDisplay = <Spinner />;
-  } else if (successLoadingPostSuggestion) buttonDisplay = <CheckIcon />;
+  } else if (isSuccess) buttonDisplay = <CheckIcon />;
   else {
     buttonDisplay = "Submit";
   }
@@ -237,10 +235,10 @@ export const SuggestionForm: React.FC<SuggestionFormProps> = ({
           </Alert>
         )}
 
-        {creationSuggestionError !== "" && (
+        {isError && (
           <Alert status="error" borderRadius="md">
             <AlertIcon />
-            <Text>{creationSuggestionError}</Text>
+            <Text>Failed request to create suggestion 🤕</Text>
           </Alert>
         )}
 

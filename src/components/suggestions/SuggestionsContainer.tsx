@@ -1,9 +1,8 @@
+import { SuggestionData } from "@/types/suggestions";
+import { useQuery } from "@tanstack/react-query";
 import React from "react";
 import { SuggestionForm } from "./SuggestionForm";
 import { SuggestionList } from "./SuggestionList";
-import { SuggestionData } from "@/types/suggestions";
-import { useQuery } from "@tanstack/react-query";
-import { Box } from "@chakra-ui/react";
 
 interface SuggestionsContainerProps {}
 
@@ -30,7 +29,11 @@ export const SuggestionsContainer: React.FC<
 
   return (
     <>
-      <SuggestionList suggestionsData={data} />
+      <SuggestionList
+        suggestionsData={data}
+        isLoading={isLoading}
+        error={error}
+      />
       <SuggestionForm refetchSuggestions={refetch} />
     </>
   );
