@@ -39,7 +39,7 @@ export const MarketPlaceThemeCard: React.FC<MarketPlaceThemeCardProps> = ({
   saveThemeToSettings,
   saveDisabled,
 }) => {
-  function checkIfFound() {
+  function checkIfLikedInLockedStorage() {
     const likedThemes = localStorage.getItem("likedThemes");
     // "1,4,6,22" etc
     if (likedThemes) {
@@ -55,7 +55,7 @@ export const MarketPlaceThemeCard: React.FC<MarketPlaceThemeCardProps> = ({
 
   // used for async voting
   const [votes, setVotes] = useState(theme.votes.length);
-  const [liked, setLiked] = useState(checkIfFound);
+  const [liked, setLiked] = useState(checkIfLikedInLockedStorage);
 
   const toast = useToast();
   const showClipboardToast = useCallback(

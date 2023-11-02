@@ -12,16 +12,16 @@ export default async function handler(
     return res.status(405).json({ success: false });
   }
 
-  const { themeId } = req.query;
+  const { suggestionId } = req.query;
 
-  if (!themeId) {
+  if (!suggestionId) {
     return res.status(400).json({
       success: false,
       message: "Please include a theme id with your vote",
     });
   }
 
-  const themeIdAsNumber = parseInt(themeId as string);
+  const suggestionIdAsNumber = parseInt(suggestionId as string);
   const forwarded = req.headers["x-forwarded-for"];
   let ip = req.socket.remoteAddress;
   if (forwarded && typeof forwarded === "string") {
@@ -29,10 +29,10 @@ export default async function handler(
   }
 
   try {
-    const ipInDbDate = await prisma.vote.findFirst({
+    const ipInDbDate = await prisma.suggestionVote.findFirst({
       where: {
         ipAddress: ip,
-        themeId: themeIdAsNumber,
+        suggestionId: suggestionIdAsNumber,
       },
       select: {
         createdAt: true,
@@ -41,30 +41,28 @@ export default async function handler(
 
     const ONE_HOUR = 60 * 60 * 1000;
 
-    // check if they've voted for this theme in the last hour
+    // check if they've voted for this suggestion in the last hour
     // this in conjunction with the localStorage should be enough 🤞
     // people can have the same IP, hence the ONE_HOUR check
     if (
       ipInDbDate &&
       new Date().getTime() - new Date(ipInDbDate.createdAt).getTime() < ONE_HOUR
     ) {
-      return res.status(429).send("You've already voted for this theme");
+      return res.status(429).send("You've already voted for this suggestion");
     }
 
-    const marketplaceTheme = await prisma.vote.create({
+    const suggestionVote = await prisma.suggestionVote.create({
       data: {
-        themeId: themeIdAsNumber,
+        suggestionId: suggestionIdAsNumber,
         ipAddress: ip,
       },
     });
-    return res.status(201).json(marketplaceTheme);
+    return res.status(201).json(suggestionVote);
   } catch (error) {
     console.error("Request error", error);
-    res
-      .status(500)
-      .json({
-        error: "Error voting for a theme in marketplace",
-        success: false,
-      });
+    res.status(500).json({
+      error: "Error voting for suggestions",
+      success: false,
+    });
   }
 }

@@ -8,12 +8,13 @@ export const ShowUpdateToast: React.FC<ShowUpdateToastProps> = ({}) => {
 
   const showUpdateToast = useCallback(() => {
     toast({
-      title: "I've made another update! v2.40",
+      title: "Let me know your thoughts! v2.60",
       description: (
         <Text>
-          You can now use a custom StarterTab extension! Get the links{" "}
-          <Link color="coral" href="/landingpad">
-            here
+          Join in on the future of StarterTab, leave any tile ideas or general
+          thoughts{" "}
+          <Link color="coral" href="/suggestions">
+            on the new suggestions page 🗳️
           </Link>
         </Text>
       ),
@@ -30,17 +31,18 @@ export const ShowUpdateToast: React.FC<ShowUpdateToastProps> = ({}) => {
     localStorage.removeItem("hasSeenNewUpdate2.00Counter");
     localStorage.removeItem("hasSeenNewUpdate2.10Counter");
     localStorage.removeItem("hasSeenNewUpdate2.20Counter");
+    localStorage.removeItem("hasSeenNewUpdate2.40Counter");
     const hasSeenNewUpdate = localStorage.getItem(
-      "hasSeenNewUpdate2.40Counter"
+      "hasSeenNewUpdate2.60Counter"
     );
     if (!hasSeenNewUpdate) {
-      localStorage.setItem("hasSeenNewUpdate2.40Counter", "1");
+      localStorage.setItem("hasSeenNewUpdate2.60Counter", "1");
     } else {
       localStorage.setItem(
-        "hasSeenNewUpdate2.40Counter",
+        "hasSeenNewUpdate2.60Counter",
         (parseInt(hasSeenNewUpdate) + 1).toString()
       );
-      // only on the twelvth visit since the update do we want to show the toast
+      // only on the twelfth visit since the update do we want to show the toast
       // I don't want to spam people who just finished the tutorial with toasts
       if (hasSeenNewUpdate === "12") {
         showUpdateToast();

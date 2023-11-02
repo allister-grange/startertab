@@ -1,7 +1,5 @@
-import { Box, Flex, Heading, Link, Text } from "@chakra-ui/react";
-import Image from "next/image";
+import { Box, Heading, Text } from "@chakra-ui/react";
 import React from "react";
-import { ChromeLogo } from "../icons/ChromeLogo";
 
 export const Update250: React.FC = ({}) => {
   return (

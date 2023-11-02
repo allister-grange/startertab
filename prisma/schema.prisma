@@ -31,3 +31,20 @@ model ThemeDownload {
   themeId     Int    @id
   downloads   Int
 }
+
+model SuggestionVote {
+  id          Int       @id @default(autoincrement())
+  createdAt DateTime  @default(now())
+  theme       Suggestion?    @relation(fields: [suggestionId], references: [id])
+  suggestionId     Int?
+  ipAddress   String?
+}
+
+model Suggestion {
+  id          Int       @id @default(autoincrement())
+  createdAt   DateTime  @default(now())
+  author      String
+  suggestion  String
+  tags        String
+  votes       SuggestionVote[]
+}
