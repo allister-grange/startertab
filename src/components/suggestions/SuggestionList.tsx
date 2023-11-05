@@ -31,7 +31,6 @@ export const SuggestionList: React.FC<SuggestionListProps> = ({
         my="6"
         gap="6"
         templateColumns={["repeat(1, 1fr)", "repeat(1, 1fr)", "repeat(2, 1fr)"]}
-        zIndex={-1}
       >
         {suggestionsData?.suggestions.map((suggestion) => (
           <SuggestionCard key={suggestion.id} suggestion={suggestion} />

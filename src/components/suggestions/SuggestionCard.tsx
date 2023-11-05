@@ -100,23 +100,18 @@ export const SuggestionCard: React.FC<SuggestionCardProps> = ({
           ))}
         </Box>
       </Flex>
-      <Flex
-        justifyContent="space-between"
-        alignItems="center"
+      <OutlinedButton
+        border={`1px solid black`}
+        gap="4"
         position="absolute"
         bottom="4"
         right="4"
+        onClick={onVoteForSuggestion}
       >
-        <OutlinedButton
-          border={`1px solid black`}
-          gap="4"
-          onClick={onVoteForSuggestion}
-        >
-          {liked ? <FilledHeartIcon /> : <HeartIcon />}
-          <Box borderLeft={`1px solid black`} width="1px" height="70%" />
-          <Text>{votes}</Text>
-        </OutlinedButton>
-      </Flex>
+        {liked ? <FilledHeartIcon /> : <HeartIcon />}
+        <Box borderLeft={`1px solid black`} width="1px" height="70%" />
+        <Text>{votes}</Text>
+      </OutlinedButton>
     </Flex>
   );
 };

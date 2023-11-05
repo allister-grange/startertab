@@ -12,6 +12,7 @@ import {
   MenuItem,
   MenuList,
   useMediaQuery,
+  Portal,
 } from "@chakra-ui/react";
 import Link from "next/link";
 import React from "react";
@@ -77,23 +78,25 @@ export const Header: React.FC = () => {
                 borderColor="coral"
                 color="black"
               />
-              <MenuList>
-                <Link href="/faq" passHref={true}>
-                  <MenuItem>FAQ</MenuItem>
-                </Link>
-                <Link href="/suggestions" passHref={true}>
-                  <MenuItem>Suggestions</MenuItem>
-                </Link>
-                <Link href="/themes#public" passHref={true}>
-                  <MenuItem>Themes</MenuItem>
-                </Link>
-                <Link href="/updates" passHref={true}>
-                  <MenuItem>Updates</MenuItem>
-                </Link>
-                <Link href="/" passHref={true}>
-                  <MenuItem>Take me to the app 👉</MenuItem>
-                </Link>
-              </MenuList>
+              <Portal>
+                <MenuList>
+                  <Link href="/faq" passHref={true}>
+                    <MenuItem>FAQ</MenuItem>
+                  </Link>
+                  <Link href="/suggestions" passHref={true}>
+                    <MenuItem>Suggestions</MenuItem>
+                  </Link>
+                  <Link href="/themes#public" passHref={true}>
+                    <MenuItem>Themes</MenuItem>
+                  </Link>
+                  <Link href="/updates" passHref={true}>
+                    <MenuItem>Updates</MenuItem>
+                  </Link>
+                  <Link href="/" passHref={true}>
+                    <MenuItem>Take me to the app 👉</MenuItem>
+                  </Link>
+                </MenuList>
+              </Portal>
             </Menu>
           )}
         </HStack>
