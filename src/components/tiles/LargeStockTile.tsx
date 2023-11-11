@@ -11,6 +11,8 @@ import {
   Heading,
   Input,
   InputGroup,
+  StatDownArrow,
+  StatUpArrow,
   Text,
 } from "@chakra-ui/react";
 import { useQuery } from "@tanstack/react-query";
@@ -61,8 +63,16 @@ const StockDisplay: React.FC<StockDisplayProps> = ({ stockTicker }) => {
   } else {
     textDisplay = (
       <Box>
-        <Text color={stockTicker?.dp! > 0 ? "green" : "red.500"}>
-          {stockTicker?.d} ({stockTicker?.dp}%)
+        <Text
+          color={stockTicker?.dp! > 0 ? "green" : "red.500"}
+          fontSize={"sm"}
+        >
+          {stockTicker?.dp! > 0 ? (
+            <StatUpArrow mb="1" mr="1" />
+          ) : (
+            <StatDownArrow />
+          )}
+          ${stockTicker?.d} ({stockTicker?.dp.toFixed(2)}%)
         </Text>
       </Box>
     );
@@ -77,7 +87,7 @@ const StockDisplay: React.FC<StockDisplayProps> = ({ stockTicker }) => {
       mr="2"
     >
       <Heading size="lg">{stockTicker?.ticker.toUpperCase()}</Heading>
-      <Text fontSize="md" opacity="0.9">{`$${stockTicker?.c}`}</Text>
+      <Text fontSize="lg" opacity="0.9">{`$${stockTicker?.c}`}</Text>
       {textDisplay}
     </Flex>
   );

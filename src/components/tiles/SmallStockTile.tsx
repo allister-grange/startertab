@@ -11,6 +11,8 @@ import {
   Input,
   InputGroup,
   InputRightElement,
+  StatDownArrow,
+  StatUpArrow,
   Text,
 } from "@chakra-ui/react";
 import { useQuery } from "@tanstack/react-query";
@@ -92,8 +94,16 @@ export const SmallStockTile: React.FC<SmallStockTileProps> = ({ tileId }) => {
         <Heading size="lg">{stockTicker?.ticker.toUpperCase()}</Heading>
         <Text fontSize="lg" opacity="0.9">{`$${stockTicker?.c}`}</Text>
         <Box>
-          <Text color={stockTicker?.dp! > 0 ? "green" : "#F1676D"}>
-            {stockTicker?.d} ({stockTicker?.dp}%)
+          <Text
+            color={stockTicker?.dp! > 0 ? "green" : "#F1676D"}
+            fontSize={"sm"}
+          >
+            {stockTicker?.dp! > 0 ? (
+              <StatUpArrow mb="1" mr="1" />
+            ) : (
+              <StatDownArrow />
+            )}
+            ${stockTicker?.d} ({stockTicker?.dp.toFixed(2)}%)
           </Text>
         </Box>
       </Flex>
