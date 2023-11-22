@@ -1,22 +1,19 @@
+import { optionsStyles } from "@/helpers/selectOptionStyles";
 import { tutorialProgressAtom } from "@/recoil/SidebarAtoms";
 import { colorModeState } from "@/recoil/UserSettingsAtoms";
 import { Flex, Select } from "@chakra-ui/react";
 import Router from "next/router";
-import React, { Dispatch, SetStateAction } from "react";
+import React from "react";
 import { useRecoilState } from "recoil";
 import { OutlinedButton } from "../ui/OutlinedButton";
 
 interface ThemeToChangeSelectorProps {
-  themes: string[];
+  themeNames: string[];
   textColor: string;
 }
-const optionsStyles = {
-  color: "white",
-  background: "var(--chakra-colors-gray-600)",
-};
 
 export const ThemeToChangeSelector: React.FC<ThemeToChangeSelectorProps> = ({
-  themes,
+  themeNames,
   textColor,
 }) => {
   const [colorMode, setColorModeState] = useRecoilState(colorModeState);
@@ -44,7 +41,7 @@ export const ThemeToChangeSelector: React.FC<ThemeToChangeSelectorProps> = ({
         outline={`1px solid ${textColor}`}
         _focus={{ border: `1px solid ${textColor}` }}
       >
-        {themes.map((theme) => (
+        {themeNames.map((theme) => (
           <option key={theme} value={theme} style={optionsStyles}>
             {theme.charAt(0).toUpperCase() + theme.slice(1)}
           </option>

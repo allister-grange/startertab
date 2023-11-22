@@ -11,7 +11,11 @@ import {
   getNewSettingsFromLegacyTheme,
 } from "@/helpers/settingsHelpers";
 import { sidebarOpenAtom, tutorialProgressAtom } from "@/recoil/SidebarAtoms";
-import { colorModeState, userSettingState } from "@/recoil/UserSettingsAtoms";
+import {
+  colorModeState,
+  userSettingState,
+  usingSystemThemeState,
+} from "@/recoil/UserSettingsAtoms";
 import { Box, Flex, useDisclosure } from "@chakra-ui/react";
 import type { NextPage } from "next";
 import { useEffect, useState } from "react";
@@ -33,7 +37,9 @@ const Home: NextPage = () => {
   const [isEditingTileGrid, setIsEditingTileGrid] = useState(false);
 
   const [colorMode] = useRecoilState(colorModeState);
-  const seSidebarOpenAtom = useSetRecoilState(sidebarOpenAtom);
+  const setSidebarOpenAtom = useSetRecoilState(sidebarOpenAtom);
+
+  const [systemThemeSettings] = useRecoilState(usingSystemThemeState);
 
   useEffect(() => {
     const themeToChange = getCurrentTheme(settings, colorMode);
@@ -42,10 +48,17 @@ const Home: NextPage = () => {
 
   // this is used to change tiles conditionally on the sidebar being open or tiles being edited
   useEffect(() => {
-    seSidebarOpenAtom(isOpen || isEditingTileGrid);
-  }, [isOpen, seSidebarOpenAtom, isEditingTileGrid]);
+    setSidebarOpenAtom(isOpen || isEditingTileGrid);
+  }, [isOpen, setSidebarOpenAtom, isEditingTileGrid]);
 
-  const currentTheme = getCurrentTheme(settings, colorMode);
+  // if the user has toggled to follow the system theme settings, choose that
+  let currentTheme;
+  if (systemThemeSettings.usingSystemTheme) {
+    currentTheme = getCurrentTheme(settings, systemThemeSettings.lightTheme);
+    console.log(currentTheme);
+  } else {
+    currentTheme = getCurrentTheme(settings, colorMode);
+  }
 
   // legacy settings need to be switched over to new format
   if ((currentTheme as any).tile1) {

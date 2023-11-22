@@ -27,6 +27,7 @@ import { TileSettings, UserSettings } from "@/types/settings";
 import { Box, Link } from "@chakra-ui/react";
 import React, { Dispatch, SetStateAction, useRef, useState } from "react";
 import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
+import { UsingSystemThemeToggle } from "@/components/sidebar/UsingSystemThemeToggle";
 
 interface SettingsSideBarProps {
   isOpen: boolean;
@@ -143,6 +144,7 @@ const SettingsSideBar: React.FC<SettingsSideBarProps> = ({
   const textColor = currentThemeSettings?.globalSettings.textColor;
   const subTextColor = currentThemeSettings?.globalSettings.subTextColor!;
   const borderColor = currentThemeSettings?.globalSettings.sidebarBorderColor!;
+  const themeNames = getThemeNames(settings);
 
   return (
     <Box
@@ -168,10 +170,7 @@ const SettingsSideBar: React.FC<SettingsSideBarProps> = ({
         tutorialProgress={tutorialProgress}
       />
       <Box p="3">
-        <ThemeToChangeSelector
-          textColor={textColor}
-          themes={getThemeNames(settings)}
-        />
+        <ThemeToChangeSelector textColor={textColor} themeNames={themeNames} />
 
         <OutlinedButton
           color={textColor}
@@ -222,6 +221,12 @@ const SettingsSideBar: React.FC<SettingsSideBarProps> = ({
           currentTheme={currentThemeSettings}
           setSettings={setSettings}
           settings={settings}
+        />
+        <Box mt="4" />
+        <UsingSystemThemeToggle
+          textColor={textColor}
+          subTextColor={subTextColor}
+          themeNames={themeNames}
         />
         <Box mt="4" />
 

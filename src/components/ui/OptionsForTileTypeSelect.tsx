@@ -1,14 +1,10 @@
+import { optionsStyles } from "@/helpers/selectOptionStyles";
 import { TileSize } from "@/types";
 import React from "react";
 
 interface OptionsForTileTypeSelectProps {
   tileSize: TileSize;
 }
-
-const optionsStyles = {
-  color: "white",
-  background: "var(--chakra-colors-gray-600)",
-};
 
 export const OptionsForTileTypeSelect: React.FC<
   OptionsForTileTypeSelectProps

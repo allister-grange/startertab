@@ -6,6 +6,7 @@ import { Option, TileSettings, TileType } from "@/types";
 import { Box, Text } from "@chakra-ui/react";
 import React from "react";
 import { OutlinedButton } from "@/components/ui/OutlinedButton";
+import { optionsStyles } from "@/helpers/selectOptionStyles";
 
 interface SettingOptionContainerProps {
   option: Option;
@@ -21,11 +22,6 @@ interface SettingOptionContainerProps {
   tileType: TileType;
   randomizeAllColorValues: () => void;
 }
-
-const optionsStyles = {
-  color: "white",
-  background: "var(--chakra-colors-gray-600)",
-};
 
 const SettingOptionContainer: React.FC<SettingOptionContainerProps> = ({
   option,

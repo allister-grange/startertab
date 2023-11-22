@@ -1,5 +1,5 @@
 import { defaultSettings } from "@/helpers/themes";
-import { UserSettings } from "@/types";
+import { SystemThemeSettings, UserSettings } from "@/types";
 import { atom, AtomEffect } from "recoil";
 
 const localStorageUserSettingsEffect: <T>(key: string) => AtomEffect<T> =
@@ -32,6 +32,28 @@ const localStorageThemeNameEffect: <T>(key: string) => AtomEffect<T> =
     });
   };
 
+const localStorageUsingSystemThemeEffect: <T>(key: string) => AtomEffect<T> =
+  (key: string) =>
+  ({ setSelf, onSet }) => {
+    const savedValue = localStorage.getItem(key);
+    if (savedValue != null) {
+      setSelf(JSON.parse(savedValue));
+    } else {
+      localStorage.setItem(
+        key,
+        JSON.stringify({
+          usingSystemTheme: false,
+          lightTheme: "",
+          darkTheme: "",
+        } as SystemThemeSettings)
+      );
+    }
+
+    onSet((newValue) => {
+      localStorage.setItem(key, JSON.stringify(newValue));
+    });
+  };
+
 export const userSettingState = atom({
   key: "UserSettings",
   default: {} as UserSettings,
@@ -42,4 +64,10 @@ export const colorModeState = atom({
   key: "ColorMode",
   default: "uninitilized",
   effects: [localStorageThemeNameEffect("themeName")],
+});
+
+export const usingSystemThemeState = atom({
+  key: "SystemTheme",
+  default: {} as SystemThemeSettings,
+  effects: [localStorageUsingSystemThemeEffect("systemThemeSettings")],
 });
