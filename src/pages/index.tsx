@@ -55,7 +55,6 @@ const Home: NextPage = () => {
   let currentTheme;
   if (systemThemeSettings.usingSystemTheme) {
     currentTheme = getCurrentTheme(settings, systemThemeSettings.lightTheme);
-    console.log(currentTheme);
   } else {
     currentTheme = getCurrentTheme(settings, colorMode);
   }

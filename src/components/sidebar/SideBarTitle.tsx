@@ -1,4 +1,5 @@
 import { OutlinedButton } from "@/components/ui/OutlinedButton";
+import { CloseIcon } from "@chakra-ui/icons";
 import { Box, Text } from "@chakra-ui/react";
 import React from "react";
 
@@ -33,7 +34,7 @@ export const SideBarTitle: React.FC<SideBarTitleProps> = ({
         color={textColor}
         disabled={tutorialProgress > 1 && tutorialProgress < 4}
       >
-        Exit
+        <CloseIcon fontSize="xs" />
       </OutlinedButton>
       <Text color={textColor}>Preferences</Text>
       <OutlinedButton

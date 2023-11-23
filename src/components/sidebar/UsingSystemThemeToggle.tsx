@@ -3,7 +3,15 @@ import {
   colorModeState,
   usingSystemThemeState,
 } from "@/recoil/UserSettingsAtoms";
-import { Box, BoxProps, Select, Switch, Text } from "@chakra-ui/react";
+import {
+  Box,
+  BoxProps,
+  Checkbox,
+  Flex,
+  Select,
+  Switch,
+  Text,
+} from "@chakra-ui/react";
 import React, { useEffect } from "react";
 import { useRecoilState } from "recoil";
 
@@ -65,50 +73,52 @@ export const UsingSystemThemeToggle: React.FC<UsingSystemThemeToggleProps> = ({
 
   return (
     <Box my="2" color={textColor}>
-      <Text fontSize="md" color={textColor}>
-        Using System Dark Theme
-      </Text>
-      <Text fontSize="xs" color={subTextColor}>
-        If set, will use the system&apos;s dark theme preference to switch
-        between themes
-      </Text>
-      <Box display="flex" flexDir="column" mt="1">
-        <Switch
-          mt="2"
-          size="md"
+      <Flex>
+        <Text fontSize="xs" color={textColor}>
+          Use system theme to toggle light/dark modes?
+        </Text>
+        <Checkbox
+          size="sm"
+          ml="1"
           isChecked={systemThemeSettings.usingSystemTheme}
           onChange={handleToggle}
         />
+      </Flex>
+      <Box display="flex" flexDir="column" mt="1">
         {systemThemeSettings.usingSystemTheme && (
-          <Box>
-            <Text>Light Theme:</Text>
-            <Select
-              value={systemThemeSettings.lightTheme}
-              width="75%"
-              onChange={(e) => onThemeSelectChange(e, false)}
-              outline={`1px solid ${textColor}`}
-              _focus={{ border: `1px solid ${textColor}` }}
-            >
-              {themeNames.map((theme) => (
-                <option key={theme} value={theme} style={optionsStyles}>
-                  {theme.charAt(0).toUpperCase() + theme.slice(1)}
-                </option>
-              ))}
-            </Select>
-            <Text>Dark theme:</Text>
-            <Select
-              value={systemThemeSettings.darkTheme}
-              width="75%"
-              onChange={(e) => onThemeSelectChange(e, true)}
-              outline={`1px solid ${textColor}`}
-              _focus={{ border: `1px solid ${textColor}` }}
-            >
-              {themeNames.map((theme) => (
-                <option key={theme} value={theme} style={optionsStyles}>
-                  {theme.charAt(0).toUpperCase() + theme.slice(1)}
-                </option>
-              ))}
-            </Select>
+          <Box mt="4">
+            <Flex justifyContent="space-between" alignItems="center">
+              <Text fontSize="md">Light Theme:</Text>
+              <Select
+                value={systemThemeSettings.lightTheme}
+                width="60%"
+                onChange={(e) => onThemeSelectChange(e, false)}
+                outline={`1px solid ${textColor}`}
+                _focus={{ border: `1px solid ${textColor}` }}
+              >
+                {themeNames.map((theme) => (
+                  <option key={theme} value={theme} style={optionsStyles}>
+                    {theme.charAt(0).toUpperCase() + theme.slice(1)}
+                  </option>
+                ))}
+              </Select>
+            </Flex>
+            <Flex mt="4" justifyContent="space-between" alignItems="center">
+              <Text fontSize="md">Dark theme:</Text>
+              <Select
+                value={systemThemeSettings.darkTheme}
+                width="60%"
+                onChange={(e) => onThemeSelectChange(e, true)}
+                outline={`1px solid ${textColor}`}
+                _focus={{ border: `1px solid ${textColor}` }}
+              >
+                {themeNames.map((theme) => (
+                  <option key={theme} value={theme} style={optionsStyles}>
+                    {theme.charAt(0).toUpperCase() + theme.slice(1)}
+                  </option>
+                ))}
+              </Select>
+            </Flex>
           </Box>
         )}
       </Box>
