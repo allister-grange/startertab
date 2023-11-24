@@ -1,18 +1,7 @@
 import { optionsStyles } from "@/helpers/selectOptionStyles";
-import {
-  colorModeState,
-  usingSystemThemeState,
-} from "@/recoil/UserSettingsAtoms";
-import {
-  Box,
-  BoxProps,
-  Checkbox,
-  Flex,
-  Select,
-  Switch,
-  Text,
-} from "@chakra-ui/react";
-import React, { useEffect } from "react";
+import { colorModeState, userSettingState } from "@/recoil/UserSettingsAtoms";
+import { Box, BoxProps, Checkbox, Flex, Select, Text } from "@chakra-ui/react";
+import React from "react";
 import { useRecoilState } from "recoil";
 
 interface UsingSystemThemeToggleProps extends BoxProps {
@@ -26,15 +15,25 @@ export const UsingSystemThemeToggle: React.FC<UsingSystemThemeToggleProps> = ({
   subTextColor,
   themeNames,
 }) => {
-  const [systemThemeSettings, setSystemThemeSettings] = useRecoilState(
-    usingSystemThemeState
-  );
+  const [settings, setSettings] = useRecoilState(userSettingState);
   const [, setColorMode] = useRecoilState(colorModeState);
+  const prefersDarkTheme =
+    window.matchMedia &&
+    window.matchMedia("(prefers-color-scheme: dark)").matches;
 
+  // an error happens when you toggle on the theme changes
   const handleToggle = () => {
-    setSystemThemeSettings({
-      ...systemThemeSettings,
-      usingSystemTheme: !systemThemeSettings.usingSystemTheme,
+    if (prefersDarkTheme) {
+      setColorMode(settings.systemThemeSettings.darkTheme);
+    } else {
+      setColorMode(settings.systemThemeSettings.lightTheme);
+    }
+    setSettings({
+      ...settings,
+      systemThemeSettings: {
+        ...settings.systemThemeSettings,
+        usingSystemTheme: !settings.systemThemeSettings.usingSystemTheme,
+      },
     });
   };
 
@@ -43,33 +42,29 @@ export const UsingSystemThemeToggle: React.FC<UsingSystemThemeToggleProps> = ({
     isDark: boolean
   ) => {
     if (isDark) {
-      setSystemThemeSettings({
-        ...systemThemeSettings,
-        darkTheme: e.target.value,
+      if (prefersDarkTheme) {
+        setColorMode(e.target.value);
+      }
+      setSettings({
+        ...settings,
+        systemThemeSettings: {
+          ...settings.systemThemeSettings,
+          darkTheme: e.target.value,
+        },
       });
     } else {
-      setSystemThemeSettings({
-        ...systemThemeSettings,
-        lightTheme: e.target.value,
+      if (!prefersDarkTheme) {
+        setColorMode(e.target.value);
+      }
+      setSettings({
+        ...settings,
+        systemThemeSettings: {
+          ...settings.systemThemeSettings,
+          lightTheme: e.target.value,
+        },
       });
     }
   };
-
-  useEffect(() => {
-    if (!systemThemeSettings.usingSystemTheme) {
-      return;
-    }
-
-    const prefersDarkTheme =
-      window.matchMedia &&
-      window.matchMedia("(prefers-color-scheme: dark)").matches;
-
-    if (prefersDarkTheme) {
-      setColorMode(systemThemeSettings.darkTheme);
-    } else {
-      setColorMode(systemThemeSettings.lightTheme);
-    }
-  }, [setColorMode, systemThemeSettings]);
 
   return (
     <Box my="2" color={textColor}>
@@ -80,17 +75,18 @@ export const UsingSystemThemeToggle: React.FC<UsingSystemThemeToggleProps> = ({
         <Checkbox
           size="sm"
           ml="1"
-          isChecked={systemThemeSettings.usingSystemTheme}
+          isChecked={settings.systemThemeSettings.usingSystemTheme}
           onChange={handleToggle}
+          borderColor={textColor}
         />
       </Flex>
       <Box display="flex" flexDir="column" mt="1">
-        {systemThemeSettings.usingSystemTheme && (
+        {settings.systemThemeSettings.usingSystemTheme && (
           <Box mt="4">
             <Flex justifyContent="space-between" alignItems="center">
               <Text fontSize="md">Light Theme:</Text>
               <Select
-                value={systemThemeSettings.lightTheme}
+                value={settings.systemThemeSettings.lightTheme}
                 width="60%"
                 onChange={(e) => onThemeSelectChange(e, false)}
                 outline={`1px solid ${textColor}`}
@@ -106,7 +102,7 @@ export const UsingSystemThemeToggle: React.FC<UsingSystemThemeToggleProps> = ({
             <Flex mt="4" justifyContent="space-between" alignItems="center">
               <Text fontSize="md">Dark theme:</Text>
               <Select
-                value={systemThemeSettings.darkTheme}
+                value={settings.systemThemeSettings.darkTheme}
                 width="60%"
                 onChange={(e) => onThemeSelectChange(e, true)}
                 outline={`1px solid ${textColor}`}

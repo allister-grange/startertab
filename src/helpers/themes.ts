@@ -7,6 +7,11 @@ import {
 } from "./gridLayout";
 
 export const defaultSettings: UserSettings = {
+  systemThemeSettings: {
+    usingSystemTheme: false,
+    lightTheme: "",
+    darkTheme: "",
+  },
   themes: [
     {
       themeName: "Colored Light",

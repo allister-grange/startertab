@@ -104,7 +104,14 @@ export const ThemeCreator: React.FC = ({}) => {
     }
 
     // put a new theme into local storage
-    const newSettings: UserSettings = { themes: [] };
+    const newSettings: UserSettings = {
+      themes: [],
+      systemThemeSettings: {
+        darkTheme: "",
+        lightTheme: "",
+        usingSystemTheme: false,
+      },
+    };
     newSettings.themes = [
       ...settings.themes,
       {

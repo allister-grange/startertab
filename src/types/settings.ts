@@ -116,6 +116,7 @@ export type ThemeSettings = {
 
 export type UserSettings = {
   themes: ThemeSettings[];
+  systemThemeSettings: SystemThemeSettings;
 };
 
 // used for toggling using the system's dark/light theme preferences to control the tab's theme

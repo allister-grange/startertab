@@ -5,20 +5,12 @@ import { ShowNewTabToast } from "@/components/toasts/ShowNewTabToast";
 import { ShowUpdateToast } from "@/components/toasts/ShowUpdateToast";
 import { Tutorial } from "@/components/tutorial/Tutorial";
 import { SettingsToggle } from "@/components/ui/SettingsToggle";
-import {
-  applyTheme,
-  getCurrentTheme,
-  getNewSettingsFromLegacyTheme,
-} from "@/helpers/settingsHelpers";
+import { applyTheme, getCurrentTheme } from "@/helpers/settingsHelpers";
 import { sidebarOpenAtom, tutorialProgressAtom } from "@/recoil/SidebarAtoms";
-import {
-  colorModeState,
-  userSettingState,
-  usingSystemThemeState,
-} from "@/recoil/UserSettingsAtoms";
+import { colorModeState, userSettingState } from "@/recoil/UserSettingsAtoms";
 import { Box, Flex, useDisclosure } from "@chakra-ui/react";
 import type { NextPage } from "next";
-import { useEffect, useState } from "react";
+import { useEffect, useLayoutEffect, useState } from "react";
 import { useRecoilState, useSetRecoilState } from "recoil";
 
 const Home: NextPage = () => {
@@ -39,31 +31,63 @@ const Home: NextPage = () => {
   const [colorMode] = useRecoilState(colorModeState);
   const setSidebarOpenAtom = useSetRecoilState(sidebarOpenAtom);
 
-  const [systemThemeSettings] = useRecoilState(usingSystemThemeState);
-
-  useEffect(() => {
+  useLayoutEffect(() => {
     const themeToChange = getCurrentTheme(settings, colorMode);
     applyTheme(themeToChange);
-  }, [settings, colorMode]);
+
+    const prefersDarkTheme =
+      window.matchMedia &&
+      window.matchMedia("(prefers-color-scheme: dark)").matches;
+
+    // update system theme if it's turned on and was changed with the ThemeToChangeSelector
+    if (
+      settings.systemThemeSettings.usingSystemTheme &&
+      prefersDarkTheme &&
+      colorMode !== settings.systemThemeSettings.darkTheme
+    ) {
+      setSettings({
+        ...settings,
+        systemThemeSettings: {
+          ...settings.systemThemeSettings,
+          darkTheme: colorMode,
+        },
+      });
+    } else if (
+      settings.systemThemeSettings.usingSystemTheme &&
+      !prefersDarkTheme &&
+      colorMode !== settings.systemThemeSettings.lightTheme
+    ) {
+      setSettings({
+        ...settings,
+        systemThemeSettings: {
+          ...settings.systemThemeSettings,
+          lightTheme: colorMode,
+        },
+      });
+    }
+  }, [settings, colorMode, setSettings]);
+
+  // legacy settings need to have the systemThemeSettings object added in
+  useEffect(() => {
+    if (!settings.systemThemeSettings) {
+      setSettings({
+        ...settings,
+        systemThemeSettings: {
+          lightTheme: "",
+          darkTheme: "",
+          usingSystemTheme: false,
+        },
+      });
+    }
+  }, [setSettings, settings]);
 
   // this is used to change tiles conditionally on the sidebar being open or tiles being edited
   useEffect(() => {
     setSidebarOpenAtom(isOpen || isEditingTileGrid);
   }, [isOpen, setSidebarOpenAtom, isEditingTileGrid]);
 
-  // if the user has toggled to follow the system theme settings, choose that
-  let currentTheme;
-  if (systemThemeSettings.usingSystemTheme) {
-    currentTheme = getCurrentTheme(settings, systemThemeSettings.lightTheme);
-  } else {
-    currentTheme = getCurrentTheme(settings, colorMode);
-  }
+  let currentTheme = getCurrentTheme(settings, colorMode);
 
-  // legacy settings need to be switched over to new format
-  if ((currentTheme as any).tile1) {
-    const newSettingsFormat = getNewSettingsFromLegacyTheme(settings);
-    setSettings(newSettingsFormat);
-  }
   const gridGap = currentTheme.globalSettings.gridGap;
   const settingsToggleColor = currentTheme.globalSettings.textColor;
 

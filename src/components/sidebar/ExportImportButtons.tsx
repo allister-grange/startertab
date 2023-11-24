@@ -111,6 +111,11 @@ export const ExportImportButtons: React.FC<ExportImportButtonsProps> = ({
 
       setSettings({
         themes: [...settings.themes, newTheme],
+        systemThemeSettings: {
+          darkTheme: "",
+          lightTheme: "",
+          usingSystemTheme: false,
+        },
       });
       showClipboardToast("Imported theme");
       setColorModeState(newTheme.themeName);

@@ -66,7 +66,24 @@ export const getCurrentTheme = (
   settings: UserSettings,
   colorMode: string
 ): ThemeSettings => {
-  let theme = settings.themes.find((theme) => theme.themeName === colorMode);
+  const prefersDarkTheme =
+    window.matchMedia &&
+    window.matchMedia("(prefers-color-scheme: dark)").matches;
+
+  let theme;
+  if (settings.systemThemeSettings?.usingSystemTheme) {
+    if (prefersDarkTheme) {
+      theme = settings.themes.find(
+        (theme) => theme.themeName === settings.systemThemeSettings.darkTheme
+      );
+    } else {
+      theme = settings.themes.find(
+        (theme) => theme.themeName === settings.systemThemeSettings.lightTheme
+      );
+    }
+  } else {
+    theme = settings.themes.find((theme) => theme.themeName === colorMode);
+  }
 
   if (!theme) {
     theme = settings.themes[0];
