@@ -1,8 +1,9 @@
 import { optionsStyles } from "@/helpers/selectOptionStyles";
-import { colorModeState, userSettingState } from "@/recoil/UserSettingsAtoms";
+import { userSettingState } from "@/recoil/UserSettingsAtoms";
+import { themeNameSelector } from "@/recoil/UserSettingsSelectors";
 import { Box, BoxProps, Checkbox, Flex, Select, Text } from "@chakra-ui/react";
 import React from "react";
-import { useRecoilState } from "recoil";
+import { useRecoilState, useSetRecoilState } from "recoil";
 
 interface UsingSystemThemeToggleProps extends BoxProps {
   textColor: string;
@@ -16,17 +17,17 @@ export const UsingSystemThemeToggle: React.FC<UsingSystemThemeToggleProps> = ({
   themeNames,
 }) => {
   const [settings, setSettings] = useRecoilState(userSettingState);
-  const [, setColorMode] = useRecoilState(colorModeState);
+  const setThemeName = useSetRecoilState(themeNameSelector);
+
   const prefersDarkTheme =
     window.matchMedia &&
     window.matchMedia("(prefers-color-scheme: dark)").matches;
 
-  // an error happens when you toggle on the theme changes
   const handleToggle = () => {
     if (prefersDarkTheme) {
-      setColorMode(settings.systemThemeSettings.darkTheme);
+      setThemeName(settings.systemThemeSettings.darkTheme);
     } else {
-      setColorMode(settings.systemThemeSettings.lightTheme);
+      setThemeName(settings.systemThemeSettings.lightTheme);
     }
     setSettings({
       ...settings,
@@ -43,7 +44,7 @@ export const UsingSystemThemeToggle: React.FC<UsingSystemThemeToggleProps> = ({
   ) => {
     if (isDark) {
       if (prefersDarkTheme) {
-        setColorMode(e.target.value);
+        setThemeName(e.target.value);
       }
       setSettings({
         ...settings,
@@ -54,7 +55,7 @@ export const UsingSystemThemeToggle: React.FC<UsingSystemThemeToggleProps> = ({
       });
     } else {
       if (!prefersDarkTheme) {
-        setColorMode(e.target.value);
+        setThemeName(e.target.value);
       }
       setSettings({
         ...settings,
@@ -91,6 +92,7 @@ export const UsingSystemThemeToggle: React.FC<UsingSystemThemeToggleProps> = ({
                 onChange={(e) => onThemeSelectChange(e, false)}
                 outline={`1px solid ${textColor}`}
                 _focus={{ border: `1px solid ${textColor}` }}
+                placeholder=" "
               >
                 {themeNames.map((theme) => (
                   <option key={theme} value={theme} style={optionsStyles}>
@@ -107,6 +109,7 @@ export const UsingSystemThemeToggle: React.FC<UsingSystemThemeToggleProps> = ({
                 onChange={(e) => onThemeSelectChange(e, true)}
                 outline={`1px solid ${textColor}`}
                 _focus={{ border: `1px solid ${textColor}` }}
+                placeholder=" "
               >
                 {themeNames.map((theme) => (
                   <option key={theme} value={theme} style={optionsStyles}>

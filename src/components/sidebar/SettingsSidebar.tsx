@@ -7,7 +7,7 @@ import {
 import { ExportImportButtons } from "@/components/sidebar/ExportImportButtons";
 import SettingOptionContainer from "@/components/sidebar/SettingOptionContainer";
 import { OutlinedButton } from "@/components/ui/OutlinedButton";
-import { getCurrentTheme, getThemeNames } from "@/helpers/settingsHelpers";
+import { getThemeNames } from "@/helpers/settingsHelpers";
 import {
   globalSettingsOptions,
   sideBarLargeTileOptions,
@@ -28,6 +28,10 @@ import { Box, Link } from "@chakra-ui/react";
 import React, { Dispatch, SetStateAction, useRef, useState } from "react";
 import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import { UsingSystemThemeToggle } from "@/components/sidebar/UsingSystemThemeToggle";
+import {
+  themeNameSelector,
+  themeSelector,
+} from "@/recoil/UserSettingsSelectors";
 
 interface SettingsSideBarProps {
   isOpen: boolean;
@@ -48,9 +52,10 @@ const SettingsSideBar: React.FC<SettingsSideBarProps> = ({
   setIsEditingTileGrid,
 }) => {
   const [settings, setSettings] = useRecoilState(userSettingState);
+  const theme = useRecoilValue(themeSelector);
   const inMemorySettingsRef = useRef(settings);
-  const colorMode = useRecoilValue(colorModeState);
   const tutorialProgress = useRecoilValue(tutorialProgressAtom);
+  const themeName = useRecoilValue(themeNameSelector);
   const setAccordionIndexes = useSetRecoilState(accordionOpenIndex);
   // used to animate the width of the sidebar
   const [width, setWidth] = useState("0px");
@@ -63,13 +68,13 @@ const SettingsSideBar: React.FC<SettingsSideBarProps> = ({
 
   const currentThemeSettings = React.useMemo(() => {
     let currentTheme = settings.themes.find(
-      (theme) => theme.themeName === colorMode
+      (theme) => theme.themeName === themeName
     );
     if (!currentTheme) {
       currentTheme = settings.themes[0];
     }
     return currentTheme;
-  }, [colorMode, settings.themes]);
+  }, [settings.themes, themeName]);
 
   // apply the in memory settings into localStorage
   const onSaveHandler = () => {
@@ -99,7 +104,7 @@ const SettingsSideBar: React.FC<SettingsSideBarProps> = ({
       tileId: number
     ) => {
       const userSettings = JSON.parse(JSON.stringify(settings)) as UserSettings;
-      const themeToChange = getCurrentTheme(userSettings, colorMode);
+      const themeToChange = deepClone(theme);
 
       if (tileId >= 0) {
         themeToChange.tiles[tileId][key] = value;
@@ -109,12 +114,12 @@ const SettingsSideBar: React.FC<SettingsSideBarProps> = ({
 
       setSettings(userSettings);
     },
-    [colorMode, setSettings, settings]
+    [setSettings, settings, theme]
   );
 
   const randomizeAllColorValues = <K extends keyof TileSettings>() => {
     let newSettings = deepClone(settings);
-    const themeToChange = getCurrentTheme(newSettings, colorMode);
+    const themeToChange = deepClone(theme);
 
     for (const tile of themeToChange.tiles) {
       for (const item in tile) {

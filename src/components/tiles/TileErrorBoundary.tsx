@@ -11,7 +11,7 @@ interface ErrorBoundaryProps {
   settings: UserSettings;
   setSettings: SetterOrUpdater<UserSettings>;
   color: string;
-  colorMode: string;
+  themeName: string;
 }
 
 interface ErrorBoundaryState {
@@ -40,11 +40,11 @@ export class TileErrorBoundary extends Component<
   }
 
   deleteSettingsForTile = () => {
-    const { tileId, settings, colorMode } = this.props;
+    const { tileId, settings, themeName } = this.props;
 
     const currentSettingsClone = deepClone(settings);
     const currentTheme = currentSettingsClone.themes.find(
-      (theme) => theme.themeName === colorMode
+      (theme) => theme.themeName === themeName
     );
 
     if (!currentTheme) {

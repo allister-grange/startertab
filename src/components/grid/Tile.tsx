@@ -1,6 +1,5 @@
-import { getCurrentTheme } from "@/helpers/settingsHelpers";
 import { useLongPress } from "@/hooks/useLongPress";
-import { colorModeState, userSettingState } from "@/recoil/UserSettingsAtoms";
+import { themeSelector } from "@/recoil/UserSettingsSelectors";
 import styles from "@/styles/Home.module.css";
 import { SmallCloseIcon } from "@chakra-ui/icons";
 import { Box, BoxProps, keyframes } from "@chakra-ui/react";
@@ -35,9 +34,7 @@ const Tile: React.FC<TileProps> = ({
   children,
   ...props
 }) => {
-  const colorMode = useRecoilValue(colorModeState);
-  const userSettings = useRecoilValue(userSettingState);
-  const theme = getCurrentTheme(userSettings, colorMode);
+  const theme = useRecoilValue(themeSelector);
 
   const borderRadius = theme.globalSettings.borderRadius;
   const shadow = theme.globalSettings.dropShadow;

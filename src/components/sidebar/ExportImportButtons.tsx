@@ -1,5 +1,5 @@
 import { OutlinedButton } from "@/components/ui/OutlinedButton";
-import { colorModeState } from "@/recoil/UserSettingsAtoms";
+import { themeNameSelector } from "@/recoil/UserSettingsSelectors";
 import { ThemeSettings, UserSettings } from "@/types";
 import { CopyIcon, DownloadIcon } from "@chakra-ui/icons";
 import {
@@ -37,7 +37,7 @@ export const ExportImportButtons: React.FC<ExportImportButtonsProps> = ({
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [importText, setImportText] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
-  const setColorModeState = useSetRecoilState(colorModeState);
+  const setThemeName = useSetRecoilState(themeNameSelector);
 
   function showErrorMessage(message: string) {
     setErrorMessage(message);
@@ -115,10 +115,12 @@ export const ExportImportButtons: React.FC<ExportImportButtonsProps> = ({
           darkTheme: "",
           lightTheme: "",
           usingSystemTheme: false,
+          // TODO could be wrong, might need to be the new theme just imported
+          currentThemeName: "Colored Light",
         },
       });
       showClipboardToast("Imported theme");
-      setColorModeState(newTheme.themeName);
+      setThemeName(newTheme.themeName);
       onClose();
       /** little bit janky, but some tiles (rss feeds, bookmarks) 
       need a page refresh to not be in the "new" state,

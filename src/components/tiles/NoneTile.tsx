@@ -1,11 +1,11 @@
-import { Box, Center, Heading, Select, useColorMode } from "@chakra-ui/react";
-import React, { ChangeEvent } from "react";
-import { TileSize, TileType } from "@/types";
-import { colorModeState, userSettingState } from "@/recoil/UserSettingsAtoms";
-import { useRecoilState, useRecoilValue } from "recoil";
-import { deepClone } from "@/helpers/tileHelpers";
 import { OptionsForTileTypeSelect } from "@/components/ui/OptionsForTileTypeSelect";
-import { getCurrentTheme } from "@/helpers/settingsHelpers";
+import { deepClone } from "@/helpers/tileHelpers";
+import { userSettingState } from "@/recoil/UserSettingsAtoms";
+import { themeSelector } from "@/recoil/UserSettingsSelectors";
+import { TileSize, TileType } from "@/types";
+import { Box, Center, Heading, Select } from "@chakra-ui/react";
+import React, { ChangeEvent } from "react";
+import { useRecoilState, useRecoilValue } from "recoil";
 
 interface NoneTileProps {
   tileId: number;
@@ -13,13 +13,13 @@ interface NoneTileProps {
 }
 
 export const NoneTile: React.FC<NoneTileProps> = ({ tileId, tileSize }) => {
-  const colorMode = useRecoilValue(colorModeState);
   const [settings, setSettings] = useRecoilState(userSettingState);
   const color = `var(--text-color-${tileId})`;
+  const theme = useRecoilValue(themeSelector);
 
   const handleTileTypeSelected = (e: ChangeEvent<HTMLSelectElement>) => {
     const settingsToEdit = deepClone(settings);
-    const themeToEdit = getCurrentTheme(settingsToEdit, colorMode);
+    const themeToEdit = deepClone(theme);
 
     if (!themeToEdit) {
       console.error("Couldn't find the theme");

@@ -1,6 +1,6 @@
 import { optionsStyles } from "@/helpers/selectOptionStyles";
 import { tutorialProgressAtom } from "@/recoil/SidebarAtoms";
-import { colorModeState } from "@/recoil/UserSettingsAtoms";
+import { themeNameSelector } from "@/recoil/UserSettingsSelectors";
 import { Flex, Select } from "@chakra-ui/react";
 import Router from "next/router";
 import React from "react";
@@ -16,14 +16,15 @@ export const ThemeToChangeSelector: React.FC<ThemeToChangeSelectorProps> = ({
   themeNames,
   textColor,
 }) => {
-  const [colorMode, setColorModeState] = useRecoilState(colorModeState);
+  const [themeName, setThemeName] = useRecoilState(themeNameSelector);
+
   const [tutorialProgress, setTutorialProgress] =
     useRecoilState(tutorialProgressAtom);
 
   const onThemeSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     // for the tutorial, if we change the theme we want to progress the tutorial
     setTutorialProgress((prevState) => (prevState === 2 ? 3 : prevState));
-    setColorModeState(e.target.value);
+    setThemeName(e.target.value);
   };
 
   return (
@@ -35,7 +36,7 @@ export const ThemeToChangeSelector: React.FC<ThemeToChangeSelectorProps> = ({
       color={textColor}
     >
       <Select
-        value={colorMode}
+        value={themeName}
         width="75%"
         onChange={onThemeSelectChange}
         outline={`1px solid ${textColor}`}

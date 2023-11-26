@@ -11,6 +11,7 @@ export const defaultSettings: UserSettings = {
     usingSystemTheme: false,
     lightTheme: "",
     darkTheme: "",
+    currentThemeName: "Colored Light",
   },
   themes: [
     {
