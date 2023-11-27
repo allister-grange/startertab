@@ -8,7 +8,6 @@ import React, { useState } from "react";
 
 interface PersonalThemesProps {
   themes: ThemeSettings[];
-  copyToClipboard: (value: string, message?: string) => void;
   deleteTheme: (theme: ThemeSettings) => void;
   setShowingPublicThemes: React.Dispatch<React.SetStateAction<boolean>>;
   refetch: () => void;
@@ -20,7 +19,6 @@ interface PersonalThemesProps {
 
 export const PersonalThemes: React.FC<PersonalThemesProps> = ({
   themes,
-  copyToClipboard,
   deleteTheme,
   setShowingPublicThemes,
   refetch,

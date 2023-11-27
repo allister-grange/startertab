@@ -64,19 +64,6 @@ const ManageThemes: React.FC = ({}) => {
     }
   }, [router]);
 
-  const showClipboardToast = useCallback(
-    (val?: string) => {
-      toast({
-        title: `Copied theme to clipboard ${val ?? ""}`,
-        status: "info",
-        duration: 1500,
-        isClosable: true,
-        position: "top",
-      });
-    },
-    [toast]
-  );
-
   const showSavedThemeToast = useCallback(
     (val?: string) => {
       toast({
@@ -110,19 +97,24 @@ const ManageThemes: React.FC = ({}) => {
     setSettings(newSettings);
   };
 
-  const copyToClipboard = (value: string, message?: string) => {
-    navigator.clipboard.writeText(value);
-    showClipboardToast(message);
-  };
-
   const deleteTheme = (theme: ThemeSettings) => {
     const clonedSettings = deepClone(settings);
     const index = clonedSettings.themes.findIndex(
       (themeToFind) => themeToFind.themeName === theme.themeName
     );
 
+    const themeToRemove = clonedSettings.themes.find(
+      (themeToFind) => themeToFind.themeName === theme.themeName
+    );
+
     if (index > -1 && clonedSettings.themes.length > 1) {
       clonedSettings.themes.splice(index, 1);
+    }
+
+    // if you delete the theme that we're currently using, set it to the first in the list of themes
+    if (themeName === themeToRemove?.themeName) {
+      clonedSettings.systemThemeSettings.currentThemeName =
+        clonedSettings.themes[0].themeName;
     }
 
     setSettings(clonedSettings);
@@ -261,7 +253,6 @@ const ManageThemes: React.FC = ({}) => {
             pb="16"
           >
             <PersonalThemes
-              copyToClipboard={copyToClipboard}
               deleteTheme={deleteTheme}
               themes={settings.themes}
               setShowingPublicThemes={setShowingPublicThemes}
