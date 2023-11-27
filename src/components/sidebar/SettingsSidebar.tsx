@@ -6,6 +6,7 @@ import {
 } from "@/components/sidebar";
 import { ExportImportButtons } from "@/components/sidebar/ExportImportButtons";
 import SettingOptionContainer from "@/components/sidebar/SettingOptionContainer";
+import { UsingSystemThemeToggle } from "@/components/sidebar/UsingSystemThemeToggle";
 import { OutlinedButton } from "@/components/ui/OutlinedButton";
 import { getThemeNames } from "@/helpers/settingsHelpers";
 import {
@@ -20,18 +21,14 @@ import {
   accordionOpenIndex,
   tutorialProgressAtom,
 } from "@/recoil/SidebarAtoms";
-import { colorModeState, userSettingState } from "@/recoil/UserSettingsAtoms";
+import { userSettingState } from "@/recoil/UserSettingsAtoms";
+import { themeNameSelector } from "@/recoil/UserSettingsSelectors";
 import styles from "@/styles/Home.module.css";
 import { Option } from "@/types";
-import { TileSettings, UserSettings } from "@/types/settings";
+import { TileSettings } from "@/types/settings";
 import { Box, Link } from "@chakra-ui/react";
 import React, { Dispatch, SetStateAction, useRef, useState } from "react";
 import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
-import { UsingSystemThemeToggle } from "@/components/sidebar/UsingSystemThemeToggle";
-import {
-  themeNameSelector,
-  themeSelector,
-} from "@/recoil/UserSettingsSelectors";
 
 interface SettingsSideBarProps {
   isOpen: boolean;
@@ -52,7 +49,7 @@ const SettingsSideBar: React.FC<SettingsSideBarProps> = ({
   setIsEditingTileGrid,
 }) => {
   const [settings, setSettings] = useRecoilState(userSettingState);
-  const theme = useRecoilValue(themeSelector);
+  // const theme = useRecoilValue(themeSelector);
   const inMemorySettingsRef = useRef(settings);
   const tutorialProgress = useRecoilValue(tutorialProgressAtom);
   const themeName = useRecoilValue(themeNameSelector);
@@ -103,34 +100,48 @@ const SettingsSideBar: React.FC<SettingsSideBarProps> = ({
       value: TileSettings[K],
       tileId: number
     ) => {
-      const userSettings = JSON.parse(JSON.stringify(settings)) as UserSettings;
-      const themeToChange = deepClone(theme);
+      const userSettings = deepClone(settings);
+      const themeToEdit = userSettings.themes.find(
+        (theme) => theme.themeName === themeName
+      );
+
+      if (!themeToEdit) {
+        console.error("Couldn't find the theme");
+        return;
+      }
 
       if (tileId >= 0) {
-        themeToChange.tiles[tileId][key] = value;
+        themeToEdit.tiles[tileId][key] = value;
       } else {
-        themeToChange.globalSettings[key] = value;
+        themeToEdit.globalSettings[key] = value;
       }
 
       setSettings(userSettings);
     },
-    [setSettings, settings, theme]
+    [setSettings, settings, themeName]
   );
 
   const randomizeAllColorValues = <K extends keyof TileSettings>() => {
     let newSettings = deepClone(settings);
-    const themeToChange = deepClone(theme);
+    const themeToEdit = newSettings.themes.find(
+      (theme) => theme.themeName === themeName
+    );
 
-    for (const tile of themeToChange.tiles) {
+    if (!themeToEdit) {
+      console.error("Couldn't find the theme");
+      return;
+    }
+
+    for (const tile of themeToEdit.tiles) {
       for (const item in tile) {
         if (item.toLowerCase().includes("color")) {
           const newColorSetting = randomHexValue();
 
           if (tile.tileId === -1) {
-            themeToChange.globalSettings[item as K] =
+            themeToEdit.globalSettings[item as K] =
               newColorSetting as TileSettings[K];
           } else {
-            themeToChange.tiles[tile.tileId][item as K] =
+            themeToEdit.tiles[tile.tileId][item as K] =
               newColorSetting as TileSettings[K];
           }
         }

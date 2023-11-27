@@ -6,6 +6,7 @@ import { ThemePageHeader } from "@/components/ui/ThemePageHeader";
 import { deepClone, saveThemeIdToLocalStorage } from "@/helpers/tileHelpers";
 import useDebounce from "@/hooks/useDebounce";
 import { userSettingState } from "@/recoil/UserSettingsAtoms";
+import { themeNameSelector } from "@/recoil/UserSettingsSelectors";
 import { ThemeFilteringOptions, ThemeSettings } from "@/types";
 import { ThemeDataFromAPI, ThemeWithVotes } from "@/types/marketplace";
 import { Box, Button, Flex, useToast } from "@chakra-ui/react";
@@ -16,7 +17,7 @@ import {
 } from "@tanstack/react-query";
 import { useRouter } from "next/router";
 import React, { useCallback, useEffect, useState } from "react";
-import { useRecoilState } from "recoil";
+import { useRecoilState, useRecoilValue } from "recoil";
 
 const queryClient = new QueryClient();
 
@@ -29,6 +30,7 @@ const ManageThemes: React.FC = ({}) => {
   const [searchFilter, setSearchFilter] = useState<string | undefined>();
   const [reverseOrdering, setReverseOrdering] = useState<boolean>(false);
   const debouncedSearchTerm = useDebounce(searchFilter ?? "", 750);
+  const themeName = useRecoilValue(themeNameSelector);
 
   const {
     data: publicThemes,
@@ -90,7 +92,13 @@ const ManageThemes: React.FC = ({}) => {
 
   const cloneTheme = (theme: ThemeSettings) => {
     const newSettings = deepClone(settings);
-    const newTheme = deepClone(theme);
+    const newTheme = newSettings.themes.find(
+      (theme) => theme.themeName === themeName
+    );
+
+    if (!newTheme) {
+      return;
+    }
 
     newTheme.themeName =
       theme.themeName.length >= 15

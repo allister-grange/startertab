@@ -2,7 +2,10 @@ import Tile from "@/components/grid/Tile";
 import { deepClone } from "@/helpers/tileHelpers";
 import { tutorialProgressAtom } from "@/recoil/SidebarAtoms";
 import { userSettingState } from "@/recoil/UserSettingsAtoms";
-import { themeSelector } from "@/recoil/UserSettingsSelectors";
+import {
+  themeNameSelector,
+  themeSelector,
+} from "@/recoil/UserSettingsSelectors";
 import { TileSettings } from "@/types";
 import { Box, BoxProps, Flex } from "@chakra-ui/react";
 import React, { Dispatch, SetStateAction } from "react";
@@ -31,7 +34,7 @@ export const TileGrid: React.FC<TileGridProps> = ({
   setIsEditingTileGrid,
 }) => {
   const [settings, setSettings] = useRecoilState(userSettingState);
-  const theme = useRecoilValue(themeSelector);
+  const themeName = useRecoilValue(themeNameSelector);
 
   const tutorialProgress = useRecoilValue(tutorialProgressAtom);
 
@@ -40,15 +43,22 @@ export const TileGrid: React.FC<TileGridProps> = ({
 
   const updateTileLayoutInSettings = (newLayout: Layouts) => {
     const settingsToChange = deepClone(settings);
-    const themeClone = deepClone(theme);
-    themeClone.tileLayout = newLayout;
+    const themeToChange = settingsToChange.themes.find(
+      (theme) => theme.themeName === themeName
+    );
+
+    if (!themeToChange) {
+      return;
+    }
+
+    themeToChange.tileLayout = newLayout;
     setSettings(settingsToChange);
   };
 
   const removeTileFromLayout = (tileId: number) => {
     const newSettings = deepClone(settings);
     const themeToEdit = newSettings.themes.find(
-      (theme) => theme.themeName === theme.themeName
+      (theme) => theme.themeName === themeName
     );
 
     if (!themeToEdit) {

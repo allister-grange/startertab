@@ -1,7 +1,7 @@
 import { OptionsForTileTypeSelect } from "@/components/ui/OptionsForTileTypeSelect";
 import { deepClone } from "@/helpers/tileHelpers";
 import { userSettingState } from "@/recoil/UserSettingsAtoms";
-import { themeSelector } from "@/recoil/UserSettingsSelectors";
+import { themeNameSelector } from "@/recoil/UserSettingsSelectors";
 import { TileSize, TileType } from "@/types";
 import { Box, Center, Heading, Select } from "@chakra-ui/react";
 import React, { ChangeEvent } from "react";
@@ -15,11 +15,13 @@ interface NoneTileProps {
 export const NoneTile: React.FC<NoneTileProps> = ({ tileId, tileSize }) => {
   const [settings, setSettings] = useRecoilState(userSettingState);
   const color = `var(--text-color-${tileId})`;
-  const theme = useRecoilValue(themeSelector);
+  const themeName = useRecoilValue(themeNameSelector);
 
   const handleTileTypeSelected = (e: ChangeEvent<HTMLSelectElement>) => {
     const settingsToEdit = deepClone(settings);
-    const themeToEdit = deepClone(theme);
+    const themeToEdit = settingsToEdit.themes.find(
+      (theme) => theme.themeName === themeName
+    );
 
     if (!themeToEdit) {
       console.error("Couldn't find the theme");
