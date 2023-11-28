@@ -24,47 +24,46 @@ export const UsingSystemThemeToggle: React.FC<UsingSystemThemeToggleProps> = ({
     window.matchMedia("(prefers-color-scheme: dark)").matches;
 
   const handleToggle = () => {
-    if (prefersDarkTheme) {
-      setThemeName(settings.systemThemeSettings.darkTheme);
-    } else {
-      setThemeName(settings.systemThemeSettings.lightTheme);
-    }
-    setSettings({
-      ...settings,
-      systemThemeSettings: {
-        ...settings.systemThemeSettings,
-        usingSystemTheme: !settings.systemThemeSettings.usingSystemTheme,
-      },
+    setThemeName((prevTheme) => {
+      if (prefersDarkTheme && settings.systemThemeSettings.darkTheme) {
+        return settings.systemThemeSettings.darkTheme;
+      } else if (!prefersDarkTheme && settings.systemThemeSettings.lightTheme) {
+        return settings.systemThemeSettings.lightTheme;
+      }
+      return prevTheme;
     });
+
+    setSettings((prevSettings) => ({
+      ...prevSettings,
+      systemThemeSettings: {
+        ...prevSettings.systemThemeSettings,
+        usingSystemTheme: !prevSettings.systemThemeSettings.usingSystemTheme,
+      },
+    }));
   };
 
   const onThemeSelectChange = (
     e: React.ChangeEvent<HTMLSelectElement>,
     isDark: boolean
   ) => {
-    if (isDark) {
-      if (prefersDarkTheme) {
-        setThemeName(e.target.value);
-      }
-      setSettings({
-        ...settings,
-        systemThemeSettings: {
-          ...settings.systemThemeSettings,
-          darkTheme: e.target.value,
-        },
-      });
-    } else {
-      if (!prefersDarkTheme) {
-        setThemeName(e.target.value);
-      }
-      setSettings({
-        ...settings,
-        systemThemeSettings: {
-          ...settings.systemThemeSettings,
-          lightTheme: e.target.value,
-        },
-      });
+    if (isDark && prefersDarkTheme) {
+      setThemeName(e.target.value);
+    } else if (!isDark && !prefersDarkTheme) {
+      setThemeName(e.target.value);
     }
+
+    setSettings((prevSettings) => ({
+      ...prevSettings,
+      systemThemeSettings: {
+        ...prevSettings.systemThemeSettings,
+        darkTheme: isDark
+          ? e.target.value
+          : prevSettings.systemThemeSettings.darkTheme,
+        lightTheme: !isDark
+          ? e.target.value
+          : prevSettings.systemThemeSettings.lightTheme,
+      },
+    }));
   };
 
   return (

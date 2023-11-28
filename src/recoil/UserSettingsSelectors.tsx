@@ -491,20 +491,26 @@ export const themeSelector = selector<ThemeSettings>({
   get: ({ get }) => {
     const userSettings = get(userSettingState);
 
-    let themeName = "";
+    // will only be populated if the user doesn't have userSettings.systemThemeSettings in their settings
+    let themeNameFromStorage = "";
 
     // need to have a check if someone still has legacy settings with no systemThemeSettings object
     if (!userSettings.systemThemeSettings) {
-      themeName = window.localStorage
+      themeNameFromStorage = window.localStorage
         .getItem("themeName")
         ?.replaceAll('"', "")!;
     }
 
+    console.log(
+      "Current theme name in themeSelector",
+      userSettings.systemThemeSettings.currentThemeName
+    );
+
     return userSettings.themes.find(
       (theme) =>
         theme.themeName ===
-        (themeName !== ""
-          ? themeName
+        (themeNameFromStorage !== ""
+          ? themeNameFromStorage
           : userSettings.systemThemeSettings.currentThemeName)
     )!;
   },
@@ -513,7 +519,16 @@ export const themeSelector = selector<ThemeSettings>({
 export const themeNameSelector = selector<string>({
   key: "themeNameSelector",
   get: ({ get }) => {
+    // this will be called whenever user settings changes
+    // so, I want to swap the theme name here when someone is
+    // using the system themes
     const userSettings = get(userSettingState);
+
+    console.log(
+      "Get themeNameSelector called, returning " +
+        userSettings.systemThemeSettings.currentThemeName
+    );
+
     return userSettings.systemThemeSettings.currentThemeName;
   },
   set: ({ get, set }, newThemeName) => {
@@ -533,6 +548,7 @@ export const themeNameSelector = selector<string>({
     applyTheme(
       updatedSettings.themes.find((theme) => theme.themeName === newThemeName)!
     );
+    console.log("Setting theme name", newThemeName);
 
     set(userSettingState, updatedSettings);
   },
