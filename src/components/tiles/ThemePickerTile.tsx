@@ -1,8 +1,9 @@
+import { setNewThemeName } from "@/helpers/themes";
 import { userSettingState } from "@/recoil/UserSettingsAtoms";
 import { themeNameSelector } from "@/recoil/UserSettingsSelectors";
 import { Box, BoxProps, Flex } from "@chakra-ui/react";
 import React from "react";
-import { useRecoilValue, useSetRecoilState } from "recoil";
+import { useRecoilState, useSetRecoilState } from "recoil";
 
 const ThemePickerBubble = (props: BoxProps) => {
   return (
@@ -19,8 +20,12 @@ const ThemePickerBubble = (props: BoxProps) => {
 };
 
 const ThemePickerTile: React.FC = () => {
-  const settings = useRecoilValue(userSettingState);
+  const [settings, setSettings] = useRecoilState(userSettingState);
   const setThemeName = useSetRecoilState(themeNameSelector);
+
+  const onThemeSelectChange = (newThemName: string) => {
+    setNewThemeName(newThemName, setThemeName, settings, setSettings);
+  };
 
   return (
     <Flex
@@ -44,9 +49,7 @@ const ThemePickerTile: React.FC = () => {
                 justifySelf="center"
                 marginX="5px"
                 marginY="7px"
-                onClick={() => {
-                  setThemeName(theme.themeName);
-                }}
+                onClick={() => onThemeSelectChange(theme.themeName)}
                 bg={theme.globalSettings.themePickerBubbleColor}
               />
             );
