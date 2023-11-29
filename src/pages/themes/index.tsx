@@ -117,6 +117,19 @@ const ManageThemes: React.FC = ({}) => {
         clonedSettings.themes[0].themeName;
     }
 
+    // remove the theme from the system light/dark theme if used
+    if (
+      clonedSettings.systemThemeSettings.lightTheme === themeToRemove?.themeName
+    ) {
+      clonedSettings.systemThemeSettings.lightTheme = "";
+    }
+
+    if (
+      clonedSettings.systemThemeSettings.darkTheme === themeToRemove?.themeName
+    ) {
+      clonedSettings.systemThemeSettings.darkTheme = "";
+    }
+
     setSettings(clonedSettings);
   };
 

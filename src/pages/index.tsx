@@ -8,10 +8,13 @@ import { SettingsToggle } from "@/components/ui/SettingsToggle";
 import { applyTheme } from "@/helpers/settingsHelpers";
 import { sidebarOpenAtom, tutorialProgressAtom } from "@/recoil/SidebarAtoms";
 import { userSettingState } from "@/recoil/UserSettingsAtoms";
-import { themeSelector } from "@/recoil/UserSettingsSelectors";
+import {
+  themeNameSelector,
+  themeSelector,
+} from "@/recoil/UserSettingsSelectors";
 import { Box, Flex, useDisclosure } from "@chakra-ui/react";
 import type { NextPage } from "next";
-import { useEffect, useState } from "react";
+import { useEffect, useLayoutEffect, useState } from "react";
 import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 
 const Home: NextPage = () => {
@@ -21,7 +24,6 @@ const Home: NextPage = () => {
   // to highlight what tile you are looking to edit from the sidebar
   const [optionHovered, setOptionHovered] = useState<number | undefined>();
 
-  // tutorial related state
   const [showingTutorial, setShowingTutorial] = useState(false);
   const [tutorialProgress, setTutorialProgress] =
     useRecoilState(tutorialProgressAtom);
@@ -32,9 +34,10 @@ const Home: NextPage = () => {
   const setSidebarOpenAtom = useSetRecoilState(sidebarOpenAtom);
 
   const currentTheme = useRecoilValue(themeSelector);
+  const setThemeName = useSetRecoilState(themeNameSelector);
 
   // legacy settings need to have the systemThemeSettings object added in
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (!settings.systemThemeSettings) {
       setSettings({
         ...settings,
@@ -50,14 +53,39 @@ const Home: NextPage = () => {
     }
   }, [setSettings, settings]);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     applyTheme(currentTheme);
   }, [currentTheme]);
 
-  // this is used to change tiles conditionally on the sidebar being open or tiles being edited
+  // used to change tiles conditionally on the sidebar being open or tiles being edited
   useEffect(() => {
     setSidebarOpenAtom(isOpen || isEditingTileGrid);
   }, [isOpen, setSidebarOpenAtom, isEditingTileGrid]);
+
+  // sets the theme based whether the user wants to use the system theme settings
+  useEffect(() => {
+    if (
+      !settings.systemThemeSettings ||
+      !settings.systemThemeSettings.usingSystemTheme
+    ) {
+      return;
+    }
+
+    const prefersDarkTheme =
+      window.matchMedia &&
+      window.matchMedia("(prefers-color-scheme: dark)").matches;
+
+    console.log("Setting theme name in the useEffect");
+    if (prefersDarkTheme && settings.systemThemeSettings.darkTheme) {
+      setThemeName(settings.systemThemeSettings.darkTheme);
+    } else if (!prefersDarkTheme && settings.systemThemeSettings.lightTheme) {
+      setThemeName(settings.systemThemeSettings.lightTheme);
+    }
+    // only time this is skipped in the project, has to be because
+    // settings.systemThemeSettings might be undefined in the older clients
+    // using the app, and including it in the array will cause infinite renders
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [setThemeName]);
 
   const gridGap = currentTheme.globalSettings.gridGap;
   const settingsToggleColor = currentTheme.globalSettings.textColor;
