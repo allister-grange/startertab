@@ -6,6 +6,7 @@ import { ThemePageHeader } from "@/components/ui/ThemePageHeader";
 import { deepClone, saveThemeIdToLocalStorage } from "@/helpers/tileHelpers";
 import useDebounce from "@/hooks/useDebounce";
 import { userSettingState } from "@/recoil/UserSettingsAtoms";
+import { themeNameSelector } from "@/recoil/UserSettingsSelectors";
 import { ThemeFilteringOptions, ThemeSettings } from "@/types";
 import { ThemeDataFromAPI, ThemeWithVotes } from "@/types/marketplace";
 import { Box, Button, Flex, useToast } from "@chakra-ui/react";
@@ -16,7 +17,7 @@ import {
 } from "@tanstack/react-query";
 import { useRouter } from "next/router";
 import React, { useCallback, useEffect, useState } from "react";
-import { useRecoilState } from "recoil";
+import { useRecoilState, useRecoilValue } from "recoil";
 
 const queryClient = new QueryClient();
 
@@ -29,6 +30,7 @@ const ManageThemes: React.FC = ({}) => {
   const [searchFilter, setSearchFilter] = useState<string | undefined>();
   const [reverseOrdering, setReverseOrdering] = useState<boolean>(false);
   const debouncedSearchTerm = useDebounce(searchFilter ?? "", 750);
+  const themeName = useRecoilValue(themeNameSelector);
 
   const {
     data: publicThemes,
@@ -62,19 +64,6 @@ const ManageThemes: React.FC = ({}) => {
     }
   }, [router]);
 
-  const showClipboardToast = useCallback(
-    (val?: string) => {
-      toast({
-        title: `Copied theme to clipboard ${val ?? ""}`,
-        status: "info",
-        duration: 1500,
-        isClosable: true,
-        position: "top",
-      });
-    },
-    [toast]
-  );
-
   const showSavedThemeToast = useCallback(
     (val?: string) => {
       toast({
@@ -90,7 +79,13 @@ const ManageThemes: React.FC = ({}) => {
 
   const cloneTheme = (theme: ThemeSettings) => {
     const newSettings = deepClone(settings);
-    const newTheme = deepClone(theme);
+    const newTheme = newSettings.themes.find(
+      (theme) => theme.themeName === themeName
+    );
+
+    if (!newTheme) {
+      return;
+    }
 
     newTheme.themeName =
       theme.themeName.length >= 15
@@ -102,19 +97,37 @@ const ManageThemes: React.FC = ({}) => {
     setSettings(newSettings);
   };
 
-  const copyToClipboard = (value: string, message?: string) => {
-    navigator.clipboard.writeText(value);
-    showClipboardToast(message);
-  };
-
   const deleteTheme = (theme: ThemeSettings) => {
     const clonedSettings = deepClone(settings);
     const index = clonedSettings.themes.findIndex(
       (themeToFind) => themeToFind.themeName === theme.themeName
     );
 
+    const themeToRemove = clonedSettings.themes.find(
+      (themeToFind) => themeToFind.themeName === theme.themeName
+    );
+
     if (index > -1 && clonedSettings.themes.length > 1) {
       clonedSettings.themes.splice(index, 1);
+    }
+
+    // if you delete the theme that we're currently using, set it to the first in the list of themes
+    if (themeName === themeToRemove?.themeName) {
+      clonedSettings.systemThemeSettings.currentThemeName =
+        clonedSettings.themes[0].themeName;
+    }
+
+    // remove the theme from the system light/dark theme if used
+    if (
+      clonedSettings.systemThemeSettings.lightTheme === themeToRemove?.themeName
+    ) {
+      clonedSettings.systemThemeSettings.lightTheme = "";
+    }
+
+    if (
+      clonedSettings.systemThemeSettings.darkTheme === themeToRemove?.themeName
+    ) {
+      clonedSettings.systemThemeSettings.darkTheme = "";
     }
 
     setSettings(clonedSettings);
@@ -253,7 +266,6 @@ const ManageThemes: React.FC = ({}) => {
             pb="16"
           >
             <PersonalThemes
-              copyToClipboard={copyToClipboard}
               deleteTheme={deleteTheme}
               themes={settings.themes}
               setShowingPublicThemes={setShowingPublicThemes}

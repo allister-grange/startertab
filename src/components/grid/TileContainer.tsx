@@ -31,9 +31,10 @@ import OutlookContextProvider from "@/context/OutlookContext";
 import SpotifyContextProvider from "@/context/SpotifyContext";
 import StravaContextProvider from "@/context/StravaContext";
 import TwitterContextProvider from "@/context/TwitterContext";
-import { colorModeState, userSettingState } from "@/recoil/UserSettingsAtoms";
+import { userSettingState } from "@/recoil/UserSettingsAtoms";
 import {
   bookingsSelector,
+  themeNameSelector,
   todoListSelector,
 } from "@/recoil/UserSettingsSelectors";
 import { Booking, TileSize, TileType, TodoObject } from "@/types";
@@ -77,7 +78,7 @@ const TileContainer: React.FC<TileContainerProps> = ({
     SetterOrUpdater<TodoObject[] | undefined>
   ];
   const [settings, setSettings] = useRecoilState(userSettingState);
-  const colorMode = useRecoilValue(colorModeState);
+  const themeName = useRecoilValue(themeNameSelector);
   const color = `var(--text-color-${tileId})`;
 
   const persister = createSyncStoragePersister({
@@ -210,7 +211,7 @@ const TileContainer: React.FC<TileContainerProps> = ({
       settings={settings}
       color={color}
       setSettings={setSettings}
-      colorMode={colorMode}
+      themeName={themeName}
     >
       <PersistQueryClientProvider
         client={queryClient}

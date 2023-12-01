@@ -1,29 +1,31 @@
 import {
   createNewTile,
-  getCurrentTheme,
   getTileLayoutForNewTile,
 } from "@/helpers/settingsHelpers";
 import { deepClone } from "@/helpers/tileHelpers";
 import { userSettingState } from "@/recoil/UserSettingsAtoms";
-import { TileSize, UserSettings } from "@/types";
+import { themeNameSelector } from "@/recoil/UserSettingsSelectors";
+import { TileSize } from "@/types";
 import { SmallAddIcon } from "@chakra-ui/icons";
 import { Flex, Menu, MenuButton, MenuItem, MenuList } from "@chakra-ui/react";
 import React, { useState } from "react";
-import { useRecoilState } from "recoil";
+import { useRecoilState, useRecoilValue } from "recoil";
 
-interface TileLayoutActionsProps {
-  colorMode: string;
-}
-
-export const TileLayoutActions: React.FC<TileLayoutActionsProps> = ({
-  colorMode,
-}) => {
+export const TileLayoutActions: React.FC = ({}) => {
   const [addButtonHovered, setAddButtonHovered] = useState(false);
   const [settings, setSettings] = useRecoilState(userSettingState);
+  const themeName = useRecoilValue(themeNameSelector);
 
   const addNewTileIntoGrid = (size: TileSize) => {
-    const settingsToChange = deepClone(settings) as UserSettings;
-    const themeToChange = getCurrentTheme(settingsToChange, colorMode);
+    const settingsToChange = deepClone(settings);
+    const themeToChange = settingsToChange.themes.find(
+      (theme) => theme.themeName === themeName
+    );
+
+    if (!themeToChange) {
+      return;
+    }
+
     const newTile = createNewTile(themeToChange, size);
     const newTileLayout = getTileLayoutForNewTile(size);
 

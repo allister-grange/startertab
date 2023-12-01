@@ -5,17 +5,17 @@ import { ShowNewTabToast } from "@/components/toasts/ShowNewTabToast";
 import { ShowUpdateToast } from "@/components/toasts/ShowUpdateToast";
 import { Tutorial } from "@/components/tutorial/Tutorial";
 import { SettingsToggle } from "@/components/ui/SettingsToggle";
-import {
-  applyTheme,
-  getCurrentTheme,
-  getNewSettingsFromLegacyTheme,
-} from "@/helpers/settingsHelpers";
+import { applyTheme } from "@/helpers/settingsHelpers";
 import { sidebarOpenAtom, tutorialProgressAtom } from "@/recoil/SidebarAtoms";
-import { colorModeState, userSettingState } from "@/recoil/UserSettingsAtoms";
+import { userSettingState } from "@/recoil/UserSettingsAtoms";
+import {
+  themeNameSelector,
+  themeSelector,
+} from "@/recoil/UserSettingsSelectors";
 import { Box, Flex, useDisclosure } from "@chakra-ui/react";
 import type { NextPage } from "next";
-import { useEffect, useState } from "react";
-import { useRecoilState, useSetRecoilState } from "recoil";
+import { useEffect, useLayoutEffect, useState } from "react";
+import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 
 const Home: NextPage = () => {
   // sidebar hook
@@ -24,7 +24,6 @@ const Home: NextPage = () => {
   // to highlight what tile you are looking to edit from the sidebar
   const [optionHovered, setOptionHovered] = useState<number | undefined>();
 
-  // tutorial related state
   const [showingTutorial, setShowingTutorial] = useState(false);
   const [tutorialProgress, setTutorialProgress] =
     useRecoilState(tutorialProgressAtom);
@@ -32,26 +31,62 @@ const Home: NextPage = () => {
   const [settings, setSettings] = useRecoilState(userSettingState);
   const [isEditingTileGrid, setIsEditingTileGrid] = useState(false);
 
-  const [colorMode] = useRecoilState(colorModeState);
-  const seSidebarOpenAtom = useSetRecoilState(sidebarOpenAtom);
+  const setSidebarOpenAtom = useSetRecoilState(sidebarOpenAtom);
 
+  const currentTheme = useRecoilValue(themeSelector);
+  const setThemeName = useSetRecoilState(themeNameSelector);
+
+  // legacy settings need to have the systemThemeSettings object added in
+  useLayoutEffect(() => {
+    if (!settings.systemThemeSettings) {
+      setSettings({
+        ...settings,
+        systemThemeSettings: {
+          lightTheme: "",
+          darkTheme: "",
+          usingSystemTheme: false,
+          currentThemeName: window.localStorage
+            .getItem("themeName")
+            ?.replaceAll('"', "") as string,
+        },
+      });
+    }
+  }, [setSettings, settings]);
+
+  useLayoutEffect(() => {
+    applyTheme(currentTheme);
+  }, [currentTheme]);
+
+  // used to change tiles conditionally on the sidebar being open or tiles being edited
   useEffect(() => {
-    const themeToChange = getCurrentTheme(settings, colorMode);
-    applyTheme(themeToChange);
-  }, [settings, colorMode]);
+    setSidebarOpenAtom(isOpen || isEditingTileGrid);
+  }, [isOpen, setSidebarOpenAtom, isEditingTileGrid]);
 
-  // this is used to change tiles conditionally on the sidebar being open or tiles being edited
+  // sets the theme based whether the user wants to use the system theme settings
   useEffect(() => {
-    seSidebarOpenAtom(isOpen || isEditingTileGrid);
-  }, [isOpen, seSidebarOpenAtom, isEditingTileGrid]);
+    if (
+      !settings.systemThemeSettings ||
+      !settings.systemThemeSettings.usingSystemTheme
+    ) {
+      return;
+    }
 
-  const currentTheme = getCurrentTheme(settings, colorMode);
+    const prefersDarkTheme =
+      window.matchMedia &&
+      window.matchMedia("(prefers-color-scheme: dark)").matches;
 
-  // legacy settings need to be switched over to new format
-  if ((currentTheme as any).tile1) {
-    const newSettingsFormat = getNewSettingsFromLegacyTheme(settings);
-    setSettings(newSettingsFormat);
-  }
+    console.log("Setting theme name in the useEffect");
+    if (prefersDarkTheme && settings.systemThemeSettings.darkTheme) {
+      setThemeName(settings.systemThemeSettings.darkTheme);
+    } else if (!prefersDarkTheme && settings.systemThemeSettings.lightTheme) {
+      setThemeName(settings.systemThemeSettings.lightTheme);
+    }
+    // only time this is skipped in the project, has to be because
+    // settings.systemThemeSettings might be undefined in the older clients
+    // using the app, and including it in the array will cause infinite renders
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [setThemeName]);
+
   const gridGap = currentTheme.globalSettings.gridGap;
   const settingsToggleColor = currentTheme.globalSettings.textColor;
 
@@ -87,7 +122,7 @@ const Home: NextPage = () => {
           </Flex>
         </>
       </Box>
-      {isEditingTileGrid && <TileLayoutActions colorMode={colorMode} />}
+      {isEditingTileGrid && <TileLayoutActions />}
       {!isOpen && tutorialProgress !== 0 && (
         <SettingsToggle
           onOpen={() => {

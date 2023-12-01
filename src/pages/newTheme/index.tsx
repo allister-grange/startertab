@@ -5,7 +5,8 @@ import { Footer } from "@/components/ui/Footer";
 import { OutlinedButton } from "@/components/ui/OutlinedButton";
 import { newThemeGridLayout } from "@/helpers/gridLayout";
 import { applyTheme } from "@/helpers/settingsHelpers";
-import { colorModeState, userSettingState } from "@/recoil/UserSettingsAtoms";
+import { userSettingState } from "@/recoil/UserSettingsAtoms";
+import { themeNameSelector } from "@/recoil/UserSettingsSelectors";
 import { UserSettings } from "@/types";
 import { Box, Flex, Grid, Heading, Input, Text } from "@chakra-ui/react";
 import Image from "next/image";
@@ -31,7 +32,7 @@ export const ThemeCreator: React.FC = ({}) => {
     textColorOfTiles: "#202020",
   });
   const [settings, setSettings] = useRecoilState(userSettingState);
-  const setColorModeState = useSetRecoilState(colorModeState);
+  const setThemeName = useSetRecoilState(themeNameSelector);
 
   React.useLayoutEffect(() => {
     document.body.style.background = "white";
@@ -104,7 +105,15 @@ export const ThemeCreator: React.FC = ({}) => {
     }
 
     // put a new theme into local storage
-    const newSettings: UserSettings = { themes: [] };
+    const newSettings: UserSettings = {
+      themes: [],
+      systemThemeSettings: {
+        darkTheme: "",
+        lightTheme: "",
+        usingSystemTheme: false,
+        currentThemeName: formInputs.themeName,
+      },
+    };
     newSettings.themes = [
       ...settings.themes,
       {
@@ -144,7 +153,7 @@ export const ThemeCreator: React.FC = ({}) => {
       },
     ];
     setSettings(newSettings);
-    setColorModeState(formInputs.themeName);
+    setThemeName(formInputs.themeName);
     applyTheme(
       newSettings.themes.find(
         (theme) => theme.themeName === formInputs.themeName

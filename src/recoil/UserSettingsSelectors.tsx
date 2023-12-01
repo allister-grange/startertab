@@ -1,23 +1,21 @@
-import { getCurrentTheme } from "@/helpers/settingsHelpers";
-import { colorModeState, userSettingState } from "@/recoil/UserSettingsAtoms";
+import { applyTheme } from "@/helpers/settingsHelpers";
+import { userSettingState } from "@/recoil/UserSettingsAtoms";
 import {
   Booking,
   FavoriteLink,
   RSSFeed,
+  ThemeSettings,
   TodoObject,
   UserSettings,
 } from "@/types";
-import { selectorFamily } from "recoil";
+import { selector, selectorFamily } from "recoil";
 
 export const redditFeedSelector = selectorFamily({
   key: "RedditFeed",
   get:
     (tileId: number) =>
     ({ get }) => {
-      const settings = get(userSettingState);
-      const colorMode = get(colorModeState);
-      const currentTheme = getCurrentTheme(settings, colorMode);
-
+      const currentTheme = get(themeSelector);
       return currentTheme.tiles[tileId].subReddit;
     },
   set:
@@ -42,10 +40,7 @@ export const subRedditSortTypeSelector = selectorFamily({
   get:
     (tileId: number) =>
     ({ get }) => {
-      const settings = get(userSettingState);
-      const colorMode = get(colorModeState);
-      const currentTheme = getCurrentTheme(settings, colorMode);
-
+      const currentTheme = get(themeSelector);
       return currentTheme.tiles[tileId].subRedditSortType;
     },
   set:
@@ -70,10 +65,7 @@ export const hackerNewsFeedSelector = selectorFamily({
   get:
     (tileId: number) =>
     ({ get }) => {
-      const settings = get(userSettingState);
-      const colorMode = get(colorModeState);
-      const currentTheme = getCurrentTheme(settings, colorMode);
-
+      const currentTheme = get(themeSelector);
       return currentTheme.tiles[tileId].hackerNewsFeedType;
     },
   set:
@@ -98,10 +90,7 @@ export const cityForWeatherSelector = selectorFamily({
   get:
     (tileId: number) =>
     ({ get }) => {
-      const settings = get(userSettingState);
-      const colorMode = get(colorModeState);
-      const currentTheme = getCurrentTheme(settings, colorMode);
-
+      const currentTheme = get(themeSelector);
       return currentTheme.tiles[tileId].cityForWeather;
     },
   set:
@@ -126,10 +115,7 @@ export const tempDisplayInCelsiusSelector = selectorFamily({
   get:
     (tileId: number) =>
     ({ get }) => {
-      const settings = get(userSettingState);
-      const colorMode = get(colorModeState);
-      const currentTheme = getCurrentTheme(settings, colorMode);
-
+      const currentTheme = get(themeSelector);
       return currentTheme.tiles[tileId].tempDisplayInCelsius;
     },
   set:
@@ -154,10 +140,7 @@ export const bookingsSelector = selectorFamily({
   get:
     (tileId: number) =>
     ({ get }) => {
-      const settings = get(userSettingState);
-      const colorMode = get(colorModeState);
-      const currentTheme = getCurrentTheme(settings, colorMode);
-
+      const currentTheme = get(themeSelector);
       return currentTheme.tiles[tileId].bookings;
     },
   set:
@@ -182,10 +165,7 @@ export const stockSelector = selectorFamily({
   get:
     (tileId: number) =>
     ({ get }) => {
-      const settings = get(userSettingState);
-      const colorMode = get(colorModeState);
-      const currentTheme = getCurrentTheme(settings, colorMode);
-
+      const currentTheme = get(themeSelector);
       return currentTheme.tiles[tileId].stockName;
     },
   set:
@@ -210,10 +190,7 @@ export const graphStockSelector = selectorFamily({
   get:
     (tileId: number) =>
     ({ get }) => {
-      const settings = get(userSettingState);
-      const colorMode = get(colorModeState);
-      const currentTheme = getCurrentTheme(settings, colorMode);
-
+      const currentTheme = get(themeSelector);
       return currentTheme.tiles[tileId].graphStock;
     },
   set:
@@ -238,10 +215,7 @@ export const bonsaiTrunkColorSelector = selectorFamily({
   get:
     (tileId: number) =>
     ({ get }) => {
-      const settings = get(userSettingState);
-      const colorMode = get(colorModeState);
-      const currentTheme = getCurrentTheme(settings, colorMode);
-
+      const currentTheme = get(themeSelector);
       return currentTheme.tiles[tileId].bonsaiTrunkColor;
     },
   set:
@@ -266,10 +240,7 @@ export const bonsaiBaseColorSelector = selectorFamily({
   get:
     (tileId: number) =>
     ({ get }) => {
-      const settings = get(userSettingState);
-      const colorMode = get(colorModeState);
-      const currentTheme = getCurrentTheme(settings, colorMode);
-
+      const currentTheme = get(themeSelector);
       return currentTheme.tiles[tileId].bonsaiBaseColor;
     },
   set:
@@ -294,10 +265,7 @@ export const uvCitySelector = selectorFamily({
   get:
     (tileId: number) =>
     ({ get }) => {
-      const settings = get(userSettingState);
-      const colorMode = get(colorModeState);
-      const currentTheme = getCurrentTheme(settings, colorMode);
-
+      const currentTheme = get(themeSelector);
       return currentTheme.tiles[tileId].cityForUv;
     },
   set:
@@ -322,10 +290,7 @@ export const todoListSelector = selectorFamily({
   get:
     (tileId: number) =>
     ({ get }) => {
-      const settings = get(userSettingState);
-      const colorMode = get(colorModeState);
-      const currentTheme = getCurrentTheme(settings, colorMode);
-
+      const currentTheme = get(themeSelector);
       return currentTheme.tiles[tileId].todoList;
     },
   set:
@@ -350,10 +315,7 @@ export const spotifyTopArtistTimeLengthSelector = selectorFamily({
   get:
     (tileId: number) =>
     ({ get }) => {
-      const settings = get(userSettingState);
-      const colorMode = get(colorModeState);
-      const currentTheme = getCurrentTheme(settings, colorMode);
-
+      const currentTheme = get(themeSelector);
       return currentTheme.tiles[tileId].spotifyArtistSearchTimeLength;
     },
   set:
@@ -378,10 +340,7 @@ export const markdownFileTextSelector = selectorFamily({
   get:
     (tileId: number) =>
     ({ get }) => {
-      const settings = get(userSettingState);
-      const colorMode = get(colorModeState);
-      const currentTheme = getCurrentTheme(settings, colorMode);
-
+      const currentTheme = get(themeSelector);
       return currentTheme.tiles[tileId].markdownFileText;
     },
   set:
@@ -406,10 +365,7 @@ export const favoriteLinksSelector = selectorFamily({
   get:
     (tileId: number) =>
     ({ get }) => {
-      const settings = get(userSettingState);
-      const colorMode = get(colorModeState);
-      const currentTheme = getCurrentTheme(settings, colorMode);
-
+      const currentTheme = get(themeSelector);
       return currentTheme.tiles[tileId].favoriteLinks;
     },
   set:
@@ -434,10 +390,8 @@ export const favoriteLinksTitleSelector = selectorFamily({
   get:
     (tileId: number) =>
     ({ get }) => {
-      const settings = get(userSettingState);
-      const colorMode = get(colorModeState);
-      const currentTheme = getCurrentTheme(settings, colorMode);
-
+      // TODO delete all these
+      const currentTheme = get(themeSelector);
       return currentTheme.tiles[tileId].favoriteLinksTitle;
     },
   set:
@@ -462,10 +416,7 @@ export const rssFeedsSelector = selectorFamily({
   get:
     (tileId: number) =>
     ({ get }) => {
-      const settings = get(userSettingState);
-      const colorMode = get(colorModeState);
-      const currentTheme = getCurrentTheme(settings, colorMode);
-
+      const currentTheme = get(themeSelector);
       return currentTheme.tiles[tileId].rssFeeds;
     },
   set:
@@ -490,10 +441,7 @@ export const rssFeedTitleSelector = selectorFamily({
   get:
     (tileId: number) =>
     ({ get }) => {
-      const settings = get(userSettingState);
-      const colorMode = get(colorModeState);
-      const currentTheme = getCurrentTheme(settings, colorMode);
-
+      const currentTheme = get(themeSelector);
       return currentTheme.tiles[tileId].rssFeedTitle;
     },
   set:
@@ -518,10 +466,7 @@ export const subRedditOffsetSelector = selectorFamily({
   get:
     (tileId: number) =>
     ({ get }) => {
-      const settings = get(userSettingState);
-      const colorMode = get(colorModeState);
-      const currentTheme = getCurrentTheme(settings, colorMode);
-
+      const currentTheme = get(themeSelector);
       return currentTheme.tiles[tileId].subRedditOffset;
     },
   set:
@@ -539,4 +484,68 @@ export const subRedditOffsetSelector = selectorFamily({
       }
       set(userSettingState, userSettings);
     },
+});
+
+export const themeSelector = selector<ThemeSettings>({
+  key: "themeSelector",
+  get: ({ get }) => {
+    const userSettings = get(userSettingState);
+
+    // will only be populated if the user doesn't have userSettings.systemThemeSettings in their storage
+    let themeNameFromStorage = "";
+
+    // need to have a check if someone still has legacy settings with no systemThemeSettings object
+    if (!userSettings.systemThemeSettings) {
+      themeNameFromStorage = window.localStorage
+        .getItem("themeName")
+        ?.replaceAll('"', "")!;
+    }
+
+    return userSettings.themes.find(
+      (theme) =>
+        theme.themeName ===
+        (themeNameFromStorage !== ""
+          ? themeNameFromStorage
+          : userSettings.systemThemeSettings.currentThemeName)
+    )!;
+  },
+});
+
+export const themeNameSelector = selector<string>({
+  key: "themeNameSelector",
+  get: ({ get }) => {
+    const userSettings = get(userSettingState);
+
+    // will only be populated if the user doesn't have userSettings.systemThemeSettings in their storage
+    let themeNameFromStorage;
+    if (!userSettings.systemThemeSettings) {
+      themeNameFromStorage = window.localStorage
+        .getItem("themeName")
+        ?.replaceAll('"', "")!;
+    }
+
+    return themeNameFromStorage
+      ? themeNameFromStorage
+      : userSettings.systemThemeSettings.currentThemeName;
+  },
+  set: ({ get, set }, newThemeName) => {
+    const userSettings = get(userSettingState);
+
+    // Update the themeName with the new value
+    const updatedSystemThemeSettings = {
+      ...userSettings.systemThemeSettings,
+      currentThemeName: newThemeName,
+    };
+
+    const updatedSettings = {
+      ...userSettings,
+      systemThemeSettings: updatedSystemThemeSettings,
+    } as UserSettings;
+
+    applyTheme(
+      updatedSettings.themes.find((theme) => theme.themeName === newThemeName)!
+    );
+
+    set(userSettingState, updatedSettings);
+  },
 });

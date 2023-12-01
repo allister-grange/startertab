@@ -6,8 +6,9 @@ import {
 } from "@/components/sidebar";
 import { ExportImportButtons } from "@/components/sidebar/ExportImportButtons";
 import SettingOptionContainer from "@/components/sidebar/SettingOptionContainer";
+import { UsingSystemThemeToggle } from "@/components/sidebar/UsingSystemThemeToggle";
 import { OutlinedButton } from "@/components/ui/OutlinedButton";
-import { getCurrentTheme, getThemeNames } from "@/helpers/settingsHelpers";
+import { getThemeNames } from "@/helpers/settingsHelpers";
 import {
   globalSettingsOptions,
   sideBarLargeTileOptions,
@@ -20,10 +21,11 @@ import {
   accordionOpenIndex,
   tutorialProgressAtom,
 } from "@/recoil/SidebarAtoms";
-import { colorModeState, userSettingState } from "@/recoil/UserSettingsAtoms";
+import { userSettingState } from "@/recoil/UserSettingsAtoms";
+import { themeNameSelector } from "@/recoil/UserSettingsSelectors";
 import styles from "@/styles/Home.module.css";
 import { Option } from "@/types";
-import { TileSettings, UserSettings } from "@/types/settings";
+import { TileSettings } from "@/types/settings";
 import { Box, Link } from "@chakra-ui/react";
 import React, { Dispatch, SetStateAction, useRef, useState } from "react";
 import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
@@ -47,9 +49,10 @@ const SettingsSideBar: React.FC<SettingsSideBarProps> = ({
   setIsEditingTileGrid,
 }) => {
   const [settings, setSettings] = useRecoilState(userSettingState);
+  // const theme = useRecoilValue(themeSelector);
   const inMemorySettingsRef = useRef(settings);
-  const colorMode = useRecoilValue(colorModeState);
   const tutorialProgress = useRecoilValue(tutorialProgressAtom);
+  const themeName = useRecoilValue(themeNameSelector);
   const setAccordionIndexes = useSetRecoilState(accordionOpenIndex);
   // used to animate the width of the sidebar
   const [width, setWidth] = useState("0px");
@@ -62,13 +65,13 @@ const SettingsSideBar: React.FC<SettingsSideBarProps> = ({
 
   const currentThemeSettings = React.useMemo(() => {
     let currentTheme = settings.themes.find(
-      (theme) => theme.themeName === colorMode
+      (theme) => theme.themeName === themeName
     );
     if (!currentTheme) {
       currentTheme = settings.themes[0];
     }
     return currentTheme;
-  }, [colorMode, settings.themes]);
+  }, [settings.themes, themeName]);
 
   // apply the in memory settings into localStorage
   const onSaveHandler = () => {
@@ -97,34 +100,48 @@ const SettingsSideBar: React.FC<SettingsSideBarProps> = ({
       value: TileSettings[K],
       tileId: number
     ) => {
-      const userSettings = JSON.parse(JSON.stringify(settings)) as UserSettings;
-      const themeToChange = getCurrentTheme(userSettings, colorMode);
+      const userSettings = deepClone(settings);
+      const themeToEdit = userSettings.themes.find(
+        (theme) => theme.themeName === themeName
+      );
+
+      if (!themeToEdit) {
+        console.error("Couldn't find the theme");
+        return;
+      }
 
       if (tileId >= 0) {
-        themeToChange.tiles[tileId][key] = value;
+        themeToEdit.tiles[tileId][key] = value;
       } else {
-        themeToChange.globalSettings[key] = value;
+        themeToEdit.globalSettings[key] = value;
       }
 
       setSettings(userSettings);
     },
-    [colorMode, setSettings, settings]
+    [setSettings, settings, themeName]
   );
 
   const randomizeAllColorValues = <K extends keyof TileSettings>() => {
     let newSettings = deepClone(settings);
-    const themeToChange = getCurrentTheme(newSettings, colorMode);
+    const themeToEdit = newSettings.themes.find(
+      (theme) => theme.themeName === themeName
+    );
 
-    for (const tile of themeToChange.tiles) {
+    if (!themeToEdit) {
+      console.error("Couldn't find the theme");
+      return;
+    }
+
+    for (const tile of themeToEdit.tiles) {
       for (const item in tile) {
         if (item.toLowerCase().includes("color")) {
           const newColorSetting = randomHexValue();
 
           if (tile.tileId === -1) {
-            themeToChange.globalSettings[item as K] =
+            themeToEdit.globalSettings[item as K] =
               newColorSetting as TileSettings[K];
           } else {
-            themeToChange.tiles[tile.tileId][item as K] =
+            themeToEdit.tiles[tile.tileId][item as K] =
               newColorSetting as TileSettings[K];
           }
         }
@@ -143,6 +160,7 @@ const SettingsSideBar: React.FC<SettingsSideBarProps> = ({
   const textColor = currentThemeSettings?.globalSettings.textColor;
   const subTextColor = currentThemeSettings?.globalSettings.subTextColor!;
   const borderColor = currentThemeSettings?.globalSettings.sidebarBorderColor!;
+  const themeNames = getThemeNames(settings);
 
   return (
     <Box
@@ -168,10 +186,7 @@ const SettingsSideBar: React.FC<SettingsSideBarProps> = ({
         tutorialProgress={tutorialProgress}
       />
       <Box p="3">
-        <ThemeToChangeSelector
-          textColor={textColor}
-          themes={getThemeNames(settings)}
-        />
+        <ThemeToChangeSelector textColor={textColor} themeNames={themeNames} />
 
         <OutlinedButton
           color={textColor}
@@ -222,6 +237,12 @@ const SettingsSideBar: React.FC<SettingsSideBarProps> = ({
           currentTheme={currentThemeSettings}
           setSettings={setSettings}
           settings={settings}
+        />
+        <Box mt="4" />
+        <UsingSystemThemeToggle
+          textColor={textColor}
+          subTextColor={subTextColor}
+          themeNames={themeNames}
         />
         <Box mt="4" />
 

@@ -5,8 +5,52 @@ import {
   sixTileGridLayout,
   twoTileGridLayout,
 } from "./gridLayout";
+import { SetterOrUpdater } from "recoil";
+
+export const setNewThemeName = (
+  newThemeName: string,
+  setThemeName: SetterOrUpdater<string>,
+  settings: UserSettings,
+  setSettings: SetterOrUpdater<UserSettings>
+) => {
+  if (!settings.systemThemeSettings.usingSystemTheme) {
+    setThemeName(newThemeName);
+    return;
+  }
+
+  const prefersDarkTheme =
+    window.matchMedia &&
+    window.matchMedia("(prefers-color-scheme: dark)").matches;
+
+  setThemeName(newThemeName);
+  setSettings((prevSettings) => {
+    if (prefersDarkTheme) {
+      return {
+        ...prevSettings,
+        systemThemeSettings: {
+          ...prevSettings.systemThemeSettings,
+          darkTheme: newThemeName,
+        },
+      };
+    } else {
+      return {
+        ...prevSettings,
+        systemThemeSettings: {
+          ...prevSettings.systemThemeSettings,
+          lightTheme: newThemeName,
+        },
+      };
+    }
+  });
+};
 
 export const defaultSettings: UserSettings = {
+  systemThemeSettings: {
+    usingSystemTheme: false,
+    lightTheme: "",
+    darkTheme: "",
+    currentThemeName: "Colored Light",
+  },
   themes: [
     {
       themeName: "Colored Light",

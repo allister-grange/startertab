@@ -1,9 +1,12 @@
 import Tile from "@/components/grid/Tile";
-import { getCurrentTheme } from "@/helpers/settingsHelpers";
 import { deepClone } from "@/helpers/tileHelpers";
 import { tutorialProgressAtom } from "@/recoil/SidebarAtoms";
-import { colorModeState, userSettingState } from "@/recoil/UserSettingsAtoms";
-import { TileSettings, UserSettings } from "@/types";
+import { userSettingState } from "@/recoil/UserSettingsAtoms";
+import {
+  themeNameSelector,
+  themeSelector,
+} from "@/recoil/UserSettingsSelectors";
+import { TileSettings } from "@/types";
 import { Box, BoxProps, Flex } from "@chakra-ui/react";
 import React, { Dispatch, SetStateAction } from "react";
 import { Layouts, Responsive, WidthProvider } from "react-grid-layout";
@@ -31,16 +34,22 @@ export const TileGrid: React.FC<TileGridProps> = ({
   setIsEditingTileGrid,
 }) => {
   const [settings, setSettings] = useRecoilState(userSettingState);
-  const colorMode = useRecoilValue(colorModeState);
-  const currentTheme = getCurrentTheme(settings, colorMode);
+  const themeName = useRecoilValue(themeNameSelector);
+
   const tutorialProgress = useRecoilValue(tutorialProgressAtom);
 
   const filter =
     tutorialProgress >= 0 && tutorialProgress < 4 ? "blur(8px)" : undefined;
 
   const updateTileLayoutInSettings = (newLayout: Layouts) => {
-    const settingsToChange = deepClone(settings) as UserSettings;
-    const themeToChange = getCurrentTheme(settingsToChange, colorMode);
+    const settingsToChange = deepClone(settings);
+    const themeToChange = settingsToChange.themes.find(
+      (theme) => theme.themeName === themeName
+    );
+
+    if (!themeToChange) {
+      return;
+    }
 
     themeToChange.tileLayout = newLayout;
     setSettings(settingsToChange);
@@ -49,7 +58,7 @@ export const TileGrid: React.FC<TileGridProps> = ({
   const removeTileFromLayout = (tileId: number) => {
     const newSettings = deepClone(settings);
     const themeToEdit = newSettings.themes.find(
-      (theme) => theme.themeName === currentTheme.themeName
+      (theme) => theme.themeName === themeName
     );
 
     if (!themeToEdit) {

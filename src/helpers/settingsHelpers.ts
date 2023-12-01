@@ -62,19 +62,6 @@ export const getThemeNames = (settings: UserSettings): string[] => {
   return themeNames.sort();
 };
 
-export const getCurrentTheme = (
-  settings: UserSettings,
-  colorMode: string
-): ThemeSettings => {
-  let theme = settings.themes.find((theme) => theme.themeName === colorMode);
-
-  if (!theme) {
-    theme = settings.themes[0];
-  }
-
-  return theme;
-};
-
 const getTileSizeFromTileId = (tileId: string) => {
   if (tileId === "tile1") {
     return "medium";
@@ -113,7 +100,7 @@ const getTileSizeFromTileId = (tileId: string) => {
 
 /** backwards compatibility for the old settings formatting */
 export const getNewSettingsFromLegacyTheme = (settings: UserSettings) => {
-  const newSettings = deepClone(settings) as any;
+  const newSettings = deepClone(settings);
 
   // take each Tile from (1-11) and push them into tiles object, then delete the old reference
   for (const theme in newSettings.themes) {

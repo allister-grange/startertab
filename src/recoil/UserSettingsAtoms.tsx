@@ -17,18 +17,23 @@ const localStorageUserSettingsEffect: <T>(key: string) => AtomEffect<T> =
     });
   };
 
-const localStorageThemeNameEffect: <T>(key: string) => AtomEffect<T> =
+const localStoragePreviousSystemThemePreferenceEffect: (
+  key: string
+) => AtomEffect<string> =
   (key: string) =>
   ({ setSelf, onSet }) => {
+    const prefersDarkTheme =
+      window.matchMedia &&
+      window.matchMedia("(prefers-color-scheme: dark)").matches;
     const savedValue = localStorage.getItem(key);
     if (savedValue != null) {
-      setSelf(JSON.parse(savedValue));
+      setSelf(savedValue);
     } else {
-      localStorage.setItem(key, JSON.stringify("Colored Light"));
+      localStorage.setItem(key, prefersDarkTheme ? "dark" : "light");
     }
 
     onSet((newValue) => {
-      localStorage.setItem(key, JSON.stringify(newValue));
+      localStorage.setItem(key, newValue);
     });
   };
 
@@ -38,8 +43,12 @@ export const userSettingState = atom({
   effects: [localStorageUserSettingsEffect("user_settings")],
 });
 
-export const colorModeState = atom({
-  key: "ColorMode",
+export const previousSystemThemePreferenceState = atom({
+  key: "PreviousSystemThemePreference",
   default: "uninitilized",
-  effects: [localStorageThemeNameEffect("themeName")],
+  effects: [
+    localStoragePreviousSystemThemePreferenceEffect(
+      "previousSystemThemePreference"
+    ),
+  ],
 });
