@@ -8,11 +8,12 @@ export const ShowUpdateToast: React.FC<ShowUpdateToastProps> = ({}) => {
 
   const showUpdateToast = useCallback(() => {
     toast({
-      title: "Let me know your thoughts! v2.60",
+      title: "System theming, v2.70",
       description: (
         <Text>
-          Join in on the future of StarterTab, leave any tile ideas or general
-          thoughts{" "}
+          Take a look in the sidebar and you will see you can now toggle between
+          themes to match your system light and dark mode ☀️ Thanks to{" "}
+          <i>pojntfx</i> for the suggestion on the{" "}
           <Link color="coral" href="/suggestions">
             on the new suggestions page 🗳️
           </Link>
@@ -26,6 +27,8 @@ export const ShowUpdateToast: React.FC<ShowUpdateToastProps> = ({}) => {
   }, [toast]);
 
   useEffect(() => {
+    showUpdateToast();
+
     localStorage.removeItem("hasSeenNewUpdate1.10");
     localStorage.removeItem("hasSeenNewUpdate1.20");
     localStorage.removeItem("hasSeenNewUpdate2.00Counter");
