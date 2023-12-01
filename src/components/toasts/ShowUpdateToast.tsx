@@ -35,14 +35,15 @@ export const ShowUpdateToast: React.FC<ShowUpdateToastProps> = ({}) => {
     localStorage.removeItem("hasSeenNewUpdate2.10Counter");
     localStorage.removeItem("hasSeenNewUpdate2.20Counter");
     localStorage.removeItem("hasSeenNewUpdate2.40Counter");
+    localStorage.removeItem("hasSeenNewUpdate2.60Counter");
     const hasSeenNewUpdate = localStorage.getItem(
-      "hasSeenNewUpdate2.60Counter"
+      "hasSeenNewUpdate2.70Counter"
     );
     if (!hasSeenNewUpdate) {
-      localStorage.setItem("hasSeenNewUpdate2.60Counter", "1");
+      localStorage.setItem("hasSeenNewUpdate2.70Counter", "1");
     } else {
       localStorage.setItem(
-        "hasSeenNewUpdate2.60Counter",
+        "hasSeenNewUpdate2.70Counter",
         (parseInt(hasSeenNewUpdate) + 1).toString()
       );
       // only on the twelfth visit since the update do we want to show the toast
