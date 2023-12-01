@@ -8,7 +8,7 @@ export const ShowUpdateToast: React.FC<ShowUpdateToastProps> = ({}) => {
 
   const showUpdateToast = useCallback(() => {
     toast({
-      title: "System theming, v2.70",
+      title: "System theming, v2.7.0",
       description: (
         <Text>
           Take a look in the sidebar and you will see you can now toggle between
@@ -27,8 +27,6 @@ export const ShowUpdateToast: React.FC<ShowUpdateToastProps> = ({}) => {
   }, [toast]);
 
   useEffect(() => {
-    showUpdateToast();
-
     localStorage.removeItem("hasSeenNewUpdate1.10");
     localStorage.removeItem("hasSeenNewUpdate1.20");
     localStorage.removeItem("hasSeenNewUpdate2.00Counter");
@@ -37,13 +35,13 @@ export const ShowUpdateToast: React.FC<ShowUpdateToastProps> = ({}) => {
     localStorage.removeItem("hasSeenNewUpdate2.40Counter");
     localStorage.removeItem("hasSeenNewUpdate2.60Counter");
     const hasSeenNewUpdate = localStorage.getItem(
-      "hasSeenNewUpdate2.70Counter"
+      "hasSeenNewUpdate2.7.0Counter"
     );
     if (!hasSeenNewUpdate) {
-      localStorage.setItem("hasSeenNewUpdate2.70Counter", "1");
+      localStorage.setItem("hasSeenNewUpdate2.7.0Counter", "1");
     } else {
       localStorage.setItem(
-        "hasSeenNewUpdate2.70Counter",
+        "hasSeenNewUpdate2.7.0Counter",
         (parseInt(hasSeenNewUpdate) + 1).toString()
       );
       // only on the twelfth visit since the update do we want to show the toast
