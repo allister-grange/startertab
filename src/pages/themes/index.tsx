@@ -187,6 +187,7 @@ const ManageThemes: React.FC = ({}) => {
       }
 
       newSettings.themes[indexOfOldTheme].themeName = newName;
+      newSettings.systemThemeSettings.currentThemeName = newName;
       setSettings(newSettings);
     },
     [setSettings, settings]
