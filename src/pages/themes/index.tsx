@@ -87,10 +87,12 @@ const ManageThemes: React.FC = ({}) => {
       return;
     }
 
-    newTheme.themeName =
+    const newThemeName =
       theme.themeName.length >= 15
         ? theme.themeName.slice(0, 10) + " copy"
         : theme.themeName + " copy";
+    newTheme.themeName = newThemeName;
+    newSettings.systemThemeSettings.currentThemeName = newThemeName;
 
     window.scrollTo(0, 0);
     newSettings.themes.unshift(newTheme);
