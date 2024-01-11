@@ -10,7 +10,6 @@ import { SpotifyLogo } from "../icons/SpotifyLogo";
 import { StravaLogo } from "../icons/StravaLogo";
 import { TwitterLogo } from "../icons/TwitterLogo";
 import { LandingPagePhotoSection } from "./LandingPagePhotoSection";
-import { LandingPageTestimonials } from "./LandingPageTestimonials";
 
 interface LandingPageDemoSectionsProps {}
 

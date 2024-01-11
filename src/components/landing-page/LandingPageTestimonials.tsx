@@ -7,7 +7,7 @@ export const LandingPageTestimonials: React.FC = ({}) => {
       display="flex"
       gap="2rem"
       justifyContent="center"
-      mt={["250px", "250px", "300px"]}
+      mt={["250px", "250px", "7rem"]}
       w={["90%", "70%", "90%"]}
       mx="auto"
       maxWidth="1170px"

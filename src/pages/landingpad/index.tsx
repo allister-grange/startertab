@@ -1,3 +1,4 @@
+import { LandingPageDemoIFrame } from "@/components/landing-page/LandingPageDemoIFrame";
 import { LandingPageDemoSections } from "@/components/landing-page/LandingPageDemoSections";
 import { Header } from "@/components/landing-page/LandingPageHeader";
 import { LandingPageHero } from "@/components/landing-page/LandingPageHero";
@@ -17,6 +18,7 @@ export const LandingPage: React.FC = ({}) => {
       <Header />
       <LandingPageHero />
       <LandingPageMainVideo />
+      <LandingPageDemoIFrame />
       <LandingPageTestimonials />
       <LandingPageDemoSections />
 
