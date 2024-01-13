@@ -15,8 +15,12 @@ export const LandingPageDemoIFrame: React.FC<
       flexDir="column"
       display={["none", "none", "block"]}
       alignItems="center"
-      marginTop={"17rem"}
-      textAlign={"center"}
+      marginTop="17rem"
+      textAlign="center"
+      w="100%"
+      mx="auto"
+      transition={"all .6s"}
+      mb={`${showingDemo ? "-10rem" : "0"}`}
     >
       <OutlinedButton
         w="13rem"
@@ -30,12 +34,13 @@ export const LandingPageDemoIFrame: React.FC<
       </OutlinedButton>
       <iframe
         style={{
-          flex: 1,
-          width: "80%",
-          height: `${showingDemo ? "40rem" : "10rem"}`,
+          height: `${showingDemo ? "55rem" : "10rem"}`,
           margin: "auto",
           borderRadius: ".8rem",
           transition: "all .6s",
+          width: "110%",
+          transform: "scale(.80)",
+          transformOrigin: "30% 0 ",
         }}
         src="https://www.startertab.com?extension=true"
       ></iframe>
