@@ -23,14 +23,14 @@ export const LandingPageDemoIFrame: React.FC<
       mb={`${showingDemo ? "-10rem" : "0"}`}
     >
       <OutlinedButton
-        w="13rem"
+        w="18rem"
         bg="white"
         mb="5"
         color="coral"
         onClick={() => setShowingDemo(!showingDemo)}
         mx="auto"
       >
-        {showingDemo ? "Hide me ↑" : "Give it a try now ↓"}
+        {showingDemo ? "Hide me ↑" : "Expand me and give it a try now ↓"}
       </OutlinedButton>
       <iframe
         style={{
@@ -41,8 +41,9 @@ export const LandingPageDemoIFrame: React.FC<
           width: "110%",
           transform: "scale(.80)",
           transformOrigin: "30% 0 ",
+          boxShadow: "var(--chakra-shadows-lg)",
         }}
-        src="https://www.startertab.com?extension=true"
+        src="http://localhost:3000/?preview=true"
       ></iframe>
     </Flex>
   );
