@@ -17,13 +17,14 @@ export const LandingPageDemoIFrame: React.FC<
       alignItems="center"
       marginTop="17rem"
       textAlign="center"
-      w="100%"
+      maxWidth="1170px"
+      w={["90%", "70%", "90%"]}
       mx="auto"
       transition={"all .6s"}
       mb={`${showingDemo ? "-10rem" : "0"}`}
     >
       <OutlinedButton
-        w="18rem"
+        width={`${showingDemo ? "7rem" : "17rem"}`}
         bg="white"
         mb="5"
         color="coral"
@@ -35,12 +36,12 @@ export const LandingPageDemoIFrame: React.FC<
       <iframe
         style={{
           height: `${showingDemo ? "55rem" : "10rem"}`,
+          width: "133.333%",
           margin: "auto",
           borderRadius: ".8rem",
           transition: "all .6s",
-          width: "110%",
-          transform: "scale(.80)",
-          transformOrigin: "30% 0 ",
+          transform: "scale(.75)",
+          transformOrigin: "0% 0 ",
           boxShadow: "var(--chakra-shadows-lg)",
         }}
         src="http://localhost:3000/?preview=true"
