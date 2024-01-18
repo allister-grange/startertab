@@ -103,18 +103,24 @@ export const LargeSpotifyTile: React.FC<LargeSpotifyTileProps> = ({
         justifyContent="center"
         pos="relative"
       >
-        {!songTitle ? (
+        {songTitle && songArtist ? (
+          <Link href={link} target="_top" pos="absolute" top="20%" width="90%">
+            <Heading fontSize={getFontSize(songTitle)}>
+              {songTitle.length >= 50
+                ? songTitle.slice(0, 50).trim() + "..."
+                : songTitle}
+            </Heading>
+            <Heading fontSize="xl" opacity="0.7">
+              {songArtist!.length >= 40
+                ? songArtist!.slice(0, 40).trim() + "..."
+                : songArtist}
+            </Heading>
+          </Link>
+        ) : (
           <Box height="175px" width="90%">
             <Skeleton height="20px" mt="3" width="90%" />
             <Skeleton height="15px" mt="3" width="75%" />
           </Box>
-        ) : (
-          <Link href={link} target="_top" pos="absolute" top="20%" width="90%">
-            <Heading fontSize={getFontSize(songTitle)}>{songTitle}</Heading>
-            <Heading fontSize="xl" opacity="0.7">
-              {songArtist}
-            </Heading>
-          </Link>
         )}
         <Box
           position={"absolute"}

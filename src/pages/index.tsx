@@ -16,6 +16,7 @@ import { Box, Flex, useDisclosure } from "@chakra-ui/react";
 import type { NextPage } from "next";
 import { useEffect, useLayoutEffect, useState } from "react";
 import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
+import { useRouter } from "next/router";
 
 const Home: NextPage = () => {
   // sidebar hook
@@ -24,6 +25,7 @@ const Home: NextPage = () => {
   // to highlight what tile you are looking to edit from the sidebar
   const [optionHovered, setOptionHovered] = useState<number | undefined>();
 
+  const router = useRouter();
   const [showingTutorial, setShowingTutorial] = useState(false);
   const [tutorialProgress, setTutorialProgress] =
     useRecoilState(tutorialProgressAtom);
@@ -35,6 +37,11 @@ const Home: NextPage = () => {
 
   const currentTheme = useRecoilValue(themeSelector);
   const setThemeName = useSetRecoilState(themeNameSelector);
+
+  // if this is the preview window on the landing page, skip the tutorial
+  if (router.query.preview) {
+    setTutorialProgress(-1);
+  }
 
   // legacy settings need to have the systemThemeSettings object added in
   useLayoutEffect(() => {
@@ -75,7 +82,6 @@ const Home: NextPage = () => {
       window.matchMedia &&
       window.matchMedia("(prefers-color-scheme: dark)").matches;
 
-    console.log("Setting theme name in the useEffect");
     if (prefersDarkTheme && settings.systemThemeSettings.darkTheme) {
       setThemeName(settings.systemThemeSettings.darkTheme);
     } else if (!prefersDarkTheme && settings.systemThemeSettings.lightTheme) {

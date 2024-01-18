@@ -35,7 +35,8 @@ class MyDocument extends Document<{ cookies: string }> {
       if (
         (isMobile || !getCookieValue(cookies, "background")) &&
         !req.url?.includes("landingpad") &&
-        !req.url?.includes("?extension=true")
+        !req.url?.includes("?extension=true") &&
+        !req.url?.includes("?preview=true")
       ) {
         res.setHeader("Set-Cookie", "background=%23ffffff");
         res.writeHead(307, { Location: "/landingpad" });

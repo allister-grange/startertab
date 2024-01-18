@@ -98,13 +98,20 @@ export const SmallSpotifyTile: React.FC<SmallSpotifyTileProps> = ({
       <Flex dir="row" pl="6" pt="3">
         {songTitle && songArtist ? (
           <Link target="_top" href={link}>
-            <Heading fontSize={getFontSize(songTitle)}>{songTitle}</Heading>
+            <Heading fontSize={getFontSize(songTitle)}>
+              {" "}
+              {songTitle.length >= 50
+                ? songTitle.slice(0, 50).trim() + "..."
+                : songTitle}
+            </Heading>
             <Heading
               display="inline"
               fontSize={getArtistFontSize(songArtist)}
               opacity="0.7"
             >
-              {songArtist}
+              {songArtist.length >= 40
+                ? songArtist.slice(0, 40).trim() + "..."
+                : songArtist}
             </Heading>
           </Link>
         ) : (
