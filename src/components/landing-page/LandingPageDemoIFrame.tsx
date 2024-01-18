@@ -44,7 +44,7 @@ export const LandingPageDemoIFrame: React.FC<
           transformOrigin: "0% 0 ",
           boxShadow: "var(--chakra-shadows-lg)",
         }}
-        src="http://localhost:3000/?preview=true"
+        src="https://startertab.com/?preview=true"
       ></iframe>
     </Flex>
   );
