@@ -77,7 +77,7 @@ export const SmallStockTile: React.FC<SmallStockTileProps> = ({ tileId }) => {
           </InputRightElement>
           <Input
             name="Stock Name"
-            placeholder="Stock name"
+            placeholder="Stock symbol"
             value={stockInput}
             borderColor={color}
             _placeholder={{ color: color }}

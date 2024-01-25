@@ -109,7 +109,7 @@ export const StockGraphTile: React.FC<StockGraphTileProps> = ({ tileId }) => {
             </InputRightElement>
             <Input
               name="Stock Name"
-              placeholder="Stock name"
+              placeholder="Stock symbol"
               value={stockInput}
               borderColor={textColor}
               _placeholder={{ color: textColor }}

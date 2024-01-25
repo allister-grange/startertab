@@ -110,7 +110,7 @@ const InputDisplay: React.FC<InputDisplayProps> = ({
     <InputGroup mt="4">
       <Input
         name="Stock Name"
-        placeholder="Stock name"
+        placeholder="Stock symbol"
         value={stockInputs[index]}
         borderColor={color}
         _placeholder={{ color: color }}
