@@ -12,6 +12,7 @@ import {
   Text,
 } from "@chakra-ui/react";
 import { useQuery } from "@tanstack/react-query";
+import Link from "next/link";
 import React, { useState } from "react";
 import { Line, LineChart, ResponsiveContainer, XAxis, YAxis } from "recharts";
 import { SetterOrUpdater, useRecoilState, useRecoilValue } from "recoil";
@@ -155,9 +156,22 @@ export const StockGraphTile: React.FC<StockGraphTileProps> = ({ tileId }) => {
   }
 
   return (
-    <Box height="100%" color={textColor} p="4">
-      <Heading fontSize="2xl">{stock?.toLocaleUpperCase()}</Heading>
-      {toDisplay}
+    <Box height="100%" color={textColor} p="4" textAlign="center">
+      {/* <Heading fontSize="2xl">{stock?.toLocaleUpperCase()}</Heading> */}
+      {/* {toDisplay} */}
+      <Center height="95%" flexDir="column" p="20">
+        <Heading size="md">Sorry, this is now a premium feature 😔</Heading>
+        <Text mt="4">
+          Consider{" "}
+          <Link
+            href="https://www.buymeacoffee.com/startertab"
+            style={{ textDecoration: "underline" }}
+          >
+            buying me a coffee
+          </Link>
+          &nbsp;so that I can afford to get off the free tier
+        </Text>
+      </Center>
       {sidebarOpen && (
         <OutlinedButton
           fontSize="xs"
