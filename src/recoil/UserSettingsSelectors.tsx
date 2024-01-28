@@ -135,6 +135,31 @@ export const tempDisplayInCelsiusSelector = selectorFamily({
     },
 });
 
+export const isTimerTile12HourSelector = selectorFamily({
+  key: "isTimerTile12Hour",
+  get:
+    (tileId: number) =>
+    ({ get }) => {
+      const currentTheme = get(themeSelector);
+      return currentTheme.tiles[tileId].isTimerTile12Hour;
+    },
+  set:
+    (tileId: number) =>
+    ({ get, set }, newValue) => {
+      const userSettings = JSON.parse(
+        JSON.stringify(get(userSettingState))
+      ) as UserSettings;
+
+      for (const theme of userSettings.themes) {
+        if (!theme.tiles[tileId]) {
+          continue;
+        }
+        theme.tiles[tileId].isTimerTile12Hour = newValue as boolean;
+      }
+      set(userSettingState, userSettings);
+    },
+});
+
 export const bookingsSelector = selectorFamily({
   key: "Bookings",
   get:

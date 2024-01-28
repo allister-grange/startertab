@@ -1,25 +1,40 @@
 import { OutlinedButton } from "@/components/ui/OutlinedButton";
-import { Box, Heading, Input } from "@chakra-ui/react";
+import { sidebarOpenAtom } from "@/recoil/SidebarAtoms";
+import { isTimerTile12HourSelector } from "@/recoil/UserSettingsSelectors";
+import { Box, Button, Heading, Input } from "@chakra-ui/react";
 import React, { useEffect, useRef, useState } from "react";
+import { SetterOrUpdater, useRecoilState, useRecoilValue } from "recoil";
 
 interface TimeProps {
   tileId: number;
 }
 
 export const TimeTile: React.FC<TimeProps> = ({ tileId }) => {
+  const sidebarOpen = useRecoilValue(sidebarOpenAtom);
   const [time, setTime] = useState("");
   const [timerPlaceholder, setTimerPlaceholder] = useState<number>();
   const [timer, setTimer] = useState<number>();
+
+  const [is12HourFormat, setIs12HourFormat] = useRecoilState(
+    isTimerTile12HourSelector(tileId)
+  ) as [string | undefined, SetterOrUpdater<boolean | undefined>];
+
   const intervalRef = useRef<number>();
   const color = `var(--text-color-${tileId})`;
 
-  const updateTime = () => {
-    setTime(new Date().toTimeString().replace(/.*(\d{2}:\d{2}:\d{2}).*/, "$1"));
-  };
+  const updateTime = React.useCallback(() => {
+    const now = new Date();
+    setTime(
+      is12HourFormat
+        ? now.toLocaleTimeString("en-US").replace("PM", "").replace("AM", "")
+        : now.toTimeString().replace(/.*(\d{2}:\d{2}:\d{2}).*/, "$1")
+    );
+  }, [is12HourFormat]);
 
   useEffect(() => {
-    setInterval(updateTime, 1000);
-  }, []);
+    const timerId = setInterval(updateTime, 1000);
+    return () => clearInterval(timerId);
+  }, [updateTime]);
 
   useEffect(() => {
     if (timer === 0) {
@@ -109,6 +124,20 @@ export const TimeTile: React.FC<TimeProps> = ({ tileId }) => {
           {intervalRef.current ? "reset" : "go"}
         </OutlinedButton>
       </Box>
+      {sidebarOpen && (
+        <Button
+          position="absolute"
+          right="2"
+          bottom="2"
+          size="xs"
+          background="transparent"
+          color={color}
+          opacity={0.8}
+          onClick={() => setIs12HourFormat(!is12HourFormat)}
+        >
+          {is12HourFormat ? "24h" : "12h"}
+        </Button>
+      )}
     </Box>
   );
 };

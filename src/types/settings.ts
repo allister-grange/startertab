@@ -83,6 +83,7 @@ export type TileSettings = {
   graphStock?: string;
   gridGap?: string;
   hackerNewsFeedType?: string;
+  isTimerTile12Hour?: boolean;
   markdownFileText?: string;
   rssFeeds?: RSSFeed[];
   rssFeedTitle?: string;
