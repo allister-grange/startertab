@@ -46,5 +46,6 @@ model Suggestion {
   author      String
   suggestion  String
   tags        String
+  completed   Boolean   @default(false)
   votes       SuggestionVote[]
 }

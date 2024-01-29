@@ -43,6 +43,7 @@ const postSuggestion = async ({
       author,
       suggestion,
       tags,
+      completed: false,
     }),
   });
 

@@ -32,6 +32,7 @@ export default async function handler(
         suggestion: body.suggestion,
         author: body.author,
         tags: body.tags.join(","),
+        completed: body.completed,
       },
     });
     return res.status(201).json(prismaSuggestion);
