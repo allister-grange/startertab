@@ -32,9 +32,14 @@ export const SuggestionList: React.FC<SuggestionListProps> = ({
         gap="6"
         templateColumns={["repeat(1, 1fr)", "repeat(1, 1fr)", "repeat(2, 1fr)"]}
       >
-        {suggestionsData?.suggestions.map((suggestion) => (
-          <SuggestionCard key={suggestion.id} suggestion={suggestion} />
-        ))}
+        {suggestionsData?.suggestions
+          // we want the completed tasks to appear last
+          .sort((a, b) =>
+            a.completed === false ? -1 : b.completed === true ? 1 : 0
+          )
+          .map((suggestion) => (
+            <SuggestionCard key={suggestion.id} suggestion={suggestion} />
+          ))}
       </Grid>
     );
   }

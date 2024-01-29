@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import { FilledHeartIcon } from "../icons/FilledHeartIcon";
 import { HeartIcon } from "../icons/HeartIcon";
 import { OutlinedButton } from "../ui/OutlinedButton";
+import { CheckIcon } from "@chakra-ui/icons";
 
 interface SuggestionCardProps {
   suggestion: SuggestionsWithVotes;
@@ -79,6 +80,8 @@ export const SuggestionCard: React.FC<SuggestionCardProps> = ({
       position="relative"
       flexDir="column"
       minH="10rem"
+      opacity={suggestion.completed ? 0.55 : 1}
+      border={suggestion.completed ? "green solid 2px" : 1}
     >
       <Text fontSize="xl" fontWeight="bold" mb="3">
         {suggestion.suggestion}
@@ -112,6 +115,17 @@ export const SuggestionCard: React.FC<SuggestionCardProps> = ({
         <Box borderLeft={`1px solid black`} width="1px" height="70%" />
         <Text>{votes}</Text>
       </OutlinedButton>
+      {suggestion.completed && (
+        <CheckIcon
+          pos="absolute"
+          fontSize={"10rem"}
+          opacity={0.2}
+          zIndex={-200}
+          color="green"
+          left="50%"
+          transform={"translate(-50%, 20%)"}
+        />
+      )}
     </Flex>
   );
 };
