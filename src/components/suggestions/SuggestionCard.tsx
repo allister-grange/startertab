@@ -82,6 +82,9 @@ export const SuggestionCard: React.FC<SuggestionCardProps> = ({
       minH="10rem"
       opacity={suggestion.completed ? 0.55 : 1}
       border={suggestion.completed ? "green solid 2px" : 1}
+      backgroundColor={
+        suggestion.completed ? "rgb(34, 139, 34, 0.05)" : undefined
+      }
     >
       <Text fontSize="xl" fontWeight="bold" mb="3">
         {suggestion.suggestion}
@@ -115,17 +118,6 @@ export const SuggestionCard: React.FC<SuggestionCardProps> = ({
         <Box borderLeft={`1px solid black`} width="1px" height="70%" />
         <Text>{votes}</Text>
       </OutlinedButton>
-      {suggestion.completed && (
-        <CheckIcon
-          pos="absolute"
-          fontSize={"10rem"}
-          opacity={0.2}
-          zIndex={-200}
-          color="green"
-          left="50%"
-          transform={"translate(-50%, 20%)"}
-        />
-      )}
     </Flex>
   );
 };
