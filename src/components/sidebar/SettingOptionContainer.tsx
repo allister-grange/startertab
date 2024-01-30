@@ -7,6 +7,7 @@ import { Box, Text } from "@chakra-ui/react";
 import React from "react";
 import { OutlinedButton } from "@/components/ui/OutlinedButton";
 import { optionsStyles } from "@/helpers/selectOptionStyles";
+import { GenericSwitch } from "./GenericSwitch";
 
 interface SettingOptionContainerProps {
   option: Option;
@@ -303,6 +304,25 @@ const SettingOptionContainer: React.FC<SettingOptionContainerProps> = ({
           }
         />
       );
+      break;
+    case "SpotifyMediaControlSwitch":
+      if (
+        tileType === "Small Spotify Tile" ||
+        tileType === "Large Spotify Tile"
+      ) {
+        optionToDisplay = (
+          <GenericSwitch
+            option={option}
+            changeSetting={changeSetting}
+            textColor={textColor}
+            subTextColor={subTextColor}
+            tileId={tileId}
+            value={value}
+            enabledLabel="on"
+            disabledLabel="off"
+          />
+        );
+      }
       break;
     default:
       optionToDisplay = <Text>No option built for this type of tile yet</Text>;

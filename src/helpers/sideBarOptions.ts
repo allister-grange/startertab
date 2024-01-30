@@ -97,6 +97,13 @@ export const sideBarSmallTileOptions: Option[] = [
     localStorageId: "favoriteLinksTitle",
     optionType: "TitleForFavorites",
   },
+  {
+    title: "Showing media controls",
+    subTitle:
+      "Disables showing the media controls - helpful for people on Spotify's free plan",
+    localStorageId: "spotifyMediaControlsShowing",
+    optionType: "SpotifyMediaControlSwitch",
+  },
 ];
 
 export const sideBarMediumTileOptions: Option[] = [
@@ -210,6 +217,13 @@ export const sideBarLargeTileOptions: Option[] = [
     subTitle: "Number of posts to skip to avoid stickied posts in a subreddit",
     localStorageId: "subRedditOffset",
     optionType: "SubRedditOffset",
+  },
+  {
+    title: "Showing media controls",
+    subTitle:
+      "Disables showing the media controls - helpful for people on Spotify's free plan",
+    localStorageId: "spotifyMediaControlsShowing",
+    optionType: "SpotifyMediaControlSwitch",
   },
   {
     title: "Title for Favorites",

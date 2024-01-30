@@ -360,6 +360,31 @@ export const spotifyTopArtistTimeLengthSelector = selectorFamily({
     },
 });
 
+export const spotifyMediaControlsShowingSelector = selectorFamily({
+  key: "SpotifyMediaControlsShowing",
+  get:
+    (tileId: number) =>
+    ({ get }) => {
+      const currentTheme = get(themeSelector);
+      return currentTheme.tiles[tileId].spotifyMediaControlsShowing;
+    },
+  set:
+    (tileId: number) =>
+    ({ get, set }, newValue) => {
+      const userSettings = JSON.parse(
+        JSON.stringify(get(userSettingState))
+      ) as UserSettings;
+
+      for (const theme of userSettings.themes) {
+        if (!theme.tiles[tileId]) {
+          continue;
+        }
+        theme.tiles[tileId].spotifyMediaControlsShowing = newValue as boolean;
+      }
+      set(userSettingState, userSettings);
+    },
+});
+
 export const markdownFileTextSelector = selectorFamily({
   key: "MarkdownFileText",
   get:

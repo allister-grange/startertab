@@ -26,6 +26,7 @@ export type OptionType =
   | "SmallStockInput"
   | "SmallTileTypePicker"
   | "SpotifyTopArtistsTimeLength"
+  | "SpotifyMediaControlSwitch"
   | "SubRedditPicker"
   | "SubRedditOffset"
   | "TitleForFavorites"
@@ -90,6 +91,7 @@ export type TileSettings = {
   sidebarBackgroundColor?: string;
   sidebarBorderColor?: string;
   spotifyArtistSearchTimeLength?: string;
+  spotifyMediaControlsShowing?: boolean;
   stockName?: string;
   stravaToken?: string;
   subReddit?: string;

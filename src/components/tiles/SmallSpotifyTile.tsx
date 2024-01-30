@@ -4,13 +4,15 @@ import {
   SkipLeft,
   SkipRight,
 } from "@/components/icons/MediaControls";
-import { OutlinedButton } from "@/components/ui/OutlinedButton";
 import { SpotifyLogo } from "@/components/icons/SpotifyLogo";
+import { MusicControlButton } from "@/components/ui/MusicControlButton";
+import { OutlinedButton } from "@/components/ui/OutlinedButton";
 import { SpotifyContext } from "@/context/SpotifyContext";
+import { spotifyMediaControlsShowingSelector } from "@/recoil/UserSettingsSelectors";
 import { NowPlayingSpotifyData, SpotifyContextInterface } from "@/types";
 import { Box, Center, Flex, Heading, Link, Skeleton } from "@chakra-ui/react";
 import React, { useContext } from "react";
-import { MusicControlButton } from "@/components/ui/MusicControlButton";
+import { SetterOrUpdater, useRecoilState } from "recoil";
 
 type SmallSpotifyTileProps = {
   tileId: number;
@@ -28,6 +30,16 @@ export const SmallSpotifyTile: React.FC<SmallSpotifyTileProps> = ({
   } = useContext(SpotifyContext) as SpotifyContextInterface;
   const { songArtist, songTitle, playing, link, playable } =
     spotifyData as NowPlayingSpotifyData;
+  const [spotifyMediaControlsShowing, setSpotifyMediaControlsShowing] =
+    useRecoilState(spotifyMediaControlsShowingSelector(tileId)) as [
+      string | undefined,
+      SetterOrUpdater<boolean | undefined>
+    ];
+
+  // if the setting isn't set yet (not the default settings), then populate it as true
+  if (spotifyMediaControlsShowing === undefined) {
+    setSpotifyMediaControlsShowing(true);
+  }
 
   const color = `var(--text-color-${tileId})`;
 
@@ -120,47 +132,55 @@ export const SmallSpotifyTile: React.FC<SmallSpotifyTileProps> = ({
             <Skeleton height="15px" width="95px" mt="2" />
           </Box>
         )}
-        <Flex pos="absolute" bottom="3" left="10" dir="row" alignItems="center">
-          <Box
-            borderRadius="15"
-            bgColor="rgba(255,255,255,0.1)"
-            border="1px solid rgba(255,255,255,0.1)"
-            backdropFilter="blur(5px)"
-            _hover={{ backgroundColor: "rgba(255,255,255,0.2)" }}
+        {spotifyMediaControlsShowing && (
+          <Flex
+            pos="absolute"
+            bottom="3"
+            left="10"
+            dir="row"
+            alignItems="center"
           >
-            <MusicControlButton
-              onClickHandler={() => skipSong(false)}
-              playable={playable}
-              aria-label="Go back a song"
+            <Box
+              borderRadius="15"
+              bgColor="rgba(255,255,255,0.1)"
+              border="1px solid rgba(255,255,255,0.1)"
+              backdropFilter="blur(5px)"
+              _hover={{ backgroundColor: "rgba(255,255,255,0.2)" }}
             >
-              <SkipLeft color={color} />
-            </MusicControlButton>
-            {playing ? (
               <MusicControlButton
-                onClickHandler={() => pausePlaySong(true)}
+                onClickHandler={() => skipSong(false)}
                 playable={playable}
-                aria-label="Pause song"
+                aria-label="Go back a song"
               >
-                <PauseIcon color={color} />
+                <SkipLeft color={color} />
               </MusicControlButton>
-            ) : (
+              {playing ? (
+                <MusicControlButton
+                  onClickHandler={() => pausePlaySong(true)}
+                  playable={playable}
+                  aria-label="Pause song"
+                >
+                  <PauseIcon color={color} />
+                </MusicControlButton>
+              ) : (
+                <MusicControlButton
+                  onClickHandler={() => pausePlaySong(false)}
+                  playable={playable}
+                  aria-label="Play song"
+                >
+                  <PlayIcon color={color} />
+                </MusicControlButton>
+              )}
               <MusicControlButton
-                onClickHandler={() => pausePlaySong(false)}
+                onClickHandler={() => skipSong(true)}
                 playable={playable}
-                aria-label="Play song"
+                aria-label="Skip song"
               >
-                <PlayIcon color={color} />
+                <SkipRight color={color} />
               </MusicControlButton>
-            )}
-            <MusicControlButton
-              onClickHandler={() => skipSong(true)}
-              playable={playable}
-              aria-label="Skip song"
-            >
-              <SkipRight color={color} />
-            </MusicControlButton>
-          </Box>
-        </Flex>
+            </Box>
+          </Flex>
+        )}
       </Flex>
     </Box>
   );
