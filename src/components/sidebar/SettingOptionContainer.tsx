@@ -14,9 +14,9 @@ interface SettingOptionContainerProps {
   textColor: string;
   subTextColor: string;
   tileId: number;
-  changeSetting: (
-    key: keyof TileSettings,
-    value: string,
+  changeSetting: <K extends keyof TileSettings>(
+    key: K,
+    value: TileSettings[K],
     tileId: number
   ) => void;
   value: any;

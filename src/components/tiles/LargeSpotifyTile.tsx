@@ -26,6 +26,24 @@ interface LargeSpotifyTileProps {
   tileId: number;
 }
 
+const getFontSize = (songTitle: string): string => {
+  let fontSizeForTitle = "xl";
+
+  if (songTitle.length <= 18) {
+    fontSizeForTitle = "3xl";
+  } else if (songTitle.length <= 40) {
+    fontSizeForTitle = "2xl";
+  } else if (songTitle.length <= 60) {
+    fontSizeForTitle = "xl";
+  }
+
+  return fontSizeForTitle;
+};
+
+const getArtistFontSize = (artistName: string): string => {
+  return artistName.length >= 12 ? "lg" : "xl";
+};
+
 export const LargeSpotifyTile: React.FC<LargeSpotifyTileProps> = ({
   tileId,
 }) => {
@@ -49,28 +67,14 @@ export const LargeSpotifyTile: React.FC<LargeSpotifyTileProps> = ({
       string | undefined,
       SetterOrUpdater<boolean | undefined>
     ];
-  const color = `var(--text-color-${tileId})`;
 
   // if the setting isn't set yet (not the default settings), then populate it as true
   if (spotifyMediaControlsShowing === undefined) {
     setSpotifyMediaControlsShowing(true);
   }
-
-  const getFontSize = (songTitle: string): string => {
-    let fontSizeForTitle = "xl";
-
-    if (songTitle.length <= 18) {
-      fontSizeForTitle = "3xl";
-    } else if (songTitle.length <= 40) {
-      fontSizeForTitle = "2xl";
-    } else if (songTitle.length <= 60) {
-      fontSizeForTitle = "xl";
-    } else if (songTitle.length <= 70) {
-      fontSizeForTitle = "md";
-    }
-
-    return fontSizeForTitle;
-  };
+  const maxLengthOfTitle = spotifyMediaControlsShowing ? 50 : 100;
+  const maxLengthOfArtistName = spotifyMediaControlsShowing ? 40 : 80;
+  const color = `var(--text-color-${tileId})`;
 
   if (isAuthenticated === undefined) {
     return <Box></Box>;
@@ -108,22 +112,29 @@ export const LargeSpotifyTile: React.FC<LargeSpotifyTileProps> = ({
         flexDir="column"
         flex="0 0 50%"
         display="flex"
-        alignItems="flex-start"
+        alignItems="center"
         pl="4"
         pr="2"
         justifyContent="center"
         pos="relative"
       >
         {songTitle && songArtist ? (
-          <Link href={link} target="_top" pos="absolute" top="20%" width="90%">
+          <Link
+            href={link}
+            target="_top"
+            pos="absolute"
+            top={spotifyMediaControlsShowing ? "20%" : undefined}
+            mb={spotifyMediaControlsShowing ? undefined : "10%"}
+            width="90%"
+          >
             <Heading fontSize={getFontSize(songTitle)}>
-              {songTitle.length >= 50
-                ? songTitle.slice(0, 50).trim() + "..."
+              {songTitle.length >= maxLengthOfTitle
+                ? songTitle.slice(0, maxLengthOfTitle).trim() + "..."
                 : songTitle}
             </Heading>
-            <Heading fontSize="xl" opacity="0.7">
-              {songArtist!.length >= 40
-                ? songArtist!.slice(0, 40).trim() + "..."
+            <Heading fontSize={getArtistFontSize(songArtist)} opacity="0.7">
+              {songArtist!.length >= maxLengthOfArtistName
+                ? songArtist!.slice(0, maxLengthOfArtistName).trim() + "..."
                 : songArtist}
             </Heading>
           </Link>

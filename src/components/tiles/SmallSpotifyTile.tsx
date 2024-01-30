@@ -18,6 +18,35 @@ type SmallSpotifyTileProps = {
   tileId: number;
 };
 
+const getFontSize = (songTitle: string): string => {
+  let fontSizeForTitle = "xl";
+
+  if (songTitle.length >= 13) {
+    fontSizeForTitle = "2xl";
+  }
+  if (songTitle.length >= 15) {
+    fontSizeForTitle = "xl";
+  }
+  if (songTitle.length >= 18) {
+    fontSizeForTitle = "lg";
+  }
+
+  return fontSizeForTitle;
+};
+
+const getArtistFontSize = (artistName: string): string => {
+  let fontSizeForArtist = "lg";
+
+  if (artistName.length >= 8) {
+    fontSizeForArtist = "md";
+  }
+  if (artistName.length >= 12) {
+    fontSizeForArtist = "sm";
+  }
+
+  return fontSizeForArtist;
+};
+
 export const SmallSpotifyTile: React.FC<SmallSpotifyTileProps> = ({
   tileId,
 }) => {
@@ -42,35 +71,8 @@ export const SmallSpotifyTile: React.FC<SmallSpotifyTileProps> = ({
   }
 
   const color = `var(--text-color-${tileId})`;
-
-  const getFontSize = (songTitle: string): string => {
-    let fontSizeForTitle = "xl";
-
-    if (songTitle.length >= 13) {
-      fontSizeForTitle = "xl";
-    }
-    if (songTitle.length >= 15) {
-      fontSizeForTitle = "lg";
-    }
-    if (songTitle.length >= 18) {
-      fontSizeForTitle = "sm";
-    }
-
-    return fontSizeForTitle;
-  };
-
-  const getArtistFontSize = (artistName: string): string => {
-    let fontSizeForArtist = "md";
-
-    if (artistName.length >= 8) {
-      fontSizeForArtist = "sm";
-    }
-    if (artistName.length >= 12) {
-      fontSizeForArtist = "xs";
-    }
-
-    return fontSizeForArtist;
-  };
+  const maxLengthOfTitle = spotifyMediaControlsShowing ? 45 : 70;
+  const maxLengthOfArtistName = spotifyMediaControlsShowing ? 40 : 70;
 
   if (isAuthenticated === undefined) {
     return <Box></Box>;
@@ -107,13 +109,19 @@ export const SmallSpotifyTile: React.FC<SmallSpotifyTileProps> = ({
       >
         <SpotifyLogo fill={color} height={18} width={18} />
       </Link>
-      <Flex dir="row" pl="6" pt="3">
+      <Flex
+        dir="row"
+        pl="6"
+        alignItems="center"
+        h={spotifyMediaControlsShowing ? "100%" : "90%"}
+        pb={spotifyMediaControlsShowing ? "12" : undefined}
+      >
         {songTitle && songArtist ? (
           <Link target="_top" href={link}>
             <Heading fontSize={getFontSize(songTitle)}>
               {" "}
-              {songTitle.length >= 50
-                ? songTitle.slice(0, 50).trim() + "..."
+              {songTitle.length >= maxLengthOfTitle
+                ? songTitle.slice(0, maxLengthOfTitle).trim() + "..."
                 : songTitle}
             </Heading>
             <Heading
@@ -121,8 +129,8 @@ export const SmallSpotifyTile: React.FC<SmallSpotifyTileProps> = ({
               fontSize={getArtistFontSize(songArtist)}
               opacity="0.7"
             >
-              {songArtist.length >= 40
-                ? songArtist.slice(0, 40).trim() + "..."
+              {songArtist.length >= maxLengthOfArtistName
+                ? songArtist.slice(0, maxLengthOfArtistName).trim() + "..."
                 : songArtist}
             </Heading>
           </Link>
@@ -135,8 +143,8 @@ export const SmallSpotifyTile: React.FC<SmallSpotifyTileProps> = ({
         {spotifyMediaControlsShowing && (
           <Flex
             pos="absolute"
-            bottom="3"
-            left="10"
+            bottom="2"
+            right="2"
             dir="row"
             alignItems="center"
           >
