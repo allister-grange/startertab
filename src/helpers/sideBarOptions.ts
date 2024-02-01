@@ -92,17 +92,35 @@ export const sideBarSmallTileOptions: Option[] = [
     optionType: "SmallStockInput",
   },
   {
-    title: "Title for Favorites",
-    subTitle: "Optional title for the favorites tile",
-    localStorageId: "favoriteLinksTitle",
-    optionType: "TitleForFavorites",
-  },
-  {
     title: "Showing media controls",
     subTitle:
       "Disables showing the media controls - helpful for people on Spotify's free plan",
     localStorageId: "spotifyMediaControlsShowing",
     optionType: "SpotifyMediaControlSwitch",
+  },
+  {
+    title: "Showing seconds",
+    subTitle: "Disables showing the seconds on the time tile",
+    localStorageId: "timeTileShowingSeconds",
+    optionType: "TimeTileShowingSecondsSwitch",
+  },
+  {
+    title: "Showing timer",
+    subTitle: "Disables showing the timer on the time tile",
+    localStorageId: "timeTileShowingTimer",
+    optionType: "TimeTileShowingTimerSwitch",
+  },
+  {
+    title: "12 or 24 hour",
+    subTitle: "Switches the clock between 12 and 24 hour time",
+    localStorageId: "timeTileShowing12Hour",
+    optionType: "TimeTileShowing12HourSwitch",
+  },
+  {
+    title: "Title for Favorites",
+    subTitle: "Optional title for the favorites tile",
+    localStorageId: "favoriteLinksTitle",
+    optionType: "TitleForFavorites",
   },
 ];
 

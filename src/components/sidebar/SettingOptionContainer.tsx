@@ -324,6 +324,32 @@ const SettingOptionContainer: React.FC<SettingOptionContainerProps> = ({
         );
       }
       break;
+    case "TimeTileShowing12HourSwitch":
+    case "TimeTileShowingSecondsSwitch":
+    case "TimeTileShowingTimerSwitch":
+      if (tileType === "Time") {
+        optionToDisplay = (
+          <GenericSwitch
+            option={option}
+            changeSetting={changeSetting}
+            textColor={textColor}
+            subTextColor={subTextColor}
+            tileId={tileId}
+            value={value}
+            enabledLabel={
+              option.optionType === "TimeTileShowing12HourSwitch"
+                ? "12h"
+                : "off"
+            }
+            disabledLabel={
+              option.optionType === "TimeTileShowing12HourSwitch"
+                ? "24h"
+                : "off"
+            }
+          />
+        );
+      }
+      break;
     default:
       optionToDisplay = <Text>No option built for this type of tile yet</Text>;
   }

@@ -29,6 +29,9 @@ export type OptionType =
   | "SpotifyMediaControlSwitch"
   | "SubRedditPicker"
   | "SubRedditOffset"
+  | "TimeTileShowingSecondsSwitch"
+  | "TimeTileShowingTimerSwitch"
+  | "TimeTileShowing12HourSwitch"
   | "TitleForFavorites"
   | "TitleForRSSFeed";
 
@@ -84,7 +87,6 @@ export type TileSettings = {
   graphStock?: string;
   gridGap?: string;
   hackerNewsFeedType?: string;
-  isTimerTile12Hour?: boolean;
   markdownFileText?: string;
   rssFeeds?: RSSFeed[];
   rssFeedTitle?: string;
@@ -98,6 +100,9 @@ export type TileSettings = {
   subRedditSortType?: string;
   subRedditOffset?: number;
   subTextColor?: string;
+  timeTileShowingSeconds?: boolean;
+  timeTileShowingTimer?: boolean;
+  timeTileShowing12Hour?: boolean;
   tempDisplayInCelsius?: string;
   themePickerBubbleColor?: string;
   tileBorder?: string;
