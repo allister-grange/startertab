@@ -33,10 +33,14 @@ export const SuggestionList: React.FC<SuggestionListProps> = ({
         templateColumns={["repeat(1, 1fr)", "repeat(1, 1fr)", "repeat(2, 1fr)"]}
       >
         {suggestionsData?.suggestions
-          // we want the completed tasks to appear last
-          .sort((a, b) =>
-            a.completed === false ? -1 : b.completed === true ? 1 : 0
-          )
+          // we want the completed suggestions to appear last, and the most votes to come first
+          .sort((a, b) => {
+            if (a.completed === b.completed) {
+              return b.votes.length - a.votes.length;
+            }
+
+            return a.completed ? 1 : -1;
+          })
           .map((suggestion) => (
             <SuggestionCard key={suggestion.id} suggestion={suggestion} />
           ))}
