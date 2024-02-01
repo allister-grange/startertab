@@ -148,7 +148,7 @@ export const TimeTile: React.FC<TimeProps> = ({ tileId }) => {
       color={color}
       position="relative"
     >
-      <Heading marginX="auto" fontSize={isShowingTimer ? "38" : "48"}>
+      <Heading marginX="auto" fontSize={isShowingTimer ? "38" : "42"}>
         {timer ? getTime(timer) : time}
       </Heading>
       {isShowingTimer && (

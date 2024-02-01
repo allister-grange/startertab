@@ -142,7 +142,9 @@ export const defaultSettings: UserSettings = {
           textColor: "#ffffff",
           tileType: "Time",
           tileSize: "small",
-          isTimerTile12Hour: false,
+          timeTileShowing12Hour: false,
+          timeTileShowingSeconds: false,
+          timeTileShowingTimer: false,
         },
         {
           tileId: 10,
@@ -244,7 +246,9 @@ export const defaultSettings: UserSettings = {
           textColor: "#222222",
           tileType: "Time",
           tileSize: "small",
-          isTimerTile12Hour: false,
+          timeTileShowing12Hour: false,
+          timeTileShowingSeconds: false,
+          timeTileShowingTimer: false,
         },
         {
           tileId: 10,
@@ -690,7 +694,9 @@ export const defaultSettings: UserSettings = {
         {
           tileId: 7,
           tileType: "Time",
-          isTimerTile12Hour: false,
+          timeTileShowing12Hour: false,
+          timeTileShowingSeconds: false,
+          timeTileShowingTimer: false,
           tileSize: "small",
           backgroundColor: "rgba(255, 255, 255, 0.2)",
           textColor: "white",
