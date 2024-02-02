@@ -5,586 +5,209 @@ import {
   FavoriteLink,
   RSSFeed,
   ThemeSettings,
+  TileSettings,
   TodoObject,
   UserSettings,
 } from "@/types";
 import { selector, selectorFamily } from "recoil";
 
-export const redditFeedSelector = selectorFamily({
-  key: "RedditFeed",
-  get:
-    (tileId: number) =>
-    ({ get }) => {
-      const currentTheme = get(themeSelector);
-      return currentTheme.tiles[tileId].subReddit;
-    },
-  set:
-    (tileId: number) =>
-    ({ get, set }, newValue) => {
-      const userSettings = JSON.parse(
-        JSON.stringify(get(userSettingState))
-      ) as UserSettings;
+type TilePropertyUpdater<T> = (theme: any, newValue: T) => void;
 
-      for (const theme of userSettings.themes) {
-        if (!theme.tiles[tileId]) {
-          continue;
+export const createTilePropertySelector = <T,>(
+  key: string,
+  propertyUpdater: TilePropertyUpdater<T>
+) => {
+  return selectorFamily<T, number>({
+    key,
+    get:
+      (tileId) =>
+      ({ get }): T => {
+        const currentTheme = get(themeSelector) as ThemeSettings;
+        return currentTheme.tiles[tileId][key as keyof TileSettings] as T;
+      },
+    set:
+      (tileId) =>
+      ({ get, set }, newValue) => {
+        const userSettings = JSON.parse(
+          JSON.stringify(get(userSettingState))
+        ) as UserSettings;
+
+        for (const theme of userSettings.themes) {
+          if (!theme.tiles[tileId]) {
+            continue;
+          }
+          propertyUpdater(theme.tiles[tileId], newValue as T);
         }
-        theme.tiles[tileId].subReddit = newValue as string;
-      }
-      set(userSettingState, userSettings);
-    },
-});
 
-export const subRedditSortTypeSelector = selectorFamily({
-  key: "SubRedditSortType",
-  get:
-    (tileId: number) =>
-    ({ get }) => {
-      const currentTheme = get(themeSelector);
-      return currentTheme.tiles[tileId].subRedditSortType;
-    },
-  set:
-    (tileId: number) =>
-    ({ get, set }, newValue) => {
-      const userSettings = JSON.parse(
-        JSON.stringify(get(userSettingState))
-      ) as UserSettings;
+        set(userSettingState, userSettings);
+      },
+  });
+};
 
-      for (const theme of userSettings.themes) {
-        if (!theme.tiles[tileId]) {
-          continue;
-        }
-        theme.tiles[tileId].subRedditSortType = newValue as string;
-      }
-      set(userSettingState, userSettings);
-    },
-});
+export const redditFeedSelector = createTilePropertySelector<string>(
+  "subReddit",
+  (theme, newValue) => {
+    theme.subReddit = newValue;
+  }
+);
 
-export const hackerNewsFeedSelector = selectorFamily({
-  key: "HackerNewsFeed",
-  get:
-    (tileId: number) =>
-    ({ get }) => {
-      const currentTheme = get(themeSelector);
-      return currentTheme.tiles[tileId].hackerNewsFeedType;
-    },
-  set:
-    (tileId: number) =>
-    ({ get, set }, newValue) => {
-      const userSettings = JSON.parse(
-        JSON.stringify(get(userSettingState))
-      ) as UserSettings;
+export const subRedditSortTypeSelector = createTilePropertySelector<string>(
+  "subRedditSortType",
+  (theme, newValue) => {
+    theme.subRedditSortType = newValue;
+  }
+);
 
-      for (const theme of userSettings.themes) {
-        if (!theme.tiles[tileId]) {
-          continue;
-        }
-        theme.tiles[tileId].hackerNewsFeedType = newValue as string;
-      }
-      set(userSettingState, userSettings);
-    },
-});
+export const hackerNewsFeedSelector = createTilePropertySelector<string>(
+  "hackerNewsFeedType",
+  (theme, newValue) => {
+    theme.hackerNewsFeedType = newValue;
+  }
+);
 
-export const cityForWeatherSelector = selectorFamily({
-  key: "CityForWeather",
-  get:
-    (tileId: number) =>
-    ({ get }) => {
-      const currentTheme = get(themeSelector);
-      return currentTheme.tiles[tileId].cityForWeather;
-    },
-  set:
-    (tileId: number) =>
-    ({ get, set }, newValue) => {
-      const userSettings = JSON.parse(
-        JSON.stringify(get(userSettingState))
-      ) as UserSettings;
+export const cityForWeatherSelector = createTilePropertySelector<string>(
+  "cityForWeather",
+  (theme, newValue) => {
+    theme.cityForWeather = newValue;
+  }
+);
 
-      for (const theme of userSettings.themes) {
-        if (!theme.tiles[tileId]) {
-          continue;
-        }
-        theme.tiles[tileId].cityForWeather = newValue as string;
-      }
-      set(userSettingState, userSettings);
-    },
-});
+export const tempDisplayInCelsiusSelector = createTilePropertySelector<string>(
+  "tempDisplayInCelsius",
+  (theme, newValue) => {
+    theme.tempDisplayInCelsius = newValue;
+  }
+);
 
-export const tempDisplayInCelsiusSelector = selectorFamily({
-  key: "CityForWeather",
-  get:
-    (tileId: number) =>
-    ({ get }) => {
-      const currentTheme = get(themeSelector);
-      return currentTheme.tiles[tileId].tempDisplayInCelsius;
-    },
-  set:
-    (tileId: number) =>
-    ({ get, set }, newValue) => {
-      const userSettings = JSON.parse(
-        JSON.stringify(get(userSettingState))
-      ) as UserSettings;
+export const bookingsSelector = createTilePropertySelector<Booking[]>(
+  "bookings",
+  (theme, newValue) => {
+    theme.bookings = newValue;
+  }
+);
 
-      for (const theme of userSettings.themes) {
-        if (!theme.tiles[tileId]) {
-          continue;
-        }
-        theme.tiles[tileId].tempDisplayInCelsius = newValue as string;
-      }
-      set(userSettingState, userSettings);
-    },
-});
+export const stockSelector = createTilePropertySelector<string>(
+  "stockName",
+  (theme, newValue) => {
+    theme.stockName = newValue;
+  }
+);
 
-export const bookingsSelector = selectorFamily({
-  key: "Bookings",
-  get:
-    (tileId: number) =>
-    ({ get }) => {
-      const currentTheme = get(themeSelector);
-      return currentTheme.tiles[tileId].bookings;
-    },
-  set:
-    (tileId: number) =>
-    ({ get, set }, newValue) => {
-      const userSettings = JSON.parse(
-        JSON.stringify(get(userSettingState))
-      ) as UserSettings;
+export const graphStockSelector = createTilePropertySelector<string>(
+  "graphStock",
+  (theme, newValue) => {
+    theme.graphStock = newValue;
+  }
+);
 
-      for (const theme of userSettings.themes) {
-        if (!theme.tiles[tileId]) {
-          continue;
-        }
-        theme.tiles[tileId].bookings = newValue as Booking[];
-      }
-      set(userSettingState, userSettings);
-    },
-});
+export const bonsaiTrunkColorSelector = createTilePropertySelector<string>(
+  "bonsaiTrunkColor",
+  (theme, newValue) => {
+    theme.bonsaiTrunkColor = newValue;
+  }
+);
 
-export const stockSelector = selectorFamily({
-  key: "Stock",
-  get:
-    (tileId: number) =>
-    ({ get }) => {
-      const currentTheme = get(themeSelector);
-      return currentTheme.tiles[tileId].stockName;
-    },
-  set:
-    (tileId: number) =>
-    ({ get, set }, newValue) => {
-      const userSettings = JSON.parse(
-        JSON.stringify(get(userSettingState))
-      ) as UserSettings;
+export const bonsaiBaseColorSelector = createTilePropertySelector<string>(
+  "bonsaiBaseColor",
+  (theme, newValue) => {
+    theme.bonsaiBaseColor = newValue;
+  }
+);
 
-      for (const theme of userSettings.themes) {
-        if (!theme.tiles[tileId]) {
-          continue;
-        }
-        theme.tiles[tileId].stockName = newValue as string;
-      }
-      set(userSettingState, userSettings);
-    },
-});
+export const uvCitySelector = createTilePropertySelector<string>(
+  "cityForUv",
+  (theme, newValue) => {
+    theme.cityForUv = newValue;
+  }
+);
 
-export const graphStockSelector = selectorFamily({
-  key: "GraphStock",
-  get:
-    (tileId: number) =>
-    ({ get }) => {
-      const currentTheme = get(themeSelector);
-      return currentTheme.tiles[tileId].graphStock;
-    },
-  set:
-    (tileId: number) =>
-    ({ get, set }, newValue) => {
-      const userSettings = JSON.parse(
-        JSON.stringify(get(userSettingState))
-      ) as UserSettings;
+export const todoListSelector = createTilePropertySelector<TodoObject[]>(
+  "todoList",
+  (theme, newValue) => {
+    theme.todoList = newValue;
+  }
+);
 
-      for (const theme of userSettings.themes) {
-        if (!theme.tiles[tileId]) {
-          continue;
-        }
-        theme.tiles[tileId].graphStock = newValue as string;
-      }
-      set(userSettingState, userSettings);
-    },
-});
+export const spotifyTopArtistTimeLengthSelector =
+  createTilePropertySelector<string>(
+    "spotifyArtistSearchTimeLength",
+    (theme, newValue) => {
+      theme.spotifyArtistSearchTimeLength = newValue;
+    }
+  );
 
-export const bonsaiTrunkColorSelector = selectorFamily({
-  key: "BonsaiTrunkColor",
-  get:
-    (tileId: number) =>
-    ({ get }) => {
-      const currentTheme = get(themeSelector);
-      return currentTheme.tiles[tileId].bonsaiTrunkColor;
-    },
-  set:
-    (tileId: number) =>
-    ({ get, set }, newValue) => {
-      const userSettings = JSON.parse(
-        JSON.stringify(get(userSettingState))
-      ) as UserSettings;
+export const spotifyMediaControlsShowingSelector =
+  createTilePropertySelector<boolean>(
+    "spotifyMediaControlsShowing",
+    (theme, newValue) => {
+      theme.spotifyMediaControlsShowing = newValue;
+    }
+  );
 
-      for (const theme of userSettings.themes) {
-        if (!theme.tiles[tileId]) {
-          continue;
-        }
-        theme.tiles[tileId].bonsaiTrunkColor = newValue as string;
-      }
-      set(userSettingState, userSettings);
-    },
-});
+export const markdownFileTextSelector = createTilePropertySelector<string>(
+  "markdownFileText",
+  (theme, newValue) => {
+    theme.markdownFileText = newValue;
+  }
+);
 
-export const bonsaiBaseColorSelector = selectorFamily({
-  key: "BonsaiBaseColor",
-  get:
-    (tileId: number) =>
-    ({ get }) => {
-      const currentTheme = get(themeSelector);
-      return currentTheme.tiles[tileId].bonsaiBaseColor;
-    },
-  set:
-    (tileId: number) =>
-    ({ get, set }, newValue) => {
-      const userSettings = JSON.parse(
-        JSON.stringify(get(userSettingState))
-      ) as UserSettings;
+export const favoriteLinksSelector = createTilePropertySelector<FavoriteLink[]>(
+  "favoriteLinks",
+  (theme, newValue) => {
+    theme.favoriteLinks = newValue;
+  }
+);
 
-      for (const theme of userSettings.themes) {
-        if (!theme.tiles[tileId]) {
-          continue;
-        }
-        theme.tiles[tileId].bonsaiBaseColor = newValue as string;
-      }
-      set(userSettingState, userSettings);
-    },
-});
+export const favoriteLinksTitleSelector = createTilePropertySelector<string>(
+  "favoriteLinksTitle",
+  (theme, newValue) => {
+    theme.favoriteLinksTitle = newValue;
+  }
+);
 
-export const uvCitySelector = selectorFamily({
-  key: "UvCity",
-  get:
-    (tileId: number) =>
-    ({ get }) => {
-      const currentTheme = get(themeSelector);
-      return currentTheme.tiles[tileId].cityForUv;
-    },
-  set:
-    (tileId: number) =>
-    ({ get, set }, newValue) => {
-      const userSettings = JSON.parse(
-        JSON.stringify(get(userSettingState))
-      ) as UserSettings;
+export const rssFeedsSelector = createTilePropertySelector<RSSFeed[]>(
+  "rssFeeds",
+  (theme, newValue) => {
+    theme.rssFeeds = newValue;
+  }
+);
 
-      for (const theme of userSettings.themes) {
-        if (!theme.tiles[tileId]) {
-          continue;
-        }
-        theme.tiles[tileId].cityForUv = newValue as string;
-      }
-      set(userSettingState, userSettings);
-    },
-});
+export const rssFeedTitleSelector = createTilePropertySelector<string>(
+  "rssFeedTitle",
+  (theme, newValue) => {
+    theme.rssFeedTitle = newValue;
+  }
+);
 
-export const todoListSelector = selectorFamily({
-  key: "TodoList",
-  get:
-    (tileId: number) =>
-    ({ get }) => {
-      const currentTheme = get(themeSelector);
-      return currentTheme.tiles[tileId].todoList;
-    },
-  set:
-    (tileId: number) =>
-    ({ get, set }, newValue) => {
-      const userSettings = JSON.parse(
-        JSON.stringify(get(userSettingState))
-      ) as UserSettings;
+export const timeTileShowingSecondsSelector =
+  createTilePropertySelector<boolean>(
+    "timeTileShowingSeconds",
+    (theme, newValue) => {
+      theme.timeTileShowingSeconds = newValue;
+    }
+  );
 
-      for (const theme of userSettings.themes) {
-        if (!theme.tiles[tileId]) {
-          continue;
-        }
-        theme.tiles[tileId].todoList = newValue as TodoObject[];
-      }
-      set(userSettingState, userSettings);
-    },
-});
+export const timeTileShowingTimerSelector = createTilePropertySelector<boolean>(
+  "timeTileShowingTimer",
+  (theme, newValue) => {
+    theme.timeTileShowingTimer = newValue;
+  }
+);
 
-export const spotifyTopArtistTimeLengthSelector = selectorFamily({
-  key: "SpotifyTopArtistTimeLength",
-  get:
-    (tileId: number) =>
-    ({ get }) => {
-      const currentTheme = get(themeSelector);
-      return currentTheme.tiles[tileId].spotifyArtistSearchTimeLength;
-    },
-  set:
-    (tileId: number) =>
-    ({ get, set }, newValue) => {
-      const userSettings = JSON.parse(
-        JSON.stringify(get(userSettingState))
-      ) as UserSettings;
+export const timeTileShowing12HourSelector =
+  createTilePropertySelector<boolean>(
+    "timeTileShowing12Hour",
+    (theme, newValue) => {
+      theme.timeTileShowing12Hour = newValue;
+    }
+  );
 
-      for (const theme of userSettings.themes) {
-        if (!theme.tiles[tileId]) {
-          continue;
-        }
-        theme.tiles[tileId].spotifyArtistSearchTimeLength = newValue as string;
-      }
-      set(userSettingState, userSettings);
-    },
-});
-
-export const spotifyMediaControlsShowingSelector = selectorFamily({
-  key: "SpotifyMediaControlsShowing",
-  get:
-    (tileId: number) =>
-    ({ get }) => {
-      const currentTheme = get(themeSelector);
-      return currentTheme.tiles[tileId].spotifyMediaControlsShowing;
-    },
-  set:
-    (tileId: number) =>
-    ({ get, set }, newValue) => {
-      const userSettings = JSON.parse(
-        JSON.stringify(get(userSettingState))
-      ) as UserSettings;
-
-      for (const theme of userSettings.themes) {
-        if (!theme.tiles[tileId]) {
-          continue;
-        }
-        theme.tiles[tileId].spotifyMediaControlsShowing = newValue as boolean;
-      }
-      set(userSettingState, userSettings);
-    },
-});
-
-export const markdownFileTextSelector = selectorFamily({
-  key: "MarkdownFileText",
-  get:
-    (tileId: number) =>
-    ({ get }) => {
-      const currentTheme = get(themeSelector);
-      return currentTheme.tiles[tileId].markdownFileText;
-    },
-  set:
-    (tileId: number) =>
-    ({ get, set }, newValue) => {
-      const userSettings = JSON.parse(
-        JSON.stringify(get(userSettingState))
-      ) as UserSettings;
-
-      for (const theme of userSettings.themes) {
-        if (!theme.tiles[tileId]) {
-          continue;
-        }
-        theme.tiles[tileId].markdownFileText = newValue as string;
-      }
-      set(userSettingState, userSettings);
-    },
-});
-
-export const favoriteLinksSelector = selectorFamily({
-  key: "FavoriteLinks",
-  get:
-    (tileId: number) =>
-    ({ get }) => {
-      const currentTheme = get(themeSelector);
-      return currentTheme.tiles[tileId].favoriteLinks;
-    },
-  set:
-    (tileId: number) =>
-    ({ get, set }, newValue) => {
-      const userSettings = JSON.parse(
-        JSON.stringify(get(userSettingState))
-      ) as UserSettings;
-
-      for (const theme of userSettings.themes) {
-        if (!theme.tiles[tileId]) {
-          continue;
-        }
-        theme.tiles[tileId].favoriteLinks = newValue as FavoriteLink[];
-      }
-      set(userSettingState, userSettings);
-    },
-});
-
-export const favoriteLinksTitleSelector = selectorFamily({
-  key: "FavoriteLinksTitle",
-  get:
-    (tileId: number) =>
-    ({ get }) => {
-      // TODO delete all these
-      const currentTheme = get(themeSelector);
-      return currentTheme.tiles[tileId].favoriteLinksTitle;
-    },
-  set:
-    (tileId: number) =>
-    ({ get, set }, newValue) => {
-      const userSettings = JSON.parse(
-        JSON.stringify(get(userSettingState))
-      ) as UserSettings;
-
-      for (const theme of userSettings.themes) {
-        if (!theme.tiles[tileId]) {
-          continue;
-        }
-        theme.tiles[tileId].favoriteLinksTitle = newValue as string;
-      }
-      set(userSettingState, userSettings);
-    },
-});
-
-export const rssFeedsSelector = selectorFamily({
-  key: "RSSFeeds",
-  get:
-    (tileId: number) =>
-    ({ get }) => {
-      const currentTheme = get(themeSelector);
-      return currentTheme.tiles[tileId].rssFeeds;
-    },
-  set:
-    (tileId: number) =>
-    ({ get, set }, newValue) => {
-      const userSettings = JSON.parse(
-        JSON.stringify(get(userSettingState))
-      ) as UserSettings;
-
-      for (const theme of userSettings.themes) {
-        if (!theme.tiles[tileId]) {
-          continue;
-        }
-        theme.tiles[tileId].rssFeeds = newValue as RSSFeed[];
-      }
-      set(userSettingState, userSettings);
-    },
-});
-
-export const rssFeedTitleSelector = selectorFamily({
-  key: "RSSFeedTitle",
-  get:
-    (tileId: number) =>
-    ({ get }) => {
-      const currentTheme = get(themeSelector);
-      return currentTheme.tiles[tileId].rssFeedTitle;
-    },
-  set:
-    (tileId: number) =>
-    ({ get, set }, newValue) => {
-      const userSettings = JSON.parse(
-        JSON.stringify(get(userSettingState))
-      ) as UserSettings;
-
-      for (const theme of userSettings.themes) {
-        if (!theme.tiles[tileId]) {
-          continue;
-        }
-        theme.tiles[tileId].rssFeedTitle = newValue as string;
-      }
-      set(userSettingState, userSettings);
-    },
-});
-
-export const timeTileShowingSecondsSelector = selectorFamily({
-  key: "TimeTileShowingSeconds",
-  get:
-    (tileId: number) =>
-    ({ get }) => {
-      const currentTheme = get(themeSelector);
-      return currentTheme.tiles[tileId].timeTileShowingSeconds;
-    },
-  set:
-    (tileId: number) =>
-    ({ get, set }, newValue) => {
-      const userSettings = JSON.parse(
-        JSON.stringify(get(userSettingState))
-      ) as UserSettings;
-
-      for (const theme of userSettings.themes) {
-        if (!theme.tiles[tileId]) {
-          continue;
-        }
-        theme.tiles[tileId].timeTileShowingSeconds = newValue as boolean;
-      }
-      set(userSettingState, userSettings);
-    },
-});
-
-export const timeTileShowingTimerSelector = selectorFamily({
-  key: "TimeTileShowingTimer",
-  get:
-    (tileId: number) =>
-    ({ get }) => {
-      const currentTheme = get(themeSelector);
-      return currentTheme.tiles[tileId].timeTileShowingTimer;
-    },
-  set:
-    (tileId: number) =>
-    ({ get, set }, newValue) => {
-      const userSettings = JSON.parse(
-        JSON.stringify(get(userSettingState))
-      ) as UserSettings;
-
-      for (const theme of userSettings.themes) {
-        if (!theme.tiles[tileId]) {
-          continue;
-        }
-        theme.tiles[tileId].timeTileShowingTimer = newValue as boolean;
-      }
-      set(userSettingState, userSettings);
-    },
-});
-
-export const timeTileShowing12HourSelector = selectorFamily({
-  key: "TimeTileShowing12Hour",
-  get:
-    (tileId: number) =>
-    ({ get }) => {
-      const currentTheme = get(themeSelector);
-      return currentTheme.tiles[tileId].timeTileShowing12Hour;
-    },
-  set:
-    (tileId: number) =>
-    ({ get, set }, newValue) => {
-      const userSettings = JSON.parse(
-        JSON.stringify(get(userSettingState))
-      ) as UserSettings;
-
-      for (const theme of userSettings.themes) {
-        if (!theme.tiles[tileId]) {
-          continue;
-        }
-        theme.tiles[tileId].timeTileShowing12Hour = newValue as boolean;
-      }
-      set(userSettingState, userSettings);
-    },
-});
-
-export const subRedditOffsetSelector = selectorFamily({
-  key: "SubRedditOffset",
-  get:
-    (tileId: number) =>
-    ({ get }) => {
-      const currentTheme = get(themeSelector);
-      return currentTheme.tiles[tileId].subRedditOffset;
-    },
-  set:
-    (tileId: number) =>
-    ({ get, set }, newValue) => {
-      const userSettings = JSON.parse(
-        JSON.stringify(get(userSettingState))
-      ) as UserSettings;
-
-      for (const theme of userSettings.themes) {
-        if (!theme.tiles[tileId]) {
-          continue;
-        }
-        theme.tiles[tileId].subRedditOffset = newValue as number;
-      }
-      set(userSettingState, userSettings);
-    },
-});
+export const subRedditOffsetSelector = createTilePropertySelector<number>(
+  "subRedditOffset",
+  (theme, newValue) => {
+    theme.subRedditOffset = newValue;
+  }
+);
 
 export const themeSelector = selector<ThemeSettings>({
   key: "themeSelector",

@@ -61,7 +61,7 @@ export const SmallSpotifyTile: React.FC<SmallSpotifyTileProps> = ({
     spotifyData as NowPlayingSpotifyData;
   const [spotifyMediaControlsShowing, setSpotifyMediaControlsShowing] =
     useRecoilState(spotifyMediaControlsShowingSelector(tileId)) as [
-      string | undefined,
+      boolean | undefined,
       SetterOrUpdater<boolean | undefined>
     ];
 
