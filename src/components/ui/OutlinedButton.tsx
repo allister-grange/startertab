@@ -1,10 +1,6 @@
 import { Button, ButtonProps } from "@chakra-ui/react";
 import React from "react";
 
-interface OutlinedButtonProps extends ButtonProps {
-  borderColor: string;
-}
-
 export const OutlinedButton: React.FC<ButtonProps> = ({
   borderColor,
   children,
@@ -15,7 +11,7 @@ export const OutlinedButton: React.FC<ButtonProps> = ({
       background="transparent"
       shadow="sm"
       border={`2px solid ${borderColor}`}
-      color={borderColor}
+      color="inherit"
       transition="all .2s"
       _hover={{
         transform: "translateY(-2px)",
