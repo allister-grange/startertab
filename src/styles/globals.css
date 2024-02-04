@@ -9,6 +9,10 @@ body {
   scroll-behavior: smooth;
 }
 
+.app_container {
+  backdrop-filter: blur(var(--custom-blur));
+}
+
 #__next {
   height: 100%
 }

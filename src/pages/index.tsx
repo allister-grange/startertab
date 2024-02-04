@@ -98,7 +98,7 @@ const Home: NextPage = () => {
 
   return (
     <>
-      <Box width="100%" display="flex" minH="100%">
+      <Box width="100%" display="flex" minH="100%" className="app_container">
         {isOpen && (
           <SettingsSideBar
             onClose={onClose}

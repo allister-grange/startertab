@@ -13,6 +13,12 @@ export const applyTheme = (theme: ThemeSettings) => {
     theme.globalSettings.sidebarBackgroundColor || ""
   );
   document.documentElement.style.setProperty(
+    "--custom-blur",
+    theme.globalSettings.globalBackgroundBlur
+      ? `${theme.globalSettings.globalBackgroundBlur}px`
+      : ""
+  );
+  document.documentElement.style.setProperty(
     "--text-color-sidebar",
     theme.globalSettings.textColor || ""
   );

@@ -22,6 +22,12 @@ export const globalSettingsOptions: Option[] = [
     optionType: "ColorPicker",
   },
   {
+    title: "Background Blur",
+    subTitle: "Sets a blur for the background",
+    localStorageId: "globalBackgroundBlur",
+    optionType: "BackgroundBlurSlide",
+  },
+  {
     title: "Border",
     subTitle: "Controls the border of all the tiles",
     localStorageId: "tileBorder",

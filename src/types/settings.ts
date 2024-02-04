@@ -9,6 +9,7 @@ export type Option = {
 };
 
 export type OptionType =
+  | "BackgroundBlurSlide"
   | "BorderRadiusInput"
   | "BorderSelect"
   | "CityInputForUV"
@@ -82,6 +83,7 @@ export type TileSettings = {
   dropShadow?: string;
   favoriteLinks?: FavoriteLink[];
   favoriteLinksTitle?: string;
+  globalBackgroundBlur?: number;
   globalTileTextColor?: string;
   globalTileBackgroundColor?: string;
   graphStock?: string;

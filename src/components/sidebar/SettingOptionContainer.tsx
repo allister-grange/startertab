@@ -8,6 +8,7 @@ import React from "react";
 import { OutlinedButton } from "@/components/ui/OutlinedButton";
 import { optionsStyles } from "@/helpers/selectOptionStyles";
 import { GenericSwitch } from "./GenericSwitch";
+import { GenericSliderInput } from "./GenericSliderInput";
 
 interface SettingOptionContainerProps {
   option: Option;
@@ -37,6 +38,20 @@ const SettingOptionContainer: React.FC<SettingOptionContainerProps> = ({
   let optionToDisplay;
 
   switch (option.optionType) {
+    case "BackgroundBlurSlide":
+      optionToDisplay = (
+        <GenericSliderInput
+          option={option}
+          changeSetting={changeSetting}
+          textColor={textColor}
+          tileId={tileId}
+          subTextColor={subTextColor}
+          value={value}
+          min={0}
+          max={50}
+        />
+      );
+      break;
     case "RandomizeColors":
       optionToDisplay = (
         <OutlinedButton
