@@ -8,8 +8,13 @@ import { SpotifyLogo } from "@/components/icons/SpotifyLogo";
 import { MusicControlButton } from "@/components/ui/MusicControlButton";
 import { OutlinedButton } from "@/components/ui/OutlinedButton";
 import { SpotifyContext } from "@/context/SpotifyContext";
+import { deepClone } from "@/helpers/tileHelpers";
 import { spotifyMediaControlsShowingSelector } from "@/recoil/UserSettingsSelectors";
-import { NowPlayingSpotifyData, SpotifyContextInterface } from "@/types";
+import {
+  NowPlayingSpotifyData,
+  SpotifyContextInterface,
+  UserSettings,
+} from "@/types";
 import {
   Box,
   Center,
@@ -19,11 +24,13 @@ import {
   Link,
   Skeleton,
 } from "@chakra-ui/react";
-import React, { useContext } from "react";
+import React, { useContext, useRef } from "react";
 import { SetterOrUpdater, useRecoilState } from "recoil";
 
 interface LargeSpotifyTileProps {
   tileId: number;
+  setSettings: SetterOrUpdater<UserSettings>;
+  themeName: string;
 }
 
 const getFontSize = (songTitle: string): string => {
@@ -46,6 +53,8 @@ const getArtistFontSize = (artistName: string): string => {
 
 export const LargeSpotifyTile: React.FC<LargeSpotifyTileProps> = ({
   tileId,
+  setSettings,
+  themeName,
 }) => {
   const {
     spotifyData,
@@ -67,6 +76,72 @@ export const LargeSpotifyTile: React.FC<LargeSpotifyTileProps> = ({
       boolean | undefined,
       SetterOrUpdater<boolean | undefined>
     ];
+
+  const albumImageRef = useRef<HTMLImageElement>(null);
+
+  React.useEffect(() => {
+    const albumImage = albumImageRef.current;
+
+    if (!albumImage) return;
+
+    const image = new Image();
+    image.src = albumImage.src;
+
+    image.onload = function () {
+      // create a canvas from the Spotify album so that we can count the colored pixels
+      const canvas = document.createElement("canvas");
+      const canvasContext = canvas.getContext("2d");
+
+      if (!canvasContext) return;
+
+      canvas.width = image.width;
+      canvas.height = image.height;
+
+      // build an array of RGBA values from the album
+      canvasContext.drawImage(image, 0, 0);
+      const imageData = canvasContext.getImageData(
+        0,
+        0,
+        canvas.width,
+        canvas.height
+      ).data;
+
+      let sumRed = 0;
+      let sumGreen = 0;
+      let sumBlue = 0;
+
+      for (let i = 0; i < imageData.length; i += 4) {
+        sumRed += imageData[i];
+        sumGreen += imageData[i + 1];
+        sumBlue += imageData[i + 2];
+      }
+
+      const numPixels = imageData.length / 4;
+      const avgRed = Math.round(sumRed / numPixels);
+      const avgGreen = Math.round(sumGreen / numPixels);
+      const avgBlue = Math.round(sumBlue / numPixels);
+
+      const averageColor = `rgb(${avgRed}, ${avgGreen}, ${avgBlue})`;
+
+      // add a vignette to the background, makes the color pop a little more
+      const vignetteColorStart = "rgba(0,0,0,0)";
+      const vignetteColorEnd = "rgba(0,0,0,0.4)";
+      const vignetteGradient = `radial-gradient(circle at center, ${vignetteColorStart}, ${vignetteColorEnd})`;
+
+      // set the theme background color to be the average color
+      setSettings((settings) => {
+        let newSettings = deepClone(settings);
+        let currentTheme = newSettings.themes.find(
+          (theme) => theme.themeName === themeName
+        );
+        if (!currentTheme) {
+          currentTheme = settings.themes[0];
+        }
+        currentTheme.globalSettings.backgroundColor = `${vignetteGradient}, ${averageColor}`;
+        return newSettings;
+      });
+    };
+  }, [albumFullSizeImageUrl, setSettings, themeName, tileId]); // Make sure to include albumFullSizeImageUrl in the dependencies array to update the average color when the image changes
 
   // if the setting isn't set yet (not the default settings), then populate it as true
   if (spotifyMediaControlsShowing === undefined) {
@@ -195,7 +270,12 @@ export const LargeSpotifyTile: React.FC<LargeSpotifyTileProps> = ({
         height="216px"
         mt="6%"
       >
-        <Img src={albumFullSizeImageUrl} aria-label="Album cover art" />
+        <Img
+          src={albumFullSizeImageUrl}
+          aria-label="Album cover art"
+          className="spotify-album"
+          ref={albumImageRef}
+        />
       </Box>
     </Flex>
   );
