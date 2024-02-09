@@ -36,9 +36,7 @@ export const FavoriteLinksTile: React.FC<FavoriteLinksTileProps> = ({
     FavoriteLink[] | undefined,
     SetterOrUpdater<FavoriteLink[] | undefined>
   ];
-  const [favoriteLinksTitle] = useRecoilState(
-    favoriteLinksTitleSelector(tileId)
-  ) as [string | undefined, SetterOrUpdater<string | undefined>];
+  const favoriteLinksTitle = useRecoilValue(favoriteLinksTitleSelector(tileId));
   const [showingInputForm, setShowingInputForm] = useState(
     !(favoriteLinks && favoriteLinks.length > 0)
   );

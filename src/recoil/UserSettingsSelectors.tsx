@@ -209,6 +209,14 @@ export const subRedditOffsetSelector = createTilePropertySelector<number>(
   }
 );
 
+export const spotifyControllingBackgroundSelector =
+  createTilePropertySelector<boolean>(
+    "spotifyControllingBackground",
+    (theme, newValue) => {
+      theme.spotifyControllingBackground = newValue;
+    }
+  );
+
 export const themeSelector = selector<ThemeSettings>({
   key: "themeSelector",
   get: ({ get }) => {

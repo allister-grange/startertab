@@ -161,7 +161,11 @@ const TileContainer: React.FC<TileContainerProps> = ({
     case "Large Spotify Tile":
       tileToRender = (
         <SpotifyContextProvider>
-          <LargeSpotifyTile tileId={tileId} />
+          <LargeSpotifyTile
+            tileId={tileId}
+            themeName={themeName}
+            setSettings={setSettings}
+          />
         </SpotifyContextProvider>
       );
       break;

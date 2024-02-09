@@ -250,6 +250,13 @@ export const sideBarLargeTileOptions: Option[] = [
     optionType: "SpotifyMediaControlSwitch",
   },
   {
+    title: "Use Spotify Album for Background",
+    subTitle:
+      "This will use the average colors from the Spotify album to set the background of the theme",
+    localStorageId: "spotifyControllingBackground",
+    optionType: "SpotifyControllingBackgroundSwitch",
+  },
+  {
     title: "Title for Favorites",
     subTitle: "Optional title for the favorites tile",
     localStorageId: "favoriteLinksTitle",
