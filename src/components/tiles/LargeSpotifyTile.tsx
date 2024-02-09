@@ -9,7 +9,10 @@ import { MusicControlButton } from "@/components/ui/MusicControlButton";
 import { OutlinedButton } from "@/components/ui/OutlinedButton";
 import { SpotifyContext } from "@/context/SpotifyContext";
 import { deepClone } from "@/helpers/tileHelpers";
-import { spotifyMediaControlsShowingSelector } from "@/recoil/UserSettingsSelectors";
+import {
+  spotifyControllingBackgroundSelector,
+  spotifyMediaControlsShowingSelector,
+} from "@/recoil/UserSettingsSelectors";
 import {
   NowPlayingSpotifyData,
   SpotifyContextInterface,
@@ -25,7 +28,7 @@ import {
   Skeleton,
 } from "@chakra-ui/react";
 import React, { useContext, useRef } from "react";
-import { SetterOrUpdater, useRecoilState } from "recoil";
+import { SetterOrUpdater, useRecoilState, useRecoilValue } from "recoil";
 
 interface LargeSpotifyTileProps {
   tileId: number;
@@ -76,15 +79,19 @@ export const LargeSpotifyTile: React.FC<LargeSpotifyTileProps> = ({
       boolean | undefined,
       SetterOrUpdater<boolean | undefined>
     ];
+  const spotifyControllingBackground = useRecoilValue(
+    spotifyControllingBackgroundSelector(tileId)
+  );
 
   const albumImageRef = useRef<HTMLImageElement>(null);
 
   React.useEffect(() => {
     const albumImage = albumImageRef.current;
 
-    if (!albumImage) return;
+    if (!albumImage || !spotifyControllingBackground) return;
 
     const image = new Image();
+    image.crossOrigin = "Anonymous";
     image.src = albumImage.src;
 
     image.onload = function () {
@@ -141,7 +148,13 @@ export const LargeSpotifyTile: React.FC<LargeSpotifyTileProps> = ({
         return newSettings;
       });
     };
-  }, [albumFullSizeImageUrl, setSettings, themeName, tileId]); // Make sure to include albumFullSizeImageUrl in the dependencies array to update the average color when the image changes
+  }, [
+    albumFullSizeImageUrl,
+    setSettings,
+    spotifyControllingBackground,
+    themeName,
+    tileId,
+  ]);
 
   // if the setting isn't set yet (not the default settings), then populate it as true
   if (spotifyMediaControlsShowing === undefined) {

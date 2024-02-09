@@ -7,7 +7,7 @@ import {
 import { ShootType } from "@/types/bonsai";
 import { Box, Text } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
-import { SetterOrUpdater, useRecoilState } from "recoil";
+import { useRecoilValue } from "recoil";
 
 type BonsaiProps = {
   tileId: number;
@@ -26,14 +26,8 @@ const getEmptyBonsai = (): string[][] => {
 
 export const BonsaiTile: React.FC<BonsaiProps> = ({ tileId }): JSX.Element => {
   const [bonsai, setBonsai] = useState<string[][]>(getEmptyBonsai());
-  const [baseColor] = useRecoilState(bonsaiBaseColorSelector(tileId)) as [
-    string | undefined,
-    SetterOrUpdater<string | undefined>
-  ];
-  const [trunkColor] = useRecoilState(bonsaiTrunkColorSelector(tileId)) as [
-    string | undefined,
-    SetterOrUpdater<string | undefined>
-  ];
+  const baseColor = useRecoilValue(bonsaiBaseColorSelector(tileId));
+  const trunkColor = useRecoilValue(bonsaiTrunkColorSelector(tileId));
 
   const resetBonsai = async () => {
     const array = getEmptyBonsai();

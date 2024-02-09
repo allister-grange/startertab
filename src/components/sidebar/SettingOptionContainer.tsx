@@ -251,6 +251,22 @@ const SettingOptionContainer: React.FC<SettingOptionContainerProps> = ({
         );
       }
       break;
+    case "SpotifyControllingBackgroundSwitch":
+      if (tileType === "Large Spotify Tile") {
+        optionToDisplay = (
+          <GenericSwitch
+            option={option}
+            changeSetting={changeSetting}
+            textColor={textColor}
+            subTextColor={subTextColor}
+            tileId={tileId}
+            value={value}
+            enabledLabel="on"
+            disabledLabel="off"
+          />
+        );
+      }
+      break;
     case "SpotifyTopArtistsTimeLength":
       if (tileType === "Spotify Top Artist Tile") {
         optionToDisplay = (
