@@ -85,6 +85,7 @@ export const LargeSpotifyTile: React.FC<LargeSpotifyTileProps> = ({
 
   const albumImageRef = useRef<HTMLImageElement>(null);
 
+  // used to set the background color from the Spotify album
   React.useEffect(() => {
     const albumImage = albumImageRef.current;
 

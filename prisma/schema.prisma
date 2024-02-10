@@ -45,6 +45,7 @@ model Suggestion {
   createdAt   DateTime  @default(now())
   author      String
   suggestion  String
+  devComment  String?
   tags        String
   completed   Boolean   @default(false)
   votes       SuggestionVote[]

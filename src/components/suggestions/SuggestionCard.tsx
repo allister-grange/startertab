@@ -1,10 +1,9 @@
 import { SuggestionsWithVotes } from "@/types/suggestions";
-import { Badge, Box, Flex, Text } from "@chakra-ui/react";
+import { Badge, Box, Divider, Flex, Text } from "@chakra-ui/react";
 import React, { useState } from "react";
 import { FilledHeartIcon } from "../icons/FilledHeartIcon";
 import { HeartIcon } from "../icons/HeartIcon";
 import { OutlinedButton } from "../ui/OutlinedButton";
-import { CheckIcon } from "@chakra-ui/icons";
 
 interface SuggestionCardProps {
   suggestion: SuggestionsWithVotes;
@@ -105,6 +104,12 @@ export const SuggestionCard: React.FC<SuggestionCardProps> = ({
             </Badge>
           ))}
         </Box>
+        {suggestion.devComment && (
+          <Box mt="4">
+            <Divider />
+            <Text mt="2">{suggestion.devComment}</Text>
+          </Box>
+        )}
       </Flex>
       <OutlinedButton
         border={`1px solid black`}
