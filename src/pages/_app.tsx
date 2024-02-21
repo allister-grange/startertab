@@ -47,6 +47,13 @@ export function MyApp({
             name="viewport"
             content="width=device-width, initial-scale=1.0"
           />
+          {process.env.NODE_ENV === "production" && (
+            <script
+              async
+              src="https://umami.startertab.com/script.js"
+              data-website-id="45bf60b9-cea8-4364-9920-9cbaaad14353"
+            ></script>
+          )}
         </Head>
 
         {/* NOTE: I have to use client side rendering here because of allowing a user
