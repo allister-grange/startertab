@@ -1,5 +1,6 @@
 import { Tweet, TwitterFeedResponse } from "@/types";
 import cookie from "cookie";
+import he from "he";
 import { NextApiRequest, NextApiResponse } from "next";
 
 const TWITTER_FEED_ENDPOINT = `https://api.twitter.com/2/users`;
@@ -101,9 +102,11 @@ export const getTwitterFeedData = async (
   }
 
   const tweets = tweetResData.data.map((tweet) => {
-    tweet.author = tweetResData.includes.users.find(
-      (user) => user.id === tweet.author_id
-    )?.username!;
+    tweet.author = he.decode(
+      tweetResData.includes.users.find((user) => user.id === tweet.author_id)
+        ?.username!
+    );
+    tweet.text = he.decode(tweet.text);
     return tweet;
   });
 

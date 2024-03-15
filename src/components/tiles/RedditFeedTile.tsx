@@ -20,6 +20,7 @@ import {
 import { useQuery } from "@tanstack/react-query";
 import React, { useRef, useState } from "react";
 import { SetterOrUpdater, useRecoilState, useRecoilValue } from "recoil";
+import he from "he";
 
 interface RedditFeedProps {
   tileId: number;
@@ -35,9 +36,9 @@ const fetcher = async (
   const formattedData: RedditDataHolder[] = redditData.data.children.map(
     (child) => ({
       url: `https://www.reddit.com${child.data.permalink}`,
-      title: child.data.title,
+      title: he.decode(child.data.title),
       id: child.data.id,
-      author: child.data.author,
+      author: he.decode(child.data.author),
       date: new Date(child.data.created * 1000),
     })
   );

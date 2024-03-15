@@ -24,6 +24,7 @@
     "cookies-next": "^4.0.0",
     "crypto-js": "^4.1.1",
     "framer-motion": "^10.16.4",
+    "he": "^1.2.0",
     "moment": "^2.29.4",
     "moment-timezone": "^0.5.43",
     "next": "13.5.4",
@@ -49,6 +50,7 @@
   "devDependencies": {
     "@faker-js/faker": "^8.2.0",
     "@types/crypto-js": "^4.1.2",
+    "@types/he": "^1.2.3",
     "@types/node": "20.8.6",
     "@types/react": "18.2.28",
     "@types/react-no-ssr": "^1.1.4",

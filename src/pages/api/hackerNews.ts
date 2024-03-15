@@ -3,6 +3,7 @@ import {
   HackerNewsApiItem,
   HackerNewsLinkHolder,
 } from "../../types/hackernews";
+import he from "he";
 
 export default async function handler(
   req: NextApiRequest,
@@ -58,11 +59,11 @@ export const getHackerNewsData = async (hackerNewsFeed: string) => {
         const postDetail = (await postDetailRes.json()) as HackerNewsApiItem;
 
         postLinks.push({
-          title: postDetail.title,
+          title: he.decode(postDetail.title),
           url: `https://news.ycombinator.com/item?id=${postDetail.id}`,
           id: postDetail.id,
           time: postDetail.time,
-          author: postDetail.by,
+          author: he.decode(postDetail.by),
         });
       })
     );
