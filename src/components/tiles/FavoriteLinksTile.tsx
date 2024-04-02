@@ -165,7 +165,11 @@ export const FavoriteLinksTile: React.FC<FavoriteLinksTileProps> = ({
               >
                 <Link
                   target="_top"
-                  href={shortcut.url}
+                  href={
+                    shortcut.url.startsWith("http")
+                      ? shortcut.url
+                      : `//${shortcut.url}`
+                  }
                   display="flex"
                   alignItems="center"
                   flexDir="row"
