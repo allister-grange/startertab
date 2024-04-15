@@ -5,7 +5,7 @@ import React from "react";
 
 interface SideBarTitleProps {
   textColor: string;
-  onSaveHandler: () => void;
+  onSaveHandler: (shouldCloseSidebar: boolean) => void;
   onExitHandler: () => void;
   backgroundColor: string;
   tutorialProgress: number;
@@ -38,7 +38,7 @@ export const SideBarTitle: React.FC<SideBarTitleProps> = ({
       </OutlinedButton>
       <Text color={textColor}>Preferences</Text>
       <OutlinedButton
-        onClick={onSaveHandler}
+        onClick={() => onSaveHandler(false)}
         background="transparent"
         border={`1px solid ${textColor}`}
         color={textColor}

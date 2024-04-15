@@ -26,9 +26,10 @@ import { themeNameSelector } from "@/recoil/UserSettingsSelectors";
 import styles from "@/styles/Home.module.css";
 import { Option } from "@/types";
 import { TileSettings } from "@/types/settings";
-import { Box, Link } from "@chakra-ui/react";
+import { Box, Link, useDisclosure } from "@chakra-ui/react";
 import React, { Dispatch, SetStateAction, useRef, useState } from "react";
 import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
+import { SaveChangesAlert } from "@/components/sidebar/SaveChangesAlert";
 
 interface SettingsSideBarProps {
   isOpen: boolean;
@@ -49,13 +50,20 @@ const SettingsSideBar: React.FC<SettingsSideBarProps> = ({
   setIsEditingTileGrid,
 }) => {
   const [settings, setSettings] = useRecoilState(userSettingState);
-  // const theme = useRecoilValue(themeSelector);
   const inMemorySettingsRef = useRef(settings);
   const tutorialProgress = useRecoilValue(tutorialProgressAtom);
   const themeName = useRecoilValue(themeNameSelector);
   const setAccordionIndexes = useSetRecoilState(accordionOpenIndex);
   // used to animate the width of the sidebar
   const [width, setWidth] = useState("0px");
+  // used to track if changes have been made to the state to ensure you don't lose changes closing the sidebar
+  const changesMadeRef = useRef(false);
+  const {
+    isOpen: isSaveChangesPromptOpen,
+    onOpen: onSaveChangesPromptOpen,
+    onClose: onSaveChangesClosePrompt,
+  } = useDisclosure();
+  const cancelSaveChangesRef = React.useRef();
 
   React.useEffect(() => {
     if (isOpen) {
@@ -74,24 +82,45 @@ const SettingsSideBar: React.FC<SettingsSideBarProps> = ({
   }, [settings.themes, themeName]);
 
   // apply the in memory settings into localStorage
-  const onSaveHandler = () => {
+  const onSaveHandler = (shouldCloseSidebar: boolean) => {
     const permanentSettings = deepClone(settings);
     setSettings(permanentSettings);
     inMemorySettingsRef.current = permanentSettings;
     setIsEditingTileGrid(false);
+    // reset the changes made flag - the changes are already saved
+    changesMadeRef.current = false;
+    if (shouldCloseSidebar) {
+      exitSidebar();
+    }
   };
 
-  // reset the background, colors etc back to what is in the userSettings before changes
-  const onExitHandler = () => {
+  const onDiscardChangesHandler = () => {
+    setSettings(inMemorySettingsRef.current);
+    exitSidebar();
+  };
+
+  const exitSidebar = () => {
     // close the sidebar
     setWidth("0px");
     setTimeout(onClose, 500);
     setTimeout(() => setAccordionIndexes([]), 300);
     // reset settings
-    setSettings(deepClone(settings));
     setIsEditingTileGrid(false);
     setOptionHovered(undefined);
-    setSettings(inMemorySettingsRef.current);
+  };
+
+  const onExitHandler = () => {
+    // if the user has made changes without hitting save,
+    // bring up a prompt to ensure you don't lose changes if you don't want to
+    if (
+      changesMadeRef.current === true ||
+      currentThemeSettings.themeName !==
+        inMemorySettingsRef.current.systemThemeSettings.currentThemeName
+    ) {
+      onSaveChangesPromptOpen();
+    } else {
+      exitSidebar();
+    }
   };
 
   const changeSetting = React.useCallback(
@@ -116,6 +145,7 @@ const SettingsSideBar: React.FC<SettingsSideBarProps> = ({
         themeToEdit.globalSettings[key] = value;
       }
 
+      changesMadeRef.current = true;
       setSettings(userSettings);
     },
     [setSettings, settings, themeName]
@@ -344,6 +374,14 @@ const SettingsSideBar: React.FC<SettingsSideBarProps> = ({
           })}
         </Box>
       </Box>
+      <SaveChangesAlert
+        isOpen={isSaveChangesPromptOpen}
+        onOpen={onSaveChangesPromptOpen}
+        onClose={onSaveChangesClosePrompt}
+        cancelRef={cancelSaveChangesRef}
+        discardChanges={onDiscardChangesHandler}
+        saveChanges={onSaveHandler}
+      />
       <Footer textColor={textColor} />
     </Box>
   );
