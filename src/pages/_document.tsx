@@ -49,10 +49,12 @@ class MyDocument extends Document<{ cookies: string }> {
 
   render() {
     let background;
+    let fontFamily;
     const { cookies } = this.props;
 
     if (cookies) {
       background = decodeURIComponent(getCookieValue(cookies, "background"));
+      fontFamily = decodeURIComponent(getCookieValue(cookies, "fontFamily"));
     }
 
     return (
@@ -64,6 +66,7 @@ class MyDocument extends Document<{ cookies: string }> {
             backgroundSize: "cover",
             backgroundAttachment: "fixed",
             backgroundRepeat: "no-repeat",
+            fontFamily: `${fontFamily}`,
           }}
         >
           <Main />

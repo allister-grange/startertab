@@ -101,6 +101,7 @@ const SettingOptionContainer: React.FC<SettingOptionContainerProps> = ({
       break;
     case "BorderRadiusInput":
     case "GridGapInput":
+    case "FontFamilyInput":
       optionToDisplay = (
         <GenericInput
           option={option}

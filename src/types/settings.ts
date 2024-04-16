@@ -16,6 +16,7 @@ export type OptionType =
   | "CityInputForWeather"
   | "ColorPicker"
   | "DropShadowInput"
+  | "FontFamilyInput"
   | "GridGapInput"
   | "HackerNewsFeedType"
   | "LargeTileTypePicker"
@@ -84,15 +85,16 @@ export type TileSettings = {
   dropShadow?: string;
   favoriteLinks?: FavoriteLink[];
   favoriteLinksTitle?: string;
+  fontFamily?: string;
   globalBackgroundBlur?: number;
-  globalTileTextColor?: string;
   globalTileBackgroundColor?: string;
+  globalTileTextColor?: string;
   graphStock?: string;
   gridGap?: string;
   hackerNewsFeedType?: string;
   markdownFileText?: string;
-  rssFeeds?: RSSFeed[];
   rssFeedTitle?: string;
+  rssFeeds?: RSSFeed[];
   sidebarBackgroundColor?: string;
   sidebarBorderColor?: string;
   spotifyArtistSearchTimeLength?: string;
@@ -101,19 +103,19 @@ export type TileSettings = {
   stockName?: string;
   stravaToken?: string;
   subReddit?: string;
-  subRedditSortType?: string;
   subRedditOffset?: number;
+  subRedditSortType?: string;
   subTextColor?: string;
-  timeTileShowingSeconds?: boolean;
-  timeTileShowingTimer?: boolean;
-  timeTileShowing12Hour?: boolean;
   tempDisplayInCelsius?: string;
   themePickerBubbleColor?: string;
   tileBorder?: string;
   tileId: number;
-  tileType: TileType;
   tileSize: TileSize;
+  tileType: TileType;
   textColor: string;
+  timeTileShowing12Hour?: boolean;
+  timeTileShowingSeconds?: boolean;
+  timeTileShowingTimer?: boolean;
   todoList?: TodoObject[];
   twitterFeedURL?: string;
 };

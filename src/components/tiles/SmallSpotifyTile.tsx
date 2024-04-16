@@ -10,7 +10,7 @@ import { OutlinedButton } from "@/components/ui/OutlinedButton";
 import { SpotifyContext } from "@/context/SpotifyContext";
 import { spotifyMediaControlsShowingSelector } from "@/recoil/UserSettingsSelectors";
 import { NowPlayingSpotifyData, SpotifyContextInterface } from "@/types";
-import { Box, Center, Flex, Heading, Link, Skeleton } from "@chakra-ui/react";
+import { Box, Center, Flex, Text, Link, Skeleton } from "@chakra-ui/react";
 import React, { useContext } from "react";
 import { SetterOrUpdater, useRecoilState } from "recoil";
 
@@ -117,22 +117,22 @@ export const SmallSpotifyTile: React.FC<SmallSpotifyTileProps> = ({
         pb={spotifyMediaControlsShowing ? "12" : undefined}
       >
         {songTitle && songArtist ? (
-          <Link target="_top" href={link}>
-            <Heading fontSize={getFontSize(songTitle)}>
-              {" "}
+          <Link target="_top" href={link} fontWeight="700" lineHeight="1.2">
+            <Text fontSize={getFontSize(songTitle)}>
               {songTitle.length >= maxLengthOfTitle
                 ? songTitle.slice(0, maxLengthOfTitle).trim() + "..."
                 : songTitle}
-            </Heading>
-            <Heading
-              display="inline"
+            </Text>
+            <Text
+              fontWeight="700"
+              mt="1"
               fontSize={getArtistFontSize(songArtist)}
               opacity="0.7"
             >
               {songArtist.length >= maxLengthOfArtistName
                 ? songArtist.slice(0, maxLengthOfArtistName).trim() + "..."
                 : songArtist}
-            </Heading>
+            </Text>
           </Link>
         ) : (
           <Box>

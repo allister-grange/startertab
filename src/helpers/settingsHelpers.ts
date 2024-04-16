@@ -58,6 +58,24 @@ export const applyTheme = (theme: ThemeSettings) => {
     path: "/",
     secure: true,
   });
+  if (theme.globalSettings.fontFamily) {
+    document.body.style.fontFamily = theme.globalSettings.fontFamily;
+    setCookie("fontFamily", theme.globalSettings.fontFamily, {
+      maxAge: 34560000,
+      sameSite: "none",
+      path: "/",
+      secure: true,
+    });
+  } else {
+    const defaultFont = "system-ui, sans-serif";
+    document.body.style.fontFamily = defaultFont;
+    setCookie("fontFamily", defaultFont, {
+      maxAge: 34560000,
+      sameSite: "none",
+      path: "/",
+      secure: true,
+    });
+  }
 };
 
 export const getThemeNames = (settings: UserSettings): string[] => {

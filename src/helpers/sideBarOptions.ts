@@ -2,14 +2,14 @@ import { Option } from "@/types";
 
 export const globalSettingsOptions: Option[] = [
   {
-    title: "All Tiles Background Color",
+    title: "All tiles background color",
     subTitle:
       "Controls the background color of all the tiles at once, leave blank if you want to customize tile by tile",
     localStorageId: "globalTileBackgroundColor",
     optionType: "ColorPicker",
   },
   {
-    title: "All Tiles Text Color",
+    title: "All tiles text color",
     subTitle:
       "Controls the text color of all the tiles at once, leave blank if you want to customize tile by tile",
     localStorageId: "globalTileTextColor",
@@ -22,7 +22,7 @@ export const globalSettingsOptions: Option[] = [
     optionType: "ColorPicker",
   },
   {
-    title: "Background Blur",
+    title: "Background blur",
     subTitle: "Sets a blur for the background",
     localStorageId: "globalBackgroundBlur",
     optionType: "BackgroundBlurSlide",
@@ -34,14 +34,14 @@ export const globalSettingsOptions: Option[] = [
     optionType: "BorderSelect",
   },
   {
-    title: "Border Color",
+    title: "Border color",
     subTitle:
       "Controls the color of the border for all of the tiles, this will override the natural border color which is the text color of the tile",
     localStorageId: "borderColor",
     optionType: "ColorPicker",
   },
   {
-    title: "Border Radius",
+    title: "Border radius",
     subTitle: "Controls the border radius of all the tiles",
     localStorageId: "borderRadius",
     optionType: "BorderRadiusInput",
@@ -53,13 +53,19 @@ export const globalSettingsOptions: Option[] = [
     optionType: "DropShadowInput",
   },
   {
-    title: "Grid Gap",
+    title: "Font family",
+    subTitle: "Controls the font family of the site",
+    localStorageId: "fontFamily",
+    optionType: "FontFamilyInput",
+  },
+  {
+    title: "Grid gap",
     subTitle: "Controls the grip gap of all the tiles",
     localStorageId: "gridGap",
     optionType: "GridGapInput",
   },
   {
-    title: "Reset All and Randomize Buttons",
+    title: "Reset all and randomize buttons",
     subTitle: "Won't be display don't worry about it",
     localStorageId: "null",
     optionType: "RandomizeColors",
