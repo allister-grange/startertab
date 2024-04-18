@@ -1,3 +1,4 @@
+import { GoogleIcon } from "@/components/icons";
 import { GoogleCalendarLogo } from "@/components/icons/GoogleCalendarLogo";
 import { TextFeedSkeleton } from "@/components/skeletons/TextFeedSkeleton";
 import { MeetingCard } from "@/components/ui/MeetingCard";
@@ -5,9 +6,8 @@ import { OutlinedButton } from "@/components/ui/OutlinedButton";
 import { GoogleContext } from "@/context/GoogleContext";
 import { GoogleContextInterface } from "@/types";
 import { TimeIcon } from "@chakra-ui/icons";
-import { Badge, Box, Center, Heading, Link, Text } from "@chakra-ui/react";
+import { Badge, Box, Center, Link, Text } from "@chakra-ui/react";
 import React, { useContext, useRef, useState } from "react";
-import { GoogleIcon } from "@/components/icons";
 
 interface GoogleFeedTileProps {
   tileId: number;
@@ -83,10 +83,10 @@ export const GoogleMeetingsTile: React.FC<GoogleFeedTileProps> = ({
     display = (
       <Box height="90%">
         {googleData.length === 0 && (
-          <Center height="100%" color={color}>
-            <Heading as="h3" fontSize="md">
+          <Center height="95%" color={color}>
+            <Text fontSize="xl" fontWeight="600">
               You have no events today 🎉
-            </Heading>
+            </Text>
           </Center>
         )}
 

@@ -74,7 +74,9 @@ export const RSSFeedForm: React.FC<RSSFeedFormProps> = ({
         style={{ textAlign: "center", width: "100%" }}
       >
         <FormControl mt="4" isRequired>
-          <FormLabel textAlign="center">RSS Feed Url</FormLabel>
+          <FormLabel textAlign="center" fontWeight="700" fontSize="lg">
+            RSS Feed Url
+          </FormLabel>
           <Input
             width="200px"
             size="md"

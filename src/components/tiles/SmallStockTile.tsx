@@ -7,7 +7,6 @@ import {
   Box,
   Center,
   Flex,
-  Heading,
   Input,
   InputGroup,
   InputRightElement,
@@ -91,7 +90,9 @@ export const SmallStockTile: React.FC<SmallStockTileProps> = ({ tileId }) => {
   } else if (data && Array.isArray(data)) {
     toDisplay = data.map((stockTicker) => (
       <Flex flexDir="column" key={stockTicker?.ticker} borderRadius="10px">
-        <Heading size="lg">{stockTicker?.ticker.toUpperCase()}</Heading>
+        <Text fontWeight="700" fontSize="3xl" lineHeight="1.2">
+          {stockTicker?.ticker.toUpperCase()}
+        </Text>
         <Text fontSize="lg" opacity="0.9">{`$${stockTicker?.c}`}</Text>
         <Box>
           <Text

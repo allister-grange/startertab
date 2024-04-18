@@ -1,7 +1,7 @@
+import { SpotifyLogo } from "@/components/icons/SpotifyLogo";
 import { TextFeedSkeleton } from "@/components/skeletons/TextFeedSkeleton";
 import { OptionBadge } from "@/components/ui/OptionBadge";
 import { OutlinedButton } from "@/components/ui/OutlinedButton";
-import { SpotifyLogo } from "@/components/icons/SpotifyLogo";
 import { SpotifyContext } from "@/context/SpotifyContext";
 import { spotifyTopArtistTimeLengthSelector } from "@/recoil/UserSettingsSelectors";
 import { SpotifyContextInterface } from "@/types";
@@ -9,9 +9,9 @@ import {
   Box,
   Center,
   Flex,
-  Heading,
   Link,
   ListItem,
+  Text,
   UnorderedList,
 } from "@chakra-ui/react";
 import React, { useContext } from "react";
@@ -75,9 +75,9 @@ export const SpotifyTopArtistsTile: React.FC<SmallSpotifyTileProps> = ({
       >
         <SpotifyLogo fill={color} height={18} width={18} />
       </Link>
-      <Heading p="2" fontSize="xl" fontWeight="bold">
+      <Text p="2" fontSize="xl" fontWeight="700" lineHeight="1.2">
         Top Spotify Artists
-      </Heading>
+      </Text>
 
       <Flex dir="row" flexDir="column">
         <UnorderedList mt="1" ml="4" style={{ listStyle: "none" }}>

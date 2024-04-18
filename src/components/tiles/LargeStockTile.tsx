@@ -8,7 +8,6 @@ import {
   Center,
   Flex,
   Grid,
-  Heading,
   Input,
   InputGroup,
   StatDownArrow,
@@ -86,7 +85,9 @@ const StockDisplay: React.FC<StockDisplayProps> = ({ stockTicker }) => {
       mb="4"
       mr="2"
     >
-      <Heading size="lg">{stockTicker?.ticker.toUpperCase()}</Heading>
+      <Text fontWeight="700" size="lg">
+        {stockTicker?.ticker.toUpperCase()}
+      </Text>
       <Text fontSize="lg" opacity="0.9">{`$${stockTicker?.c}`}</Text>
       {textDisplay}
     </Flex>

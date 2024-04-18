@@ -1,12 +1,12 @@
-import React, { useContext, useRef, useState } from "react";
+import { OutlookLogo } from "@/components/icons/OutlookLogo";
 import { TextFeedSkeleton } from "@/components/skeletons/TextFeedSkeleton";
+import { MeetingCard } from "@/components/ui/MeetingCard";
 import { OutlinedButton } from "@/components/ui/OutlinedButton";
 import { OutlookContext } from "@/context/OutlookContext";
 import { OutlookContextInterface } from "@/types";
 import { TimeIcon } from "@chakra-ui/icons";
-import { Badge, Box, Center, Heading, Link, Text } from "@chakra-ui/react";
-import { OutlookLogo } from "@/components/icons/OutlookLogo";
-import { MeetingCard } from "@/components/ui/MeetingCard";
+import { Badge, Box, Center, Link, Text } from "@chakra-ui/react";
+import React, { useContext, useRef, useState } from "react";
 
 interface OutlookFeedTileProps {
   tileId: number;
@@ -73,10 +73,10 @@ export const OutlookMeetingsTile: React.FC<OutlookFeedTileProps> = ({
     display = (
       <Box height="90%">
         {outlookData.length === 0 && (
-          <Center height="100%" color={color}>
-            <Heading as="h3" fontSize="md">
+          <Center height="95%" color={color}>
+            <Text fontSize="xl" fontWeight="600">
               You have no events today 🎉
-            </Heading>
+            </Text>
           </Center>
         )}
         {outlookData.map((event, index) => {
