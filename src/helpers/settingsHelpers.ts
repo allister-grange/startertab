@@ -1,3 +1,4 @@
+import { defaultFont } from "@/helpers/defaultFont";
 import { defaultGridLayout } from "@/helpers/gridLayout";
 import { deepClone } from "@/helpers/tileHelpers";
 import { ThemeSettings, TileSettings, TileSize, UserSettings } from "@/types";
@@ -67,7 +68,6 @@ export const applyTheme = (theme: ThemeSettings) => {
       secure: true,
     });
   } else {
-    const defaultFont = "system-ui, sans-serif";
     document.body.style.fontFamily = defaultFont;
     setCookie("fontFamily", defaultFont, {
       maxAge: 34560000,
