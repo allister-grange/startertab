@@ -9,6 +9,7 @@ import { OutlinedButton } from "@/components/ui/OutlinedButton";
 import { optionsStyles } from "@/helpers/selectOptionStyles";
 import { GenericSwitch } from "./GenericSwitch";
 import { GenericSliderInput } from "./GenericSliderInput";
+import { FontInput } from "@/components/sidebar/FontInput";
 
 interface SettingOptionContainerProps {
   option: Option;
@@ -99,9 +100,20 @@ const SettingOptionContainer: React.FC<SettingOptionContainerProps> = ({
         );
       }
       break;
+    case "FontFamilyInput":
+      optionToDisplay = (
+        <FontInput
+          option={option}
+          changeSetting={changeSetting}
+          textColor={textColor}
+          subTextColor={subTextColor}
+          value={value}
+          tileId={tileId}
+        />
+      );
+      break;
     case "BorderRadiusInput":
     case "GridGapInput":
-    case "FontFamilyInput":
       optionToDisplay = (
         <GenericInput
           option={option}

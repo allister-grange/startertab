@@ -54,7 +54,8 @@ export const globalSettingsOptions: Option[] = [
   },
   {
     title: "Font family",
-    subTitle: "Controls the font family of the site",
+    subTitle:
+      "Controls the font family of the site, only built in fonts are available, no urls",
     localStorageId: "fontFamily",
     optionType: "FontFamilyInput",
   },
