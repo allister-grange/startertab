@@ -1,20 +1,6 @@
-import { TextFeedSkeleton } from "@/components/skeletons/TextFeedSkeleton";
-import { OutlinedButton } from "@/components/ui/OutlinedButton";
 import { TwitterLogo } from "@/components/icons/TwitterLogo";
-import { TwitterContext } from "@/context/TwitterContext";
-import { calculateTimeAgoString, truncateString } from "@/helpers/tileHelpers";
-import { TwitterContextInterface } from "@/types";
-import {
-  Box,
-  Center,
-  Flex,
-  Heading,
-  Link,
-  ListItem,
-  Text,
-  UnorderedList,
-} from "@chakra-ui/react";
-import React, { useContext, useRef, useState } from "react";
+import { Box, Center, Link, Text } from "@chakra-ui/react";
+import React, { useRef, useState } from "react";
 
 interface TwitterFeedTileProps {
   tileId: number;
@@ -109,7 +95,7 @@ export const TwitterFeedTile: React.FC<TwitterFeedTileProps> = ({ tileId }) => {
       <Box position="absolute" right="4" top="4">
         <TwitterLogo fill={color} height={20} width={20} />
       </Box>
-      <Heading p="2" fontSize="xl" fontWeight="bold">
+      <Text p="2" fontSize="xl" fontWeight="700" lineHeight="1.2">
         <Link
           aria-label="Link to Twitter"
           target="_top"
@@ -117,7 +103,7 @@ export const TwitterFeedTile: React.FC<TwitterFeedTileProps> = ({ tileId }) => {
         >
           Twitter Feed
         </Link>
-      </Heading>
+      </Text>
       <Box w="80%" bg="white" height="1px" ml="2" bgColor={color} />
       {/* {display} */}
       <Center mt="8" flexDir="column" textAlign="center" p="2">

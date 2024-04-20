@@ -5,7 +5,6 @@ import { UvGraphData } from "@/types";
 import {
   Box,
   Center,
-  Heading,
   Input,
   InputGroup,
   InputRightElement,
@@ -140,9 +139,9 @@ export const UvGraphTile: React.FC<UvGraphProps> = ({ tileId }) => {
 
   return (
     <Box p="6" color={color} height="100%">
-      <Heading fontSize="xl">
+      <Text fontSize="xl" fontWeight="700" lineHeight="1.2">
         {city ? city?.charAt(0).toUpperCase() + city?.slice(1) : ""} UV Index
-      </Heading>
+      </Text>
       {toDisplay}
       {sidebarOpen && (
         <OutlinedButton

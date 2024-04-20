@@ -1,9 +1,9 @@
+import { StravaLogo } from "@/components/icons/StravaLogo";
 import { OptionBadge } from "@/components/ui/OptionBadge";
 import { OutlinedButton } from "@/components/ui/OutlinedButton";
-import { StravaLogo } from "@/components/icons/StravaLogo";
 import { StravaContext } from "@/context/StravaContext";
 import { StravaContextInterface, StravaGraphPoint } from "@/types/strava";
-import { Box, Center, Heading } from "@chakra-ui/react";
+import { Box, Center, Text } from "@chakra-ui/react";
 import React, { useContext, useState } from "react";
 import {
   Bar,
@@ -60,7 +60,9 @@ const StravaGraphTile: React.FC<PageProps> = ({ tileId }) => {
         width="100%"
         justifyContent="space-between"
       >
-        <Heading fontSize="2xl">Strava Stats</Heading>
+        <Text fontSize="2xl" fontWeight="700" lineHeight="1.2">
+          Strava Stats
+        </Text>
         <Box mr="6">
           <OptionBadge onClick={() => setActivityShowing("swim")} color={color}>
             swim

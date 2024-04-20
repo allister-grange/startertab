@@ -1,3 +1,4 @@
+import { defaultFont } from "@/helpers/defaultFont";
 import { defaultGridLayout } from "@/helpers/gridLayout";
 import { deepClone } from "@/helpers/tileHelpers";
 import { ThemeSettings, TileSettings, TileSize, UserSettings } from "@/types";
@@ -58,6 +59,23 @@ export const applyTheme = (theme: ThemeSettings) => {
     path: "/",
     secure: true,
   });
+  if (theme.globalSettings.fontFamily) {
+    document.body.style.fontFamily = theme.globalSettings.fontFamily;
+    setCookie("fontFamily", theme.globalSettings.fontFamily, {
+      maxAge: 34560000,
+      sameSite: "none",
+      path: "/",
+      secure: true,
+    });
+  } else {
+    document.body.style.fontFamily = defaultFont;
+    setCookie("fontFamily", defaultFont, {
+      maxAge: 34560000,
+      sameSite: "none",
+      path: "/",
+      secure: true,
+    });
+  }
 };
 
 export const getThemeNames = (settings: UserSettings): string[] => {

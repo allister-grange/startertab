@@ -1,5 +1,5 @@
-import { TextFeedSkeleton } from "@/components/skeletons/TextFeedSkeleton";
 import { HackerNewsLogo } from "@/components/icons/HackerNewsLogo";
+import { TextFeedSkeleton } from "@/components/skeletons/TextFeedSkeleton";
 import { OptionBadge } from "@/components/ui/OptionBadge";
 import { calculateTimeAgoString, truncateString } from "@/helpers/tileHelpers";
 import { hackerNewsFeedSelector } from "@/recoil/UserSettingsSelectors";
@@ -7,7 +7,6 @@ import { HackerNewsLinkHolder } from "@/types/hackernews";
 import {
   Box,
   Flex,
-  Heading,
   Link,
   ListItem,
   Text,
@@ -115,7 +114,7 @@ export const HackerNewsFeedTile: React.FC<PageProps> = ({ tileId }) => {
 
   return (
     <Box px="4" color={color} position="relative" ref={divRef}>
-      <Heading mt="3" fontSize="xl">
+      <Text mt="2" fontSize="xl" fontWeight="700">
         <Link
           target="_top"
           href="https://news.ycombinator.com"
@@ -123,7 +122,7 @@ export const HackerNewsFeedTile: React.FC<PageProps> = ({ tileId }) => {
         >
           Hacker News Feed
         </Link>
-      </Heading>
+      </Text>
       <Box position="absolute" right="4" top="1" height="10px" width="20px">
         <HackerNewsLogo height={20} width={20} fill={color} />
       </Box>

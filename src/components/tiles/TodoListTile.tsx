@@ -93,9 +93,9 @@ const TodoListTile: React.FC<TodoListProps> = ({
                     cursor="pointer"
                     onClick={() => handleTodoTicked(todo)}
                   />
-                  <Heading fontSize="14" ml="2">
+                  <Text fontSize="14" ml="2" fontWeight="600">
                     {todo.title}
-                  </Heading>
+                  </Text>
                   {todo === showingDelete ? (
                     <SmallCloseIcon
                       cursor="pointer"

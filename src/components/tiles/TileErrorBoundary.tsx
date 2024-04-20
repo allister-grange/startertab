@@ -1,7 +1,7 @@
 import { OutlinedButton } from "@/components/ui/OutlinedButton";
 import { deepClone } from "@/helpers/tileHelpers";
 import { TileSettings, UserSettings } from "@/types";
-import { Box, Center, Heading, Text } from "@chakra-ui/react";
+import { Box, Center, Text } from "@chakra-ui/react";
 import React, { Component, ErrorInfo } from "react";
 import { SetterOrUpdater } from "recoil";
 
@@ -90,7 +90,9 @@ export class TileErrorBoundary extends Component<
           color={this.props.color}
         >
           <Box textAlign="center">
-            <Heading>Uh oh!</Heading>
+            <Text fontSize="3xl" fontWeight="700">
+              Uh oh!
+            </Text>
             <Text fontSize="lg">I&apos;m in a bit of a mess 💩</Text>
             <Text fontSize="md">
               One solution is to clear the data from the tile, is it&apos;s

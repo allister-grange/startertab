@@ -10,11 +10,11 @@ import {
   Box,
   FormControl,
   FormLabel,
-  Heading,
   Image,
   Input,
   Link,
   ListItem,
+  Text,
   UnorderedList,
 } from "@chakra-ui/react";
 import React, { FormEvent, useRef, useState } from "react";
@@ -141,7 +141,7 @@ export const FavoriteLinksTile: React.FC<FavoriteLinksTileProps> = ({
       ) : (
         <Box>
           {favoriteLinksTitle && (
-            <Heading fontSize="xl">{favoriteLinksTitle}</Heading>
+            <Text fontSize="xl">{favoriteLinksTitle}</Text>
           )}
           <UnorderedList
             listStyleType="none"

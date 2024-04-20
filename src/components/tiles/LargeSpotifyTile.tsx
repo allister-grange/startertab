@@ -18,15 +18,7 @@ import {
   SpotifyContextInterface,
   UserSettings,
 } from "@/types";
-import {
-  Box,
-  Center,
-  Flex,
-  Heading,
-  Img,
-  Link,
-  Skeleton,
-} from "@chakra-ui/react";
+import { Box, Center, Flex, Text, Img, Link, Skeleton } from "@chakra-ui/react";
 import React, { useContext, useRef } from "react";
 import { SetterOrUpdater, useRecoilState, useRecoilValue } from "recoil";
 
@@ -216,16 +208,24 @@ export const LargeSpotifyTile: React.FC<LargeSpotifyTileProps> = ({
             mb={spotifyMediaControlsShowing ? undefined : "10%"}
             width="90%"
           >
-            <Heading fontSize={getFontSize(songTitle)}>
+            <Text
+              fontSize={getFontSize(songTitle)}
+              fontWeight="700"
+              lineHeight="1.2"
+            >
               {songTitle.length >= maxLengthOfTitle
                 ? songTitle.slice(0, maxLengthOfTitle).trim() + "..."
                 : songTitle}
-            </Heading>
-            <Heading fontSize={getArtistFontSize(songArtist)} opacity="0.7">
+            </Text>
+            <Text
+              fontSize={getArtistFontSize(songArtist)}
+              opacity="0.7"
+              fontWeight="700"
+            >
               {songArtist!.length >= maxLengthOfArtistName
                 ? songArtist!.slice(0, maxLengthOfArtistName).trim() + "..."
                 : songArtist}
-            </Heading>
+            </Text>
           </Link>
         ) : (
           <Box height="175px" width="90%">

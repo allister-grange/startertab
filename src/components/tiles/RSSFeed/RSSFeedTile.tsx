@@ -1,21 +1,14 @@
+import { RSSLogo } from "@/components/icons/RSSLogo";
 import { TextFeedSkeleton } from "@/components/skeletons/TextFeedSkeleton";
 import { RSSFeedForm } from "@/components/tiles/RSSFeed/RSSFeedForm";
 import { OutlinedButton } from "@/components/ui/OutlinedButton";
-import { RSSLogo } from "@/components/icons/RSSLogo";
 import { calculateTimeAgoString, truncateString } from "@/helpers/tileHelpers";
 import {
-  rssFeedsSelector,
   rssFeedTitleSelector,
+  rssFeedsSelector,
 } from "@/recoil/UserSettingsSelectors";
 import { RSSFeed, RSSItem } from "@/types";
-import {
-  Box,
-  Flex,
-  Heading,
-  ListItem,
-  Text,
-  UnorderedList,
-} from "@chakra-ui/react";
+import { Box, Flex, ListItem, Text, UnorderedList } from "@chakra-ui/react";
 import { useQuery } from "@tanstack/react-query";
 import Link from "next/link";
 import React, { FormEvent, useRef, useState } from "react";
@@ -190,9 +183,9 @@ export const RSSFeedTile: React.FC<RSSFeedTileProps> = ({ tileId }) => {
         <Box pos="absolute" top="4" right="4" height="18px" width="18px">
           <RSSLogo height={18} width={18} fill={color} />
         </Box>
-        <Heading fontSize="xl" mt="3">
+        <Text fontWeight="700" fontSize="xl" mt="2">
           Rss Feed
-        </Heading>
+        </Text>
         <Box height="1px" width="80%" bg={color} mt="2" />
         <TextFeedSkeleton />
       </Box>
@@ -203,9 +196,9 @@ export const RSSFeedTile: React.FC<RSSFeedTileProps> = ({ tileId }) => {
         <Box pos="absolute" top="4" right="4" height="18px" width="18px">
           <RSSLogo height={18} width={18} fill={color} />
         </Box>
-        <Heading fontSize="xl" mt="3">
+        <Text fontWeight="700" fontSize="xl" mt="2">
           {rssFeedTitle ? rssFeedTitle : "Rss Feed"}
-        </Heading>
+        </Text>
         <UnorderedList margin="0" mt="4" ml="1">
           {orderedRssFeedData?.map((feed) => (
             <ListItem listStyleType="none" key={feed.date + feed.link} mt="3">

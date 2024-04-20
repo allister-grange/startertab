@@ -9,7 +9,6 @@ import { WeatherData } from "@/types";
 import {
   Box,
   Center,
-  Heading,
   IconButton,
   Input,
   InputGroup,
@@ -149,12 +148,12 @@ export const SmallWeatherTile: React.FC<SmallWeatherTileProps> = ({
           icon={icon}
         />
         <Box display="flex" flexDirection="column" mt="2" mb="4">
-          <Heading bg="transparent">
+          <Text fontWeight="700" fontSize="4xl" lineHeight="1.2">
             {displayInCelsius
               ? data.currentTemp
               : convertCelsiusToFahrenheit(data.currentTemp!)}
             &#176;
-          </Heading>
+          </Text>
           <Box display="flex" flexDirection="row">
             <Text>
               {displayInCelsius

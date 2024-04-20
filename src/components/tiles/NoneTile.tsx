@@ -3,7 +3,7 @@ import { deepClone } from "@/helpers/tileHelpers";
 import { userSettingState } from "@/recoil/UserSettingsAtoms";
 import { themeNameSelector } from "@/recoil/UserSettingsSelectors";
 import { TileSize, TileType } from "@/types";
-import { Box, Center, Heading, Select } from "@chakra-ui/react";
+import { Box, Center, Select, Text } from "@chakra-ui/react";
 import React, { ChangeEvent } from "react";
 import { useRecoilState, useRecoilValue } from "recoil";
 
@@ -39,10 +39,11 @@ export const NoneTile: React.FC<NoneTileProps> = ({ tileId, tileSize }) => {
       flexDir={tileSize === "long" ? "row" : "column"}
       color={color}
     >
-      <Heading
-        size="md"
+      <Text
+        fontSize="xl"
+        fontWeight="700"
         color={`var(--text-color-${tileId})`}
-      >{`Give me a tile ✌️`}</Heading>
+      >{`Give me a tile ✌️`}</Text>
       <Box>
         <Select
           width="100%"

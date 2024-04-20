@@ -1,3 +1,4 @@
+import { defaultFont } from "@/helpers/defaultFont";
 import { getCookieValue } from "@/helpers/settingsHelpers";
 import Document, {
   DocumentContext,
@@ -49,11 +50,17 @@ class MyDocument extends Document<{ cookies: string }> {
 
   render() {
     let background;
-    const { cookies } = this.props;
+    let fontFamily;
+    const { cookies, __NEXT_DATA__ } = this.props;
 
     if (cookies) {
       background = decodeURIComponent(getCookieValue(cookies, "background"));
+      fontFamily = decodeURIComponent(getCookieValue(cookies, "fontFamily"));
     }
+
+    // we only want the font that the user sets to apply to the main app, not the sub-pages
+    const pathname = __NEXT_DATA__.page;
+    const applyFont = pathname === "/";
 
     return (
       <Html>
@@ -64,6 +71,7 @@ class MyDocument extends Document<{ cookies: string }> {
             backgroundSize: "cover",
             backgroundAttachment: "fixed",
             backgroundRepeat: "no-repeat",
+            fontFamily: `${applyFont ? fontFamily : defaultFont}`,
           }}
         >
           <Main />

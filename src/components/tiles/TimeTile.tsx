@@ -1,6 +1,3 @@
-import React, { useEffect, useRef, useState } from "react";
-import { SetterOrUpdater, useRecoilState, useRecoilValue } from "recoil";
-import { Box, Button, Heading, Input } from "@chakra-ui/react";
 import { OutlinedButton } from "@/components/ui/OutlinedButton";
 import { sidebarOpenAtom } from "@/recoil/SidebarAtoms";
 import {
@@ -8,6 +5,9 @@ import {
   timeTileShowingSecondsSelector,
   timeTileShowingTimerSelector,
 } from "@/recoil/UserSettingsSelectors";
+import { Box, Button, Input, Text } from "@chakra-ui/react";
+import React, { useEffect, useRef, useState } from "react";
+import { SetterOrUpdater, useRecoilState, useRecoilValue } from "recoil";
 
 interface TimeProps {
   tileId: number;
@@ -177,9 +177,13 @@ export const TimeTile: React.FC<TimeProps> = ({ tileId }) => {
       color={color}
       position="relative"
     >
-      <Heading marginX="auto" fontSize={isShowingTimer ? "38" : "42"}>
+      <Text
+        fontWeight="700"
+        marginX="auto"
+        fontSize={isShowingTimer ? "38" : "42"}
+      >
         {timer ? getTimerDisplayText(timer) : time}
-      </Heading>
+      </Text>
       {isShowingTimer && (
         <Box display="flex" flexDir="row" width="200px" mt="3">
           <Input

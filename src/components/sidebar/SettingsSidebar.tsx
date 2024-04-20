@@ -5,9 +5,11 @@ import {
   ThemeToChangeSelector,
 } from "@/components/sidebar";
 import { ExportImportButtons } from "@/components/sidebar/ExportImportButtons";
+import { SaveChangesAlert } from "@/components/sidebar/SaveChangesAlert";
 import SettingOptionContainer from "@/components/sidebar/SettingOptionContainer";
 import { UsingSystemThemeToggle } from "@/components/sidebar/UsingSystemThemeToggle";
 import { OutlinedButton } from "@/components/ui/OutlinedButton";
+import { defaultFont } from "@/helpers/defaultFont";
 import { getThemeNames } from "@/helpers/settingsHelpers";
 import {
   globalSettingsOptions,
@@ -29,7 +31,6 @@ import { TileSettings } from "@/types/settings";
 import { Box, Link, useDisclosure } from "@chakra-ui/react";
 import React, { Dispatch, SetStateAction, useRef, useState } from "react";
 import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
-import { SaveChangesAlert } from "@/components/sidebar/SaveChangesAlert";
 
 interface SettingsSideBarProps {
   isOpen: boolean;
@@ -194,6 +195,7 @@ const SettingsSideBar: React.FC<SettingsSideBarProps> = ({
 
   return (
     <Box
+      fontFamily={defaultFont}
       minWidth={width}
       width={width}
       height="100vh"

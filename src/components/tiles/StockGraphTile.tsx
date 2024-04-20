@@ -5,7 +5,6 @@ import { CandleGraphPoint, FinnhubCandleResponse } from "@/types/stocks";
 import {
   Box,
   Center,
-  Heading,
   Input,
   InputGroup,
   InputRightElement,
@@ -157,10 +156,12 @@ export const StockGraphTile: React.FC<StockGraphTileProps> = ({ tileId }) => {
 
   return (
     <Box height="100%" color={textColor} p="4" textAlign="center">
-      {/* <Heading fontSize="2xl">{stock?.toLocaleUpperCase()}</Heading> */}
+      {/* <Text fontSize="2xl" lineHeight="1.2" fontWeight="700">{stock?.toLocaleUpperCase()}</Text> */}
       {/* {toDisplay} */}
       <Center height="95%" flexDir="column" p="20">
-        <Heading size="md">Sorry, this is now a premium feature 😔</Heading>
+        <Text fontSize="xl" fontWeight="700" lineHeight="1.2">
+          Sorry, this is now a paid feature on the API this site uses 😔
+        </Text>
         <Text mt="4">
           Consider{" "}
           <Link
