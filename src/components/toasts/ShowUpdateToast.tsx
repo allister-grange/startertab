@@ -1,3 +1,4 @@
+import { defaultFont } from "@/helpers/defaultFont";
 import { useToast, Text, Link } from "@chakra-ui/react";
 import React, { useCallback, useEffect } from "react";
 
@@ -10,7 +11,7 @@ export const ShowUpdateToast: React.FC<ShowUpdateToastProps> = ({}) => {
     toast({
       title: "User's feedback, v2.8.0",
       description: (
-        <Text>
+        <Text fontFamily={defaultFont}>
           Thanks to your suggestions, we have a bunch of new features on
           StarterTab 🗳️ Check out the{" "}
           <Link color="coral" href="/updates">

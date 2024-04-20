@@ -1,10 +1,11 @@
+import { defaultFont } from "@/helpers/defaultFont";
 import {
   AlertDialog,
-  AlertDialogOverlay,
-  AlertDialogContent,
-  AlertDialogHeader,
   AlertDialogBody,
+  AlertDialogContent,
   AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogOverlay,
   Button,
   Text,
 } from "@chakra-ui/react";
@@ -34,7 +35,7 @@ export const SaveChangesAlert: React.FC<SaveChangesAlertProps> = ({
       onClose={onClose}
     >
       <AlertDialogOverlay>
-        <AlertDialogContent>
+        <AlertDialogContent fontFamily={defaultFont}>
           <AlertDialogHeader fontSize="2xl" fontWeight="bold">
             warning 💣
           </AlertDialogHeader>
