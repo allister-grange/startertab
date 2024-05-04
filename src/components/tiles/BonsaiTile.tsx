@@ -38,7 +38,7 @@ export const BonsaiTile: React.FC<BonsaiProps> = ({ tileId }): JSX.Element => {
     await resetBonsai();
 
     const startYPos = BONSAI.rows - 1;
-    const startXPos = Math.round(BONSAI.cols / 2) - 1;
+    const startXPos = 12;
     grow(
       startYPos,
       startXPos,
@@ -55,6 +55,7 @@ export const BonsaiTile: React.FC<BonsaiProps> = ({ tileId }): JSX.Element => {
       growBonsai();
     };
     startGrowing();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (

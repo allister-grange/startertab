@@ -119,6 +119,7 @@ export const TimeTile: React.FC<TimeProps> = ({ tileId }) => {
       // Cleanup: Clear the interval when the component is unmounted
       clearInterval(intervalRef.current);
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const startTimer = (duration: number) => {

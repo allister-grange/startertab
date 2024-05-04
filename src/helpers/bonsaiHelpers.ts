@@ -146,18 +146,18 @@ export const chooseNextChar = (
       else if (dy > 0) char = '<span">/|</span>';
       break;
     case ShootType.shootLeft:
-      if (dx > 0) char = '<span>\\</span>';
+      if (dx > 0) char = "<span>\\</span>";
       else if (dx === 0) char = '<span">\\~</span>';
-      else if (dy < 0) char = '<span>\\|</span>';
+      else if (dy < 0) char = "<span>\\|</span>";
       else if (dy === 0) char = '<span">/|</span>';
-      else if (dy > 0) char = '<span>/</span>';
+      else if (dy > 0) char = "<span>/</span>";
       break;
     case ShootType.shootRight:
-      if (dx > 0) char = '<span>/</span>';
+      if (dx > 0) char = "<span>/</span>";
       else if (dx === 0) char = '<span">~/</span>';
-      else if (dy < 0) char = '<span>\\|</span>';
+      else if (dy < 0) char = "<span>\\|</span>";
       else if (dy === 0) char = '<span">/|</span>';
-      else if (dy > 0) char = '<span>/</span>';
+      else if (dy > 0) char = "<span>/</span>";
       break;
     case ShootType.dying:
       char = '<span style="color: #6fc458">&</span>';
@@ -172,7 +172,10 @@ export const chooseNextChar = (
   return char;
 };
 
-export const getBonsaiBase = (trunkColor?: string, baseColor?: string): string => {
+export const getBonsaiBase = (
+  trunkColor?: string,
+  baseColor?: string
+): string => {
   let base = "";
 
   base += `:${'<code style="color: #25a003">_</code>'.repeat(
@@ -180,9 +183,15 @@ export const getBonsaiBase = (trunkColor?: string, baseColor?: string): string =
   )}<code style="color: ${trunkColor}">./~~~~~\\.</code>${'<code style="color: #25a003">_</code>'.repeat(
     2
   )}:\n`;
-  base += `<code style="color: ${baseColor}">\\${"\u00A0".repeat(12)}/\n</code>`;
-  base += `<code style="color: ${baseColor}">\u00A0\\${"_".repeat(10)}/\n</code>`;
-  base += `<code style="color: ${baseColor}">\u00A0\u00A0(_)${"\u00A0".repeat(4)}(_)</code>`;
+  base += `<code style="color: ${baseColor}">\\${"\u00A0".repeat(
+    12
+  )}/\n</code>`;
+  base += `<code style="color: ${baseColor}">\u00A0\\${"_".repeat(
+    10
+  )}/\n</code>`;
+  base += `<code style="color: ${baseColor}">\u00A0\u00A0(_)${"\u00A0".repeat(
+    4
+  )}(_)</code>`;
   return base;
 };
 
@@ -216,7 +225,7 @@ export const grow = (
   newBonsaiGrid[row][col] = char;
 
   shootCooldown += 1;
-// 200 was the old lives, so I halved all values
+  // 200 was the old lives, so I halved all values
   if (life < 15) {
     window.setTimeout(() => {
       grow(row, col, life, age, ShootType.dead, tempBonsai, setBonsai);
