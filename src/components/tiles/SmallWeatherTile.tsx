@@ -21,6 +21,10 @@ import {
   WiCloud,
   WiDaySunny,
   WiDaySunnyOvercast,
+  WiNightAltPartlyCloudy,
+  WiNightAltRain,
+  WiNightClear,
+  WiNightCloudy,
   WiRain,
 } from "react-icons/wi";
 import { SetterOrUpdater, useRecoilState, useRecoilValue } from "recoil";
@@ -121,20 +125,38 @@ export const SmallWeatherTile: React.FC<SmallWeatherTileProps> = ({
     );
   } else if (data) {
     let icon;
+    const currentTime = new Date().getHours();
 
-    switch (data.condition) {
-      case "cloudy":
-        icon = <WiCloud size="70" color={color} />;
-        break;
-      case "sunny":
-        icon = <WiDaySunny size="70" color={color} />;
-        break;
-      case "partly cloudy":
-        icon = <WiDaySunnyOvercast size="70" color={color} />;
-        break;
-      case "rain":
-        icon = <WiRain size="70" color={color} />;
-        break;
+    if (currentTime >= 19 || currentTime < 6) {
+      switch (data.condition) {
+        case "cloudy":
+          icon = <WiNightCloudy size="70" color={color} />;
+          break;
+        case "sunny":
+          icon = <WiNightClear size="70" color={color} />;
+          break;
+        case "partly cloudy":
+          icon = <WiNightAltPartlyCloudy size="70" color={color} />;
+          break;
+        case "rain":
+          icon = <WiNightAltRain size="70" color={color} />;
+          break;
+      }
+    } else {
+      switch (data.condition) {
+        case "cloudy":
+          icon = <WiCloud size="70" color={color} />;
+          break;
+        case "sunny":
+          icon = <WiDaySunny size="70" color={color} />;
+          break;
+        case "partly cloudy":
+          icon = <WiDaySunnyOvercast size="70" color={color} />;
+          break;
+        case "rain":
+          icon = <WiRain size="70" color={color} />;
+          break;
+      }
     }
     toDisplay = (
       <>
