@@ -44,7 +44,8 @@
     "react-window-infinite-loader": "^1.0.9",
     "recharts": "^2.9.0",
     "recoil": "^0.7.7",
-    "rss-parser": "^3.13.0"
+    "rss-parser": "^3.13.0",
+    "sharp": "^0.33.3"
   },
   "devDependencies": {
     "@faker-js/faker": "^8.2.0",
