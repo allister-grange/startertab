@@ -6,15 +6,13 @@ WORKDIR /app
 ENV NODE_ENV=production
 
 # Install dependencies
-RUN bun install sharp
-COPY package.json bun.lockb prisma/schema.prisma ./
-RUN bun install
+COPY ./package.json ./bun.lockb ./prisma/ /app/
+RUN bun install 
 
 # Now copy the rest of the project
 COPY . .
 
 # Build the application
-COPY .env.local ./
 RUN bun run build
 
 # Expose the port the app runs on
