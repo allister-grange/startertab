@@ -12,7 +12,7 @@ export const Update280: React.FC = ({}) => {
         mt="1"
         style={{ fontSize: "12px", color: "var(--chakra-colors-gray-600)" }}
       >
-        28<sup>th</sup> February 2025
+        28<sup>th</sup> February 2024
       </Text>
       <Text mt="2">
         Thanks to your suggestions, we have a bunch of new features on

@@ -8,13 +8,17 @@ export const ShowUpdateToast: React.FC<ShowUpdateToastProps> = ({}) => {
 
   const showUpdateToast = useCallback(() => {
     toast({
-      title: "User's feedback, v2.8.0",
+      title: "Font Selection and Bug Fixin' 🐞",
       description: (
         <Text>
-          Thanks to your suggestions, we have a bunch of new features on
-          StarterTab 🗳️ Check out the{" "}
+          You can now use any system font you want! Check out the{" "}
           <Link color="coral" href="/updates">
-            new Spotify background toggle!
+            new update!
+          </Link>
+          <br />
+          Don&apos; forget to keep adding in{" "}
+          <Link color="coral" href="/suggestions">
+            suggestions 🗳️
           </Link>
         </Text>
       ),
@@ -33,15 +37,16 @@ export const ShowUpdateToast: React.FC<ShowUpdateToastProps> = ({}) => {
     localStorage.removeItem("hasSeenNewUpdate2.20Counter");
     localStorage.removeItem("hasSeenNewUpdate2.40Counter");
     localStorage.removeItem("hasSeenNewUpdate2.60Counter");
-    localStorage.removeItem("hasSeenNewUpdate2.70Counter");
+    localStorage.removeItem("hasSeenNewUpdate2.7.0Counter");
+    localStorage.removeItem("hasSeenNewUpdate2.8.0Counter");
     const hasSeenNewUpdate = localStorage.getItem(
-      "hasSeenNewUpdate2.8.0Counter"
+      "hasSeenNewUpdate2.9.0Counter"
     );
     if (!hasSeenNewUpdate) {
-      localStorage.setItem("hasSeenNewUpdate2.8.0Counter", "1");
+      localStorage.setItem("hasSeenNewUpdate2.9.0Counter", "1");
     } else {
       localStorage.setItem(
-        "hasSeenNewUpdate2.8.0Counter",
+        "hasSeenNewUpdate2.9.0Counter",
         (parseInt(hasSeenNewUpdate) + 1).toString()
       );
       // only on the twelfth visit since the update do we want to show the toast
