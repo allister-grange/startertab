@@ -6,17 +6,15 @@ WORKDIR /app
 ENV NODE_ENV=production
 
 # Install dependencies
-COPY ./package.json ./bun.lockb ./prisma/ /app/
-RUN bun install 
-
-# Now copy the rest of the project
 COPY . .
-
-# Build the application
-RUN bun run build
+RUN bun install --lockfile && \
+	bun run build && \
+	mv /app/.next/static /app/.next/standalone/.next/static && \
+	mv /app/public /app/.next/standalone/public && \
+	rm -rf /app/node_modules /root/.bun /root/.cache /app/.next/cache /tmp
 
 # Expose the port the app runs on
 EXPOSE 3000
 
 # Start the app using Bun
-CMD ["bun", "start"]
+CMD ["bun", "/app/.next/standalone/server.js"]
