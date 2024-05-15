@@ -1,6 +1,6 @@
 # [Starter Tab](https://startertab.com/)
 ## A fork of the orginal startertab that adds docker support.
-what is added:
+What is added:
 - bun.sh support (builds under a minute on an base m1 running a docker vm)
 - docker support (around ~260 mb images)
 Note that caching isn't implemented as the build sizes balloon (~1 gb) and it builds fast anyways : P
@@ -8,7 +8,8 @@ Note that caching isn't implemented as the build sizes balloon (~1 gb) and it bu
 what does not work:
 - public themes (could be fixed if allister sets cors to public on the api / if you setup your own db).
 - maybe some stuff I dont use (open an issue !)
-remember to set the enviorment variables in .env.local first.
+remember to set the enviorment variables in .env.local first.  
+
 The orginal readme follows:
 
 https://github.com/allister-grange/startertab/assets/18430086/e8173522-c566-4cec-a894-061925c8c4ff
