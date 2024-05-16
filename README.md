@@ -4,7 +4,8 @@ What is added:
 - bun.sh support (builds under a minute on an base m1 running a docker vm)
 - docker support (around ~260 mb images)
 Note that caching isn't implemented as the build sizes balloon (~1 gb) and it builds fast anyways : P
-- removed analytics
+- removed analytics  
+
 what does not work:
 - public themes (could be fixed if allister sets cors to public on the api / if you setup your own db).
 - maybe some stuff I dont use (open an issue !)
