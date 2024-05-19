@@ -11,12 +11,13 @@ import { useEffect } from "react";
 import { ErrorBoundary } from "react-error-boundary";
 import { RecoilRoot } from "recoil";
 
-type MyAppProps = { cookies?: string };
+type MyAppProps = { cookies?: string; analyticsEnabled: boolean };
 
 export function MyApp({
   Component,
   pageProps,
   cookies,
+  analyticsEnabled,
 }: AppProps & MyAppProps) {
   // setting defaults settings in local storage if the user is new
   useEffect(() => {
@@ -47,7 +48,7 @@ export function MyApp({
             name="viewport"
             content="width=device-width, initial-scale=1.0"
           />
-          {process.env.NODE_ENV === "production" && (
+          {analyticsEnabled && (
             <script
               async
               src="https://umami.startertab.com/script.js"
@@ -86,7 +87,11 @@ MyApp.getInitialProps = async (
     res.setHeader("Cache-Control", "no-store");
   }
 
-  return { ...ctx, cookies };
+  return {
+    ...ctx,
+    cookies,
+    analyticsEnabled: process.env.ANALYTICS_ENABLED === "true",
+  };
 };
 
 export default MyApp;
