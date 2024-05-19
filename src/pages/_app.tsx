@@ -4,6 +4,7 @@ import { defaultSettings } from "@/helpers/themes";
 import "@/styles/github-markdown.css";
 import "@/styles/globals.css";
 import { ChakraProvider } from "@chakra-ui/react";
+import { Analytics } from "@vercel/analytics/react";
 import App, { AppContext, AppInitialProps, AppProps } from "next/app";
 import Head from "next/head";
 import { useEffect } from "react";
@@ -62,6 +63,7 @@ export function MyApp({
         <NoSSR>
           <RecoilRoot>
             <Component cookies={cookies} {...pageProps} />
+            <Analytics />
           </RecoilRoot>
         </NoSSR>
       </ChakraProvider>
