@@ -38,7 +38,8 @@ export const BonsaiTile: React.FC<BonsaiProps> = ({ tileId }): JSX.Element => {
     await resetBonsai();
 
     const startYPos = BONSAI.rows - 1;
-    const startXPos = 12;
+    const startXPos = Math.floor(BONSAI.cols / 2) - 2;
+
     grow(
       startYPos,
       startXPos,

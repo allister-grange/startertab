@@ -275,6 +275,18 @@ export const sideBarLargeTileOptions: Option[] = [
     localStorageId: "rssFeedTitle",
     optionType: "TitleForRSSFeed",
   },
+  {
+    title: "Bonsai base color",
+    subTitle: "Color of the bonsai base",
+    localStorageId: "bonsaiBaseColor",
+    optionType: "ColorPicker",
+  },
+  {
+    title: "Bonsai trunk color",
+    subTitle: "Color of the bonsai trunk",
+    localStorageId: "bonsaiTrunkColor",
+    optionType: "ColorPicker",
+  },
 ];
 
 export const sideBarLongTileOptions: Option[] = [
