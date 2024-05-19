@@ -39,3 +39,4 @@ yarn-error.log*
 todo.md
 .env
 settings.json
+extensions/firefox_extension/web-ext-artifacts/*
