@@ -17,4 +17,4 @@ RUN bun install --lockfile && \
 EXPOSE 3000
 
 # Start the app using Bun
-CMD ["bun", "/app/.next/standalone/server.js"]
+CMD ["bun", "--bun", "/app/.next/standalone/server.js"]
