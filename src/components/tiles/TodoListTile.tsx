@@ -1,14 +1,21 @@
+/**
+ * 1. Find out how this is stored in the DB
+ * 2. Think of how to store and render categories
+ * 3. Think of how to enter in categories
+ * 4. Enable dragging/dropping todo tasks into categories
+ */
+
 import { TodoObject } from "@/types";
 import {
-  CheckIcon,
+  AddIcon,
   ChevronDownIcon,
   ChevronRightIcon,
   EditIcon,
-  SmallCloseIcon,
 } from "@chakra-ui/icons";
-import { Box, Flex, Heading, Input, Text } from "@chakra-ui/react";
+import { Box, Button, Flex, Input, Text } from "@chakra-ui/react";
 import React, { useState } from "react";
 import { SetterOrUpdater } from "recoil";
+import { TodoListItem } from "./TodoList/TodoListItem";
 
 export interface TodoListProps {
   tileId: number;
@@ -23,7 +30,6 @@ const TodoListTile: React.FC<TodoListProps> = ({
 }) => {
   const color = `var(--text-color-${tileId})`;
   const [inputValue, setInputValue] = useState("");
-  const [showingDelete, setShowingDelete] = useState<TodoObject | undefined>();
   const [showingCompletedItems, setShowingCompletedItems] = useState(false);
 
   const onInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -78,38 +84,32 @@ const TodoListTile: React.FC<TodoListProps> = ({
         <Box>
           <ol>
             {unfinishedTodos?.map((todo) => (
-              <li key={todo.title} style={{ listStyle: "none" }}>
-                <Flex
-                  alignItems="center"
-                  mb="3"
-                  onMouseEnter={() => setShowingDelete(todo)}
-                  onMouseLeave={() => setShowingDelete(undefined)}
-                >
-                  <Box
-                    borderRadius="5"
-                    border={`1px solid ${color}`}
-                    minWidth="4"
-                    minHeight="4"
-                    cursor="pointer"
-                    onClick={() => handleTodoTicked(todo)}
-                  />
-                  <Text fontSize="14" ml="2" fontWeight="600">
-                    {todo.title}
-                  </Text>
-                  {todo === showingDelete ? (
-                    <SmallCloseIcon
-                      cursor="pointer"
-                      color={color}
-                      opacity="0.6"
-                      ml="auto"
-                      onClick={() => handleTodoDelete(todo)}
-                    />
-                  ) : null}
-                </Flex>
-              </li>
+              <TodoListItem
+                todo={todo}
+                handleTodoDelete={handleTodoDelete}
+                handleTodoTicked={handleTodoTicked}
+                color={color}
+                key={todo.date + todo.title}
+              />
             ))}
           </ol>
         </Box>
+
+        <Button
+          variant="link"
+          display="flex"
+          alignItems="center"
+          gap="1"
+          fontSize="sm"
+          mb="3"
+          opacity="0.7"
+          justifyContent="flex-start"
+          fontWeight="normal"
+          color={color}
+        >
+          <AddIcon />
+          <Text>Add a category</Text>
+        </Button>
 
         <Flex mb="2" alignItems="center">
           <EditIcon
@@ -134,10 +134,16 @@ const TodoListTile: React.FC<TodoListProps> = ({
             _hover={{ borderColor: color }}
           />
         </Flex>
-        <Flex
+
+        <Button
+          variant="link"
+          color={color}
+          fontWeight="normal"
+          justifyContent="flex-start"
           cursor="pointer"
           alignItems="center"
           opacity="0.6"
+          fontSize="sm"
           onClick={() => setShowingCompletedItems(!showingCompletedItems)}
         >
           {showingCompletedItems ? (
@@ -148,34 +154,19 @@ const TodoListTile: React.FC<TodoListProps> = ({
           <Text>
             {finishedTodos ? finishedTodos.length : 0} completed items
           </Text>
-        </Flex>
+        </Button>
 
         {showingCompletedItems ? (
           <Box>
             <ol>
               {finishedTodos?.map((todo) => (
-                <li key={todo.title} style={{ listStyle: "none" }}>
-                  <Flex alignItems="center" mb="3">
-                    <CheckIcon
-                      borderRadius="5"
-                      border={`1px solid ${color}`}
-                      minWidth="4"
-                      minHeight="4"
-                      cursor="pointer"
-                      onClick={() => handleTodoTicked(todo)}
-                    />
-                    <Text fontSize="14" ml="2" textDecoration="line-through">
-                      {todo.title}
-                    </Text>
-                    <SmallCloseIcon
-                      cursor="pointer"
-                      color={color}
-                      opacity="0.6"
-                      ml="auto"
-                      onClick={() => handleTodoDelete(todo)}
-                    />
-                  </Flex>
-                </li>
+                <TodoListItem
+                  todo={todo}
+                  handleTodoDelete={handleTodoDelete}
+                  handleTodoTicked={handleTodoTicked}
+                  color={color}
+                  key={todo.date + todo.title}
+                />
               ))}
             </ol>
           </Box>
