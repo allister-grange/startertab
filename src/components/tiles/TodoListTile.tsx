@@ -1,10 +1,3 @@
-/**
- * 1. Find out how this is stored in the DB
- * 2. Think of how to store and render categories
- * 3. Think of how to enter in categories
- * 4. Enable dragging/dropping todo tasks into categories
- */
-
 import { TodoObject } from "@/types";
 import {
   AddIcon,
@@ -14,8 +7,9 @@ import {
 } from "@chakra-ui/icons";
 import { Box, Button, Flex, Input, Text } from "@chakra-ui/react";
 import React, { useState } from "react";
-import { SetterOrUpdater } from "recoil";
+import { SetterOrUpdater, useRecoilValue } from "recoil";
 import { TodoListItem } from "./TodoList/TodoListItem";
+import { sidebarOpenAtom } from "@/recoil/SidebarAtoms";
 
 export interface TodoListProps {
   tileId: number;
@@ -29,17 +23,46 @@ const TodoListTile: React.FC<TodoListProps> = ({
   setTodoList,
 }) => {
   const color = `var(--text-color-${tileId})`;
-  const [inputValue, setInputValue] = useState("");
+  const [todoInputValue, setTodoInputValue] = useState("");
+  const [categoryInputValue, setCategoryInputValue] = useState("");
   const [showingCompletedItems, setShowingCompletedItems] = useState(false);
+  const [showingAddCategoryInput, setShowingAddCategoryInput] = useState(false);
+  const sidebarOpen = useRecoilValue(sidebarOpenAtom);
 
-  const onInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setInputValue(e.target.value);
+  const onTodoInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setTodoInputValue(e.target.value);
   };
 
-  const onKeyPress = (e: React.KeyboardEvent<HTMLDivElement>) => {
+  const onTodoInputKeyPress = (e: React.KeyboardEvent<HTMLDivElement>) => {
     if (e.key === "Enter") {
       handleInputIconClick();
     }
+  };
+
+  const onCategoryInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setCategoryInputValue(e.target.value);
+  };
+
+  const onCategoryInputKeyPress = (e: React.KeyboardEvent<HTMLDivElement>) => {
+    if (e.key === "Enter") {
+      handleAddingCategory();
+    }
+  };
+
+  const handleAddingCategory = () => {
+    if (categoryInputValue === "") {
+      return;
+    }
+    setTodoList([
+      ...(todoList || []),
+      {
+        done: false,
+        title: categoryInputValue,
+        date: Date.now(),
+        isCategory: true,
+      },
+    ]);
+    setCategoryInputValue("");
   };
 
   const handleTodoTicked = (todo: TodoObject) => {
@@ -61,14 +84,19 @@ const TodoListTile: React.FC<TodoListProps> = ({
   };
 
   const handleInputIconClick = () => {
-    if (inputValue === "") {
+    if (todoInputValue === "") {
       return;
     }
     setTodoList([
       ...(todoList || []),
-      { done: false, title: inputValue, date: Date.now() },
+      {
+        done: false,
+        title: todoInputValue,
+        date: Date.now(),
+        isCategory: false,
+      },
     ]);
-    setInputValue("");
+    setTodoInputValue("");
   };
 
   if (!todoList) {
@@ -95,21 +123,39 @@ const TodoListTile: React.FC<TodoListProps> = ({
           </ol>
         </Box>
 
-        <Button
-          variant="link"
-          display="flex"
-          alignItems="center"
-          gap="1"
-          fontSize="sm"
-          mb="3"
-          opacity="0.7"
-          justifyContent="flex-start"
-          fontWeight="normal"
-          color={color}
-        >
-          <AddIcon />
-          <Text>Add a category</Text>
-        </Button>
+        {sidebarOpen && (
+          <Box mb="3">
+            {showingAddCategoryInput ? (
+              // TODO do I need an icon here?
+              <Input
+                size="sm"
+                value={categoryInputValue}
+                borderColor={color}
+                onChange={onCategoryInputChange}
+                onKeyDown={onCategoryInputKeyPress}
+                placeholder={"category name"}
+                _focus={{ borderColor: color }}
+                _hover={{ borderColor: color }}
+              />
+            ) : (
+              <Button
+                variant="link"
+                display="flex"
+                alignItems="center"
+                gap="1"
+                fontSize="sm"
+                opacity="0.7"
+                justifyContent="flex-start"
+                fontWeight="normal"
+                color={color}
+                onClick={() => setShowingAddCategoryInput(true)}
+              >
+                <AddIcon />
+                <Text>Add a category</Text>
+              </Button>
+            )}
+          </Box>
+        )}
 
         <Flex mb="2" alignItems="center">
           <EditIcon
@@ -121,10 +167,10 @@ const TodoListTile: React.FC<TodoListProps> = ({
           />
           <Input
             size="sm"
-            value={inputValue}
+            value={todoInputValue}
             borderColor={color}
-            onChange={onInputChange}
-            onKeyDown={onKeyPress}
+            onChange={onTodoInputChange}
+            onKeyDown={onTodoInputKeyPress}
             placeholder={
               !unfinishedTodos || unfinishedTodos.length <= 0
                 ? "Add a to-do"
