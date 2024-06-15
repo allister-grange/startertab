@@ -4,6 +4,7 @@ export type TodoObject = {
   date: number;
   isCategory?: boolean;
   subTodoListItems?: TodoObject[];
+  collapsed?: boolean;
 };
 
 export type Booking = {

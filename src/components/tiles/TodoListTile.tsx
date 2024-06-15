@@ -17,6 +17,27 @@ export interface TodoListProps {
   setTodoList: SetterOrUpdater<TodoObject[] | undefined>;
 }
 
+const toggleCollapseAllCategories = (
+  todos: TodoObject[],
+  targetTodo: TodoObject
+): TodoObject[] => {
+  return todos.map((todo) => {
+    if (todo === targetTodo) {
+      return { ...todo, collapsed: !todo.collapsed };
+    } else if (todo.subTodoListItems) {
+      return {
+        ...todo,
+        subTodoListItems: toggleCollapseAllCategories(
+          todo.subTodoListItems,
+          targetTodo
+        ),
+      };
+    } else {
+      return todo;
+    }
+  });
+};
+
 const TodoListTile: React.FC<TodoListProps> = ({
   tileId,
   todoList,
@@ -66,9 +87,8 @@ const TodoListTile: React.FC<TodoListProps> = ({
   };
 
   const handleTodoTicked = (todo: TodoObject) => {
-    const todosToUpdates = JSON.parse(JSON.stringify(todoList)) as TodoObject[];
-    setTodoList(
-      todosToUpdates.map((todoToFind) => {
+    setTodoList((prevTodos) =>
+      prevTodos!.map((todoToFind) => {
         if (todo.date === todoToFind.date) {
           return { ...todoToFind, done: !todoToFind.done };
         }
@@ -103,6 +123,31 @@ const TodoListTile: React.FC<TodoListProps> = ({
     setTodoList([{ date: 0, done: false, title: "Add some todos ✔️" }]);
   }
 
+  const handleCollapseCategoryToggle = (targetTodo: TodoObject) => {
+    setTodoList((prevTodos) => {
+      console.log("prev", prevTodos);
+      const newTodos = prevTodos!.map((todo) => {
+        if (todo.date === targetTodo.date) {
+          return { ...todo, collapsed: !todo.collapsed };
+        } else if (todo.subTodoListItems) {
+          return {
+            ...todo,
+            subTodoListItems: toggleCollapseAllCategories(
+              todo.subTodoListItems,
+              targetTodo
+            ),
+          };
+        } else {
+          return todo;
+        }
+      });
+      console.log("new", newTodos);
+      return newTodos;
+    });
+  };
+
+  console.log("surely");
+
   const finishedTodos = todoList?.filter((todo) => todo.done === true);
   const unfinishedTodos = todoList?.filter((todo) => todo.done === false);
 
@@ -117,7 +162,8 @@ const TodoListTile: React.FC<TodoListProps> = ({
                 handleTodoDelete={handleTodoDelete}
                 handleTodoTicked={handleTodoTicked}
                 color={color}
-                key={todo.date + todo.title}
+                key={todo.date}
+                handleCollapseCategoryToggle={handleCollapseCategoryToggle}
               />
             ))}
           </ol>
@@ -212,6 +258,7 @@ const TodoListTile: React.FC<TodoListProps> = ({
                   handleTodoTicked={handleTodoTicked}
                   color={color}
                   key={todo.date + todo.title}
+                  handleCollapseCategoryToggle={handleCollapseCategoryToggle}
                 />
               ))}
             </ol>
