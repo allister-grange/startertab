@@ -86,6 +86,7 @@ const TodoListTile: React.FC<TodoListProps> = ({
     setCategoryInputValue("");
   };
 
+  // TODO this is ticking all the categories at once
   const handleTodoTicked = (todo: TodoObject) => {
     setTodoList((prevTodos) =>
       prevTodos!.map((todoToFind) => {
@@ -100,6 +101,28 @@ const TodoListTile: React.FC<TodoListProps> = ({
   const handleTodoDelete = (todo: TodoObject) => {
     setTodoList(
       todoList?.filter((todoToFind) => todoToFind.date !== todo.date) || []
+    );
+  };
+
+  // add another todo list item to the category, then bring the keyboard focus to its input
+  const handleAddItemToCategory = (targetTodo: TodoObject) => {
+    setTodoList((prevTodos) =>
+      prevTodos?.map((todo) => {
+        if (todo.date === targetTodo.date) {
+          const newTodo: TodoObject = {
+            done: false,
+            title: "test",
+            date: Date.now(),
+            isCategory: false,
+          };
+          const newSubTodoListItems = todo.subTodoListItems
+            ? [...todo.subTodoListItems, newTodo]
+            : [newTodo];
+          return { ...todo, subTodoListItems: newSubTodoListItems };
+        } else {
+          return todo;
+        }
+      })
     );
   };
 
@@ -125,13 +148,13 @@ const TodoListTile: React.FC<TodoListProps> = ({
 
   const handleCollapseCategoryToggle = (targetTodo: TodoObject) => {
     setTodoList((prevTodos) => {
-      console.log("prev", prevTodos);
       const newTodos = prevTodos!.map((todo) => {
         if (todo.date === targetTodo.date) {
           return { ...todo, collapsed: !todo.collapsed };
         } else if (todo.subTodoListItems) {
           return {
             ...todo,
+            // TODO this is collapsing the parent nodes too
             subTodoListItems: toggleCollapseAllCategories(
               todo.subTodoListItems,
               targetTodo
@@ -141,12 +164,11 @@ const TodoListTile: React.FC<TodoListProps> = ({
           return todo;
         }
       });
-      console.log("new", newTodos);
       return newTodos;
     });
   };
 
-  console.log("surely");
+  console.log("Re-rendering TodoListTile");
 
   const finishedTodos = todoList?.filter((todo) => todo.done === true);
   const unfinishedTodos = todoList?.filter((todo) => todo.done === false);
@@ -164,6 +186,7 @@ const TodoListTile: React.FC<TodoListProps> = ({
                 color={color}
                 key={todo.date}
                 handleCollapseCategoryToggle={handleCollapseCategoryToggle}
+                handleAddItemToCategory={handleAddItemToCategory}
               />
             ))}
           </ol>
@@ -257,8 +280,9 @@ const TodoListTile: React.FC<TodoListProps> = ({
                   handleTodoDelete={handleTodoDelete}
                   handleTodoTicked={handleTodoTicked}
                   color={color}
-                  key={todo.date + todo.title}
+                  key={todo.date}
                   handleCollapseCategoryToggle={handleCollapseCategoryToggle}
+                  handleAddItemToCategory={handleAddItemToCategory}
                 />
               ))}
             </ol>
@@ -269,25 +293,27 @@ const TodoListTile: React.FC<TodoListProps> = ({
   );
 };
 
-const areEqual = (prevProps: TodoListProps, nextProps: TodoListProps) => {
-  if (!prevProps.todoList || !nextProps.todoList) {
-    return false;
-  }
+// todo fix this to work with collapsed
+// const areEqual = (prevProps: TodoListProps, nextProps: TodoListProps) => {
+//   if (!prevProps.todoList || !nextProps.todoList) {
+//     return false;
+//   }
 
-  if (prevProps.todoList.length !== nextProps.todoList.length) {
-    return false;
-  }
+//   if (prevProps.todoList.length !== nextProps.todoList.length) {
+//     return false;
+//   }
 
-  for (let i = 0; i < prevProps.todoList.length; i++) {
-    const a = prevProps.todoList[i];
-    const b = nextProps.todoList[i];
+//   for (let i = 0; i < prevProps.todoList.length; i++) {
+//     const a = prevProps.todoList[i];
+//     const b = nextProps.todoList[i];
 
-    if (a.title != b.title || a.date != b.date || a.done != b.done) {
-      return false;
-    }
-  }
+//     if (a.title != b.title || a.date != b.date || a.done != b.done) {
+//       return false;
+//     }
+//   }
 
-  return true;
-};
+//   return true;
+// };
 
-export default React.memo(TodoListTile, areEqual);
+export default TodoListTile;
+// export default React.memo(TodoListTile, areEqual);

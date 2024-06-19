@@ -3,9 +3,10 @@ import {
   CheckIcon,
   ChevronDownIcon,
   ChevronRightIcon,
+  SmallAddIcon,
   SmallCloseIcon,
 } from "@chakra-ui/icons";
-import { Box, Button, Flex, Text } from "@chakra-ui/react";
+import { Box, Button, Flex, Text, Tooltip } from "@chakra-ui/react";
 import React from "react";
 
 interface TodoListItemProps {
@@ -15,6 +16,7 @@ interface TodoListItemProps {
   handleTodoDelete: (todo: TodoObject) => void;
   depth?: number;
   handleCollapseCategoryToggle: (todo: TodoObject) => void;
+  handleAddItemToCategory: (todo: TodoObject) => void;
 }
 
 export const TodoListItem: React.FC<TodoListItemProps> = ({
@@ -24,14 +26,21 @@ export const TodoListItem: React.FC<TodoListItemProps> = ({
   handleTodoDelete,
   depth = 0,
   handleCollapseCategoryToggle,
+  handleAddItemToCategory,
 }) => {
   const [showingDeleteIcon, setShowingDeleteIcon] = React.useState(false);
+  const [showingAddTodoListItem, setShowingAddTodoListItem] =
+    React.useState(false);
   const renderTodoItem = () => {
     if (todo.isCategory) {
-      console.log(todo);
-
       return (
-        <Flex alignItems="center" mb="3" ml={`${depth * 20}px`}>
+        <Flex
+          alignItems="center"
+          mb="3"
+          ml={`${depth * 20}px`}
+          onMouseEnter={() => setShowingAddTodoListItem(true)}
+          onMouseLeave={() => setShowingAddTodoListItem(false)}
+        >
           <Button
             variant="link"
             display="flex"
@@ -46,6 +55,21 @@ export const TodoListItem: React.FC<TodoListItemProps> = ({
             <Text fontSize="14" ml="1" fontWeight="600">
               {todo.title}
             </Text>
+            {showingAddTodoListItem && (
+              <Tooltip label="add a todo">
+                <SmallAddIcon
+                  cursor="pointer"
+                  color={color}
+                  opacity="0.6"
+                  ml="1"
+                  mt="3px"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleAddItemToCategory(todo);
+                  }}
+                />
+              </Tooltip>
+            )}
           </Button>
         </Flex>
       );
@@ -92,7 +116,7 @@ export const TodoListItem: React.FC<TodoListItemProps> = ({
           <Text fontSize="14" ml="2" fontWeight="600">
             {todo.title}
           </Text>
-          {showingDeleteIcon ? (
+          {showingDeleteIcon && (
             <SmallCloseIcon
               cursor="pointer"
               color={color}
@@ -100,7 +124,7 @@ export const TodoListItem: React.FC<TodoListItemProps> = ({
               ml="auto"
               onClick={() => handleTodoDelete(todo)}
             />
-          ) : null}
+          )}
         </Flex>
       );
     }
@@ -115,13 +139,14 @@ export const TodoListItem: React.FC<TodoListItemProps> = ({
           <Box>
             {todo.subTodoListItems.map((subTodo) => (
               <TodoListItem
-                key={subTodo.title}
+                key={subTodo.date}
                 todo={subTodo}
                 color={color}
                 handleTodoTicked={handleTodoTicked}
                 handleTodoDelete={handleTodoDelete}
-                depth={depth + 1}
+                handleAddItemToCategory={handleAddItemToCategory}
                 handleCollapseCategoryToggle={handleCollapseCategoryToggle}
+                depth={depth + 1}
               />
             ))}
           </Box>
