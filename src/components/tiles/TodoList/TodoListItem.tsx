@@ -38,14 +38,21 @@ export const TodoListItem: React.FC<TodoListItemProps> = ({
           alignItems="center"
           mb="3"
           ml={`${depth * 20}px`}
-          onMouseEnter={() => setShowingAddTodoListItem(true)}
-          onMouseLeave={() => setShowingAddTodoListItem(false)}
+          onMouseEnter={() => {
+            setShowingAddTodoListItem(true);
+            setShowingDeleteIcon(true);
+          }}
+          onMouseLeave={() => {
+            setShowingAddTodoListItem(false);
+            setShowingDeleteIcon(false);
+          }}
         >
           <Button
             variant="link"
             display="flex"
             alignItems="center"
             gap="1"
+            width="100%"
             justifyContent="flex-start"
             fontWeight="normal"
             color={color}
@@ -67,6 +74,17 @@ export const TodoListItem: React.FC<TodoListItemProps> = ({
                     e.stopPropagation();
                     handleAddItemToCategory(todo);
                   }}
+                />
+              </Tooltip>
+            )}
+            {showingDeleteIcon && (
+              <Tooltip label="delete" ml="auto">
+                <SmallCloseIcon
+                  cursor="pointer"
+                  color={color}
+                  opacity="0.6"
+                  ml="auto"
+                  onClick={() => handleTodoDelete(todo)}
                 />
               </Tooltip>
             )}

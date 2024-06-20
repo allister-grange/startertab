@@ -1,3 +1,11 @@
+/**
+ * TODO NEXT
+ *
+ * - When editing, be able to create sub-categories
+ * - Deletion of categories
+ * - finishedTodos and unfinishedTodos need to be recursive
+ */
+
 import { TodoObject } from "@/types";
 import {
   AddIcon,
@@ -71,39 +79,25 @@ const deleteTodoItem = (
   return updatedTodoList;
 };
 
-const completeTodoItem = (
+const toggleTodoDone = (
   todoList: TodoObject[],
-  todoToComplete: TodoObject
+  todoToToggle: TodoObject
 ): TodoObject[] => {
-  let updatedTodoList: TodoObject[] = [];
-  // issues with modifying readonly data in the todo list array
-  const todos = JSON.parse(JSON.stringify(todoList));
-
-  for (let i = 0; i < todos.length; i++) {
-    const todo = todos[i];
-
-    if (todo.date === todoToComplete.date) {
-      todo.done = !todo.done;
-      continue;
+  return todoList.map((todo) => {
+    if (todo.date === todoToToggle.date) {
+      return { ...todo, done: !todo.done };
     }
 
     if (todo.subTodoListItems && todo.subTodoListItems.length > 0) {
-      const updatedSubList = deleteTodoItem(
+      const updatedSubList = toggleTodoDone(
         todo.subTodoListItems,
-        todoToComplete
+        todoToToggle
       );
-
-      if (updatedSubList.length !== todo.subTodoListItems.length) {
-        updatedTodoList.push({ ...todo, subTodoListItems: updatedSubList });
-      } else {
-        updatedTodoList.push(todo);
-      }
-    } else {
-      updatedTodoList.push(todo);
+      return { ...todo, subTodoListItems: updatedSubList };
     }
-  }
 
-  return updatedTodoList;
+    return todo;
+  });
 };
 
 const TodoListTile: React.FC<TodoListProps> = ({
@@ -155,7 +149,7 @@ const TodoListTile: React.FC<TodoListProps> = ({
   };
 
   const handleTodoTicked = (todo: TodoObject) => {
-    setTodoList(completeTodoItem(todoList, todo));
+    setTodoList(toggleTodoDone(todoList, todo));
   };
 
   const handleTodoDelete = (targetTodo: TodoObject) => {
