@@ -71,6 +71,41 @@ const deleteTodoItem = (
   return updatedTodoList;
 };
 
+const completeTodoItem = (
+  todoList: TodoObject[],
+  todoToComplete: TodoObject
+): TodoObject[] => {
+  let updatedTodoList: TodoObject[] = [];
+  // issues with modifying readonly data in the todo list array
+  const todos = JSON.parse(JSON.stringify(todoList));
+
+  for (let i = 0; i < todos.length; i++) {
+    const todo = todos[i];
+
+    if (todo.date === todoToComplete.date) {
+      todo.done = !todo.done;
+      continue;
+    }
+
+    if (todo.subTodoListItems && todo.subTodoListItems.length > 0) {
+      const updatedSubList = deleteTodoItem(
+        todo.subTodoListItems,
+        todoToComplete
+      );
+
+      if (updatedSubList.length !== todo.subTodoListItems.length) {
+        updatedTodoList.push({ ...todo, subTodoListItems: updatedSubList });
+      } else {
+        updatedTodoList.push(todo);
+      }
+    } else {
+      updatedTodoList.push(todo);
+    }
+  }
+
+  return updatedTodoList;
+};
+
 const TodoListTile: React.FC<TodoListProps> = ({
   tileId,
   todoList,
@@ -119,23 +154,12 @@ const TodoListTile: React.FC<TodoListProps> = ({
     setCategoryInputValue("");
   };
 
-  // TODO this is ticking all the categories at once
   const handleTodoTicked = (todo: TodoObject) => {
-    setTodoList((prevTodos) =>
-      prevTodos!.map((todoToFind) => {
-        if (todo.date === todoToFind.date) {
-          return { ...todoToFind, done: !todoToFind.done };
-        }
-        return todoToFind;
-      })
-    );
+    setTodoList(completeTodoItem(todoList, todo));
   };
 
-  // needs to be recursive
   const handleTodoDelete = (targetTodo: TodoObject) => {
-    console.log("Called");
-    const matches = deleteTodoItem(todoList, targetTodo);
-    setTodoList(matches);
+    setTodoList(deleteTodoItem(todoList, targetTodo));
   };
 
   // add another todo list item to the category, then bring the keyboard focus to its input
