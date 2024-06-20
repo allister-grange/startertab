@@ -13,7 +13,7 @@ import { sidebarOpenAtom } from "@/recoil/SidebarAtoms";
 
 export interface TodoListProps {
   tileId: number;
-  todoList?: TodoObject[] | undefined;
+  todoList: TodoObject[];
   setTodoList: SetterOrUpdater<TodoObject[] | undefined>;
 }
 
@@ -36,6 +36,39 @@ const toggleCollapseAllCategories = (
       return todo;
     }
   });
+};
+
+const deleteTodoItem = (
+  todoList: TodoObject[],
+  todoToDelete: TodoObject
+): TodoObject[] => {
+  let updatedTodoList: TodoObject[] = [];
+
+  for (let i = 0; i < todoList.length; i++) {
+    const todo = todoList[i];
+
+    if (todo.date === todoToDelete.date) {
+      // Skip the todo to delete it
+      continue;
+    }
+
+    if (todo.subTodoListItems && todo.subTodoListItems.length > 0) {
+      const updatedSubList = deleteTodoItem(
+        todo.subTodoListItems,
+        todoToDelete
+      );
+
+      if (updatedSubList.length !== todo.subTodoListItems.length) {
+        updatedTodoList.push({ ...todo, subTodoListItems: updatedSubList });
+      } else {
+        updatedTodoList.push(todo);
+      }
+    } else {
+      updatedTodoList.push(todo);
+    }
+  }
+
+  return updatedTodoList;
 };
 
 const TodoListTile: React.FC<TodoListProps> = ({
@@ -75,7 +108,7 @@ const TodoListTile: React.FC<TodoListProps> = ({
       return;
     }
     setTodoList([
-      ...(todoList || []),
+      ...todoList,
       {
         done: false,
         title: categoryInputValue,
@@ -98,16 +131,17 @@ const TodoListTile: React.FC<TodoListProps> = ({
     );
   };
 
-  const handleTodoDelete = (todo: TodoObject) => {
-    setTodoList(
-      todoList?.filter((todoToFind) => todoToFind.date !== todo.date) || []
-    );
+  // needs to be recursive
+  const handleTodoDelete = (targetTodo: TodoObject) => {
+    console.log("Called");
+    const matches = deleteTodoItem(todoList, targetTodo);
+    setTodoList(matches);
   };
 
   // add another todo list item to the category, then bring the keyboard focus to its input
   const handleAddItemToCategory = (targetTodo: TodoObject) => {
     setTodoList((prevTodos) =>
-      prevTodos?.map((todo) => {
+      prevTodos!.map((todo) => {
         if (todo.date === targetTodo.date) {
           const newTodo: TodoObject = {
             done: false,
@@ -131,7 +165,7 @@ const TodoListTile: React.FC<TodoListProps> = ({
       return;
     }
     setTodoList([
-      ...(todoList || []),
+      ...todoList,
       {
         done: false,
         title: todoInputValue,
