@@ -1,12 +1,13 @@
 import { TodoObject } from "@/types";
 import {
+  AddIcon,
   CheckIcon,
   ChevronDownIcon,
   ChevronRightIcon,
   SmallAddIcon,
   SmallCloseIcon,
 } from "@chakra-ui/icons";
-import { Box, Button, Flex, Text, Tooltip } from "@chakra-ui/react";
+import { Box, Button, Flex, Input, Text, Tooltip } from "@chakra-ui/react";
 import React from "react";
 
 interface TodoListItemProps {
@@ -17,6 +18,8 @@ interface TodoListItemProps {
   depth?: number;
   handleCollapseCategoryToggle: (todo: TodoObject) => void;
   handleAddItemToCategory: (todo: TodoObject) => void;
+  isEditing: boolean;
+  handleAddingCategory: (categoryName: string, todo?: TodoObject) => void;
 }
 
 export const TodoListItem: React.FC<TodoListItemProps> = ({
@@ -27,29 +30,53 @@ export const TodoListItem: React.FC<TodoListItemProps> = ({
   depth = 0,
   handleCollapseCategoryToggle,
   handleAddItemToCategory,
+  isEditing,
+  handleAddingCategory,
 }) => {
   const [showingDeleteIcon, setShowingDeleteIcon] = React.useState(false);
   const [showingAddTodoListItem, setShowingAddTodoListItem] =
     React.useState(false);
+  const [showingAddCategoryInput, setShowingAddCategoryInput] =
+    React.useState(false);
+  const [categoryInputValue, setCategoryInputValue] = React.useState("");
+
+  React.useEffect(() => {
+    if (!isEditing) {
+      setCategoryInputValue("");
+      setShowingAddCategoryInput(false);
+    }
+  }, [isEditing]);
+
+  const onCategoryInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setCategoryInputValue(e.target.value);
+  };
+
+  const onCategoryInputKeyPress = (e: React.KeyboardEvent<HTMLDivElement>) => {
+    if (e.key === "Enter") {
+      handleAddingCategory(categoryInputValue, todo);
+      setCategoryInputValue("");
+    }
+  };
+
   const renderTodoItem = () => {
     if (todo.isCategory) {
       return (
         <Flex
           alignItems="center"
           mb="3"
+          flexDir="column"
           ml={`${depth * 20}px`}
-          onMouseEnter={() => {
-            setShowingAddTodoListItem(true);
-            setShowingDeleteIcon(true);
-          }}
-          onMouseLeave={() => {
-            setShowingAddTodoListItem(false);
-            setShowingDeleteIcon(false);
-          }}
         >
           <Button
+            onMouseEnter={() => {
+              setShowingAddTodoListItem(true);
+              setShowingDeleteIcon(true);
+            }}
+            onMouseLeave={() => {
+              setShowingAddTodoListItem(false);
+              setShowingDeleteIcon(false);
+            }}
             variant="link"
-            display="flex"
             alignItems="center"
             gap="1"
             width="100%"
@@ -89,6 +116,37 @@ export const TodoListItem: React.FC<TodoListItemProps> = ({
               </Tooltip>
             )}
           </Button>
+          {!todo.collapsed &&
+            isEditing &&
+            (!showingAddCategoryInput ? (
+              <Button
+                fontSize="sm"
+                opacity="0.7"
+                justifyContent="flex-start"
+                variant="link"
+                gap="1"
+                mt="1"
+                fontWeight="normal"
+                color={color}
+                onClick={() => setShowingAddCategoryInput(true)}
+              >
+                <AddIcon boxSize={2.5} />
+                <Text>add sub category</Text>
+              </Button>
+            ) : (
+              <Input
+                size="xs"
+                width="67%"
+                mt="1"
+                value={categoryInputValue}
+                borderColor={color}
+                onChange={onCategoryInputChange}
+                onKeyDown={onCategoryInputKeyPress}
+                placeholder={"category name"}
+                _focus={{ borderColor: color }}
+                _hover={{ borderColor: color }}
+              />
+            ))}
         </Flex>
       );
     } else if (todo.done) {
@@ -164,6 +222,8 @@ export const TodoListItem: React.FC<TodoListItemProps> = ({
                 handleTodoDelete={handleTodoDelete}
                 handleAddItemToCategory={handleAddItemToCategory}
                 handleCollapseCategoryToggle={handleCollapseCategoryToggle}
+                handleAddingCategory={handleAddingCategory}
+                isEditing={isEditing}
                 depth={depth + 1}
               />
             ))}

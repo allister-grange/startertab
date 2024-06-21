@@ -1,6 +1,7 @@
 /**
  * TODO NEXT
  *
+ * - handleAddingCategory can only go 1 depth?
  * - When editing, be able to create sub-categories
  * - Deletion of categories
  * - finishedTodos and unfinishedTodos need to be recursive
@@ -30,7 +31,7 @@ const toggleCollapseAllCategories = (
   targetTodo: TodoObject
 ): TodoObject[] => {
   return todos.map((todo) => {
-    if (todo === targetTodo) {
+    if (todo.date === targetTodo.date) {
       return { ...todo, collapsed: !todo.collapsed };
     } else if (todo.subTodoListItems) {
       return {
@@ -100,6 +101,36 @@ const toggleTodoDone = (
   });
 };
 
+const addSubCategoryToCategory = (
+  todoList: TodoObject[],
+  categoryToFind: TodoObject,
+  newCategory: TodoObject
+): TodoObject[] => {
+  return todoList.map((todo) => {
+    if (todo.date === categoryToFind.date) {
+      // add in the node here
+      const newTodo = { ...todo };
+      const oldSubItems = todo.subTodoListItems
+        ? [...todo.subTodoListItems]
+        : [];
+      newTodo.subTodoListItems = [...oldSubItems, newCategory];
+      console.log(newTodo);
+
+      return newTodo;
+    } else if (todo.subTodoListItems) {
+      return {
+        ...todo,
+        subTodoListItems: toggleCollapseAllCategories(
+          todo.subTodoListItems,
+          categoryToFind
+        ),
+      };
+    } else {
+      return todo;
+    }
+  });
+};
+
 const TodoListTile: React.FC<TodoListProps> = ({
   tileId,
   todoList,
@@ -128,23 +159,33 @@ const TodoListTile: React.FC<TodoListProps> = ({
 
   const onCategoryInputKeyPress = (e: React.KeyboardEvent<HTMLDivElement>) => {
     if (e.key === "Enter") {
-      handleAddingCategory();
+      handleAddingCategory(categoryInputValue);
     }
   };
 
-  const handleAddingCategory = () => {
-    if (categoryInputValue === "") {
+  // todo this needs to add it at the appropriate depth
+  const handleAddingCategory = (
+    categoryName: string,
+    category?: TodoObject
+  ) => {
+    if (categoryName === "") {
       return;
     }
-    setTodoList([
-      ...todoList,
-      {
-        done: false,
-        title: categoryInputValue,
-        date: Date.now(),
-        isCategory: true,
-      },
-    ]);
+
+    const newCategory = {
+      done: false,
+      title: categoryName,
+      date: Date.now(),
+      isCategory: true,
+    };
+
+    if (!category) {
+      setTodoList([...todoList, newCategory]);
+    } else {
+      setTodoList(
+        addSubCategoryToCategory([...todoList], category, newCategory)
+      );
+    }
     setCategoryInputValue("");
   };
 
@@ -239,6 +280,8 @@ const TodoListTile: React.FC<TodoListProps> = ({
                 key={todo.date}
                 handleCollapseCategoryToggle={handleCollapseCategoryToggle}
                 handleAddItemToCategory={handleAddItemToCategory}
+                handleAddingCategory={handleAddingCategory}
+                isEditing={sidebarOpen}
               />
             ))}
           </ol>
@@ -271,8 +314,8 @@ const TodoListTile: React.FC<TodoListProps> = ({
                 color={color}
                 onClick={() => setShowingAddCategoryInput(true)}
               >
-                <AddIcon />
-                <Text>Add a category</Text>
+                <AddIcon boxSize={2.5} />
+                <Text>add a category</Text>
               </Button>
             )}
           </Box>
@@ -335,6 +378,8 @@ const TodoListTile: React.FC<TodoListProps> = ({
                   key={todo.date}
                   handleCollapseCategoryToggle={handleCollapseCategoryToggle}
                   handleAddItemToCategory={handleAddItemToCategory}
+                  handleAddingCategory={handleAddingCategory}
+                  isEditing={sidebarOpen}
                 />
               ))}
             </ol>
