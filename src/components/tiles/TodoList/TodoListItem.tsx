@@ -150,6 +150,8 @@ export const TodoListItem: React.FC<TodoListItemProps> = ({
             ))}
         </Flex>
       );
+    } else if (todo.done && depth >= 1) {
+      return <></>;
     } else if (todo.done) {
       return (
         <Flex alignItems="center" mb="3">

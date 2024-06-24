@@ -1,7 +1,6 @@
 /**
  * TODO NEXT
  *
- * - can't add todos to a sub-category
  * - can't complete nested todos
  * - When editing, be able to create sub-categories
  * - Deletion of categories
@@ -26,6 +25,37 @@ export interface TodoListProps {
   todoList: TodoObject[];
   setTodoList: SetterOrUpdater<TodoObject[] | undefined>;
 }
+
+interface TodoResults {
+  finishedTodos: TodoObject[];
+  unfinishedTodos: TodoObject[];
+}
+
+const categorizeTodos = (todoList: TodoObject[]): TodoResults => {
+  let finishedTodos: TodoObject[] = [];
+  let unfinishedTodos: TodoObject[] = [];
+
+  const processTodos = (todos: TodoObject[]) => {
+    todos.forEach((todo) => {
+      if (todo.done) {
+        finishedTodos.push(todo);
+      } else {
+        unfinishedTodos.push(todo);
+      }
+
+      if (todo.subTodoListItems && todo.subTodoListItems.length > 0) {
+        processTodos(todo.subTodoListItems);
+      }
+    });
+  };
+
+  processTodos(todoList);
+
+  return {
+    finishedTodos,
+    unfinishedTodos,
+  };
+};
 
 const toggleCollapseAllCategories = (
   todos: TodoObject[],
@@ -52,14 +82,10 @@ const deleteTodoItem = (
   todoList: TodoObject[],
   todoToDelete: TodoObject
 ): TodoObject[] => {
-  let updatedTodoList: TodoObject[] = [];
-
-  for (let i = 0; i < todoList.length; i++) {
-    const todo = todoList[i];
-
+  return todoList.reduce((updatedTodoList, todo) => {
     if (todo.date === todoToDelete.date) {
       // Skip the todo to delete it
-      continue;
+      return updatedTodoList;
     }
 
     if (todo.subTodoListItems && todo.subTodoListItems.length > 0) {
@@ -67,18 +93,17 @@ const deleteTodoItem = (
         todo.subTodoListItems,
         todoToDelete
       );
-
       if (updatedSubList.length !== todo.subTodoListItems.length) {
         updatedTodoList.push({ ...todo, subTodoListItems: updatedSubList });
       } else {
-        updatedTodoList.push(todo);
+        updatedTodoList.push({ ...todo, subTodoListItems: updatedSubList });
       }
     } else {
       updatedTodoList.push(todo);
     }
-  }
 
-  return updatedTodoList;
+    return updatedTodoList;
+  }, [] as TodoObject[]);
 };
 
 const toggleTodoDone = (
@@ -175,6 +200,7 @@ const TodoListTile: React.FC<TodoListProps> = ({
   const [categoryInputValue, setCategoryInputValue] = useState("");
   const [showingCompletedItems, setShowingCompletedItems] = useState(false);
   const [showingAddCategoryInput, setShowingAddCategoryInput] = useState(false);
+
   const sidebarOpen = useRecoilValue(sidebarOpenAtom);
 
   const onTodoInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -279,8 +305,7 @@ const TodoListTile: React.FC<TodoListProps> = ({
     });
   };
 
-  const finishedTodos = todoList?.filter((todo) => todo.done === true);
-  const unfinishedTodos = todoList?.filter((todo) => todo.done === false);
+  const { finishedTodos, unfinishedTodos } = categorizeTodos(todoList);
 
   return (
     <Box color={color} p="4" pt="4" height="100%">
