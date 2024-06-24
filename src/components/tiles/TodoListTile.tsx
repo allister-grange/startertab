@@ -1,7 +1,8 @@
 /**
  * TODO NEXT
  *
- * - handleAddingCategory can only go 1 depth?
+ * - can't add todos to a sub-category
+ * - can't complete nested todos
  * - When editing, be able to create sub-categories
  * - Deletion of categories
  * - finishedTodos and unfinishedTodos need to be recursive
@@ -114,15 +115,48 @@ const addSubCategoryToCategory = (
         ? [...todo.subTodoListItems]
         : [];
       newTodo.subTodoListItems = [...oldSubItems, newCategory];
-      console.log(newTodo);
-
       return newTodo;
     } else if (todo.subTodoListItems) {
       return {
         ...todo,
-        subTodoListItems: toggleCollapseAllCategories(
+        subTodoListItems: addSubCategoryToCategory(
           todo.subTodoListItems,
-          categoryToFind
+          categoryToFind,
+          newCategory
+        ),
+      };
+    } else {
+      return todo;
+    }
+  });
+};
+
+const addANewTodoToACategory = (
+  todoList: TodoObject[],
+  targetCategory: TodoObject
+): TodoObject[] => {
+  return todoList.map((todo) => {
+    if (todo.date === targetCategory.date) {
+      const newTodo: TodoObject = {
+        done: false,
+        title: "",
+        date: Date.now(),
+        isCategory: false,
+        subTodoListItems: [],
+      };
+      const newSubItems = todo.subTodoListItems
+        ? [newTodo, ...todo.subTodoListItems]
+        : [newTodo];
+      return {
+        ...todo,
+        subTodoListItems: newSubItems,
+      };
+    } else if (todo.subTodoListItems) {
+      return {
+        ...todo,
+        subTodoListItems: addANewTodoToACategory(
+          todo.subTodoListItems,
+          targetCategory
         ),
       };
     } else {
@@ -198,25 +232,9 @@ const TodoListTile: React.FC<TodoListProps> = ({
   };
 
   // add another todo list item to the category, then bring the keyboard focus to its input
+  // TODO this needs to be recusrive
   const handleAddItemToCategory = (targetTodo: TodoObject) => {
-    setTodoList((prevTodos) =>
-      prevTodos!.map((todo) => {
-        if (todo.date === targetTodo.date) {
-          const newTodo: TodoObject = {
-            done: false,
-            title: "test",
-            date: Date.now(),
-            isCategory: false,
-          };
-          const newSubTodoListItems = todo.subTodoListItems
-            ? [...todo.subTodoListItems, newTodo]
-            : [newTodo];
-          return { ...todo, subTodoListItems: newSubTodoListItems };
-        } else {
-          return todo;
-        }
-      })
-    );
+    setTodoList(addANewTodoToACategory([...todoList], targetTodo));
   };
 
   const handleInputIconClick = () => {
@@ -260,8 +278,6 @@ const TodoListTile: React.FC<TodoListProps> = ({
       return newTodos;
     });
   };
-
-  console.log("Re-rendering TodoListTile");
 
   const finishedTodos = todoList?.filter((todo) => todo.done === true);
   const unfinishedTodos = todoList?.filter((todo) => todo.done === false);

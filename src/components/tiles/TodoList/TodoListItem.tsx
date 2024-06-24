@@ -118,6 +118,7 @@ export const TodoListItem: React.FC<TodoListItemProps> = ({
           </Button>
           {!todo.collapsed &&
             isEditing &&
+            depth < 2 &&
             (!showingAddCategoryInput ? (
               <Button
                 fontSize="sm"
