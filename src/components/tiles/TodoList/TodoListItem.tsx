@@ -17,7 +17,10 @@ interface TodoListItemProps {
   handleTodoDelete: (todo: TodoObject) => void;
   depth?: number;
   handleCollapseCategoryToggle: (todo: TodoObject) => void;
-  handleAddItemToCategory: (todo: TodoObject) => void;
+  handleAddItemToCategory: (
+    targetCategory: TodoObject,
+    newTodo: TodoObject
+  ) => void;
   isEditing: boolean;
   handleAddingCategory: (categoryName: string, todo?: TodoObject) => void;
 }
@@ -39,6 +42,11 @@ export const TodoListItem: React.FC<TodoListItemProps> = ({
   const [showingAddCategoryInput, setShowingAddCategoryInput] =
     React.useState(false);
   const [categoryInputValue, setCategoryInputValue] = React.useState("");
+  const [showingAddTodoItemInput, setShowingAddTodoItemInput] =
+    React.useState(false);
+  const [todoInputValue, setTodoInputValue] = React.useState("");
+  const categoryInputRef = React.useRef<HTMLInputElement>(null);
+  const newTodoInputRef = React.useRef<HTMLInputElement>(null);
 
   React.useEffect(() => {
     if (!isEditing) {
@@ -46,6 +54,37 @@ export const TodoListItem: React.FC<TodoListItemProps> = ({
       setShowingAddCategoryInput(false);
     }
   }, [isEditing]);
+
+  React.useEffect(() => {
+    if (showingAddCategoryInput && categoryInputRef.current) {
+      categoryInputRef.current.focus();
+    }
+  }, [showingAddCategoryInput]);
+
+  /**
+   * To remove the todo input when the user clicks outside of the element
+   */
+  React.useEffect(() => {
+    if (showingAddTodoItemInput && newTodoInputRef.current) {
+      newTodoInputRef.current.focus();
+      document.addEventListener("mousedown", handleClickOutsideOfInput);
+    } else {
+      document.removeEventListener("mousedown", handleClickOutsideOfInput);
+    }
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutsideOfInput);
+    };
+  }, [showingAddTodoItemInput]);
+
+  const handleClickOutsideOfInput = (event: MouseEvent) => {
+    if (
+      newTodoInputRef.current &&
+      !newTodoInputRef.current.contains(event.target as Node)
+    ) {
+      setShowingAddTodoItemInput(false);
+    }
+  };
 
   const onCategoryInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setCategoryInputValue(e.target.value);
@@ -55,6 +94,22 @@ export const TodoListItem: React.FC<TodoListItemProps> = ({
     if (e.key === "Enter") {
       handleAddingCategory(categoryInputValue, todo);
       setCategoryInputValue("");
+    }
+  };
+
+  const onTodoItemInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setTodoInputValue(e.target.value);
+  };
+
+  const onTodoItemInputKeyPress = (e: React.KeyboardEvent<HTMLDivElement>) => {
+    if (e.key === "Enter") {
+      handleAddItemToCategory(todo, {
+        done: false,
+        title: todoInputValue,
+        date: Date.now(),
+        isCategory: false,
+      });
+      setTodoInputValue("");
     }
   };
 
@@ -99,7 +154,7 @@ export const TodoListItem: React.FC<TodoListItemProps> = ({
                   mt="3px"
                   onClick={(e) => {
                     e.stopPropagation();
-                    handleAddItemToCategory(todo);
+                    setShowingAddTodoItemInput(true);
                   }}
                 />
               </Tooltip>
@@ -128,6 +183,8 @@ export const TodoListItem: React.FC<TodoListItemProps> = ({
                 gap="1"
                 mt="1"
                 fontWeight="normal"
+                mr="auto"
+                ml={`${depth + 1 * 20}px`}
                 color={color}
                 onClick={() => setShowingAddCategoryInput(true)}
               >
@@ -137,8 +194,9 @@ export const TodoListItem: React.FC<TodoListItemProps> = ({
             ) : (
               <Input
                 size="xs"
-                width="67%"
+                width="70%"
                 mt="1"
+                borderRadius="5"
                 value={categoryInputValue}
                 borderColor={color}
                 onChange={onCategoryInputChange}
@@ -146,8 +204,25 @@ export const TodoListItem: React.FC<TodoListItemProps> = ({
                 placeholder={"category name"}
                 _focus={{ borderColor: color }}
                 _hover={{ borderColor: color }}
+                ref={categoryInputRef}
               />
             ))}
+          {showingAddTodoItemInput && (
+            <Input
+              size="xs"
+              width="65%"
+              mt="1"
+              borderRadius="5"
+              value={todoInputValue}
+              borderColor={color}
+              onChange={onTodoItemInputChange}
+              onKeyDown={onTodoItemInputKeyPress}
+              placeholder={"new todo"}
+              _focus={{ borderColor: color }}
+              _hover={{ borderColor: color }}
+              ref={newTodoInputRef}
+            />
+          )}
         </Flex>
       );
     } else if (todo.done && depth >= 1) {

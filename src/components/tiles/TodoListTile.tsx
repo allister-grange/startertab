@@ -1,10 +1,7 @@
 /**
  * TODO NEXT
  *
- * - can't complete nested todos
- * - When editing, be able to create sub-categories
- * - Deletion of categories
- * - finishedTodos and unfinishedTodos need to be recursive
+ * - fix the re-rending memoisation
  */
 
 import { TodoObject } from "@/types";
@@ -158,17 +155,11 @@ const addSubCategoryToCategory = (
 
 const addANewTodoToACategory = (
   todoList: TodoObject[],
-  targetCategory: TodoObject
+  targetCategory: TodoObject,
+  newTodo: TodoObject
 ): TodoObject[] => {
   return todoList.map((todo) => {
     if (todo.date === targetCategory.date) {
-      const newTodo: TodoObject = {
-        done: false,
-        title: "",
-        date: Date.now(),
-        isCategory: false,
-        subTodoListItems: [],
-      };
       const newSubItems = todo.subTodoListItems
         ? [newTodo, ...todo.subTodoListItems]
         : [newTodo];
@@ -181,7 +172,8 @@ const addANewTodoToACategory = (
         ...todo,
         subTodoListItems: addANewTodoToACategory(
           todo.subTodoListItems,
-          targetCategory
+          targetCategory,
+          newTodo
         ),
       };
     } else {
@@ -257,10 +249,11 @@ const TodoListTile: React.FC<TodoListProps> = ({
     setTodoList(deleteTodoItem(todoList, targetTodo));
   };
 
-  // add another todo list item to the category, then bring the keyboard focus to its input
-  // TODO this needs to be recusrive
-  const handleAddItemToCategory = (targetTodo: TodoObject) => {
-    setTodoList(addANewTodoToACategory([...todoList], targetTodo));
+  const handleAddItemToCategory = (
+    targetCategory: TodoObject,
+    newTodo: TodoObject
+  ) => {
+    setTodoList(addANewTodoToACategory([...todoList], targetCategory, newTodo));
   };
 
   const handleInputIconClick = () => {
