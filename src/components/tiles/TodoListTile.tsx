@@ -1,9 +1,3 @@
-/**
- * TODO NEXT
- *
- * - fix the re-rending memoisation
- */
-
 import { TodoObject } from "@/types";
 import {
   AddIcon,
@@ -424,27 +418,4 @@ const TodoListTile: React.FC<TodoListProps> = ({
   );
 };
 
-// todo fix this to work with collapsed
-// const areEqual = (prevProps: TodoListProps, nextProps: TodoListProps) => {
-//   if (!prevProps.todoList || !nextProps.todoList) {
-//     return false;
-//   }
-
-//   if (prevProps.todoList.length !== nextProps.todoList.length) {
-//     return false;
-//   }
-
-//   for (let i = 0; i < prevProps.todoList.length; i++) {
-//     const a = prevProps.todoList[i];
-//     const b = nextProps.todoList[i];
-
-//     if (a.title != b.title || a.date != b.date || a.done != b.done) {
-//       return false;
-//     }
-//   }
-
-//   return true;
-// };
-
 export default TodoListTile;
-// export default React.memo(TodoListTile, areEqual);
