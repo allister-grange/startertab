@@ -22,25 +22,43 @@ interface TodoResults {
   unfinishedTodos: TodoObject[];
 }
 
+// I want the uncompleted items to be shown with their categories nested
+// I want the completed list to be flattened and show no categories
 const categorizeTodos = (todoList: TodoObject[]): TodoResults => {
   let finishedTodos: TodoObject[] = [];
   let unfinishedTodos: TodoObject[] = [];
 
-  const processTodos = (todos: TodoObject[]) => {
+  const processTodos = (todos: TodoObject[], parent: TodoObject | null) => {
     todos.forEach((todo) => {
       if (todo.done) {
         finishedTodos.push(todo);
       } else {
-        unfinishedTodos.push(todo);
+        if (parent) {
+          const parentIndex = unfinishedTodos.findIndex(
+            (t) => t.date === parent.date
+          );
+          if (parentIndex > -1) {
+            if (!unfinishedTodos[parentIndex].subTodoListItems) {
+              unfinishedTodos[parentIndex].subTodoListItems = [];
+            }
+            unfinishedTodos[parentIndex].subTodoListItems!.push({ ...todo });
+          }
+        } else {
+          unfinishedTodos.push({ ...todo, subTodoListItems: [] });
+        }
       }
 
       if (todo.subTodoListItems && todo.subTodoListItems.length > 0) {
-        processTodos(todo.subTodoListItems);
+        if (todo.done) {
+          processTodos(todo.subTodoListItems, null);
+        } else {
+          processTodos(todo.subTodoListItems, todo);
+        }
       }
     });
   };
 
-  processTodos(todoList);
+  processTodos(todoList, null);
 
   return {
     finishedTodos,
@@ -209,7 +227,6 @@ const TodoListTile: React.FC<TodoListProps> = ({
     }
   };
 
-  // todo this needs to add it at the appropriate depth
   const handleAddingCategory = (
     categoryName: string,
     category?: TodoObject
@@ -278,7 +295,6 @@ const TodoListTile: React.FC<TodoListProps> = ({
         } else if (todo.subTodoListItems) {
           return {
             ...todo,
-            // TODO this is collapsing the parent nodes too
             subTodoListItems: toggleCollapseAllCategories(
               todo.subTodoListItems,
               targetTodo
@@ -365,7 +381,7 @@ const TodoListTile: React.FC<TodoListProps> = ({
             onKeyDown={onTodoInputKeyPress}
             placeholder={
               !unfinishedTodos || unfinishedTodos.length <= 0
-                ? "Add a to-do"
+                ? "add a to do"
                 : ""
             }
             _focus={{ borderColor: color }}
