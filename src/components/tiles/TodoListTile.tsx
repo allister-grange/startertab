@@ -1,20 +1,198 @@
 import { TodoObject } from "@/types";
 import {
-  CheckIcon,
+  AddIcon,
   ChevronDownIcon,
   ChevronRightIcon,
   EditIcon,
-  SmallCloseIcon,
 } from "@chakra-ui/icons";
-import { Box, Flex, Heading, Input, Text } from "@chakra-ui/react";
+import { Box, Button, Flex, Input, Text } from "@chakra-ui/react";
 import React, { useState } from "react";
-import { SetterOrUpdater } from "recoil";
+import { SetterOrUpdater, useRecoilValue } from "recoil";
+import { TodoListItem } from "./TodoList/TodoListItem";
+import { sidebarOpenAtom } from "@/recoil/SidebarAtoms";
 
 export interface TodoListProps {
   tileId: number;
-  todoList?: TodoObject[] | undefined;
+  todoList: TodoObject[];
   setTodoList: SetterOrUpdater<TodoObject[] | undefined>;
 }
+
+interface TodoResults {
+  finishedTodos: TodoObject[];
+  unfinishedTodos: TodoObject[];
+}
+
+// I want the uncompleted items to be shown with their categories nested
+// I want the completed list to be flattened and show no categories
+const categorizeTodos = (todoList: TodoObject[]): TodoResults => {
+  let finishedTodos: TodoObject[] = [];
+  let unfinishedTodos: TodoObject[] = [];
+
+  const processTodos = (todos: TodoObject[], parent: TodoObject | null) => {
+    todos.forEach((todo) => {
+      if (todo.done) {
+        finishedTodos.push(todo);
+      } else {
+        if (parent) {
+          const parentIndex = unfinishedTodos.findIndex(
+            (t) => t.date === parent.date
+          );
+          if (parentIndex > -1) {
+            if (!unfinishedTodos[parentIndex].subTodoListItems) {
+              unfinishedTodos[parentIndex].subTodoListItems = [];
+            }
+            unfinishedTodos[parentIndex].subTodoListItems!.push({ ...todo });
+          }
+        } else {
+          unfinishedTodos.push({ ...todo, subTodoListItems: [] });
+        }
+      }
+
+      if (todo.subTodoListItems && todo.subTodoListItems.length > 0) {
+        if (todo.done) {
+          processTodos(todo.subTodoListItems, null);
+        } else {
+          processTodos(todo.subTodoListItems, todo);
+        }
+      }
+    });
+  };
+
+  processTodos(todoList, null);
+
+  return {
+    finishedTodos,
+    unfinishedTodos,
+  };
+};
+
+const toggleCollapseAllCategories = (
+  todos: TodoObject[],
+  targetTodo: TodoObject
+): TodoObject[] => {
+  return todos.map((todo) => {
+    if (todo.date === targetTodo.date) {
+      return { ...todo, collapsed: !todo.collapsed };
+    } else if (todo.subTodoListItems) {
+      return {
+        ...todo,
+        subTodoListItems: toggleCollapseAllCategories(
+          todo.subTodoListItems,
+          targetTodo
+        ),
+      };
+    } else {
+      return todo;
+    }
+  });
+};
+
+const deleteTodoItem = (
+  todoList: TodoObject[],
+  todoToDelete: TodoObject
+): TodoObject[] => {
+  return todoList.reduce((updatedTodoList, todo) => {
+    if (todo.date === todoToDelete.date) {
+      // Skip the todo to delete it
+      return updatedTodoList;
+    }
+
+    if (todo.subTodoListItems && todo.subTodoListItems.length > 0) {
+      const updatedSubList = deleteTodoItem(
+        todo.subTodoListItems,
+        todoToDelete
+      );
+      if (updatedSubList.length !== todo.subTodoListItems.length) {
+        updatedTodoList.push({ ...todo, subTodoListItems: updatedSubList });
+      } else {
+        updatedTodoList.push({ ...todo, subTodoListItems: updatedSubList });
+      }
+    } else {
+      updatedTodoList.push(todo);
+    }
+
+    return updatedTodoList;
+  }, [] as TodoObject[]);
+};
+
+const toggleTodoDone = (
+  todoList: TodoObject[],
+  todoToToggle: TodoObject
+): TodoObject[] => {
+  return todoList.map((todo) => {
+    if (todo.date === todoToToggle.date) {
+      return { ...todo, done: !todo.done };
+    }
+
+    if (todo.subTodoListItems && todo.subTodoListItems.length > 0) {
+      const updatedSubList = toggleTodoDone(
+        todo.subTodoListItems,
+        todoToToggle
+      );
+      return { ...todo, subTodoListItems: updatedSubList };
+    }
+
+    return todo;
+  });
+};
+
+const addSubCategoryToCategory = (
+  todoList: TodoObject[],
+  categoryToFind: TodoObject,
+  newCategory: TodoObject
+): TodoObject[] => {
+  return todoList.map((todo) => {
+    if (todo.date === categoryToFind.date) {
+      // add in the node here
+      const newTodo = { ...todo };
+      const oldSubItems = todo.subTodoListItems
+        ? [...todo.subTodoListItems]
+        : [];
+      newTodo.subTodoListItems = [...oldSubItems, newCategory];
+      return newTodo;
+    } else if (todo.subTodoListItems) {
+      return {
+        ...todo,
+        subTodoListItems: addSubCategoryToCategory(
+          todo.subTodoListItems,
+          categoryToFind,
+          newCategory
+        ),
+      };
+    } else {
+      return todo;
+    }
+  });
+};
+
+const addANewTodoToACategory = (
+  todoList: TodoObject[],
+  targetCategory: TodoObject,
+  newTodo: TodoObject
+): TodoObject[] => {
+  return todoList.map((todo) => {
+    if (todo.date === targetCategory.date) {
+      const newSubItems = todo.subTodoListItems
+        ? [newTodo, ...todo.subTodoListItems]
+        : [newTodo];
+      return {
+        ...todo,
+        subTodoListItems: newSubItems,
+      };
+    } else if (todo.subTodoListItems) {
+      return {
+        ...todo,
+        subTodoListItems: addANewTodoToACategory(
+          todo.subTodoListItems,
+          targetCategory,
+          newTodo
+        ),
+      };
+    } else {
+      return todo;
+    }
+  });
+};
 
 const TodoListTile: React.FC<TodoListProps> = ({
   tileId,
@@ -22,55 +200,115 @@ const TodoListTile: React.FC<TodoListProps> = ({
   setTodoList,
 }) => {
   const color = `var(--text-color-${tileId})`;
-  const [inputValue, setInputValue] = useState("");
-  const [showingDelete, setShowingDelete] = useState<TodoObject | undefined>();
+  const [todoInputValue, setTodoInputValue] = useState("");
+  const [categoryInputValue, setCategoryInputValue] = useState("");
   const [showingCompletedItems, setShowingCompletedItems] = useState(false);
+  const [showingAddCategoryInput, setShowingAddCategoryInput] = useState(false);
 
-  const onInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setInputValue(e.target.value);
+  const sidebarOpen = useRecoilValue(sidebarOpenAtom);
+
+  const onTodoInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setTodoInputValue(e.target.value);
   };
 
-  const onKeyPress = (e: React.KeyboardEvent<HTMLDivElement>) => {
+  const onTodoInputKeyPress = (e: React.KeyboardEvent<HTMLDivElement>) => {
     if (e.key === "Enter") {
       handleInputIconClick();
     }
   };
 
-  const handleTodoTicked = (todo: TodoObject) => {
-    const todosToUpdates = JSON.parse(JSON.stringify(todoList)) as TodoObject[];
-    setTodoList(
-      todosToUpdates.map((todoToFind) => {
-        if (todo.date === todoToFind.date) {
-          return { ...todoToFind, done: !todoToFind.done };
-        }
-        return todoToFind;
-      })
-    );
+  const onCategoryInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setCategoryInputValue(e.target.value);
   };
 
-  const handleTodoDelete = (todo: TodoObject) => {
-    setTodoList(
-      todoList?.filter((todoToFind) => todoToFind.date !== todo.date) || []
-    );
+  const onCategoryInputKeyPress = (e: React.KeyboardEvent<HTMLDivElement>) => {
+    if (e.key === "Enter") {
+      handleAddingCategory(categoryInputValue);
+    }
+  };
+
+  const handleAddingCategory = (
+    categoryName: string,
+    category?: TodoObject
+  ) => {
+    if (categoryName === "") {
+      return;
+    }
+
+    const newCategory = {
+      done: false,
+      title: categoryName,
+      date: Date.now(),
+      isCategory: true,
+    };
+
+    if (!category) {
+      setTodoList([...todoList, newCategory]);
+    } else {
+      setTodoList(
+        addSubCategoryToCategory([...todoList], category, newCategory)
+      );
+    }
+    setCategoryInputValue("");
+  };
+
+  const handleTodoTicked = (todo: TodoObject) => {
+    setTodoList(toggleTodoDone(todoList, todo));
+  };
+
+  const handleTodoDelete = (targetTodo: TodoObject) => {
+    setTodoList(deleteTodoItem(todoList, targetTodo));
+  };
+
+  const handleAddItemToCategory = (
+    targetCategory: TodoObject,
+    newTodo: TodoObject
+  ) => {
+    setTodoList(addANewTodoToACategory([...todoList], targetCategory, newTodo));
   };
 
   const handleInputIconClick = () => {
-    if (inputValue === "") {
+    if (todoInputValue === "") {
       return;
     }
     setTodoList([
-      ...(todoList || []),
-      { done: false, title: inputValue, date: Date.now() },
+      ...todoList,
+      {
+        done: false,
+        title: todoInputValue,
+        date: Date.now(),
+        isCategory: false,
+      },
     ]);
-    setInputValue("");
+    setTodoInputValue("");
   };
 
   if (!todoList) {
     setTodoList([{ date: 0, done: false, title: "Add some todos ✔️" }]);
   }
 
-  const finishedTodos = todoList?.filter((todo) => todo.done === true);
-  const unfinishedTodos = todoList?.filter((todo) => todo.done === false);
+  const handleCollapseCategoryToggle = (targetTodo: TodoObject) => {
+    setTodoList((prevTodos) => {
+      const newTodos = prevTodos!.map((todo) => {
+        if (todo.date === targetTodo.date) {
+          return { ...todo, collapsed: !todo.collapsed };
+        } else if (todo.subTodoListItems) {
+          return {
+            ...todo,
+            subTodoListItems: toggleCollapseAllCategories(
+              todo.subTodoListItems,
+              targetTodo
+            ),
+          };
+        } else {
+          return todo;
+        }
+      });
+      return newTodos;
+    });
+  };
+
+  const { finishedTodos, unfinishedTodos } = categorizeTodos(todoList);
 
   return (
     <Box color={color} p="4" pt="4" height="100%">
@@ -78,38 +316,54 @@ const TodoListTile: React.FC<TodoListProps> = ({
         <Box>
           <ol>
             {unfinishedTodos?.map((todo) => (
-              <li key={todo.title} style={{ listStyle: "none" }}>
-                <Flex
-                  alignItems="center"
-                  mb="3"
-                  onMouseEnter={() => setShowingDelete(todo)}
-                  onMouseLeave={() => setShowingDelete(undefined)}
-                >
-                  <Box
-                    borderRadius="5"
-                    border={`1px solid ${color}`}
-                    minWidth="4"
-                    minHeight="4"
-                    cursor="pointer"
-                    onClick={() => handleTodoTicked(todo)}
-                  />
-                  <Text fontSize="14" ml="2" fontWeight="600">
-                    {todo.title}
-                  </Text>
-                  {todo === showingDelete ? (
-                    <SmallCloseIcon
-                      cursor="pointer"
-                      color={color}
-                      opacity="0.6"
-                      ml="auto"
-                      onClick={() => handleTodoDelete(todo)}
-                    />
-                  ) : null}
-                </Flex>
-              </li>
+              <TodoListItem
+                todo={todo}
+                handleTodoDelete={handleTodoDelete}
+                handleTodoTicked={handleTodoTicked}
+                color={color}
+                key={todo.date}
+                handleCollapseCategoryToggle={handleCollapseCategoryToggle}
+                handleAddItemToCategory={handleAddItemToCategory}
+                handleAddingCategory={handleAddingCategory}
+                isEditing={sidebarOpen}
+              />
             ))}
           </ol>
         </Box>
+
+        {sidebarOpen && (
+          <Box mb="3">
+            {showingAddCategoryInput ? (
+              // TODO do I need an icon here?
+              <Input
+                size="sm"
+                value={categoryInputValue}
+                borderColor={color}
+                onChange={onCategoryInputChange}
+                onKeyDown={onCategoryInputKeyPress}
+                placeholder={"category name"}
+                _focus={{ borderColor: color }}
+                _hover={{ borderColor: color }}
+              />
+            ) : (
+              <Button
+                variant="link"
+                display="flex"
+                alignItems="center"
+                gap="1"
+                fontSize="sm"
+                opacity="0.7"
+                justifyContent="flex-start"
+                fontWeight="normal"
+                color={color}
+                onClick={() => setShowingAddCategoryInput(true)}
+              >
+                <AddIcon boxSize={2.5} />
+                <Text>add a category</Text>
+              </Button>
+            )}
+          </Box>
+        )}
 
         <Flex mb="2" alignItems="center">
           <EditIcon
@@ -121,23 +375,29 @@ const TodoListTile: React.FC<TodoListProps> = ({
           />
           <Input
             size="sm"
-            value={inputValue}
+            value={todoInputValue}
             borderColor={color}
-            onChange={onInputChange}
-            onKeyDown={onKeyPress}
+            onChange={onTodoInputChange}
+            onKeyDown={onTodoInputKeyPress}
             placeholder={
               !unfinishedTodos || unfinishedTodos.length <= 0
-                ? "Add a to-do"
+                ? "add a to do"
                 : ""
             }
             _focus={{ borderColor: color }}
             _hover={{ borderColor: color }}
           />
         </Flex>
-        <Flex
+
+        <Button
+          variant="link"
+          color={color}
+          fontWeight="normal"
+          justifyContent="flex-start"
           cursor="pointer"
           alignItems="center"
           opacity="0.6"
+          fontSize="sm"
           onClick={() => setShowingCompletedItems(!showingCompletedItems)}
         >
           {showingCompletedItems ? (
@@ -148,34 +408,23 @@ const TodoListTile: React.FC<TodoListProps> = ({
           <Text>
             {finishedTodos ? finishedTodos.length : 0} completed items
           </Text>
-        </Flex>
+        </Button>
 
         {showingCompletedItems ? (
           <Box>
             <ol>
               {finishedTodos?.map((todo) => (
-                <li key={todo.title} style={{ listStyle: "none" }}>
-                  <Flex alignItems="center" mb="3">
-                    <CheckIcon
-                      borderRadius="5"
-                      border={`1px solid ${color}`}
-                      minWidth="4"
-                      minHeight="4"
-                      cursor="pointer"
-                      onClick={() => handleTodoTicked(todo)}
-                    />
-                    <Text fontSize="14" ml="2" textDecoration="line-through">
-                      {todo.title}
-                    </Text>
-                    <SmallCloseIcon
-                      cursor="pointer"
-                      color={color}
-                      opacity="0.6"
-                      ml="auto"
-                      onClick={() => handleTodoDelete(todo)}
-                    />
-                  </Flex>
-                </li>
+                <TodoListItem
+                  todo={todo}
+                  handleTodoDelete={handleTodoDelete}
+                  handleTodoTicked={handleTodoTicked}
+                  color={color}
+                  key={todo.date}
+                  handleCollapseCategoryToggle={handleCollapseCategoryToggle}
+                  handleAddItemToCategory={handleAddItemToCategory}
+                  handleAddingCategory={handleAddingCategory}
+                  isEditing={sidebarOpen}
+                />
               ))}
             </ol>
           </Box>
@@ -185,25 +434,4 @@ const TodoListTile: React.FC<TodoListProps> = ({
   );
 };
 
-const areEqual = (prevProps: TodoListProps, nextProps: TodoListProps) => {
-  if (!prevProps.todoList || !nextProps.todoList) {
-    return false;
-  }
-
-  if (prevProps.todoList.length !== nextProps.todoList.length) {
-    return false;
-  }
-
-  for (let i = 0; i < prevProps.todoList.length; i++) {
-    const a = prevProps.todoList[i];
-    const b = nextProps.todoList[i];
-
-    if (a.title != b.title || a.date != b.date || a.done != b.done) {
-      return false;
-    }
-  }
-
-  return true;
-};
-
-export default React.memo(TodoListTile, areEqual);
+export default TodoListTile;
