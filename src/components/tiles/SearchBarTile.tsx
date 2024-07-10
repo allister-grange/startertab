@@ -1,20 +1,46 @@
-import {
-  DuckDuckGoIcon,
-  GoogleIcon,
-  StackOverFlowIcon,
-} from "@/components/icons";
-import { OutlinedButton } from "@/components/ui/OutlinedButton";
-import { Center, Input } from "@chakra-ui/react";
-import { useRouter } from "next/router";
+/**
+ * Allow you to add in search terms like 'site:google' into the search bar
+ * can I bring the input to the search bar with some keyboard shortcut??
+ * test on different colored themes
+ */
+
+import { optionsStyles } from "@/helpers/selectOptionStyles";
+import { sidebarOpenAtom } from "@/recoil/SidebarAtoms";
+import { defaultSearchEngineSelector } from "@/recoil/UserSettingsSelectors";
+import { SearchEngineDefault } from "@/types";
+import { Center, Input, Select } from "@chakra-ui/react";
 import React, { useState } from "react";
+import { SetterOrUpdater, useRecoilState, useRecoilValue } from "recoil";
+
+const searchEngineOptions: SearchEngineDefault[] = [
+  {
+    name: "Google",
+    url: "https://google.com/search?q=",
+  },
+  {
+    name: "DuckDuckGo",
+    url: "https://duckduckgo.com/?q=",
+  },
+  {
+    name: "StackOverFlow (using google)",
+    url: "https://google.com/search?q=<search-term>+site%3Astackoverflow.com",
+  },
+];
 
 type SearchBarProps = {
   tileId: number;
 };
 
 export const SearchBarTile: React.FC<SearchBarProps> = ({ tileId }) => {
-  const router = useRouter();
+  const [defaultSearchEngine, setDefaultSearchEngine] = useRecoilState(
+    defaultSearchEngineSelector(tileId)
+  ) as [
+    SearchEngineDefault | undefined,
+    SetterOrUpdater<SearchEngineDefault | undefined>
+  ];
+
   const [searchTerm, setSearchTerm] = useState<undefined | string>(undefined);
+  const isEditing = useRecoilValue(sidebarOpenAtom);
   const color = `var(--text-color-${tileId})`;
 
   type AppTypes = "google" | "duck" | "stackoverflow";
@@ -33,6 +59,10 @@ export const SearchBarTile: React.FC<SearchBarProps> = ({ tileId }) => {
     }
   };
 
+  const onSelectDefaultSearchEngineChange = (
+    e: React.ChangeEvent<HTMLSelectElement>
+  ) => {};
+
   const onKeyDownInForm = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter") {
       e.preventDefault();
@@ -42,50 +72,40 @@ export const SearchBarTile: React.FC<SearchBarProps> = ({ tileId }) => {
 
   return (
     <Center height="100%">
-      <OutlinedButton
-        shadow="none"
-        onClick={() => searchClick("duck")}
-        aria-label="Search with DuckDuckGo"
-      >
-        <DuckDuckGoIcon w={10} h={10} fill={color} />
-      </OutlinedButton>
-      <OutlinedButton
-        shadow="none"
-        onClick={() => searchClick("google")}
-        aria-label="Search with Google"
-      >
-        <GoogleIcon width={32} height={32} fill={color} />
-      </OutlinedButton>
-      <OutlinedButton
-        shadow="none"
-        onClick={() => searchClick("stackoverflow")}
-        aria-label="Search Google with Stack Overflow"
-      >
-        <StackOverFlowIcon width={50} height={50} fill={color} />
-      </OutlinedButton>
-      <Input
-        width="45%"
-        color={color}
-        _placeholder={{
-          color: color,
-        }}
-        _focus={{
-          border: "0",
-          outline: "0",
-          borderBottom: "1px",
-        }}
-        _focusVisible={{
-          borderBottom: "1px",
-        }}
-        border="0"
-        borderBottom="1px"
-        borderRadius="0"
-        background="transparent"
-        placeholder="search me"
-        onKeyDown={onKeyDownInForm}
-        onChange={(e) => setSearchTerm(e.target.value)}
-        value={searchTerm}
-      />
+      {/* showing the user options to change their default search engine */}
+      {isEditing ? (
+        <Select w="80%" placeholder="default search engine">
+          {searchEngineOptions.map((option) => (
+            <option key={option.url} value={option.url} style={optionsStyles}>
+              {option.name}
+            </option>
+          ))}
+        </Select>
+      ) : (
+        <Input
+          width="80%"
+          color={color}
+          _placeholder={{
+            color: color,
+          }}
+          _focus={{
+            border: "0",
+            outline: "0",
+            borderBottom: "1px",
+          }}
+          _focusVisible={{
+            borderBottom: "1px",
+          }}
+          border="0"
+          borderBottom="1px"
+          borderRadius="0"
+          background="transparent"
+          placeholder="search me"
+          onKeyDown={onKeyDownInForm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+          value={searchTerm}
+        />
+      )}
     </Center>
   );
 };

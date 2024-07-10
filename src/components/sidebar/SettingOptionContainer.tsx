@@ -393,6 +393,26 @@ const SettingOptionContainer: React.FC<SettingOptionContainerProps> = ({
           />
         );
       }
+    case "DefaultSearchEngine":
+      if (tileType === "Search Bar") {
+        optionToDisplay = (
+          <GenericSelect
+            option={option}
+            tileId={tileId}
+            changeSetting={changeSetting}
+            textColor={textColor}
+            subTextColor={subTextColor}
+            value={value}
+            options={
+              <>
+                <option value="" style={optionsStyles}>
+                  these will be search engines TODO
+                </option>
+              </>
+            }
+          />
+        );
+      }
       break;
     default:
       optionToDisplay = <Text>No option built for this type of tile yet</Text>;

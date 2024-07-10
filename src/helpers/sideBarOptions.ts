@@ -308,4 +308,10 @@ export const sideBarLongTileOptions: Option[] = [
     localStorageId: "tileType",
     optionType: "LongTileTypePicker",
   },
+  {
+    title: "Default search engine",
+    subTitle: "Choose which search engine you want your search bar to use",
+    localStorageId: "tileType",
+    optionType: "DefaultSearchEngine",
+  },
 ];
