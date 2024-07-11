@@ -146,7 +146,7 @@ const TileContainer: React.FC<TileContainerProps> = ({
       tileToRender = (
         <TodoListTile
           tileId={tileId}
-          todoList={todoList}
+          todoList={todoList ?? []}
           setTodoList={setTodoList}
         />
       );
