@@ -1,31 +1,16 @@
 /**
  * Allow you to add in search terms like 'site:google' into the search bar
- * can I bring the input to the search bar with some keyboard shortcut??
- * test on different colored themes
+ * Test on different colored themes
  */
 
 import { optionsStyles } from "@/helpers/selectOptionStyles";
+import { searchEngineOptions } from "@/helpers/tileHelpers";
 import { sidebarOpenAtom } from "@/recoil/SidebarAtoms";
 import { defaultSearchEngineSelector } from "@/recoil/UserSettingsSelectors";
 import { SearchEngineDefault } from "@/types";
 import { Center, Input, Select } from "@chakra-ui/react";
 import React, { useState } from "react";
 import { SetterOrUpdater, useRecoilState, useRecoilValue } from "recoil";
-
-const searchEngineOptions: SearchEngineDefault[] = [
-  {
-    name: "Google",
-    url: "https://google.com/search?q=",
-  },
-  {
-    name: "DuckDuckGo",
-    url: "https://duckduckgo.com/?q=",
-  },
-  {
-    name: "StackOverFlow (using google)",
-    url: "https://google.com/search?q=<search-term>+site%3Astackoverflow.com",
-  },
-];
 
 type SearchBarProps = {
   tileId: number;
@@ -38,35 +23,60 @@ export const SearchBarTile: React.FC<SearchBarProps> = ({ tileId }) => {
     SearchEngineDefault | undefined,
     SetterOrUpdater<SearchEngineDefault | undefined>
   ];
-
-  const [searchTerm, setSearchTerm] = useState<undefined | string>(undefined);
+  const searchRef = React.useRef<HTMLInputElement>(null);
+  const [searchTerm, setSearchTerm] = useState<string>("");
   const isEditing = useRecoilValue(sidebarOpenAtom);
   const color = `var(--text-color-${tileId})`;
 
-  type AppTypes = "google" | "duck" | "stackoverflow";
+  // our engine should be Google by default
+  if (!defaultSearchEngine) {
+    setDefaultSearchEngine(
+      searchEngineOptions.find((engine) => engine.name === "Google")
+    );
+  }
 
-  const searchClick = (app: AppTypes) => {
-    switch (app) {
-      case "google":
-        window.top!.location.href = `https://google.com/search?q=${searchTerm}`;
-        return;
-      case "duck":
-        window.top!.location.href = `https://duckduckgo.com/?q=${searchTerm}`;
-        return;
-      case "stackoverflow":
-        window.top!.location.href = `https://google.com/search?q=${searchTerm}+site%3Astackoverflow.com`;
-        return;
-    }
+  /**
+   * add a listener on to the site when the search bar tile is present to use '/'
+   * to snap you to the search bar
+   */
+  React.useEffect(() => {
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "/" && document.activeElement !== searchRef.current) {
+        event.preventDefault();
+        searchRef.current?.focus();
+      }
+    };
+
+    document.addEventListener("keydown", handleKeyDown);
+
+    return () => {
+      document.removeEventListener("keydown", handleKeyDown);
+    };
+  }, []);
+
+  /**
+   * @param searchEngine must align with a 'name' key in searchEngineOptions
+   */
+  const search = () => {
+    window.top!.location.href = defaultSearchEngine!.url + searchTerm;
   };
 
   const onSelectDefaultSearchEngineChange = (
     e: React.ChangeEvent<HTMLSelectElement>
-  ) => {};
+  ) => {
+    const searchEngineChoice = searchEngineOptions.find(
+      (engine) => engine.name === e.target.value
+    );
+
+    if (searchEngineChoice) {
+      setDefaultSearchEngine(searchEngineChoice);
+    }
+  };
 
   const onKeyDownInForm = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter") {
       e.preventDefault();
-      searchClick("google");
+      search();
     }
   };
 
@@ -74,15 +84,21 @@ export const SearchBarTile: React.FC<SearchBarProps> = ({ tileId }) => {
     <Center height="100%">
       {/* showing the user options to change their default search engine */}
       {isEditing ? (
-        <Select w="80%" placeholder="default search engine">
+        <Select
+          w="80%"
+          placeholder="default search engine"
+          onChange={onSelectDefaultSearchEngineChange}
+          value={defaultSearchEngine?.name}
+        >
           {searchEngineOptions.map((option) => (
-            <option key={option.url} value={option.url} style={optionsStyles}>
+            <option key={option.url} value={option.name} style={optionsStyles}>
               {option.name}
             </option>
           ))}
         </Select>
       ) : (
         <Input
+          ref={searchRef}
           width="80%"
           color={color}
           _placeholder={{
@@ -100,7 +116,7 @@ export const SearchBarTile: React.FC<SearchBarProps> = ({ tileId }) => {
           borderBottom="1px"
           borderRadius="0"
           background="transparent"
-          placeholder="search me"
+          placeholder={`search me`}
           onKeyDown={onKeyDownInForm}
           onChange={(e) => setSearchTerm(e.target.value)}
           value={searchTerm}
