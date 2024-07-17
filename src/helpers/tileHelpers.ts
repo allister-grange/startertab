@@ -122,15 +122,27 @@ export const getRandomNumber = (min: number, max: number) => {
  *  */
 export const searchEngineOptions: SearchEngineDefault[] = [
   {
-    name: "Google",
-    url: "https://google.com/search?q=",
+    name: "Bing (are you ok?)",
+    url: "https://www.bing.com/search?q=",
   },
   {
     name: "DuckDuckGo",
     url: "https://duckduckgo.com/?q=",
   },
   {
+    name: "Google",
+    url: "https://google.com/search?q=",
+  },
+  {
+    name: "Qwant",
+    url: "https://www.qwant.com/?t=web&q=",
+  },
+  {
     name: "StackOverFlow",
     url: "https://google.com/search?q=site%3Astackoverflow.com+",
+  },
+  {
+    name: "StartPage",
+    url: "https://www.startpage.com/sp/search?query=",
   },
 ];

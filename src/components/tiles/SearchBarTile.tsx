@@ -1,8 +1,3 @@
-/**
- * Allow you to add in search terms like 'site:google' into the search bar
- * Test on different colored themes
- */
-
 import { optionsStyles } from "@/helpers/selectOptionStyles";
 import { searchEngineOptions } from "@/helpers/tileHelpers";
 import { sidebarOpenAtom } from "@/recoil/SidebarAtoms";
@@ -86,9 +81,9 @@ export const SearchBarTile: React.FC<SearchBarProps> = ({ tileId }) => {
       {isEditing ? (
         <Select
           w="80%"
-          placeholder="default search engine"
           onChange={onSelectDefaultSearchEngineChange}
           value={defaultSearchEngine?.name}
+          borderColor={color}
         >
           {searchEngineOptions.map((option) => (
             <option key={option.url} value={option.name} style={optionsStyles}>
