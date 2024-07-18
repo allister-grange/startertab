@@ -11,7 +11,8 @@ export const ShowUpdateToast: React.FC<ShowUpdateToastProps> = ({}) => {
       title: "Todo categories & default search engines 🔍",
       description: (
         <Text>
-          You can now add in sub-categories to the todo list tile, check out the{" "}
+          You can now add in sub-categories to the todo list tile! Check out the
+          other changes with the{" "}
           <Link color="coral" href="/updates">
             new update!
           </Link>
