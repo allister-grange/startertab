@@ -53,7 +53,7 @@ export const Update290: React.FC = ({}) => {
           type="video/mp4"
         ></source>
       </video>{" "}
-      <Text textAlign="center" mt="2" fontSize="sm" color="gray.700">
+      <Text textAlign="center" fontSize="sm" color="gray.700">
         Find the new font selection in the Global Settings of your theme!
       </Text>
       <Box mt="6">

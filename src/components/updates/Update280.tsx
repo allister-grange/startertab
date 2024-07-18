@@ -45,7 +45,7 @@ export const Update280: React.FC = ({}) => {
         playsInline
         muted
         style={{
-          width: "105%",
+          width: "115%",
           aspectRatio: "1.74",
           objectFit: "cover",
           marginTop: "15px",
