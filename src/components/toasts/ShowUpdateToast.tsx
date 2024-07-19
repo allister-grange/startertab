@@ -8,10 +8,11 @@ export const ShowUpdateToast: React.FC<ShowUpdateToastProps> = ({}) => {
 
   const showUpdateToast = useCallback(() => {
     toast({
-      title: "Font Selection and Bug Fixin' 🐞",
+      title: "Todo categories & default search engines 🔍",
       description: (
         <Text>
-          You can now use any system font you want! Check out the{" "}
+          You can now add in sub-categories to the todo list tile! Check out the
+          other changes with the{" "}
           <Link color="coral" href="/updates">
             new update!
           </Link>
@@ -39,14 +40,15 @@ export const ShowUpdateToast: React.FC<ShowUpdateToastProps> = ({}) => {
     localStorage.removeItem("hasSeenNewUpdate2.60Counter");
     localStorage.removeItem("hasSeenNewUpdate2.7.0Counter");
     localStorage.removeItem("hasSeenNewUpdate2.8.0Counter");
+    localStorage.removeItem("hasSeenNewUpdate2.9.0Counter");
     const hasSeenNewUpdate = localStorage.getItem(
-      "hasSeenNewUpdate2.9.0Counter"
+      "hasSeenNewUpdate2.10.0Counter"
     );
     if (!hasSeenNewUpdate) {
-      localStorage.setItem("hasSeenNewUpdate2.9.0Counter", "1");
+      localStorage.setItem("hasSeenNewUpdate2.10.0Counter", "1");
     } else {
       localStorage.setItem(
-        "hasSeenNewUpdate2.9.0Counter",
+        "hasSeenNewUpdate2.10.0Counter",
         (parseInt(hasSeenNewUpdate) + 1).toString()
       );
       // only on the twelfth visit since the update do we want to show the toast

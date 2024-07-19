@@ -4,6 +4,7 @@ import {
   Booking,
   FavoriteLink,
   RSSFeed,
+  SearchEngineDefault,
   ThemeSettings,
   TileSettings,
   TodoObject,
@@ -214,6 +215,14 @@ export const spotifyControllingBackgroundSelector =
     "spotifyControllingBackground",
     (theme, newValue) => {
       theme.spotifyControllingBackground = newValue;
+    }
+  );
+
+export const defaultSearchEngineSelector =
+  createTilePropertySelector<SearchEngineDefault>(
+    "defaultSearchEngine",
+    (theme, newValue) => {
+      theme.defaultSearchEngine = newValue;
     }
   );
 

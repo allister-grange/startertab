@@ -1,4 +1,10 @@
-import { Booking, FavoriteLink, RSSFeed, TodoObject } from "@/types/tiles";
+import {
+  Booking,
+  FavoriteLink,
+  RSSFeed,
+  SearchEngineDefault,
+  TodoObject,
+} from "@/types/tiles";
 import { Layouts } from "react-grid-layout";
 
 export type Option = {
@@ -15,6 +21,7 @@ export type OptionType =
   | "CityInputForUV"
   | "CityInputForWeather"
   | "ColorPicker"
+  | "DefaultSearchEngine"
   | "DropShadowInput"
   | "FontFamilyInput"
   | "GridGapInput"
@@ -82,6 +89,7 @@ export type TileSettings = {
   bookings?: Booking[];
   cityForUv?: string;
   cityForWeather?: string;
+  defaultSearchEngine?: SearchEngineDefault;
   dropShadow?: string;
   favoriteLinks?: FavoriteLink[];
   favoriteLinksTitle?: string;

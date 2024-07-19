@@ -1,91 +1,122 @@
-import {
-  DuckDuckGoIcon,
-  GoogleIcon,
-  StackOverFlowIcon,
-} from "@/components/icons";
-import { OutlinedButton } from "@/components/ui/OutlinedButton";
-import { Center, Input } from "@chakra-ui/react";
-import { useRouter } from "next/router";
+import { optionsStyles } from "@/helpers/selectOptionStyles";
+import { searchEngineOptions } from "@/helpers/tileHelpers";
+import { sidebarOpenAtom } from "@/recoil/SidebarAtoms";
+import { defaultSearchEngineSelector } from "@/recoil/UserSettingsSelectors";
+import { SearchEngineDefault } from "@/types";
+import { Center, Input, Select } from "@chakra-ui/react";
 import React, { useState } from "react";
+import { SetterOrUpdater, useRecoilState, useRecoilValue } from "recoil";
 
 type SearchBarProps = {
   tileId: number;
 };
 
 export const SearchBarTile: React.FC<SearchBarProps> = ({ tileId }) => {
-  const router = useRouter();
-  const [searchTerm, setSearchTerm] = useState<undefined | string>(undefined);
+  const [defaultSearchEngine, setDefaultSearchEngine] = useRecoilState(
+    defaultSearchEngineSelector(tileId)
+  ) as [
+    SearchEngineDefault | undefined,
+    SetterOrUpdater<SearchEngineDefault | undefined>
+  ];
+  const searchRef = React.useRef<HTMLInputElement>(null);
+  const [searchTerm, setSearchTerm] = useState<string>("");
+  const isEditing = useRecoilValue(sidebarOpenAtom);
   const color = `var(--text-color-${tileId})`;
 
-  type AppTypes = "google" | "duck" | "stackoverflow";
+  // our engine should be Google by default
+  if (!defaultSearchEngine) {
+    setDefaultSearchEngine(
+      searchEngineOptions.find((engine) => engine.name === "Google")
+    );
+  }
 
-  const searchClick = (app: AppTypes) => {
-    switch (app) {
-      case "google":
-        window.top!.location.href = `https://google.com/search?q=${searchTerm}`;
-        return;
-      case "duck":
-        window.top!.location.href = `https://duckduckgo.com/?q=${searchTerm}`;
-        return;
-      case "stackoverflow":
-        window.top!.location.href = `https://google.com/search?q=${searchTerm}+site%3Astackoverflow.com`;
-        return;
+  /**
+   * add a listener on to the site when the search bar tile is present to use '/'
+   * to snap you to the search bar
+   */
+  React.useEffect(() => {
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "/" && document.activeElement !== searchRef.current) {
+        event.preventDefault();
+        searchRef.current?.focus();
+      }
+    };
+
+    document.addEventListener("keydown", handleKeyDown);
+
+    return () => {
+      document.removeEventListener("keydown", handleKeyDown);
+    };
+  }, []);
+
+  /**
+   * @param searchEngine must align with a 'name' key in searchEngineOptions
+   */
+  const search = () => {
+    window.top!.location.href = defaultSearchEngine!.url + searchTerm;
+  };
+
+  const onSelectDefaultSearchEngineChange = (
+    e: React.ChangeEvent<HTMLSelectElement>
+  ) => {
+    const searchEngineChoice = searchEngineOptions.find(
+      (engine) => engine.name === e.target.value
+    );
+
+    if (searchEngineChoice) {
+      setDefaultSearchEngine(searchEngineChoice);
     }
   };
 
   const onKeyDownInForm = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter") {
       e.preventDefault();
-      searchClick("google");
+      search();
     }
   };
 
   return (
     <Center height="100%">
-      <OutlinedButton
-        shadow="none"
-        onClick={() => searchClick("duck")}
-        aria-label="Search with DuckDuckGo"
-      >
-        <DuckDuckGoIcon w={10} h={10} fill={color} />
-      </OutlinedButton>
-      <OutlinedButton
-        shadow="none"
-        onClick={() => searchClick("google")}
-        aria-label="Search with Google"
-      >
-        <GoogleIcon width={32} height={32} fill={color} />
-      </OutlinedButton>
-      <OutlinedButton
-        shadow="none"
-        onClick={() => searchClick("stackoverflow")}
-        aria-label="Search Google with Stack Overflow"
-      >
-        <StackOverFlowIcon width={50} height={50} fill={color} />
-      </OutlinedButton>
-      <Input
-        width="45%"
-        color={color}
-        _placeholder={{
-          color: color,
-        }}
-        _focus={{
-          border: "0",
-          outline: "0",
-          borderBottom: "1px",
-        }}
-        _focusVisible={{
-          borderBottom: "1px",
-        }}
-        border="0"
-        borderBottom="1px"
-        borderRadius="0"
-        background="transparent"
-        placeholder="search me"
-        onKeyDown={onKeyDownInForm}
-        onChange={(e) => setSearchTerm(e.target.value)}
-        value={searchTerm}
-      />
+      {/* showing the user options to change their default search engine */}
+      {isEditing ? (
+        <Select
+          w="80%"
+          onChange={onSelectDefaultSearchEngineChange}
+          value={defaultSearchEngine?.name}
+          borderColor={color}
+        >
+          {searchEngineOptions.map((option) => (
+            <option key={option.url} value={option.name} style={optionsStyles}>
+              {option.name}
+            </option>
+          ))}
+        </Select>
+      ) : (
+        <Input
+          ref={searchRef}
+          width="80%"
+          color={color}
+          _placeholder={{
+            color: color,
+          }}
+          _focus={{
+            border: "0",
+            outline: "0",
+            borderBottom: "1px",
+          }}
+          _focusVisible={{
+            borderBottom: "1px",
+          }}
+          border="0"
+          borderBottom="1px"
+          borderRadius="0"
+          background="transparent"
+          placeholder={`search me`}
+          onKeyDown={onKeyDownInForm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+          value={searchTerm}
+        />
+      )}
     </Center>
   );
 };

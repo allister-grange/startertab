@@ -1,3 +1,5 @@
+import { SearchEngineDefault } from "@/types";
+
 export const times = [
   "06:00",
   "06:15",
@@ -114,3 +116,33 @@ export const getThemeIdsFromLocalStorage = () => {
 export const getRandomNumber = (min: number, max: number) => {
   return Math.random() * (max - min) + min;
 };
+
+/** used for the list of options you see when changing the default
+ * search engine
+ *  */
+export const searchEngineOptions: SearchEngineDefault[] = [
+  {
+    name: "Bing (are you ok?)",
+    url: "https://www.bing.com/search?q=",
+  },
+  {
+    name: "DuckDuckGo",
+    url: "https://duckduckgo.com/?q=",
+  },
+  {
+    name: "Google",
+    url: "https://google.com/search?q=",
+  },
+  {
+    name: "Qwant",
+    url: "https://www.qwant.com/?t=web&q=",
+  },
+  {
+    name: "StackOverFlow",
+    url: "https://google.com/search?q=site%3Astackoverflow.com+",
+  },
+  {
+    name: "StartPage",
+    url: "https://www.startpage.com/sp/search?query=",
+  },
+];

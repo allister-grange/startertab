@@ -7,6 +7,12 @@ export type TodoObject = {
   collapsed?: boolean;
 };
 
+export type SearchEngineDefault = {
+  url: string;
+  name: string;
+  extraSearchTerm?: string;
+};
+
 export type Booking = {
   color: string;
   startTime: string;

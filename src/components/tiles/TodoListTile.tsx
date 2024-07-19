@@ -342,6 +342,7 @@ const TodoListTile: React.FC<TodoListProps> = ({
                 onChange={onCategoryInputChange}
                 onKeyDown={onCategoryInputKeyPress}
                 placeholder={"category name"}
+                _placeholder={{ color }}
                 _focus={{ borderColor: color }}
                 _hover={{ borderColor: color }}
               />
@@ -379,6 +380,7 @@ const TodoListTile: React.FC<TodoListProps> = ({
             borderColor={color}
             onChange={onTodoInputChange}
             onKeyDown={onTodoInputKeyPress}
+            _placeholder={{ color }}
             placeholder={
               !unfinishedTodos || unfinishedTodos.length <= 0
                 ? "add a to do"
