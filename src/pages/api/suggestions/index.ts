@@ -13,7 +13,7 @@ export default async function handler(
   }
 
   const cursor = req.query.cursor ?? "";
-  const take = 10;
+  const take = 100;
   const cursorObj =
     cursor === "" ? undefined : { id: parseInt(cursor as string, 10) };
 
