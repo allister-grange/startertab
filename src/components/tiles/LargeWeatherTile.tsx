@@ -40,8 +40,15 @@ interface DaysWeatherProps {
   color: string;
 }
 
-const convertCelsiusToFahrenheit = (temp: number): number => {
-  return Math.floor((temp * 9) / 5 + 32);
+const getReadableWeatherTemp = (
+  temp: number,
+  tempDisplayInCelsius: boolean
+) => {
+  if (tempDisplayInCelsius) {
+    return Math.floor(temp);
+  } else {
+    return Math.floor((temp * 9) / 5 + 32);
+  }
 };
 
 const fetcher = async (cityName: string) => {
@@ -128,15 +135,17 @@ export const DaysWeather: React.FC<DaysWeatherProps> = ({
       <Box display="flex" flexDirection="column" mb="4" alignItems="center">
         <Box display="flex" flexDirection="row">
           <Text fontSize="18px" mr="1">
-            {displayInCelsius
-              ? weatherData.dailyMinTemp
-              : convertCelsiusToFahrenheit(weatherData.dailyMinTemp)}
+            {getReadableWeatherTemp(
+              weatherData.dailyMinTemp,
+              displayInCelsius!
+            )}
             &#176;
           </Text>
           <Text ml="1" fontSize="18px">
-            {displayInCelsius
-              ? weatherData.dailyMaxTemp
-              : convertCelsiusToFahrenheit(weatherData.dailyMaxTemp)}
+            {getReadableWeatherTemp(
+              weatherData.dailyMaxTemp,
+              displayInCelsius!
+            )}
             &#176;
           </Text>
         </Box>

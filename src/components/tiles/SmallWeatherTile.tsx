@@ -33,8 +33,15 @@ interface SmallWeatherTileProps {
   tileId: number;
 }
 
-const convertCelsiusToFahrenheit = (temp: number): number => {
-  return Math.floor((temp * 9) / 5 + 32);
+const getReadableWeatherTemp = (
+  temp: number,
+  tempDisplayInCelsius: boolean
+) => {
+  if (tempDisplayInCelsius) {
+    return Math.floor(temp);
+  } else {
+    return Math.floor((temp * 9) / 5 + 32);
+  }
 };
 
 const fetcher = async (cityName: string) => {
@@ -171,22 +178,16 @@ export const SmallWeatherTile: React.FC<SmallWeatherTileProps> = ({
         />
         <Box display="flex" flexDirection="column" mt="2" mb="4">
           <Text fontWeight="700" fontSize="4xl" lineHeight="1.2">
-            {displayInCelsius
-              ? data.currentTemp
-              : convertCelsiusToFahrenheit(data.currentTemp!)}
+            {getReadableWeatherTemp(data.currentTemp!, displayInCelsius)}
             &#176;
           </Text>
           <Box display="flex" flexDirection="row">
             <Text>
-              {displayInCelsius
-                ? data.dailyMinTemp
-                : convertCelsiusToFahrenheit(data.dailyMinTemp)}
+              {getReadableWeatherTemp(data.dailyMinTemp, displayInCelsius)}
               &#176;
             </Text>
             <Text ml="1">
-              {displayInCelsius
-                ? data.dailyMaxTemp
-                : convertCelsiusToFahrenheit(data.dailyMaxTemp)}
+              {getReadableWeatherTemp(data.dailyMaxTemp, displayInCelsius)}
               &#176;
             </Text>
           </Box>
