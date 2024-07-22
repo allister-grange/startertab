@@ -1,6 +1,8 @@
 import { Header } from "@/components/landing-page/LandingPageHeader";
 import { SuggestionsContainer } from "@/components/suggestions/SuggestionsContainer";
 import { Footer } from "@/components/ui/Footer";
+import { OutlinedButton } from "@/components/ui/OutlinedButton";
+import { ArrowDownIcon } from "@chakra-ui/icons";
 import { Box, Flex, Heading } from "@chakra-ui/react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import React, { useEffect } from "react";
@@ -11,6 +13,13 @@ export const SuggestionsPage: React.FC = ({}) => {
   useEffect(() => {
     document.body.style.background = "white";
   }, []);
+  const newSuggestionFormRef = React.useRef<HTMLDivElement>(null);
+
+  const onScrollToSuggestionFormClick = () => {
+    if (newSuggestionFormRef) {
+      newSuggestionFormRef.current?.scrollIntoView();
+    }
+  };
 
   return (
     <QueryClientProvider client={queryClient}>
@@ -33,7 +42,18 @@ export const SuggestionsPage: React.FC = ({}) => {
             A place to suggest new tile ideas, as well as give general feedback
             for the app
           </Heading>
-          <SuggestionsContainer />
+          <OutlinedButton
+            w="40%"
+            shadow="md"
+            borderColor="coral"
+            mt="1"
+            mx="auto"
+            onClick={onScrollToSuggestionFormClick}
+          >
+            Jump to adding a suggestion
+            <ArrowDownIcon ml="1" />
+          </OutlinedButton>
+          <SuggestionsContainer newSuggestionFormRef={newSuggestionFormRef} />
         </Flex>
 
         <Footer />
