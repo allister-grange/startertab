@@ -4,6 +4,7 @@ import {
   FavoriteLinksTile,
   GoogleMeetingsTile,
   HackerNewsFeedTile,
+  ImageTile,
   LargeSpotifyTile,
   LargeStockTile,
   LargeWeatherTile,
@@ -16,9 +17,9 @@ import {
   SmallStockTile,
   SmallWeatherTile,
   SpotifyTopArtistsTile,
+  StockGraphTile,
   TimeTile,
   TwitterFeedTile,
-  StockGraphTile,
   UvGraphTile,
 } from "@/components/tiles";
 import { NoneTile } from "@/components/tiles/NoneTile";
@@ -88,6 +89,9 @@ const TileContainer: React.FC<TileContainerProps> = ({
   switch (tileType) {
     case "Reddit Feed":
       tileToRender = <RedditFeedTile tileId={tileId} />;
+      break;
+    case "Image Tile":
+      tileToRender = <ImageTile tileId={tileId} />;
       break;
     case "Favorite Links Tile":
       tileToRender = <FavoriteLinksTile tileId={tileId} />;
