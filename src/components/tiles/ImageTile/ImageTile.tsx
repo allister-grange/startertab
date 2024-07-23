@@ -2,9 +2,16 @@
 /**
  * "A tile that contains just an image. It can be from url or from local file."
  * @ironhak's suggestion
+ *
+ * make the state be stored in a recoil, will I only need one piece of state?
+ * check all tile sizes (with errors)
+ * good url
+ * https://upload.wikimedia.org/wikipedia/commons/thumb/0/0c/Sally_Ride_%281984%29.jpg/1000px-Sally_Ride_%281984%29.jpg
+ * bad url
+ * https://i.sstatic.net/vw1Wj.jpg?s=64
  */
 import { sidebarOpenAtom } from "@/recoil/SidebarAtoms";
-import { Box, Input, Text } from "@chakra-ui/react";
+import { Box, Center, Input, Text } from "@chakra-ui/react";
 import React, { useState } from "react";
 import { useRecoilValue } from "recoil";
 
@@ -18,6 +25,15 @@ export const ImageTile: React.FC<ImageTileProps> = ({ tileId }) => {
 
   const [fileValue, setFileValue] = useState("");
   const [urlValue, setUrlValue] = useState("");
+  const [imageError, setImageError] = useState(false);
+
+  const handleImageError = () => {
+    setImageError(true);
+  };
+
+  const handleImageLoad = () => {
+    setImageError(false);
+  };
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setFileValue(event.target.value);
@@ -64,11 +80,38 @@ export const ImageTile: React.FC<ImageTileProps> = ({ tileId }) => {
   } else {
     return (
       <Box color={color} width="100%" height="100%">
-        <img
-          src={getSourceForImage()}
-          alt="image of your choosing, from a file or the internet"
-          style={{ width: "100%", height: "100%", objectFit: "cover" }}
-        />
+        {!fileValue && !urlValue && (
+          <Center h="90%">
+            <Text>enter editing mode to select a picture 🖼️</Text>
+          </Center>
+        )}
+        {fileValue || urlValue ? (
+          <Box width="100%" height="100%" position="relative">
+            <img
+              src={getSourceForImage()}
+              alt=""
+              style={{ width: "100%", height: "100%", objectFit: "cover" }}
+              onError={handleImageError}
+              onLoad={handleImageLoad}
+            />
+            {imageError && (
+              <Box
+                position="absolute"
+                top="45%"
+                left="50%"
+                transform="translate(-50%, -50%)"
+                textAlign="center"
+                color={color}
+                whiteSpace="pre-wrap"
+              >
+                <Text>
+                  failed to load your image, please check your url or file path
+                  🧨
+                </Text>
+              </Box>
+            )}
+          </Box>
+        ) : null}
       </Box>
     );
   }
