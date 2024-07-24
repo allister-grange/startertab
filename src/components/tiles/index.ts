@@ -22,4 +22,4 @@ export * from "./RSSFeed/RSSFeedTile";
 export * from "./OutlookMeetingsTile";
 export * from "./GoogleMeetingsTile";
 export * from "./StockGraphTile";
-export * from "./ImageTile/ImageTile";
+export * from "./ImageTile";

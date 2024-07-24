@@ -101,6 +101,8 @@ export type TileSettings = {
   graphStock?: string;
   gridGap?: string;
   hackerNewsFeedType?: string;
+  imageFilePath?: string;
+  imageUrlPath?: string;
   markdownFileText?: string;
   rssFeedTitle?: string;
   rssFeeds?: RSSFeed[];
