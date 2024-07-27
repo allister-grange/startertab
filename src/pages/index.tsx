@@ -6,7 +6,10 @@ import { ShowUpdateToast } from "@/components/toasts/ShowUpdateToast";
 import { Tutorial } from "@/components/tutorial/Tutorial";
 import { SettingsToggle } from "@/components/ui/SettingsToggle";
 import { applyTheme } from "@/helpers/settingsHelpers";
-import { sidebarOpenAtom, tutorialProgressAtom } from "@/recoil/SidebarAtoms";
+import {
+  isEditingTileGridAtom,
+  tutorialProgressAtom,
+} from "@/recoil/SidebarAtoms";
 import { userSettingState } from "@/recoil/UserSettingsAtoms";
 import {
   themeNameSelector,
@@ -14,9 +17,9 @@ import {
 } from "@/recoil/UserSettingsSelectors";
 import { Box, Flex, useDisclosure } from "@chakra-ui/react";
 import type { NextPage } from "next";
+import { useRouter } from "next/router";
 import { useEffect, useLayoutEffect, useState } from "react";
 import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
-import { useRouter } from "next/router";
 
 const Home: NextPage = () => {
   // sidebar hook
@@ -33,7 +36,7 @@ const Home: NextPage = () => {
   const [settings, setSettings] = useRecoilState(userSettingState);
   const [isEditingTileGrid, setIsEditingTileGrid] = useState(false);
 
-  const setSidebarOpenAtom = useSetRecoilState(sidebarOpenAtom);
+  const setIsEditingTileGridAtom = useSetRecoilState(isEditingTileGridAtom);
 
   const currentTheme = useRecoilValue(themeSelector);
   const setThemeName = useSetRecoilState(themeNameSelector);
@@ -66,8 +69,8 @@ const Home: NextPage = () => {
 
   // used to change tiles conditionally on the sidebar being open or tiles being edited
   useEffect(() => {
-    setSidebarOpenAtom(isOpen || isEditingTileGrid);
-  }, [isOpen, setSidebarOpenAtom, isEditingTileGrid]);
+    setIsEditingTileGridAtom(isOpen || isEditingTileGrid);
+  }, [isOpen, setIsEditingTileGridAtom, isEditingTileGrid]);
 
   // sets the theme based whether the user wants to use the system theme settings
   useEffect(() => {

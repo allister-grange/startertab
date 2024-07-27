@@ -1,6 +1,6 @@
 import { LargeWeatherTileSkeleton } from "@/components/skeletons/LargeWeatherTileSkeleton";
 import { OutlinedButton } from "@/components/ui/OutlinedButton";
-import { sidebarOpenAtom } from "@/recoil/SidebarAtoms";
+import { isEditingTileGridAtom } from "@/recoil/SidebarAtoms";
 import {
   cityForWeatherSelector,
   tempDisplayInCelsiusSelector,
@@ -158,7 +158,7 @@ export const LargeWeatherTile: React.FC<LargeWeatherTileProps> = ({
   tileId,
 }) => {
   const color = `var(--text-color-${tileId})`;
-  const sidebarOpen = useRecoilValue(sidebarOpenAtom);
+  const isEditing = useRecoilValue(isEditingTileGridAtom);
   const [cityForWeather, setCityForWeather] = useRecoilState(
     cityForWeatherSelector(tileId)
   ) as [string | undefined, SetterOrUpdater<string | undefined>];
@@ -252,7 +252,7 @@ export const LargeWeatherTile: React.FC<LargeWeatherTileProps> = ({
   return (
     <Center color={color} height="100%" pos="relative">
       {toDisplay}
-      {sidebarOpen && (
+      {isEditing && (
         <>
           <Text size="xs" opacity="0.5" pos="absolute" bottom="2" left="3">
             {cityForWeather}

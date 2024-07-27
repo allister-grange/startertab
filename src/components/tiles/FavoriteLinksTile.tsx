@@ -1,5 +1,5 @@
 import { OutlinedButton } from "@/components/ui/OutlinedButton";
-import { sidebarOpenAtom } from "@/recoil/SidebarAtoms";
+import { isEditingTileGridAtom } from "@/recoil/SidebarAtoms";
 import {
   favoriteLinksSelector,
   favoriteLinksTitleSelector,
@@ -29,7 +29,7 @@ export const FavoriteLinksTile: React.FC<FavoriteLinksTileProps> = ({
 }) => {
   const color = `var(--text-color-${tileId})`;
   const divRef = useRef<HTMLDivElement | null>(null);
-  const sidebarOpen = useRecoilValue(sidebarOpenAtom);
+  const isEditing = useRecoilValue(isEditingTileGridAtom);
   const [favoriteLinks, setFavoriteLinks] = useRecoilState(
     favoriteLinksSelector(tileId)
   ) as [
@@ -200,7 +200,7 @@ export const FavoriteLinksTile: React.FC<FavoriteLinksTileProps> = ({
           </UnorderedList>
         </Box>
       )}
-      {sidebarOpen && (
+      {isEditing && (
         <Box pos="absolute" bottom="0" right="3">
           {!showingInputForm && (
             <OutlinedButton

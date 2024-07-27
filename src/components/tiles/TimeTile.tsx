@@ -1,5 +1,5 @@
 import { OutlinedButton } from "@/components/ui/OutlinedButton";
-import { sidebarOpenAtom } from "@/recoil/SidebarAtoms";
+import { isEditingTileGridAtom } from "@/recoil/SidebarAtoms";
 import {
   timeTileShowing12HourSelector,
   timeTileShowingSecondsSelector,
@@ -24,7 +24,7 @@ const getTimerDisplayText = (time: number) => {
 };
 
 export const TimeTile: React.FC<TimeProps> = ({ tileId }) => {
-  const sidebarOpen = useRecoilValue(sidebarOpenAtom);
+  const isEditing = useRecoilValue(isEditingTileGridAtom);
   const [time, setTime] = useState("");
   const [timerPlaceholder, setTimerPlaceholder] = useState<number>();
   const [timer, setTimer] = useState<number>();
@@ -217,7 +217,7 @@ export const TimeTile: React.FC<TimeProps> = ({ tileId }) => {
           </OutlinedButton>
         </Box>
       )}
-      {sidebarOpen && (
+      {isEditing && (
         <Button
           position="absolute"
           right="2"
