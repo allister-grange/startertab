@@ -226,6 +226,20 @@ export const defaultSearchEngineSelector =
     }
   );
 
+export const imageUrlPathSelector = createTilePropertySelector<string>(
+  "imageUrlPath",
+  (theme, newValue) => {
+    theme.imageUrlPath = newValue;
+  }
+);
+
+export const imageFilePathSelector = createTilePropertySelector<string>(
+  "imageFilePath",
+  (theme, newValue) => {
+    theme.imageFilePath = newValue;
+  }
+);
+
 export const themeSelector = selector<ThemeSettings>({
   key: "themeSelector",
   get: ({ get }) => {

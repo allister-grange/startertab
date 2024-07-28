@@ -2,10 +2,7 @@ import Tile from "@/components/grid/Tile";
 import { deepClone } from "@/helpers/tileHelpers";
 import { tutorialProgressAtom } from "@/recoil/SidebarAtoms";
 import { userSettingState } from "@/recoil/UserSettingsAtoms";
-import {
-  themeNameSelector,
-  themeSelector,
-} from "@/recoil/UserSettingsSelectors";
+import { themeNameSelector } from "@/recoil/UserSettingsSelectors";
 import { TileSettings } from "@/types";
 import { Box, BoxProps, Flex } from "@chakra-ui/react";
 import React, { Dispatch, SetStateAction } from "react";

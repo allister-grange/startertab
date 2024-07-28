@@ -21,6 +21,7 @@ import {
 import React, { FormEvent, useState } from "react";
 
 interface SuggestionFormProps {
+  newSuggestionFormRef: React.Ref<HTMLDivElement>;
   refetchSuggestions: <TPageData>(
     options?: (RefetchOptions & RefetchQueryFilters<TPageData>) | undefined
   ) => Promise<QueryObserverResult<SuggestionData, unknown>>;
@@ -69,6 +70,7 @@ const SUGGESTION_CHAR_MIN = 4;
 
 export const SuggestionForm: React.FC<SuggestionFormProps> = ({
   refetchSuggestions,
+  newSuggestionFormRef,
 }) => {
   const [suggestion, setSuggestion] = useState("");
   const [author, setAuthor] = useState("");
@@ -161,6 +163,7 @@ export const SuggestionForm: React.FC<SuggestionFormProps> = ({
       mt="6"
       mx="auto"
       w="70%"
+      ref={newSuggestionFormRef}
     >
       <form onSubmit={handleSubmission} onKeyDown={onKeyDownInForm}>
         <FormControl>
