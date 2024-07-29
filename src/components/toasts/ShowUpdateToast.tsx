@@ -8,10 +8,10 @@ export const ShowUpdateToast: React.FC<ShowUpdateToastProps> = ({}) => {
 
   const showUpdateToast = useCallback(() => {
     toast({
-      title: "Todo categories & default search engines 🔍",
+      title: "v2.11.0 - Introducing the Image Tile 🖼️",
       description: (
         <Text>
-          v2.11.0 - Introducing the Image Tile 🖼️ -{" "}
+          Check out the{" "}
           <Link color="coral" href="/updates">
             new update!
           </Link>
