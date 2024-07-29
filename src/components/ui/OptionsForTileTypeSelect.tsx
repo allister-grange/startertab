@@ -156,11 +156,14 @@ export const OptionsForTileTypeSelect: React.FC<
           <option style={optionsStyles} value="Blank Tile">
             Blank
           </option>
-          <option style={optionsStyles} value="Search Bar">
-            Search Bar
-          </option>
           <option style={optionsStyles} value="Day Planner">
             Day Planner
+          </option>
+          <option style={optionsStyles} value="Image Tile">
+            Image Tile
+          </option>
+          <option style={optionsStyles} value="Search Bar">
+            Search Bar
           </option>
         </>
       );
