@@ -1,6 +1,7 @@
 import { Header } from "@/components/landing-page/LandingPageHeader";
 import { Footer } from "@/components/ui/Footer";
 import {
+  Update2110,
   Update2100,
   Update290,
   Update280,
@@ -54,6 +55,15 @@ const UpdatesPage: React.FC = ({}) => {
       >
         <Heading as="h1">Updates</Heading>
         <UnorderedList listStyleType={"none"} margin="0" mt="6">
+          <ListItem>
+            <Link
+              onClick={onAnchorClick}
+              style={{ color: "coral" }}
+              href="#v2.11.0"
+            >
+              v2.11.0 - Introducing the Image Tile 🖼️
+            </Link>
+          </ListItem>
           <ListItem>
             <Link
               onClick={onAnchorClick}
@@ -172,6 +182,10 @@ const UpdatesPage: React.FC = ({}) => {
             </Link>
           </ListItem>
         </UnorderedList>
+        <hr
+          style={{ width: "100%", marginTop: "18px", background: "#e2e8f0" }}
+        />
+        <Update2110 />
         <hr
           style={{ width: "100%", marginTop: "18px", background: "#e2e8f0" }}
         />
