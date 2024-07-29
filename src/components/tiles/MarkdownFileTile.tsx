@@ -1,5 +1,5 @@
 import { OutlinedButton } from "@/components/ui/OutlinedButton";
-import { sidebarOpenAtom } from "@/recoil/SidebarAtoms";
+import { isEditingTileGridAtom } from "@/recoil/SidebarAtoms";
 import { markdownFileTextSelector } from "@/recoil/UserSettingsSelectors";
 import { Box, Input, Text } from "@chakra-ui/react";
 import React, { useRef, useState } from "react";
@@ -14,7 +14,7 @@ export const MarkdownFileTile: React.FC<MarkdownFileTileProps> = ({
   tileId,
 }) => {
   const color = `var(--text-color-${tileId})`;
-  const sidebarOpen = useRecoilValue(sidebarOpenAtom);
+  const isEditing = useRecoilValue(isEditingTileGridAtom);
   const fileInputRef = useRef(null);
   const [markdownFileText, setMarkdownFileText] = useRecoilState(
     markdownFileTextSelector(tileId)
@@ -70,7 +70,7 @@ export const MarkdownFileTile: React.FC<MarkdownFileTileProps> = ({
           />
         </Box>
       )}
-      {!showingFileInput && sidebarOpen && (
+      {!showingFileInput && isEditing && (
         <Box width="100%">
           <OutlinedButton
             fontSize="xs"

@@ -90,23 +90,6 @@ export const Update2100: React.FC = ({}) => {
       <Text textAlign="center" fontSize="sm" color="gray.700">
         Quickly change the search engine in the editing mode
       </Text>
-      <Box mt="6">
-        <Heading fontSize="xl" as="h3" color="black">
-          It&apos;s the little things
-        </Heading>
-        <Text mt="2">
-          - Fixed encoding issues where html was coming through in plain text on
-          the feed tiles
-        </Text>
-        <Text>- Turning off relative links in the Favorite links tile</Text>
-        <Text>
-          - Adding in a confirmation dialog when you&apos;ve made changes in the
-          sidebar so that you don&apos;t lose them
-        </Text>
-        <Text>- Fixed some build warnings within the code</Text>
-        <Text>- Allowing you to turn off/on 24 time on the timer tile</Text>
-        <Text>- Added in night time icons for the weather reports</Text>
-      </Box>
     </Box>
   );
 };

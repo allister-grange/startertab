@@ -3,7 +3,7 @@
  * "A tile that contains just an image. It can be from url or from local file."
  * @ironhak's suggestion
  */
-import { sidebarOpenAtom } from "@/recoil/SidebarAtoms";
+import { isEditingTileGridAtom } from "@/recoil/SidebarAtoms";
 import {
   imageFilePathSelector,
   imageUrlPathSelector,
@@ -18,7 +18,7 @@ interface ImageTileProps {
 
 export const ImageTile: React.FC<ImageTileProps> = ({ tileId }) => {
   const color = `var(--text-color-${tileId})`;
-  const isEditing = useRecoilValue(sidebarOpenAtom);
+  const isEditing = useRecoilValue(isEditingTileGridAtom);
 
   const [imageError, setImageError] = React.useState(false);
 

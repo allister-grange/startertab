@@ -12,7 +12,7 @@ You can install the [chrome extension here](https://chrome.google.com/webstore/d
 
 Local storage is being used for storing all of your customizations, meaning you own your data! All of the settings, tokens and themes sit on your own browser. Some may call it laziness that I don't want to maintain a database, you could also see it as me helping prevent your data being in yet another cloud service.
 
-Written in NextJS with CharkaUI. Hosted on Vercel.
+Written in NextJS with CharkaUI. The frontend and functions are hosted on Vercel, the database on Neon.
 
 ## Current API Integrations
 
@@ -81,13 +81,13 @@ To run it in production mode, use:
 yarn build && yarn start
 ```
 
-## Adding in a New Tile
+## Creating a New Tile
 
 1. Create your new Tile component in the `src/components/tiles` folder. Make sure to accept a 'tileId' prop, this enables you to change the color of the text based off the settings changed in the sidebar.
 
 ```js
 type PageProps = {
-  tileId: TileId;
+  tileId: number;
 };
 
 export const YourNewTile: React.FC<PageProps> = ({ tileId }) => {
@@ -98,6 +98,30 @@ export const YourNewTile: React.FC<PageProps> = ({ tileId }) => {
 ```
 
 2. Add your tile type to the TileType in `src/types/settings.ts`.
-3. Add your new tile into the corresponding sizes you want available for your tile in the switch statement for `tileSize` in `src/components/sidebar/TypePicker.tsx`
+3. Add your new tile into the corresponding sizes you want available for your tile in the switch statement for `tileSize` in `src/components/sidebar/OptionsForTileTypeSelect.tsx`
 4. Add your tile type to the switch statement for the `tileType` in `src/components/TileContainer.tsx`
-5. If you want to add in persistent storage to the tile, use Recoil. Look at how another tile uses a FamilySelector and the useRecoilState hook
+
+**if you need persistent storage**
+
+1. Add your new value into the `TileSettings` type within `src/types/settings.ts`
+2. Create a new selector in recoil for your new setting value in `src/recoil/UserSettingsSelectors.tsx`
+3. Use that selector within your tile
+
+selector example:
+
+```ts
+export const imageFilePathSelector = createTilePropertySelector<string>(
+  "imageFilePath",
+  (theme, newValue) => {
+    theme.imageFilePath = newValue;
+  }
+);
+```
+
+using that selector in a tile:
+
+```ts
+  const [fileValue, setFileValue] = useRecoilState(
+    imageFilePathSelector (tileId)
+  ) as [string | undefined, SetterOrUpdater<string | undefined>];
+```

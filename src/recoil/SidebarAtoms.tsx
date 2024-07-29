@@ -5,8 +5,8 @@ export const accordionOpenIndex = atom({
   default: [] as number[],
 });
 
-export const sidebarOpenAtom = atom({
-  key: "SidebarOpen",
+export const isEditingTileGridAtom = atom({
+  key: "isEditingTileGrid",
   default: false,
 });
 

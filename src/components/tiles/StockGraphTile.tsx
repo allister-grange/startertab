@@ -1,5 +1,5 @@
 import { OutlinedButton } from "@/components/ui/OutlinedButton";
-import { sidebarOpenAtom } from "@/recoil/SidebarAtoms";
+import { isEditingTileGridAtom } from "@/recoil/SidebarAtoms";
 import { graphStockSelector } from "@/recoil/UserSettingsSelectors";
 import { CandleGraphPoint, FinnhubCandleResponse } from "@/types/stocks";
 import {
@@ -68,7 +68,7 @@ const fetcher = async (stockName: string) => {
 };
 
 export const StockGraphTile: React.FC<StockGraphTileProps> = ({ tileId }) => {
-  const sidebarOpen = useRecoilValue(sidebarOpenAtom);
+  const isEditing = useRecoilValue(isEditingTileGridAtom);
   const textColor = `var(--text-color-${tileId})`;
   const [stock, setStock] = useRecoilState(graphStockSelector(tileId)) as [
     string | undefined,
@@ -173,7 +173,7 @@ export const StockGraphTile: React.FC<StockGraphTileProps> = ({ tileId }) => {
           &nbsp;so that I can afford to get off the free tier
         </Text>
       </Center>
-      {sidebarOpen && (
+      {isEditing && (
         <OutlinedButton
           fontSize="xs"
           pos="absolute"

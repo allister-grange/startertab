@@ -9,7 +9,7 @@ import { Box, Button, Flex, Input, Text } from "@chakra-ui/react";
 import React, { useState } from "react";
 import { SetterOrUpdater, useRecoilValue } from "recoil";
 import { TodoListItem } from "./TodoList/TodoListItem";
-import { sidebarOpenAtom } from "@/recoil/SidebarAtoms";
+import { isEditingTileGridAtom } from "@/recoil/SidebarAtoms";
 
 export interface TodoListProps {
   tileId: number;
@@ -205,7 +205,7 @@ const TodoListTile: React.FC<TodoListProps> = ({
   const [showingCompletedItems, setShowingCompletedItems] = useState(false);
   const [showingAddCategoryInput, setShowingAddCategoryInput] = useState(false);
 
-  const sidebarOpen = useRecoilValue(sidebarOpenAtom);
+  const isEditing = useRecoilValue(isEditingTileGridAtom);
 
   const onTodoInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setTodoInputValue(e.target.value);
@@ -325,13 +325,13 @@ const TodoListTile: React.FC<TodoListProps> = ({
                 handleCollapseCategoryToggle={handleCollapseCategoryToggle}
                 handleAddItemToCategory={handleAddItemToCategory}
                 handleAddingCategory={handleAddingCategory}
-                isEditing={sidebarOpen}
+                isEditing={isEditing}
               />
             ))}
           </ol>
         </Box>
 
-        {sidebarOpen && (
+        {isEditing && (
           <Box mb="3">
             {showingAddCategoryInput ? (
               // TODO do I need an icon here?
@@ -425,7 +425,7 @@ const TodoListTile: React.FC<TodoListProps> = ({
                   handleCollapseCategoryToggle={handleCollapseCategoryToggle}
                   handleAddItemToCategory={handleAddItemToCategory}
                   handleAddingCategory={handleAddingCategory}
-                  isEditing={sidebarOpen}
+                  isEditing={isEditing}
                 />
               ))}
             </ol>

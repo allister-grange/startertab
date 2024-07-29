@@ -1,6 +1,6 @@
 import { optionsStyles } from "@/helpers/selectOptionStyles";
 import { searchEngineOptions } from "@/helpers/tileHelpers";
-import { sidebarOpenAtom } from "@/recoil/SidebarAtoms";
+import { isEditingTileGridAtom } from "@/recoil/SidebarAtoms";
 import { defaultSearchEngineSelector } from "@/recoil/UserSettingsSelectors";
 import { SearchEngineDefault } from "@/types";
 import { Center, Input, Select } from "@chakra-ui/react";
@@ -20,7 +20,7 @@ export const SearchBarTile: React.FC<SearchBarProps> = ({ tileId }) => {
   ];
   const searchRef = React.useRef<HTMLInputElement>(null);
   const [searchTerm, setSearchTerm] = useState<string>("");
-  const isEditing = useRecoilValue(sidebarOpenAtom);
+  const isEditing = useRecoilValue(isEditingTileGridAtom);
   const color = `var(--text-color-${tileId})`;
 
   // our engine should be Google by default

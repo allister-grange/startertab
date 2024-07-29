@@ -1,5 +1,5 @@
 import { OutlinedButton } from "@/components/ui/OutlinedButton";
-import { sidebarOpenAtom } from "@/recoil/SidebarAtoms";
+import { isEditingTileGridAtom } from "@/recoil/SidebarAtoms";
 import { uvCitySelector } from "@/recoil/UserSettingsSelectors";
 import { UvGraphData } from "@/types";
 import {
@@ -47,7 +47,7 @@ const fetcher = async (cityName: string) => {
 
 export const UvGraphTile: React.FC<UvGraphProps> = ({ tileId }) => {
   const color = `var(--text-color-${tileId})`;
-  const sidebarOpen = useRecoilValue(sidebarOpenAtom);
+  const isEditing = useRecoilValue(isEditingTileGridAtom);
   const [city, setCity] = useRecoilState(uvCitySelector(tileId)) as [
     string | undefined,
     SetterOrUpdater<string | undefined>
@@ -143,7 +143,7 @@ export const UvGraphTile: React.FC<UvGraphProps> = ({ tileId }) => {
         {city ? city?.charAt(0).toUpperCase() + city?.slice(1) : ""} UV Index
       </Text>
       {toDisplay}
-      {sidebarOpen && (
+      {isEditing && (
         <OutlinedButton
           size="xs"
           pos="absolute"
