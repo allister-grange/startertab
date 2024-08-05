@@ -20,6 +20,10 @@ import type { NextPage } from "next";
 import { useRouter } from "next/router";
 import { useEffect, useLayoutEffect, useState } from "react";
 import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
+import Particles, { initParticlesEngine } from "@tsparticles/react";
+import { loadSlim } from "@tsparticles/slim"; // if you are going to use `loadSlim`, install the "@tsparticles/slim" package too.
+import { Container } from "@tsparticles/engine";
+import React from "react";
 
 const Home: NextPage = () => {
   // sidebar hook
@@ -27,6 +31,8 @@ const Home: NextPage = () => {
 
   // to highlight what tile you are looking to edit from the sidebar
   const [optionHovered, setOptionHovered] = useState<number | undefined>();
+
+  const [init, setInit] = useState(false);
 
   const router = useRouter();
   const [showingTutorial, setShowingTutorial] = useState(false);
@@ -45,6 +51,77 @@ const Home: NextPage = () => {
   if (router.query.preview) {
     setTutorialProgress(-1);
   }
+
+  const options = React.useMemo(
+    () => ({
+      background: {
+        color: {
+          value: currentTheme.globalSettings.backgroundColor,
+        },
+      },
+      fpsLimit: 120,
+      interactivity: {
+        events: {
+          // onClick: {
+          //   enable: true,
+          //   mode: "push",
+          // },
+          onHover: {
+            enable: true,
+            mode: "repulse",
+          },
+        },
+        modes: {
+          push: {
+            quantity: 4,
+          },
+          repulse: {
+            distance: 50,
+            duration: 0.4,
+          },
+        },
+      },
+      particles: {
+        color: {
+          value: "#ffffff",
+        },
+        links: {
+          color: "#ffffff",
+          distance: 150,
+          enable: true,
+          opacity: 0.5,
+          width: 1,
+        },
+        move: {
+          direction: "none",
+          enable: true,
+          outModes: {
+            default: "bounce",
+          },
+          random: false,
+          speed: 2,
+          straight: false,
+        },
+        number: {
+          density: {
+            enable: true,
+          },
+          value: 80,
+        },
+        opacity: {
+          value: 0.5,
+        },
+        shape: {
+          type: "circle",
+        },
+        size: {
+          value: { min: 1, max: 5 },
+        },
+      },
+      detectRetina: true,
+    }),
+    [currentTheme.globalSettings.backgroundColor]
+  );
 
   // legacy settings need to have the systemThemeSettings object added in
   useLayoutEffect(() => {
@@ -66,6 +143,21 @@ const Home: NextPage = () => {
   useLayoutEffect(() => {
     applyTheme(currentTheme);
   }, [currentTheme]);
+
+  // this should be run only once per application lifetime
+  useEffect(() => {
+    initParticlesEngine(async (engine) => {
+      // you can initiate the tsParticles instance (engine) here, adding custom shapes or presets
+      // this loads the tsparticles package bundle, it's the easiest method for getting everything ready
+      // starting from v2 you can add only the features you need reducing the bundle size
+      //await loadAll(engine);
+      //await loadFull(engine);
+      await loadSlim(engine);
+      //await loadBasic(engine);
+    }).then(() => {
+      setInit(true);
+    });
+  }, []);
 
   // used to change tiles conditionally on the sidebar being open or tiles being edited
   useEffect(() => {
@@ -99,9 +191,20 @@ const Home: NextPage = () => {
   const gridGap = currentTheme.globalSettings.gridGap;
   const settingsToggleColor = currentTheme.globalSettings.textColor;
 
+  const particlesLoaded = async (container?: Container): Promise<void> => {
+    console.log(container);
+  };
+
+  console.log(init);
+
   return (
     <>
-      <Box width="100%" display="flex" minH="100%" className="app_container">
+      {/* <Particles
+        id="tsparticles"
+        options={options}
+        particlesLoaded={particlesLoaded}
+      /> */}
+      <Box width="100%" display="flex" minH="100%">
         {isOpen && (
           <SettingsSideBar
             onClose={onClose}

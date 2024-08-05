@@ -46,7 +46,7 @@ export const SuggestionsPage: React.FC = ({}) => {
             w="40%"
             shadow="md"
             borderColor="coral"
-            mt="1"
+            mt="3"
             mx="auto"
             onClick={onScrollToSuggestionFormClick}
           >

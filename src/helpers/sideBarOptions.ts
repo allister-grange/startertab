@@ -17,7 +17,7 @@ export const globalSettingsOptions: Option[] = [
   },
   {
     title: "Background",
-    subTitle: "Controls the theme background of the main page",
+    subTitle: "Controls the theme's background",
     localStorageId: "backgroundColor",
     optionType: "ColorPicker",
   },
