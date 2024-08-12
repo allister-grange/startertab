@@ -81,7 +81,7 @@ const StravaGraphTile: React.FC<PageProps> = ({ tileId }) => {
         </Box>
       </Box>
       <Box mt="4" ml="-10">
-        <ResponsiveContainer width="100%" aspect={2.1}>
+        <ResponsiveContainer width="100%" aspect={2.5}>
           <BarChart data={stravaData.combinedData}>
             <XAxis
               label={undefined}
