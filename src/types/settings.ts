@@ -16,6 +16,7 @@ export type Option = {
 
 export type OptionType =
   | "BackgroundBlurSlide"
+  | "BackgroundEffectsSelect"
   | "BorderRadiusInput"
   | "BorderSelect"
   | "CityInputForUV"
@@ -83,6 +84,7 @@ export type TileSize = "small" | "large" | "medium" | "long";
 
 export type TileSettings = {
   backgroundColor: string;
+  backgroundEffectsOptions?: string;
   bonsaiBaseColor?: string;
   bonsaiTrunkColor?: string;
   borderColor?: string;

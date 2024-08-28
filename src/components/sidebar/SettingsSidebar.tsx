@@ -306,6 +306,7 @@ const SettingsSideBar: React.FC<SettingsSideBarProps> = ({
                   subTextColor={subTextColor}
                   randomizeAllColorValues={randomizeAllColorValues}
                   value={value}
+                  currentTheme={currentThemeSettings}
                 />
               );
             })}
@@ -368,6 +369,7 @@ const SettingsSideBar: React.FC<SettingsSideBarProps> = ({
                       subTextColor={subTextColor}
                       randomizeAllColorValues={randomizeAllColorValues}
                       value={value}
+                      currentTheme={currentThemeSettings}
                     />
                   );
                 })}

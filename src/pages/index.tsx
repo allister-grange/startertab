@@ -22,7 +22,7 @@ import { useEffect, useLayoutEffect, useState } from "react";
 import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import Particles, { initParticlesEngine } from "@tsparticles/react";
 import { loadSlim } from "@tsparticles/slim"; // if you are going to use `loadSlim`, install the "@tsparticles/slim" package too.
-import { Container } from "@tsparticles/engine";
+import { Container, IOptions } from "@tsparticles/engine";
 import React from "react";
 
 const Home: NextPage = () => {
@@ -51,77 +51,6 @@ const Home: NextPage = () => {
   if (router.query.preview) {
     setTutorialProgress(-1);
   }
-
-  const options = React.useMemo(
-    () => ({
-      background: {
-        color: {
-          value: currentTheme.globalSettings.backgroundColor,
-        },
-      },
-      fpsLimit: 120,
-      interactivity: {
-        events: {
-          // onClick: {
-          //   enable: true,
-          //   mode: "push",
-          // },
-          onHover: {
-            enable: true,
-            mode: "repulse",
-          },
-        },
-        modes: {
-          push: {
-            quantity: 4,
-          },
-          repulse: {
-            distance: 50,
-            duration: 0.4,
-          },
-        },
-      },
-      particles: {
-        color: {
-          value: "#ffffff",
-        },
-        links: {
-          color: "#ffffff",
-          distance: 150,
-          enable: true,
-          opacity: 0.5,
-          width: 1,
-        },
-        move: {
-          direction: "none",
-          enable: true,
-          outModes: {
-            default: "bounce",
-          },
-          random: false,
-          speed: 2,
-          straight: false,
-        },
-        number: {
-          density: {
-            enable: true,
-          },
-          value: 80,
-        },
-        opacity: {
-          value: 0.5,
-        },
-        shape: {
-          type: "circle",
-        },
-        size: {
-          value: { min: 1, max: 5 },
-        },
-      },
-      detectRetina: true,
-    }),
-    [currentTheme.globalSettings.backgroundColor]
-  );
 
   // legacy settings need to have the systemThemeSettings object added in
   useLayoutEffect(() => {
@@ -199,6 +128,17 @@ const Home: NextPage = () => {
 
   return (
     <>
+      {init && currentTheme.globalSettings.backgroundEffectsOptions && (
+        <Particles
+          id="tsparticles"
+          options={
+            JSON.parse(
+              currentTheme.globalSettings.backgroundEffectsOptions
+            ) as IOptions
+          }
+          particlesLoaded={particlesLoaded}
+        />
+      )}
       {/* <Particles
         id="tsparticles"
         options={options}

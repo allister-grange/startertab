@@ -2,7 +2,7 @@ import { ColorPicker } from "@/components/sidebar/ColorPicker";
 import { GenericInput } from "@/components/sidebar/GenericInput";
 import { GenericSelect } from "@/components/sidebar/GenericSelect";
 import { TileTypePicker } from "@/components/sidebar/TileTypePicker";
-import { Option, TileSettings, TileType } from "@/types";
+import { Option, ThemeSettings, TileSettings, TileType } from "@/types";
 import { Box, Text } from "@chakra-ui/react";
 import React from "react";
 import { OutlinedButton } from "@/components/ui/OutlinedButton";
@@ -10,6 +10,7 @@ import { optionsStyles } from "@/helpers/selectOptionStyles";
 import { GenericSwitch } from "./GenericSwitch";
 import { GenericSliderInput } from "./GenericSliderInput";
 import { FontInput } from "@/components/sidebar/FontInput";
+import { floatyThingies } from "@/helpers/particleEffects";
 
 interface SettingOptionContainerProps {
   option: Option;
@@ -24,6 +25,7 @@ interface SettingOptionContainerProps {
   value: any;
   tileType: TileType;
   randomizeAllColorValues: () => void;
+  currentTheme: ThemeSettings;
 }
 
 const SettingOptionContainer: React.FC<SettingOptionContainerProps> = ({
@@ -35,6 +37,7 @@ const SettingOptionContainer: React.FC<SettingOptionContainerProps> = ({
   tileType,
   tileId,
   value,
+  currentTheme,
 }) => {
   let optionToDisplay;
 
@@ -172,6 +175,40 @@ const SettingOptionContainer: React.FC<SettingOptionContainerProps> = ({
               </option>
               <option value="8px 8px 0 rgba(0,0,0,.3)" style={optionsStyles}>
                 Large block shadow
+              </option>
+            </>
+          }
+        />
+      );
+      break;
+    case "BackgroundEffectsSelect":
+      optionToDisplay = (
+        <GenericSelect
+          option={option}
+          tileId={tileId}
+          changeSetting={changeSetting}
+          textColor={textColor}
+          subTextColor={subTextColor}
+          value={value}
+          options={
+            <>
+              <option value="" style={optionsStyles}>
+                No effect
+              </option>
+              <option
+                value={JSON.stringify({
+                  ...{
+                    background: {
+                      color: {
+                        value: currentTheme.globalSettings.backgroundColor,
+                      },
+                    },
+                  },
+                  ...floatyThingies,
+                })}
+                style={optionsStyles}
+              >
+                Particle Floaty Thingies
               </option>
             </>
           }

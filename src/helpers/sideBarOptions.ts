@@ -28,6 +28,12 @@ export const globalSettingsOptions: Option[] = [
     optionType: "BackgroundBlurSlide",
   },
   {
+    title: "Background particle effects",
+    subTitle: "Sets particle effect patterns for your background",
+    localStorageId: "backgroundEffectsOptions",
+    optionType: "BackgroundEffectsSelect",
+  },
+  {
     title: "Border",
     subTitle: "Controls the border of all the tiles",
     localStorageId: "tileBorder",
