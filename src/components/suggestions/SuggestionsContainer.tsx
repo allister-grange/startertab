@@ -1,12 +1,12 @@
+import { SuggestionForm } from "@/components/suggestions/SuggestionForm";
+import { SuggestionList } from "@/components/suggestions/SuggestionList";
+import { OutlinedButton } from "@/components/ui/OutlinedButton";
 import { SuggestionData } from "@/types/suggestions";
+import { ArrowDownIcon } from "@chakra-ui/icons";
 import { useQuery } from "@tanstack/react-query";
 import React from "react";
-import { SuggestionForm } from "./SuggestionForm";
-import { SuggestionList } from "./SuggestionList";
 
-interface SuggestionsContainerProps {
-  newSuggestionFormRef: React.Ref<HTMLDivElement>;
-}
+interface SuggestionsContainerProps {}
 
 const fetchSuggestions = async () => {
   try {
@@ -22,15 +22,36 @@ const fetchSuggestions = async () => {
   }
 };
 
-export const SuggestionsContainer: React.FC<SuggestionsContainerProps> = ({
-  newSuggestionFormRef,
-}) => {
-  const { data, error, isLoading, refetch } = useQuery(["suggestions"], () =>
-    fetchSuggestions()
+export const SuggestionsContainer: React.FC<
+  SuggestionsContainerProps
+> = ({}) => {
+  const { data, error, isLoading, refetch, isFetched } = useQuery(
+    ["suggestions"],
+    () => fetchSuggestions()
   );
+  const newSuggestionFormRef = React.useRef<HTMLDivElement>(null);
+
+  const onScrollToSuggestionFormClick = () => {
+    if (newSuggestionFormRef) {
+      newSuggestionFormRef.current?.scrollIntoView();
+    }
+  };
 
   return (
     <>
+      {isFetched && (
+        <OutlinedButton
+          w="40%"
+          shadow="md"
+          borderColor="coral"
+          mt="3"
+          mx="auto"
+          onClick={onScrollToSuggestionFormClick}
+        >
+          Jump to adding a suggestion
+          <ArrowDownIcon ml="1" />
+        </OutlinedButton>
+      )}
       <SuggestionList
         suggestionsData={data}
         isLoading={isLoading}

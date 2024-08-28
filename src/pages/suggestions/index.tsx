@@ -13,13 +13,6 @@ export const SuggestionsPage: React.FC = ({}) => {
   useEffect(() => {
     document.body.style.background = "white";
   }, []);
-  const newSuggestionFormRef = React.useRef<HTMLDivElement>(null);
-
-  const onScrollToSuggestionFormClick = () => {
-    if (newSuggestionFormRef) {
-      newSuggestionFormRef.current?.scrollIntoView();
-    }
-  };
 
   return (
     <QueryClientProvider client={queryClient}>
@@ -42,18 +35,7 @@ export const SuggestionsPage: React.FC = ({}) => {
             A place to suggest new tile ideas, as well as give general feedback
             for the app
           </Heading>
-          <OutlinedButton
-            w="40%"
-            shadow="md"
-            borderColor="coral"
-            mt="3"
-            mx="auto"
-            onClick={onScrollToSuggestionFormClick}
-          >
-            Jump to adding a suggestion
-            <ArrowDownIcon ml="1" />
-          </OutlinedButton>
-          <SuggestionsContainer newSuggestionFormRef={newSuggestionFormRef} />
+          <SuggestionsContainer />
         </Flex>
 
         <Footer />
