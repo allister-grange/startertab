@@ -10,7 +10,12 @@ import { optionsStyles } from "@/helpers/selectOptionStyles";
 import { GenericSwitch } from "./GenericSwitch";
 import { GenericSliderInput } from "./GenericSliderInput";
 import { FontInput } from "@/components/sidebar/FontInput";
-import { floatyThingies } from "@/helpers/particleEffects";
+import {
+  balls,
+  movingStars,
+  starsStatic,
+  vectors,
+} from "@/helpers/particleEffects";
 
 interface SettingOptionContainerProps {
   option: Option;
@@ -204,11 +209,56 @@ const SettingOptionContainer: React.FC<SettingOptionContainerProps> = ({
                       },
                     },
                   },
-                  ...floatyThingies,
+                  ...balls,
                 })}
                 style={optionsStyles}
               >
-                Particle Floaty Thingies
+                Balls
+              </option>
+              <option
+                value={JSON.stringify({
+                  ...{
+                    background: {
+                      color: {
+                        value: currentTheme.globalSettings.backgroundColor,
+                      },
+                    },
+                  },
+                  ...movingStars,
+                })}
+                style={optionsStyles}
+              >
+                Moving Stars
+              </option>
+              <option
+                value={JSON.stringify({
+                  ...{
+                    background: {
+                      color: {
+                        value: currentTheme.globalSettings.backgroundColor,
+                      },
+                    },
+                  },
+                  ...starsStatic,
+                })}
+                style={optionsStyles}
+              >
+                Static Stars
+              </option>
+              <option
+                value={JSON.stringify({
+                  ...{
+                    background: {
+                      color: {
+                        value: currentTheme.globalSettings.backgroundColor,
+                      },
+                    },
+                  },
+                  ...vectors,
+                })}
+                style={optionsStyles}
+              >
+                Vectors
               </option>
             </>
           }

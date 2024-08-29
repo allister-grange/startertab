@@ -1,3 +1,4 @@
+import { MemoizedParticles } from "@/components/grid/MemoizedParticles";
 import { TileGrid } from "@/components/grid/TileGrid";
 import { TileLayoutActions } from "@/components/grid/TileLayoutActions";
 import SettingsSideBar from "@/components/sidebar/SettingsSidebar";
@@ -16,14 +17,12 @@ import {
   themeSelector,
 } from "@/recoil/UserSettingsSelectors";
 import { Box, Flex, useDisclosure } from "@chakra-ui/react";
+import { initParticlesEngine } from "@tsparticles/react";
+import { loadSlim } from "@tsparticles/slim"; // if you are going to use `loadSlim`, install the "@tsparticles/slim" package too.
 import type { NextPage } from "next";
 import { useRouter } from "next/router";
 import { useEffect, useLayoutEffect, useState } from "react";
 import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
-import Particles, { initParticlesEngine } from "@tsparticles/react";
-import { loadSlim } from "@tsparticles/slim"; // if you are going to use `loadSlim`, install the "@tsparticles/slim" package too.
-import { Container, IOptions } from "@tsparticles/engine";
-import React from "react";
 
 const Home: NextPage = () => {
   // sidebar hook
@@ -31,8 +30,6 @@ const Home: NextPage = () => {
 
   // to highlight what tile you are looking to edit from the sidebar
   const [optionHovered, setOptionHovered] = useState<number | undefined>();
-
-  const [init, setInit] = useState(false);
 
   const router = useRouter();
   const [showingTutorial, setShowingTutorial] = useState(false);
@@ -73,7 +70,6 @@ const Home: NextPage = () => {
     applyTheme(currentTheme);
   }, [currentTheme]);
 
-  // this should be run only once per application lifetime
   useEffect(() => {
     initParticlesEngine(async (engine) => {
       // you can initiate the tsParticles instance (engine) here, adding custom shapes or presets
@@ -83,8 +79,6 @@ const Home: NextPage = () => {
       //await loadFull(engine);
       await loadSlim(engine);
       //await loadBasic(engine);
-    }).then(() => {
-      setInit(true);
     });
   }, []);
 
@@ -120,30 +114,14 @@ const Home: NextPage = () => {
   const gridGap = currentTheme.globalSettings.gridGap;
   const settingsToggleColor = currentTheme.globalSettings.textColor;
 
-  const particlesLoaded = async (container?: Container): Promise<void> => {
-    console.log(container);
-  };
-
-  console.log(init);
-
   return (
     <>
-      {init && currentTheme.globalSettings.backgroundEffectsOptions && (
-        <Particles
-          id="tsparticles"
-          options={
-            JSON.parse(
-              currentTheme.globalSettings.backgroundEffectsOptions
-            ) as IOptions
-          }
-          particlesLoaded={particlesLoaded}
-        />
-      )}
-      {/* <Particles
-        id="tsparticles"
-        options={options}
-        particlesLoaded={particlesLoaded}
-      /> */}
+      <MemoizedParticles
+        backgroundEffectsOptions={
+          currentTheme.globalSettings.backgroundEffectsOptions
+        }
+        backgroundColor={currentTheme.globalSettings.backgroundColor}
+      />
       <Box width="100%" display="flex" minH="100%">
         {isOpen && (
           <SettingsSideBar
