@@ -1,5 +1,5 @@
 # Stage 1: Build
-FROM oven/bun:slim as builder
+FROM oven/bun:slim AS builder
 WORKDIR /app
 
 # Set node environment for production
