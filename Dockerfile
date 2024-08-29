@@ -7,7 +7,7 @@ ENV NODE_ENV=production
 
 # Copy all files and install dependencies
 COPY . .
-RUN bun install --lockfile && \
+RUN bun install && \
     bun run build && \
     mv /app/.next/static /app/.next/standalone/.next/static && \
     mv /app/public /app/.next/standalone/public 

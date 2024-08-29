@@ -46,32 +46,33 @@ export type OptionType =
   | "TitleForRSSFeed";
 
 export const TileTypes = [
-  "Reddit Feed",
-  "Hacker News Feed",
-  "Strava Graph",
-  "Search Bar",
-  "Bonsai",
-  "Small Weather Tile",
-  "Large Weather Tile",
-  "UV Graph",
-  "Day Planner",
-  "Theme Picker",
-  "Small Spotify Tile",
-  "Time",
-  "Twitter Feed Tile",
-  "Markdown File Tile",
-  "Todo List",
-  "Large Spotify Tile",
-  "Small Stock Tile",
-  "Stock Graph Tile",
-  "Large Stock Tile",
-  "Spotify Top Artist Tile",
   "Blank Tile",
+  "Bonsai",
+  "Day Planner",
   "Favorite Links Tile",
-  "RSS Feed Tile",
-  "Outlook Meetings Tile",
   "Google Meetings Tile",
+  "Hacker News Feed",
+  "Image Tile",
+  "Large Spotify Tile",
+  "Large Stock Tile",
+  "Large Weather Tile",
+  "Markdown File Tile",
   "None",
+  "Outlook Meetings Tile",
+  "Reddit Feed",
+  "RSS Feed Tile",
+  "Search Bar",
+  "Small Spotify Tile",
+  "Small Stock Tile",
+  "Small Weather Tile",
+  "Spotify Top Artist Tile",
+  "Stock Graph Tile",
+  "Strava Graph",
+  "Theme Picker",
+  "Time",
+  "Todo List",
+  "Twitter Feed Tile",
+  "UV Graph",
 ] as const;
 
 export type TileType = (typeof TileTypes)[number];
@@ -100,6 +101,8 @@ export type TileSettings = {
   graphStock?: string;
   gridGap?: string;
   hackerNewsFeedType?: string;
+  imageFilePath?: string;
+  imageUrlPath?: string;
   markdownFileText?: string;
   rssFeedTitle?: string;
   rssFeeds?: RSSFeed[];

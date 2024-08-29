@@ -4,7 +4,9 @@ import React from "react";
 import { SuggestionForm } from "./SuggestionForm";
 import { SuggestionList } from "./SuggestionList";
 
-interface SuggestionsContainerProps {}
+interface SuggestionsContainerProps {
+  newSuggestionFormRef: React.Ref<HTMLDivElement>;
+}
 
 const fetchSuggestions = async () => {
   try {
@@ -20,9 +22,9 @@ const fetchSuggestions = async () => {
   }
 };
 
-export const SuggestionsContainer: React.FC<
-  SuggestionsContainerProps
-> = ({}) => {
+export const SuggestionsContainer: React.FC<SuggestionsContainerProps> = ({
+  newSuggestionFormRef,
+}) => {
   const { data, error, isLoading, refetch } = useQuery(["suggestions"], () =>
     fetchSuggestions()
   );
@@ -34,7 +36,10 @@ export const SuggestionsContainer: React.FC<
         isLoading={isLoading}
         error={error}
       />
-      <SuggestionForm refetchSuggestions={refetch} />
+      <SuggestionForm
+        refetchSuggestions={refetch}
+        newSuggestionFormRef={newSuggestionFormRef}
+      />
     </>
   );
 };

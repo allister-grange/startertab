@@ -21,6 +21,9 @@ export const OptionsForTileTypeSelect: React.FC<
           <option style={optionsStyles} value="Favorite Links Tile">
             Favorite Links
           </option>
+          <option style={optionsStyles} value="Image Tile">
+            Image Tile
+          </option>
           <option style={optionsStyles} value="Small Spotify Tile">
             Spotify
           </option>
@@ -56,6 +59,9 @@ export const OptionsForTileTypeSelect: React.FC<
           </option>
           <option style={optionsStyles} value="Hacker News Feed">
             Hacker News Feed
+          </option>
+          <option style={optionsStyles} value="Image Tile">
+            Image Tile
           </option>
           <option style={optionsStyles} value="Markdown File Tile">
             Markdown File
@@ -101,6 +107,9 @@ export const OptionsForTileTypeSelect: React.FC<
           </option>
           <option style={optionsStyles} value="Hacker News Feed">
             Hacker News Feed
+          </option>
+          <option style={optionsStyles} value="Image Tile">
+            Image Tile
           </option>
           <option style={optionsStyles} value="Markdown File Tile">
             Markdown File
