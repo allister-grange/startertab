@@ -1,6 +1,7 @@
 import { IOptions } from "@tsparticles/engine";
 import Particles from "@tsparticles/react";
 import React, { useMemo } from "react";
+import { isEqual } from "lodash";
 
 export interface ParticlesComponentProps {
   backgroundEffectsOptions?: string;
@@ -24,11 +25,18 @@ const ParticlesComponent: React.FC<ParticlesComponentProps> = ({
   );
 };
 
+// prevents re-rendering when changing other settings in state, which is very common
 const areEqual = (
   prevProps: ParticlesComponentProps,
   nextProps: ParticlesComponentProps
 ) => {
-  return prevProps.backgroundColor === nextProps.backgroundColor;
+  return (
+    prevProps.backgroundColor === nextProps.backgroundColor &&
+    isEqual(
+      nextProps.backgroundEffectsOptions,
+      prevProps.backgroundEffectsOptions
+    )
+  );
 };
 
 export const MemoizedParticles = React.memo(ParticlesComponent, areEqual);
