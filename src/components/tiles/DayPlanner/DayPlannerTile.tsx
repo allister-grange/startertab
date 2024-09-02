@@ -1,6 +1,7 @@
 import DayPlannerForm from "@/components/tiles/DayPlanner/DayPlannerForm";
 import { OutlinedButton } from "@/components/ui/OutlinedButton";
 import { times } from "@/helpers/tileHelpers";
+import { usingExternalCalendarForDayPlannerSelector } from "@/recoil/UserSettingsSelectors";
 import { Booking } from "@/types";
 import {
   Box,
@@ -23,7 +24,7 @@ import React, {
   useRef,
   useState,
 } from "react";
-import { SetterOrUpdater } from "recoil";
+import { SetterOrUpdater, useRecoilState } from "recoil";
 
 const PopoverTrigger: React.FC<{ children: React.ReactNode }> =
   OrigPopoverTrigger;
@@ -54,6 +55,11 @@ const DayPlannerTileComponent: React.FC<DayPlannerTileProps> = ({
   const [pixelsToPushTimerAcross, setPixelsToPushTimerAcross] = useState(0);
   const [formValues, setFormValues] = useState<Booking>(defaultFormValues);
   const { isOpen, onOpen, onClose } = useDisclosure();
+
+  // TODO turn this into a recoil atom, set it across all themes???
+  const [usingExternalCalendar, setUsingExternalCalendar] = useRecoilState(
+    usingExternalCalendarForDayPlannerSelector(tileId)
+  ) as [boolean | undefined, SetterOrUpdater<boolean | undefined>];
 
   // calculating what hour to put the hand on
   // 6 is taken off current hours as we start the clock at 6:00am
@@ -119,6 +125,27 @@ const DayPlannerTileComponent: React.FC<DayPlannerTileProps> = ({
     }
   };
 
+  function calculateDuration(startTime: string, endTime: string): number {
+    // Split the time strings into hours and minutes
+    const [startHours, startMinutes] = startTime.split(":").map(Number);
+    const [endHours, endMinutes] = endTime.split(":").map(Number);
+
+    // Create Date objects for the start and end times
+    const startDate = new Date();
+    startDate.setHours(startHours, startMinutes, 0, 0);
+
+    const endDate = new Date();
+    endDate.setHours(endHours, endMinutes, 0, 0);
+
+    // Calculate the difference in milliseconds
+    const diffMs: number = endDate.getTime() - startDate.getTime();
+
+    // Convert milliseconds to minutes
+    const diffMinutes: number = diffMs / (1000 * 60);
+
+    return diffMinutes;
+  }
+
   const onSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (
@@ -130,6 +157,10 @@ const DayPlannerTileComponent: React.FC<DayPlannerTileProps> = ({
     }
 
     formValues.creationDate = new Date();
+    formValues.duration = calculateDuration(
+      formValues.startTime,
+      formValues.endTime
+    );
 
     setBookings([...(bookings || []), formValues]);
     setFormValues(defaultFormValues);
@@ -184,6 +215,25 @@ const DayPlannerTileComponent: React.FC<DayPlannerTileProps> = ({
     return `${hours}:${minutes}${amOrPm}`;
   };
 
+  const timeToNextBooking = (currentEndTime: string) => {
+    const nextBookingTime = bookings
+      ?.filter((b) => b.startTime > currentEndTime)
+      .reduce(
+        (closest, current) =>
+          !closest || current.startTime < closest.startTime ? current : closest,
+        undefined as Booking | undefined
+      );
+
+    if (!nextBookingTime) return false;
+
+    const diffMinutes = calculateDuration(
+      currentEndTime,
+      nextBookingTime.startTime
+    );
+
+    return diffMinutes;
+  };
+
   const deleteBooking = (time: string) => {
     if (!bookings) {
       return;
@@ -199,6 +249,31 @@ const DayPlannerTileComponent: React.FC<DayPlannerTileProps> = ({
         setBookings(newBookings);
       }
     }
+  };
+
+  const getMaxWidthOfBookingInPx = (time: string) => {
+    const booking = getBookingInTimeSlot(time)!;
+    const nextBookingTime = timeToNextBooking(booking.endTime);
+    const duration = booking.duration;
+
+    // legacy day planners, hopefully not many out there, they should be mostly wiped daily
+    if (!duration) {
+      return "100%";
+    }
+
+    console.log(time, nextBookingTime);
+
+    if (nextBookingTime && duration <= 30 && nextBookingTime <= 15) {
+      return "15px";
+    }
+    if (nextBookingTime && duration <= 60 && nextBookingTime <= 15) {
+      return "30px";
+    }
+    if (duration <= 90 && nextBookingTime) {
+      return "30px";
+    }
+
+    return "100%";
   };
 
   return (
@@ -244,16 +319,23 @@ const DayPlannerTileComponent: React.FC<DayPlannerTileProps> = ({
               getBookingInTimeSlot(time)?.startTime === time ? (
                 <Popover>
                   <PopoverTrigger>
-                    <Text
-                      fontSize="xs"
-                      fontWeight="700"
-                      pos="absolute"
-                      top="-32px"
-                      cursor="pointer"
-                      whiteSpace="nowrap"
+                    <Tooltip
+                      label={getBookingInTimeSlot(time)!.title.toUpperCase()}
                     >
-                      {getBookingInTimeSlot(time)!.title.toUpperCase()}
-                    </Text>
+                      <Text
+                        fontSize="xs"
+                        fontWeight="700"
+                        pos="absolute"
+                        top="-32px"
+                        cursor="pointer"
+                        whiteSpace="nowrap"
+                        overflow="hidden"
+                        textOverflow="ellipsis"
+                        maxWidth={getMaxWidthOfBookingInPx(time)}
+                      >
+                        {getBookingInTimeSlot(time)!.title.toUpperCase()}
+                      </Text>
+                    </Tooltip>
                   </PopoverTrigger>
                   <Portal>
                     <PopoverContent
@@ -308,6 +390,8 @@ const DayPlannerTileComponent: React.FC<DayPlannerTileProps> = ({
               onSubmit={onSubmit}
               startTime={formValues.startTime}
               onClose={onClose}
+              usingExternalCalendar={usingExternalCalendar}
+              setUsingExternalCalendar={setUsingExternalCalendar}
             />
           </ModalContent>
         </Modal>

@@ -248,6 +248,14 @@ export const backgroundEffectsOptionsSelector =
     }
   );
 
+export const usingExternalCalendarForDayPlannerSelector =
+  createTilePropertySelector<boolean>(
+    "usingExternalCalendarForDayPlanner",
+    (theme, newValue) => {
+      theme.usingExternalCalendarForDayPlanner = newValue;
+    }
+  );
+
 export const themeSelector = selector<ThemeSettings>({
   key: "themeSelector",
   get: ({ get }) => {

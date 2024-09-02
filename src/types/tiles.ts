@@ -20,6 +20,7 @@ export type Booking = {
   title: string;
   creationDate: Date;
   permanentBooking: boolean;
+  duration?: number;
 };
 
 export type FavoriteLink = {

@@ -7,14 +7,18 @@ import {
   Button,
   Checkbox,
   Flex,
+  FormControl,
+  FormLabel,
   Input,
   Stack,
   StackProps,
+  Switch,
   Text,
   Tooltip,
 } from "@chakra-ui/react";
 import React, { ChangeEvent, useState } from "react";
 import { HexColorPicker } from "react-colorful";
+import { SetterOrUpdater } from "recoil";
 
 interface DayPlannerFormProps extends StackProps {
   formValues: Booking;
@@ -23,6 +27,8 @@ interface DayPlannerFormProps extends StackProps {
   bookings: Booking[] | undefined;
   startTime: string;
   onClose: () => void;
+  usingExternalCalendar?: boolean;
+  setUsingExternalCalendar: SetterOrUpdater<boolean | undefined>;
 }
 
 const DayPlannerForm: React.FC<DayPlannerFormProps> = ({
@@ -32,9 +38,15 @@ const DayPlannerForm: React.FC<DayPlannerFormProps> = ({
   bookings,
   onClose,
   startTime,
+  usingExternalCalendar,
+  setUsingExternalCalendar,
   ...props
 }) => {
   const [userTyped, setUserTyped] = useState(false);
+
+  const onCalendarToggleSwitch = (event: ChangeEvent<HTMLInputElement>) => {
+    setUsingExternalCalendar(event.target.checked);
+  };
 
   const onTitleChange = (e: ChangeEvent<HTMLInputElement>) => {
     setUserTyped(true);
@@ -106,7 +118,7 @@ const DayPlannerForm: React.FC<DayPlannerFormProps> = ({
             value={formValues.title}
             onChange={onTitleChange}
             width="80%s"
-            outline="3px solid var(--chakra-colors-purple-500)"
+            outline="3px solid var(--chakra-colors-orange-500)"
             step="900"
             _focus={{
               border: "none",
@@ -125,7 +137,7 @@ const DayPlannerForm: React.FC<DayPlannerFormProps> = ({
               min="06:00"
               max="20:45"
               width="120px"
-              outline="3px solid var(--chakra-colors-purple-500)"
+              outline="3px solid var(--chakra-colors-orange-500)"
               step="900"
               _focus={{
                 border: "none",
@@ -140,7 +152,7 @@ const DayPlannerForm: React.FC<DayPlannerFormProps> = ({
               step="900"
               min="06:15"
               max="21:00"
-              outline="3px solid var(--chakra-colors-purple-500)"
+              outline="3px solid var(--chakra-colors-orange-500)"
               _focus={{
                 border: "none",
               }}
@@ -169,9 +181,26 @@ const DayPlannerForm: React.FC<DayPlannerFormProps> = ({
             Error - {formValidationError}
           </Text>
         )}
+
+        <FormControl display="flex" alignItems="center" mt="4">
+          <FormLabel htmlFor="email-alerts" mb="0">
+            Sync calendar with logged in calendars? (this will disable manual
+            inputs)
+          </FormLabel>
+          <Switch
+            id="email-alerts"
+            onChange={onCalendarToggleSwitch}
+            value={
+              usingExternalCalendar !== undefined
+                ? usingExternalCalendar.toString()
+                : ""
+            }
+          />
+        </FormControl>
+
         <Flex alignItems="center" mt="2" justifyContent="space-around">
           <Checkbox
-            colorScheme="purple"
+            colorScheme="orange"
             onChange={onPermanentCheckboxChange}
             borderColor={props.color}
           >
@@ -184,7 +213,7 @@ const DayPlannerForm: React.FC<DayPlannerFormProps> = ({
           </Checkbox>
           <OutlinedButton
             fontWeight="500"
-            borderColor="var(--chakra-colors-purple-500)"
+            borderColor="var(--chakra-colors-orange-500)"
             type="submit"
             disabled={formValidationError ? true : false}
           >
