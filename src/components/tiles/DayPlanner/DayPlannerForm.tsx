@@ -1,7 +1,7 @@
 import { NumberedBubble } from "@/components/ui/NumberedBubble";
 import { OutlinedButton } from "@/components/ui/OutlinedButton";
 import { Booking } from "@/types";
-import { CloseIcon } from "@chakra-ui/icons";
+import { CloseIcon, DeleteIcon } from "@chakra-ui/icons";
 import {
   Box,
   Button,
@@ -29,6 +29,8 @@ interface DayPlannerFormProps extends StackProps {
   onClose: () => void;
   usingExternalCalendar?: boolean;
   setUsingExternalCalendar: SetterOrUpdater<boolean | undefined>;
+  isEditingEvent: boolean;
+  handleDeleteBookingEvent: (time: string) => void;
 }
 
 const DayPlannerForm: React.FC<DayPlannerFormProps> = ({
@@ -40,6 +42,8 @@ const DayPlannerForm: React.FC<DayPlannerFormProps> = ({
   startTime,
   usingExternalCalendar,
   setUsingExternalCalendar,
+  isEditingEvent,
+  handleDeleteBookingEvent,
   ...props
 }) => {
   const [userTyped, setUserTyped] = useState(false);
@@ -217,8 +221,17 @@ const DayPlannerForm: React.FC<DayPlannerFormProps> = ({
             type="submit"
             disabled={formValidationError ? true : false}
           >
-            Create Event
+            {isEditingEvent ? "Edit Event" : "Create Event"}
           </OutlinedButton>
+          {isEditingEvent && (
+            <OutlinedButton
+              fontWeight="500"
+              borderColor="var(--chakra-colors-orange-500)"
+              onClick={(e) => handleDeleteBookingEvent(startTime)}
+            >
+              <DeleteIcon />
+            </OutlinedButton>
+          )}
         </Flex>
       </form>
     </Stack>
