@@ -16,6 +16,7 @@ import {
   starsStatic,
   vectors,
 } from "@/helpers/particleEffects";
+import { searchEngineOptions } from "@/helpers/tileHelpers";
 
 interface SettingOptionContainerProps {
   option: Option;
@@ -492,9 +493,15 @@ const SettingOptionContainer: React.FC<SettingOptionContainerProps> = ({
             value={value}
             options={
               <>
-                <option value="" style={optionsStyles}>
-                  these will be search engines TODO
-                </option>
+                {searchEngineOptions.map((option) => (
+                  <option
+                    key={option.url}
+                    value={JSON.stringify(option)}
+                    style={optionsStyles}
+                  >
+                    {option.name}
+                  </option>
+                ))}
               </>
             }
           />

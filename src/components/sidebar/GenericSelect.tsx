@@ -30,7 +30,7 @@ export const GenericSelect: React.FC<GenericSelectProps> = ({
   const onTypeSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     changeSetting(
       option.localStorageId as keyof TileSettings,
-      e.target.value,
+      JSON.parse(e.target.value),
       tileId
     );
   };

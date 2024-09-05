@@ -317,7 +317,14 @@ export const sideBarLongTileOptions: Option[] = [
   {
     title: "Default search engine",
     subTitle: "Choose which search engine you want your search bar to use",
-    localStorageId: "tileType",
+    localStorageId: "defaultSearchEngine",
     optionType: "DefaultSearchEngine",
+  },
+  {
+    title: "Use external calendars on day planner",
+    subTitle:
+      "This will bring in your Google and Outlook events into your day planner tile",
+    localStorageId: "usingExternalCalendarForDayPlanner",
+    optionType: "UsingExternalCalendarsOnPlannerSwitch",
   },
 ];
