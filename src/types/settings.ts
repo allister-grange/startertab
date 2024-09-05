@@ -44,7 +44,8 @@ export type OptionType =
   | "TimeTileShowingTimerSwitch"
   | "TimeTileShowing12HourSwitch"
   | "TitleForFavorites"
-  | "TitleForRSSFeed";
+  | "TitleForRSSFeed"
+  | "UsingExternalCalendarsOnPlannerSwitch";
 
 export const TileTypes = [
   "Blank Tile",

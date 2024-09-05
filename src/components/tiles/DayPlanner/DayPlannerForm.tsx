@@ -7,18 +7,14 @@ import {
   Button,
   Checkbox,
   Flex,
-  FormControl,
-  FormLabel,
   Input,
   Stack,
   StackProps,
-  Switch,
   Text,
   Tooltip,
 } from "@chakra-ui/react";
 import React, { ChangeEvent, useState } from "react";
 import { HexColorPicker } from "react-colorful";
-import { SetterOrUpdater } from "recoil";
 
 interface DayPlannerFormProps extends StackProps {
   formValues: Booking;
@@ -28,7 +24,6 @@ interface DayPlannerFormProps extends StackProps {
   startTime: string;
   onClose: () => void;
   usingExternalCalendar?: boolean;
-  setUsingExternalCalendar: SetterOrUpdater<boolean | undefined>;
   isEditingEvent: boolean;
   handleDeleteBookingEvent: (time: string) => void;
 }
@@ -41,16 +36,11 @@ const DayPlannerForm: React.FC<DayPlannerFormProps> = ({
   onClose,
   startTime,
   usingExternalCalendar,
-  setUsingExternalCalendar,
   isEditingEvent,
   handleDeleteBookingEvent,
   ...props
 }) => {
   const [userTyped, setUserTyped] = useState(false);
-
-  const onCalendarToggleSwitch = (event: ChangeEvent<HTMLInputElement>) => {
-    setUsingExternalCalendar(event.target.checked);
-  };
 
   const onTitleChange = (e: ChangeEvent<HTMLInputElement>) => {
     setUserTyped(true);
@@ -185,22 +175,6 @@ const DayPlannerForm: React.FC<DayPlannerFormProps> = ({
             Error - {formValidationError}
           </Text>
         )}
-
-        <FormControl display="flex" alignItems="center" mt="4">
-          <FormLabel htmlFor="email-alerts" mb="0">
-            Sync calendar with logged in calendars? (this will disable manual
-            inputs)
-          </FormLabel>
-          <Switch
-            id="email-alerts"
-            onChange={onCalendarToggleSwitch}
-            value={
-              usingExternalCalendar !== undefined
-                ? usingExternalCalendar.toString()
-                : ""
-            }
-          />
-        </FormControl>
 
         <Flex alignItems="center" mt="2" justifyContent="space-around">
           <Checkbox

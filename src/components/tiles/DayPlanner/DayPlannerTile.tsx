@@ -1,5 +1,5 @@
 import DayPlannerForm from "@/components/tiles/DayPlanner/DayPlannerForm";
-import { times } from "@/helpers/tileHelpers";
+import { defaultDayPlannerFormValues, times } from "@/helpers/tileHelpers";
 import { usingExternalCalendarForDayPlannerSelector } from "@/recoil/UserSettingsSelectors";
 import { Booking } from "@/types";
 import {
@@ -8,7 +8,6 @@ import {
   Modal,
   ModalContent,
   ModalOverlay,
-  PopoverTrigger as OrigPopoverTrigger,
   Tooltip,
   useDisclosure,
 } from "@chakra-ui/react";
@@ -21,23 +20,11 @@ import React, {
 } from "react";
 import { SetterOrUpdater, useRecoilState } from "recoil";
 
-const PopoverTrigger: React.FC<{ children: React.ReactNode }> =
-  OrigPopoverTrigger;
-
 interface DayPlannerTileProps {
   tileId: number;
   bookings?: Booking[];
   setBookings: SetterOrUpdater<Booking[] | undefined>;
 }
-
-const defaultFormValues: Booking = {
-  color: "#ffb6b6",
-  title: "",
-  startTime: "06:00",
-  endTime: "07:00",
-  creationDate: new Date(),
-  permanentBooking: false,
-};
 
 const DayPlannerTileComponent: React.FC<DayPlannerTileProps> = ({
   tileId,
@@ -49,7 +36,9 @@ const DayPlannerTileComponent: React.FC<DayPlannerTileProps> = ({
   const [width, setWidth] = useState(0);
   const [pixelsToPushTimerAcross, setPixelsToPushTimerAcross] = useState(0);
   const [isEditingEvent, setIsEditingEvent] = useState(false);
-  const [formValues, setFormValues] = useState<Booking>(defaultFormValues);
+  const [formValues, setFormValues] = useState<Booking>(
+    defaultDayPlannerFormValues
+  );
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   const [usingExternalCalendar, setUsingExternalCalendar] = useRecoilState(
@@ -123,7 +112,7 @@ const DayPlannerTileComponent: React.FC<DayPlannerTileProps> = ({
   const onCloseEvent = () => {
     setIsEditingEvent(false);
     onClose();
-    setFormValues(defaultFormValues);
+    setFormValues(defaultDayPlannerFormValues);
   };
 
   const onTimeIndicatorClick = (time?: string) => {
@@ -148,7 +137,10 @@ const DayPlannerTileComponent: React.FC<DayPlannerTileProps> = ({
     }
   };
 
-  function calculateDuration(startTime: string, endTime: string): number {
+  function calculateDurationOfBooking(
+    startTime: string,
+    endTime: string
+  ): number {
     const [startHours, startMinutes] = startTime.split(":").map(Number);
     const [endHours, endMinutes] = endTime.split(":").map(Number);
 
@@ -175,13 +167,13 @@ const DayPlannerTileComponent: React.FC<DayPlannerTileProps> = ({
     }
 
     formValues.creationDate = new Date();
-    formValues.duration = calculateDuration(
+    formValues.duration = calculateDurationOfBooking(
       formValues.startTime,
       formValues.endTime
     );
 
     setBookings([...(bookings || []), formValues]);
-    setFormValues(defaultFormValues);
+    setFormValues(defaultDayPlannerFormValues);
     onClose();
   };
 
@@ -381,7 +373,6 @@ const DayPlannerTileComponent: React.FC<DayPlannerTileProps> = ({
               startTime={formValues.startTime}
               onClose={onCloseEvent}
               usingExternalCalendar={usingExternalCalendar}
-              setUsingExternalCalendar={setUsingExternalCalendar}
               isEditingEvent={isEditingEvent}
               handleDeleteBookingEvent={handleDeleteBookingEvent}
             />

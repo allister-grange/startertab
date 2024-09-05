@@ -1,4 +1,4 @@
-import { SearchEngineDefault } from "@/types";
+import { Booking, SearchEngineDefault } from "@/types";
 
 export const times = [
   "06:00",
@@ -63,6 +63,15 @@ export const times = [
   "20:45",
   "21:00",
 ];
+
+export const defaultDayPlannerFormValues: Booking = {
+  color: "#ffb6b6",
+  title: "",
+  startTime: "06:00",
+  endTime: "07:00",
+  creationDate: new Date(),
+  permanentBooking: false,
+};
 
 export const calculateTimeAgoString = (date: Date) => {
   const timeDiff = new Date().getTime() - new Date(date).getTime();

@@ -481,6 +481,7 @@ const SettingOptionContainer: React.FC<SettingOptionContainerProps> = ({
           />
         );
       }
+      break;
     case "DefaultSearchEngine":
       if (tileType === "Search Bar") {
         optionToDisplay = (
@@ -504,6 +505,22 @@ const SettingOptionContainer: React.FC<SettingOptionContainerProps> = ({
                 ))}
               </>
             }
+          />
+        );
+      }
+      break;
+    case "UsingExternalCalendarsOnPlannerSwitch":
+      if (tileType === "Day Planner") {
+        optionToDisplay = (
+          <GenericSwitch
+            option={option}
+            changeSetting={changeSetting}
+            textColor={textColor}
+            subTextColor={subTextColor}
+            tileId={tileId}
+            value={value}
+            enabledLabel="on"
+            disabledLabel="off"
           />
         );
       }
