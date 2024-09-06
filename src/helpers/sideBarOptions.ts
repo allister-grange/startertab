@@ -323,7 +323,7 @@ export const sideBarLongTileOptions: Option[] = [
   {
     title: "Use external calendars on day planner",
     subTitle:
-      "This will bring in your Google and Outlook events into your day planner tile",
+      "This will bring in your Google and Outlook events into your day planner tile - you must sign into these calendars using the Google and Outlook tiles first",
     localStorageId: "usingExternalCalendarForDayPlanner",
     optionType: "UsingExternalCalendarsOnPlannerSwitch",
   },

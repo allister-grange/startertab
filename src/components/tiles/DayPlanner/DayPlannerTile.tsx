@@ -1,5 +1,11 @@
 import DayPlannerForm from "@/components/tiles/DayPlanner/DayPlannerForm";
-import { defaultDayPlannerFormValues, times } from "@/helpers/tileHelpers";
+import {
+  calculateDurationOfBooking,
+  convertGoogleBookingsToDayPlanner,
+  defaultDayPlannerFormValues,
+  mergeBookingsForDayPlanner,
+  times,
+} from "@/helpers/tileHelpers";
 import { usingExternalCalendarForDayPlannerSelector } from "@/recoil/UserSettingsSelectors";
 import { Booking } from "@/types";
 import {
@@ -8,17 +14,22 @@ import {
   Modal,
   ModalContent,
   ModalOverlay,
+  Text,
   Tooltip,
   useDisclosure,
 } from "@chakra-ui/react";
 import React, {
   useCallback,
+  useContext,
   useEffect,
   useLayoutEffect,
   useRef,
   useState,
 } from "react";
 import { SetterOrUpdater, useRecoilState } from "recoil";
+
+import { GoogleContext } from "@/context/GoogleContext";
+import { GoogleContextInterface } from "@/types";
 
 interface DayPlannerTileProps {
   tileId: number;
@@ -31,6 +42,13 @@ const DayPlannerTileComponent: React.FC<DayPlannerTileProps> = ({
   bookings,
   setBookings,
 }) => {
+  const {
+    isAuthenticated: isGoogleAuthenticated,
+    googleData,
+    isLoading,
+    error,
+  } = useContext(GoogleContext) as GoogleContextInterface;
+
   const color = `var(--text-color-${tileId})`;
   const containerRef = useRef<HTMLDivElement>(null);
   const [width, setWidth] = useState(0);
@@ -41,9 +59,14 @@ const DayPlannerTileComponent: React.FC<DayPlannerTileProps> = ({
   );
   const { isOpen, onOpen, onClose } = useDisclosure();
 
-  const [usingExternalCalendar, setUsingExternalCalendar] = useRecoilState(
+  const [usingExternalCalendar] = useRecoilState(
     usingExternalCalendarForDayPlannerSelector(tileId)
   ) as [boolean | undefined, SetterOrUpdater<boolean | undefined>];
+
+  const googleBookings = convertGoogleBookingsToDayPlanner(googleData);
+  const mergedBookings = mergeBookingsForDayPlanner(googleBookings, bookings);
+
+  console.log(googleBookings);
 
   // calculating what hour to put the hand on
   // 6 is taken off current hours as we start the clock at 6:00am
@@ -137,25 +160,6 @@ const DayPlannerTileComponent: React.FC<DayPlannerTileProps> = ({
     }
   };
 
-  function calculateDurationOfBooking(
-    startTime: string,
-    endTime: string
-  ): number {
-    const [startHours, startMinutes] = startTime.split(":").map(Number);
-    const [endHours, endMinutes] = endTime.split(":").map(Number);
-
-    const startDate = new Date();
-    startDate.setHours(startHours, startMinutes, 0, 0);
-
-    const endDate = new Date();
-    endDate.setHours(endHours, endMinutes, 0, 0);
-
-    const diffMs: number = endDate.getTime() - startDate.getTime();
-    const diffMinutes: number = diffMs / (1000 * 60);
-
-    return diffMinutes;
-  }
-
   const onSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (
@@ -183,8 +187,8 @@ const DayPlannerTileComponent: React.FC<DayPlannerTileProps> = ({
       return;
     }
 
-    for (const key in bookings) {
-      const booking = bookings[key];
+    for (const key in mergedBookings) {
+      const booking = mergedBookings[key];
       if (time >= booking.startTime && time <= booking.endTime) {
         return booking;
       }
@@ -254,7 +258,14 @@ const DayPlannerTileComponent: React.FC<DayPlannerTileProps> = ({
       ref={containerRef}
       width="85%"
       mx="auto"
+      flexDir={"column"}
     >
+      {!isGoogleAuthenticated && (
+        <Text color={color} textAlign="center" fontSize=".7rem">
+          please authenticate with the Google Meetings Tile (or turn off the{" "}
+          <i>sync external calendar</i> option in the sidebar)
+        </Text>
+      )}
       <Flex
         marginTop="auto"
         alignItems="flex-end"

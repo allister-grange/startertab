@@ -1,4 +1,16 @@
-import { Booking, SearchEngineDefault } from "@/types";
+import { Booking, GoogleMeetingEvent, SearchEngineDefault } from "@/types";
+
+const neonColors: string[] = [
+  "#39FF14",
+  "#FF073A",
+  "#FFD700",
+  "#00FFFF",
+  "#FF00FF",
+  "#FF69B4",
+  "#FF1493",
+  "#7FFF00",
+  "#40E0D0",
+];
 
 export const times = [
   "06:00",
@@ -71,6 +83,105 @@ export const defaultDayPlannerFormValues: Booking = {
   endTime: "07:00",
   creationDate: new Date(),
   permanentBooking: false,
+};
+
+const getRandomNeonColor = (): string => {
+  const randomIndex = Math.floor(Math.random() * neonColors.length);
+  return neonColors[randomIndex];
+};
+
+export const convertGoogleBookingsToDayPlanner = (
+  googleData: GoogleMeetingEvent[]
+) => {
+  console.log(googleData[0]);
+
+  return googleData.map((event) => ({
+    color: getRandomNeonColor(),
+    startTime: convertToLocalTime(event.start.dateTime),
+    endTime: convertToLocalTime(event.end.dateTime),
+    title: event.summary,
+    creationDate: new Date(),
+    permanentBooking: false,
+    duration: calculateDurationOfBooking(
+      event.start.dateTime,
+      event.end.dateTime
+    ),
+  })) as Booking[];
+};
+
+export const mergeBookingsForDayPlanner = (
+  googleBookings: Booking[],
+  bookings?: Booking[]
+): Booking[] => {
+  if (!bookings) {
+    return googleBookings;
+  }
+
+  const isOverlapping = (booking1: Booking, booking2: Booking): boolean => {
+    return (
+      booking1.startTime < booking2.endTime &&
+      booking2.startTime < booking1.endTime
+    );
+  };
+
+  const mergedBookings: Booking[] = [];
+
+  // Use Google booking if overlapping
+  bookings.forEach((timeBooking) => {
+    const overlappingGoogleBooking = googleBookings.find((googleBooking) =>
+      isOverlapping(timeBooking, googleBooking)
+    );
+
+    if (overlappingGoogleBooking) {
+      mergedBookings.push(overlappingGoogleBooking);
+    } else {
+      mergedBookings.push(timeBooking);
+    }
+  });
+
+  googleBookings.forEach((googleBooking) => {
+    const isAlreadyMerged = mergedBookings.some((mergedBooking) =>
+      isOverlapping(mergedBooking, googleBooking)
+    );
+
+    if (!isAlreadyMerged) {
+      mergedBookings.push(googleBooking);
+    }
+  });
+
+  return mergedBookings;
+};
+
+const convertToLocalTime = (dateTime: string): string => {
+  const eventDate = new Date(dateTime);
+
+  const options: Intl.DateTimeFormatOptions = {
+    hour: "2-digit",
+    minute: "2-digit",
+    hour12: false,
+    timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone, // User's local time zone
+  };
+
+  return new Intl.DateTimeFormat("en-US", options).format(eventDate);
+};
+
+export const calculateDurationOfBooking = (
+  startTime: string,
+  endTime: string
+) => {
+  const [startHours, startMinutes] = startTime.split(":").map(Number);
+  const [endHours, endMinutes] = endTime.split(":").map(Number);
+
+  const startDate = new Date();
+  startDate.setHours(startHours, startMinutes, 0, 0);
+
+  const endDate = new Date();
+  endDate.setHours(endHours, endMinutes, 0, 0);
+
+  const diffMs: number = endDate.getTime() - startDate.getTime();
+  const diffMinutes: number = diffMs / (1000 * 60);
+
+  return diffMinutes;
 };
 
 export const calculateTimeAgoString = (date: Date) => {
