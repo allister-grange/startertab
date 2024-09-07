@@ -2,12 +2,13 @@ import DayPlannerForm from "@/components/tiles/DayPlanner/DayPlannerForm";
 import {
   calculateDurationOfBooking,
   convertGoogleBookingsToDayPlanner,
+  convertOutlookBookingsToDayPlanner,
   defaultDayPlannerFormValues,
   mergeBookingsForDayPlanner,
   times,
 } from "@/helpers/tileHelpers";
 import { usingExternalCalendarForDayPlannerSelector } from "@/recoil/UserSettingsSelectors";
-import { Booking } from "@/types";
+import { Booking, OutlookContextInterface } from "@/types";
 import {
   Box,
   Flex,
@@ -30,6 +31,7 @@ import { SetterOrUpdater, useRecoilState } from "recoil";
 
 import { GoogleContext } from "@/context/GoogleContext";
 import { GoogleContextInterface } from "@/types";
+import { OutlookContext } from "@/context/OutlookContext";
 
 interface DayPlannerTileProps {
   tileId: number;
@@ -42,12 +44,13 @@ const DayPlannerTileComponent: React.FC<DayPlannerTileProps> = ({
   bookings,
   setBookings,
 }) => {
-  const {
-    isAuthenticated: isGoogleAuthenticated,
-    googleData,
-    isLoading,
-    error,
-  } = useContext(GoogleContext) as GoogleContextInterface;
+  const { isAuthenticated: isGoogleAuthenticated, googleData } = useContext(
+    GoogleContext
+  ) as GoogleContextInterface;
+
+  const { isAuthenticated: isOutlookAuthenticated, outlookData } = useContext(
+    OutlookContext
+  ) as OutlookContextInterface;
 
   const color = `var(--text-color-${tileId})`;
   const containerRef = useRef<HTMLDivElement>(null);
@@ -64,9 +67,13 @@ const DayPlannerTileComponent: React.FC<DayPlannerTileProps> = ({
   ) as [boolean | undefined, SetterOrUpdater<boolean | undefined>];
 
   const googleBookings = convertGoogleBookingsToDayPlanner(googleData);
-  const mergedBookings = mergeBookingsForDayPlanner(googleBookings, bookings);
+  const outlookBookings = convertOutlookBookingsToDayPlanner(outlookData);
 
-  console.log(googleBookings);
+  const mergedBookings = mergeBookingsForDayPlanner(
+    googleBookings,
+    outlookBookings,
+    bookings
+  );
 
   // calculating what hour to put the hand on
   // 6 is taken off current hours as we start the clock at 6:00am
@@ -260,10 +267,10 @@ const DayPlannerTileComponent: React.FC<DayPlannerTileProps> = ({
       mx="auto"
       flexDir={"column"}
     >
-      {!isGoogleAuthenticated && (
+      {!isGoogleAuthenticated && !isOutlookAuthenticated && (
         <Text color={color} textAlign="center" fontSize=".7rem">
-          please authenticate with the Google Meetings Tile (or turn off the{" "}
-          <i>sync external calendar</i> option in the sidebar)
+          Please authenticate with a Meeting Tile, Google or Outlook (or turn
+          off the <i>sync external calendar</i> option in the sidebar)
         </Text>
       )}
       <Flex
@@ -340,15 +347,20 @@ const DayPlannerTileComponent: React.FC<DayPlannerTileProps> = ({
             } */}
             <Tooltip
               label={
-                <div>
-                  {convert24HourTo12(time)}
-                  {getBookingInTimeSlot(time)?.title && (
+                <Text>
+                  {getBookingInTimeSlot(time)?.title ? (
                     <>
-                      <br />
-                      {getBookingInTimeSlot(time)?.title}
+                      {getBookingInTimeSlot(time)
+                        ?.title.split("<br />")
+                        .map((line, index) => (
+                          <Text key={index}>{line}</Text>
+                        ))}
+                      <Text fontSize="xs">{convert24HourTo12(time)}</Text>
                     </>
+                  ) : (
+                    <Text>{convert24HourTo12(time)}</Text>
                   )}
-                </div>
+                </Text>
               }
               aria-label="tooltip"
               placement="top"

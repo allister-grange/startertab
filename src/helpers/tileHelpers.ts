@@ -1,4 +1,9 @@
-import { Booking, GoogleMeetingEvent, SearchEngineDefault } from "@/types";
+import {
+  Booking,
+  GoogleMeetingEvent,
+  OutlookMeetingEvent,
+  SearchEngineDefault,
+} from "@/types";
 
 const neonColors: string[] = [
   "#39FF14",
@@ -93,8 +98,6 @@ const getRandomNeonColor = (): string => {
 export const convertGoogleBookingsToDayPlanner = (
   googleData: GoogleMeetingEvent[]
 ) => {
-  console.log(googleData[0]);
-
   return googleData.map((event) => ({
     color: getRandomNeonColor(),
     startTime: convertToLocalTime(event.start.dateTime),
@@ -103,51 +106,132 @@ export const convertGoogleBookingsToDayPlanner = (
     creationDate: new Date(),
     permanentBooking: false,
     duration: calculateDurationOfBooking(
-      event.start.dateTime,
-      event.end.dateTime
+      convertToLocalTime(event.start.dateTime),
+      convertToLocalTime(event.end.dateTime)
+    ),
+  })) as Booking[];
+};
+export const convertOutlookBookingsToDayPlanner = (
+  outlookData: OutlookMeetingEvent[]
+) => {
+  return outlookData.map((event) => ({
+    color: getRandomNeonColor(),
+    startTime: convertToLocalTime(event.start.dateTime + "Z"),
+    endTime: convertToLocalTime(event.end.dateTime + "Z"),
+    title: event.subject,
+    creationDate: new Date(),
+    permanentBooking: false,
+    duration: calculateDurationOfBooking(
+      convertToLocalTime(event.start.dateTime),
+      convertToLocalTime(event.end.dateTime)
     ),
   })) as Booking[];
 };
 
+// Helper function to convert 'HH:MM' time format to total minutes since midnight
+const timeToMinutes = (time: string): number => {
+  const [hours, minutes] = time.split(":").map(Number);
+  return hours * 60 + minutes;
+};
+
+// Helper function to convert minutes since midnight back to 'HH:MM' format
+const minutesToTime = (totalMinutes: number): string => {
+  const hours = Math.floor(totalMinutes / 60);
+  const minutes = totalMinutes % 60;
+  return `${String(hours).padStart(2, "0")}:${String(minutes).padStart(
+    2,
+    "0"
+  )}`;
+};
+
 export const mergeBookingsForDayPlanner = (
   googleBookings: Booking[],
+  outlookBookings: Booking[],
   bookings?: Booking[]
 ): Booking[] => {
   if (!bookings) {
-    return googleBookings;
+    bookings = [];
   }
 
   const isOverlapping = (booking1: Booking, booking2: Booking): boolean => {
     return (
-      booking1.startTime < booking2.endTime &&
-      booking2.startTime < booking1.endTime
+      timeToMinutes(booking1.startTime) < timeToMinutes(booking2.endTime) &&
+      timeToMinutes(booking2.startTime) < timeToMinutes(booking1.endTime)
     );
+  };
+
+  const mergeTitles = (
+    title1: string,
+    source1: string,
+    title2: string,
+    source2: string
+  ): string => {
+    return `${title1} (${source1}) <br /> ${title2} (${source2})`;
   };
 
   const mergedBookings: Booking[] = [];
 
-  // Use Google booking if overlapping
-  bookings.forEach((timeBooking) => {
-    const overlappingGoogleBooking = googleBookings.find((googleBooking) =>
-      isOverlapping(timeBooking, googleBooking)
+  // Function to merge two bookings, adjusting times and merging titles
+  const mergeBookingEntries = (
+    booking1: Booking,
+    booking2: Booking,
+    source1: string,
+    source2: string
+  ): Booking => {
+    const mergedStartTime = Math.min(
+      timeToMinutes(booking1.startTime),
+      timeToMinutes(booking2.startTime)
+    );
+    const mergedEndTime = Math.max(
+      timeToMinutes(booking1.endTime),
+      timeToMinutes(booking2.endTime)
     );
 
-    if (overlappingGoogleBooking) {
-      mergedBookings.push(overlappingGoogleBooking);
-    } else {
-      mergedBookings.push(timeBooking);
-    }
-  });
+    return {
+      ...booking1,
+      startTime: minutesToTime(mergedStartTime),
+      endTime: minutesToTime(mergedEndTime),
+      title: mergeTitles(booking1.title, source1, booking2.title, source2),
+      duration: mergedEndTime - mergedStartTime, // Duration in minutes
+    };
+  };
 
-  googleBookings.forEach((googleBooking) => {
-    const isAlreadyMerged = mergedBookings.some((mergedBooking) =>
-      isOverlapping(mergedBooking, googleBooking)
-    );
+  // Merge a set of bookings into mergedBookings array
+  const processAndMergeBookings = (
+    sourceBookings: Booking[],
+    sourceName: string
+  ) => {
+    sourceBookings.forEach((newBooking) => {
+      let merged = false;
 
-    if (!isAlreadyMerged) {
-      mergedBookings.push(googleBooking);
-    }
-  });
+      // Check for overlap with existing merged bookings
+      mergedBookings.forEach((mergedBooking, index) => {
+        if (isOverlapping(mergedBooking, newBooking)) {
+          // Merge with the existing merged booking
+          mergedBookings[index] = mergeBookingEntries(
+            mergedBooking,
+            newBooking,
+            "merged",
+            sourceName
+          );
+          merged = true;
+        }
+      });
+
+      // If no overlap was found, add the new booking as is
+      if (!merged) {
+        mergedBookings.push({
+          ...newBooking,
+          title: `${newBooking.title} (${sourceName})`, // Append the source to title
+        });
+      }
+    });
+  };
+
+  // Process and merge bookings from all three sources
+  processAndMergeBookings(bookings, "startertab");
+  processAndMergeBookings(googleBookings, "google");
+  processAndMergeBookings(outlookBookings, "outlook");
 
   return mergedBookings;
 };
@@ -162,7 +246,7 @@ const convertToLocalTime = (dateTime: string): string => {
     timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone, // User's local time zone
   };
 
-  return new Intl.DateTimeFormat("en-US", options).format(eventDate);
+  return eventDate.toLocaleTimeString("en-US", options);
 };
 
 export const calculateDurationOfBooking = (
