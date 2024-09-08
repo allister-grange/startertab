@@ -12,9 +12,13 @@ const ParticlesComponent: React.FC<ParticlesComponentProps> = ({
   backgroundEffectsOptions,
 }) => {
   const backgroundEffectsOptionsMemoed = useMemo(() => {
-    return backgroundEffectsOptions
-      ? JSON.parse(backgroundEffectsOptions)
-      : null;
+    if (typeof backgroundEffectsOptions === "string") {
+      return JSON.parse(backgroundEffectsOptions);
+    } else if (typeof backgroundEffectsOptions === "object") {
+      return backgroundEffectsOptions;
+    }
+
+    return null;
   }, [backgroundEffectsOptions]);
 
   return (

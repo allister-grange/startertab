@@ -195,7 +195,7 @@ const SettingOptionContainer: React.FC<SettingOptionContainerProps> = ({
           changeSetting={changeSetting}
           textColor={textColor}
           subTextColor={subTextColor}
-          value={value}
+          value={JSON.stringify(value)}
           options={
             <>
               <option value="" style={optionsStyles}>
