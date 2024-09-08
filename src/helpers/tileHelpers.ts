@@ -162,11 +162,10 @@ export const mergeBookingsForDayPlanner = (
 
   const mergeTitles = (
     title1: string,
-    source1: string,
     title2: string,
     source2: string
   ): string => {
-    return `${title1} (${source1}) <br /> ${title2} (${source2})`;
+    return `${title1} <br /> ${title2} (${source2})`;
   };
 
   const mergedBookings: Booking[] = [];
@@ -175,8 +174,7 @@ export const mergeBookingsForDayPlanner = (
   const mergeBookingEntries = (
     booking1: Booking,
     booking2: Booking,
-    source1: string,
-    source2: string
+    sourceName: string
   ): Booking => {
     const mergedStartTime = Math.min(
       timeToMinutes(booking1.startTime),
@@ -191,7 +189,7 @@ export const mergeBookingsForDayPlanner = (
       ...booking1,
       startTime: minutesToTime(mergedStartTime),
       endTime: minutesToTime(mergedEndTime),
-      title: mergeTitles(booking1.title, source1, booking2.title, source2),
+      title: mergeTitles(booking1.title, booking2.title, sourceName),
       duration: mergedEndTime - mergedStartTime, // Duration in minutes
     };
   };
@@ -211,7 +209,6 @@ export const mergeBookingsForDayPlanner = (
           mergedBookings[index] = mergeBookingEntries(
             mergedBooking,
             newBooking,
-            "merged",
             sourceName
           );
           merged = true;
