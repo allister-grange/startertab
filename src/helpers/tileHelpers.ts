@@ -90,16 +90,24 @@ export const defaultDayPlannerFormValues: Booking = {
   permanentBooking: false,
 };
 
-const getRandomNeonColor = (): string => {
-  const randomIndex = Math.floor(Math.random() * neonColors.length);
-  return neonColors[randomIndex];
-};
+function hashStringToIndex(str: string): number {
+  let hash = 0;
+  for (let i = 0; i < str.length; i++) {
+    hash = str.charCodeAt(i) + ((hash << 5) - hash);
+  }
+  return Math.abs(hash) % neonColors.length;
+}
+
+function getDeterministicColor(title: string): string {
+  const index = hashStringToIndex(title);
+  return neonColors[index];
+}
 
 export const convertGoogleBookingsToDayPlanner = (
   googleData: GoogleMeetingEvent[]
 ) => {
   return googleData.map((event) => ({
-    color: getRandomNeonColor(),
+    color: getDeterministicColor(event.summary),
     startTime: convertToLocalTime(event.start.dateTime),
     endTime: convertToLocalTime(event.end.dateTime),
     title: event.summary,
@@ -111,11 +119,12 @@ export const convertGoogleBookingsToDayPlanner = (
     ),
   })) as Booking[];
 };
+
 export const convertOutlookBookingsToDayPlanner = (
   outlookData: OutlookMeetingEvent[]
 ) => {
   return outlookData.map((event) => ({
-    color: getRandomNeonColor(),
+    color: getDeterministicColor(event.subject),
     startTime: convertToLocalTime(event.start.dateTime + "Z"),
     endTime: convertToLocalTime(event.end.dateTime + "Z"),
     title: event.subject,

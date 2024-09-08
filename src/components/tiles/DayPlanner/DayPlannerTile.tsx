@@ -267,7 +267,7 @@ const DayPlannerTileComponent: React.FC<DayPlannerTileProps> = ({
       mx="auto"
       flexDir={"column"}
     >
-      {!isGoogleAuthenticated && !isOutlookAuthenticated && (
+      {isGoogleAuthenticated == false && isOutlookAuthenticated == false && (
         <Text color={color} textAlign="center" fontSize=".7rem">
           Please authenticate with a Meeting Tile, Google or Outlook (or turn
           off the <i>sync external calendar</i> option in the sidebar)
@@ -301,50 +301,8 @@ const DayPlannerTileComponent: React.FC<DayPlannerTileProps> = ({
           />
         </Tooltip>
 
-        {times.map((time, idx) => (
+        {times.map((time) => (
           <Box key={time} width={`${width / times.length}px`}>
-            {/* {
-              // means that there's a booking in this time slot
-              getBookingInTimeSlot(time)?.startTime === time ? (
-                <Popover>
-                  <PopoverTrigger>
-                    <Box>
-                      <Tooltip
-                        label={getBookingInTimeSlot(time)!.title.toUpperCase()}
-                      >
-                        <Text
-                          fontSize=".7rem"
-                          fontWeight="700"
-                          pos="absolute"
-                          top="-32px"
-                          cursor="pointer"
-                          whiteSpace="nowrap"
-                          overflow="hidden"
-                          textOverflow="ellipsis"
-                        >
-                          {getBookingInTimeSlot(time)!.title.toUpperCase()}
-                        </Text>
-                      </Tooltip>
-                    </Box>
-                  </PopoverTrigger>
-                  <Portal>
-                    <PopoverContent
-                      width="150px"
-                      background="var(--bg-color-sidebar)"
-                      color="var(--text-color-sidebar)"
-                    >
-                      <OutlinedButton
-                        background="var(--bg-color-sidebar)"
-                        color="var(--text-color-sidebar)"
-                        onClick={() => deleteBooking(time)}
-                      >
-                        Delete booking
-                      </OutlinedButton>
-                    </PopoverContent>
-                  </Portal>
-                </Popover>
-              ) : null
-            } */}
             <Tooltip
               label={
                 <Text>
