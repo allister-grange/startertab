@@ -276,12 +276,14 @@ const DayPlannerTileComponent: React.FC<DayPlannerTileProps> = ({
       mx="auto"
       flexDir={"column"}
     >
-      {isGoogleAuthenticated == false && isOutlookAuthenticated == false && (
-        <Text color={color} textAlign="center" fontSize=".7rem">
-          Please authenticate with a Meeting Tile, Google or Outlook (or turn
-          off the <i>sync external calendar</i> option in the sidebar)
-        </Text>
-      )}
+      {isGoogleAuthenticated === false &&
+        isOutlookAuthenticated === false &&
+        usingExternalCalendar && (
+          <Text color={color} textAlign="center" fontSize=".7rem">
+            Please authenticate with a Meeting Tile, Google or Outlook (or turn
+            off the <i>sync external calendar</i> option in the sidebar)
+          </Text>
+        )}
       <Flex
         marginTop="auto"
         alignItems="flex-end"
