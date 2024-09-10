@@ -132,7 +132,7 @@ export type TileSettings = {
   timeTileShowingTimer?: boolean;
   todoList?: TodoObject[];
   twitterFeedURL?: string;
-  usingExternalCalendarForDayPlanner: boolean;
+  usingExternalCalendarForDayPlanner?: boolean;
 };
 
 export type ThemeSettings = {
