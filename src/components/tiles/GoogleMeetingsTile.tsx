@@ -84,7 +84,7 @@ export const GoogleMeetingsTile: React.FC<GoogleFeedTileProps> = ({
       <Box height="90%">
         {googleData.length === 0 && (
           <Center height="95%" color={color}>
-            <Text fontSize="xl" fontWeight="600">
+            <Text fontSize="xl" fontWeight="600" textAlign="center">
               You have no events today 🎉
             </Text>
           </Center>

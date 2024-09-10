@@ -240,6 +240,22 @@ export const imageFilePathSelector = createTilePropertySelector<string>(
   }
 );
 
+export const backgroundEffectsOptionsSelector =
+  createTilePropertySelector<string>(
+    "backgroundEffectsOptions",
+    (theme, newValue) => {
+      theme.backgroundEffectsOptions = newValue;
+    }
+  );
+
+export const usingExternalCalendarForDayPlannerSelector =
+  createTilePropertySelector<boolean>(
+    "usingExternalCalendarForDayPlanner",
+    (theme, newValue) => {
+      theme.usingExternalCalendarForDayPlanner = newValue;
+    }
+  );
+
 export const themeSelector = selector<ThemeSettings>({
   key: "themeSelector",
   get: ({ get }) => {

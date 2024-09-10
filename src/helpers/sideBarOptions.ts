@@ -17,7 +17,7 @@ export const globalSettingsOptions: Option[] = [
   },
   {
     title: "Background",
-    subTitle: "Controls the theme background of the main page",
+    subTitle: "Controls the theme's background",
     localStorageId: "backgroundColor",
     optionType: "ColorPicker",
   },
@@ -26,6 +26,12 @@ export const globalSettingsOptions: Option[] = [
     subTitle: "Sets a blur for the background",
     localStorageId: "globalBackgroundBlur",
     optionType: "BackgroundBlurSlide",
+  },
+  {
+    title: "Background particle effects",
+    subTitle: "Sets particle effect patterns for your background",
+    localStorageId: "backgroundEffectsOptions",
+    optionType: "BackgroundEffectsSelect",
   },
   {
     title: "Border",
@@ -311,7 +317,14 @@ export const sideBarLongTileOptions: Option[] = [
   {
     title: "Default search engine",
     subTitle: "Choose which search engine you want your search bar to use",
-    localStorageId: "tileType",
+    localStorageId: "defaultSearchEngine",
     optionType: "DefaultSearchEngine",
+  },
+  {
+    title: "Use external calendars on day planner",
+    subTitle:
+      "This will bring in your Google and Outlook events into your day planner tile - you must sign into these calendars using the Google and Outlook tiles first",
+    localStorageId: "usingExternalCalendarForDayPlanner",
+    optionType: "UsingExternalCalendarsOnPlannerSwitch",
   },
 ];

@@ -74,7 +74,7 @@ export const OutlookMeetingsTile: React.FC<OutlookFeedTileProps> = ({
       <Box height="90%">
         {outlookData.length === 0 && (
           <Center height="95%" color={color}>
-            <Text fontSize="xl" fontWeight="600">
+            <Text fontSize="xl" fontWeight="600" textAlign="center">
               You have no events today 🎉
             </Text>
           </Center>

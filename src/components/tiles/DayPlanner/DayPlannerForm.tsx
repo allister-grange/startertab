@@ -1,7 +1,7 @@
 import { NumberedBubble } from "@/components/ui/NumberedBubble";
 import { OutlinedButton } from "@/components/ui/OutlinedButton";
 import { Booking } from "@/types";
-import { CloseIcon } from "@chakra-ui/icons";
+import { CloseIcon, DeleteIcon } from "@chakra-ui/icons";
 import {
   Box,
   Button,
@@ -23,6 +23,9 @@ interface DayPlannerFormProps extends StackProps {
   bookings: Booking[] | undefined;
   startTime: string;
   onClose: () => void;
+  usingExternalCalendar?: boolean;
+  isEditingEvent: boolean;
+  handleDeleteBookingEvent: (time: string) => void;
 }
 
 const DayPlannerForm: React.FC<DayPlannerFormProps> = ({
@@ -32,6 +35,9 @@ const DayPlannerForm: React.FC<DayPlannerFormProps> = ({
   bookings,
   onClose,
   startTime,
+  usingExternalCalendar,
+  isEditingEvent,
+  handleDeleteBookingEvent,
   ...props
 }) => {
   const [userTyped, setUserTyped] = useState(false);
@@ -106,7 +112,7 @@ const DayPlannerForm: React.FC<DayPlannerFormProps> = ({
             value={formValues.title}
             onChange={onTitleChange}
             width="80%s"
-            outline="3px solid var(--chakra-colors-purple-500)"
+            outline="3px solid var(--chakra-colors-orange-500)"
             step="900"
             _focus={{
               border: "none",
@@ -125,7 +131,7 @@ const DayPlannerForm: React.FC<DayPlannerFormProps> = ({
               min="06:00"
               max="20:45"
               width="120px"
-              outline="3px solid var(--chakra-colors-purple-500)"
+              outline="3px solid var(--chakra-colors-orange-500)"
               step="900"
               _focus={{
                 border: "none",
@@ -140,7 +146,7 @@ const DayPlannerForm: React.FC<DayPlannerFormProps> = ({
               step="900"
               min="06:15"
               max="21:00"
-              outline="3px solid var(--chakra-colors-purple-500)"
+              outline="3px solid var(--chakra-colors-orange-500)"
               _focus={{
                 border: "none",
               }}
@@ -169,9 +175,10 @@ const DayPlannerForm: React.FC<DayPlannerFormProps> = ({
             Error - {formValidationError}
           </Text>
         )}
+
         <Flex alignItems="center" mt="2" justifyContent="space-around">
           <Checkbox
-            colorScheme="purple"
+            colorScheme="orange"
             onChange={onPermanentCheckboxChange}
             borderColor={props.color}
           >
@@ -184,12 +191,21 @@ const DayPlannerForm: React.FC<DayPlannerFormProps> = ({
           </Checkbox>
           <OutlinedButton
             fontWeight="500"
-            borderColor="var(--chakra-colors-purple-500)"
+            borderColor="var(--chakra-colors-orange-500)"
             type="submit"
             disabled={formValidationError ? true : false}
           >
-            Create Event
+            {isEditingEvent ? "Edit Event" : "Create Event"}
           </OutlinedButton>
+          {isEditingEvent && (
+            <OutlinedButton
+              fontWeight="500"
+              borderColor="var(--chakra-colors-orange-500)"
+              onClick={(e) => handleDeleteBookingEvent(startTime)}
+            >
+              <DeleteIcon />
+            </OutlinedButton>
+          )}
         </Flex>
       </form>
     </Stack>

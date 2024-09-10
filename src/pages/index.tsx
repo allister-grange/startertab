@@ -1,3 +1,4 @@
+import { MemoizedParticles } from "@/components/grid/MemoizedParticles";
 import { TileGrid } from "@/components/grid/TileGrid";
 import { TileLayoutActions } from "@/components/grid/TileLayoutActions";
 import SettingsSideBar from "@/components/sidebar/SettingsSidebar";
@@ -16,6 +17,8 @@ import {
   themeSelector,
 } from "@/recoil/UserSettingsSelectors";
 import { Box, Flex, useDisclosure } from "@chakra-ui/react";
+import { initParticlesEngine } from "@tsparticles/react";
+import { loadSlim } from "@tsparticles/slim"; // if you are going to use `loadSlim`, install the "@tsparticles/slim" package too.
 import type { NextPage } from "next";
 import { useRouter } from "next/router";
 import { useEffect, useLayoutEffect, useState } from "react";
@@ -67,6 +70,18 @@ const Home: NextPage = () => {
     applyTheme(currentTheme);
   }, [currentTheme]);
 
+  useEffect(() => {
+    initParticlesEngine(async (engine) => {
+      // you can initiate the tsParticles instance (engine) here, adding custom shapes or presets
+      // this loads the tsparticles package bundle, it's the easiest method for getting everything ready
+      // starting from v2 you can add only the features you need reducing the bundle size
+      //await loadAll(engine);
+      //await loadFull(engine);
+      await loadSlim(engine);
+      //await loadBasic(engine);
+    });
+  }, []);
+
   // used to change tiles conditionally on the sidebar being open or tiles being edited
   useEffect(() => {
     setIsEditingTileGridAtom(isOpen || isEditingTileGrid);
@@ -101,7 +116,13 @@ const Home: NextPage = () => {
 
   return (
     <>
-      <Box width="100%" display="flex" minH="100%" className="app_container">
+      <MemoizedParticles
+        backgroundEffectsOptions={
+          currentTheme.globalSettings.backgroundEffectsOptions
+        }
+        backgroundColor={currentTheme.globalSettings.backgroundColor}
+      />
+      <Box width="100%" display="flex" minH="100%">
         {isOpen && (
           <SettingsSideBar
             onClose={onClose}

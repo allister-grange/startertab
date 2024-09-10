@@ -2,7 +2,7 @@ import { useLongPress } from "@/hooks/useLongPress";
 import { themeSelector } from "@/recoil/UserSettingsSelectors";
 import styles from "@/styles/Home.module.css";
 import { SmallCloseIcon } from "@chakra-ui/icons";
-import { Box, BoxProps, keyframes } from "@chakra-ui/react";
+import { Box, BoxProps, Button, keyframes } from "@chakra-ui/react";
 import { motion } from "framer-motion";
 import dynamic from "next/dynamic";
 import React, { Dispatch, SetStateAction } from "react";
@@ -58,7 +58,7 @@ const Tile: React.FC<TileProps> = ({
       outline={optionHovered ? "2px solid white" : ""}
       shadow={shadow}
       border={border}
-      borderColor={borderColor ? borderColor : theme.tiles[tileId].textColor}
+      borderColor={borderColor}
       style={optionHovered ? { transform: "scale(1.05)" } : {}}
       background={`var(--bg-color-${tileId})`}
       pos="relative"

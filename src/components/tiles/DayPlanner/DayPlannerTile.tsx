@@ -1,32 +1,42 @@
 import DayPlannerForm from "@/components/tiles/DayPlanner/DayPlannerForm";
-import { OutlinedButton } from "@/components/ui/OutlinedButton";
-import { times } from "@/helpers/tileHelpers";
-import { Booking } from "@/types";
+import {
+  calculateDurationOfBooking,
+  convertGoogleBookingsToDayPlanner,
+  convertOutlookBookingsToDayPlanner,
+  defaultDayPlannerFormValues,
+  mergeBookingsForDayPlanner,
+  times,
+} from "@/helpers/tileHelpers";
+import { usingExternalCalendarForDayPlannerSelector } from "@/recoil/UserSettingsSelectors";
+import {
+  Booking,
+  GoogleMeetingEvent,
+  OutlookContextInterface,
+  OutlookMeetingEvent,
+} from "@/types";
 import {
   Box,
   Flex,
   Modal,
   ModalContent,
   ModalOverlay,
-  Popover,
-  PopoverContent,
-  PopoverTrigger as OrigPopoverTrigger,
-  Portal,
   Text,
   Tooltip,
   useDisclosure,
 } from "@chakra-ui/react";
 import React, {
   useCallback,
+  useContext,
   useEffect,
   useLayoutEffect,
   useRef,
   useState,
 } from "react";
-import { SetterOrUpdater } from "recoil";
+import { SetterOrUpdater, useRecoilState } from "recoil";
 
-const PopoverTrigger: React.FC<{ children: React.ReactNode }> =
-  OrigPopoverTrigger;
+import { GoogleContext } from "@/context/GoogleContext";
+import { GoogleContextInterface } from "@/types";
+import { OutlookContext } from "@/context/OutlookContext";
 
 interface DayPlannerTileProps {
   tileId: number;
@@ -34,26 +44,45 @@ interface DayPlannerTileProps {
   setBookings: SetterOrUpdater<Booking[] | undefined>;
 }
 
-const defaultFormValues: Booking = {
-  color: "#ffb6b6",
-  title: "",
-  startTime: "06:00",
-  endTime: "07:00",
-  creationDate: new Date(),
-  permanentBooking: false,
-};
-
 const DayPlannerTileComponent: React.FC<DayPlannerTileProps> = ({
   tileId,
   bookings,
   setBookings,
 }) => {
+  const { isAuthenticated: isGoogleAuthenticated, googleData } = useContext(
+    GoogleContext
+  ) as GoogleContextInterface;
+
+  const { isAuthenticated: isOutlookAuthenticated, outlookData } = useContext(
+    OutlookContext
+  ) as OutlookContextInterface;
+
   const color = `var(--text-color-${tileId})`;
   const containerRef = useRef<HTMLDivElement>(null);
   const [width, setWidth] = useState(0);
   const [pixelsToPushTimerAcross, setPixelsToPushTimerAcross] = useState(0);
-  const [formValues, setFormValues] = useState<Booking>(defaultFormValues);
+  const [isEditingEvent, setIsEditingEvent] = useState(false);
+  const [formValues, setFormValues] = useState<Booking>(
+    defaultDayPlannerFormValues
+  );
   const { isOpen, onOpen, onClose } = useDisclosure();
+
+  const [usingExternalCalendar] = useRecoilState(
+    usingExternalCalendarForDayPlannerSelector(tileId)
+  ) as [boolean | undefined, SetterOrUpdater<boolean | undefined>];
+
+  let googleBookings = [] as Booking[];
+  let outlookBookings = [] as Booking[];
+  if (usingExternalCalendar) {
+    googleBookings = convertGoogleBookingsToDayPlanner(googleData);
+    outlookBookings = convertOutlookBookingsToDayPlanner(outlookData);
+  }
+
+  const mergedBookings = mergeBookingsForDayPlanner(
+    googleBookings,
+    outlookBookings,
+    bookings
+  );
 
   // calculating what hour to put the hand on
   // 6 is taken off current hours as we start the clock at 6:00am
@@ -102,11 +131,33 @@ const DayPlannerTileComponent: React.FC<DayPlannerTileProps> = ({
   }, [calculateTimeHandPosition, clearOutOldBookings]);
 
   useLayoutEffect(() => {
-    setWidth(containerRef.current!.offsetWidth);
+    const observer = new ResizeObserver((entries) => {
+      for (let entry of entries) {
+        setWidth(entry.contentRect.width);
+      }
+    });
+
+    if (containerRef.current) {
+      observer.observe(containerRef.current);
+    }
+
+    return () => {
+      if (containerRef.current) {
+        observer.unobserve(containerRef.current);
+      }
+    };
   }, []);
+
+  const onCloseEvent = () => {
+    setIsEditingEvent(false);
+    onClose();
+    setFormValues(defaultDayPlannerFormValues);
+  };
 
   const onTimeIndicatorClick = (time?: string) => {
     onOpen();
+    // prepopulate the form with the correct time, and
+    // if there's already an event, put the details in
     if (time) {
       let endTimeHour: string | number =
         Number.parseInt(time.split(":")[0]) + 1;
@@ -116,6 +167,12 @@ const DayPlannerTileComponent: React.FC<DayPlannerTileProps> = ({
       const endTime = endTimeHour + ":" + time.split(":")[1];
 
       setFormValues({ ...formValues, startTime: time, endTime });
+
+      const existingBooking = getBookingInTimeSlot(time);
+      if (existingBooking) {
+        setIsEditingEvent(true);
+        setFormValues({ ...formValues, ...existingBooking });
+      }
     }
   };
 
@@ -130,9 +187,13 @@ const DayPlannerTileComponent: React.FC<DayPlannerTileProps> = ({
     }
 
     formValues.creationDate = new Date();
+    formValues.duration = calculateDurationOfBooking(
+      formValues.startTime,
+      formValues.endTime
+    );
 
     setBookings([...(bookings || []), formValues]);
-    setFormValues(defaultFormValues);
+    setFormValues(defaultDayPlannerFormValues);
     onClose();
   };
 
@@ -142,8 +203,8 @@ const DayPlannerTileComponent: React.FC<DayPlannerTileProps> = ({
       return;
     }
 
-    for (const key in bookings) {
-      const booking = bookings[key];
+    for (const key in mergedBookings) {
+      const booking = mergedBookings[key];
       if (time >= booking.startTime && time <= booking.endTime) {
         return booking;
       }
@@ -152,7 +213,7 @@ const DayPlannerTileComponent: React.FC<DayPlannerTileProps> = ({
     return null;
   };
 
-  const getBoxWidth = (time: string) => {
+  const getWidthOfTimeIndicator = (time: string) => {
     const minutes = time.split(":")[1].slice(0, 2);
 
     if (minutes === "00") {
@@ -161,15 +222,15 @@ const DayPlannerTileComponent: React.FC<DayPlannerTileProps> = ({
     return "2px";
   };
 
-  const getBoxHeight = (time: string) => {
+  const getHeightOfTimeIndicator = (time: string) => {
     const minutes = time.split(":")[1].slice(0, 2);
 
     if (minutes === "00") {
-      return "27px";
+      return "36px";
     } else if (minutes === "30") {
-      return "21px";
+      return "28px";
     }
-    return "15px";
+    return "21px";
   };
 
   const convert24HourTo12 = (timeToConvert: string) => {
@@ -182,6 +243,11 @@ const DayPlannerTileComponent: React.FC<DayPlannerTileProps> = ({
         : Number.parseInt(timeToConvert.split(":")[1]);
 
     return `${hours}:${minutes}${amOrPm}`;
+  };
+
+  const handleDeleteBookingEvent = (time: string) => {
+    deleteBooking(time);
+    onCloseEvent();
   };
 
   const deleteBooking = (time: string) => {
@@ -206,9 +272,16 @@ const DayPlannerTileComponent: React.FC<DayPlannerTileProps> = ({
       height="100%"
       justifyContent="center"
       ref={containerRef}
-      width="80%"
+      width="85%"
       mx="auto"
+      flexDir={"column"}
     >
+      {isGoogleAuthenticated == false && isOutlookAuthenticated == false && (
+        <Text color={color} textAlign="center" fontSize=".7rem">
+          Please authenticate with a Meeting Tile, Google or Outlook (or turn
+          off the <i>sync external calendar</i> option in the sidebar)
+        </Text>
+      )}
       <Flex
         marginTop="auto"
         alignItems="flex-end"
@@ -237,51 +310,32 @@ const DayPlannerTileComponent: React.FC<DayPlannerTileProps> = ({
           />
         </Tooltip>
 
-        {times.map((time, idx) => (
+        {times.map((time) => (
           <Box key={time} width={`${width / times.length}px`}>
-            {
-              // means that there's a booking in this time slot
-              getBookingInTimeSlot(time)?.startTime === time ? (
-                <Popover>
-                  <PopoverTrigger>
-                    <Text
-                      fontSize="xs"
-                      fontWeight="700"
-                      pos="absolute"
-                      top="-32px"
-                      cursor="pointer"
-                      whiteSpace="nowrap"
-                    >
-                      {getBookingInTimeSlot(time)!.title.toUpperCase()}
-                    </Text>
-                  </PopoverTrigger>
-                  <Portal>
-                    <PopoverContent
-                      width="150px"
-                      background="var(--bg-color-sidebar)"
-                      color="var(--text-color-sidebar)"
-                    >
-                      <OutlinedButton
-                        background="var(--bg-color-sidebar)"
-                        color="var(--text-color-sidebar)"
-                        onClick={() => deleteBooking(time)}
-                      >
-                        Delete booking
-                      </OutlinedButton>
-                    </PopoverContent>
-                  </Portal>
-                </Popover>
-              ) : null
-            }
             <Tooltip
-              label={convert24HourTo12(time)}
+              label={
+                <Text>
+                  {getBookingInTimeSlot(time)?.title ? (
+                    <>
+                      {getBookingInTimeSlot(time)
+                        ?.title.split("<br />")
+                        .map((line, index) => (
+                          <Text key={index}>{line}</Text>
+                        ))}
+                      <Text fontSize="xs">{convert24HourTo12(time)}</Text>
+                    </>
+                  ) : (
+                    <Text>{convert24HourTo12(time)}</Text>
+                  )}
+                </Text>
+              }
               aria-label="tooltip"
               placement="top"
             >
               <Box
-                width={getBoxWidth(time)}
+                width={getWidthOfTimeIndicator(time)}
                 backgroundColor={getBookingInTimeSlot(time)?.color || color}
-                height={getBoxHeight(time)}
+                height={getHeightOfTimeIndicator(time)}
                 mx="auto"
                 mt="auto"
                 transition="all .2s"
@@ -291,7 +345,7 @@ const DayPlannerTileComponent: React.FC<DayPlannerTileProps> = ({
             </Tooltip>
           </Box>
         ))}
-        <Modal isOpen={isOpen} onClose={onClose}>
+        <Modal isOpen={isOpen} onClose={onCloseEvent}>
           <ModalOverlay />
           <ModalContent
             onMouseDown={(e) => e.stopPropagation()}
@@ -307,7 +361,10 @@ const DayPlannerTileComponent: React.FC<DayPlannerTileProps> = ({
               setFormValues={setFormValues}
               onSubmit={onSubmit}
               startTime={formValues.startTime}
-              onClose={onClose}
+              onClose={onCloseEvent}
+              usingExternalCalendar={usingExternalCalendar}
+              isEditingEvent={isEditingEvent}
+              handleDeleteBookingEvent={handleDeleteBookingEvent}
             />
           </ModalContent>
         </Modal>

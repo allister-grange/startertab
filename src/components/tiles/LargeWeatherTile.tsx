@@ -259,7 +259,7 @@ export const LargeWeatherTile: React.FC<LargeWeatherTileProps> = ({
           </Text>
           <Box
             pos="absolute"
-            right="2"
+            right="4"
             bottom="1.5"
             fontSize="xs"
             color={color}

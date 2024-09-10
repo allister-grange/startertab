@@ -16,6 +16,7 @@ export type Option = {
 
 export type OptionType =
   | "BackgroundBlurSlide"
+  | "BackgroundEffectsSelect"
   | "BorderRadiusInput"
   | "BorderSelect"
   | "CityInputForUV"
@@ -43,7 +44,8 @@ export type OptionType =
   | "TimeTileShowingTimerSwitch"
   | "TimeTileShowing12HourSwitch"
   | "TitleForFavorites"
-  | "TitleForRSSFeed";
+  | "TitleForRSSFeed"
+  | "UsingExternalCalendarsOnPlannerSwitch";
 
 export const TileTypes = [
   "Blank Tile",
@@ -83,6 +85,7 @@ export type TileSize = "small" | "large" | "medium" | "long";
 
 export type TileSettings = {
   backgroundColor: string;
+  backgroundEffectsOptions?: string;
   bonsaiBaseColor?: string;
   bonsaiTrunkColor?: string;
   borderColor?: string;
@@ -129,6 +132,7 @@ export type TileSettings = {
   timeTileShowingTimer?: boolean;
   todoList?: TodoObject[];
   twitterFeedURL?: string;
+  usingExternalCalendarForDayPlanner: boolean;
 };
 
 export type ThemeSettings = {

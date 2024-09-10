@@ -125,3 +125,9 @@ using that selector in a tile:
     imageFilePathSelector (tileId)
   ) as [string | undefined, SetterOrUpdater<string | undefined>];
 ```
+
+**creating a sidebar menu item for options**
+
+1. Add your new option to the `OptionType` in `src/types/settings.ts`
+2. Add your option into the sizes that pertain to it in `src/helpers/sideBarOptions.ts` 
+3. Edit the `src/components/sidebar/SettingOptionContainer.tsx` to include the new option type

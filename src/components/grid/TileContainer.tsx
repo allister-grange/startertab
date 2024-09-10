@@ -196,18 +196,10 @@ const TileContainer: React.FC<TileContainerProps> = ({
       );
       break;
     case "Outlook Meetings Tile":
-      tileToRender = (
-        <OutlookContextProvider>
-          <OutlookMeetingsTile tileId={tileId} />
-        </OutlookContextProvider>
-      );
+      tileToRender = <OutlookMeetingsTile tileId={tileId} />;
       break;
     case "Google Meetings Tile":
-      tileToRender = (
-        <GoogleContextProvider>
-          <GoogleMeetingsTile tileId={tileId} />
-        </GoogleContextProvider>
-      );
+      tileToRender = <GoogleMeetingsTile tileId={tileId} />;
       break;
     default:
       tileToRender = <NoneTile tileId={tileId} tileSize={tileSize} />;
@@ -225,7 +217,9 @@ const TileContainer: React.FC<TileContainerProps> = ({
         client={queryClient}
         persistOptions={{ persister }}
       >
-        {tileToRender}
+        <OutlookContextProvider>
+          <GoogleContextProvider>{tileToRender}</GoogleContextProvider>
+        </OutlookContextProvider>
       </PersistQueryClientProvider>
     </TileErrorBoundary>
   );
