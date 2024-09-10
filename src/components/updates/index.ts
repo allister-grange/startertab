@@ -12,3 +12,4 @@ export * from "./Update280";
 export * from "./Update290";
 export * from "./Update2100";
 export * from "./Update2110";
+export * from "./Update2120";

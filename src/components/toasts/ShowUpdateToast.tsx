@@ -8,7 +8,7 @@ export const ShowUpdateToast: React.FC<ShowUpdateToastProps> = ({}) => {
 
   const showUpdateToast = useCallback(() => {
     toast({
-      title: "v2.11.0 - Introducing the Image Tile 🖼️",
+      title: "v2.12.0 - Animated Backgrounds 🤮",
       description: (
         <Text>
           Check out the{" "}
@@ -41,14 +41,15 @@ export const ShowUpdateToast: React.FC<ShowUpdateToastProps> = ({}) => {
     localStorage.removeItem("hasSeenNewUpdate2.8.0Counter");
     localStorage.removeItem("hasSeenNewUpdate2.9.0Counter");
     localStorage.removeItem("hasSeenNewUpdate2.10.0Counter");
+    localStorage.removeItem("hasSeenNewUpdate2.11.0Counter");
     const hasSeenNewUpdate = localStorage.getItem(
-      "hasSeenNewUpdate2.11.0Counter"
+      "hasSeenNewUpdate2.12.0Counter"
     );
     if (!hasSeenNewUpdate) {
-      localStorage.setItem("hasSeenNewUpdate2.11.0Counter", "1");
+      localStorage.setItem("hasSeenNewUpdate2.12.0Counter", "1");
     } else {
       localStorage.setItem(
-        "hasSeenNewUpdate2.11.0Counter",
+        "hasSeenNewUpdate2.12.0Counter",
         (parseInt(hasSeenNewUpdate) + 1).toString()
       );
       // I don't want to spam people who just finished the tutorial with toasts

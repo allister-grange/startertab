@@ -8,7 +8,12 @@ import {
   times,
 } from "@/helpers/tileHelpers";
 import { usingExternalCalendarForDayPlannerSelector } from "@/recoil/UserSettingsSelectors";
-import { Booking, OutlookContextInterface } from "@/types";
+import {
+  Booking,
+  GoogleMeetingEvent,
+  OutlookContextInterface,
+  OutlookMeetingEvent,
+} from "@/types";
 import {
   Box,
   Flex,
@@ -66,8 +71,12 @@ const DayPlannerTileComponent: React.FC<DayPlannerTileProps> = ({
     usingExternalCalendarForDayPlannerSelector(tileId)
   ) as [boolean | undefined, SetterOrUpdater<boolean | undefined>];
 
-  const googleBookings = convertGoogleBookingsToDayPlanner(googleData);
-  const outlookBookings = convertOutlookBookingsToDayPlanner(outlookData);
+  let googleBookings = [] as Booking[];
+  let outlookBookings = [] as Booking[];
+  if (usingExternalCalendar) {
+    googleBookings = convertGoogleBookingsToDayPlanner(googleData);
+    outlookBookings = convertOutlookBookingsToDayPlanner(outlookData);
+  }
 
   const mergedBookings = mergeBookingsForDayPlanner(
     googleBookings,

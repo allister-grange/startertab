@@ -198,7 +198,7 @@ const SettingOptionContainer: React.FC<SettingOptionContainerProps> = ({
           value={JSON.stringify(value)}
           options={
             <>
-              <option value="" style={optionsStyles}>
+              <option value="{}" style={optionsStyles}>
                 No effect
               </option>
               <option
