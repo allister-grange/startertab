@@ -14,6 +14,7 @@ export type SearchEngineDefault = {
 };
 
 export type Booking = {
+  id: string;
   color: string;
   startTime: string;
   endTime: string;

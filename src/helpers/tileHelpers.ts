@@ -88,6 +88,7 @@ export const defaultDayPlannerFormValues: Booking = {
   endTime: "07:00",
   creationDate: new Date(),
   permanentBooking: false,
+  id: crypto.randomUUID(),
 };
 
 function hashStringToIndex(str: string): number {

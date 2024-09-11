@@ -8,12 +8,7 @@ import {
   times,
 } from "@/helpers/tileHelpers";
 import { usingExternalCalendarForDayPlannerSelector } from "@/recoil/UserSettingsSelectors";
-import {
-  Booking,
-  GoogleMeetingEvent,
-  OutlookContextInterface,
-  OutlookMeetingEvent,
-} from "@/types";
+import { Booking, OutlookContextInterface } from "@/types";
 import {
   Box,
   Flex,
@@ -33,10 +28,11 @@ import React, {
   useState,
 } from "react";
 import { SetterOrUpdater, useRecoilState } from "recoil";
+import { isEqual } from "lodash";
 
 import { GoogleContext } from "@/context/GoogleContext";
-import { GoogleContextInterface } from "@/types";
 import { OutlookContext } from "@/context/OutlookContext";
+import { GoogleContextInterface } from "@/types";
 
 interface DayPlannerTileProps {
   tileId: number;
@@ -61,7 +57,7 @@ const DayPlannerTileComponent: React.FC<DayPlannerTileProps> = ({
   const containerRef = useRef<HTMLDivElement>(null);
   const [width, setWidth] = useState(0);
   const [pixelsToPushTimerAcross, setPixelsToPushTimerAcross] = useState(0);
-  const [isEditingEvent, setIsEditingEvent] = useState(false);
+  const [isEditingEventId, setIsEditingEventId] = useState<null | string>(null);
   const [formValues, setFormValues] = useState<Booking>(
     defaultDayPlannerFormValues
   );
@@ -149,7 +145,7 @@ const DayPlannerTileComponent: React.FC<DayPlannerTileProps> = ({
   }, []);
 
   const onCloseEvent = () => {
-    setIsEditingEvent(false);
+    setIsEditingEventId(null);
     onClose();
     setFormValues(defaultDayPlannerFormValues);
   };
@@ -170,7 +166,7 @@ const DayPlannerTileComponent: React.FC<DayPlannerTileProps> = ({
 
       const existingBooking = getBookingInTimeSlot(time);
       if (existingBooking) {
-        setIsEditingEvent(true);
+        setIsEditingEventId(existingBooking.id);
         setFormValues({ ...formValues, ...existingBooking });
       }
     }
@@ -191,10 +187,29 @@ const DayPlannerTileComponent: React.FC<DayPlannerTileProps> = ({
       formValues.startTime,
       formValues.endTime
     );
+    formValues.id = crypto.randomUUID();
 
     setBookings([...(bookings || []), formValues]);
-    setFormValues(defaultDayPlannerFormValues);
-    onClose();
+    onCloseEvent();
+  };
+
+  const onEditEvent = (e: React.FormEvent) => {
+    e.preventDefault();
+
+    formValues.duration = calculateDurationOfBooking(
+      formValues.startTime,
+      formValues.endTime
+    );
+
+    setBookings((bookings) =>
+      bookings?.map((booking) => {
+        if (booking.id === isEditingEventId) {
+          return { ...formValues };
+        }
+        return booking;
+      })
+    );
+    onCloseEvent();
   };
 
   // all times are in the format HH:MM (in 24 hour time)
@@ -364,8 +379,9 @@ const DayPlannerTileComponent: React.FC<DayPlannerTileProps> = ({
               onSubmit={onSubmit}
               startTime={formValues.startTime}
               onClose={onCloseEvent}
+              onEditEvent={onEditEvent}
               usingExternalCalendar={usingExternalCalendar}
-              isEditingEvent={isEditingEvent}
+              isEditingEventId={isEditingEventId}
               handleDeleteBookingEvent={handleDeleteBookingEvent}
             />
           </ModalContent>
@@ -379,7 +395,7 @@ const areEqual = (
   prevProps: DayPlannerTileProps,
   nextProps: DayPlannerTileProps
 ) => {
-  return prevProps.bookings?.length === nextProps.bookings?.length;
+  return isEqual(prevProps.bookings, nextProps.bookings);
 };
 
 export const DayPlannerTile = React.memo(DayPlannerTileComponent, areEqual);

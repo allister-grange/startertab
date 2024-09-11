@@ -20,11 +20,12 @@ interface DayPlannerFormProps extends StackProps {
   formValues: Booking;
   setFormValues: React.Dispatch<React.SetStateAction<Booking>>;
   onSubmit: (e: React.FormEvent) => void;
+  onEditEvent: (e: React.FormEvent) => void;
   bookings: Booking[] | undefined;
   startTime: string;
   onClose: () => void;
   usingExternalCalendar?: boolean;
-  isEditingEvent: boolean;
+  isEditingEventId: string | null;
   handleDeleteBookingEvent: (time: string) => void;
 }
 
@@ -36,8 +37,9 @@ const DayPlannerForm: React.FC<DayPlannerFormProps> = ({
   onClose,
   startTime,
   usingExternalCalendar,
-  isEditingEvent,
+  isEditingEventId,
   handleDeleteBookingEvent,
+  onEditEvent,
   ...props
 }) => {
   const [userTyped, setUserTyped] = useState(false);
@@ -90,6 +92,14 @@ const DayPlannerForm: React.FC<DayPlannerFormProps> = ({
     }
   };
 
+  const onFormSubmit = (e: React.FormEvent) => {
+    if (isEditingEventId) {
+      onEditEvent(e);
+    } else {
+      onSubmit(e);
+    }
+  };
+
   const formValidationError = validateForm();
 
   return (
@@ -103,7 +113,7 @@ const DayPlannerForm: React.FC<DayPlannerFormProps> = ({
       >
         <CloseIcon />
       </Button>
-      <form onSubmit={onSubmit}>
+      <form onSubmit={onFormSubmit}>
         <Box>
           <Flex fontSize="md" mb="4" fontWeight="600">
             <NumberedBubble displayNumber={1} mr="2" /> Event Name
@@ -195,9 +205,9 @@ const DayPlannerForm: React.FC<DayPlannerFormProps> = ({
             type="submit"
             disabled={formValidationError ? true : false}
           >
-            {isEditingEvent ? "Edit Event" : "Create Event"}
+            {isEditingEventId ? "Edit Event" : "Create Event"}
           </OutlinedButton>
-          {isEditingEvent && (
+          {isEditingEventId && (
             <OutlinedButton
               fontWeight="500"
               borderColor="var(--chakra-colors-orange-500)"
