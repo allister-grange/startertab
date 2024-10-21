@@ -38,7 +38,7 @@ export const SuggestionCard: React.FC<SuggestionCardProps> = ({
     }
     try {
       // doesn't matter too much if their vote disappears, c'est la vie
-      setVotes((votes) => votes + 1);
+      setVotes((votes: number) => votes + 1);
       const voteRes = await fetch(
         `/api/suggestions/vote?suggestionId=${suggestion.id}`,
         {
@@ -49,7 +49,7 @@ export const SuggestionCard: React.FC<SuggestionCardProps> = ({
         throw new Error("Failed to vote");
       }
     } catch (err) {
-      setVotes((votes) => votes - 1);
+      setVotes((votes: number) => votes - 1);
       setLiked(false);
       console.error(err);
     }
@@ -93,7 +93,7 @@ export const SuggestionCard: React.FC<SuggestionCardProps> = ({
           {suggestion.author}
         </Text>
         <Box>
-          {tags.map((tag, index) => (
+          {tags.map((tag: string, index: number) => (
             <Badge
               key={index}
               colorScheme={getRandomColor()}

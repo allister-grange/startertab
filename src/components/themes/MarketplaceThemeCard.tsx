@@ -89,7 +89,7 @@ export const MarketPlaceThemeCard: React.FC<MarketPlaceThemeCardProps> = ({
     }
     try {
       // doesn't matter too much if their vote disappears, c'est la vie
-      setVotes((votes) => votes + 1);
+      setVotes((votes: number) => votes + 1);
       const voteRes = await fetch(`/api/themes/item/vote?themeId=${theme.id}`, {
         method: "POST",
       });
@@ -98,7 +98,7 @@ export const MarketPlaceThemeCard: React.FC<MarketPlaceThemeCardProps> = ({
         throw new Error("Failed to vote");
       }
     } catch (err) {
-      setVotes((votes) => votes - 1);
+      setVotes((votes: number) => votes - 1);
       setLiked(false);
       console.error(err);
     }
@@ -179,7 +179,7 @@ export const MarketPlaceThemeCard: React.FC<MarketPlaceThemeCardProps> = ({
             </Badge>
           </Text>
           <Flex mt="3">
-            {theme.tags.split(",").map((tag, idx) => (
+            {theme.tags.split(",").map((tag: string, idx: number) => (
               <Badge
                 key={idx + tag}
                 filter={themeSettings.globalSettings.textColor}
