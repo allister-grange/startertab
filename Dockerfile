@@ -50,6 +50,9 @@ RUN adduser --system --uid 1001 nextjs
 COPY --from=builder /app/public ./public
 
 
+ARG HOSTED_URL
+ENV HOSTED_URL=${HOSTED_URL}
+
 ARG STRAVA_CLIENT_ID
 ENV STRAVA_CLIENT_ID=${STRAVA_CLIENT_ID}
 

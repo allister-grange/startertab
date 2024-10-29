@@ -1,13 +1,3 @@
-export const getClientUrl = (): string => {
-  return process.env.HOSTED_URL
-    ? `https://${process.env.HOSTED_URL}`
-    : "http://localhost:3000/";
-};
-
-export const getApiUrl = (): string => {
-  return process.env.VERCEL_URL ? process.env.VERCEL_URL : process.env.API_URL!;
-};
-
 export const getSpotifyRedirectUrl = (): string => {
   return process.env.HOSTED_URL
     ? `https://${process.env.HOSTED_URL}/api/spotify/auth/authorize`
