@@ -48,5 +48,5 @@ jobs:
             DATABASE_URL=${{ secrets.DATABASE_URL }},
             DATABASE_URL_UNPOOLED=${{ secrets.DATABASE_URL_UNPOOLED }}
           tags: |
-            ${{ secrets.DOCKER_HUB_USERNAME}}/{docker_repository}:${{ github.sha }}
-            ${{ secrets.DOCKER_HUB_USERNAME}}/{docker_repository}:qa
+            ${{ secrets.DOCKER_HUB_USERNAME}}/startertab:${{ github.sha }}
+            ${{ secrets.DOCKER_HUB_USERNAME}}/startertab:qa
