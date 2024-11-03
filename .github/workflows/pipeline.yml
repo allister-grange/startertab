@@ -28,6 +28,7 @@ jobs:
           context: .
           file: ./Dockerfile
           push: true
+          platforms: linux/arm64
           build-args: |
             STRAVA_CLIENT_ID=${{ secrets.STRAVA_CLIENT_ID }},
             STRAVA_SECRET=${{ secrets.STRAVA_SECRET }},
