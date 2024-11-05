@@ -2,7 +2,7 @@ name: Docker Build & Publish
 
 on:
   push:
-    branches: [feature/docker]
+    branches: [main]
 
 jobs:
   build:
@@ -50,4 +50,4 @@ jobs:
             DATABASE_URL_UNPOOLED=${{ secrets.DATABASE_URL_UNPOOLED }}
           tags: |
             ${{ secrets.DOCKER_HUB_USERNAME}}/startertab:${{ github.sha }}
-            ${{ secrets.DOCKER_HUB_USERNAME}}/startertab:qa
+            ${{ secrets.DOCKER_HUB_USERNAME}}/startertab:latest
