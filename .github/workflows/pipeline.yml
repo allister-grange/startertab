@@ -1,0 +1,53 @@
+name: Docker Build & Publish
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  build:
+    name: Build Docker
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Login to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKER_HUB_USERNAME}}
+          password: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN}}
+
+      - name: Build and push
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          file: ./Dockerfile
+          push: true
+          platforms: linux/arm64
+          build-args: |
+            STRAVA_CLIENT_ID=${{ secrets.STRAVA_CLIENT_ID }}
+            STRAVA_SECRET=${{ secrets.STRAVA_SECRET }}
+            WEATHERAPI_TOKEN=${{ secrets.WEATHERAPI_TOKEN }}
+            SPOTIFY_CLIENT_ID=${{ secrets.SPOTIFY_CLIENT_ID }}
+            SPOTIFY_CLIENT_SECRET=${{ secrets.SPOTIFY_CLIENT_SECRET }}
+            FINNHUB_SECRET=${{ secrets.FINNHUB_SECRET }}
+            HOSTED_URL=${{ secrets.HOSTED_URL }}
+            TWITTER_CLIENT_ID=${{ secrets.TWITTER_CLIENT_ID }}
+            TWITTER_CLIENT_SECRET=${{ secrets.TWITTER_CLIENT_SECRET }}
+            TWITTER_CODE_CHALLENGE_KEY=${{ secrets.TWITTER_CODE_CHALLENGE_KEY }}
+            TOKEN_ENCRYPT_KEY=${{ secrets.TOKEN_ENCRYPT_KEY }}
+            OUTLOOK_CLIENT_ID=${{ secrets.OUTLOOK_CLIENT_ID }}
+            OUTLOOK_CLIENT_SECRET=${{ secrets.OUTLOOK_CLIENT_SECRET }}
+            GOOGLE_CLIENT_ID=${{ secrets.GOOGLE_CLIENT_ID }}
+            GOOGLE_CLIENT_SECRET=${{ secrets.GOOGLE_CLIENT_SECRET }}
+            ANALYTICS_ENABLED=${{ secrets.ANALYTICS_ENABLED }}
+            DATABASE_URL=${{ secrets.DATABASE_URL }}
+            DATABASE_URL_UNPOOLED=${{ secrets.DATABASE_URL_UNPOOLED }}
+          tags: |
+            ${{ secrets.DOCKER_HUB_USERNAME}}/startertab:${{ github.sha }}
+            ${{ secrets.DOCKER_HUB_USERNAME}}/startertab:latest
