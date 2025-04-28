@@ -41,7 +41,6 @@ export const SuggestionsContainer: React.FC<
     <>
       {isFetched && (
         <OutlinedButton
-          w="40%"
           shadow="md"
           borderColor="coral"
           mt="3"

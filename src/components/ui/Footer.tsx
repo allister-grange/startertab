@@ -30,7 +30,7 @@ export const Footer: React.FC<BoxProps> = (props) => {
               color="gray.600"
               whiteSpace="nowrap"
             >
-              ©2022-24; all rights reserved
+              ©2022-25; all rights reserved
             </Heading>
             <Text fontSize="sm" mt="2" whiteSpace="nowrap">
               <Link href="https://www.buymeacoffee.com/startertab">
