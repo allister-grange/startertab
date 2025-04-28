@@ -44,16 +44,26 @@ const ManageThemes: React.FC = ({}) => {
     ["publicThemes", debouncedSearchTerm, orderingMethod, reverseOrdering],
     async ({ pageParam = "" }) => {
       const res = await fetch(
-        `/api/themes/item?cursor=${pageParam}&searchTerm=${searchFilter}&orderBy=${orderingMethod}&reverseOrdering=${reverseOrdering}`
+        `/api/themes/item?cursor=${pageParam}` +
+          `&searchTerm=${searchFilter}` +
+          `&orderBy=${orderingMethod}` +
+          `&reverseOrdering=${reverseOrdering}`
       );
+
+      if (!res.ok) {
+        const apiError = await res.text();
+        throw new Error(`Error ${res.status}: ${apiError || res.statusText}`);
+      }
+
       const data = (await res.json()) as ThemeDataFromAPI;
       return data;
     },
     {
-      retry: 2,
+      retry: 3,
       getNextPageParam: (lastPage) => lastPage.nextId ?? false,
     }
   );
+
   const router = useRouter();
   const toast = useToast();
 
