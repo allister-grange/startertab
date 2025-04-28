@@ -12,7 +12,7 @@ You can install the [chrome extension here](https://chrome.google.com/webstore/d
 
 Local storage is being used for storing all of your customizations, meaning you own your data! All of the settings, tokens and themes sit on your own browser. Some may call it laziness that I don't want to maintain a database, you could also see it as me helping prevent your data being in yet another cloud service.
 
-Written in NextJS with CharkaUI. The frontend and functions are hosted on Vercel, the database on Neon.
+Written in NextJS with ChakraUI. The frontend and functions are hosted on Vercel, the database on Neon.
 
 ## Current API Integrations
 
