@@ -14,7 +14,7 @@
     "@emotion/react": "^11",
     "@emotion/styled": "^11",
     "@next/bundle-analyzer": "^13.5.4",
-    "@prisma/client": "5.4.2",
+    "@prisma/client": "6.6.0",
     "@tanstack/query-sync-storage-persister": "^4.36.1",
     "@tanstack/react-query": "^4.36.1",
     "@tanstack/react-query-persist-client": "^4.36.1",
@@ -63,7 +63,7 @@
     "@types/react-window-infinite-loader": "^1.0.7",
     "eslint": "8.51.0",
     "eslint-config-next": "13.5.4",
-    "prisma": "5.4.2",
+    "prisma": "6.6.0",
     "typescript": "5.2.2"
   }
 }
