@@ -100,7 +100,7 @@ export const YourNewTile: React.FC<PageProps> = ({ tileId }) => {
 ```
 
 2. Add your tile type to the TileType in `src/types/settings.ts`.
-3. Add your new tile into the corresponding sizes you want available for your tile in the switch statement for `tileSize` in `src/components/sidebar/OptionsForTileTypeSelect.tsx`
+3. Add your new tile into the corresponding sizes you want available for your tile in the switch statement for `tileSize` in `src/components/ui/OptionsForTileTypeSelect.tsx`
 4. Add your tile type to the switch statement for the `tileType` in `src/components/TileContainer.tsx`
 
 **if you need persistent storage**

@@ -50,6 +50,7 @@ export type OptionType =
 export const TileTypes = [
   "Blank Tile",
   "Bonsai",
+  "Clock of Clocks",
   "Day Planner",
   "Favorite Links Tile",
   "Google Meetings Tile",

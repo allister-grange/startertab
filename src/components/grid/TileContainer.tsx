@@ -1,5 +1,6 @@
 import {
   BonsaiTile,
+  ClockOfClocksTile,
   DayPlannerTile,
   FavoriteLinksTile,
   GoogleMeetingsTile,
@@ -89,6 +90,9 @@ const TileContainer: React.FC<TileContainerProps> = ({
   switch (tileType) {
     case "Reddit Feed":
       tileToRender = <RedditFeedTile tileId={tileId} />;
+      break;
+    case "Clock of Clocks":
+      tileToRender = <ClockOfClocksTile tileId={tileId} />;
       break;
     case "Image Tile":
       tileToRender = <ImageTile tileId={tileId} />;
