@@ -8,8 +8,8 @@ export const rotation = {
   "|": [90, 270],
 };
 
-export const digits = {
-  "0": [
+export const digits = [
+  [
     "┌",
     "-",
     "-",
@@ -36,7 +36,7 @@ export const digits = {
     "┘",
   ],
 
-  "1": [
+  [
     "┌",
     "-",
     "┐",
@@ -63,7 +63,7 @@ export const digits = {
     "┘",
   ],
 
-  "2": [
+  [
     "┌",
     "-",
     "-",
@@ -90,7 +90,7 @@ export const digits = {
     "┘",
   ],
 
-  "3": [
+  [
     "┌",
     "-",
     "-",
@@ -117,7 +117,7 @@ export const digits = {
     "┘",
   ],
 
-  "4": [
+  [
     "┌",
     "┐",
     "┌",
@@ -144,7 +144,7 @@ export const digits = {
     "┘",
   ],
 
-  "5": [
+  [
     "┌",
     "-",
     "-",
@@ -171,7 +171,7 @@ export const digits = {
     "┘",
   ],
 
-  "6": [
+  [
     "┌",
     "-",
     "-",
@@ -198,7 +198,7 @@ export const digits = {
     "┘",
   ],
 
-  "7": [
+  [
     "┌",
     "-",
     "-",
@@ -225,7 +225,7 @@ export const digits = {
     "┘",
   ],
 
-  "8": [
+  [
     "┌",
     "-",
     "-",
@@ -252,7 +252,7 @@ export const digits = {
     "┘",
   ],
 
-  "9": [
+  [
     "┌",
     "-",
     "-",
@@ -278,4 +278,4 @@ export const digits = {
     "-",
     "┘",
   ],
-};
+];

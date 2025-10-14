@@ -40,25 +40,33 @@ export const Clock: React.FC<ClockProps> = ({ digit, initialRender }) => {
     width: "2em",
     height: "2em",
     borderRadius: "50%",
-    background: "white",
-    border: "1px solid black",
+    background: "linear-gradient(225deg, #d0d0d0 10%, white)",
+    border: "2px solid white",
+    // boxShadow: "-2px 2px 6px #d0d0d0, 2px -2px 6px #ffffff",
   };
 
   return (
-    <SimpleGrid columns={4}>
+    <SimpleGrid
+      columns={4}
+      columnGap={"2.3em"}
+      rowGap={"3px"}
+      w={"min-content"}
+    >
       {digitRepresentationFromDigitMatrix.map((char, idx) => {
         const { h, m } = angles[idx];
+
+        console.log(h, m);
 
         const hourHandStyle: React.CSSProperties = {
           position: "absolute",
           top: "0%",
           left: "50%",
-          width: "2px",
+          width: "3px",
           height: "50%",
-          background: "green",
+          background: "black",
           transformOrigin: "bottom",
           transform: `translateX(-50%) rotate(${
-            initialRender ? randomAngle() : h
+            initialRender ? randomAngle() : h + 90
           }deg)`,
           transition: `transform ${initialRender ? 1 : 0.4}s`,
         };
@@ -67,12 +75,12 @@ export const Clock: React.FC<ClockProps> = ({ digit, initialRender }) => {
           position: "absolute",
           top: "0%",
           left: "50%",
-          width: "2px",
+          width: "3px",
           height: "50%",
           background: "black",
           transformOrigin: "bottom",
           transform: `translateX(-50%) rotate(${
-            initialRender ? randomAngle() : m
+            initialRender ? randomAngle() : m + 90
           }deg)`,
           transition: `transform ${initialRender ? 1 : 0.4}s`,
         };
