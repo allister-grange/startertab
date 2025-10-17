@@ -1,6 +1,5 @@
 import { Clock } from "@/components/clock/Clock";
-import { digits } from "@/helpers/digit";
-import { Grid, SimpleGrid } from "@chakra-ui/react";
+import { Box, HStack } from "@chakra-ui/react";
 import React from "react";
 
 type PageProps = {
@@ -18,9 +17,6 @@ export const ClockOfClocksTile: React.FC<PageProps> = ({ tileId }) => {
   // [1, 6, 3, 6, 2, 9] = 4:36:29pm
   const [time, setTime] = React.useState<number[]>(Array(6).fill(0));
   const [initialRender, setInitialRender] = React.useState(true);
-
-  console.log(time);
-  console.log(initialRender);
 
   const getTimeDigits = () => {
     const now = new Date();
@@ -52,21 +48,26 @@ export const ClockOfClocksTile: React.FC<PageProps> = ({ tileId }) => {
 
   const color = `var(--text-color-${tileId})`;
   return (
-    <SimpleGrid style={{ color }} columns={6}>
-      {/* <Clock digit={1} key={1} initialRender={false} /> */}
-      {time.map((digit: number, index: number) => {
-        return (
-          <Clock digit={digit} key={index} initialRender={initialRender} />
-        );
-      })}
-
-      {/* {time.map((t, i) => (
-        <div key={i}>
-          {digits[t].map(({ h, m }, j) => (
-            <Clock key={j} h={h} m={m} initial={initial} />
-          ))}
-        </div>
-      ))} */}
-    </SimpleGrid>
+    <Box
+      style={{ color }}
+      display={"flex"}
+      gap="4em"
+      justifyContent={"center"}
+      alignItems={"center"}
+      h="100%"
+    >
+      <HStack justifyContent={"center"} minW={"max-content"}>
+        <Clock digit={time[0]} initialRender={initialRender} />
+        <Clock digit={time[1]} initialRender={initialRender} />
+      </HStack>
+      <HStack justifyContent={"center"} minW={"max-content"}>
+        <Clock digit={time[2]} initialRender={initialRender} />
+        <Clock digit={time[3]} initialRender={initialRender} />
+      </HStack>
+      <HStack justifyContent={"center"} minW={"max-content"}>
+        <Clock digit={time[4]} initialRender={initialRender} />
+        <Clock digit={time[5]} initialRender={initialRender} />
+      </HStack>
+    </Box>
   );
 };

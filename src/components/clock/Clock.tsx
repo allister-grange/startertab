@@ -15,7 +15,11 @@ const normalizeAngle = (next: number, prev: number) => {
 };
 
 // Will represent one mini-clock that will fill in the clock grid
-export const Clock: React.FC<ClockProps> = ({ digit, initialRender }) => {
+export const Clock: React.FC<ClockProps> = ({
+  digit,
+  initialRender,
+  ...rest
+}) => {
   const digitRepresentationFromDigitMatrix = digits[digit];
   const prevAngles = React.useRef<{ [key: number]: { h: number; m: number } }>(
     {}
@@ -48,14 +52,13 @@ export const Clock: React.FC<ClockProps> = ({ digit, initialRender }) => {
   return (
     <SimpleGrid
       columns={4}
-      columnGap={"2.3em"}
+      // columnGap={"2.3em"}
       rowGap={"3px"}
-      w={"min-content"}
+      // w={"min-content"}
+      {...rest}
     >
       {digitRepresentationFromDigitMatrix.map((char, idx) => {
         const { h, m } = angles[idx];
-
-        console.log(h, m);
 
         const hourHandStyle: React.CSSProperties = {
           position: "absolute",
