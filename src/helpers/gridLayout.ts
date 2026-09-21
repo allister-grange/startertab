@@ -1408,3 +1408,71 @@ export const newThemeGridLayout: Layouts = {
     },
   ],
 };
+
+export const singleLargeTileGridLayout: Layouts = {
+  lg: [
+    {
+      w: 3,
+      h: 4,
+      x: 1,
+      y: 0,
+      i: "0",
+      minW: 2,
+      minH: 4,
+      moved: false,
+      static: false,
+    },
+  ],
+  md: [
+    {
+      w: 2,
+      h: 4,
+      x: 0,
+      y: 0,
+      i: "0",
+      minW: 2,
+      minH: 4,
+      moved: false,
+      static: false,
+    },
+  ],
+  sm: [
+    {
+      w: 2,
+      h: 4,
+      x: 0,
+      y: 0,
+      i: "0",
+      minW: 2,
+      minH: 4,
+      moved: false,
+      static: false,
+    },
+  ],
+  xs: [
+    {
+      w: 2,
+      h: 4,
+      x: 0,
+      y: 0,
+      i: "0",
+      minW: 2,
+      minH: 4,
+      moved: false,
+      static: false,
+    },
+  ],
+  xxs: [
+    {
+      w: 2,
+      h: 4,
+      x: 0,
+      y: 0,
+      i: "0",
+      minW: 2,
+      minH: 4,
+      moved: false,
+      static: false,
+    },
+  ],
+};
