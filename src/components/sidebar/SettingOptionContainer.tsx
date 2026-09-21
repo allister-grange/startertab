@@ -82,6 +82,16 @@ const SettingOptionContainer: React.FC<SettingOptionContainerProps> = ({
       if (tileType !== "Bonsai" && option.localStorageId.includes("bonsai")) {
         break;
       }
+      if (
+        tileType !== "Clock of Clocks" &&
+        [
+          "clockHandsColor",
+          "clockBackgroundColor",
+          "clockBorderColor",
+        ].includes(option.localStorageId)
+      ) {
+        break;
+      }
       optionToDisplay = (
         <ColorPicker
           option={option}

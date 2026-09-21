@@ -293,6 +293,24 @@ export const sideBarLargeTileOptions: Option[] = [
     localStorageId: "bonsaiTrunkColor",
     optionType: "ColorPicker",
   },
+  {
+    title: "Clock hands color",
+    subTitle: "Color of the hands on the clock of clocks",
+    localStorageId: "clockHandsColor",
+    optionType: "ColorPicker",
+  },
+  {
+    title: "Clock background color",
+    subTitle: "Color of the clock faces on the clock of clocks",
+    localStorageId: "clockBackgroundColor",
+    optionType: "ColorPicker",
+  },
+  {
+    title: "Clock border color",
+    subTitle: "Color of the border around the clock faces on the clock of clocks",
+    localStorageId: "clockBorderColor",
+    optionType: "ColorPicker",
+  },
 ];
 
 export const sideBarLongTileOptions: Option[] = [

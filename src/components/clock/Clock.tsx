@@ -5,6 +5,9 @@ import React from "react";
 interface ClockProps extends BoxProps {
   digit: number;
   initialRender: boolean;
+  handsColor?: string;
+  clockBackgroundColor?: string;
+  clockBorderColor?: string;
 }
 
 const randomAngle = () => Math.floor(Math.random() * 360);
@@ -18,6 +21,9 @@ const normalizeAngle = (next: number, prev: number) => {
 export const Clock: React.FC<ClockProps> = ({
   digit,
   initialRender,
+  handsColor = "black",
+  clockBackgroundColor,
+  clockBorderColor,
   ...rest
 }) => {
   const digitRepresentationFromDigitMatrix = digits[digit];
@@ -44,8 +50,9 @@ export const Clock: React.FC<ClockProps> = ({
     width: "2em",
     height: "2em",
     borderRadius: "50%",
-    background: "linear-gradient(225deg, #d0d0d0 10%, white)",
-    border: "2px solid white",
+    background:
+      clockBackgroundColor || "linear-gradient(225deg, #d0d0d0 10%, white)",
+    border: clockBorderColor ? `2px solid ${clockBorderColor}` : "2px solid white",
     // boxShadow: "-2px 2px 6px #d0d0d0, 2px -2px 6px #ffffff",
   };
 
@@ -60,7 +67,7 @@ export const Clock: React.FC<ClockProps> = ({
           left: "50%",
           width: "3px",
           height: "50%",
-          background: "black",
+          background: handsColor,
           transformOrigin: "bottom",
           transform: `translateX(-50%) rotate(${
             initialRender ? randomAngle() : h + 90
@@ -74,7 +81,7 @@ export const Clock: React.FC<ClockProps> = ({
           left: "50%",
           width: "3px",
           height: "50%",
-          background: "black",
+          background: handsColor,
           transformOrigin: "bottom",
           transform: `translateX(-50%) rotate(${
             initialRender ? randomAngle() : m + 90

@@ -122,6 +122,28 @@ export const uvCitySelector = createTilePropertySelector<string>(
   }
 );
 
+export const clockBackgroundColorSelector =
+  createTilePropertySelector<string>(
+    "clockBackgroundColor",
+    (theme, newValue) => {
+      theme.clockBackgroundColor = newValue;
+    }
+  );
+
+export const clockBorderColorSelector = createTilePropertySelector<string>(
+  "clockBorderColor",
+  (theme, newValue) => {
+    theme.clockBorderColor = newValue;
+  }
+);
+
+export const clockHandsColorSelector = createTilePropertySelector<string>(
+  "clockHandsColor",
+  (theme, newValue) => {
+    theme.clockHandsColor = newValue;
+  }
+);
+
 export const todoListSelector = createTilePropertySelector<TodoObject[]>(
   "todoList",
   (theme, newValue) => {

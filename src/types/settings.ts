@@ -94,6 +94,9 @@ export type TileSettings = {
   bookings?: Booking[];
   cityForUv?: string;
   cityForWeather?: string;
+  clockBackgroundColor?: string;
+  clockBorderColor?: string;
+  clockHandsColor?: string;
   defaultSearchEngine?: SearchEngineDefault;
   dropShadow?: string;
   favoriteLinks?: FavoriteLink[];

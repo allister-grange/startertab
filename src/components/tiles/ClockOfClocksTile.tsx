@@ -1,6 +1,12 @@
 import { Clock } from "@/components/clock/Clock";
+import {
+  clockBackgroundColorSelector,
+  clockBorderColorSelector,
+  clockHandsColorSelector,
+} from "@/recoil/UserSettingsSelectors";
 import { Box, HStack } from "@chakra-ui/react";
 import React from "react";
+import { useRecoilValue } from "recoil";
 
 type PageProps = {
   tileId: number;
@@ -20,6 +26,11 @@ export const ClockOfClocksTile: React.FC<PageProps> = ({ tileId }) => {
   const ref = React.useRef<HTMLDivElement>(null);
   const [fontSize, setFontSize] = React.useState(10);
   const [containerWidth, setContainerWidth] = React.useState(0);
+  const handsColor = useRecoilValue(clockHandsColorSelector(tileId));
+  const clockBackgroundColor = useRecoilValue(
+    clockBackgroundColorSelector(tileId)
+  );
+  const clockBorderColor = useRecoilValue(clockBorderColorSelector(tileId));
 
   const getTimeDigits = () => {
     const now = new Date();
@@ -86,17 +97,53 @@ export const ClockOfClocksTile: React.FC<PageProps> = ({ tileId }) => {
       h="100%"
     >
       <HStack justifyContent={"center"} minW={"max-content"}>
-        <Clock digit={time[0]} initialRender={initialRender} />
-        <Clock digit={time[1]} initialRender={initialRender} />
+        <Clock
+          digit={time[0]}
+          initialRender={initialRender}
+          handsColor={handsColor}
+          clockBackgroundColor={clockBackgroundColor}
+          clockBorderColor={clockBorderColor}
+        />
+        <Clock
+          digit={time[1]}
+          initialRender={initialRender}
+          handsColor={handsColor}
+          clockBackgroundColor={clockBackgroundColor}
+          clockBorderColor={clockBorderColor}
+        />
       </HStack>
       <HStack justifyContent={"center"} minW={"max-content"}>
-        <Clock digit={time[2]} initialRender={initialRender} />
-        <Clock digit={time[3]} initialRender={initialRender} />
+        <Clock
+          digit={time[2]}
+          initialRender={initialRender}
+          handsColor={handsColor}
+          clockBackgroundColor={clockBackgroundColor}
+          clockBorderColor={clockBorderColor}
+        />
+        <Clock
+          digit={time[3]}
+          initialRender={initialRender}
+          handsColor={handsColor}
+          clockBackgroundColor={clockBackgroundColor}
+          clockBorderColor={clockBorderColor}
+        />
       </HStack>
       {containerWidth > 350 && (
         <HStack justifyContent={"center"} minW={"max-content"}>
-          <Clock digit={time[4]} initialRender={initialRender} />
-          <Clock digit={time[5]} initialRender={initialRender} />
+          <Clock
+            digit={time[4]}
+            initialRender={initialRender}
+            handsColor={handsColor}
+            clockBackgroundColor={clockBackgroundColor}
+            clockBorderColor={clockBorderColor}
+          />
+          <Clock
+            digit={time[5]}
+            initialRender={initialRender}
+            handsColor={handsColor}
+            clockBackgroundColor={clockBackgroundColor}
+            clockBorderColor={clockBorderColor}
+          />
         </HStack>
       )}
     </Box>
