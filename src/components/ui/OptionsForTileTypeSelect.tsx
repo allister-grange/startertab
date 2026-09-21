@@ -96,6 +96,9 @@ export const OptionsForTileTypeSelect: React.FC<
           <option style={optionsStyles} value="Bonsai">
             Bonsai
           </option>
+          <option style={optionsStyles} value="Clock of Clocks">
+            Clock of Clocks
+          </option>
           {/* <option style={optionsStyles} value="Javascript Console Tile">
             Javascript Console Tile
           </option> */}

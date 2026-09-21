@@ -50,6 +50,7 @@ export type OptionType =
 export const TileTypes = [
   "Blank Tile",
   "Bonsai",
+  "Clock of Clocks",
   "Day Planner",
   "Favorite Links Tile",
   "Google Meetings Tile",
@@ -93,6 +94,9 @@ export type TileSettings = {
   bookings?: Booking[];
   cityForUv?: string;
   cityForWeather?: string;
+  clockBackgroundColor?: string;
+  clockBorderColor?: string;
+  clockHandsColor?: string;
   defaultSearchEngine?: SearchEngineDefault;
   dropShadow?: string;
   favoriteLinks?: FavoriteLink[];

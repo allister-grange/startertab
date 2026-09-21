@@ -1,4 +1,5 @@
 export * from "./BonsaiTile";
+export * from "./ClockOfClocksTile";
 export * from "./HackerNewsFeedTile";
 export * from "./UvGraphTile";
 export * from "./SearchBarTile";
