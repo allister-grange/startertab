@@ -50,13 +50,7 @@ export const Clock: React.FC<ClockProps> = ({
   };
 
   return (
-    <SimpleGrid
-      columns={4}
-      // columnGap={"2.3em"}
-      rowGap={"3px"}
-      // w={"min-content"}
-      {...rest}
-    >
+    <SimpleGrid columns={4} rowGap={"0.2em"} {...rest}>
       {digitRepresentationFromDigitMatrix.map((char, idx) => {
         const { h, m } = angles[idx];
 
