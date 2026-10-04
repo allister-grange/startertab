@@ -50,8 +50,8 @@ export function MyApp({
           />
           {analyticsEnabled && (
             <script
-              async
-              src="https://umami.startertab.com/script.js"
+              defer
+              src="https://umami.allistergrange.com/script.js"
               data-website-id="45bf60b9-cea8-4364-9920-9cbaaad14353"
             ></script>
           )}
@@ -72,7 +72,7 @@ export function MyApp({
 }
 
 MyApp.getInitialProps = async (
-  context: AppContext
+  context: AppContext,
 ): Promise<MyAppProps & AppInitialProps> => {
   const ctx = await App.getInitialProps(context);
 
