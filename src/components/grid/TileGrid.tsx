@@ -108,6 +108,7 @@ export const TileGrid: React.FC<TileGridProps> = ({
           }}
           isDraggable={isEditingTileGrid}
           isResizable={isEditingTileGrid}
+          draggableCancel=".tile-delete-button"
           containerPadding={{
             lg: [20, 10],
             md: [160, 55],

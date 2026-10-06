@@ -70,18 +70,34 @@ const Tile: React.FC<TileProps> = ({
       {...longPress}
     >
       {isEditingTileGrid && (
-        <SmallCloseIcon
+        <Box
+          className="tile-delete-button"
+          as="button"
+          aria-label="Delete tile"
           pos="absolute"
           top="1"
           right="1"
-          cursor="pointer"
-          boxSize="6"
-          color={theme.tiles[tileId].textColor}
-          opacity="0.6"
-          ml="auto"
-          onClick={() => removeTileFromLayout(tileId)}
           zIndex="100"
-        />
+          p="1"
+          m="0"
+          bg="transparent"
+          display="flex"
+          onMouseDown={(e) => e.stopPropagation()}
+          onTouchStart={(e) => e.stopPropagation()}
+          onClick={(e) => {
+            e.stopPropagation();
+            removeTileFromLayout(tileId);
+          }}
+        >
+          <SmallCloseIcon
+            cursor="pointer"
+            boxSize="6"
+            color={theme.tiles[tileId].textColor}
+            opacity="0.6"
+            ml="auto"
+            pointerEvents="none"
+          />
+        </Box>
       )}
       <TileContainer
         tileId={tileId}
