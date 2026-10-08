@@ -289,32 +289,34 @@ const SettingsSideBar: React.FC<SettingsSideBarProps> = ({
             textColor={textColor}
             isDisabled={tutorialProgress > 1 && tutorialProgress < 3}
           >
-            {globalSettingsOptions.map((option: Option) => {
-              const tileType = currentThemeSettings.globalSettings.tileType;
-              const value =
-                currentThemeSettings.globalSettings[
-                  option.localStorageId as keyof TileSettings
-                ];
-              return (
-                <SettingOptionContainer
-                  key={option.localStorageId}
-                  option={option}
-                  tileId={-1}
-                  tileType={tileType}
-                  changeSetting={changeSetting}
-                  textColor={textColor}
-                  subTextColor={subTextColor}
-                  randomizeAllColorValues={randomizeAllColorValues}
-                  value={value}
-                  currentTheme={currentThemeSettings}
-                />
-              );
-            })}
+            {() =>
+              globalSettingsOptions.map((option: Option) => {
+                const tileType = currentThemeSettings.globalSettings.tileType;
+                const value =
+                  currentThemeSettings.globalSettings[
+                    option.localStorageId as keyof TileSettings
+                  ];
+                return (
+                  <SettingOptionContainer
+                    key={option.localStorageId}
+                    option={option}
+                    tileId={-1}
+                    tileType={tileType}
+                    changeSetting={changeSetting}
+                    textColor={textColor}
+                    subTextColor={subTextColor}
+                    randomizeAllColorValues={randomizeAllColorValues}
+                    value={value}
+                    currentTheme={currentThemeSettings}
+                  />
+                );
+              })
+            }
           </AccordionItem>
 
           {/* TILE SETTINGS */}
           {currentThemeSettings.tiles.map((tile, index) => {
-            let optionsForTile;
+            let optionsForTile: Option[] = [];
 
             switch (tile.tileSize) {
               case "small":
@@ -350,29 +352,31 @@ const SettingsSideBar: React.FC<SettingsSideBarProps> = ({
                 }
                 isDisabled={tutorialProgress > 1 && tutorialProgress < 3}
               >
-                {optionsForTile.map((option: Option) => {
-                  const tileType =
-                    currentThemeSettings!.tiles[tile.tileId].tileType;
-                  const value =
-                    currentThemeSettings!.tiles[tile.tileId][
-                      option.localStorageId as keyof TileSettings
-                    ];
+                {() =>
+                  optionsForTile.map((option: Option) => {
+                    const tileType =
+                      currentThemeSettings!.tiles[tile.tileId].tileType;
+                    const value =
+                      currentThemeSettings!.tiles[tile.tileId][
+                        option.localStorageId as keyof TileSettings
+                      ];
 
-                  return (
-                    <SettingOptionContainer
-                      key={option.localStorageId}
-                      option={option}
-                      tileType={tileType}
-                      tileId={tile.tileId}
-                      changeSetting={changeSetting}
-                      textColor={textColor}
-                      subTextColor={subTextColor}
-                      randomizeAllColorValues={randomizeAllColorValues}
-                      value={value}
-                      currentTheme={currentThemeSettings}
-                    />
-                  );
-                })}
+                    return (
+                      <SettingOptionContainer
+                        key={option.localStorageId}
+                        option={option}
+                        tileType={tileType}
+                        tileId={tile.tileId}
+                        changeSetting={changeSetting}
+                        textColor={textColor}
+                        subTextColor={subTextColor}
+                        randomizeAllColorValues={randomizeAllColorValues}
+                        value={value}
+                        currentTheme={currentThemeSettings}
+                      />
+                    );
+                  })
+                }
               </AccordionItem>
             );
           })}

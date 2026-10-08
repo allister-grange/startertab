@@ -22,7 +22,7 @@ interface TileGridProps {
   setIsEditingTileGrid: Dispatch<SetStateAction<boolean>>;
 }
 
-export const TileGrid: React.FC<TileGridProps> = ({
+const TileGridComponent: React.FC<TileGridProps> = ({
   optionHovered,
   gridGap,
   tiles,
@@ -136,6 +136,8 @@ export const TileGrid: React.FC<TileGridProps> = ({
     </Flex>
   );
 };
+
+export const TileGrid = React.memo(TileGridComponent);
 
 const CustomGridItemComponent = React.forwardRef(
   (

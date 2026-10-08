@@ -21,7 +21,7 @@ import { initParticlesEngine } from "@tsparticles/react";
 import { loadSlim } from "@tsparticles/slim"; // if you are going to use `loadSlim`, install the "@tsparticles/slim" package too.
 import type { NextPage } from "next";
 import { useRouter } from "next/router";
-import { useEffect, useLayoutEffect, useState } from "react";
+import { startTransition, useEffect, useLayoutEffect, useState } from "react";
 import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 
 const Home: NextPage = () => {
@@ -84,7 +84,9 @@ const Home: NextPage = () => {
 
   // used to change tiles conditionally on the sidebar being open or tiles being edited
   useEffect(() => {
-    setIsEditingTileGridAtom(isOpen || isEditingTileGrid);
+    startTransition(() => {
+      setIsEditingTileGridAtom(isOpen || isEditingTileGrid);
+    });
   }, [isOpen, setIsEditingTileGridAtom, isEditingTileGrid]);
 
   // sets the theme based whether the user wants to use the system theme settings

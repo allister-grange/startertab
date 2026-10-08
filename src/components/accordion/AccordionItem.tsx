@@ -4,15 +4,16 @@ import {
 } from "@/recoil/SidebarAtoms";
 import { ChevronUpIcon } from "@chakra-ui/icons";
 import { Box, BoxProps, Button, Collapse } from "@chakra-ui/react";
-import React, { useEffect, useState } from "react";
+import React, { ReactNode, useEffect, useState } from "react";
 import { useRecoilState, useSetRecoilState } from "recoil";
 
-interface AccordionItemProps extends BoxProps {
+interface AccordionItemProps extends Omit<BoxProps, "children"> {
   accordionIndex: number;
   title: string;
   textColor: string;
   borderColor: string;
   isDisabled: boolean;
+  children: ReactNode | (() => ReactNode);
 }
 
 export const AccordionItem: React.FC<AccordionItemProps> = ({
@@ -20,6 +21,7 @@ export const AccordionItem: React.FC<AccordionItemProps> = ({
   title,
   textColor,
   isDisabled,
+  children,
   ...props
 }) => {
   const [accordionsOpenIndex, setOpenIndexes] =
@@ -88,7 +90,7 @@ export const AccordionItem: React.FC<AccordionItemProps> = ({
       </Button>
       {isOpen && (
         <Collapse in={shouldRenderContent} animateOpacity>
-          {props.children}
+          {typeof children === "function" ? children() : children}
         </Collapse>
       )}
     </Box>
